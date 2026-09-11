@@ -1,0 +1,73 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+styleSourcePath: "packages/ui/src/tag/tag.styles.ts"
+sourceVersion: "local-2026-09-09"
+publication: "unpublished"
+states:
+  - "default"
+  - "hover and pressed for actions"
+  - "focus-visible"
+  - "disabled"
+  - "checked for selection"
+  - "removable for Tag and LinkTag"
+tokens:
+  - "Tag category colors preserve all 20 original profiles in Light and Dark; neutral and brand use established colors."
+  - "Text, Icon, Border and Fill roles are distinct; Solid uses OnColor including neutral; neutral uses the existing Slate Solid background."
+  - "20/24/28 heights; each selection target follows the full Tag bounds. Existing Space, Radius, Line, typography and shared Focus."
+  - "Selection mark uses Icon Size 10/12/12 and registered Color Alpha 90 percent; source RGB and whole-component opacity stay separate. Forced colors inherit opaque system color."
+  - "UI 700 is limited to the Tag Solid label; other labels use 400."
+  - "Source multiply feedback 12/18 percent and whole disabled opacity 0.3 remain measured compound paints."
+sizes:
+  - "20: font 12/14, padding 6, radius 4; 24: font 13/18, padding 8, radius 6; 28: font 13/18, padding 12, radius 6."
+  - "Static compact default 20; other defaults 24; explicit size wins. Half Space/6 reserves separate transparent desktop action targets around each Tag. Coarse pointers extend vertically with Space/14 and matching row space, retaining at least 24px width and 44px height."
+  - "Vertical complete frames are 18x36 / 22x40 / 26x44, with intrinsic growth for longer text."
+allowedModifications:
+  - "Choose the complete recipe, registered color, appearance and size."
+  - "Use layout className or named Local Recipe for declared Parts."
+restrictedModifications:
+  - "No raw colors, private tokens, arbitrary visual values, new dependencies or arbitrary profile strings."
+  - "Do not combine navigation or close actions inside a selectable input label."
+  - "Do not infer business status from color or implement TagSelect and tag creation in this batch."
+accessibility:
+  - "Visible text remains the full accessible label when visually truncated; the host provides a keyboard and touch route to long content."
+  - "Native controls preserve keyboard semantics, form values and disabled behavior."
+  - "Shared focus stays distinct from selection; forced colors preserve boundaries, marks and actions."
+  - "Removal emits intent only; the owner transfers focus, reports results and restores failed removals."
+visualLineage:
+  rainClassicReferences:
+    - "src/styles/tokens.scss:237 and 666; src/components/Tag/tag.scss in the separate read-only Rain Classic repository."
+    - "docs/plans/2026-09-08-tag-design.md; evidence/runtime/tag-batch-one/source-colors.json"
+  retainedTraits:
+    - "Complete 20 profile identities, role values, three appearances, compact dimensions and source interaction paint."
+  redesignedTraits:
+    - "Rain Foundations owns source facts; constrained Tailwind recipes and native selection replace Vue-specific implementation."
+verification:
+  automated: "passed"
+  independentReview: "findings"
+  humanGate: "accepted"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/tag-batch-two/verification.md"
+id: "ui-checkable-tag-group"
+name: "CheckableTagGroup"
+sourcePath: "packages/ui/src/tag/checkable-tag.tsx"
+anatomy:
+  - "Use the complete Group by default; single uses string or null, multiple uses a unique string list."
+  - "Fieldset and legend name the group; clear returns focus to the first enabled input."
+  - "Option values are unique; empty options are valid; selecting a checked radio does not clear."
+parts:
+  - "root"
+  - "legend"
+  - "items"
+props:
+  - "options; legend; legendHidden; mode single or multiple; controlled value; onValueChange"
+  - "name; disabled; appearance; size; clearable; className; localRecipe for each item"
+compositionRules:
+  - "Use the complete Group by default; single uses string or null, multiple uses a unique string list."
+  - "Fieldset and legend name the group; clear returns focus to the first enabled input."
+  - "Option values are unique; empty options are valid; selecting a checked radio does not clear."
+examples:
+  - "#tag"

@@ -1,0 +1,251 @@
+schemaVersion: "1.1"
+kind: "TailwindB2AiEditabilityBenchmark"
+
+metadata:
+  id: "tailwind-b2-ai-editability"
+  phase: "tailwind-b2-composition-contract"
+  pilotScope: "input-button-search-operation-pilot"
+  status: "registered"
+  elapsedTimeRole: "secondary"
+  comparisonArms:
+    - "native-css-baseline"
+    - "tailwind-b2"
+
+fixtureProtocol:
+  status: "contract-defined"
+  commonFixture: "same-content-controls-icons-viewport-and-acceptance-criteria"
+  nonTargetControls: "required"
+  lighterSurfaceResolution: "required-before-trials"
+  formalSearchIcon:
+    assetId: "icon/search"
+    importPath: "@rain-next/ui/icons/search"
+    consumption: "static-single-icon-entry"
+  stateManifest:
+    format: "json-log"
+    kind: "TailwindB2FixtureStateManifest"
+    route: "/#tailwind-b2-native-baseline"
+    viewport:
+      width: 1280
+      height: 720
+    selectors:
+      target: "[data-scope=\"target-search\"]"
+      nonTarget: "[data-scope=\"non-target-controls\"]"
+      formalSearchIcon: "[data-scope=\"target-search\"] [data-icon=\"icon/search\"]"
+    runTargetSelector: "[data-scope=\"target-search\"] [data-rain-id=\"ui-input\"]"
+    controls:
+      - "Input"
+      - "Button"
+    lighterSurfaceResolution:
+      initialToken: "--rain-color-surface-subtle"
+      initialComputed: "rgb(237, 243, 250)"
+      acceptance: "higher-luminance-allowed-rain-semantic-or-local-candidate-surface"
+      visualQualityRoute: "human-gate"
+    functionalState:
+      algorithm: "sha256-u32be-path-bytes-plus-file-sha256-bytes-v1"
+      pathOrder: "utf8-bytewise-nfc-v1"
+      requiredPaths:
+        - "apps/playground/src/app.tsx"
+        - "apps/playground/src/experiments/tailwind-b2-native-baseline/page.css"
+        - "apps/playground/src/experiments/tailwind-b2-native-baseline/page.test.tsx"
+        - "apps/playground/src/experiments/tailwind-b2-native-baseline/page.tsx"
+        - "apps/playground/src/routes/route-registry.ts"
+        - "apps/playground/src/styles.css"
+        - "manifests/icons.json"
+        - "package.json"
+        - "packages/foundations/src/density.tsx"
+        - "packages/foundations/src/tokens.css"
+        - "packages/ui/package.json"
+        - "packages/ui/src/button/button.tsx"
+        - "packages/ui/src/icon/icon.tsx"
+        - "packages/ui/src/icons/assets/search.svg"
+        - "packages/ui/src/icons/search.tsx"
+        - "packages/ui/src/input/input.tsx"
+        - "packages/ui/src/styles.css"
+        - "pnpm-lock.yaml"
+        - "registry/icons.json"
+        - "tests/e2e/tailwind-b2-native-baseline.spec.ts"
+
+trialProtocol:
+  p1P2Start: "independent-common-fixture"
+  p3Start: "saved-prior-results-same-architecture"
+  prerequisiteCostExcludedFromP3: true
+  crossArchitectureStateReuse: false
+  functionalStateObjectStore: "sha256-derived-durable-blobs"
+  completedPatchReplay: "strict-materialized-start-to-end"
+  p3ResolutionPatchReplay: "p1-end-to-assembled-exact-p2-changed-files"
+  unobservedValue: "not-measured"
+  unobservedReasonRequired: true
+
+metrics:
+  value:
+    - id: "first-pass-success"
+      field: "firstPass"
+      valueType: "pass-fail"
+    - id: "user-correction-prompts"
+      field: "userCorrectionPrompts"
+      valueType: "non-negative-integer-or-not-measured"
+      provenance: "real-user-evaluation-only"
+    - id: "scope-accuracy"
+      field: "scopeAccuracy"
+      valueType: "pass-fail"
+    - id: "continuation-assessment"
+      field: "continuationAssessment"
+      valueType: "fixed-rubric-enum"
+      rubricVersion: "1.0"
+  secondary:
+    - id: "autonomous-repair-cycles"
+      field: "autonomousRepairCycles"
+      valueType: "non-negative-integer"
+      role: "diagnostic"
+    - id: "elapsed-time"
+      field: "elapsedMs"
+      valueType: "non-negative-integer"
+      role: "secondary"
+
+continuationRubric:
+  version: "1.0"
+  assessmentSource: "recorded-run-review"
+  values:
+    - id: "clear"
+      definition: "The next edit is completed without architecture clarification or unrelated repair."
+    - id: "minor-friction"
+      definition: "The next edit completes after one local clarification or repair that does not change architecture."
+    - id: "major-friction"
+      definition: "The next edit completes only after multiple repairs or architecture clarification."
+    - id: "blocked"
+      definition: "The next edit cannot be completed from the recorded state."
+
+acceptanceCriteria:
+  - promptId: "B2-P1-LOCAL-INPUT"
+    criteria:
+      - id: "local-input-changed"
+        route: "automated"
+        assertion: "Only the target search Input receives the requested local spacing and surface change."
+        evidenceRefs:
+          - "artifacts.diff"
+      - id: "input-master-unchanged"
+        route: "automated"
+        assertion: "The shared Input Master remains unchanged."
+        evidenceRefs:
+          - "protectedComparisons.globalMaster"
+      - id: "non-target-controls-unchanged"
+        route: "automated"
+        assertion: "The frozen non-target controls remain unchanged."
+        evidenceRefs:
+          - "protectedComparisons.nonTarget"
+      - id: "formal-search-icon-unchanged"
+        route: "automated"
+        assertion: "The formal SearchIcon import and rendered identity remain unchanged."
+        evidenceRefs:
+          - "protectedComparisons.formalSearchIcon"
+  - promptId: "B2-P2-LOCAL-BUTTON"
+    criteria:
+      - id: "local-button-changed"
+        route: "automated"
+        assertion: "Only the target page search Button receives the local hierarchy change."
+        evidenceRefs:
+          - "artifacts.diff"
+      - id: "button-master-unchanged"
+        route: "automated"
+        assertion: "The shared Button Master remains unchanged."
+        evidenceRefs:
+          - "protectedComparisons.globalMaster"
+      - id: "non-target-controls-unchanged"
+        route: "automated"
+        assertion: "The frozen non-target controls remain unchanged."
+        evidenceRefs:
+          - "protectedComparisons.nonTarget"
+      - id: "formal-search-icon-unchanged"
+        route: "automated"
+        assertion: "The formal SearchIcon import and rendered identity remain unchanged."
+        evidenceRefs:
+          - "protectedComparisons.formalSearchIcon"
+      - id: "visual-hierarchy-appropriate"
+        route: "human-gate"
+        assertion: "The resulting search Button has an appropriate visual hierarchy in context."
+        evidenceRefs:
+          - "artifacts.screenshot"
+  - promptId: "B2-P3-REUSE-AND-PARTS"
+    criteria:
+      - id: "prior-local-styles-reused"
+        route: "automated"
+        assertion: "The saved P1 then P2 local results are reused without cross-architecture state."
+        evidenceRefs:
+          - "artifacts.diff"
+          - "start.prerequisiteAssembly"
+      - id: "scope-label-part-local"
+        route: "automated"
+        assertion: "The scope-label Input Part is added only for the current search feature."
+        evidenceRefs:
+          - "artifacts.diff"
+      - id: "input-master-unchanged"
+        route: "automated"
+        assertion: "The shared Input Master remains unchanged."
+        evidenceRefs:
+          - "protectedComparisons.globalMaster"
+      - id: "non-target-controls-unchanged"
+        route: "automated"
+        assertion: "The frozen non-target controls remain unchanged."
+        evidenceRefs:
+          - "protectedComparisons.nonTarget"
+      - id: "formal-search-icon-unchanged"
+        route: "automated"
+        assertion: "The formal SearchIcon import and rendered identity remain unchanged."
+        evidenceRefs:
+          - "protectedComparisons.formalSearchIcon"
+
+evidenceRequirements:
+  perCompletedTrial:
+    - "run-provenance"
+    - "run-start-end-state-manifests"
+    - "diff"
+    - "screenshot"
+    - "targeted-tests"
+    - "acceptance-evidence"
+    - "protected-comparisons"
+    - "content-addressed-functional-state"
+    - "strict-patch-replay"
+  runHashes:
+    - "runSha256"
+    - "protocolSha256"
+    - "promptSha256"
+    - "startStateSha256"
+    - "endStateSha256"
+  runEnvironment:
+    - "model"
+    - "reasoningEffort"
+    - "context"
+    - "route"
+    - "viewport"
+    - "browser"
+    - "selectors"
+    - "sourceProvenance"
+  changedFiles: "record-exact-repository-relative-paths"
+  sharedMasterChange: "record-true-or-false-with-evidence"
+  unregisteredVisualValues: "record-true-or-false-with-evidence"
+  protectedBeforeAfter:
+    - "globalMaster"
+    - "nonTarget"
+    - "formalSearchIcon"
+  p2VisualHierarchy: "not-measured-route-to-human-gate"
+  unexposedRunMetadata: "value-unexposed-with-reason-and-provenance"
+  temporarySourceRoots: "recorded-for-provenance-never-required-for-verification"
+
+prompts:
+  - id: "B2-P1-LOCAL-INPUT"
+    text: "只把当前搜索区的 Input 调得更宽松、背景更浅，不影响其他 Input。"
+    start:
+      mode: "independent-common-fixture"
+      prerequisitePromptIds: []
+  - id: "B2-P2-LOCAL-BUTTON"
+    text: "只调整当前页面搜索 Button 的视觉层级，不改变全局 Button。"
+    start:
+      mode: "independent-common-fixture"
+      prerequisitePromptIds: []
+  - id: "B2-P3-REUSE-AND-PARTS"
+    text: "在同一功能的第二个搜索状态中复用局部样式，并仅为当前搜索功能增加一个独立的 `scope-label` Input Part；不修改全局 Input。"
+    start:
+      mode: "saved-prior-results-same-architecture"
+      prerequisitePromptIds:
+        - "B2-P1-LOCAL-INPUT"
+        - "B2-P2-LOCAL-BUTTON"

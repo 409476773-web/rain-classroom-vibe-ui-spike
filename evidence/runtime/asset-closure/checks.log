@@ -1,0 +1,217 @@
+=== Final governance ===
+
+> @rain-next/workspace@0.0.0 verify:governance /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> pnpm verify:lockfile && pnpm verify:workspace && pnpm verify:evidence && pnpm verify:boundaries && pnpm verify:tailwind-b2 && pnpm verify:tokens
+
+
+> @rain-next/workspace@0.0.0 verify:lockfile /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> pnpm install --lockfile-only --frozen-lockfile --offline --ignore-scripts
+
+Scope: all 4 workspace projects
+Done in 192ms using pnpm v10.28.1
+
+> @rain-next/workspace@0.0.0 verify:workspace /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> node scripts/verify-workspace.mjs
+
+Workspace verification passed: 25 directories, 118 files, 4 discovered unique packages, and canonical governance scripts.
+
+> @rain-next/workspace@0.0.0 verify:evidence /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> node scripts/verify-evidence.mjs
+
+Evidence verification passed: 14 exact Visual Evidence entries (12 retained PNGs with audited dimensions/SHA-256, 2 privacy-withheld), a clean screenshot directory, and 4 exact Benchmarks symmetric across YAML and TypeScript indexes.
+
+> @rain-next/workspace@0.0.0 verify:boundaries /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> node scripts/verify-boundaries.mjs
+
+Boundary verification passed for tailwind-b2-composition-contract: 4 package manifests, 78 application sources, 1014 shared-package sources; fail-closed dependency, lifecycle, full-source allowlist, and blocked-layer restrictions applied.
+
+> @rain-next/workspace@0.0.0 verify:tailwind-b2 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> node scripts/verify-tailwind-b2.mjs
+
+Tailwind B2 verification passed: controlled Rain Token theme bridge and machine-readable system contract; baseline trials completed; 3 fixed prompt records; unmeasured values require reasons; elapsed time remains secondary.
+
+> @rain-next/workspace@0.0.0 verify:tokens /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> node scripts/verify-token-foundations.mjs
+
+QuestionNumber: 93 user-accepted contrast exceptions retain their measured ratios and original thresholds; these are not readability passes.
+OptionButton content: 9 user-accepted contrast exceptions retain their measured ratios and original thresholds; these are not readability passes.
+Input contrast review remains pending: 104 declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.
+Input color-family eligibility remains pending: 12 declared pairings; contrast measurements do not establish eligibility and no exception was accepted.
+Tag contrast review remains pending: 2535 declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.
+Select contrast review remains pending: 43 declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.
+Select color-family eligibility remains pending: 84 declared pairings; contrast measurements do not establish eligibility and no exception was accepted.
+Shared field contrast review remains pending: 266 declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.
+Dropdown comparison contrast review remains pending: 22 declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.
+Dropdown comparison color-family eligibility remains pending: 22 declared pairings; contrast measurements do not establish eligibility and no exception was accepted.
+Dropdown public contrast review remains pending: 9 declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.
+Dropdown public color-family eligibility remains pending: 22 declared pairings; contrast measurements do not establish eligibility and no exception was accepted.
+User-accepted text contrast exception: button-primary-danger-default light Background/Neutral/1 label: 3.601 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-default light Background/Neutral/3 label: 3.601 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-hover light Background/Neutral/1 label: 4.331 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-hover light Background/Neutral/3 label: 4.331 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-pressed light Background/Neutral/1 label: 4.331 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-pressed light Background/Neutral/3 label: 4.331 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-loading light Background/Neutral/1 label: 3.448 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-loading light Background/Neutral/3 label: 3.532 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+Token Foundations verified: generated facts and 34 consumer files; 8 user-accepted text contrast exceptions remain below 4.5:1 (not readability passes).
+
+=== Final full unit suite ===
+
+> @rain-next/workspace@0.0.0 test /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> vitest run --maxWorkers=2
+
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+
+
+ Test Files  85 passed (85)
+      Tests  1265 passed (1265)
+   Start at  01:29:49
+   Duration  101.72s (transform 2.20s, setup 7.41s, import 12.38s, tests 144.96s, environment 31.33s)
+
+
+=== Final typecheck ===
+
+> @rain-next/workspace@0.0.0 typecheck /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> pnpm -r typecheck && tsc --noEmit --project tsconfig.tests.json
+
+Scope: 3 of 4 workspace projects
+packages/foundations typecheck$ tsc --noEmit --project tsconfig.json
+packages/foundations typecheck: Done
+packages/ui typecheck$ tsc --noEmit --project tsconfig.json
+packages/ui typecheck: Done
+apps/playground typecheck$ tsc --noEmit --project tsconfig.json
+apps/playground typecheck: Done
+
+=== Final build ===
+
+> @rain-next/workspace@0.0.0 build /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> pnpm -r build
+
+Scope: 3 of 4 workspace projects
+packages/foundations build$ tsc --noEmit --project tsconfig.json
+packages/foundations build: Done
+packages/ui build$ tsc --noEmit --project tsconfig.json
+packages/ui build: Done
+apps/playground build$ tsc --noEmit --project tsconfig.json && vite build
+apps/playground build: vite v8.2.2 building client environment for production...
+apps/playground build: transforming...
+apps/playground build: ✓ 648 modules transformed.
+apps/playground build: rendering chunks...
+apps/playground build: computing gzip size...
+apps/playground build: dist/question-option-sizes.html                           0.60 kB │ gzip:   0.36 kB
+apps/playground build: dist/dropdown-review.html                                 0.75 kB │ gzip:   0.39 kB
+apps/playground build: dist/index.html                                           0.76 kB │ gzip:   0.41 kB
+apps/playground build: dist/assets/graph-rotate-DasTGfsJ.svg                     4.14 kB │ gzip:   1.81 kB
+apps/playground build: dist/assets/content-exam-filled-CL7BQELD.svg              4.24 kB │ gzip:   1.85 kB
+apps/playground build: dist/assets/live-avatar-cutout-BOifZKKA.svg               4.34 kB │ gzip:   2.00 kB
+apps/playground build: dist/assets/click-mJ6AXNCz.svg                            4.36 kB │ gzip:   1.95 kB
+apps/playground build: dist/assets/unclear-D7_U7urA.svg                          4.43 kB │ gzip:   2.03 kB
+apps/playground build: dist/assets/like-alt-lbD1WkE9.svg                         5.17 kB │ gzip:   2.47 kB
+apps/playground build: dist/assets/bullet-screen-DqOS2B4l.svg                    5.30 kB │ gzip:   2.40 kB
+apps/playground build: dist/assets/progress-color-65-BW6V_IEL.svg                5.68 kB │ gzip:   2.58 kB
+apps/playground build: dist/assets/in-class-bullet-screen-DESNhir3.svg           5.93 kB │ gzip:   2.70 kB
+apps/playground build: dist/assets/progress-65-thin-Cm2KCCJH.svg                 6.08 kB │ gzip:   2.79 kB
+apps/playground build: dist/assets/question-graph-Cf7nrbOU.svg                   6.76 kB │ gzip:   2.42 kB
+apps/playground build: dist/assets/members-multiple-filled-aINWxI8d.svg          6.79 kB │ gzip:   2.97 kB
+apps/playground build: dist/assets/progress-color-85-BjKuJF1e.svg                7.35 kB │ gzip:   3.38 kB
+apps/playground build: dist/assets/progress-85-thin-DMUEWHsx.svg                 7.37 kB │ gzip:   3.40 kB
+apps/playground build: dist/assets/performance-excellent-badge-DYH7tL0a.svg     10.09 kB │ gzip:   4.41 kB
+apps/playground build: dist/assets/like-alt-2-luymiNAk.svg                      13.16 kB │ gzip:   3.28 kB
+apps/playground build: dist/assets/question-option-sizes-BhxVrYBI.css            5.39 kB │ gzip:   1.12 kB
+apps/playground build: dist/assets/icons-page-C9cxnVed.css                       6.59 kB │ gzip:   1.43 kB
+apps/playground build: dist/assets/dropdown-review-Cm1ciLXi.css                 16.83 kB │ gzip:   2.93 kB
+apps/playground build: dist/assets/index-CdKqUa3z.css                           87.23 kB │ gzip:   9.09 kB
+apps/playground build: dist/assets/styles-BgxrVuAd.css                         252.16 kB │ gzip:  33.65 kB
+apps/playground build: dist/assets/share-alt-CCyixzKE.js                         1.67 kB │ gzip:   0.84 kB
+apps/playground build: dist/assets/question-option-sizes-DSbTUztn.js             8.86 kB │ gzip:   3.05 kB
+apps/playground build: dist/assets/favorite-filled-hjBELYOb.js                  10.68 kB │ gzip:   3.88 kB
+apps/playground build: dist/assets/dropdown-review-D4RO__XW.js                 119.95 kB │ gzip:  37.00 kB
+apps/playground build: dist/assets/index-DfNv5wBd.js                           367.39 kB │ gzip:  94.53 kB
+apps/playground build: dist/assets/styles-DeGSmT19.js                          688.84 kB │ gzip: 214.85 kB
+apps/playground build: dist/assets/icons-page-yJ0isYd8.js                    2,043.88 kB │ gzip: 419.94 kB
+apps/playground build: ✓ built in 540ms
+apps/playground build: [plugin builtin:vite-reporter] 
+apps/playground build: (!) Some chunks are larger than 500 kB after minification. Consider:
+apps/playground build: - Using dynamic import() to code-split the application
+apps/playground build: - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+apps/playground build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+apps/playground build: Done
+
+=== Final Core UI / Token / SC04 Chromium ===
+
+Running 18 tests using 2 workers
+
+(node:29047) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29046) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/selection-playground.spec.ts:12:1 › SC-04 editing, keyboard classification and real-source lookup preserve stable identities (1.1s)
+  ✓   3 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/selection-playground.spec.ts:47:1 › SC-04 modal target, finite mixed selection and active draft payload remain independent (1.2s)
+  ✓   4 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/selection-playground.spec.ts:81:1 › SC-04 four container widths, themes, density and 320px source paths remain readable (1.9s)
+  ✓   5 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/selection-playground.spec.ts:120:1 › SC-04 long unbroken preview titles wrap and scroll while the close action stays reachable (806ms)
+  ✓   6 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/selection-playground.spec.ts:141:1 › SC-04 forced colors, reduced motion and touch retain working selection and preview (1.4s)
+  ✓   2 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/core-ui.spec.ts:5:1 › Button Token recipes paint their real surfaces and preserve loading readability (6.5s)
+  ✓   7 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/token-foundations.spec.ts:11:1 › legacy typography and complete presets consume the same font size and line height (895ms)
+  ✓   9 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/token-foundations.spec.ts:34:1 › line and geometry render their registered dimensions and keep the content recipe fixed (1.2s)
+  ✓   8 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/core-ui.spec.ts:115:1 › the Day 3 Core UI page exposes truthful families and real interaction (2.6s)
+  ✓  11 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/core-ui.spec.ts:413:1 › Tag retains its global Tab ring in both themes and forced colors (590ms)
+  ✓  12 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/core-ui.spec.ts:441:1 › Core UI keeps focus visible and motion optional in user preference modes (513ms)
+  ✓  10 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/token-foundations.spec.ts:55:1 › typography fields override the full preset in computed CSS and Equal resolves to the selected size (1.9s)
+  ✓  13 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/token-foundations.spec.ts:91:1 › color facts display in scope and local Alpha replacement paints 20 percent without leaking (2.8s)
+  ✓  14 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/token-foundations.spec.ts:114:1 › new Fill families preserve exact colors and preview only permitted foregrounds on the actual parent (1.4s)
+  ✓  15 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/token-foundations.spec.ts:180:1 › Dark colors use confirmed values and theme-aware Alpha pairing while Light stays unchanged (1.5s)
+  ✓  16 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/token-foundations.spec.ts:227:1 › navigation focuses the new heading and mobile keeps overflow within comparison tables (830ms)
+  ✓  17 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/token-foundations.spec.ts:235:1 › color discovery supports keyboard search, repeated pairing navigation and narrow layouts (1.1s)
+  ✓  18 [chromium] › ../../Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/token-foundations.spec.ts:280:1 › registered page-owned examples paint the actual Light and Dark parents with readable text and icons (800ms)
+
+  18 passed (19.5s)
+
+=== Final Input / Select / Dropdown Chromium ===
+
+Running 31 tests using 2 workers
+
+(node:37369) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:37370) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/dropdown.spec.ts:8:1 › template composition supports search, native selection, favorite, failure and retry (2.4s)
+  ✓   3 [chromium] › tests/e2e/dropdown.spec.ts:26:1 › menu keyboard navigation, submenu Escape and Tab preserve focus ownership (627ms)
+  ✓   2 [chromium] › tests/e2e/input.spec.ts:7:49 › implemented Input placeholders preserve real permissions and shared search in light (3.1s)
+  ✓   4 [chromium] › tests/e2e/dropdown.spec.ts:42:1 › recipe and item close policies work for mouse, keyboard and native settings (871ms)
+  ✓   6 [chromium] › tests/e2e/dropdown.spec.ts:62:1 › menu hands focus to Dialog and template panel, then returns to the originating trigger (718ms)
+  ✓   7 [chromium] › tests/e2e/dropdown.spec.ts:74:1 › pointer submenu works and pressed paints take priority over hover (1.1s)
+  ✓   5 [chromium] › tests/e2e/input.spec.ts:7:49 › implemented Input placeholders preserve real permissions and shared search in dark (2.6s)
+  ✓   8 [chromium] › tests/e2e/dropdown.spec.ts:91:49 › light retains selected disabled hierarchy and real compact density (567ms)
+  ✓   9 [chromium] › tests/e2e/input.spec.ts:83:1 › Input preserves normal and error keyboard focus paints in its family page (764ms)
+  ✓  10 [chromium] › tests/e2e/dropdown.spec.ts:91:49 › dark retains selected disabled hierarchy and real compact density (611ms)
+  ✓  12 [chromium] › tests/e2e/dropdown.spec.ts:111:1 › narrow template panel keeps its action visible and supports empty categories (644ms)
+  ✓  13 [chromium] › tests/e2e/dropdown.spec.ts:127:1 › forced colors preserve a visible selected marker and focus (502ms)
+  ✓  11 [chromium] › tests/e2e/input.spec.ts:118:1 › one Input family keeps complete Parts, editing and search across appearances (1.6s)
+  ✓  15 [chromium] › tests/e2e/input.spec.ts:161:1 › Input complete sizes, states and actions follow public Tokens in both themes (1.7s)
+  ✓  14 [chromium] › tests/e2e/dropdown.spec.ts:163:49 › menu reuses native choice geometry and state paints in light (1.8s)
+  ✓  16 [chromium] › tests/e2e/input.spec.ts:215:1 › reviewed supporting Parts keep their order, tight count and distinct colors (840ms)
+  ✓  18 [chromium] › tests/e2e/input.spec.ts:263:1 › readonly pointer selection has no editing ring while Tab and inner actions retain focus (939ms)
+  ✓  17 [chromium] › tests/e2e/dropdown.spec.ts:163:49 › menu reuses native choice geometry and state paints in dark (1.9s)
+  ✓  19 [chromium] › tests/e2e/input.spec.ts:310:1 › clear visibility, reserved slot, keyboard focus and forced colors remain usable (565ms)
+  ✓  21 [chromium] › tests/e2e/input.spec.ts:334:1 › hard editing protects backfilled tails, selection and graphemes in the browser (642ms)
+  ✓  22 [chromium] › tests/e2e/input.spec.ts:405:1 › search keeps draft separate and applies only the latest response after loading clear (569ms)
+  ✓  23 [chromium] › tests/e2e/input.spec.ts:426:1 › touch exposes clear without hover and the compact page has no horizontal overflow (610ms)
+  ✓  20 [chromium] › tests/e2e/dropdown.spec.ts:216:49 › light menu description closure preserves protected state priorities (2.8s)
+  ✓  25 [chromium] › tests/e2e/dropdown.spec.ts:216:49 › dark menu description closure preserves protected state priorities (2.8s)
+  ✓  24 [chromium] › tests/e2e/select.spec.ts:9:49 › implemented Select placeholders and option descriptions preserve real permissions in light (19.3s)
+  ✓  26 [chromium] › tests/e2e/select.spec.ts:9:49 › implemented Select placeholders and option descriptions preserve real permissions in dark (19.2s)
+  ✓  27 [chromium] › tests/e2e/select.spec.ts:120:1 › formal popups escape clipping, inherit themes and retain keyboard focus within viewport bounds (1.4s)
+  ✓  28 [chromium] › tests/e2e/select.spec.ts:151:1 › shared field paints, sizes, selected values and focus follow the accepted geometry in both themes (2.9s)
+  ✓  29 [chromium] › tests/e2e/select.spec.ts:234:1 › keyboard selection, search, max count, clearing and tag removal preserve real focus (1.1s)
+  ✓  30 [chromium] › tests/e2e/select.spec.ts:286:1 › remote results, retry and form drafts keep selected metadata and pending edits separate (1.2s)
+  ✓  31 [chromium] › tests/e2e/select.spec.ts:322:1 › narrow viewports wrap tags, retain summaries and expose non-overlapping touch targets (1.3s)
+
+  31 passed (1.0m)
+
+=== Final evidence references ===
+
+> @rain-next/workspace@0.0.0 verify:evidence /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> node scripts/verify-evidence.mjs
+
+Evidence verification passed: 14 exact Visual Evidence entries (12 retained PNGs with audited dimensions/SHA-256, 2 privacy-withheld), a clean screenshot directory, and 4 exact Benchmarks symmetric across YAML and TypeScript indexes.

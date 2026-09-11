@@ -1,0 +1,66 @@
+[WebServer] (node:56648) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:56650) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 6 tests using 1 worker
+
+(node:56656) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/6] [chromium] › tests/e2e/dropdown-batch-one.spec.ts:93:5 › base › Tab leaves the non-modal menu for the next page control
+[2/6] [chromium] › tests/e2e/dropdown-batch-one.spec.ts:103:5 › base › dialog backdrop dismisses and restores its originating trigger
+[3/6] [chromium] › tests/e2e/dropdown-batch-one.spec.ts:113:5 › base › mixed panel permits keyboard access to independent controls and an empty result
+[4/6] [chromium] › tests/e2e/dropdown-batch-one.spec.ts:93:5 › radix › Tab leaves the non-modal menu for the next page control
+  1) [chromium] › tests/e2e/dropdown-batch-one.spec.ts:93:5 › radix › Tab leaves the non-modal menu for the next page control 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('menu')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByRole('menu')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+       97 |       await page.keyboard.press("ArrowDown");
+       98 |       await page.keyboard.press("Tab");
+    >  99 |       await expect(page.getByRole("menu")).toHaveCount(0);
+          |                                            ^
+      100 |       await expect(page.getByRole("button", { name: "新建学习单元", exact: true })).toBeFocused();
+      101 |     });
+      102 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/dropdown-batch-one.spec.ts:99:44
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/dropdown-batch-one-radix-T-c47a0-u-for-the-next-page-control-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/dropdown-batch-one-radix-T-c47a0-u-for-the-next-page-control-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/dropdown-batch-one-radix-T-c47a0-u-for-the-next-page-control-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/dropdown-batch-one-radix-T-c47a0-u-for-the-next-page-control-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:56664) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/6] [chromium] › tests/e2e/dropdown-batch-one.spec.ts:103:5 › radix › dialog backdrop dismisses and restores its originating trigger
+[6/6] [chromium] › tests/e2e/dropdown-batch-one.spec.ts:113:5 › radix › mixed panel permits keyboard access to independent controls and an empty result
+  1 failed
+    [chromium] › tests/e2e/dropdown-batch-one.spec.ts:93:5 › radix › Tab leaves the non-modal menu for the next page control 
+  5 passed (9.2s)

@@ -1,0 +1,52 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+
+ ❯ scripts/dropdown-batch-one.test.ts (4 tests | 2 failed) 13ms
+   × checks the registered local comparison instead of allowing arbitrary CSS 5ms
+   × keeps source observations and system colors inside their exact unaccepted comparison scope 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/dropdown-batch-one.test.ts > checks the registered local comparison instead of allowing arbitrary CSS
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "Dropdown comparison Token is not registered: --rain-category-icon-red-1",
++ ]
+
+ ❯ scripts/dropdown-batch-one.test.ts:42:25
+     40|   const publicCss = ["tokens", "typography", "focus", "motion"].map(na…
+     41|   const check = (css: string) => tailwind.validateDropdownReviewSource…
+     42|   expect(check(source)).toEqual([]);
+       |                         ^
+     43|   for (const invalid of [
+     44|     ":root { color: red; }", ".dr-item { padding: 11px; }",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/dropdown-batch-one.test.ts > keeps source observations and system colors inside their exact unaccepted comparison scope
+AssertionError: expected undefined to be type of 'function'
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ scripts/dropdown-batch-one.test.ts:51:56
+     49|
+     50| it("keeps source observations and system colors inside their exact una…
+     51|   expect(colorVerification.prepareDropdownColorReview).toBeTypeOf("fun…
+       |                                                        ^
+     52|   const manifest = JSON.parse(readFileSync("apps/playground/src/experi…
+     53|   const source = readFileSync("apps/playground/src/experiments/headles…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 passed (4)
+   Start at  12:24:37
+   Duration  820ms (transform 184ms, setup 100ms, import 260ms, tests 13ms, environment 365ms)
+

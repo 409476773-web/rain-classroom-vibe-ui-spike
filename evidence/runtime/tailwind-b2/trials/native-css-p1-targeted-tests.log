@@ -1,0 +1,52 @@
+Run: native-css-p1-20260904T023956Z
+Route: /#tailwind-b2-native-baseline
+Viewport: 1280x720
+Browser: Chromium 151.0.7922.34
+
+TDD RED
+Command: pnpm exec playwright test tests/e2e/tailwind-b2-native-baseline.spec.ts --project=chromium --grep "P1 loosens and lightens only the current search Input"
+Exit code: 1
+Result: 1 failed as expected.
+Expected background-color: rgb(243, 247, 252)
+Received background-color: rgb(237, 243, 250)
+Failure location: tests/e2e/tailwind-b2-native-baseline.spec.ts:246
+
+TDD GREEN
+Command: pnpm exec playwright test tests/e2e/tailwind-b2-native-baseline.spec.ts --project=chromium --grep "P1 loosens and lightens only the current search Input"
+Exit code: 0
+Result: 1 passed.
+
+Focused unit
+Command: pnpm exec vitest run packages/ui/src/input/input.test.tsx packages/ui/src/input/input.utils.test.ts apps/playground/src/experiments/tailwind-b2-native-baseline/page.test.tsx
+Exit code: 0
+Result: 3 files passed; 19 tests passed, including Input labeling, native change/clear paths, grapheme limits, Chinese IME, Parts order, density, and the fixture route.
+
+Typecheck
+Command: pnpm typecheck
+Exit code: 0
+Result: foundations, UI, playground, and tests typecheck passed.
+
+Playground build
+Command: pnpm --filter @rain-next/playground build
+Exit code: 0
+Result: 61 modules transformed; build completed. Existing icons-page chunk-size warning retained.
+
+Complete fixture browser check
+Command: pnpm exec playwright test tests/e2e/tailwind-b2-native-baseline.spec.ts --project=chromium
+Exit code: 0
+Result: 4 tests passed, covering protected Masters, formal SearchIcon, frozen fixture controls, and P1 isolation.
+
+Final scoped browser recheck
+Command: pnpm exec playwright test tests/e2e/tailwind-b2-native-baseline.spec.ts --project=chromium --grep "fixture preparation leaves|formal SearchIcon keeps|P1 loosens"
+Exit code: 0
+Result: 3 tests passed. This recheck did not refresh the frozen common-fixture screenshot.
+
+Excluded broad invocation
+Command: pnpm test -- apps/playground/src/experiments/tailwind-b2-native-baseline/page.test.tsx
+Exit code: 1
+Reason: the package script forwarded the path after `--` in a way that ran all 533 Vitest tests. Six existing Task 2 governance/schema checks failed because this isolated copy has no Git metadata, the fixture additions are outside the pre-fixture allowlist, and the benchmark classifies autonomousRepairCycles as secondary while the older verifier expects it in value metrics. The correctly scoped focused unit command above passed; no out-of-scope repair was made.
+
+Known standalone protocol-validator drift
+Command: pnpm verify:tailwind-b2
+Exit code: 1
+Reason: the benchmark records autonomousRepairCycles under secondary with role diagnostic, while the older validator expects it in value metrics. This mismatch predates and is outside the P1 trial; neither contract file was changed.

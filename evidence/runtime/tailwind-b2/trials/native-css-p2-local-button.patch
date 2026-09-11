@@ -1,0 +1,137 @@
+--- a/apps/playground/src/experiments/tailwind-b2-native-baseline/page.tsx
++++ b/apps/playground/src/experiments/tailwind-b2-native-baseline/page.tsx
+@@ -55,7 +55,7 @@
+                 placeholder="输入课程名称"
+                 prefix={<SearchIcon size={16} />}
+               />
+-              <Button variant="secondary">搜索当前课程</Button>
++              <Button variant="primary">搜索当前课程</Button>
+             </div>
+           </div>
+         </section>
+--- a/apps/playground/src/experiments/tailwind-b2-native-baseline/page.test.tsx
++++ b/apps/playground/src/experiments/tailwind-b2-native-baseline/page.test.tsx
+@@ -52,4 +52,22 @@
+       screen.getByRole("button", { name: "其他功能操作" }),
+     );
+   });
++
++  it("raises only the current search button through the existing primary hierarchy", () => {
++    render(<App />);
++
++    const targetButton = screen.getByRole("button", {
++      name: "搜索当前课程",
++    });
++    const controlButton = screen.getByRole("button", {
++      name: "其他功能操作",
++    });
++
++    expect(targetButton).toHaveAttribute("data-variant", "primary");
++    expect(targetButton).toHaveAttribute("data-size", "medium");
++    expect(targetButton).toHaveAttribute("data-focus", "control");
++    expect(controlButton).toHaveAttribute("data-variant", "secondary");
++    expect(controlButton).toHaveAttribute("data-size", "medium");
++    expect(controlButton).toHaveAttribute("data-focus", "control");
++  });
+ });
+--- a/tests/e2e/tailwind-b2-native-baseline.spec.ts
++++ b/tests/e2e/tailwind-b2-native-baseline.spec.ts
+@@ -8,7 +8,7 @@
+ const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+ const screenshotPath = resolve(
+   workspaceRoot,
+-  "evidence/runtime/tailwind-b2/native-baseline-fixture.png",
++  "evidence/runtime/tailwind-b2/trials/native-p2-button-primary-existing-variant.png",
+ );
+ 
+ const lockedSourceHashes = {
+@@ -99,7 +99,7 @@
+   ).toEqual(['from "@rain-next/ui/icons/search"']);
+ });
+ 
+-test("the native-CSS arm exposes the frozen search fixture at 1280 by 720", async ({
++test("P2 raises only the target search Button at 1280 by 720", async ({
+   page,
+ }) => {
+   await page.setViewportSize({ width: 1280, height: 720 });
+@@ -117,8 +117,35 @@
+   const targetInput = targetRegion.locator('[data-rain-id="ui-input"]');
+   await expect(targetRegion.getByRole("textbox", { name: "当前搜索区关键词" }))
+     .toBeVisible();
+-  await expect(targetRegion.getByRole("button", { name: "搜索当前课程" }))
+-    .toHaveAttribute("data-variant", "secondary");
++  const targetButton = targetRegion.getByRole("button", {
++    name: "搜索当前课程",
++  });
++  await expect(targetButton).toHaveAttribute("data-variant", "primary");
++  await expect(targetButton).toHaveAttribute("data-size", "medium");
++  await expect(targetButton).toHaveAttribute("data-focus", "control");
++  const targetButtonStyle = await targetButton.evaluate((element) => {
++    const style = getComputedStyle(element);
++    return {
++      backgroundColor: style.backgroundColor,
++      borderColor: style.borderColor,
++      borderStyle: style.borderStyle,
++      borderWidth: style.borderWidth,
++      color: style.color,
++      height: element.getBoundingClientRect().height,
++      paddingLeft: style.paddingLeft,
++      paddingRight: style.paddingRight,
++    };
++  });
++  expect(targetButtonStyle).toEqual({
++    backgroundColor: "rgb(21, 97, 248)",
++    borderColor: "rgb(21, 97, 248)",
++    borderStyle: "solid",
++    borderWidth: "1px",
++    color: "rgb(255, 255, 255)",
++    height: 36,
++    paddingLeft: "20px",
++    paddingRight: "20px",
++  });
+ 
+   const targetGeometry = await targetInput.evaluate((element) => {
+     const style = getComputedStyle(element);
+@@ -223,6 +250,42 @@
+     paddingRight: "20px",
+   });
+ 
++  const nonTargetComputedTree = await controlRegion.evaluate((root) =>
++    [root, ...root.querySelectorAll("*")].map((element) => {
++      const rect = element.getBoundingClientRect();
++      const style = getComputedStyle(element);
++      return {
++        tag: element.tagName.toLowerCase(),
++        attributes: Object.fromEntries(
++          Array.from(element.attributes)
++            .map(
++              (attribute): [string, string] => [
++                attribute.name,
++                attribute.value,
++              ],
++            )
++            .sort(([left], [right]) => left.localeCompare(right)),
++        ),
++        text: element.textContent,
++        rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
++        styles: Object.fromEntries(
++          Array.from(style)
++            .sort()
++            .map((name) => [name, style.getPropertyValue(name)]),
++        ),
++      };
++    }),
++  );
++  expect(
++    sha256(new TextEncoder().encode(JSON.stringify(nonTargetComputedTree))),
++  ).toBe("5f788f01d1ef9113913b2982c0bfa97addbeeb6e148993d228286b3fbc868c1b");
++
++  await targetRegion.getByRole("textbox", { name: "当前搜索区关键词" }).focus();
++  await page.keyboard.press("Tab");
++  await expect(targetButton).toBeFocused();
++  expect(await targetButton.evaluate((element) => getComputedStyle(element).boxShadow))
++    .not.toBe("none");
++
+   mkdirSync(dirname(screenshotPath), { recursive: true });
+   await page.screenshot({ path: screenshotPath });
+ });

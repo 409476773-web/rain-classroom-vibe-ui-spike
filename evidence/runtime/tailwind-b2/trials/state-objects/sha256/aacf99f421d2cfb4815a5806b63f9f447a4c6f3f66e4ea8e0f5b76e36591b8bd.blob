@@ -1,0 +1,73 @@
+import { render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+
+import { App } from "../../app";
+
+describe("Tailwind B2 native-CSS baseline fixture", () => {
+  beforeEach(() => {
+    window.history.replaceState(null, "", "#tailwind-b2-native-baseline");
+  });
+
+  afterEach(() => {
+    window.history.replaceState(null, "", "#overview");
+  });
+
+  it("routes to a frozen local experiment with target and non-target controls", () => {
+    const { container } = render(<App />);
+
+    const page = container.querySelector(
+      '[data-rain-id="tailwind-b2-native-baseline"]',
+    );
+    expect(page).toHaveAttribute("data-asset-identity", "local-experiment");
+    expect(page).toHaveAttribute("data-maturity", "local-experiment");
+    expect(screen.getByLabelText("共同夹具状态")).toHaveTextContent(
+      "夹具已冻结 · P1 / P2 / P3 尚未执行",
+    );
+
+    const targetRegion = screen.getByRole("region", { name: "当前搜索区" });
+    const targetInput = screen.getByRole("textbox", {
+      name: "当前搜索区关键词",
+    });
+    const targetRoot = targetInput.closest<HTMLElement>('[data-rain-id="ui-input"]');
+    expect(targetRoot).toHaveClass("native-baseline__target-input");
+    expect(targetRegion).toContainElement(targetRoot);
+    expect(targetRegion).toContainElement(
+      screen.getByRole("button", { name: "搜索当前课程" }),
+    );
+
+    const searchIcon = targetRoot?.querySelector('[data-icon="icon/search"]');
+    expect(searchIcon).toHaveAttribute("data-icon-color-mode", "host");
+    expect(searchIcon).toHaveAttribute("data-icon-rendering", "svg-mask");
+    expect(searchIcon).toHaveAttribute("aria-hidden", "true");
+    expect(searchIcon).toHaveStyle({ width: "16px", height: "16px" });
+
+    const controlRegion = screen.getByRole("region", {
+      name: "非目标控件对照",
+    });
+    const controlInput = screen.getByRole("textbox", { name: "其他功能关键词" });
+    expect(controlRegion).toContainElement(
+      controlInput.closest<HTMLElement>('[data-rain-id="ui-input"]'),
+    );
+    expect(controlRegion).toContainElement(
+      screen.getByRole("button", { name: "其他功能操作" }),
+    );
+  });
+
+  it("raises only the current search button through the existing primary hierarchy", () => {
+    render(<App />);
+
+    const targetButton = screen.getByRole("button", {
+      name: "搜索当前课程",
+    });
+    const controlButton = screen.getByRole("button", {
+      name: "其他功能操作",
+    });
+
+    expect(targetButton).toHaveAttribute("data-variant", "primary");
+    expect(targetButton).toHaveAttribute("data-size", "medium");
+    expect(targetButton).toHaveAttribute("data-focus", "control");
+    expect(controlButton).toHaveAttribute("data-variant", "secondary");
+    expect(controlButton).toHaveAttribute("data-size", "medium");
+    expect(controlButton).toHaveAttribute("data-focus", "control");
+  });
+});

@@ -1,0 +1,95 @@
+Rain Next B2 native CSS measured continuation: P3
+
+Prompt (verbatim)
+在同一功能的第二个搜索状态中复用局部样式，并仅为当前搜索功能增加一个独立的 `scope-label` Input Part；不修改全局 Input。
+
+Scope
+- Trial only: /private/tmp/rain-next-b2-native-p3.bjo13u
+- Starting state: common fixture plus the saved P1 and P2 state supplied by the trial coordinator.
+- No main-repository, other-trial, dependency, shared Master, Foundation/Token, icon source/manifest/registry, route-registry, package, lockfile, or global CSS changes.
+- Browser: Chromium, viewport 1280x720.
+- Model and reasoning metadata: unexposed.
+
+Timing (secondary metric)
+- UTC start: 2026-09-04T03:03:53Z
+- UTC end: 2026-09-04T03:21:14Z
+- Wall elapsed: 1041 seconds (17 minutes 21 seconds).
+
+TDD evidence
+1. RED unit
+   Command: pnpm exec vitest run apps/playground/src/experiments/tailwind-b2-native-baseline/page.test.tsx
+   Exit: 1
+   Result: 1 failed, 2 passed.
+   Expected failure: the second-state textbox named "当前搜索区第二状态关键词" did not exist.
+
+2. RED browser
+   Command: pnpm exec playwright test tests/e2e/tailwind-b2-native-baseline.spec.ts
+   Exit: 1
+   Result: 1 failed, 4 passed.
+   Expected failure: P3 expected two target Inputs and found one.
+
+3. Minimal implementation and repair cycle
+   First implementation attempt added one page-local Input fork, the second search state, shared local treatment, and the direct scope-label part.
+   One internal repair cycle was required: the page passed the same aria-describedby ID that the local Input fork also appended, producing a duplicate token. The redundant page prop was removed; the local Input remains the single owner of that relation.
+   No user correction prompt occurred. User-perceived ease and correction-prompts metrics are not measured because this isolated automated run had no Human Gate interaction.
+   Frozen first-pass automated acceptance: fail (one implementation repair was required).
+   Final automated acceptance: pass.
+
+4. Final GREEN (fresh after the last assertion change)
+   Command: pnpm exec vitest run apps/playground/src/experiments/tailwind-b2-native-baseline/page.test.tsx
+   Exit: 0; 1 file passed; 3 tests passed.
+   Command: pnpm typecheck
+   Exit: 0; foundations, ui, playground, and tests typecheck passed.
+   Command: pnpm --filter @rain-next/playground build
+   Exit: 0; 63 modules transformed; built in 527ms. The existing icons-page chunk-size advisory remained non-blocking.
+   Command: pnpm exec playwright test tests/e2e/tailwind-b2-native-baseline.spec.ts
+   Exit: 0; Chromium 5/5 passed in 2.2s.
+   Patch integrity: git apply --reverse --check evidence/runtime/tailwind-b2/trials/native-css-p3-reuse-scope-label.patch exited 0.
+
+Continuation rubric
+- P1 preserved: pass. Both target Inputs resolve to the same local target class and exact computed geometry/treatment (320x36, padding-inline 18px, gap 10px, radius 6px, rgb(243,247,252)).
+- P2 preserved: pass. Both current-feature Buttons are primary; the non-target Button remains secondary with frozen computed style.
+- Reuse rather than copied declarations: pass. Both states reference native-baseline__target-input; no second-state copy of its CSS declarations exists.
+- Local Input Part: pass. Only the second state contains a direct child [data-slot="scope-label"] with stable ID native-baseline-second-scope-label.
+- Accessible relation: pass. The second input references the scope-label through aria-describedby and exposes the accessible description "课程范围".
+- Global/non-target absence: pass. The first shared Input and non-target shared Input contain no scope-label part.
+- Master/Foundation/icon/package/route/global CSS protection: pass by exact hashes and browser assertions.
+- Formal SearchIcon: pass. Both states use @rain-next/ui/icons/search; manifest availability, one export/import identity, Figma node 8:20, mask rendering, 16x16 sizing, and decorative accessibility remain asserted.
+- Keyboard continuation: pass. Tab from the second Input reaches its paired Button.
+- Screenshot: evidence/runtime/tailwind-b2/trials/native-css-p3-reuse-scope-label.png (1280x720).
+- Human Gate: not evaluated.
+
+Changed functional/test files (final SHA-256)
+- apps/playground/src/experiments/tailwind-b2-native-baseline/page.tsx f1ad3b9fd9d019f09769c8c184318f4dbdeeb33de531fdfd21076957cbea6955
+- apps/playground/src/experiments/tailwind-b2-native-baseline/page.css 0d816d2dbe3e9c3946a609fc4fd1cca1bf80c72d10a55f551df36733a8f884f5
+- apps/playground/src/experiments/tailwind-b2-native-baseline/page.test.tsx 12ae12a8385a736e39057f0082f31b9fab03d1f519061bdc990d5f95a5a196eb
+- apps/playground/src/experiments/tailwind-b2-native-baseline/local-search-input.tsx ba2dab8a4674a044a6dd540287a08cdc76739511579fcf2771cf436ab6e394e8
+- apps/playground/src/experiments/tailwind-b2-native-baseline/local-search-input.utils.ts 7dde60b39d2eae9644af2f2936349c46f5c90ccbaf071249e58923c340ee5e03
+- tests/e2e/tailwind-b2-native-baseline.spec.ts adbd1dc8cc598465644db65878f64d5a8a51a6424d99d991c00df5b56c4e3b2b
+
+Protected source hashes (unchanged)
+- package.json 15e057865c34eb366e2209c6cbac5a2303f487b485e8f9ce911db194bfb48a17
+- pnpm-lock.yaml b6e4a096f3bb8b502dd5fd72874977bceaaf01965ab15795e79b7924c9484b38
+- apps/playground/src/routes/route-registry.ts 67d295faf929f051128b36e15ca49548da8e72b706e8bc095a4081672e7bb344
+- apps/playground/src/styles.css 3def425bbb0c6c117e4b07b922ec545d30e771a858e0cc4921fe76fe4f8df6f6
+- manifests/icons.json 86566c0072bc7de5c706fefa5e64ae128b6deeb4fa3aab1e0745609c465d1eb8
+- registry/icons.json 722298d1247ae694a18c84a7dadf64330140474d4dd83804ee4ec2e49aecc1ce
+- packages/foundations/src/tokens.css 63b485b799d169c8371b2681ab6a3d63435746ff00f6e2c8d7e2f924833424e8
+- packages/foundations/src/density.tsx 1fe4881a914936755f23a578a62518dc4f599481fbfb3e80591da214a3164b37
+- packages/ui/src/button/button.tsx 7b73a3f2a72fef29569f72ca955d7c7a4f468e40a9dedc1d09bb2469d8723fa7
+- packages/ui/src/input/input.tsx 432c078b2d512245704f3d37ceafe6d5477c14904ba4f5fdf29cc731388cda40
+- packages/ui/src/styles.css 813813cc6610254a29cf321ece5bf651fcf537729cb6d709c9f0a2e584bfe4f6
+- packages/ui/src/icon/icon.tsx 4a717dc0861919c43bd443a62b8c8c40bc37cb889c63752d2ca4a5fc98c19cb8
+- packages/ui/src/icons/search.tsx 4312348daf79d6f5dcdc7b1b4c42bf6d2b8fd4122c10e5c56679da3d0a441b72
+- packages/ui/src/icons/assets/search.svg 6e7a1b6b3e43def3ce73e3ea1f655422090f3a4fdde360a8518961c3408fbd7f
+
+Provisional end functional tree hash
+- File count: 2887
+- SHA-256: 6fc82a1740b42ab20a4df36a834e9755e07a2c1d486ff4534b2d044948ccb269
+- Algorithm: recursively hash files, create a lexicographically sorted ledger of "path SHA-256\\n", then SHA-256 the ledger; exclude .git, node_modules, dist, playwright-report, test-results, .vite, coverage, reports, and evidence/runtime/tailwind-b2/trials.
+- The coordinator-supplied assembled-start hash eeb65916489eb305ea00336ca792fc4374f1d0eebeb14a73f96698d775ba1052 used an earlier algorithm and is retained as provenance, not treated as directly comparable.
+
+Lifecycle boundary
+- P3 local experiment: implemented and automatically verified.
+- Overall B2 comparison or superiority judgment: not made by this trial.
+- Human Gate, Figma publication, package/registry publication, business migration, and Git actions: not performed.

@@ -1,0 +1,267 @@
+import {
+  forwardRef,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type CompositionEvent,
+  type ForwardedRef,
+  type InputHTMLAttributes,
+  type KeyboardEvent,
+  type MouseEvent,
+  type ReactNode,
+} from "react";
+
+import { useDensity } from "@rain-next/foundations";
+
+import { countGraphemes, limitGraphemes } from "./input.utils";
+
+export type InputStatus = "default" | "warning" | "error";
+export type InputCountMode = "hard" | "soft";
+export type InputType = "text" | "email" | "url" | "tel";
+
+export interface InputProps
+  extends Omit<
+    InputHTMLAttributes<HTMLInputElement>,
+    "defaultValue" | "maxLength" | "prefix" | "size" | "type" | "value"
+  > {
+  clearLabel?: string;
+  clearable?: boolean;
+  countMode?: InputCountMode;
+  defaultValue?: string;
+  maxLength?: number;
+  onClear?: (event: MouseEvent<HTMLButtonElement>) => void;
+  onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
+  onValueChange?: (value: string) => void;
+  prefix?: ReactNode;
+  showCount?: boolean;
+  status?: InputStatus;
+  suffix?: ReactNode;
+  trailingAction?: ReactNode;
+  type?: InputType;
+  value?: string;
+}
+
+function mergeClassNames(...names: Array<string | undefined>) {
+  return names.filter(Boolean).join(" ");
+}
+
+function assignRef<T>(ref: ForwardedRef<T>, value: T | null) {
+  if (typeof ref === "function") {
+    ref(value);
+  } else if (ref) {
+    ref.current = value;
+  }
+}
+
+function dispatchNativeValueChange(
+  control: HTMLInputElement,
+  nextValue: string,
+) {
+  const InputConstructor = control.ownerDocument.defaultView?.HTMLInputElement;
+  const EventConstructor = control.ownerDocument.defaultView?.Event;
+  const nativeValueSetter = InputConstructor
+    ? Object.getOwnPropertyDescriptor(InputConstructor.prototype, "value")?.set
+    : undefined;
+
+  if (nativeValueSetter) {
+    nativeValueSetter.call(control, nextValue);
+  } else {
+    control.value = nextValue;
+  }
+  control.dispatchEvent(
+    EventConstructor
+      ? new EventConstructor("input", { bubbles: true, composed: true })
+      : new Event("input", { bubbles: true, composed: true }),
+  );
+}
+
+export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+  {
+    "aria-invalid": ariaInvalid,
+    "aria-label": ariaLabel,
+    className,
+    clearLabel,
+    clearable = false,
+    countMode = "hard",
+    defaultValue = "",
+    disabled = false,
+    maxLength,
+    onChange,
+    onClear,
+    onCompositionEnd,
+    onCompositionStart,
+    onKeyDown,
+    onPressEnter,
+    onValueChange,
+    prefix,
+    readOnly = false,
+    showCount = false,
+    status = "default",
+    suffix,
+    trailingAction,
+    type = "text",
+    value,
+    ...nativeProps
+  },
+  forwardedRef,
+) {
+  const density = useDensity();
+  const controlRef = useRef<HTMLInputElement | null>(null);
+  const composingRef = useRef(false);
+  const isControlled = value !== undefined;
+  const initialValue =
+    countMode === "hard" && Number.isFinite(maxLength)
+      ? limitGraphemes(defaultValue, maxLength as number)
+      : defaultValue;
+  const [uncontrolledValue, setUncontrolledValue] = useState(initialValue);
+  const currentValue = isControlled ? value : uncontrolledValue;
+  const count = countGraphemes(currentValue);
+  const overLimit =
+    countMode === "soft" &&
+    Number.isFinite(maxLength) &&
+    count > (maxLength as number);
+  const state = disabled
+    ? "disabled"
+    : readOnly
+      ? "read-only"
+      : currentValue.length > 0
+        ? "filled"
+        : "empty";
+  const showClear =
+    clearable &&
+    currentValue.length > 0 &&
+    !disabled &&
+    !readOnly &&
+    status === "default";
+  const resolvedClearLabel =
+    clearLabel ??
+    (typeof ariaLabel === "string" && ariaLabel.length > 0
+      ? `清除${ariaLabel}`
+      : "清除输入内容");
+
+  function acceptValue(nextValue: string) {
+    if (
+      countMode === "hard" &&
+      Number.isFinite(maxLength) &&
+      !composingRef.current
+    ) {
+      return limitGraphemes(nextValue, maxLength as number);
+    }
+    return nextValue;
+  }
+
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    const accepted = acceptValue(event.currentTarget.value);
+    if (event.currentTarget.value !== accepted) {
+      event.currentTarget.value = accepted;
+    }
+    if (!isControlled) setUncontrolledValue(accepted);
+    onValueChange?.(accepted);
+    onChange?.(event);
+  }
+
+  function handleCompositionStart(event: CompositionEvent<HTMLInputElement>) {
+    composingRef.current = true;
+    onCompositionStart?.(event);
+  }
+
+  function handleCompositionEnd(event: CompositionEvent<HTMLInputElement>) {
+    composingRef.current = false;
+    const accepted = acceptValue(event.currentTarget.value);
+    if (event.currentTarget.value !== accepted) {
+      dispatchNativeValueChange(event.currentTarget, accepted);
+    }
+    onCompositionEnd?.(event);
+  }
+
+  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    onKeyDown?.(event);
+    if (
+      !event.defaultPrevented &&
+      event.key === "Enter" &&
+      !composingRef.current &&
+      !event.nativeEvent.isComposing
+    ) {
+      onPressEnter?.(event);
+    }
+  }
+
+  function handleClear(event: MouseEvent<HTMLButtonElement>) {
+    if (disabled || readOnly || status !== "default") return;
+    const control = controlRef.current;
+    if (control) dispatchNativeValueChange(control, "");
+    onClear?.(event);
+    control?.focus();
+  }
+
+  return (
+    <span
+      className={mergeClassNames("rain-input", className)}
+      data-density={density}
+      data-rain-id="ui-input"
+      data-slot="root"
+      data-state={state}
+      data-status={status}
+    >
+      {prefix !== undefined ? (
+        <span className="rain-input__affix" data-slot="prefix">
+          {prefix}
+        </span>
+      ) : null}
+      <input
+        {...nativeProps}
+        ref={(node) => {
+          controlRef.current = node;
+          assignRef(forwardedRef, node);
+        }}
+        aria-invalid={status === "error" ? true : ariaInvalid}
+        aria-label={ariaLabel}
+        className="rain-input__control"
+        data-slot="control"
+        disabled={disabled}
+        onChange={handleChange}
+        onCompositionEnd={handleCompositionEnd}
+        onCompositionStart={handleCompositionStart}
+        onKeyDown={handleKeyDown}
+        readOnly={readOnly}
+        type={type}
+        value={currentValue}
+      />
+      {suffix !== undefined ? (
+        <span className="rain-input__affix" data-slot="suffix">
+          {suffix}
+        </span>
+      ) : null}
+      {trailingAction !== undefined ? (
+        <span className="rain-input__trailing-action" data-slot="trailing-action">
+          {trailingAction}
+        </span>
+      ) : null}
+      {showClear ? (
+        <button
+          aria-label={resolvedClearLabel}
+          className="rain-input__clear"
+          data-focus="control"
+          data-slot="clear-action"
+          onClick={handleClear}
+          onMouseDown={(event) => event.preventDefault()}
+          type="button"
+        >
+          清除
+        </button>
+      ) : null}
+      {showCount ? (
+        <span
+          aria-live="polite"
+          className="rain-input__count"
+          data-overflow={overLimit ? "true" : undefined}
+          data-slot="count"
+        >
+          {Number.isFinite(maxLength) ? `${count} / ${maxLength}` : count}
+        </span>
+      ) : null}
+    </span>
+  );
+});
+
+Input.displayName = "Input";

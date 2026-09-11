@@ -1,0 +1,36 @@
+Token Foundations V1 — initial failure evidence excerpts (not the full test log)
+
+Foundations data and panels:
+- Line/geometry: initial 3 failed; six Line tokens, Space16, Radius7 and class merge missing.
+- Color: initial 11 failed; registry/Alpha/consumer validation missing.
+- Typography: initial 7 failed; numeric contract/presets/validation missing.
+- ColorPanel and TypographyPanel: null component stubs, 3 assertions failed each.
+- TokenFoundationsPage: null component stub, 1 assertion failed (heading absent).
+
+2026-09-05 23:18 rain-class-names.test.ts:
+  2 failed | 12 passed
+  expected: text-rain-category-text-neutral-1 text-rain-size-16
+  received: text-rain-size-16
+  full preset did not remove preceding field overrides.
+
+First real browser check, after initial integration:
+  3 failed | 1 passed
+  border-top-width expected 1px, received 0px
+  typography preset CSS missing
+  original Fill Alpha expected rgba(80, 117, 254, 0.16), received transparent
+  cause: old @source not ./docs excluded the new controlled consumer subtree.
+
+2026-09-05 23:30 rain-class-names.test.ts independent review reproductions:
+  2 failed | 14 passed
+  leading-rain-32 was removed by text-rain-size-16
+  font-rain-ui was removed by font-rain-semibold
+
+2026-09-05 23:33 line-foundation.test.ts:
+  1 failed | 3 passed
+  expected generated-output check to throw on a hand-written canonical override;
+  received no error when --rain-category-text-neutral-1 was redeclared outside its generated section.
+
+Additional independent review reproductions and their final disposition are in independent-review.md.
+
+First full verify integration run: 760 unit tests passed; Chromium 39 passed, 1 failed.
+The remaining browser assertion still expected the old B2 entry-stage text; source already displayed the authorized Token phase. Only the stage-text assertion was updated; focus, layout and contrast checks remain.

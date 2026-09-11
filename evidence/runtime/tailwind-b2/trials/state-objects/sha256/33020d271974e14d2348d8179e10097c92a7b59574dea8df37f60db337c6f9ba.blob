@@ -1,0 +1,100 @@
+import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
+
+import { CoreUiPage } from "./docs/components/core-ui-page";
+import { TextButtonHelpPage, TextButtonPage } from "./docs/components/text-button-page";
+import { FoundationsPage } from "./docs/foundations-page";
+import { TailwindB2NativeBaselinePage } from "./experiments/tailwind-b2-native-baseline/page";
+import { OverviewPage } from "./routes/overview-page";
+
+const IconsPage = lazy(() => import("./docs/icons-page").then((module) => ({ default: module.IconsPage })));
+
+type AppRoute = {
+  focusTargetId: string;
+  view:
+    | "components"
+    | "foundations"
+    | "icons"
+    | "overview"
+    | "tailwind-b2-native-baseline"
+    | "text-button"
+    | "text-button-help";
+};
+
+function resolveRoute(hash: string): AppRoute {
+  if (hash === "#tailwind-b2-native-baseline") {
+    return {
+      focusTargetId: "tailwind-b2-native-baseline-title",
+      view: "tailwind-b2-native-baseline",
+    };
+  }
+  if (hash === "#icons") {
+    return { focusTargetId: "icons-title", view: "icons" };
+  }
+  if (hash === "#text-button") {
+    return { focusTargetId: "text-button-title", view: "text-button" };
+  }
+  if (hash === "#text-button-help") {
+    return { focusTargetId: "text-button-help-title", view: "text-button-help" };
+  }
+  if (hash === "#foundations") {
+    return { focusTargetId: "foundations-title", view: "foundations" };
+  }
+  if (hash === "#components") {
+    return { focusTargetId: "core-ui-title", view: "components" };
+  }
+  if (hash === "#benchmarks") {
+    return { focusTargetId: "benchmarks-title", view: "overview" };
+  }
+  return { focusTargetId: "overview-title", view: "overview" };
+}
+
+function RouteFocus({ targetId, navigationCount }: { targetId: string; navigationCount: number }) {
+  useEffect(() => {
+    if (navigationCount > 0) document.getElementById(targetId)?.focus();
+  }, [navigationCount, targetId]);
+  return null;
+}
+
+export function App() {
+  const [location, setLocation] = useState(() => ({
+    hash: window.location.hash,
+    navigationCount: 0,
+  }));
+  const route = resolveRoute(location.hash);
+
+  useEffect(() => {
+    function handleHashChange() {
+      setLocation((current) => ({
+        hash: window.location.hash,
+        navigationCount: current.navigationCount + 1,
+      }));
+    }
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  let page: ReactNode;
+  if (route.view === "foundations") {
+    page = <FoundationsPage />;
+  } else if (route.view === "icons") {
+    page = <IconsPage />;
+  } else if (route.view === "components") {
+    page = <CoreUiPage />;
+  } else if (route.view === "text-button") {
+    page = <TextButtonPage />;
+  } else if (route.view === "text-button-help") {
+    page = <TextButtonHelpPage />;
+  } else if (route.view === "tailwind-b2-native-baseline") {
+    page = <TailwindB2NativeBaselinePage />;
+  } else {
+    page = <OverviewPage />;
+  }
+
+  return (
+    <Suspense fallback={<main aria-busy="true" className="playground-shell" data-rain-id="icons-loading"><p role="status">正在打开图标库…</p></main>}>
+      {page}
+      <RouteFocus targetId={route.focusTargetId} navigationCount={location.navigationCount} />
+    </Suspense>
+  );
+}

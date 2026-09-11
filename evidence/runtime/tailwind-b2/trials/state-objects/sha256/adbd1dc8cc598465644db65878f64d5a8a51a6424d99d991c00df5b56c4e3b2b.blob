@@ -1,0 +1,503 @@
+import { createHash } from "node:crypto";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
+import { expect, test } from "@playwright/test";
+
+const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+const screenshotPath = resolve(
+  workspaceRoot,
+  "evidence/runtime/tailwind-b2/trials/native-p2-button-primary-existing-variant.png",
+);
+const p1ScreenshotPath = resolve(
+  workspaceRoot,
+  "evidence/runtime/tailwind-b2/trials/native-css-p1-local-input.png",
+);
+const p3ScreenshotPath = resolve(
+  workspaceRoot,
+  "evidence/runtime/tailwind-b2/trials/native-css-p3-reuse-scope-label.png",
+);
+const p3ComputedPath = resolve(
+  workspaceRoot,
+  "evidence/runtime/tailwind-b2/trials/native-css-p3-computed.json",
+);
+
+const lockedSourceHashes = {
+  "package.json":
+    "15e057865c34eb366e2209c6cbac5a2303f487b485e8f9ce911db194bfb48a17",
+  "pnpm-lock.yaml":
+    "b6e4a096f3bb8b502dd5fd72874977bceaaf01965ab15795e79b7924c9484b38",
+  "apps/playground/src/routes/route-registry.ts":
+    "67d295faf929f051128b36e15ca49548da8e72b706e8bc095a4081672e7bb344",
+  "apps/playground/src/styles.css":
+    "3def425bbb0c6c117e4b07b922ec545d30e771a858e0cc4921fe76fe4f8df6f6",
+  "manifests/icons.json":
+    "86566c0072bc7de5c706fefa5e64ae128b6deeb4fa3aab1e0745609c465d1eb8",
+  "registry/icons.json":
+    "722298d1247ae694a18c84a7dadf64330140474d4dd83804ee4ec2e49aecc1ce",
+  "packages/foundations/src/tokens.css":
+    "63b485b799d169c8371b2681ab6a3d63435746ff00f6e2c8d7e2f924833424e8",
+  "packages/foundations/src/density.tsx":
+    "1fe4881a914936755f23a578a62518dc4f599481fbfb3e80591da214a3164b37",
+  "packages/ui/src/button/button.tsx":
+    "7b73a3f2a72fef29569f72ca955d7c7a4f468e40a9dedc1d09bb2469d8723fa7",
+  "packages/ui/src/input/input.tsx":
+    "432c078b2d512245704f3d37ceafe6d5477c14904ba4f5fdf29cc731388cda40",
+  "packages/ui/src/styles.css":
+    "813813cc6610254a29cf321ece5bf651fcf537729cb6d709c9f0a2e584bfe4f6",
+  "packages/ui/src/icon/icon.tsx":
+    "4a717dc0861919c43bd443a62b8c8c40bc37cb889c63752d2ca4a5fc98c19cb8",
+  "packages/ui/src/icons/search.tsx":
+    "4312348daf79d6f5dcdc7b1b4c42bf6d2b8fd4122c10e5c56679da3d0a441b72",
+  "packages/ui/src/icons/assets/search.svg":
+    "6e7a1b6b3e43def3ce73e3ea1f655422090f3a4fdde360a8518961c3408fbd7f",
+} as const;
+const renderedSearchAssetHash =
+  "b56b6b1afdaeb617d359d7887a82f625ba05582335173c529d6f1559e2009667";
+
+function sha256(value: Uint8Array) {
+  return createHash("sha256").update(value).digest("hex");
+}
+
+test("fixture preparation leaves the shared Masters and formal SearchIcon source unchanged", () => {
+  for (const [relativePath, expectedHash] of Object.entries(lockedSourceHashes)) {
+    expect(sha256(readFileSync(resolve(workspaceRoot, relativePath)))).toBe(
+      expectedHash,
+    );
+  }
+});
+
+test("the formal SearchIcon keeps one available manifest and package entry", () => {
+  const iconManifest = JSON.parse(
+    readFileSync(resolve(workspaceRoot, "manifests/icons.json"), "utf8"),
+  ) as {
+    items: Array<{
+      availability: string;
+      figmaMapping: { nodeId: string };
+      id: string;
+      importPath: string;
+    }>;
+  };
+  const searchEntries = iconManifest.items.filter(
+    (item) =>
+      item.id === "icon/search" ||
+      item.importPath === "@rain-next/ui/icons/search" ||
+      item.figmaMapping.nodeId === "8:20",
+  );
+  expect(searchEntries).toHaveLength(1);
+  expect(searchEntries[0]).toMatchObject({
+    availability: "available",
+    figmaMapping: { nodeId: "8:20" },
+    id: "icon/search",
+    importPath: "@rain-next/ui/icons/search",
+  });
+
+  const uiPackage = JSON.parse(
+    readFileSync(resolve(workspaceRoot, "packages/ui/package.json"), "utf8"),
+  ) as { exports: Record<string, string> };
+  expect(
+    Object.entries(uiPackage.exports).filter(
+      ([exportPath, sourcePath]) =>
+        exportPath === "./icons/search" ||
+        sourcePath === "./src/icons/search.tsx",
+    ),
+  ).toEqual([["./icons/search", "./src/icons/search.tsx"]]);
+
+  const searchModuleSource = readFileSync(
+    resolve(workspaceRoot, "packages/ui/src/icons/search.tsx"),
+    "utf8",
+  );
+  expect(searchModuleSource.match(/assetId: "icon\/search"/g)).toHaveLength(1);
+  expect(searchModuleSource.match(/export const SearchIcon/g)).toHaveLength(1);
+
+  const fixtureSource = readFileSync(
+    resolve(
+      workspaceRoot,
+      "apps/playground/src/experiments/tailwind-b2-native-baseline/page.tsx",
+    ),
+    "utf8",
+  );
+  expect(
+    fixtureSource.match(/from "@rain-next\/ui\/icons\/[^\"]+"/g),
+  ).toEqual(['from "@rain-next/ui/icons/search"']);
+});
+
+test("P2 raises only the target search Button at 1280 by 720", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/#tailwind-b2-native-baseline");
+
+  const fixture = page.locator('[data-rain-id="tailwind-b2-native-baseline"]');
+  await expect(fixture).toHaveAttribute("data-asset-identity", "local-experiment");
+  await expect(fixture).toHaveAttribute("data-maturity", "local-experiment");
+  await expect(page.getByLabel("共同夹具状态")).toHaveText(
+    "夹具已冻结 · P1 / P2 / P3 尚未执行",
+  );
+
+  const targetRegion = page.getByRole("region", { name: "当前搜索区" });
+  const targetInput = targetRegion.locator('[data-rain-id="ui-input"]').first();
+  await expect(targetRegion.getByRole("textbox", { name: "当前搜索区关键词" }))
+    .toBeVisible();
+  const targetButton = targetRegion.getByRole("button", {
+    name: "搜索当前课程",
+  });
+  await expect(targetButton).toHaveAttribute("data-variant", "primary");
+  await expect(targetButton).toHaveAttribute("data-size", "medium");
+  await expect(targetButton).toHaveAttribute("data-focus", "control");
+  const targetButtonStyle = await targetButton.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      backgroundColor: style.backgroundColor,
+      borderColor: style.borderColor,
+      borderStyle: style.borderStyle,
+      borderWidth: style.borderWidth,
+      color: style.color,
+      height: element.getBoundingClientRect().height,
+      paddingLeft: style.paddingLeft,
+      paddingRight: style.paddingRight,
+    };
+  });
+  expect(targetButtonStyle).toEqual({
+    backgroundColor: "rgb(21, 97, 248)",
+    borderColor: "rgb(21, 97, 248)",
+    borderStyle: "solid",
+    borderWidth: "1px",
+    color: "rgb(255, 255, 255)",
+    height: 36,
+    paddingLeft: "20px",
+    paddingRight: "20px",
+  });
+
+  const targetGeometry = await targetInput.evaluate((element) => {
+    const style = getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+    return {
+      backgroundColor: style.backgroundColor,
+      borderRadius: style.borderRadius,
+      gap: style.gap,
+      height: rect.height,
+      paddingLeft: style.paddingLeft,
+      paddingRight: style.paddingRight,
+      width: rect.width,
+    };
+  });
+  expect(targetGeometry).toEqual({
+    backgroundColor: "rgb(243, 247, 252)",
+    borderRadius: "6px",
+    gap: "10px",
+    height: 36,
+    paddingLeft: "18px",
+    paddingRight: "18px",
+    width: 320,
+  });
+
+  const searchIcon = targetInput.locator('[data-icon="icon/search"]');
+  await expect(searchIcon).toHaveAttribute("data-icon-color-mode", "host");
+  await expect(searchIcon).toHaveAttribute("data-icon-rendering", "svg-mask");
+  await expect(searchIcon).toHaveAttribute("aria-hidden", "true");
+  await expect(searchIcon).not.toHaveAttribute("role");
+  await expect(searchIcon).toHaveCSS("width", "16px");
+  await expect(searchIcon).toHaveCSS("height", "16px");
+  await expect(searchIcon).toHaveCSS("mask-size", "contain");
+  const renderedIcon = await searchIcon.evaluate(async (element) => {
+    const style = getComputedStyle(element);
+    const source = /^url\(["']?(.*?)["']?\)$/.exec(style.maskImage)?.[1];
+    if (!source) throw new Error("SearchIcon does not expose a rendered mask source");
+    return {
+      backgroundColor: style.backgroundColor,
+      color: style.color,
+      source: Array.from(new Uint8Array(await (await fetch(source)).arrayBuffer())),
+    };
+  });
+  expect(renderedIcon.backgroundColor).toBe(renderedIcon.color);
+  // Vite inlines and whitespace-normalizes the locked SVG; freeze that actual
+  // browser payload separately from the raw source checksum above.
+  expect(sha256(Uint8Array.from(renderedIcon.source))).toBe(renderedSearchAssetHash);
+
+  const controlRegion = page.getByRole("region", {
+    name: "非目标控件对照",
+  });
+  const controlInput = controlRegion.locator('[data-rain-id="ui-input"]');
+  await expect(controlRegion.getByRole("textbox", { name: "其他功能关键词" }))
+    .toBeVisible();
+  const controlGeometry = await controlInput.evaluate((element) => {
+    const style = getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+    return {
+      backgroundColor: style.backgroundColor,
+      borderRadius: style.borderRadius,
+      gap: style.gap,
+      height: rect.height,
+      paddingLeft: style.paddingLeft,
+      paddingRight: style.paddingRight,
+      width: rect.width,
+    };
+  });
+  expect(controlGeometry).toEqual({
+    backgroundColor: "rgb(255, 255, 255)",
+    borderRadius: "6px",
+    gap: "8px",
+    height: 36,
+    paddingLeft: "14px",
+    paddingRight: "14px",
+    width: 320,
+  });
+
+  const controlButton = controlRegion.getByRole("button", {
+    name: "其他功能操作",
+  });
+  await expect(controlButton).toHaveAttribute("data-variant", "secondary");
+  const controlButtonStyle = await controlButton.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      backgroundColor: style.backgroundColor,
+      borderColor: style.borderColor,
+      borderStyle: style.borderStyle,
+      borderWidth: style.borderWidth,
+      color: style.color,
+      height: element.getBoundingClientRect().height,
+      paddingLeft: style.paddingLeft,
+      paddingRight: style.paddingRight,
+    };
+  });
+  expect(controlButtonStyle).toEqual({
+    backgroundColor: "rgb(211, 225, 255)",
+    borderColor: "rgb(100, 149, 255)",
+    borderStyle: "solid",
+    borderWidth: "1px",
+    color: "rgb(15, 85, 223)",
+    height: 36,
+    paddingLeft: "20px",
+    paddingRight: "20px",
+  });
+
+  const nonTargetComputedTree = await controlRegion.evaluate((root) =>
+    [root, ...root.querySelectorAll("*")].map((element) => {
+      const rect = element.getBoundingClientRect();
+      const style = getComputedStyle(element);
+      return {
+        tag: element.tagName.toLowerCase(),
+        attributes: Object.fromEntries(
+          Array.from(element.attributes)
+            .map(
+              (attribute): [string, string] => [
+                attribute.name,
+                attribute.value,
+              ],
+            )
+            .sort(([left], [right]) => left.localeCompare(right)),
+        ),
+        text: element.textContent,
+        rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
+        styles: Object.fromEntries(
+          Array.from(style)
+            .sort()
+            .map((name) => [name, style.getPropertyValue(name)]),
+        ),
+      };
+    }),
+  );
+  expect(
+    sha256(new TextEncoder().encode(JSON.stringify(nonTargetComputedTree))),
+  ).toBe("5f788f01d1ef9113913b2982c0bfa97addbeeb6e148993d228286b3fbc868c1b");
+
+  await targetRegion.getByRole("textbox", { name: "当前搜索区关键词" }).focus();
+  await page.keyboard.press("Tab");
+  await expect(targetButton).toBeFocused();
+  expect(await targetButton.evaluate((element) => getComputedStyle(element).boxShadow))
+    .not.toBe("none");
+
+  mkdirSync(dirname(screenshotPath), { recursive: true });
+  await page.screenshot({ path: screenshotPath });
+});
+
+test("P1 loosens and lightens only the current search Input", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/#tailwind-b2-native-baseline");
+
+  const targetInput = page.locator(
+    '[data-scope="target-search"] [data-rain-id="ui-input"]',
+  ).first();
+  const nonTargetInput = page.locator(
+    '[data-scope="non-target-controls"] [data-rain-id="ui-input"]',
+  );
+
+  await expect(targetInput).toHaveCSS("background-color", "rgb(243, 247, 252)");
+  await expect(targetInput).toHaveCSS("gap", "10px");
+  await expect(targetInput).toHaveCSS("padding-left", "18px");
+  await expect(targetInput).toHaveCSS("padding-right", "18px");
+  await expect(targetInput).toHaveCSS("width", "320px");
+  await expect(targetInput).toHaveCSS("height", "36px");
+
+  await expect(nonTargetInput).toHaveCSS("background-color", "rgb(255, 255, 255)");
+  await expect(nonTargetInput).toHaveCSS("gap", "8px");
+  await expect(nonTargetInput).toHaveCSS("padding-left", "14px");
+  await expect(nonTargetInput).toHaveCSS("padding-right", "14px");
+  await expect(nonTargetInput).toHaveCSS("width", "320px");
+  await expect(nonTargetInput).toHaveCSS("height", "36px");
+
+  const searchIcon = targetInput.locator('[data-icon="icon/search"]');
+  await expect(searchIcon).toHaveAttribute("data-icon-color-mode", "host");
+  await expect(searchIcon).toHaveAttribute("aria-hidden", "true");
+  await expect(searchIcon).toHaveCSS("width", "16px");
+  await expect(searchIcon).toHaveCSS("height", "16px");
+
+  mkdirSync(dirname(p1ScreenshotPath), { recursive: true });
+  await page.screenshot({ path: p1ScreenshotPath });
+});
+
+test("P3 reuses the target treatment and adds scope-label only to the second local Input", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/#tailwind-b2-native-baseline");
+
+  const targetRegion = page.getByRole("region", { name: "当前搜索区" });
+  const targetInputs = targetRegion.locator('[data-rain-id="ui-input"]');
+  await expect(targetInputs).toHaveCount(2);
+
+  const firstControl = targetRegion.getByRole("textbox", {
+    name: "当前搜索区关键词",
+  });
+  const secondControl = targetRegion.getByRole("textbox", {
+    name: "当前搜索区第二状态关键词",
+  });
+  const firstInput = firstControl.locator("xpath=ancestor::*[@data-rain-id='ui-input']");
+  const secondInput = secondControl.locator(
+    "xpath=ancestor::*[@data-rain-id='ui-input']",
+  );
+
+  await expect(firstInput).toHaveClass(/native-baseline__target-input/);
+  await expect(secondInput).toHaveClass(/native-baseline__target-input/);
+
+  const targetComputed = await targetInputs.evaluateAll((elements) =>
+    elements.map((element) => {
+      const style = getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return {
+        backgroundColor: style.backgroundColor,
+        borderRadius: style.borderRadius,
+        gap: style.gap,
+        height: rect.height,
+        paddingLeft: style.paddingLeft,
+        paddingRight: style.paddingRight,
+        width: rect.width,
+      };
+    }),
+  );
+  expect(targetComputed).toEqual([
+    {
+      backgroundColor: "rgb(243, 247, 252)",
+      borderRadius: "6px",
+      gap: "10px",
+      height: 36,
+      paddingLeft: "18px",
+      paddingRight: "18px",
+      width: 320,
+    },
+    {
+      backgroundColor: "rgb(243, 247, 252)",
+      borderRadius: "6px",
+      gap: "10px",
+      height: 36,
+      paddingLeft: "18px",
+      paddingRight: "18px",
+      width: 320,
+    },
+  ]);
+
+  await expect(firstInput.locator(':scope > [data-slot="scope-label"]'))
+    .toHaveCount(0);
+  const scopeLabel = secondInput.locator(':scope > [data-slot="scope-label"]');
+  await expect(scopeLabel).toHaveCount(1);
+  await expect(scopeLabel).toHaveText("课程范围");
+  await expect(scopeLabel).toHaveAttribute(
+    "id",
+    "native-baseline-second-scope-label",
+  );
+  await expect(secondControl).toHaveAttribute(
+    "aria-describedby",
+    "native-baseline-second-scope-label",
+  );
+  await expect(secondControl).toHaveAccessibleDescription("课程范围");
+
+  const secondIcon = secondInput.locator('[data-icon="icon/search"]');
+  await expect(secondIcon).toHaveCount(1);
+  await expect(secondIcon).toHaveAttribute("data-icon-color-mode", "host");
+  await expect(secondIcon).toHaveAttribute("data-icon-rendering", "svg-mask");
+  await expect(secondIcon).toHaveAttribute("aria-hidden", "true");
+  await expect(secondIcon).not.toHaveAttribute("role");
+  await expect(secondIcon).toHaveCSS("width", "16px");
+  await expect(secondIcon).toHaveCSS("height", "16px");
+  await expect(secondIcon).toHaveCSS("mask-size", "contain");
+
+  const controlRegion = page.getByRole("region", {
+    name: "非目标控件对照",
+  });
+  await expect(controlRegion.locator('[data-slot="scope-label"]')).toHaveCount(0);
+  const controlInput = controlRegion.locator('[data-rain-id="ui-input"]');
+  const controlComputed = await controlInput.evaluate((element) => {
+    const style = getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+    return {
+      backgroundColor: style.backgroundColor,
+      borderRadius: style.borderRadius,
+      gap: style.gap,
+      height: rect.height,
+      paddingLeft: style.paddingLeft,
+      paddingRight: style.paddingRight,
+      width: rect.width,
+    };
+  });
+  expect(controlComputed).toEqual({
+    backgroundColor: "rgb(255, 255, 255)",
+    borderRadius: "6px",
+    gap: "8px",
+    height: 36,
+    paddingLeft: "14px",
+    paddingRight: "14px",
+    width: 320,
+  });
+
+  const targetButton = targetRegion.getByRole("button", {
+    name: "搜索当前课程",
+  });
+  const secondTargetButton = targetRegion.getByRole("button", {
+    name: "搜索当前章节",
+  });
+  const controlButton = controlRegion.getByRole("button", {
+    name: "其他功能操作",
+  });
+  await expect(targetButton).toHaveAttribute("data-variant", "primary");
+  await expect(secondTargetButton).toHaveAttribute("data-variant", "primary");
+  await expect(controlButton).toHaveAttribute("data-variant", "secondary");
+  await secondControl.focus();
+  await page.keyboard.press("Tab");
+  await expect(secondTargetButton).toBeFocused();
+
+  mkdirSync(dirname(p3ScreenshotPath), { recursive: true });
+  writeFileSync(
+    p3ComputedPath,
+    `${JSON.stringify(
+      {
+        scopeLabel: {
+          accessibleRelation: "aria-describedby",
+          dataSlot: "scope-label",
+          id: "native-baseline-second-scope-label",
+          targetOnly: true,
+        },
+        targetInputs: targetComputed,
+        nonTargetInput: controlComputed,
+        viewport: { height: 720, width: 1280 },
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  await page.screenshot({ path: p3ScreenshotPath });
+});
