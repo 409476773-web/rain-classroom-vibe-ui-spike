@@ -1,0 +1,35 @@
+import { createRequire } from 'node:module';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import assert from 'node:assert/strict';
+const require=createRequire('/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/package.json');
+const {chromium}=require('@playwright/test');
+const out='/tmp/rain-dialog-refinement-review'; mkdirSync(out,{recursive:true});
+const browser=await chromium.launch({headless:true});
+const results=[];
+const errors=[];
+const page=await browser.newPage({viewport:{width:1280,height:800}});
+page.setDefaultTimeout(8000);
+page.on('pageerror',error=>errors.push(String(error)));
+const modules=[];page.on('request',r=>{if(/react\.js|react-dom_client|packages\/ui\/src\/index/.test(r.url()))modules.push(r.url())});
+const open=async()=>{await page.getByRole('button',{name:'编辑课程资料',exact:true}).click(); await page.getByRole('dialog',{name:'编辑课程资料',exact:true}).waitFor()};
+const check=async name=>{await page.getByRole('checkbox',{name}).focus(); await page.keyboard.press('Space')};
+const read=()=>page.getByRole('dialog',{name:'编辑课程资料',exact:true}).evaluate(el=>{
+const q=s=>el.querySelector(s),rect=n=>{const r=n.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};
+const style=n=>{const s=getComputedStyle(n);return {padding:s.padding,gap:s.gap,background:s.backgroundColor,color:s.color,border:s.borderTop,borderRadius:s.borderRadius}};
+return {popup:rect(el),header:rect(q('[data-slot="header"]')),description:rect(q('[data-slot="description"]')),title:rect(q('[data-slot="title"]')),close:rect(q('[aria-label="关闭编辑"]')),fields:[...el.querySelectorAll('form > *')].map(rect),separator:rect(q('[role="separator"]')),noteTitle:rect(q('section h3')),note:rect(q('section p')),body:{...rect(q('[data-slot="body"]')),scroll:q('[data-slot="body"]').scrollHeight,client:q('[data-slot="body"]').clientHeight,scrollTop:q('[data-slot="body"]').scrollTop},footer:{...rect(q('[data-slot="footer"]')),style:style(q('[data-slot="footer"]'))},buttons:[...el.querySelectorAll('[data-slot="footer"] button')].map(n=>({...rect(n),text:n.innerText,style:style(n)})),progress:{...rect(q('.course-dialog-progress')),style:style(q('.course-dialog-progress'))},styles:style(el),density:el.getAttribute('data-density'),theme:el.getAttribute('data-rain-theme'),busy:el.getAttribute('aria-busy')};
+});
+try{
+ for(const width of [375,320])for(const dark of [false,true]){
+  await page.setViewportSize({width,height:667});await page.goto('about:blank');await page.goto('http://127.0.0.1:5193/#dialog');if(dark)await check('深色主题');await check('长内容');await open();
+  await page.getByRole('dialog',{name:'编辑课程资料',exact:true}).getByRole('button',{name:'保存更改'}).click();
+  const pending=await read();assert.equal(pending.busy,'true');assert.equal(pending.buttons[0].y,pending.buttons[1].y);assert.equal(pending.buttons[1].x-pending.buttons[0].right,8);if(width===320)assert.ok(pending.progress.bottom<pending.buttons[0].y);assert.ok(pending.popup.x>=16);assert.ok(pending.popup.right<=width-16);assert.ok(pending.footer.bottom<=651);
+  for(const button of pending.buttons){assert.ok(button.x>=pending.footer.x);assert.ok(button.right<=pending.footer.right);assert.ok(button.bottom<=pending.footer.bottom)}
+  await page.keyboard.press('Escape');assert.equal(await page.getByRole('dialog',{name:'编辑课程资料',exact:true}).count(),1);
+  await page.screenshot({path:`${out}/grouped-narrow-${width}-${dark?'dark':'light'}-pending.png`});
+  await page.getByRole('alert').waitFor();const failure=await read();assert.ok(failure.footer.bottom<=651);
+  results.push({case:`grouped-narrow-${width}-${dark?'dark':'light'}-pending`,facts:pending});results.push({case:`grouped-narrow-${width}-${dark?'dark':'light'}-failure`,facts:failure});
+  await page.getByRole('dialog',{name:'编辑课程资料',exact:true}).getByRole('button',{name:'取消',exact:true}).click();
+ }
+
+console.log(JSON.stringify({passed:results.length,cases:results.map(r=>r.case)},null,2))
+}finally{writeFileSync(`${out}/grouped-results.json`,JSON.stringify({results,errors},null,2));await browser.close()}

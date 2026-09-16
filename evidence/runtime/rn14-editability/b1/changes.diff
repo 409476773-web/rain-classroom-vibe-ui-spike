@@ -1,0 +1,25 @@
+--- a/apps/prototype/src/scenarios/bm-b/page.tsx
++++ b/apps/prototype/src/scenarios/bm-b/page.tsx
+@@ -151,18 +151,14 @@
+                       </FormItem>
+                     </Grid>
+                   </Stack></section>
+-                  <section aria-labelledby={`${formId}-introduction`}><h3 id={`${formId}-introduction`}>简介</h3><Stack gap={16}>
++                  <section aria-labelledby={`${formId}-reading`} data-slot="rn14-reading"><h3 id={`${formId}-reading`}>阅读内容</h3><Stack gap={16}>
+                     <FormItem label="内容简介" required disabled={saving} help="介绍主要内容与学习目标，最多 2000 个字符。" status={errors.description ? "error" : "default"} message={errors.description}>
+                       <Textarea name="description" value={draft.description} onValueChange={value => change("description", value)} rows={5} maxLength={2000} />
+                     </FormItem>
+-                    <Grid columns={twoColumns ? 2 : 1} minColumnWidth={240} gap={16}>
+-                      <FormItem label="作者简介" disabled={saving} status={errors.authorIntroduction ? "error" : "default"} message={errors.authorIntroduction}><Textarea name="authorIntroduction" value={draft.authorIntroduction} onValueChange={value => change("authorIntroduction", value)} rows={4} maxLength={1000} /></FormItem>
+-                      <FormItem label="本书特色" disabled={saving} status={errors.features ? "error" : "default"} message={errors.features}><Textarea name="features" value={draft.features} onValueChange={value => change("features", value)} rows={4} maxLength={1000} /></FormItem>
+-                    </Grid>
++                    <FormItem label="作者简介" disabled={saving} status={errors.authorIntroduction ? "error" : "default"} message={errors.authorIntroduction}><Textarea name="authorIntroduction" value={draft.authorIntroduction} onValueChange={value => change("authorIntroduction", value)} rows={4} maxLength={1000} /></FormItem>
++                    <FormItem label="本书特色" disabled={saving} status={errors.features ? "error" : "default"} message={errors.features}><Textarea name="features" value={draft.features} onValueChange={value => change("features", value)} rows={4} maxLength={1000} /></FormItem>
++                    <FormItem label="目录内容" disabled={saving} help="按章节分行填写，最多 4000 个字符。" status={errors.contents ? "error" : "default"} message={errors.contents}><Textarea name="contents" value={draft.contents} onValueChange={value => change("contents", value)} rows={6} maxLength={4000} /></FormItem>
+                   </Stack></section>
+-                  <section aria-labelledby={`${formId}-contents`}><h3 id={`${formId}-contents`}>目录</h3>
+-                    <FormItem label="目录内容" disabled={saving} help="按章节分行填写，最多 4000 个字符。" status={errors.contents ? "error" : "default"} message={errors.contents}><Textarea name="contents" value={draft.contents} onValueChange={value => change("contents", value)} rows={6} maxLength={4000} /></FormItem>
+-                  </section>
+                   <section aria-labelledby={`${formId}-files`}><h3 id={`${formId}-files`}>教材内容 / 附件</h3><Stack gap={12}>
+                     <p id={`${formId}-upload-help`}>支持 PDF、PNG、JPEG，最多 10 个，每个不超过 20 MB。本演示仅模拟上传，不传输文件内容。</p>
+                     <Button ref={uploadButtonRef} variant="secondary" className="self-start" disabled={saving} onClick={() => fileRef.current?.click()}

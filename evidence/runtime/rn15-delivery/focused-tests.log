@@ -1,0 +1,56 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/dialog-v2.test.ts (3 tests | 1 failed) 78ms
+   × retains independently obtained upstream contents and the protected pre-batch UI 12ms
+ ❯ scripts/verify-tailwind-b2.test.ts (178 tests | 1 failed) 116933ms
+     × keeps the original B2 bridge and manifest inventory valid without Token Foundations V1 additions 434ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/dialog-v2.test.ts > retains independently obtained upstream contents and the protected pre-batch UI
+AssertionError: packages/ui/src/button/assets/button-loading.png: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ scripts/dialog-v2.test.ts:57:95
+     55|   const transitions = JSON.parse(read("evidence/runtime/rn15-delivery/…
+     56|   for (const [path, checksum] of Object.entries(baseline.protectedSha2…
+     57|     expect(matchesRn15ProtectedSource(path, readFileSync(fileURLToPath…
+       |                                                                                               ^
+     58|   }
+     59| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > keeps the original B2 bridge and manifest inventory valid without Token Foundations V1 additions
+AssertionError: expected [ …(6) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "Tailwind B2 CSS exception empty-presentation test is missing: scripts/table-rn08.test.ts",
++   "Tailwind B2 CSS exception pagination-geometry test is missing: scripts/table-rn08.test.ts",
++   "Tailwind B2 CSS exception pagination-geometry test is missing: tests/e2e/table.spec.ts",
++   "Tailwind B2 CSS exception pagination-forced-colors test is missing: tests/e2e/table.spec.ts",
++   "Tailwind B2 CSS exception table-row-geometry test is missing: tests/e2e/table.spec.ts",
++   "Tailwind B2 CSS exception table-forced-colors test is missing: tests/e2e/table.spec.ts",
++ ]
+
+ ❯ scripts/verify-tailwind-b2.test.ts:2935:71
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 6 passed (8)
+      Tests  2 failed | 445 passed (447)
+   Start at  20:54:37
+   Duration  124.68s (transform 1.16s, setup 725ms, import 2.06s, tests 139.49s, environment 2.60s)
+

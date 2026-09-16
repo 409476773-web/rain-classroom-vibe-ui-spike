@@ -414,3 +414,61 @@ it.each([
 ])("rejects invalid input instead of silently converting or dropping values: %j", (props) => {
   expect(() => render(<Select {...props as SelectProps} aria-label="教学班" />)).toThrow(/Select/);
 });
+
+
+it.each([[false, false], [false, true], [true, false], [true, true]] as const)(
+  "keeps inside labels named and persistent through native activation, selection and clear (multiple=%s, searchable=%s)", async (multiple, searchable) => {
+    const user = userEvent.setup(), opened = vi.fn();
+    render(<FormItem label="教学班" labelPosition="inside" help="选择授课班级" status="error" message="请核对班级" required>
+      {multiple ? <Select multiple searchable={searchable} options={options} onOpenChange={opened} />
+        : <Select searchable={searchable} options={options} onOpenChange={opened} />}
+    </FormItem>);
+    const checkLabel = () => {
+      const labels = screen.getAllByText("教学班", { exact: true });
+      expect(labels).toHaveLength(1);
+      const label = labels[0]!.closest("label")!;
+      expect(root().querySelector('[data-slot="frame"]')).toContainElement(label);
+      expect(label).toHaveAttribute("for", trigger().id);
+      expect(trigger()).toHaveAccessibleName("教学班");
+      expect(trigger()).toHaveAccessibleDescription(/选择授课班级 请核对班级/);
+      expect(trigger()).toHaveAttribute("aria-required", "true");
+      expect(trigger()).toHaveAttribute("aria-invalid", "true");
+      return label;
+    };
+    await user.click(checkLabel());
+    await waitFor(() => expect(trigger()).toHaveAttribute("aria-expanded", "true"));
+    expect(opened).toHaveBeenCalledExactlyOnceWith(true);
+    if (searchable) {
+      await waitFor(() => expect(screen.getByLabelText("搜索选项")).toHaveFocus());
+      expect(screen.getByLabelText("搜索选项")).not.toBeRequired();
+      expect(screen.getByLabelText("搜索选项")).not.toHaveAttribute("aria-invalid");
+    } else await waitFor(() => expect(screen.getByRole("listbox").closest('[data-rain-id="ui-select-popup"]')!.contains(document.activeElement)).toBe(true));
+    await user.click(screen.getByRole("option", { name: "视传 2401" }));
+    checkLabel();
+    if (multiple) await user.keyboard("{Escape}");
+    await user.click(within(root()).getByRole("button", { name: "清除教学班" }));
+    expect(trigger()).toHaveTextContent("请选择");
+    expect(trigger()).toHaveFocus();
+    checkLabel();
+  },
+);
+
+it.each(["readOnly", "disabled"] as const)("preserves inside-label permissions and switching to top (%s)", async (permission) => {
+  const user = userEvent.setup(), changed = vi.fn(), opened = vi.fn();
+  const show = (labelPosition: "top" | "inside") => <FormItem label="教学班" labelPosition={labelPosition} disabled={permission === "disabled"}>
+    <Select multiple options={options} display="count" defaultValue={["a", "b"]} readOnly={permission === "readOnly"} onValueChange={changed} onOpenChange={opened} />
+  </FormItem>;
+  const { rerender } = render(show("inside"));
+  await user.click(screen.getByText("教学班", { exact: true }));
+  expect(trigger()).toHaveAttribute("aria-expanded", "false");
+  expect(trigger()).toHaveTextContent("已选 2 项");
+  expect(within(root()).queryByRole("button", { name: "清除教学班" })).not.toBeInTheDocument();
+  expect(changed).not.toHaveBeenCalled();
+  expect(opened).not.toHaveBeenCalled();
+  if (permission === "disabled") expect(trigger()).toBeDisabled();
+  else expect(trigger()).toHaveFocus();
+  rerender(show("top"));
+  expect(screen.getAllByText("教学班", { exact: true })).toHaveLength(1);
+  expect(root().contains(screen.getByText("教学班", { exact: true }))).toBe(false);
+  expect(trigger()).toHaveAccessibleName("教学班");
+});

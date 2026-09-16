@@ -1,0 +1,24 @@
+--- vd-1/apps/prototype/src/card-recipes.tsx
++++ vd-2/apps/prototype/src/card-recipes.tsx
+@@ -6,10 +6,10 @@
+ import "./card-recipes.css";
+ 
+ export const courseCardDefaultLayout: "stacked" | "side" = "side";
+-export const courseCardDefaultSize: CardSize = "default";
++export const courseCardDefaultSize: CardSize = "sm";
+ const courseCardRecipe: CardLocalRecipe = defineRainLocalRecipe({
+   id: "card-course-media", scope: "feature", origin: "ui-card",
+-  classes: { root: "py-rain-0 gap-rain-0" }, modifiedParts: ["root"],
++  classes: { root: "py-rain-0 gap-rain-0", title: "text-rain-size-15 leading-rain-22", description: "text-rain-size-12 leading-rain-20", footer: "justify-end" }, modifiedParts: ["root", "title", "description", "footer"],
+   candidateTokens: [], promotionStatus: "not-proposed",
+ });
+ const reportRecipe: CardLocalRecipe = defineRainLocalRecipe({
+@@ -56,7 +56,7 @@
+           <div className="course-card-body">
+             {showHeader && <CardHeader><CardTitle as="h2">{longContent ? courseData.title + "：从真实课堂案例到完整数据分析方法与应用" : courseData.title}</CardTitle><CardDescription>{courseData.description}</CardDescription></CardHeader>}
+             <CardContent className="flex flex-wrap items-center gap-rain-8"><Tag color="brand" size={20}>专业基础</Tag><span>{courseData.units} 个单元 · {courseData.files} 份资料</span></CardContent>
+-            {showFooter && <CardFooter><Button size="small" variant="secondary" onClick={() => setAction("已查看统计学基础课程（演示）")}>查看课程</Button><span>本学期教学资料</span></CardFooter>}
++            {showFooter && <CardFooter><Button size="mini" variant="tertiary" className="order-1" onClick={() => setAction("已查看统计学基础课程（演示）")}>查看课程</Button><span>本学期教学资料</span></CardFooter>}
+           </div>
+         </div>
+       </Card>

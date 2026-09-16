@@ -1,0 +1,4 @@
+你执行 RN-14 的 BM-B 第0轮：从当前复制的教材场景复用生成本地样本。这是实际AI编辑测评，非从零生成、非盲测。目录 /tmp/rain-next-rn14-20260915-1817 已有完整独立依赖；BM-A已完成并冻结。
+在 apps/prototype/src/scenarios/bm-b/page.tsx 的现有教材Card之前新增简短课程上下文“教材共建 · 第三周”，说明为虚构教学示例，使用现有Stack/Inline/Rain排版。原生header加 data-rain-id="local-rn14-bm-b-context"，保证上下文与Card有既有Rain间距。保留所有现有文案、表单字段、保存、上传、错误、重试、焦点与最新AlertDialog脏草稿确认行为。此轮只能新增上下文，不重组表单。
+本轮只可改上述page.tsx和同目录state-contract.md：复制来的合同仍写取消直接丢弃，与最新实现已有脏草稿确认不一致；仅据实际代码修正相关合同条目，注明本地副本跟随当前实现、原仓库不变。state.ts/page.css/共享packages/根配置/BM-A/资料表配方以及原仓库全部只读。
+只读这份prompt、source-lock.json的来源字段、本场景page.tsx/page.css/state.ts/state-contract.md和必要实际UI/Layout API源码；不要读取memory/任务历史，不安装依赖、不写Git、不联网或向外发消息。模型精确ID/token不可见写not-measured。记录实际读取文件、实际命令退出码与UTC起止，写 /tmp/rn14-b0-agent.json。运行 pnpm --filter @rain-next/prototype typecheck，日志 /tmp/rn14-b0-typecheck.log。自检后汇报，等待后续指令，不提前执行结构修改。主代理负责构建和浏览器验证。

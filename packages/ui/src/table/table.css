@@ -1,0 +1,10 @@
+/* @rain-css-exception table-row-geometry: user-specified cell heights are minima; multiline content remains free to grow. */
+.rain-table > * > tr > [data-slot="head"] { height: 44px; }
+.rain-table > * > tr > [data-slot="cell"] { height: 50px; }
+.rain-table[data-density="compact"] > * > tr > [data-slot="head"] { height: 32px; }
+.rain-table[data-density="compact"] > * > tr > [data-slot="cell"] { height: 44px; }
+
+/* @rain-css-exception table-forced-colors: preserve selected-row boundaries when backgrounds are suppressed. */
+@media (forced-colors: active) {
+  .rain-table [data-slot="row"][data-state="selected"] { outline: var(--rain-line-thickness-1) solid Highlight; outline-offset: calc(-1 * var(--rain-line-thickness-1)); }
+}

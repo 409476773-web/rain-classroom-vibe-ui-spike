@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/prototype/src/scenarios/bm-c/state.test.tsx (5 tests | 1 failed | 4 skipped) 167ms
+   × keeps search focus while typing changes the selected answer 167ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/prototype/src/scenarios/bm-c/state.test.tsx > keeps search focus while typing changes the selected answer
+Error: expect(element).toHaveValue(第 2 题)
+
+Expected the element to have value:
+  第 2 题
+Received:
+  第 2
+ ❯ apps/prototype/src/scenarios/bm-c/state.test.tsx:74:18
+     72|   const search = screen.getByRole("textbox", { name: "查找批改对象" });
+     73|   await user.type(search, "第 2 题");
+     74|   expect(search).toHaveValue("第 2 题");
+       |                  ^
+     75|   expect(search).toHaveFocus();
+     76|   expect(screen.getByRole("heading", { name: "示例学生 01 · 第 2 题" })).toB…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 skipped (5)
+   Start at  22:39:20
+   Duration  1.31s (transform 313ms, setup 94ms, import 600ms, tests 167ms, environment 359ms)
+

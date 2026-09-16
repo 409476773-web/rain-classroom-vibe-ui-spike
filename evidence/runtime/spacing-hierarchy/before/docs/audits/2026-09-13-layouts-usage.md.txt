@@ -1,0 +1,101 @@
+# RN-06 最小布局用法
+
+日期：2026-09-13。`@rain-next/layouts` 已有候选实现，未发布，Human Gate 待确认。它只管理空间和区域，依赖现有 React / Foundations；不提供背景、边框、圆角、字体、控件密度或业务状态。依据：[ADR 0009](../adr/0009-minimal-layouts.md)、[组合规则](2026-09-13-composition-layout-rules.md)、[实际 API](../../packages/layouts/src/layout.tsx)。
+
+## 后续间距设计已确认
+
+全库共享 **边缘留白 ≥ 分区间距 ≥ 分区内信息间距**；同一容器、同一方向分别比较，具体数值可自由选取现有 Rain Space，允许相等。页面、卡片、面板各有可调整的默认配方，不按组件嵌套深度自动递减。完整规则见[组合规则第 2.1 节](2026-09-13-composition-layout-rules.md#21-已确认自由选值的三级间距关系)，执行准备见[设计与后续步骤](../plans/2026-09-13-spacing-hierarchy-design.md)。
+
+以下 API、代码片段及浏览器结果描述 RN-06 当前实现。层级关系尚无自动校验，运行示例也尚未完成新规则下的协调；例如默认 Card 内距20而正文分组间距24、Pane 内距16而内部组间距20。旧22项生产检查不代表新关系通过，使用这些示例时须区分实现现状和后续目标。
+
+## 入口与扫描
+
+在已有应用入口消费：
+
+```tsx
+import { Stack, Inline, Grid, Split } from "@rain-next/layouts";
+import "@rain-next/layouts/styles.css";
+```
+
+保留应用已有的 Rain Tokens、Typography、Focus、UI 样式和唯一 Tailwind 入口。Layout CSS 只包含必要的 Grid / Split 几何；其结构和 gap utility 仍须由应用 Tailwind 编译，单独加载 Layout CSS 不足以完成接入。
+
+当前两个应用在各自 `src/styles.css` 中明确扫描 `@source "../../../packages/layouts/src/layout.tsx";`。Prototype 已扫描自身源码；Playground 另明确扫描 `./docs/components/layouts-page.tsx` 和 `../../prototype/src/layout-recipes.tsx`。路径相对 CSS 文件，参考[Prototype 入口](../../apps/prototype/src/styles.css)与[Playground 入口](../../apps/playground/src/styles.css)。不扫描整个仓库、依赖目录、测试或证据快照，也不增设第二个 Tailwind / Token 桥。
+
+## 实际 API
+
+所有根节点和 Split Parts 都透传原生 `div` 属性、`ref`、`className`、`style`；没有 `as`、Toggle 包装或通用 Pane 配置。
+
+| 对象 | 参数与默认 |
+| --- | --- |
+| `Stack` | `gap=0`；`align="stretch"`，可选 start / center / end / stretch；`justify="start"`，可选 start / center / end / between |
+| `Inline` | `gap=0`；`align="center"`，另支持 start / end / stretch / baseline；`justify` 同 Stack；`wrap=true` |
+| `Grid` | `columns=1`，仅 1 / 2 / 3 / 4；`gap=0`；可选 `minColumnWidth` |
+| `Split.Root` | 必填 `collapsed`、`sidebarWidth`、`minMainWidth`、`sidebarId`、`collapseFocusRef`；`gap=0` |
+| `Split.Main` / `Split.Sidebar` | `scroll="none"`，可选 auto；必须在 Root 中作为两个直接区域使用 |
+
+`gap` 使用全部 16 个已有 Space 键：`0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40`。源码静态映射到 `gap-rain-*`，没有动态生成 Tailwind 类；不接受其他 gap 值。
+
+`minColumnWidth`、`sidebarWidth`、`minMainWidth` 均为有限正数，单位 px；不是新的 Foundation 刻度。Grid 不传最小列宽时保持指定列数；传入后根据自身可用宽度自适应，实际列数不超过 `columns`。容器比最小列宽还窄时收成一列并服从可用宽度；不使用全局视口断点。
+
+Props 拥有 gap、列数和分区宽度。宿主可用 `className` 补充其他局部布局，但不要再叠加冲突 gap 类或覆盖 `--rain-layout-*` 内部几何变量；改变这些关系应使用对应 Props。DensityProvider 继续由外层提供，显式控件 Size 保留其完整方案。
+
+## 样例一：字段组与完整动作组
+
+```tsx
+<Stack gap={24}>
+  <Grid columns={2} minColumnWidth={260} gap={20} className="items-start">
+    <FormItem label="课程名称"><Input defaultValue="设计方法与实践" /></FormItem>
+    <FormItem label="主要教学方式" help="按本学期主要活动选择；说明可自然换行。">
+      <Select defaultValue="seminar" options={modes} clearable={false} />
+    </FormItem>
+  </Grid>
+  <Inline gap={12} justify="between">
+    <p>修改仅保留在本页。</p>
+    <Inline gap={8} wrap={false}>
+      <Button size="small" variant="tertiary">重置</Button>
+      <Button size="small" variant="primary">保存设置</Button>
+    </Inline>
+  </Inline>
+</Stack>
+```
+
+FormItem、Input、Select、Button 均来自现有 `@rain-next/ui`。不同帮助 / 错误高度的字段需要宿主 `items-start`，避免 Grid 默认 stretch 拉高短字段，继而扩大字段内部行间空白。原语默认 stretch 保留给等高 Card 等组合；不改 FormItem 内部 gap。操作区外层允许换行，内层 `wrap={false}` 保持两个动作在同一组。
+
+## 样例二：受控收起与草稿保留
+
+```tsx
+function Details() {
+  const [collapsed, setCollapsed] = useState(false);
+  const [popupOpen, setPopupOpen] = useState(false);
+  const toggle = useRef<HTMLButtonElement>(null);
+  const sidebarId = useId();
+  function collapse() { setPopupOpen(false); setCollapsed(true); }
+  return <>
+    <Button ref={toggle} aria-controls={sidebarId} aria-expanded={!collapsed}
+      onClick={() => collapsed ? setCollapsed(false) : collapse()}>资料详情</Button>
+    <Split.Root collapsed={collapsed} sidebarWidth={320} minMainWidth={320}
+      sidebarId={sidebarId} collapseFocusRef={toggle} gap={24}
+      className="layout-example-workbench">
+      <Split.Main scroll="auto" role="region" aria-label="资料列表" tabIndex={0} data-focus="item">列表内容</Split.Main>
+      <Split.Sidebar scroll="auto" role="region" aria-label="资料详情" tabIndex={0} data-focus="item">
+        <Input aria-label="草稿标题" defaultValue="尚未保存的标题" />
+        <FormItem label="教学方式">
+          <Select open={popupOpen} onOpenChange={setPopupOpen}
+            defaultValue="seminar" options={modes} clearable={false} />
+        </FormItem>
+        <Button onClick={collapse}>收起当前详情</Button>
+      </Split.Sidebar>
+    </Split.Root>
+  </>;
+}
+```
+
+本例的 Hooks 来自 React，`modes` 和 `.layout-example-workbench` 沿用[可运行样例](../../apps/prototype/src/layout-recipes.tsx)及[局部样式](../../apps/prototype/src/layout-recipes.css)。实际样例由宿主给出 560px 有界高度；这是该工作区几何，不是全局高度默认。`scroll="auto"` 只有在父布局高度受到约束时才形成独立滚动，默认 none 保持内容自然流动。
+
+Root 按实际容器内容宽度与“侧宽 + 主区最小宽 + gap”比较，空间不足则按 DOM 顺序上下堆叠。Sidebar 收起时保留挂载并设置 hidden / inert，不卸载内容，草稿因此保留；它不是跨页面持久化。只有收起侧区内的焦点时才返回 `collapseFocusRef`，不抢无关焦点。该引用必须指向侧区外仍可见的控制，宿主同时维护 `aria-expanded` / `aria-controls` 和唯一 `sidebarId`。
+
+Portal 不受祖先 hidden 控制：宿主必须先关闭侧区内受控 Select / Dialog 等浮层，再收起。Split 不遍历或接管业务浮层状态；上例显式关闭 `popupOpen`。真实区域是否需要可聚焦的滚动入口、`role`、名称和 Focus 样式，由宿主按内容补齐，完整样例已提供。
+
+## 当前验证边界
+
+生产浏览器 [22 项通过](../../evidence/runtime/layouts-v1/logs/production.log)（Layout 7 + Dialog 9 + Card 6），覆盖本地设置、查询与主从样例；[独立技术复核](../../evidence/runtime/layouts-v1/independent-review/review.md)在记录范围内无未修复的新增P1/P2。它们不代表完整 BM-A / BM-B / BM-C、人工视觉接受、对比度接受或生产采用。拖动调宽、布局持久化、多 Pane 协调和独立导航 Sidebar 均不在 RN-06 范围。

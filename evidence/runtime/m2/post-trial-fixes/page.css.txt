@@ -1,0 +1,47 @@
+/* bm-c-grading-workbench: local viewport/scroll recipe; Split owns geometry only. */
+.bm-c { display: flex; flex-direction: column; height: 100dvh; min-height: 640px; padding: var(--rain-space-16); gap: var(--rain-space-16); color: var(--rain-category-text-neutral-1); background: var(--rain-category-background-neutral-3); font-family: var(--rain-font-ui); font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-22); }
+.bm-c h1, .bm-c h2, .bm-c h3, .bm-c p { margin: 0; }
+.bm-c h1 { font-size: var(--rain-font-size-18); line-height: var(--rain-line-height-26); font-weight: var(--rain-font-weight-semibold); }
+.bm-c h2 { font-size: var(--rain-font-size-16); line-height: var(--rain-line-height-24); font-weight: var(--rain-font-weight-semibold); }
+.bm-c h3 { font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-24); font-weight: var(--rain-font-weight-semibold); }
+.bm-c a { color: var(--rain-category-text-brand-1); text-decoration: none; }
+.bm-c-taskbar, .bm-c-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--rain-space-16); }
+.bm-c-taskbar { padding: var(--rain-space-4) var(--rain-space-8); }
+.bm-c-taskbar p, .bm-c-muted, .bm-c-footnote { color: var(--rain-category-text-neutral-3); }
+.bm-c-workspace { flex: 1; }
+.bm-c-context, .bm-c-answer, .bm-c-inspector { border: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-8); background: var(--rain-category-background-neutral-1); }
+.bm-c-context { padding: var(--rain-space-16); display: flex; flex-direction: column; }
+.bm-c-directory-layout { flex: 1; min-height: 0; }
+.bm-c-directory-layout > div { flex: none; }
+.bm-c-context nav { flex: 1; min-height: 0; overflow: auto; }
+.bm-c-center, .bm-c-detail, .bm-c-grade-form { height: 100%; min-height: 0; }
+.bm-c-answer { padding: var(--rain-space-24); }
+.bm-c-answer header h2 { margin-top: var(--rain-space-8); font-size: var(--rain-font-size-20); line-height: var(--rain-line-height-28); }
+.bm-c-answer section > p, .bm-c-reference p { margin-top: var(--rain-space-16); }
+.bm-c-answer-text { padding: var(--rain-space-20); border-radius: var(--rain-radius-8); background: var(--rain-category-background-neutral-2); }
+.bm-c summary { cursor: pointer; padding-block: var(--rain-space-8); font-weight: var(--rain-font-weight-semibold); }
+.bm-c-context ul { list-style: none; padding: 0; margin: 0 0 var(--rain-space-12); }
+.bm-c-context li button { display: flex; flex-direction: column; align-items: start; text-align: left; width: 100%; padding: var(--rain-space-8) var(--rain-space-12); gap: var(--rain-space-2); border: 0; border-radius: var(--rain-radius-6); background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.bm-c-context li button:hover { background: var(--rain-category-background-neutral-2); }
+.bm-c-context li button[aria-current="true"] { background: var(--rain-category-fill-brand-solid-4); color: var(--rain-category-text-brand-1); }
+.bm-c-context li button:disabled { cursor: wait; }
+.bm-c-context small { font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); }
+.bm-c-grade-form { display: flex; flex-direction: column; }
+.bm-c-grade-body { flex: 1; min-height: 0; overflow: auto; padding: var(--rain-space-20); }
+.bm-c-grade-footer { padding: var(--rain-space-16) var(--rain-space-20); border-top: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+.bm-c-grade-footer p, .bm-c-footnote { font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); }
+.bm-c-error { color: var(--rain-category-text-red-1); }
+.bm-c-footnote { text-align: center; }
+@media (max-width: 1050px) {
+  .bm-c { height: auto; min-height: 100dvh; }
+  .bm-c-workspace, .bm-c-detail, .bm-c-center, .bm-c-grade-form { height: auto; }
+  .bm-c-workspace, .bm-c-workspace > div, .bm-c-detail > div, .bm-c-grade-body { flex: 0 0 auto; }
+  .bm-c-workspace > .bm-c-context { max-height: 300px; }
+  .bm-c-detail > .bm-c-answer { min-height: 480px; max-height: 700px; }
+  .bm-c-grade-body { overflow: visible; }
+}
+@media (max-width: 640px) {
+  .bm-c { padding: var(--rain-space-12); }
+  .bm-c-answer { padding: var(--rain-space-20); }
+  .bm-c-answer-text { padding: var(--rain-space-16); }
+}

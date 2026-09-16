@@ -1,0 +1,103 @@
+--- c0/state.test.tsx
++++ c1/state.test.tsx
+@@ -56,3 +56,13 @@
+   await user.click(screen.getByRole("button", { name: "保存" }));
+   view.unmount(); expect(signal.aborted).toBe(true);
+ });
++
++it("opens a new parent at its first pending answer and restores a previously visited parent", async () => {
++  const user = userEvent.setup(); render(<GradingWorkbenchScenario />);
++  await user.click(screen.getByRole("button", { name: "选择 示例学生 04 第 1 题" }));
++  await user.click(screen.getByText("第 2 题 · 能量转化", { selector: "summary" }));
++  expect(screen.getByRole("heading", { name: "示例学生 01 · 第 2 题" })).toBeInTheDocument();
++  await user.click(screen.getByRole("button", { name: "选择 示例学生 05 第 2 题" }));
++  await user.click(screen.getByText("第 1 题 · 运动与受力", { selector: "summary" }));
++  expect(screen.getByRole("heading", { name: "示例学生 04 · 第 1 题" })).toBeInTheDocument();
++});
+--- c0/page.css
++++ c1/page.css
+@@ -11,7 +11,10 @@
+ .bm-c progress { width: 100px; height: var(--rain-space-8); accent-color: var(--rain-color-action-primary); }
+ .bm-c-workspace { flex: 1; }
+ .bm-c-context, .bm-c-answer, .bm-c-inspector { border: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-8); background: var(--rain-category-background-neutral-1); }
+-.bm-c-context { padding: var(--rain-space-16); }
++.bm-c-context { padding: var(--rain-space-16); display: flex; flex-direction: column; }
++.bm-c-directory-layout { flex: 1; min-height: 0; }
++.bm-c-directory-layout > div { flex: none; }
++.bm-c-context nav { flex: 1; min-height: 0; overflow: auto; }
+ .bm-c-center, .bm-c-detail, .bm-c-grade-form { height: 100%; min-height: 0; }
+ .bm-c-answer { padding: var(--rain-space-24); }
+ .bm-c-answer header h2 { margin-top: var(--rain-space-8); font-size: var(--rain-font-size-20); line-height: var(--rain-line-height-28); }
+--- c0/page.tsx
++++ c1/page.tsx
+@@ -10,6 +10,7 @@
+   const [paper, setPaper] = useState<Paper>("A"), [order, setOrder] = useState<Order>("question");
+   const [filter, setFilter] = useState<AnswerFilter>("all"), [query, setQuery] = useState("");
+   const [selected, setSelected] = useState<string | null>(answers[0]!.id), [grades, setGrades] = useState(initialGrades);
++  const [expandedGroup, setExpandedGroup] = useState("A-question-1"), positions = useRef<Record<string, string>>({});
+   const [drafts, setDrafts] = useState<Record<string, Draft>>({}), [saving, setSaving] = useState(false);
+   const [error, setError] = useState(""), [invalidScore, setInvalidScore] = useState(""), [notice, setNotice] = useState("");
+   const [leftClosed, setLeftClosed] = useState(false), [rightClosed, setRightClosed] = useState(false), [wide, setWide] = useState(false);
+@@ -25,10 +26,12 @@
+   const unit = order === "question" ? "位" : "题";
+   const groups = [...new Set(visible.map(answer => order === "question" ? `第 ${answer.question} 题 · ${answer.title}` : answer.student))];
+   const groupLabel = (answer: Answer) => order === "question" ? `第 ${answer.question} 题 · ${answer.title}` : answer.student;
++  const groupId = (answer: Answer, traversal = order) => `${answer.paper}-${traversal}-${traversal === "question" ? answer.question : answer.student}`;
+   const dirty = current && (draft.score !== (grades[current.id]?.score.toString() ?? "") || draft.comment !== (grades[current.id]?.comment ?? ""));
+   const gradedCount = answers.filter(answer => answer.paper === paper && Object.hasOwn(grades, answer.id)).length;
+ 
+   useEffect(() => () => requestRef.current?.abort(), []);
++  useEffect(() => { if (current) positions.current[groupId(current)] = current.id; }, [selected, order]);
+   useEffect(() => { if (error) errorRef.current?.focus(); }, [error]);
+   useEffect(() => {
+     if (previousSelection.current !== selected) headingRef.current?.focus({ preventScroll: true });
+@@ -36,6 +39,7 @@
+   }, [selected]);
+   function choose(answer: Answer | undefined) {
+     if (requestRef.current) return;
++    if (answer) setExpandedGroup(groupId(answer));
+     setSelected(answer?.id ?? null); setError(""); setInvalidScore(""); setNotice("");
+   }
+   function changeScope(nextPaper: Paper, nextFilter: AnswerFilter, nextQuery: string) {
+@@ -78,7 +82,7 @@
+     <div className="bm-c-toolbar" data-slot="toolbar">
+       <Inline gap={16}>
+         <Inline gap={4} aria-label="试卷">{(["A", "B"] as const).map(value => <Button key={value} variant={paper === value ? "secondary" : "tertiary"} aria-pressed={paper === value} disabled={saving} onClick={() => changeScope(value, filter, query)}>{value} 卷</Button>)}</Inline>
+-        <Inline gap={4} aria-label="批改顺序">{(["question", "student"] as const).map(value => <Button key={value} variant={order === value ? "secondary" : "tertiary"} aria-pressed={order === value} disabled={saving} onClick={() => setOrder(value)}>{value === "question" ? "按题批改" : "按人批改"}</Button>)}</Inline>
++        <Inline gap={4} aria-label="批改顺序">{(["question", "student"] as const).map(value => <Button key={value} variant={order === value ? "secondary" : "tertiary"} aria-pressed={order === value} disabled={saving} onClick={() => { setOrder(value); if (current) setExpandedGroup(groupId(current, value)); }}>{value === "question" ? "按题批改" : "按人批改"}</Button>)}</Inline>
+       </Inline>
+       <Inline gap={8}>
+         <Button ref={leftToggle} variant="tertiary" aria-controls="bm-c-context" aria-expanded={!leftClosed} onClick={() => setLeftClosed(!leftClosed)}>{leftClosed ? "展开目录" : "收起目录"}</Button>
+@@ -87,18 +91,26 @@
+       </Inline>
+     </div>
+     <Split.Root className="bm-c-workspace" collapsed={leftClosed} sidebarWidth={240} minMainWidth={680} sidebarId="bm-c-context" collapseFocusRef={leftToggle} gap={12}>
+-      <Split.Sidebar className="bm-c-context" scroll="auto" role="region" aria-label="批改目录">
+-        <DensityProvider density="compact"><Stack gap={16}>
++      <Split.Sidebar className="bm-c-context" role="region" aria-label="批改目录">
++        <DensityProvider density="compact"><Stack gap={16} className="bm-c-directory-layout">
++          <Stack gap={16}>
+           <Inline justify="between"><h2>批改目录</h2><Button variant="tertiary" onClick={() => setLeftClosed(true)}>收起目录</Button></Inline>
+           <FormItem label="查找批改对象" disabled={saving}><Input value={query} onValueChange={value => changeScope(paper, filter, value)} placeholder="学生或题目" /></FormItem>
+           <FormItem label="目录状态" disabled={saving}><Select value={filter} onValueChange={value => { if (["all", "pending", "graded", "unanswered"].includes(String(value))) changeScope(paper, value as AnswerFilter, query); }} options={[{ value: "all", label: "全部作答" }, { value: "pending", label: "待批改" }, { value: "graded", label: "已批改" }, { value: "unanswered", label: "未作答" }]} /></FormItem>
+           <p className="bm-c-muted">当前目录 {visible.length} 份作答</p>
+-          <nav aria-label="分层批改目录">{groups.map(group => <details key={`${paper}-${order}-${group}`} open={current && groupLabel(current) === group}>
+-            <summary data-focus="item">{group}</summary>
+-            <ul>{visible.filter(answer => groupLabel(answer) === group).map(answer => <li key={answer.id}><button type="button" data-focus="item" aria-current={answer.id === selected ? "true" : undefined} disabled={saving} onClick={() => choose(answer)} aria-label={`选择 ${answer.student} 第 ${answer.question} 题`}>
++          </Stack>
++          <nav aria-label="分层批改目录">{groups.map(group => {
++            const children = visible.filter(answer => groupLabel(answer) === group), id = groupId(children[0]!);
++            return <details key={id} open={expandedGroup === id}>
++            <summary data-focus="item" aria-disabled={saving} onClick={event => {
++              event.preventDefault(); if (requestRef.current) return;
++              if (expandedGroup === id) { setExpandedGroup(""); return; }
++              choose(children.find(answer => answer.id === positions.current[id]) ?? children.find(answer => answer.text && !Object.hasOwn(grades, answer.id)) ?? children[0]);
++            }}>{group}</summary>
++            <ul>{children.map(answer => <li key={answer.id}><button type="button" data-focus="item" aria-current={answer.id === selected ? "true" : undefined} disabled={saving} onClick={() => choose(answer)} aria-label={`选择 ${answer.student} 第 ${answer.question} 题`}>
+               <span>{order === "question" ? answer.student : `第 ${answer.question} 题 · ${answer.title}`}</span><small>{Object.hasOwn(grades, answer.id) ? `${grades[answer.id]!.score} 分` : answer.text ? "待批改" : "未作答"}{drafts[answer.id] && !grades[answer.id] ? " · 草稿" : ""}</small>
+             </button></li>)}</ul>
+-          </details>)}</nav>
++          </details>; })}</nav>
+         </Stack></DensityProvider>
+       </Split.Sidebar>
+       <Split.Main className="bm-c-center">

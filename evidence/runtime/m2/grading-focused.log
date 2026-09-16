@@ -1,0 +1,166 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/prototype/src/scenarios/bm-c/state.test.tsx (3 tests | 3 failed) 201ms
+   × keeps paper and parent boundaries, distinguishes zero scores and filters answer records 4ms
+   × preserves drafts, blocks duplicate saves and navigation, stays on failure and advances only after retry 151ms
+   × aborts an unfinished save on unmount 45ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/prototype/src/scenarios/bm-c/state.test.tsx > keeps paper and parent boundaries, distinguishes zero scores and filters answer records
+AssertionError: expected [] to have a length of 18 but got +0
+
+- Expected
++ Received
+
+- 18
++ 0
+
+ ❯ apps/prototype/src/scenarios/bm-c/state.test.tsx:9:19
+      7| it("keeps paper and parent boundaries, distinguishes zero scores and f…
+      8|   const current = answers[0]!, visible = filterAnswers("A", "all", "",…
+      9|   expect(visible).toHaveLength(18);
+       |                   ^
+     10|   expect(groupSequence(current, "question", visible).map(answer => ans…
+     11|   expect(groupSequence(current, "student", visible).map(answer => answ…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  apps/prototype/src/scenarios/bm-c/state.test.tsx > preserves drafts, blocks duplicate saves and navigation, stays on failure and advances only after retry
+Error: expect(element).toHaveFocus()
+
+Expected element with focus:
+  <input
+  aria-describedby="rain-field-_r_8_-message"
+  aria-labelledby="rain-field-_r_8_-label"
+  class="rain-input__control min-w-0 w-full flex-1 border-none bg-transparent p-rain-0 text-inherit outline-none placeholder:text-rain-category-text-neutral-5 disabled:cursor-not-allowed disabled:placeholder:text-rain-category-text-neutral-6"
+  data-slot="control"
+  disabled=""
+  id="rain-field-_r_8_"
+  inputmode="decimal"
+  placeholder="请输入分数"
+  required=""
+  type="text"
+  value=""
+/>
+Received element with focus:
+  <body>
+  <div>
+    <main
+      class="bm-c"
+      data-asset-identity="local-experiment"
+      data-rain-id="scenario-bm-c"
+      data-rain-theme="light"
+    >
+      <header
+        class="bm-c-taskbar"
+        data-slot="taskbar"
+      >
+        <div
+          class="flex min-w-0 flex-wrap gap-rain-16 items-center justify-start"
+          data-rain-id="layout-inline"
+          data-slot="root"
+          data-wrap="true"
+        >
+          <a … />
+          <span … />
+          <div … />
+        </div>
+        <div
+          class="flex min-w-0 flex-wrap gap-rain-12 items-center justify-start"
+          data-rain-id="layout-inline"
+          data-slot="root"
+          data-wrap="true"
+        >
+          <span … />
+          <progress … />
+          <button … />
+        </div>
+      </header>
+      <div
+        class="bm-c-toolbar"
+        data-slot="toolbar"
+      >
+        <div
+          class="flex min-w-0 flex-wrap gap-rain-16 items-center justify-start"
+          data-rain-id="layout-inline"
+          data-slot="root"
+          data-wrap="true"
+        >
+          <div … />
+          <div … />
+        </div>
+        <div
+          class="flex min-w-0 flex-wrap gap-rain-8 items-center justify-start"
+          data-rain-id="layout-inline"
+          data-slot="root"
+          data-wrap="true"
+        >
+          <button … />
+          <button … />
+          <label … />
+        </div>
+      </div>
+      <div
+        class="rain-split flex min-w-0 min-h-0 gap-rain-12 bm-c-workspace"
+        data-collapsed="false"
+        data-rain-id="layout-split"
+        data-slot="root"
+        data-stacked="true"
+        style="--rain-layout-gap: 12px; --rain-layout-sidebar-width: 240px; --rain-layout-main-min-width: 680px;"
+      >
+        <div
+          aria-label="批改目录"
+          class="rain-split-sidebar min-w-0 min-h-0 overflow-auto bm-c-context"
+          data-scroll="auto"
+          data-slot="sidebar"
+          id="bm-c-context"
+          role="region"
+        >
+          <div … />
+        </div>
+        <div
+          class="rain-split-main min-h-0 overflow-visible bm-c-center"
+          data-scroll="none"
+          data-slot="main"
+        >
+          <div … />
+        </div>
+      </div>
+      <p
+        class="bm-c-footnote"
+      >
+        虚构教学示例 · 评分仅保留在当前页面，刷新后恢复。
+      </p>
+    </main>
+  </div>
+</body>
+ ❯ apps/prototype/src/scenarios/bm-c/state.test.tsx:27:57
+     25|   render(<GradingWorkbenchScenario saveTask={() => ++calls === 1 ? fir…
+     26|   await user.click(screen.getByRole("button", { name: "保存并下一位" }));
+     27|   expect(screen.getByRole("textbox", { name: "本题得分" })).toHaveFocus();…
+       |                                                         ^
+     28|   await user.type(screen.getByRole("textbox", { name: "本题得分" }), "8.5"…
+     29|   await user.type(screen.getByRole("textbox", { name: "评语（选填）" }), "注意…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  apps/prototype/src/scenarios/bm-c/state.test.tsx > aborts an unfinished save on unmount
+TypeError: Cannot read properties of undefined (reading 'aborted')
+ ❯ apps/prototype/src/scenarios/bm-c/state.test.tsx:57:33
+     55|   await user.type(screen.getByRole("textbox", { name: "本题得分" }), "0");
+     56|   await user.click(screen.getByRole("button", { name: "保存", exact: tru…
+     57|   view.unmount(); expect(signal.aborted).toBe(true);
+       |                                 ^
+     58| });
+     59|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  22:06:39
+   Duration  1.47s (transform 336ms, setup 99ms, import 713ms, tests 201ms, environment 374ms)
+

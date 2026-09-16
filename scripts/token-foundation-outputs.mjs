@@ -1,3 +1,5 @@
+import { getPaginationColorConsumers } from "./pagination-color-consumers.mjs";
+import { overlayColors, dialogGeometryTokens } from "../packages/foundations/src/overlay-token-contract.ts";
 import { tabsSizeTokens, tabsSizeClassNames, tabsTwoLineSizeTokens, tabsTwoLineSizeClassNames } from "../packages/foundations/src/tabs-token-contract.ts";
 import { inputSizeTokens, inputSizeClassNames, inputClearSizeToken, inputClearSizeClassName } from "../packages/foundations/src/input-token-contract.ts";
 import { selectSizeTokens, selectSizeClassNames, selectValueHeightTokens, selectValueHeightClassNames, selectActionSizeToken, selectTouchTargetSizeToken, selectActionSizeClassName } from "../packages/foundations/src/select-token-contract.ts";
@@ -16,6 +18,12 @@ export function getTokenFoundationOutputs() {
   const linkAlias = { "--rain-link-color": "var(--rain-color-action-primary-text)" };
   const variables = { ...legacyComponentTokenAliases, ...legacyPaintAliases, ...semanticColorAliases, ...semanticColorRoleAliases, ...linkAlias, ...getButtonColorVariables(), ...iconButtonComponentTokenAliases };
   const colorThemes = { light: {}, dark: {} };
+  Object.assign(variables, dialogGeometryTokens);
+  for (const [name, colors] of Object.entries(overlayColors)) {
+    const variable = `--rain-overlay-${name}`;
+    variables[variable] = colorToCss(colors.light);
+    for (const theme of ["light", "dark"]) colorThemes[theme][variable] = colorToCss(colors[theme]);
+  }
   const themeVariables = { ...buttonColorThemeMappings, ...iconButtonMotionThemeMappings };
   const utilities = [];
   const classNames = { line: { border: {}, h: {}, w: {} }, radius: {}, space: {}, iconSize: iconSizeClassNames, iconButtonControlSize: iconButtonControlSizeClassNames, inputSize: inputSizeClassNames, inputClearSize: inputClearSizeClassName, selectSize: selectSizeClassNames, selectValueHeight: selectValueHeightClassNames, selectActionSize: selectActionSizeClassName, tagSize: tagSizeClassNames, tagShape: tagShapeClassNames, tabsSize: tabsSizeClassNames, tabsTwoLineSize: tabsTwoLineSizeClassNames };
@@ -253,12 +261,177 @@ function getIconButtonColorConsumers() {
   return { colorRecipeConsumers, colorCssConsumers };
 }
 
+export function getEmptyColorConsumers() {
+  const definition = { title: "text-rain-category-text-neutral-3", description: "text-rain-category-text-neutral-3" };
+  return [{ filePath: "packages/ui/src/empty/empty.tsx", symbol: "emptyPaints", kind: "static", scope: '[data-rain-id="ui-empty"]',
+    foregroundContent: "text", parentSurfaces: ["Background/Neutral/1", "Background/Neutral/2", "Background/Neutral/3"], definition,
+    recipes: ["title", "description"].map(part => ({ id: `empty-${part}`, state: "ordinary", foreground: {
+      tokenId: "Text/Neutral/3", content: "text", recipeId: `empty-${part}`,
+      evidenceRef: "docs/plans/2026-09-14-empty-refinement.md", context: "component-recipe", role: "text", property: "color",
+      interaction: "non-interactive", critical: true,
+    } })),
+  }];
+}
+
+export function getTableRn08ColorConsumers() {
+  const evidenceRef = "docs/plans/2026-09-14-table-visual-refinement.md";
+  const definition = {
+    root: "bg-rain-category-background-neutral-1 text-rain-category-text-neutral-2",
+    header: "bg-rain-category-background-neutral-2 text-rain-category-text-neutral-4",
+    footer: "bg-rain-category-background-neutral-2 text-rain-category-text-neutral-2",
+    row: "border-rain-category-border-neutral-3 hover:bg-rain-category-fill-neutral-alpha-5 data-[state=selected]:bg-rain-category-fill-brand-alpha-4",
+    caption: "text-rain-category-text-neutral-3",
+  };
+  const use = (tokenId, content, recipeId, selected = false) => ({
+    tokenId, content, recipeId, evidenceRef, context: "component-recipe", role: tokenId.split("/")[0].toLowerCase(),
+    property: /^(Background|Fill)\//.test(tokenId) ? "background-color" : tokenId.startsWith("Border/") ? "border-color" : "color",
+    interaction: "non-interactive", critical: content === "text", ...(selected ? { brandIntent: "selected" } : {}),
+  });
+  const rows = [["root", "ordinary", "Background/Neutral/1"], ["header", "ordinary", "Background/Neutral/2"],
+    ["header-hover", "hover", "Fill/Neutral/Alpha/5", "Background/Neutral/2"], ["footer", "ordinary", "Background/Neutral/2"],
+    ["footer-hover", "hover", "Fill/Neutral/Alpha/5", "Background/Neutral/2"], ["row-hover", "hover", "Fill/Neutral/Alpha/5"], ["row-selected", "selected", "Fill/Brand/Alpha/4"]];
+  return [{ filePath: "packages/ui/src/table/table.styles.ts", symbol: "tablePaints", kind: "static", scope: '[data-rain-id="ui-table"]',
+    foregroundContent: "text", contrastReview: "pending-review", parentSurfaces: ["Background/Neutral/1"], definition,
+    recipes: [...rows.map(([id, state, background, parent]) => ({ id: "table-" + id, state, ...(parent ? { parentSurfaces: [parent] } : {}),
+      foreground: { ...use(id.startsWith("header") ? "Text/Neutral/4" : "Text/Neutral/2", "text", "table-" + id, state === "selected"), ...(id.startsWith("header") ? { interaction: "interactive" } : {}) },
+      background: use(background, "surface", "table-" + id, state === "selected"),
+      boundary: use("Border/Neutral/3", "decorative", "table-" + id, state === "selected"),
+    })), { id: "table-caption", state: "ordinary", foreground: use("Text/Neutral/3", "text", "table-caption") }],
+  }];
+}
+
+export function getMaterialRecipeColorConsumers() {
+  const evidenceRef = "docs/plans/2026-09-14-table-card-parity.md";
+  return [
+    { selector: '.data-table-recipe .material-card[data-selected="true"]', property: "background-color", tokenId: "Fill/Brand/Alpha/4", content: "surface", parents: ["Background/Neutral/1"] },
+    { selector: ".data-table-recipe .data-table-metadata", property: "color", tokenId: "Text/Neutral/4", content: "text", parents: ["Background/Neutral/1", "Fill/Brand/Alpha/4", "Fill/Neutral/Alpha/5"] },
+  ].map(({ selector, property, tokenId, content, parents }) => ({
+    filePath: "apps/prototype/src/data-table-recipe.css", selector, property,
+    value: "var(" + colorTokenOutputs.find(entry => entry.id === tokenId).variable + ")", scope: ".data-table-recipe",
+    parentSurfaces: parents, parentBackgrounds: ["Background/Neutral/1"],
+    use: { tokenId, content, property, role: content === "text" ? "text" : "fill", context: "local-recipe", interaction: "non-interactive", critical: false,
+      brandIntent: "selected", recipeId: "material-card-selection", evidenceRef },
+  }));
+}
+
+export function getCardColorConsumers() {
+  const evidenceRef = "docs/plans/2026-09-13-card-visual-refinement-plan.md";
+  const surfaces = ["Background/Neutral/1", "Background/Neutral/2"];
+  const use = (tokenId, content, recipeId) => ({
+    tokenId, content, recipeId, evidenceRef, context: "component-recipe",
+    role: tokenId.split("/")[0].toLowerCase(),
+    property: /^(Background|Fill)\//.test(tokenId) ? "background-color" : tokenId.startsWith("Border/") ? "border-color" : "color",
+    interaction: "non-interactive", critical: content === "text",
+  });
+  const definition = {
+    root: "border-rain-category-border-neutral-3 bg-rain-category-background-neutral-1 text-rain-category-text-neutral-2",
+    title: "text-rain-category-text-neutral-1",
+    description: "text-rain-category-text-neutral-3",
+    footer: "text-rain-category-text-neutral-3",
+    raised: "bg-rain-category-background-neutral-2 border-rain-category-border-neutral-2 text-rain-category-text-neutral-2",
+  };
+  const recipes = Object.keys(definition).map(part => ({
+    id: "card-" + part, state: "ordinary",
+    foreground: use("Text/Neutral/" + (part === "title" ? 1 : ["description", "footer"].includes(part) ? 3 : 2), "text", "card-" + part),
+    ...(["root", "raised"].includes(part) ? {
+      background: use("Background/Neutral/" + (part === "root" ? 1 : 2), "surface", "card-" + part),
+      boundary: use("Border/Neutral/" + (part === "root" ? 3 : 2), "decorative", "card-" + part),
+    } : {}),
+  }));
+  const rows = [
+    ["apps/playground/src/docs/components/card-page.css", ".card-review", "background", "Background/Neutral/3", "surface", ["Background/Neutral/1"]],
+    ["apps/playground/src/docs/components/card-page.css", ".card-review", "color", "Text/Neutral/1", "text", ["Background/Neutral/3"]],
+    ["apps/playground/src/docs/components/card-page.css", ".card-review pre", "background", "Background/Neutral/1", "surface", ["Background/Neutral/3"]],
+    ["apps/prototype/src/styles.css", ".rain-prototype", "background", "Background/Neutral/3", "surface", ["Background/Neutral/1"]],
+    ["apps/prototype/src/styles.css", ".rain-prototype", "color", "Text/Neutral/1", "text", ["Background/Neutral/3"]],
+    ["apps/prototype/src/styles.css", ".rain-prototype-note", "color", "Text/Neutral/3", "text", ["Background/Neutral/3"]],
+    ["apps/prototype/src/card-recipes.css", ".card-example-label", "color", "Text/Neutral/3", "text", ["Background/Neutral/3"]],
+    ["apps/prototype/src/card-recipes.css", ".card-action-status", "color", "Text/Neutral/3", "text", ["Background/Neutral/1"]],
+    ["apps/prototype/src/card-recipes.css", ".reminder-card-actions", "background", "Background/Neutral/2", "surface", ["Background/Neutral/1"]],
+    ["apps/prototype/src/card-recipes.css", ".course-card-cover", "background", "Background/Neutral/2", "surface", ["Background/Neutral/1"]],
+    ["apps/prototype/src/card-recipes.css", ".course-card-cover", "color", "Text/Neutral/2", "text", ["Background/Neutral/2"]],
+  ];
+  return {
+    colorRecipeConsumers: [{ filePath: "packages/ui/src/card/card.styles.ts", symbol: "cardPaints", kind: "static", scope: '[data-rain-id="ui-card"]',
+      foregroundContent: "text", parentSurfaces: surfaces, definition, recipes }],
+    colorCssConsumers: rows.map(([filePath, selector, property, tokenId, content, parentSurfaces]) => ({
+      filePath, selector, property, value: "var(" + colorTokenOutputs.find(entry => entry.id === tokenId).variable + ")",
+      parentSurfaces,
+      use: { ...use(tokenId, content, "card-examples"), context: "local-recipe" },
+    })),
+  };
+}
+
+export function getDialogColorConsumers() {
+  const rows = [
+    ["packages/ui/src/dialog/dialog.css", ".rain-dialog", "background-color", "Background/Neutral/1", "surface"],
+    ["packages/ui/src/dialog/dialog.css", ".rain-dialog", "color", "Text/Neutral/2", "text", ["Background/Neutral/1", "Background/Neutral/2"]],
+    ["packages/ui/src/dialog/dialog.css", ":where(.rain-dialog)", "border-color", "Border/Neutral/3", "decorative"],
+    ["packages/ui/src/dialog/dialog.css", ".rain-dialog-title", "color", "Text/Neutral/1", "text"],
+    ["packages/ui/src/dialog/dialog.css", ".rain-dialog-description", "color", "Text/Neutral/3", "text"],
+    ["packages/ui/src/dialog/dialog.css", ":where(.rain-dialog-footer[data-divider])", "border-color", "Border/Neutral/4", "decorative", ["Background/Neutral/1"]],
+    ["packages/ui/src/separator/separator.css", ".rain-separator", "background-color", "Border/Neutral/4", "decorative"],
+    ["apps/prototype/src/course-dialog.css", ".course-dialog-example", "background-color", "Background/Neutral/1", "surface"],
+    ["apps/prototype/src/course-dialog.css", ".course-dialog-example", "color", "Text/Neutral/2", "text"],
+    ["apps/prototype/src/course-dialog.css", ".course-dialog-example h2", "color", "Text/Neutral/1", "text"],
+    ["apps/prototype/src/course-dialog.css", ".course-dialog-note", "color", "Text/Neutral/3", "text"],
+    ["apps/prototype/src/course-dialog.css", ".course-dialog-error", "color", "Text/Red/1", "text"],
+    ["apps/playground/src/docs/components/dialog-page.css", ".dialog-review", "background-color", "Background/Neutral/3", "surface"],
+    ["apps/playground/src/docs/components/dialog-page.css", ".dialog-review", "color", "Text/Neutral/1", "text", ["Background/Neutral/3"]],
+  ];
+  return rows.map(([filePath, selector, property, tokenId, content, parentSurfaces = ["Background/Neutral/1"]]) => ({
+    filePath, selector, property, value: `var(${colorTokenOutputs.find(entry => entry.id === tokenId).variable})`, parentSurfaces,
+    use: { tokenId, property, content, role: tokenId.split("/")[0].toLowerCase(), context: "component-recipe", interaction: "non-interactive", critical: content === "text", recipeId: "dialog-v2", evidenceRef: "docs/plans/2026-09-13-dialog-v2-implementation.md" },
+  }));
+}
+
+export function getLayoutsColorConsumers() {
+  const surfaces = ["Background/Neutral/1", "Background/Neutral/2"];
+  const rows = [
+    ["apps/prototype/src/layout-recipes.css", ".layout-recipes", "color", "Text/Neutral/2", "text", surfaces],
+    ["apps/prototype/src/layout-recipes.css", ".layout-recipes h3", "color", "Text/Neutral/1", "text", surfaces],
+    ["apps/prototype/src/layout-recipes.css", ".layout-recipes h4", "color", "Text/Neutral/1", "text", surfaces],
+    ["apps/prototype/src/layout-recipes.css", ".layout-example-muted", "color", "Text/Neutral/3", "text", surfaces],
+    ["apps/prototype/src/layout-recipes.css", ".layout-example-pane", "background-color", "Background/Neutral/2", "surface", ["Background/Neutral/1"]],
+    ["apps/playground/src/docs/components/layouts-page.css", ".layouts-review", "background-color", "Background/Neutral/3", "surface", ["Background/Neutral/1"]],
+    ["apps/playground/src/docs/components/layouts-page.css", ".layouts-review", "color", "Text/Neutral/1", "text", ["Background/Neutral/3"]],
+  ];
+  return rows.map(([filePath, selector, property, tokenId, content, parentSurfaces]) => ({
+    filePath, selector, property,
+    value: `${property === "border-top" ? "var(--rain-line-thickness-1) solid " : ""}var(${colorTokenOutputs.find(entry => entry.id === tokenId).variable})`,
+    parentSurfaces,
+    use: { tokenId, property: property === "border-top" ? "border-color" : property, content, role: tokenId.split("/")[0].toLowerCase(), context: "local-recipe", interaction: "non-interactive", critical: content === "text", recipeId: "layouts-v1-examples", evidenceRef: "docs/plans/2026-09-13-layouts-v1-implementation.md" },
+  }));
+}
+
+export function getBmBColorConsumers() {
+  const filePath = "apps/prototype/src/scenarios/bm-b/page.css";
+  const rows = [
+    [".bm-b-note, .bm-b-demo", "color", "Text/Neutral/3", "text", ["Background/Neutral/3"]],
+    [".bm-b-body h3", "color", "Text/Neutral/1", "text"],
+    [".bm-b-body", "background-color", "Background/Neutral/2", "surface"],
+    [".bm-b-body section", "background-color", "Background/Neutral/1", "surface", ["Background/Neutral/2"]],
+    [".bm-b-file-status", "color", "Text/Neutral/3", "text"],
+    [".bm-b-feedback", "color", "Text/Neutral/3", "text", ["Background/Neutral/2"]],
+    [".bm-b-hint", "color", "Text/Neutral/5", "text", ["Background/Neutral/1"], false],
+    [".bm-b-dialog .bm-b-error", "color", "Text/Red/1", "text", ["Background/Neutral/1", "Background/Neutral/2"]],
+  ];
+  return rows.map(([selector, property, tokenId, content, parentSurfaces = ["Background/Neutral/1"], critical = content === "text"]) => ({
+    filePath, selector, property,
+    ...(selector === ".bm-b-hint" ? { contrastReview: "pending-review" } : {}),
+    value: `${property.startsWith("border") ? "var(--rain-line-thickness-1) solid " : ""}var(${colorTokenOutputs.find(entry => entry.id === tokenId).variable})`,
+    parentSurfaces,
+    use: { tokenId, property: property.startsWith("border") ? "border-color" : property, content, role: tokenId.split("/")[0].toLowerCase(), context: "local-recipe", interaction: content === "essential-boundary" ? "interactive" : "non-interactive", critical, recipeId: "bm-b-textbook-dialog", evidenceRef: "docs/plans/2026-09-15-bm-b-rn10.md" },
+  }));
+}
+
+
 function getComponentColorConsumers() {
   const inputs = getInputColorConsumers(), icons = getIconButtonColorConsumers(), questions = getQuestionNumberColorConsumers(), options = getOptionButtonColorConsumers(), optionContent = getOptionButtonContentColorConsumers();
   const tags = getTagColorConsumers(), tagThree = getTagBatchThreeColorConsumers(), selects = getSelectColorConsumers();
   return {
-    colorRecipeConsumers: [...inputs.colorRecipeConsumers, ...icons.colorRecipeConsumers, ...questions.colorRecipeConsumers, ...options.colorRecipeConsumers, ...optionContent, ...tags.colorRecipeConsumers, ...getTagDomainColorConsumers(), ...tagThree.colorRecipeConsumers, ...selects.colorRecipeConsumers, ...getTabsColorConsumers()],
-    colorCssConsumers: [...inputs.colorCssConsumers, ...icons.colorCssConsumers, ...questions.colorCssConsumers, ...options.colorCssConsumers, ...getQuestionOptionSizeReviewColorConsumers(), ...tags.colorCssConsumers, ...tagThree.colorCssConsumers, ...selects.colorCssConsumers, ...getCheckboxColorConsumers(), ...getRadioColorConsumers(), ...getSelectionCardColorConsumers(), ...getSelectionPatternColorConsumers(), ...getDropdownFamilyColorConsumers(), ...getTabsPageColorConsumers()],
+    colorRecipeConsumers: [...inputs.colorRecipeConsumers, ...icons.colorRecipeConsumers, ...questions.colorRecipeConsumers, ...options.colorRecipeConsumers, ...optionContent, ...tags.colorRecipeConsumers, ...getTagDomainColorConsumers(), ...tagThree.colorRecipeConsumers, ...selects.colorRecipeConsumers, ...getTabsColorConsumers(), ...getCardColorConsumers().colorRecipeConsumers, ...getTableRn08ColorConsumers(), ...getEmptyColorConsumers(), ...getPaginationColorConsumers().colorRecipeConsumers],
+    colorCssConsumers: [...inputs.colorCssConsumers, ...icons.colorCssConsumers, ...questions.colorCssConsumers, ...options.colorCssConsumers, ...getQuestionOptionSizeReviewColorConsumers(), ...tags.colorCssConsumers, ...tagThree.colorCssConsumers, ...selects.colorCssConsumers, ...getCheckboxColorConsumers(), ...getRadioColorConsumers(), ...getSelectionCardColorConsumers(), ...getSelectionPatternColorConsumers(), ...getDropdownFamilyColorConsumers(), ...getTabsPageColorConsumers(), ...getCardColorConsumers().colorCssConsumers, ...getDialogColorConsumers(), ...getLayoutsColorConsumers(), ...getPaginationColorConsumers().colorCssConsumers, ...getMaterialRecipeColorConsumers(), ...getBmBColorConsumers()],
   };
 }
 
@@ -893,6 +1066,11 @@ export function getInputColorConsumers() {
     ...(disabledToken ? [paint(`input-${symbol}-disabled`, "disabled", disabledToken, "disabled", surfaces.disabled)] : []),
   ];
   const consumer = (symbol, kind, definition, foregroundContent, recipes) => ({ filePath, symbol, kind, definition, foregroundContent, recipes, scope: '[data-rain-id="ui-input"]', parentSurfaces, contrastReview: "pending-review" });
+  const insideLabelRecipes = fieldColorStates().map(({ state, appearance, background }) => {
+    const id = `input-inside-label-${appearance}-${state}`;
+    const recipe = paint(id, state, state === "disabled" ? "Text/Neutral/6" : "Text/Neutral/4", state === "disabled" ? "disabled" : "text", background);
+    return { ...recipe, appearance, foreground: { ...recipe.foreground, interaction: "interactive", critical: true, evidenceRef: "docs/plans/2026-09-14-inside-field-labels.md" } };
+  });
   const colorRecipeConsumers = [
     consumer("inputControlClassName", "static", "rain-input__control min-w-0 w-full flex-1 border-none bg-transparent p-rain-0 text-inherit outline-none placeholder:text-rain-category-text-neutral-5 disabled:cursor-not-allowed disabled:placeholder:text-rain-category-text-neutral-6", "text", acrossInput("placeholder", "Text/Neutral/5", "text", "Text/Neutral/6")),
     consumer("inputAffixClassName", "static", "inline-flex flex-none items-center whitespace-nowrap text-rain-category-text-neutral-4 group-data-[state=disabled]/input:text-rain-category-text-neutral-6", "text", acrossInput("affix", "Text/Neutral/4", "text", "Text/Neutral/6")),
@@ -900,7 +1078,7 @@ export function getInputColorConsumers() {
     consumer("inputIconColors", "static", "text-rain-category-icon-neutral-3 group-data-[state=disabled]/input:text-rain-category-icon-neutral-5", "decorative", acrossInput("decoration", "Icon/Neutral/3", "decorative", "Icon/Neutral/5")),
     consumer("inputClearClassName", "static", "rain-input__clear inline-flex size-full items-center justify-center rounded-rain-4 border-none bg-transparent p-rain-0 cursor-pointer text-rain-category-icon-neutral-3 hover:text-rain-category-icon-neutral-2 active:text-rain-category-icon-neutral-1", "meaningful-icon", ["Icon/Neutral/3", "Icon/Neutral/2", "Icon/Neutral/1"].flatMap((id, index) => acrossInput(`clear-${index}`, id, "meaningful-icon"))),
     consumer("inputCountRecipe", "cva", { variants: { overflow: { true: "text-rain-category-text-red-1", false: "text-rain-category-text-neutral-5" }, disabled: { true: "text-rain-category-text-neutral-6", false: null } } }, "text", [...acrossInput("count-overflow", "Text/Red/1", "text"), ...acrossInput("count", "Text/Neutral/5", "text", "Text/Neutral/6")]),
-    { ...consumer("formItemColors", "static", { root: "text-rain-category-text-neutral-1", required: "text-rain-category-text-red-1", help: "text-rain-category-text-neutral-3", error: "text-rain-category-text-red-1", warning: "text-rain-category-text-orange-1", message: "text-rain-category-text-neutral-3" }, "text", [["root", "Text/Neutral/1"], ["required", "Text/Red/1"], ["help", "Text/Neutral/3"], ["error", "Text/Red/1"], ["warning", "Text/Orange/1"], ["message", "Text/Neutral/3"]].map(([part, token]) => paint(`input-form-item-${part}`, part, token, "text"))), filePath: "packages/ui/src/input/form-item.tsx", scope: '[data-rain-id="ui-form-item"]' },
+    { ...consumer("formItemColors", "static", { root: "text-rain-category-text-neutral-1", required: "text-rain-category-text-red-1", inside: "text-rain-category-text-neutral-4", help: "text-rain-category-text-neutral-3", error: "text-rain-category-text-red-1", warning: "text-rain-category-text-orange-1", message: "text-rain-category-text-neutral-3" }, "text", [["root", "Text/Neutral/1"], ["required", "Text/Red/1"], ["help", "Text/Neutral/3"], ["error", "Text/Red/1"], ["warning", "Text/Orange/1"], ["message", "Text/Neutral/3"]].map(([part, token]) => paint(`input-form-item-${part}`, part, token, "text")).concat(insideLabelRecipes)), filePath: "packages/ui/src/input/form-item.tsx", scope: '[data-rain-id="ui-form-item"]' },
   ];
   const colorCssConsumers = [
     [".input-page", "background", "var(--rain-category-background-neutral-3)", "Background/Neutral/3", "surface"],

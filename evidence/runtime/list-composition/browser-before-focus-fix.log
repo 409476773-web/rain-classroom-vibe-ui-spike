@@ -1,0 +1,54 @@
+chromium 7 checks passed
+firefox 7 checks passed
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+ExpectError: expect(locator).toBeFocused() failed
+
+Locator:  getByRole('button', { name: '同伴互评怎样给出具体反馈', exact: true })
+Expected: focused
+Received: inactive
+Timeout:  5000ms
+
+Call log:
+  - Expect "to.be.focused" with timeout 5000ms
+  - waiting for getByRole('button', { name: '同伴互评怎样给出具体反馈', exact: true })
+    14 × locator resolved to <button type="button" class="lc-name" data-focus="item">同伴互评怎样给出具体反馈</button>
+       - unexpected value "inactive"
+
+    at captureRawStack (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/.pnpm/playwright-core@1.62.1/node_modules/playwright-core/lib/coreBundle.js:9681:17)
+    at callMatcherAsStep (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/.pnpm/playwright@1.62.1/node_modules/playwright/lib/matchers/expect.js:13310:57)
+    at Object.toBeFocused (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/.pnpm/playwright@1.62.1/node_modules/playwright/lib/matchers/expect.js:13300:23)
+    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/list-composition/check-browser.mjs:78:27
+    at async check (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/list-composition/check-browser.mjs:16:41)
+    at async file:///Users/wenchengkai/CodexFile/%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/evidence/runtime/list-composition/check-browser.mjs:68:5 {
+  matcherResult: {
+    message: 'expect(locator).toBeFocused() failed\n' +
+      '\n' +
+      "Locator:  getByRole('button', { name: '同伴互评怎样给出具体反馈', exact: true })\n" +
+      'Expected: focused\n' +
+      'Received: inactive\n' +
+      'Timeout:  5000ms\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.be.focused" with timeout 5000ms\n' +
+      "  - waiting for getByRole('button', { name: '同伴互评怎样给出具体反馈', exact: true })\n" +
+      '    14 × locator resolved to <button type="button" class="lc-name" data-focus="item">同伴互评怎样给出具体反馈</button>\n' +
+      '       - unexpected value "inactive"\n',
+    pass: false,
+    actual: 'inactive',
+    name: 'toBeFocused',
+    expected: 'focused',
+    log: [
+      '  - Expect "to.be.focused" with timeout 5000ms',
+      "  - waiting for getByRole('button', { name: '同伴互评怎样给出具体反馈', exact: true })",
+      '    14 × locator resolved to <button type="button" class="lc-name" data-focus="item">同伴互评怎样给出具体反馈</button>',
+      '       - unexpected value "inactive"'
+    ],
+    timeout: 5000,
+    ariaSnapshot: '- button "同伴互评怎样给出具体反馈"'
+  }
+}
+
+Node.js v24.13.0

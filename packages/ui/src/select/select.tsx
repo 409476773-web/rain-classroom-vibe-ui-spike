@@ -13,7 +13,7 @@ import { menuItemClassName, menuGroupLabelClassName } from "../dropdown-menu/dro
 import { Tag, type TagLocalRecipe } from "../tag/tag";
 import { Input } from "../input/input";
 import { Button } from "../button/button";
-import { FormItemContext, useFormItem } from "../input/form-item";
+import { FormItemContext, InsideFieldLabel, useFormItem } from "../input/form-item";
 import { fieldFrameRecipe } from "../field/field.styles";
 import { rainCn } from "../utils/rain-class-names";
 import { getRainLocalRecipePart } from "../recipes/local-recipe";
@@ -341,6 +341,7 @@ const SelectControl = forwardRef<SelectHandle, SelectProps>(function SelectContr
       className={rainCn(fieldFrameRecipe({ appearance, size, status, state: disabled ? "disabled" : readOnly ? "readonly" : "editable" }), selectSizeClassNames[size], part("frame"))}
       onPointerDownCapture={() => { if (readOnly) setPointerFocused(true); }}
       onClick={(event) => { if (!(event.target as Element).closest("button")) { controlRef.current?.focus(); changeOpen(!open); } }}>
+      <InsideFieldLabel disabled={disabled} onClick={event => event.stopPropagation()} />
       {tags && values.length ? <div data-slot="value" className={rainCn("flex min-w-0 flex-1 flex-wrap gap-rain-4", part("value"))}>
         {values.map((value, index) => <SelectedValue key={JSON.stringify(value)} value={value} label={labels[index]!} size={size as 32 | 36}
           editable={editable} localRecipe={props.localRecipe} onRemove={() => {

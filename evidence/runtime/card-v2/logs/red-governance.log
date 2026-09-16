@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verification-helpers.test.ts (235 tests | 1 failed | 234 skipped) 7ms
+   × keeps Card V2 authorization separate from frozen history and rejects scope or Git escalation 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verification-helpers.test.ts > keeps Card V2 authorization separate from frozen history and rejects scope or Git escalation
+TypeError: hasCardV2Authorization is not a function
+ ❯ scripts/verification-helpers.test.ts:29:30
+     27| it("keeps Card V2 authorization separate from frozen history and rejec…
+     28|   const status = parseYamlSubset(readFileSync(join(workspaceRoot, "sta…
+     29|   expect(verificationHelpers.hasCardV2Authorization(status)).toBe(true…
+       |                              ^
+     30|   expect(verificationHelpers.getValidatedTailwindB2History(status)).to…
+     31|   for (const change of [
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 234 skipped (235)
+   Start at  17:50:03
+   Duration  875ms (transform 90ms, setup 145ms, import 95ms, tests 7ms, environment 528ms)
+

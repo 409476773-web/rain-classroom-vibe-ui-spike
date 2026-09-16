@@ -11,10 +11,12 @@ styleSourcePath: "packages/ui/src/input/input.styles.ts"
 sharedFrameSource: "packages/ui/src/field/field.styles.ts"
 sourceVersion: "local-2026-09-08"
 publication: "unpublished"
-description: "A complete search shortcut within the Input family, reusing Input editing, field appearances and an existing TextButton."
+description: "明确提交查询的搜索字段；复用 Input 与文字按钮，输入草稿后通过按钮或 Enter 发出搜索意图。"
 useWhen:
+  - "输入内容与已提交查询分开，使用显式搜索动作；请求、结果与失败恢复由宿主拥有。"
   - "Typing creates a draft and explicit actions submit a query."
 doNotUseWhen:
+  - "既定交互为逐字即时过滤时使用 Input，不额外增加提交步骤。"
   - "The control must own requests, result data or asynchronous validation."
 anatomy:
   - "Root"
@@ -49,6 +51,8 @@ tokens:
   - "Input complete recipe"
   - "Existing TextButton Regular26 or Compact24"
 compositionRules:
+  - "FormItem labelPosition=inside places its fixed visible label within the field; top remains the default and label identity/description ownership is unchanged."
+  - "For a one-line toolbar, compose explicit size32 in default density and size28 in compact density with matching Buttons; global component defaults remain unchanged."
   - "Document under the Input family; keep the SearchInput export and asset ID for compatible shortcut usage."
   - "The inner Input and Button retain their own component and Part identities."
   - "Use one Input value state; typing does not submit and IME Enter never submits."
@@ -82,3 +86,15 @@ verification:
   humanGate: "accepted"
   humanGateScope: "input-search-input-form-item-runtime-visual-only"
   evidence: "evidence/runtime/input/verification.md"
+
+insideFieldLabels:
+  implementation: "completed"
+  automated: "passed"
+  independentReview: "findings"
+  plan: "docs/plans/2026-09-14-inside-field-labels.md"
+  evidence: "evidence/runtime/inside-field-labels/verification.md"
+  labelPosition: "optional-inside-default-top"
+  humanGate: "accepted"
+  humanGateScope: "input-search-input-select-inside-labels-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  publication: "not-authorized"

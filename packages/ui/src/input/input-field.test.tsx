@@ -110,3 +110,48 @@ describe("Input field recipes", () => {
     expect(() => render(<Input aria-label="文字" prefixText={<button>修改</button> as unknown as string} />)).toThrow("plain text");
   });
 });
+
+
+describe("inside field labels", () => {
+  it.each([Input, SearchInput])("keeps a single real label associated through edits, clear and layout switches (%s)", async (Component) => {
+    const user = userEvent.setup();
+    const onSearch = vi.fn();
+    const show = (labelPosition: "top" | "inside", disabled = false) => <FormItem label="课程检索" labelPosition={labelPosition} help="按名称查找" message="请核对名称" status="error" required disabled={disabled}>
+      <Component id="inside-course" clearable {...(Component === SearchInput ? { onSearch } : {})} />
+    </FormItem>;
+    const { rerender } = render(show("inside"));
+    const control = screen.getByRole("textbox", { name: "课程检索" });
+    const checkLabel = (inside: boolean) => {
+      const labels = screen.getAllByText("课程检索", { exact: true });
+      expect(labels).toHaveLength(1);
+      const label = labels[0]!.closest("label")!;
+      expect(label).toHaveAttribute("for", control.id);
+      expect(control.closest('[data-rain-id="ui-input"]')!.contains(label)).toBe(inside);
+      expect(control).toHaveAccessibleName("课程检索");
+      expect(control).toHaveAccessibleDescription("按名称查找 请核对名称");
+      expect(control).toBeRequired();
+      expect(control).toHaveAttribute("aria-invalid", "true");
+      return label;
+    };
+    await user.click(checkLabel(true));
+    expect(control).toHaveFocus();
+    await user.type(control, "设计");
+    checkLabel(true);
+    if (Component === SearchInput) {
+      await user.keyboard("{Enter}");
+      expect(onSearch).toHaveBeenLastCalledWith("设计", { source: "enter" });
+      checkLabel(true);
+    }
+    await user.click(screen.getByRole("button", { name: "清除课程检索" }));
+    expect(control).toHaveValue("");
+    expect(control).toHaveFocus();
+    checkLabel(true);
+    rerender(show("top"));
+    checkLabel(false);
+    rerender(show("inside", true));
+    await user.click(checkLabel(true));
+    await user.type(control, "无法输入");
+    expect(control).toBeDisabled();
+    expect(control).toHaveValue("");
+  });
+});

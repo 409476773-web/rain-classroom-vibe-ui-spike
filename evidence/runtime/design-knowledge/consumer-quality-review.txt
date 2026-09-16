@@ -1,0 +1,26 @@
+# 独立代码质量审阅：研讨活动消费页
+
+2026-09-16。结论：**当前本地 Chromium 原型范围的代码质量审阅通过。Critical：无；Important：无；Minor：无。** 没有需要本轮修复的代码问题；不据此认定页面视觉成熟、生产兼容或新增 Human Gate 接受。
+
+需求审阅沿用 [已通过的复核](../spec-review/recheck.md)。本次实际阅读 consumer 的 AGENTS、原型与表单指南、design-notes，以及 `main.tsx`、activity 下的 `page.tsx`、`page.css`、`state.ts`、`state.check.mjs` 和两份浏览器检查脚本；另追踪了既有 `simulateTask`、Input 与 Focus 实现。没有仅依据实施者报告作结论。
+
+- 正确性：[页面状态与提交](../consumer/apps/prototype/src/scenarios/activity/page.tsx)区分 saved/draft；提交前校验并捕获提交值，requestRef 阻止重复请求，卸载时 abort，异步结果核对请求身份。失败保留草稿并提供重试；[状态函数](../consumer/apps/prototype/src/scenarios/activity/state.ts)覆盖必填、未知类型及启用时 1–200 整数范围，隐藏人数不参与提交。
+- 退出修复：`page.tsx:25–64, 175–181` 在同文档导航提交前取消离开，复用原 AlertDialog；继续编辑清除待导航目标，明确放弃后按历史 key 调用 traverseTo。保存中取消离开，不另开草稿确认。原生能力和页面局部处理符合本次范围，没有增加依赖、路由层或共享行为控制器。
+- 可访问基本项：沿用 Dialog/AlertDialog 焦点与键盘机制；字段错误关联、第一错误定位、人数原生 label/help/error 和 Rain focus-visible 均有实际实现。浏览器复跑验证焦点约束、恢复、Radio 箭头、键盘提交与窄屏操作可达。
+- 最小方案：原生 number input 补足现有 Input 不支持的数值场景；复用既有模拟异步函数。没有引入表单库、重复数据源或通用抽象。
+
+本次亲自执行的检查（均从 consumer 目录）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `node --test apps/prototype/src/scenarios/activity/state.check.mjs` | 4/4，通过 |
+| `pnpm typecheck` | 通过，退出码 0 |
+| `node ../quality-review/activity-browser-check.mjs` | 11 组通过，运行与控制台错误为空；[结果](browser/browser-results.json) |
+| `node ../quality-review/activity-navigation-check.mjs` | 5 组通过，运行与控制台错误为空；[结果](navigation/navigation-results.json) |
+| 父仓库 consumer-source-lock.json 与当前 consumer 的 SHA-256 对照 | 来源锁本身相同；2066 个基线文件仅 main.tsx 改动，共享 packages、A/B、依赖清单和锁文件不变 |
+
+两份检查脚本副本只改证据输出目录，未覆盖实施者或首稿证据。导航检查实际覆盖返回/前进、继续/Escape、明确放弃后保持前进历史、无修改直接离开、保存中的双向导航拦截和保存结果保留。行为检查包含取消/Close/Escape、刷新保护、失败重试、双重提交、长内容、390px/320px/短窗口和 A/B 入口回归。
+
+根工作区 `docs/ai/form-composition.md:39,47` 的补充合理：仅在宿主具有导航/历史记录时要求检查前进后退，并区分 Dialog 关闭、刷新与同文档离开；没有要求指定路由实现，也没有扩大视觉确认或公共组件范围。与消费快照相比，该指南只增加这段条件规则和相应检查句。核对根 packages 和依赖锁均未变；导出器相对消费快照的差异仅为此前已审阅的两处 JSDoc 类型注解，与导航修复无关。
+
+未查项：本轮未重跑安装或构建，未做整库回归、真实服务/持久化、其他浏览器、物理触屏/软键盘、中文 IME、屏幕阅读器或完整对比度验证；没有用户视觉接受或稳定质量提升结论。消费页仅内存保存，历史导航保护的实测环境为本机 Chromium。未修改 consumer、根工作区源码或原证据，未执行 Git 操作。

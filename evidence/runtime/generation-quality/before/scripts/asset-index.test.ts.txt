@@ -1,0 +1,58 @@
+// @vitest-environment node
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { expect, it } from "vitest";
+import * as helpers from "./verification-helpers.mjs";
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+
+it("keeps the asset index traceable, current and separate from local experiments and acceptance", async () => {
+  expect(existsSync(resolve(root, "scripts/asset-index.mjs"))).toBe(true);
+  const { readAssets, renderAssetIndex, validateAsset } = await import("./asset-index.mjs");
+  const assets = readAssets(root);
+  const markdown = renderAssetIndex(assets);
+  expect(readFileSync(resolve(root, "docs/ai/asset-index.md"), "utf8")).toBe(markdown);
+  for (const file of ["docs/ai/README.md", "docs/ai/asset-index.md"]) {
+    for (const match of readFileSync(resolve(root, file), "utf8").matchAll(/\]\(([^)]+)\)/g)) {
+      const target = match[1];
+      if (!target || /^https?:/.test(target)) continue;
+      expect(existsSync(resolve(root, dirname(file), target.split("#")[0] ?? "")), `${file}: ${target}`).toBe(true);
+    }
+  }
+  for (const name of ["Input", "SearchInput", "FormItem", "Card", "Dialog", "Textarea", "Table", "Split"]) {
+    expect(markdown).toContain(`**${name}**`);
+  }
+  for (const name of ["Button", "Badge", "Surface", "Link"]) {
+    const asset = assets.find((entry: any) => entry.manifest.name === name)!;
+    expect(asset.manifest.assetIdentity).toBe("local-experiment");
+    expect(markdown).not.toContain(`**${name}**`);
+  }
+  const dialog = assets.find((entry: any) => entry.manifest.name === "Dialog")!;
+  const textarea = assets.find((entry: any) => entry.manifest.name === "Textarea")!;
+  expect(dialog.manifest.verification.humanGate).toBe("accepted");
+  expect(textarea.manifest.verification.humanGate).toBe("awaiting_human");
+  expect(markdown).toContain("not-granted");
+  expect(renderAssetIndex(assets, "Textarea")).not.toContain("**Dialog**");
+  expect(renderAssetIndex(assets, "not-an-asset")).toContain("未找到");
+  for (const change of [
+    { item: { ...dialog.item, exportName: "MissingExport" } },
+    { item: { ...dialog.item, importPath: "@other/ui" } },
+    { item: { ...dialog.item, typeDependencies: ["registry/core-ui.json#missing-type"] } },
+    { item: { ...dialog.item, files: ["missing.tsx"] } },
+    { manifest: { ...dialog.manifest, sourcePath: "../outside.tsx" } },
+    { registry: { ...dialog.registry, shared: { registryDependencies: ["button"] } } },
+  ]) expect(() => validateAsset({ ...dialog, ...change }, root)).toThrow();
+  const failed = { ...dialog, manifest: { ...dialog.manifest, verification: { ...dialog.manifest.verification, automated: "failed" } } };
+  expect(renderAssetIndex([failed])).not.toContain("**Dialog**");
+
+  const phase = helpers.parseYamlSubset(readFileSync(resolve(root, "status/current-phase.yaml"), "utf8")) as any;
+  expect(helpers.hasRn13Authorization(phase)).toBe(true);
+  expect(helpers.getValidatedTailwindB2History(phase)).toEqual(phase.phaseHistory.tailwindB2);
+  for (const change of [{ scope: "all-components" }, { humanGate: "accepted" }, { publication: "published" }, { businessMigration: "authorized" }]) {
+    const invalid = structuredClone(phase);
+    Object.assign(invalid.componentRefinements.rn13AssetIndex, change);
+    expect(helpers.hasRn13Authorization(invalid)).toBe(false);
+    expect(() => helpers.getValidatedTailwindB2History(invalid)).toThrow();
+  }
+});

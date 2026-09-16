@@ -1,0 +1,57 @@
+import { StrictMode, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { DensityProvider } from "@rain-next/foundations";
+import { Button, Checkbox, FormItem, Select, Tabs, Tag, Textarea, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableScrollArea, type SelectHandle } from "@rain-next/ui";
+import { Inline, Stack } from "@rain-next/layouts";
+import "@rain-next/foundations/tokens.css";
+import "@rain-next/foundations/typography.css";
+import "@rain-next/foundations/motion.css";
+import "@rain-next/foundations/focus.css";
+import "@rain-next/ui/styles.css";
+import "@rain-next/layouts/styles.css";
+import "./styles.css";
+import "./student.css";
+
+const assignments = [
+  { week: 3, title: "条件概率", submitted: true, score: 78 },
+  { week: 4, title: "随机变量", submitted: true, score: 84 },
+  { week: 5, title: "期望与方差", submitted: true, score: null },
+  { week: 6, title: "大数定律", submitted: false, score: null },
+];
+function App() {
+  const [tab, setTab] = useState<string | number | null>("records"), [dark, setDark] = useState(false);
+  const [method, setMethod] = useState<string | null>(null), [note, setNote] = useState(""), [attempted, setAttempted] = useState(false), [saved, setSaved] = useState(false);
+  const methodRef = useRef<SelectHandle>(null), noteRef = useRef<HTMLTextAreaElement>(null);
+  const graded = assignments.flatMap(row => row.score === null ? [] : [row.score]);
+  const average = graded.length ? String(graded.reduce((sum, score) => sum + score, 0) / graded.length) : "—";
+  const hasError = attempted && (!method || !note.trim());
+  const records = <div className="student-records">
+    <section><h2>作业记录</h2><p className="student-muted">完整呈现提交与评分状态，缺失成绩不计为零分。</p>
+      <TableScrollArea aria-label="作业记录滚动区"><Table><TableHeader><TableRow><TableHead>周次 / 作业</TableHead><TableHead>提交状态</TableHead><TableHead>成绩</TableHead></TableRow></TableHeader><TableBody>{assignments.map(row => <TableRow key={row.week}><TableCell><div>第 {row.week} 周 · {row.title}</div></TableCell><TableCell>{row.submitted ? "已提交" : <Tag>未提交</Tag>}</TableCell><TableCell>{row.score !== null ? `${row.score} 分` : row.submitted ? <Tag>待评分</Tag> : "—"}</TableCell></TableRow>)}</TableBody></Table></TableScrollArea>
+      <p className="student-footnote">成绩满分 100 分。第 5 周待评分，第 6 周未提交，均未纳入均分。</p>
+    </section>
+    <section className="student-questions"><p className="student-kicker">信息边界</p><h2>还有哪些事需要了解？</h2><ul><li><strong>作业评分</strong><p>第 5 周作业已提交，成绩尚未公布。</p></li><li><strong>未提交原因</strong><p>第 6 周的原因尚未核实，暂不作学习态度判断。</p></li><li><strong>课堂参与</strong><p>课堂互动数据未接入，无法据此评价参与程度。</p></li></ul>
+      <Button variant="secondary" onClick={() => setTab("plan")}>记录跟进计划</Button>
+    </section>
+  </div>;
+  const plan = <div className="student-plan"><form noValidate onSubmit={event => {
+    event.preventDefault(); setAttempted(true);
+    if (!method) { methodRef.current?.focus(); return; }
+    if (!note.trim()) { noteRef.current?.focus(); return; }
+    setNote(note.trim()); setSaved(true); setAttempted(false);
+  }}><Stack gap={24}><div><h2>制定下一步教学行动</h2><p className="student-muted">先记录需要了解的情况，再明确沟通方式。</p></div>
+    <FormItem label="跟进方式" required status={attempted && !method ? "error" : "default"}><Select ref={methodRef} clearable={false} value={method} onValueChange={value => { setMethod(typeof value === "string" ? value : null); setSaved(false); }} placeholder="选择跟进方式" options={["课后答疑", "课堂面谈", "作业复盘"].map(value => ({ value, label: value }))} /></FormItem>
+    <FormItem label="沟通要点" required status={attempted && !note.trim() ? "error" : "default"} help="可写下需要核查的问题和准备讨论的概念。"><Textarea ref={noteRef} rows={5} value={note} onValueChange={value => { setNote(value); setSaved(false); }} placeholder="例如：了解第 6 周未提交的原因，回看相关练习。" /></FormItem>
+    {hasError && <p role="alert" className="student-error">{!method ? "请选择跟进方式。" : "请填写沟通要点。"}</p>}
+    <Inline gap={16}><Button type="submit" variant="primary">保存跟进计划</Button><span className="student-muted">{saved ? "已保存" : "草稿"}</span></Inline>
+    {saved && <p role="status">计划已保存在当前页面：{method}。</p>}
+  </Stack></form><section className="student-plan-context"><p className="student-kicker">本次沟通的依据</p><h2>把事实与推测分开</h2><p>已知：近期有一份作业未提交。</p><p>未知：未提交原因，以及是否需要额外学习支持。</p><p className="student-muted">计划仅记录准备开展的行动，不代表已完成沟通。</p></section></div>;
+  return <DensityProvider density="default"><main className="student" data-rain-id="local-student-followup" data-asset-identity="local-experiment" data-rain-theme={dark ? "dark" : "light"}>
+    <div className="student-content"><header><p className="student-kicker">学习跟进 / 学生详情</p><div className="student-heading"><div><h1>示例学生 08</h1><p className="student-muted">概率统计 · 第 3–6 周</p></div><span className="student-period">近期学习情况</span></div></header>
+      <section className="student-overview" aria-label="学习概况"><div><p>作业参与</p><h2>4 份作业，已提交 {assignments.filter(row => row.submitted).length} 份</h2><p className="student-muted">第 6 周作业尚未提交，原因待核实。</p></div><div><p>已评分作业均分</p><h2>{average} 分</h2><p className="student-muted">仅基于 {graded.length} 份已评分作业。</p></div></section>
+      <div className="student-workspace"><Tabs aria-label="学生学习与跟进" appearance="line" size={38} value={tab} onValueChange={setTab} items={[{ value: "records", label: "学习记录", content: records }, { value: "plan", label: "教学跟进", content: plan }]} /></div>
+      <footer><span>虚构学生资料 · 本地演示，刷新后恢复</span><Checkbox label="深色预览" checked={dark} onCheckedChange={setDark} /></footer>
+    </div>
+  </main></DensityProvider>;
+}
+createRoot(document.getElementById("root")!).render(<StrictMode><App /></StrictMode>);

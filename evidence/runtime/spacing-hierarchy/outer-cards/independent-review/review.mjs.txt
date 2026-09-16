@@ -1,0 +1,58 @@
+import {createRequire} from 'node:module';
+import {writeFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const require=createRequire('/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/package.json');
+const {chromium,expect}=require('@playwright/test');
+const browser=await chromium.launch({headless:true});
+const page=await browser.newPage({viewport:{width:1280,height:900}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const records=[];
+const form=t=>page.getByRole('form',{name:t==='card'?'外层卡片间距':'资料面板间距',exact:true});
+const label=['边缘留白','分区间距','信息间距'];
+async function choose(t,values){for(let i=0;i<3;i++){const combo=form(t).getByRole('combobox',{name:label[i],exact:true});await combo.click();await page.getByRole('option',{name:`${values[i]}px`,exact:true}).click();await expect(combo).toBeFocused();}await form(t).getByRole('button',{name:t==='card'?'应用卡片间距':'应用面板间距',exact:true}).click();}
+async function facts(){return page.evaluate(()=>{
+ const r=e=>e.getBoundingClientRect(),c=e=>getComputedStyle(e),gaps=e=>[...e.children].slice(1).map((n,i)=>r(n).top-r(e.children[i]).bottom);
+ return {viewport:innerWidth,documentWidth:document.documentElement.scrollWidth,cards:[...document.querySelectorAll('[data-example="layout-settings"],[data-example="layout-materials"]')].map(e=>{
+ const h=e.querySelector(':scope > [data-slot="header"]'),b=e.querySelector(':scope > [data-slot="content"]'),sections=b.querySelector('[data-example$="sections"]');
+ const innerRight=r(b).right-parseFloat(c(b).paddingRight),innerLeft=r(b).left+parseFloat(c(b).paddingLeft);
+ return {id:e.dataset.example,insetTop:r(h).top-r(e).top-parseFloat(c(e).borderTopWidth),insetBottom:r(e).bottom-r(b).bottom-parseFloat(c(e).borderBottomWidth),headerInsetLeft:parseFloat(c(h).paddingLeft),headerInsetRight:parseFloat(c(h).paddingRight),contentInsetLeft:parseFloat(c(b).paddingLeft),contentInsetRight:parseFloat(c(b).paddingRight),partGap:r(b).top-r(h).bottom,sectionGaps:gaps(sections),headerFineGap:c(h).rowGap,bodyGap:c(sections).gap,innerLeft,innerRight,
+ infoGaps:[...e.querySelectorAll('[data-example="settings-grid"],[data-example="query-inline"],[data-rain-id="layout-split"]')].map(n=>c(n).gap),
+ actionGroups:[...e.querySelectorAll('.layout-example-actions')].map(a=>({gap:c(a).gap,wrap:c(a).flexWrap,buttons:[...a.querySelectorAll('button')].map(n=>({left:r(n).left,right:r(n).right,top:r(n).top-r(a).top,height:r(n).height}))}))};
+ }),panes:[...document.querySelectorAll('[data-rain-id="layout-split"] > [data-scroll]')].map(e=>({slot:e.dataset.slot,padding:c(e).padding,groupGap:c(e.firstElementChild).gap,infoGap:c(e.querySelector('[data-example="material-info"]')||[...e.firstElementChild.children].find(n=>n.dataset.rainId==='layout-stack')).gap,scrollTop:e.scrollTop}))};
+ });}
+try{
+ await page.goto('http://127.0.0.1:5195/#layouts');
+ await page.getByText('调整外层卡片间距',{exact:true}).click();await page.getByText('调整资料面板间距',{exact:true}).click();
+ const course=page.getByRole('textbox',{name:'课程名称',exact:true}),draft=page.getByRole('textbox',{name:'资料标题',exact:true});
+ await course.fill('独立复核课程草稿');await draft.fill('独立复核资料草稿');const originalCourse=await course.elementHandle(),originalDraft=await draft.elementHandle();
+ const defaults=await facts();await choose('panel',[24,20,12]);const panelApplied=await facts();assert.deepEqual(defaults.cards,panelApplied.cards);records.push({scope:'independent-panel-application',defaults,panelApplied});
+ let dark=false;
+ const cases=[{w:1280,dark:false,values:[32,24,16]},{w:1280,dark:true,values:[20,20,12]},{w:375,dark:true,values:[16,16,16]},{w:320,dark:false,values:[0,0,0]},{w:320,dark:true,values:[40,40,40]},{w:1280,dark:false,values:[24,20,2]}];
+ for(const k of cases){
+  await page.setViewportSize({width:k.w,height:900});
+  if(dark!==k.dark){await page.getByRole('checkbox',{name:'深色主题'}).focus();await page.keyboard.press('Space');dark=k.dark;}
+  await choose('card',k.values);await expect(form('card').getByRole('alert')).toHaveCount(0);
+  await expect(form('card').getByRole('button',{name:'应用卡片间距',exact:true})).toBeFocused();
+  const f=await facts();assert(f.documentWidth<=f.viewport,'page overflow');
+  for(const c of f.cards){
+   for(const key of ['insetTop','insetBottom','headerInsetLeft','headerInsetRight','contentInsetLeft','contentInsetRight'])assert.equal(c[key],k.values[0],`${c.id} ${key}`);
+   assert.equal(c.partGap,k.values[1]);assert.equal(c.bodyGap,`${k.values[1]}px`);for(const n of c.sectionGaps)assert.equal(n,k.values[1]);
+   assert.equal(c.headerFineGap,`${Math.min(k.values[2],4)}px`);for(const n of c.infoGaps)assert.equal(n,`${k.values[2]}px`);
+   for(const a of c.actionGroups){assert.equal(a.gap,`${Math.min(k.values[2],8)}px`);assert.equal(a.wrap,'wrap');for(const b of a.buttons){assert(b.left>=c.innerLeft-.5,'button exceeds left inset');assert(b.right<=c.innerRight+.5,'button exceeds right inset');assert.equal(b.height,32);}}
+  }
+  for(const p of f.panes){assert.equal(p.padding,'24px');assert.equal(p.groupGap,'20px');assert.equal(p.infoGap,'12px');}
+  await expect(course).toHaveValue('独立复核课程草稿');await expect(draft).toHaveValue('独立复核资料草稿');assert(await course.evaluate((e,old)=>e===old,originalCourse));assert(await draft.evaluate((e,old)=>e===old,originalDraft));
+  records.push({case:k,facts:f});console.log('PASS',k);
+  if(k.w===320||k.values[0]===32)await page.screenshot({path:`/tmp/rain-card-spacing-review/final-${k.w}-${k.values.join('-')}-${dark?'dark':'light'}.png`,fullPage:true});
+ }
+ for(const bad of [[8,16,8],[16,8,12]]){const before=await facts();await choose('card',bad);await expect(form('card').getByRole('alert')).toBeVisible();const after=await facts();assert.deepEqual(after.cards,before.cards);assert.deepEqual(after.panes,before.panes);records.push({invalidCard:bad,preserved:true});}
+ await choose('card',[20,16,12]);await expect(form('card').getByRole('alert')).toHaveCount(0);await choose('panel',[16,12,8]);
+ const paneReset=await facts();assert.equal(paneReset.cards[0].insetTop,20);assert.equal(paneReset.panes[0].padding,'16px');records.push({independentPanelReset:paneReset});
+ // Select a pending valid Card triple, then submit without clicking another target.
+ for(let i=0;i<3;i++){const combo=form('card').getByRole('combobox',{name:label[i],exact:true});await combo.click();await page.getByRole('option',{name:`${[24,20,12][i]}px`,exact:true}).click();await expect(combo).toBeFocused();}
+ await draft.focus();const beforeFocus=await draft.elementHandle();await form('card').evaluate(e=>e.requestSubmit());await expect(draft).toBeFocused();assert(await draft.evaluate((e,old)=>e===old,beforeFocus));
+ await page.getByRole('button',{name:'收起当前详情',exact:true}).click();await expect(page.getByRole('button',{name:'展开资料详情',exact:true})).toBeFocused();await page.getByRole('button',{name:'展开资料详情',exact:true}).click();await expect(draft).toHaveValue('独立复核资料草稿');assert(await draft.evaluate((e,old)=>e===old,originalDraft));
+ records.push({passiveFocusAndCollapse:'preserved'});
+ await page.goto('http://127.0.0.1:5196');const prototype=await facts();assert.equal(prototype.cards[0].insetTop,20);assert.equal(prototype.cards[1].partGap,16);assert.equal(prototype.panes[0].padding,'16px');records.push({prototypeDefaults:prototype});
+ assert.deepEqual(errors,[]);writeFileSync('/tmp/rain-card-spacing-review/final-results.json',JSON.stringify({records,pageErrors:errors},null,2));console.log('PASS final independent records',records.length);
+}finally{await browser.close();}

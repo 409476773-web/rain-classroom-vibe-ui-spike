@@ -1,0 +1,58 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/m2.test.ts (3 tests | 3 failed) 13ms
+   × accepts only M2 local delivery, preserves prior decisions, and keeps both benchmarks independent 4ms
+   × projects only the reviewed M2 prototype entrance without changing the frozen source transitions 6ms
+   × allows exactly one grading directory navigation in its authorized page 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/m2.test.ts > accepts only M2 local delivery, preserves prior decisions, and keeps both benchmarks independent
+AssertionError: expected 'undefined' to be 'function' // Object.is equality
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ scripts/m2.test.ts:11:48
+      9|
+     10| it("accepts only M2 local delivery, preserves prior decisions, and kee…
+     11|   expect(typeof governance.hasM2Authorization).toBe("function");
+       |                                                ^
+     12|   const status = phase();
+     13|   expect(governance.hasM2Authorization(status)).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  scripts/m2.test.ts > projects only the reviewed M2 prototype entrance without changing the frozen source transitions
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ scripts/m2.test.ts:43:94
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  scripts/m2.test.ts > allows exactly one grading directory navigation in its authorized page
+TypeError: prepareM2NavigationSource is not a function
+ ❯ scripts/m2.test.ts:55:21
+     53| it("allows exactly one grading directory navigation in its authorized …
+     54|   const status = phase(), file = "apps/prototype/src/scenarios/bm-c/pa…
+     55|   expect(governance.prepareM2NavigationSource(file, source, status)).n…
+       |                     ^
+     56|   for (const changed of [source + '<nav aria-label="platform">', sourc…
+     57|     source.replace('<nav aria-label="分层批改目录">', '<nav aria-label="分层批改…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  22:15:55
+   Duration  375ms (transform 66ms, setup 206ms, import 61ms, tests 13ms, environment 0ms)
+

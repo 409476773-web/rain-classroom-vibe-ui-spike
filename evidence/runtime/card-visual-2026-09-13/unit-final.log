@@ -1,0 +1,42 @@
+
+> @rain-next/workspace@0.0.0 test /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> vitest run
+
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-tailwind-b2.test.ts (178 tests | 1 failed) 106326ms
+     × passes both the Task 4 bridge verifier and the fail-closed phase boundary 962ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > passes both the Task 4 bridge verifier and the fail-closed phase boundary
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /verification passed/i
+
+- Expected:
+/verification passed/i
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: evidence/runtime/card-visual-2026-09-13/production-tests/.playwright-artifacts-0/traces/resources/153cab288353733bc0e5dafca933db5037511b49.css
+- source file outside the complete Day 3 allowlist: evidence/runtime/card-visual-2026-09-13/production-tests/.playwright-artifacts-0/traces/resources/634cd47c74e9fb3cbebe90b9e8b265fad7647c84.css
+- source file outside the complete Day 3 allowlist: evidence/runtime/card-visual-2026-09-13/production-tests/.playwright-artifacts-0/traces/resources/83a6e010175009fae9b22a851bd9fe18a0489930.html
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:3243:32
+    3241|     for (const script of [verifierPath, boundaryVerifierPath]) {
+    3242|       const result = runScript(script, workspaceRoot);
+    3243|       expect(outputOf(result)).toMatch(/verification passed/i);
+       |                                ^
+    3244|       expect(result.status).toBe(0);
+    3245|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 85 passed (86)
+      Tests  1 failed | 1272 passed (1273)
+   Start at  00:59:38
+   Duration  108.11s (transform 8.67s, setup 18.27s, import 32.57s, tests 197.00s, environment 67.37s)
+
+ ELIFECYCLE  Test failed. See above for more details.

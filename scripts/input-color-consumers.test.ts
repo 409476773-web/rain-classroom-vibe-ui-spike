@@ -66,8 +66,12 @@ it("keeps warning text measurable and limits new pending contrast to the exact a
   const source = readFileSync(formPath, "utf8");
   const pendingContrastFindings: any[] = [];
   expect(validateRegisteredRecipeColors({ filePath: formPath, source, outputs, pendingContrastFindings })).toEqual([]);
-  expect(pendingContrastFindings).toHaveLength(2);
-  expect(pendingContrastFindings.every((entry) => entry.recipeId === "input-form-item-warning" && entry.content === "text" && entry.minimum === 4.5 && entry.acceptedException === false)).toBe(true);
+  const warnings = pendingContrastFindings.filter((entry) => entry.recipeId === "input-form-item-warning");
+  expect(warnings).toHaveLength(2);
+  expect(warnings.every((entry) => entry.tokenId === "Text/Orange/1" && entry.content === "text" && entry.minimum === 4.5 && entry.acceptedException === false)).toBe(true);
+  expect(pendingContrastFindings.filter((entry) => entry.recipeId !== "input-form-item-warning")).toEqual([
+    expect.objectContaining({ recipeId: "input-inside-label-underlined-error", tokenId: "Text/Neutral/4", content: "text", minimum: 4.5, status: "pending-review", acceptedException: false }),
+  ]);
   const warning = outputs.colorRecipeConsumers.find((entry: any) => entry.symbol === "formItemColors").recipes.find((recipe: any) => recipe.state === "warning");
   warning.foreground.recipeId = "input-form-item-help";
   expect(validateRegisteredRecipeColors({ filePath: formPath, source, outputs }).join("\n")).toMatch(/Insufficient contrast/);

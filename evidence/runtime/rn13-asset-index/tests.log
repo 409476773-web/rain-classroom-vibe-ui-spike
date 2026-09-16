@@ -1,0 +1,353 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/table-rn08.test.ts (8 tests | 3 failed) 231ms
+   × authorizes only RN-08 and preserves all prior phase records and existing shared implementations 18ms
+   × limits fixed inside labels to the agreed family and preserves the preceding phase and source bytes 26ms
+   × limits the Empty follow-up to its own presentations and preserves the preceding phase and original art 12ms
+ ❯ scripts/verification-helpers.test.ts (239 tests | 4 failed) 18045ms
+     × passes the complete unmodified fixture before testing any mutation 286ms
+     × leaves the fixture valid after all mutation checks 281ms
+   × admits only RN-10 form scope while rejecting fabricated acceptance or publication 7ms
+   × admits only RN-09 local BM-A without widening any prior phase 18ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/table-rn08.test.ts > authorizes only RN-08 and preserves all prior phase records and existing shared implementations
+AssertionError: expected { schemaVersion: '1.0', …(16) } to deeply equal { schemaVersion: '1.0', …(16) }
+
+- Expected
++ Received
+
+@@ -216,10 +216,31 @@
+        "plan": "../docs/plans/2026-09-09-checkbox-sc01-implementation.md",
+        "scope": "checkbox-checkboxgroup-standard-description-and-native-form",
+        "selectedCardBorderDecision": "Border/Brand/1-current-theme-for-later-card-slice",
+        "userStatement": "选中卡片描边使用当前主题色系 border；所有 icon 使用现有 icon 库；继续推进下一步",
+      },
++     "dialogRefinement": {
++       "authorization": "authorized",
++       "authorizedAt": "2026-09-15",
++       "automatedVerification": "passed",
++       "contrastAcceptance": "not-granted",
++       "decisionSource": "explicit-user-start-dialog-refinement",
++       "evidence": "../evidence/runtime/dialog-refinement-2026-09-15/verification.md",
++       "humanGate": "accepted",
++       "humanGateDecision": {
++         "acceptedAt": "2026-09-15",
++         "decisionSource": "explicit-user-request-rule-based-visual-acceptance",
++         "evidence": "../evidence/runtime/dialog-bm-b-visual-2026-09-15/verification.md",
++         "scope": "dialog-alert-dialog-runtime-visual-only",
++         "userStatement": "根据已经建设的dialog设计规则，完成 Dialog 和 BM-B 大表单的整体视觉验收",
++       },
++       "implementation": "completed",
++       "independentReview": "passed",
++       "plan": "../docs/plans/2026-09-15-dialog-refinement-implementation.md",
++       "scope": "dialog-alert-dialog-overlay-tokens-course-and-bm-b",
++       "userStatement": "开始实施",
++     },
+      "dialogV2": {
+        "authorization": "authorized",
+        "authorizedAt": "2026-09-13",
+        "automatedVerification": "passed",
+        "contrastAcceptance": "not-granted",
+@@ -633,10 +654,26 @@
+        "implementation": "completed",
+        "independentReview": "passed",
+        "plan": "../docs/plans/2026-09-10-radio-sc01-implementation.md",
+        "scope": "radio-radiogroup-standard-description-and-native-form",
+        "userStatement": "开始建设标准单选框 Radio + RadioGroup",
++     },
++     "rn13AssetIndex": {
++       "authorization": "authorized",
++       "authorizedAt": "2026-09-15",
++       "automatedVerification": "not-run",
++       "businessMigration": "not-authorized",
++       "contrastAcceptance": "not-granted",
++       "decisionSource": "explicit-user-continue-after-rn10",
++       "evidence": "../evidence/runtime/rn13-asset-index/verification.md",
++       "humanGate": "not-evaluated",
++       "implementation": "in-progress",
++       "independentReview": "not-run",
++       "plan": "../docs/plans/2026-09-15-rn13-asset-index.md",
++       "publication": "not-authorized",
++       "scope": "rn13-local-asset-index-manifests-registry-and-docs-only",
++       "userStatement": "RN10已经完成建设了。继续推进下一步",
+      },
+      "select": {
+        "authorization": "authorized",
+        "authorizedAt": "2026-09-09",
+        "automatedVerification": "passed",
+
+ ❯ scripts/table-rn08.test.ts:55:56
+     53|   if (hasBmBRn10Authorization(status)) delete earlier.bmBRn10;
+     54|   if (hasBmARn09Authorization(status)) delete earlier.bmARn09;
+     55|   expect({ ...status, componentRefinements: earlier }).toEqual(parseYa…
+       |                                                        ^
+     56|   const hashes = JSON.parse(read("evidence/runtime/table-rn08/before-h…
+     57|   for (const [file, checksum] of Object.entries(hashes)) if (file.star…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  scripts/table-rn08.test.ts > limits fixed inside labels to the agreed family and preserves the preceding phase and source bytes
+AssertionError: expected { schemaVersion: '1.0', …(16) } to deeply equal { schemaVersion: '1.0', …(16) }
+
+- Expected
++ Received
+
+@@ -216,10 +216,31 @@
+        "plan": "../docs/plans/2026-09-09-checkbox-sc01-implementation.md",
+        "scope": "checkbox-checkboxgroup-standard-description-and-native-form",
+        "selectedCardBorderDecision": "Border/Brand/1-current-theme-for-later-card-slice",
+        "userStatement": "选中卡片描边使用当前主题色系 border；所有 icon 使用现有 icon 库；继续推进下一步",
+      },
++     "dialogRefinement": {
++       "authorization": "authorized",
++       "authorizedAt": "2026-09-15",
++       "automatedVerification": "passed",
++       "contrastAcceptance": "not-granted",
++       "decisionSource": "explicit-user-start-dialog-refinement",
++       "evidence": "../evidence/runtime/dialog-refinement-2026-09-15/verification.md",
++       "humanGate": "accepted",
++       "humanGateDecision": {
++         "acceptedAt": "2026-09-15",
++         "decisionSource": "explicit-user-request-rule-based-visual-acceptance",
++         "evidence": "../evidence/runtime/dialog-bm-b-visual-2026-09-15/verification.md",
++         "scope": "dialog-alert-dialog-runtime-visual-only",
++         "userStatement": "根据已经建设的dialog设计规则，完成 Dialog 和 BM-B 大表单的整体视觉验收",
++       },
++       "implementation": "completed",
++       "independentReview": "passed",
++       "plan": "../docs/plans/2026-09-15-dialog-refinement-implementation.md",
++       "scope": "dialog-alert-dialog-overlay-tokens-course-and-bm-b",
++       "userStatement": "开始实施",
++     },
+      "dialogV2": {
+        "authorization": "authorized",
+        "authorizedAt": "2026-09-13",
+        "automatedVerification": "passed",
+        "contrastAcceptance": "not-granted",
+@@ -633,10 +654,26 @@
+        "implementation": "completed",
+        "independentReview": "passed",
+        "plan": "../docs/plans/2026-09-10-radio-sc01-implementation.md",
+        "scope": "radio-radiogroup-standard-description-and-native-form",
+        "userStatement": "开始建设标准单选框 Radio + RadioGroup",
++     },
++     "rn13AssetIndex": {
++       "authorization": "authorized",
++       "authorizedAt": "2026-09-15",
++       "automatedVerification": "not-run",
++       "businessMigration": "not-authorized",
++       "contrastAcceptance": "not-granted",
++       "decisionSource": "explicit-user-continue-after-rn10",
++       "evidence": "../evidence/runtime/rn13-asset-index/verification.md",
++       "humanGate": "not-evaluated",
++       "implementation": "in-progress",
++       "independentReview": "not-run",
++       "plan": "../docs/plans/2026-09-15-rn13-asset-index.md",
++       "publication": "not-authorized",
++       "scope": "rn13-local-asset-index-manifests-registry-and-docs-only",
++       "userStatement": "RN10已经完成建设了。继续推进下一步",
+      },
+      "select": {
+        "authorization": "authorized",
+        "authorizedAt": "2026-09-09",
+        "automatedVerification": "passed",
+
+ ❯ scripts/table-rn08.test.ts:113:19
+    111|   delete current.componentRefinements.tableRn08.insideFieldLabels;
+    112|   if (hasEmptyRefinementAuthorization(status)) delete current.componen…
+    113|   expect(current).toEqual(parseYamlSubset(read("evidence/runtime/insid…
+       |                   ^
+    114|   const lock = JSON.parse(read("evidence/runtime/inside-field-labels/b…
+    115|   expect(Object.keys(lock.sha256)).toEqual([...insideFieldLabelFiles, …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  scripts/table-rn08.test.ts > limits the Empty follow-up to its own presentations and preserves the preceding phase and original art
+AssertionError: expected { schemaVersion: '1.0', …(16) } to deeply equal { schemaVersion: '1.0', …(16) }
+
+- Expected
++ Received
+
+@@ -216,10 +216,31 @@
+        "plan": "../docs/plans/2026-09-09-checkbox-sc01-implementation.md",
+        "scope": "checkbox-checkboxgroup-standard-description-and-native-form",
+        "selectedCardBorderDecision": "Border/Brand/1-current-theme-for-later-card-slice",
+        "userStatement": "选中卡片描边使用当前主题色系 border；所有 icon 使用现有 icon 库；继续推进下一步",
+      },
++     "dialogRefinement": {
++       "authorization": "authorized",
++       "authorizedAt": "2026-09-15",
++       "automatedVerification": "passed",
++       "contrastAcceptance": "not-granted",
++       "decisionSource": "explicit-user-start-dialog-refinement",
++       "evidence": "../evidence/runtime/dialog-refinement-2026-09-15/verification.md",
++       "humanGate": "accepted",
++       "humanGateDecision": {
++         "acceptedAt": "2026-09-15",
++         "decisionSource": "explicit-user-request-rule-based-visual-acceptance",
++         "evidence": "../evidence/runtime/dialog-bm-b-visual-2026-09-15/verification.md",
++         "scope": "dialog-alert-dialog-runtime-visual-only",
++         "userStatement": "根据已经建设的dialog设计规则，完成 Dialog 和 BM-B 大表单的整体视觉验收",
++       },
++       "implementation": "completed",
++       "independentReview": "passed",
++       "plan": "../docs/plans/2026-09-15-dialog-refinement-implementation.md",
++       "scope": "dialog-alert-dialog-overlay-tokens-course-and-bm-b",
++       "userStatement": "开始实施",
++     },
+      "dialogV2": {
+        "authorization": "authorized",
+        "authorizedAt": "2026-09-13",
+        "automatedVerification": "passed",
+        "contrastAcceptance": "not-granted",
+@@ -633,10 +654,26 @@
+        "implementation": "completed",
+        "independentReview": "passed",
+        "plan": "../docs/plans/2026-09-10-radio-sc01-implementation.md",
+        "scope": "radio-radiogroup-standard-description-and-native-form",
+        "userStatement": "开始建设标准单选框 Radio + RadioGroup",
++     },
++     "rn13AssetIndex": {
++       "authorization": "authorized",
++       "authorizedAt": "2026-09-15",
++       "automatedVerification": "not-run",
++       "businessMigration": "not-authorized",
++       "contrastAcceptance": "not-granted",
++       "decisionSource": "explicit-user-continue-after-rn10",
++       "evidence": "../evidence/runtime/rn13-asset-index/verification.md",
++       "humanGate": "not-evaluated",
++       "implementation": "in-progress",
++       "independentReview": "not-run",
++       "plan": "../docs/plans/2026-09-15-rn13-asset-index.md",
++       "publication": "not-authorized",
++       "scope": "rn13-local-asset-index-manifests-registry-and-docs-only",
++       "userStatement": "RN10已经完成建设了。继续推进下一步",
+      },
+      "select": {
+        "authorization": "authorized",
+        "authorizedAt": "2026-09-09",
+        "automatedVerification": "passed",
+
+ ❯ scripts/table-rn08.test.ts:128:20
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > passes the complete unmodified fixture before testing any mutation
+AssertionError: expected 'Boundary verification failed:\n- docu…' to match /verification passed/
+
+- Expected:
+/verification passed/
+
++ Received:
+"Boundary verification failed:
+- document outside the Icon library authorization: manifests/ui/alert-dialog.yaml
+- source file outside the complete Day 3 allowlist: evidence/runtime/dialog-refinement-2026-09-15/playwright.config.ts
+- source file outside the complete Day 3 allowlist: packages/foundations/src/overlay-token-contract.ts
+- source file outside the complete Day 3 allowlist: scripts/dialog-refinement.test.ts
+- source file outside the complete Day 3 allowlist: tests/e2e/dialog-refinement.spec.ts
+"
+
+ ❯ scripts/verification-helpers.test.ts:873:50
+    871|       const result = run(script);
+    872|       expect(result.error).toBeUndefined();
+    873|       expect(`${result.stdout}${result.stderr}`).toMatch(/verification…
+       |                                                  ^
+    874|       expect(result.status).toBe(0);
+    875|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > leaves the fixture valid after all mutation checks
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ scripts/verification-helpers.test.ts:962:49
+    960|
+    961|   it("leaves the fixture valid after all mutation checks", () => {
+    962|     expect(run("verify-boundaries.mjs").status).toBe(0);
+       |                                                 ^
+    963|     expect(run("verify-workspace.mjs").status).toBe(0);
+    964|     expect(run("verify-evidence.mjs").status).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  scripts/verification-helpers.test.ts > admits only RN-10 form scope while rejecting fabricated acceptance or publication
+AssertionError: expected '47948e67c00c2167637d7661d5eaf75f970c3…' to be '6e717a12c6fa531e6487473eff39a33788190…' // Object.is equality
+
+Expected: "6e717a12c6fa531e6487473eff39a337881904a9ff0a39c28c0b72688941b74e"
+Received: "47948e67c00c2167637d7661d5eaf75f970c3c1f53de7826badad8cc2f2023d9"
+
+ ❯ scripts/verification-helpers.test.ts:2216:87
+    2214|   const sources = JSON.parse(readWorkspaceFile("evidence/runtime/bm-b-…
+    2215|   for (const file of sources.files.filter((file: any) => file.target.s…
+    2216|     expect(createHash("sha256").update(readWorkspaceFile(file.target))…
+       |                                                                                       ^
+    2217|   }
+    2218|   const registry = JSON.parse(readWorkspaceFile("registry/textarea.jso…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  scripts/verification-helpers.test.ts > admits only RN-09 local BM-A without widening any prior phase
+AssertionError: expected { schemaVersion: '1.0', …(16) } to deeply equal { schemaVersion: '1.0', …(16) }
+
+- Expected
++ Received
+
+@@ -216,10 +216,31 @@
+        "plan": "../docs/plans/2026-09-09-checkbox-sc01-implementation.md",
+        "scope": "checkbox-checkboxgroup-standard-description-and-native-form",
+        "selectedCardBorderDecision": "Border/Brand/1-current-theme-for-later-card-slice",
+        "userStatement": "选中卡片描边使用当前主题色系 border；所有 icon 使用现有 icon 库；继续推进下一步",
+      },
++     "dialogRefinement": {
++       "authorization": "authorized",
++       "authorizedAt": "2026-09-15",
++       "automatedVerification": "passed",
++       "contrastAcceptance": "not-granted",
++       "decisionSource": "explicit-user-start-dialog-refinement",
++       "evidence": "../evidence/runtime/dialog-refinement-2026-09-15/verification.md",
++       "humanGate": "accepted",
++       "humanGateDecision": {
++         "acceptedAt": "2026-09-15",
++         "decisionSource": "explicit-user-request-rule-based-visual-acceptance",
++         "evidence": "../evidence/runtime/dialog-bm-b-visual-2026-09-15/verification.md",
++         "scope": "dialog-alert-dialog-runtime-visual-only",
++         "userStatement": "根据已经建设的dialog设计规则，完成 Dialog 和 BM-B 大表单的整体视觉验收",
++       },
++       "implementation": "completed",
++       "independentReview": "passed",
++       "plan": "../docs/plans/2026-09-15-dialog-refinement-implementation.md",
++       "scope": "dialog-alert-dialog-overlay-tokens-course-and-bm-b",
++       "userStatement": "开始实施",
++     },
+      "dialogV2": {
+        "authorization": "authorized",
+        "authorizedAt": "2026-09-13",
+        "automatedVerification": "passed",
+        "contrastAcceptance": "not-granted",
+
+ ❯ scripts/verification-helpers.test.ts:2233:56
+    2231|   if (verificationHelpers.hasBmBRn10Authorization(status)) delete earl…
+    2232|   if (verificationHelpers.hasRn13Authorization(status)) delete earlier…
+    2233|   expect({ ...status, componentRefinements: earlier }).toEqual(parseYa…
+       |                                                        ^
+    2234| });
+    2235|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  7 failed | 241 passed (248)
+   Start at  17:58:43
+   Duration  18.94s (transform 434ms, setup 313ms, import 549ms, tests 18.56s, environment 1.18s)
+

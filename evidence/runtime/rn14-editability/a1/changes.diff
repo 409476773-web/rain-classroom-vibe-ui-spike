@@ -1,0 +1,38 @@
+--- a/apps/prototype/src/data-table-recipe.tsx
++++ b/apps/prototype/src/data-table-recipe.tsx
+@@ -170,11 +170,7 @@
+     <CardHeader><CardTitle as="h2" id={titleId}>课程资料库</CardTitle><CardDescription>查找教学资料，查看发布状态，并对选中的资料批量操作。</CardDescription></CardHeader>
+     <CardContent><Stack gap={16}>
+       <Stack gap={12} className="data-table-toolbar">
+-        <fieldset disabled={loading} className="data-table-controls"><Inline gap={24} align="center" wrap={false} className="data-table-query-row">
+-          <Inline gap={0} wrap={false} className="data-table-view" role="group" aria-label="资料视图">
+-            <Button size={actionSize} localRecipe={viewStartRecipe} variant={view === "table" ? "secondary" : "tertiary"} aria-label="表格视图" aria-pressed={view === "table"} leadingIcon={<ListViewIcon />} onClick={() => setView("table")}>表格</Button>
+-            <Button size={actionSize} localRecipe={viewEndRecipe} variant={view === "cards" ? "secondary" : "tertiary"} aria-label="卡片视图" aria-pressed={view === "cards"} leadingIcon={<CardViewIcon />} onClick={() => setView("cards")}>卡片</Button>
+-          </Inline>
++        <fieldset disabled={loading} data-slot="rn14-query" className="data-table-controls"><Inline gap={24} align="center" wrap={false} className="data-table-query-row">
+           <Inline gap={12} wrap={false} className="data-table-query">
+             <div className="data-table-search"><FormItem label="查找资料" labelPosition="inside"><SearchInput size={controlSize} ref={searchRef} value={searchDraft} onValueChange={setSearchDraft} onSearch={value => changeFilter("name", value.trim())} placeholder="输入资料名称" /></FormItem></div>
+             <div className="data-table-filter"><FormItem label="发布状态" labelPosition="inside"><Select size={controlSize} clearable={false} disabled={loading} value={statusFilter}
+@@ -183,8 +179,12 @@
+             {filters.length > 0 && <Button variant="text" size={compact ? "compact" : "regular"} disabled={loading} leadingIcon={<CircleCloseFilledIcon />} onClick={clearQuery}>清空筛选</Button>}
+           </Inline>
+         </Inline></fieldset>
+-        <Inline gap={12} justify="between" align="center" wrap={false} className="data-table-actions-row" role="group" aria-label="资料操作">
++        <div data-slot="rn14-results-tools"><Inline gap={12} justify="between" align="center" wrap={false} className="data-table-actions-row" role="group" aria-label="资料操作">
+           <Inline gap={12} wrap={false} className="data-table-result-tools">
++            <Inline gap={0} wrap={false} className="data-table-view" role="group" aria-label="资料视图">
++              <Button size={actionSize} disabled={loading} localRecipe={viewStartRecipe} variant={view === "table" ? "secondary" : "tertiary"} aria-label="表格视图" aria-pressed={view === "table"} leadingIcon={<ListViewIcon />} onClick={() => setView("table")}>表格</Button>
++              <Button size={actionSize} disabled={loading} localRecipe={viewEndRecipe} variant={view === "cards" ? "secondary" : "tertiary"} aria-label="卡片视图" aria-pressed={view === "cards"} leadingIcon={<CardViewIcon />} onClick={() => setView("cards")}>卡片</Button>
++            </Inline>
+             <Inline gap={8} wrap={false} className="data-table-result-info">
+               {view === "cards" && <Checkbox label="选择当前页" aria-label="选择当前页可操作资料" aria-describedby={selectionHelpId}
+                 checked={table.getIsAllPageRowsSelected()} indeterminate={table.getIsSomePageRowsSelected()}
+@@ -217,7 +217,7 @@
+               <Button variant="tertiary" size={actionSize} disabled={loading} onClick={() => setSelection({})}>取消选择</Button></>}
+             <Button size={actionSize} variant="primary" disabled={selected === 0 || loading} onClick={publishSelected}>标为已发布</Button>
+           </Inline>
+-        </Inline>
++        </Inline></div>
+       </Stack>
+       <span id={selectionHelpId} className="sr-only">全选仅作用于当前页可操作资料。翻页或切换视图后，已选资料仍会保留。</span>
+       <div role="status" aria-atomic="true" className={notice ? "data-table-notice" : "sr-only"}>{loading ? "正在刷新资料，当前内容会保留。" : notice && <Card size="sm"><CardContent>{notice}</CardContent></Card>}</div>

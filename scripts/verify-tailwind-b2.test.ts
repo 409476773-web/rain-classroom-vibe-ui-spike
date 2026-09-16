@@ -1,3 +1,7 @@
+import { inputNumberFiles, hasInputNumberAuthorization } from "./verification-helpers.mjs";
+import { avatarFamilyFiles, hasAvatarFamilyAuthorization } from "./verification-helpers.mjs";
+import { tableRn08Files, hasTableRn08Authorization, hasBmBRn10Authorization, rn13AssetIndexFiles, matchesRn15ProtectedSource } from "./verification-helpers.mjs";
+import { layoutsV1Files, hasLayoutsV1Authorization, dialogV2Files, hasDialogV2Authorization } from "./verification-helpers.mjs";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
@@ -13,6 +17,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
+import { createRequire } from "node:module";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
@@ -21,12 +26,24 @@ import { verifyIcons } from "./verify-icons.mjs";
 import { validateRegisteredRecipeColors, verifyTokenFoundations } from "./verify-token-foundations.mjs";
 import {
   validateProtectedTailwindSource,
+  validateCardV2Metadata,
   validateTailwindB2CompositionBridge,
   validateTailwindB2SystemContract,
 } from "./verify-tailwind-b2.mjs";
-import { dropdownFamilyFiles, hasQuestionNumberRefinementAuthorization, hasTagBatchThreeAuthorization, inspectPngMetadata, parseYamlSubset, selectionPatternsSc03Files, selectionCardsSc02Files, selectRefinementFiles, tagRefinementFiles, tagBatchTwoRefinementFiles, tagBatchTwoNames, tagBatchThreeFiles, validateTokenFoundationsV1Phase } from "./verification-helpers.mjs";
+import { cardV2Files, hasCardV2Authorization, dropdownFamilyFiles, hasQuestionNumberRefinementAuthorization, hasTagBatchThreeAuthorization, inspectPngMetadata, parseYamlSubset, selectionPatternsSc03Files, selectionCardsSc02Files, selectRefinementFiles, tagRefinementFiles, tagBatchTwoRefinementFiles, tagBatchTwoNames, tagBatchThreeFiles, validateTokenFoundationsV1Phase } from "./verification-helpers.mjs";
 
 const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+it("keeps Card V2 registration local and rejects premature acceptance or lost exports", () => {
+  const manifest = parseYamlSubset(readFileSync(join(workspaceRoot, "manifests/ui/card.yaml"), "utf8")) as any;
+  const registry = JSON.parse(readFileSync(join(workspaceRoot, "registry/card.json"), "utf8"));
+  expect(validateCardV2Metadata({ manifest, registry })).toEqual([]);
+  for (const patch of [{ humanGate: "accepted" }, { publication: "published" }, { exports: ["Card"] }]) {
+    expect(validateCardV2Metadata({ manifest: { ...manifest, ...patch }, registry }).length).toBeGreaterThan(0);
+  }
+  expect(validateCardV2Metadata({ manifest, registry: { ...registry, publication: "published" } }).length).toBeGreaterThan(0);
+  expect(validateCardV2Metadata({ manifest, registry: { ...registry, shared: undefined } }).length).toBeGreaterThan(0);
+  expect(validateCardV2Metadata({ manifest, registry: { ...registry, shared: { ...registry.shared, peerDependencies: [...registry.shared.peerDependencies, "unapproved-card-engine"] } } }).length).toBeGreaterThan(0);
+});
 const benchmarkPath = "benchmarks/tailwind-b2-ai-editability.yaml";
 const baselinePath = "evidence/runtime/tailwind-b2/baseline-results.yaml";
 const evidenceReadmePath = "evidence/runtime/tailwind-b2/README.md";
@@ -2308,7 +2325,7 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
         expect(result.failures.join("\n")).not.toMatch(/QuestionNumber contrast findings remain pending/);
       }
     } finally { writeFileSync(path, original); }
-  });
+  }, 15_000);
 
   it("rejects OptionButton content card CSS expansion and gate substitution", () => {
     const cssPath = absolute("packages/ui/src/styles.css", fixtureRoot);
@@ -2872,7 +2889,9 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
     const addedTagPaths = [...tagBatchTwoRefinementFiles.ui, ...tagBatchTwoNames.map((name) => `manifests/ui/${name}.yaml`), ...tagRefinementFiles.ui, ...tagRefinementFiles.application, "registry/tag.json", ...["tag", "link-tag", "checkable-tag", "checkable-tag-group"].map((name) => `manifests/ui/${name}.yaml`)];
     addedTagPaths.push(...tagBatchThreeFiles.ui, ...tagBatchThreeFiles.application, "manifests/ui/tag-select.yaml", "registry/tag-select.json");
     const addedDropdownPaths = [...dropdownFamilyFiles.ui, ...dropdownFamilyFiles.application, ...dropdownFamilyFiles.documents];
-    const addedTabsPaths = ["manifests/ui/tabs.yaml", "registry/tabs.json"];
+    const addedTabsPaths = ["manifests/ui/tabs.yaml", "registry/tabs.json", ...Object.values(cardV2Files).flat(), ...Object.values(dialogV2Files).flat(), ...Object.values(layoutsV1Files).flat()];
+    const laterPaths = [...inputNumberFiles.documents, ...avatarFamilyFiles.documents, ...Object.values(tableRn08Files).flat(), "manifests/ui/textarea.yaml", "registry/textarea.json",
+      ...rn13AssetIndexFiles.documents.filter((path) => /^(manifests|registry)\//.test(path)), "manifests/ui/alert-dialog.yaml"];
     const addedSelectPaths = [...selectRefinementFiles.ui, ...selectRefinementFiles.application, "manifests/ui/select.yaml", "registry/select.json"];
     const addedCheckboxPaths = ["packages/ui/src/checkbox/checkbox.tsx", "packages/ui/src/checkbox/checkbox.test.tsx",
       "apps/playground/src/docs/components/checkbox-page.tsx", "apps/playground/src/docs/components/checkbox-page.css",
@@ -2887,7 +2906,7 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
     const iconRegistryPath = "registry/icons.json";
     const uiStylesPath = "packages/ui/src/styles.css";
     const b2ContractPath = "manifests/contracts/tailwind-b2.yaml";
-    const originals = new Map([...archivedPaths, statusPath, manifestPath, uiStylesPath, b2ContractPath, ...iconButtonPaths, ...addedInputPaths, ...addedTagPaths, ...addedDropdownPaths, ...addedTabsPaths, ...addedSelectPaths, ...addedCheckboxPaths, ...addedRadioPaths, ...addedSelectionCardPaths, ...addedSelectionPatternPaths, ...addedIconPaths, iconCatalogPath, iconRegistryPath].map((path) => [path, readFileSync(absolute(path, fixtureRoot))]));
+    const originals = new Map([...archivedPaths, statusPath, manifestPath, uiStylesPath, b2ContractPath, ...iconButtonPaths, ...addedInputPaths, ...addedTagPaths, ...addedDropdownPaths, ...addedTabsPaths, ...laterPaths, ...addedSelectPaths, ...addedCheckboxPaths, ...addedRadioPaths, ...addedSelectionCardPaths, ...addedSelectionPatternPaths, ...addedIconPaths, iconCatalogPath, iconRegistryPath].map((path) => [path, readFileSync(absolute(path, fixtureRoot))]));
     const archivePath = absolute("evidence/runtime/token-foundations-v1/pre-token-runtime.tar.gz");
     const demoPath = absolute("apps/playground/src/docs/token-foundations", fixtureRoot);
     const heldDemoPath = absolute("held-token-foundations-demo", fixtureRoot);
@@ -2903,20 +2922,23 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
       const status = readYaml(statusPath, fixtureRoot);
       writeFileSync(absolute(statusPath, fixtureRoot), renderYaml(status.phaseHistory.tailwindB2));
       rmSync(absolute(manifestPath, fixtureRoot));
-      for (const path of [...iconButtonPaths, ...addedInputPaths, ...addedTagPaths, ...addedDropdownPaths, ...addedTabsPaths, ...addedSelectPaths, ...addedCheckboxPaths, ...addedRadioPaths, ...addedSelectionCardPaths, ...addedSelectionPatternPaths, ...addedIconPaths]) rmSync(absolute(path, fixtureRoot));
+      for (const path of [...iconButtonPaths, ...addedInputPaths, ...addedTagPaths, ...addedDropdownPaths, ...addedTabsPaths, ...laterPaths, ...addedSelectPaths, ...addedCheckboxPaths, ...addedRadioPaths, ...addedSelectionCardPaths, ...addedSelectionPatternPaths, ...addedIconPaths]) rmSync(absolute(path, fixtureRoot));
       writeFileSync(absolute(iconCatalogPath, fixtureRoot), originals.get(iconCatalogPath)!.toString().split("\n").filter((line) => !line.includes('assetId: "icon/grading-')).join("\n"));
       const registry = JSON.parse(originals.get(iconRegistryPath)!.toString());
       registry.items = registry.items.filter((item: any) => !["grading-pending", "grading-reviewed"].includes(item.name));
       writeFileSync(absolute(iconRegistryPath, fixtureRoot), `${JSON.stringify(registry, null, 2)}\n`);
       const contract = readYaml(b2ContractPath, fixtureRoot);
-      contract.cssExceptions.entries = contract.cssExceptions.entries.filter((entry: any) => !["ui-icon", "ui-icon-button", "ui-question-number", "ui-option-button", "ui-input", "ui-field", "ui-select", "ui-tag", "ui-tag-select", "ui-dropdown-family", "ui-checkbox", "ui-radio", "ui-selection-cards"].includes(entry.component));
-      for (const key of ["required", "optional"]) contract.protectedPaths[key] = contract.protectedPaths[key].filter((path: string) => !path.includes("icon-button") && !path.includes("question-number") && !path.includes("option-button") && !path.includes("/tag/") && !addedInputPaths.includes(path) && !addedTagPaths.includes(path) && !addedDropdownPaths.includes(path) && !addedSelectPaths.includes(path) && !addedCheckboxPaths.includes(path) && !addedRadioPaths.includes(path) && !addedSelectionCardPaths.includes(path));
+      contract.cssExceptions.entries = contract.cssExceptions.entries.filter((entry: any) => !["ui-empty", "ui-pagination", "ui-table", "layouts-v1", "ui-icon", "ui-icon-button", "ui-question-number", "ui-option-button", "ui-input", "ui-field", "ui-select", "ui-tag", "ui-tag-select", "ui-dropdown-family", "ui-checkbox", "ui-radio", "ui-selection-cards"].includes(entry.component));
+      for (const key of ["required", "optional"]) contract.protectedPaths[key] = contract.protectedPaths[key].filter((path: string) => !path.includes("icon-button") && !path.includes("question-number") && !path.includes("option-button") && !path.includes("/tag/") && !laterPaths.includes(path) && !addedInputPaths.includes(path) && !addedTagPaths.includes(path) && !addedDropdownPaths.includes(path) && !addedSelectPaths.includes(path) && !addedCheckboxPaths.includes(path) && !addedRadioPaths.includes(path) && !addedSelectionCardPaths.includes(path));
       writeFileSync(absolute(b2ContractPath, fixtureRoot), renderYaml(contract));
       const nativeStyles = originals.get(uiStylesPath)!.toString().split("/* @rain-css-exception selection-card-layout:")[0]!.replace(/\/\* @rain-css-exception option-button-card-layout:[\s\S]*?\n\}/, "").replace(/\/\* @rain-css-exception option-button-review-forced-colors:[\s\S]*?\n\}/, "")
         .replace(/\/\* @rain-css-exception tag-select-layer:[\s\S]*?(?=\n\.rain-badge \{)/, "");
       writeFileSync(absolute(uiStylesPath, fixtureRoot), `.rain-icon {\n  display: inline-block;\n  flex: none;\n  width: 1em;\n  height: 1em;\n  color: inherit;\n  vertical-align: middle;\n}\n\n${nativeStyles.slice(nativeStyles.indexOf('.rain-icon[data-icon-color-mode="host"]'))}`);
       expect(validateTailwindB2CompositionBridge({ root: fixtureRoot })).toEqual([]);
       expect(validateTailwindB2SystemContract({ root: fixtureRoot })).toEqual([]);
+      writeFileSync(absolute("manifests/ui/select.yaml", fixtureRoot), renderYaml({ insideFieldLabels: { implementation: "completed" } }));
+      expect(validateTailwindB2SystemContract({ root: fixtureRoot }).join("\n"))
+        .toContain("select inside label record must retain the exact independent implementation and visual acceptance scope");
     } finally {
       renameSync(heldDemoPath, demoPath);
       for (const [path, source] of originals) writeFileSync(absolute(path, fixtureRoot), source);
@@ -2991,7 +3013,7 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
     ]);
     const sourceStatements = applicationCss.match(/@source\s+["'][^"']*["'];/g) ?? [];
     expect(sourceStatements.filter((statement) => /docs|evidence|registry|\/private\/tmp/.test(statement)))
-      .toEqual(['@source "./docs/token-foundations";', '@source "./docs/components/icon-button-page.tsx";', '@source "./docs/components/input-page.tsx";', '@source "./docs/components/select-page.tsx";', '@source "./docs/components/tabs-page.tsx";', '@source "./docs/components/dropdown-page.tsx";', '@source "./docs/components/tag-page.tsx";', '@source "./docs/components/question-number-page.tsx";', '@source "./docs/components/option-button-page.tsx";', '@source "./docs/components/checkbox-page.tsx";', '@source "./docs/components/radio-page.tsx";', '@source "./docs/components/selection-cards-page.tsx";', '@source "./docs/components/selection-patterns-page.tsx";', '@source "./docs/components/selection-playground-page.tsx";']);
+      .toEqual(['@source "./docs/token-foundations";', '@source "./docs/components/icon-button-page.tsx";', ...(hasInputNumberAuthorization(readYaml("status/current-phase.yaml")) ? ['@source "./docs/components/input-number-page.tsx";'] : []), '@source "./docs/components/input-page.tsx";', '@source "./docs/components/select-page.tsx";', '@source "./docs/components/tabs-page.tsx";', ...(hasTableRn08Authorization(readYaml("status/current-phase.yaml")) ? ['@source "./docs/components/table-page.tsx";'] : []), ...(hasAvatarFamilyAuthorization(readYaml("status/current-phase.yaml")) ? ['@source "./docs/components/avatar-page.tsx";'] : []), '@source "./docs/components/layouts-page.tsx";', '@source "./docs/components/dialog-page.tsx";', '@source "./docs/components/card-page.tsx";', '@source "./docs/components/dropdown-page.tsx";', '@source "./docs/components/tag-page.tsx";', '@source "./docs/components/question-number-page.tsx";', '@source "./docs/components/option-button-page.tsx";', '@source "./docs/components/checkbox-page.tsx";', '@source "./docs/components/radio-page.tsx";', '@source "./docs/components/selection-cards-page.tsx";', '@source "./docs/components/selection-patterns-page.tsx";', '@source "./docs/components/selection-playground-page.tsx";']);
   });
 
   it("proves the fail-closed source roots with a fresh real Vite build", () => {
@@ -3033,7 +3055,7 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
         [
           'import "./styles.css";',
           'const playgroundProbe = "bg-rain-surface-panel text-rain-text-primary";',
-          'const closedDefaults = "bg-blue-500 bg-gray-100 font-sans font-semibold text-sm gap-4 rounded-md shadow-sm sm:flex border outline filter underline";',
+          'const closedDefaults = "bg-blue-500 bg-gray-100 font-sans font-semibold text-sm gap-4 rounded-md shadow-sm sm:flex border outline filter underline ring";',
           "void playgroundProbe;",
           "void closedDefaults;",
         ].join("\n"),
@@ -3186,12 +3208,67 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
       for (const utility of ["border-dashed", "flex-wrap", "overflow-x-auto"]) currentStructuralAllowlist.add(utility);
       if (hasTagBatchThreeAuthorization(readYaml("status/current-phase.yaml")))
         for (const utility of ["justify-between", "whitespace-normal"]) currentStructuralAllowlist.add(utility);
+      if (hasDialogV2Authorization(readYaml("status/current-phase.yaml")))
+        for (const utility of ["contents", "min-h-0", "overflow-y-auto", "shrink-0"]) currentStructuralAllowlist.add(utility);
+      if (hasLayoutsV1Authorization(readYaml("status/current-phase.yaml")))
+        for (const utility of ["flex-nowrap", "items-end", "items-stretch", "overflow-auto", "overflow-visible"]) currentStructuralAllowlist.add(utility);
+      if (hasCardV2Authorization(readYaml("status/current-phase.yaml")))
+        for (const utility of ["auto-rows-min", "col-start-1", "items-baseline", "justify-end", "wrap-anywhere", "order-1"]) currentStructuralAllowlist.add(utility);
+      if (hasCardV2Authorization(readYaml("status/current-phase.yaml")) && readYaml("status/current-phase.yaml").componentRefinements.cardV2.visualRefinement)
+        for (const utility of ["col-span-full", "grid-cols-1", "justify-start", "row-start-3"]) currentStructuralAllowlist.add(utility);
+      if (hasTableRn08Authorization(readYaml("status/current-phase.yaml")))
+        for (const utility of ["border-collapse", "caption-bottom", "list-none", "text-start"]) currentStructuralAllowlist.add(utility);
+      if (hasBmBRn10Authorization(readYaml("status/current-phase.yaml")))
+        for (const utility of ["flex-auto", "resize-none", "resize-y"]) currentStructuralAllowlist.add(utility);
+      // Scanner output from comments, event/type strings and SVG/CSS attributes; no public class authorization.
+      // Origins: evidence/runtime/rn15-delivery/tailwind-candidate-origins.json.
+      const unusedScannerOutput = new Set(["container", "resize", "table", "transform"]);
+      const require = createRequire(import.meta.url);
+      const { Scanner } = require(require.resolve("@tailwindcss/oxide", { paths: [dirname(require.resolve("@tailwindcss/vite"))] }));
+      const stylesPath = absolute("apps/playground/src/styles.css");
+      const scanner = new Scanner({ sources: [...readFileSync(stylesPath, "utf8").matchAll(/@source\s+(not\s+)?"([^"]+)";/g)]
+        .map(match => ({ base: dirname(stylesPath), pattern: match[2], negated: Boolean(match[1]) })) });
+      scanner.scan();
+      const sources = new Map<string, string>(scanner.files.map((file: string) => [relative(workspaceRoot, file), readFileSync(file, "utf8")]));
+      const expectedSources = JSON.parse(readFileSync(absolute("evidence/runtime/rn15-delivery/tailwind-candidate-origins.json"), "utf8")).unusedCandidateSources;
+      const originPhase = readYaml("status/current-phase.yaml");
+      if (hasAvatarFamilyAuthorization(originPhase)) {
+        const avatarOrigins = JSON.parse(readFileSync(absolute("evidence/runtime/avatar/tailwind-candidate-origins.json"), "utf8"));
+        for (const [word, origins] of Object.entries(avatarOrigins)) Object.assign(expectedSources[word], origins);
+      }
+      if (hasInputNumberAuthorization(originPhase)) {
+        const origins = JSON.parse(readFileSync(absolute("evidence/runtime/input-number/tailwind-candidate-origins.json"), "utf8"));
+        for (const [word, entries] of Object.entries(origins)) Object.assign(expectedSources[word], entries);
+      }
+      // ponytail: freeze these four audited origins; re-audit changed files instead of adding a class-dataflow analyzer.
+      const collectOrigins = (sources: Map<string, string>) => {
+        const origins: Record<string, Record<string, string>> = Object.fromEntries([...unusedScannerOutput].map(word => [word, {}]));
+        for (const [file, content] of sources) {
+          const candidates = new Set(scanner.getCandidatesWithPositions({ content, extension: file.split(".").at(-1) }).map((entry: { candidate: string }) => entry.candidate));
+          for (const word of unusedScannerOutput) if (candidates.has(word)) {
+            const expected = expectedSources[word]?.[file];
+            origins[word]![file] = file === "packages/ui/src/styles.css" && expected && matchesRn15ProtectedSource(file, content, expected, originPhase, [])
+              ? expected : createHash("sha256").update(content).digest("hex");
+          }
+        }
+        return origins;
+      };
+      expect(collectOrigins(sources)).toEqual(expectedSources);
+      const existingSource = "apps/playground/src/app.tsx";
+      for (const word of unusedScannerOutput) for (const file of [existingSource, "apps/playground/src/rn15-unregistered.tsx"]) {
+        for (const extra of [`\nconst probe = <div className="${word}" />;`, `\nconst recipe = defineRainLocalRecipe({ classes: { root: "${word}" } });`]) {
+          expect(collectOrigins(new Map(sources).set(file, (sources.get(file) ?? "") + extra))).not.toEqual(expectedSources);
+        }
+      }
+      expect(collectOrigins(new Map(sources).set("packages/ui/src/styles.css", sources.get("packages/ui/src/styles.css") + "\n.probe { transform: none; }"))).not.toEqual(expectedSources);
+      const removedSource = new Map(sources); removedSource.delete(existingSource);
+      expect(collectOrigins(removedSource)).not.toEqual(expectedSources);
       const normalizeUtility = (utility: string) => {
         if (utility === "\\[\\&\\>\\.rain-icon\\]\\:size-full>.rain-icon") return "size-full";
         const unescaped = utility.replaceAll("\\:", ":").replaceAll("\\*", "*");
         const withoutSelectorSuffix = unescaped.replace(/\[aria-(?:disabled|selected)=(?:true|false)\]/g, "").replace(/\[data-disabled\]/g, "").replace(/>\*\)$/, "").replace(/:has\(:disabled\)$/, "");
         const withoutStateSuffix = withoutSelectorSuffix.replace(
-          /:(?:active|focus-visible|hover|disabled)$/,
+          /:(?:active|focus-visible|hover|disabled|enabled)$/,
           "",
         );
         return withoutStateSuffix.split(":").at(-1) ?? withoutStateSuffix;
@@ -3201,6 +3278,7 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
         emittedUtilities.filter(
           (utility) =>
             !currentStructuralAllowlist.has(normalizeUtility(utility)) &&
+            !unusedScannerOutput.has(utility) &&
             !/(?:^|-)rain-/.test(utility),
         ),
         `unexpected non-Rain utilities: ${emittedUtilities.join(", ")}`,

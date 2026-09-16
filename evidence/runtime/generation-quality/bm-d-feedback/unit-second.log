@@ -1,0 +1,37 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/m2.test.ts (5 tests | 1 failed) 191ms
+   × checks each local color on its real surfaces and rejects weakened SVG, text, scope or source metadata 143ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/m2.test.ts > checks each local color on its real surfaces and rejects weakened SVG, text, scope or source metadata
+AssertionError: expected [ …(3) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   ".bm-d .bm-d-metric-option border light Background/Neutral/1: Insufficient contrast: 1.56 < 3",
++   ".bm-d .bm-d-metric-option border dark Background/Neutral/1: Insufficient contrast: 1.67 < 3",
++   ".bm-d .bm-d-metric-option[data-state=\"checked\"] border dark Background/Neutral/1: Insufficient contrast: 2.57 < 3",
++ ]
+
+ ❯ scripts/m2.test.ts:78:128
+     76|   for (const filePath of ["apps/prototype/src/scenarios/bm-c/page.css"…
+     77|     const source = read(filePath), pendingContrastFindings: any[] = []…
+     78|     expect(validateRegisteredRecipeColors({ filePath, source, outputs,…
+       |                                                                                                                                ^
+     79|     expect(pendingContrastFindings).toEqual([]); expect(pendingEligibi…
+     80|     for (const changed of [source + '\n.escape { color: var(--rain-cat…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 11 passed (12)
+   Start at  10:03:48
+   Duration  4.11s (transform 728ms, setup 370ms, import 1.54s, tests 1.35s, environment 577ms)
+

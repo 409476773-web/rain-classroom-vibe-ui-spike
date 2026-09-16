@@ -13,6 +13,7 @@ import {
   CardTitle,
   FormItem,
   Input,
+  InputNumber,
   Link,
   Select,
   Surface,
@@ -289,6 +290,11 @@ export function CoreUiPage() {
         </div>
       </section>
 
+      <section className="core-family" data-rain-id="core-ui-input-number" data-slot="component-family">
+        <div className="core-family__intro"><h2>InputNumber 数字输入框</h2><p>数量与分值填写，左右增减、范围与小数校验，继承 Input 的三种外观。</p><Link href="#input-number">查看 InputNumber 全部用法</Link></div>
+        <div className="component-stage component-stage--fields"><FormItem label="练习题数"><InputNumber defaultValue={3} min={0} suffixText="题" /></FormItem></div>
+      </section>
+
       <section className="core-family" data-rain-id="core-ui-tabs" data-slot="component-family">
         <div className="core-family__intro"><h2>Tabs 分区切换</h2><p>完整的导航与面板，三种外观、连续更多菜单，以及本页内容保留。</p><Link href="#tabs">查看 Tabs 全部用法</Link></div>
       </section>
@@ -383,6 +389,11 @@ export function CoreUiPage() {
               <Surface variant="raised">Raised · 抬高表面</Surface>
             </div>
             <div className="card-grid">
+              <Link href="#card">查看 Card 完整用法与局部修改</Link>
+              <Link href="#dialog">查看 Dialog 与 Separator</Link>
+              <Link href="#layouts">查看布局与组合</Link>
+              <Link href="#table">查看表格、分页与空态</Link>
+              <Link href="#avatar">查看头像、成员组与头像图库</Link>
               <Card>
                 <CardHeader>
                   <CardTitle as="h3">课程资源包</CardTitle>
@@ -410,7 +421,7 @@ export function CoreUiPage() {
             { label: "结构", value: "Card / Header / Title / Description / Action / Content / Footer。" },
             { label: "无障碍", value: "Card 默认是独立 article；标题级别由页面决定；整卡非交互。" },
             { label: "参考成熟库", value: "学习 shadcn/ui Card 的清晰 Parts，学习 Ant Design 后台对象卡的内容完整度。" },
-            { label: "Rain 来源", value: "Surface/Card 为 react-only 重设计，但继续使用 Rain 表面、边框、圆角和信息层级。" },
+            { label: "Rain 来源", value: "Card 按 shadcn 作者源码与 Nova 样式转译为 Rain；Surface 保留现有实现。视觉采用 Rain Token。" },
             { label: "修改边界", value: "Container 仍只管宽度与左右留白；滚动和布局不归 Surface/Card。" },
           ]} />
         </div>

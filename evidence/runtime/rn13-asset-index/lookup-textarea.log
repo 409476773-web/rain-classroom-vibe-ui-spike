@@ -1,0 +1,15 @@
+# Rain 资产检索索引
+
+由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。
+
+只收录有自动验证通过登记的非本地实验资产；这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；`not-recorded` 表示未登记，不能视作通过。
+
+基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。BM-A/B 为本地原型，使用路径见 [场景改造](README.md#复制和改造-bm-ab)。
+
+| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |
+| --- | --- | --- | --- | --- | --- |
+| **FormItem** | Shared label, help and validation for Input, SearchInput, Select and Textarea; fixed inside labels remain limited to single-line controls. | FormItem · `@rain-next/ui` · [源码](../../packages/ui/src/input/form-item.tsx) | [合同](../../manifests/ui/form-item.yaml) · [依赖](../../registry/core-ui.json) | registry-candidate / registry-candidate | passed / accepted / not-recorded / unpublished |
+| **Textarea** | Native multiline text editing with Rain field appearance and complete FormItem linkage. | Textarea · `@rain-next/ui` · [源码](../../packages/ui/src/textarea/textarea.tsx) | [合同](../../manifests/ui/textarea.yaml) · [依赖](../../registry/textarea.json) | registry-candidate / registry-candidate | passed / awaiting_human / not-granted / unpublished |
+
+状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。
+

@@ -1,0 +1,14 @@
+import {createRequire} from 'node:module';import{writeFileSync}from'node:fs';
+const require=createRequire('/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/package.json');const{chromium}=require('@playwright/test');
+const browser=await chromium.launch({headless:true});const page=await browser.newPage();page.setDefaultTimeout(10000);const results=[],errors=[],modules=[];
+page.on('pageerror',e=>errors.push(String(e)));page.on('request',r=>{if(/react\.js|react-dom_client|packages\/layouts\/src\/index/.test(r.url()))modules.push(r.url())});
+const check=async name=>{await page.getByRole('checkbox',{name}).focus();await page.keyboard.press('Space')};
+try{
+ for(const width of[1280,375,320])for(const dark of[false,true]){
+ await page.setViewportSize({width,height:900});await page.goto('about:blank');await page.goto('http://127.0.0.1:5193/#layouts');if(dark)await check('深色主题');
+ await page.getByRole('heading',{name:'课程资料',exact:true}).waitFor();
+ const facts=await page.evaluate(()=>{const q=s=>document.querySelector(s),b=e=>{const r=e.getBoundingClientRect();const s=getComputedStyle(e);return{x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom,scrollWidth:e.scrollWidth,clientWidth:e.clientWidth,scrollHeight:e.scrollHeight,clientHeight:e.clientHeight,display:s.display,columns:s.gridTemplateColumns,background:s.backgroundColor,color:s.color,gap:s.gap,overflowX:s.overflowX,overflowY:s.overflowY}};return{pageWidth:document.documentElement.scrollWidth,heading:b(q('h1')),surface:b(q('[data-rain-id="layouts-page"]')),grid:b(q('[data-example="settings-grid"]')),split:{...b(q('[data-rain-id="layout-split"]')),stacked:q('[data-rain-id="layout-split"]').getAttribute('data-stacked')},main:b(q('[data-slot="main"]')),sidebar:b(q('[data-slot="sidebar"]')),actions:b(q('[data-example="query-actions"]')),mainButtons:[...q('[data-slot="main"]').querySelectorAll('button')].map(e=>({...b(e),text:e.innerText}))}});
+ results.push({case:`width-${width}-${dark?'dark':'light'}`,facts});await page.screenshot({path:`/tmp/rain-layouts-v1-review/width-${width}-${dark?'dark':'light'}.png`,fullPage:true});
+ }
+ console.log(JSON.stringify({results,errors,modules:[...new Set(modules)]},null,2));
+}finally{writeFileSync('/tmp/rain-layouts-v1-review/results.json',JSON.stringify({results,errors,modules:[...new Set(modules)]},null,2));await browser.close()}

@@ -1,0 +1,183 @@
+import { expect, test, type Page } from "@playwright/test";
+import { writeFileSync } from "node:fs";
+
+async function check(page: Page, name: string) {
+  await page.getByRole("checkbox", { name }).focus(); await page.keyboard.press("Space");
+  await expect(page.getByRole("checkbox", { name })).toBeChecked();
+}
+const split = (page: Page) => page.locator('[data-rain-id="layout-split"]');
+const main = (page: Page) => page.getByRole("region", { name: "资料列表", exact: true });
+const sidebar = (page: Page) => page.getByRole("region", { name: "资料详情", exact: true });
+
+async function panelGeometry(page: Page) {
+  return main(page).evaluate(el => {
+    const groups = el.querySelector('[data-example="main-groups"]')!, list = el.querySelector('[data-example="material-list"]')!;
+    const information = list.querySelector('[data-example="material-info"]')!;
+    const between = (a: Element, b: Element) => b.getBoundingClientRect().top - a.getBoundingClientRect().bottom;
+    return { inset: groups.getBoundingClientRect().left - el.getBoundingClientRect().left,
+      topInset: groups.getBoundingClientRect().top - el.getBoundingClientRect().top,
+      section: between(groups.children[0]!, groups.children[1]!),
+      item: between(information.children[0]!, information.children[1]!),
+      articles: between(list.children[0]!, list.children[1]!),
+      sidebarInset: parseFloat(getComputedStyle(el.nextElementSibling!).paddingTop),
+      sidebarGap: getComputedStyle(el.nextElementSibling!.firstElementChild!).gap };
+  });
+}
+
+async function chooseSpacing(page: Page, name: string, value: number) {
+  await page.getByRole("combobox", { name, exact: true }).click();
+  await page.getByRole("option", { name: `${value}px`, exact: true }).click();
+}
+
+for (const theme of ["light", "dark"] as const) for (const compact of [false, true]) {
+  test(`RN-06 ${theme} ${compact ? "compact" : "default"}: actual container geometry, density and independent scroll`, async ({ page }, info) => {
+    await page.setViewportSize({ width: 1280, height: 900 }); await page.goto("/#layouts");
+    if (theme === "dark") await check(page, "深色主题");
+    if (compact) await check(page, "紧凑控件");
+    expect(await page.getByRole("heading", { name: "布局与组合", exact: true }).evaluate(el => getComputedStyle(el).color === getComputedStyle(el.parentElement!).color)).toBe(true);
+    const grid = page.locator('[data-example="settings-grid"]'), root = split(page);
+    await expect(root).toHaveAttribute("data-stacked", "false");
+    await expect(grid).toHaveCSS("gap", "12px");
+    expect((await grid.evaluate(el => getComputedStyle(el).gridTemplateColumns)).split(" ")).toHaveLength(2);
+    const fields = await grid.locator(':scope > *').evaluateAll(nodes => nodes.map(el => { const r = el.getBoundingClientRect(); return { x: r.x, y: r.y, right: r.right }; }));
+    expect(fields[1]!.x - fields[0]!.right).toBe(12); expect(fields[1]!.y).toBe(fields[0]!.y);
+    const labels = await grid.locator('[data-slot="label"]').evaluateAll(nodes => nodes.map(el => el.getBoundingClientRect().y));
+    expect(labels[1]).toBe(labels[0]);
+    const courseControl = await grid.locator('[data-rain-id="ui-input"]').boundingBox();
+    const modeControl = await grid.locator('[data-rain-id="ui-select"]').boundingBox();
+    expect(modeControl!.y).toBe(courseControl!.y);
+    const spacing = await panelGeometry(page);
+    expect(spacing).toEqual({ inset: 16, topInset: 16, section: 12, item: 8, articles: 12, sidebarInset: 16, sidebarGap: "12px" });
+    await expect(page.locator('[data-example="layout-settings"]')).toHaveCSS("padding-top", "20px");
+    await expect(page.locator('[data-example="settings-sections"]')).toHaveCSS("gap", "16px");
+    await expect(page.locator('[data-example="material-sections"]')).toHaveCSS("gap", "16px");
+    await expect(page.locator('.layouts-review')).toHaveCSS("padding-top", "32px");
+    await expect(page.locator('.layouts-review-content')).toHaveCSS("gap", "24px");
+    await expect(sidebar(page)).toHaveCSS("width", "320px");
+    await expect(page.getByRole("textbox", { name: "课程名称", exact: true }).locator('xpath=ancestor::*[@data-rain-id="ui-input"]')).toHaveAttribute("data-size", compact ? "24" : "32");
+    await expect(page.getByRole("button", { name: "保存设置", exact: true })).toHaveCSS("height", "32px");
+    // Constrain a real consumer to exercise both scroll owners even when short content fits.
+    await root.evaluate(el => { el.style.height = "360px"; });
+    for (const pane of [main(page), sidebar(page)]) {
+      await expect(pane).toHaveCSS("overflow-y", "auto");
+      expect(await pane.evaluate(el => el.scrollHeight > el.clientHeight)).toBe(true);
+    }
+    await main(page).evaluate(el => { el.scrollTop = 180; });
+    expect(await sidebar(page).evaluate(el => el.scrollTop)).toBe(0);
+    await sidebar(page).evaluate(el => { el.scrollTop = 100; });
+    expect(await main(page).evaluate(el => el.scrollTop)).toBe(180);
+    await main(page).evaluate(el => { el.scrollTop = 0; }); await sidebar(page).evaluate(el => { el.scrollTop = 0; });
+    await root.evaluate(el => { el.style.removeProperty("height"); });
+    const facts = await root.evaluate(el => ({ width: el.getBoundingClientRect().width, gap: getComputedStyle(el).gap, stacked: el.getAttribute("data-stacked"), parts: [...el.children].map(node => ({ slot: node.getAttribute("data-slot"), width: node.getBoundingClientRect().width, height: node.getBoundingClientRect().height })) }));
+    writeFileSync(info.outputPath(`wide-${theme}-${compact}.json`), JSON.stringify({ facts, spacing }, null, 2));
+    await page.screenshot({ path: info.outputPath(`wide-${theme}-${compact}.png`), fullPage: true });
+    await check(page, "窄容器");
+    await expect(root).toHaveAttribute("data-stacked", "true");
+    expect((await grid.evaluate(el => getComputedStyle(el).gridTemplateColumns)).split(" ")).toHaveLength(1);
+    const before = await main(page).boundingBox(), after = await sidebar(page).boundingBox();
+    expect(after!.y - (before!.y + before!.height)).toBe(12);
+    expect(after!.width).toBe(before!.width);
+    expect(await root.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+    const stackedSpacing = await panelGeometry(page);
+    expect(stackedSpacing.section).toBe(12); expect(stackedSpacing.item).toBe(8); expect(stackedSpacing.articles).toBe(12);
+    await page.screenshot({ path: info.outputPath(`narrow-container-${theme}-${compact}.png`), fullPage: true });
+  });
+}
+
+test("RN-06 host: hide preserves draft and focus, closes owned Select, and keeps query interactions usable", async ({ page }) => {
+  await page.goto("/#layouts");
+  const input = page.getByRole("textbox", { name: "资料标题", exact: true });
+  const original = await input.elementHandle();
+  await input.fill("尚未保存的资料草稿");
+  await page.getByRole("button", { name: "收起当前详情", exact: true }).click();
+  await expect(split(page)).toHaveAttribute("data-collapsed", "true");
+  await expect(page.getByRole("button", { name: "展开资料详情", exact: true })).toBeFocused();
+  await expect(sidebar(page)).toHaveCount(0);
+  await expect(split(page).locator('[data-slot="sidebar"]')).toHaveAttribute("hidden");
+  await expect(split(page).locator('[data-slot="sidebar"]')).toHaveAttribute("inert");
+  await page.getByRole("button", { name: "展开资料详情", exact: true }).click();
+  await expect(input).toHaveValue("尚未保存的资料草稿");
+  expect(await input.evaluate((el, previous) => el === previous, original)).toBe(true);
+  await page.getByRole("combobox", { name: "关联教学方式", exact: true }).click();
+  await expect(page.getByRole("listbox")).toBeVisible();
+  await page.getByRole("button", { name: "收起资料详情", exact: true }).click();
+  await expect(page.getByRole("listbox")).toHaveCount(0); await expect(sidebar(page)).toHaveCount(0);
+  await page.getByRole("button", { name: "展开资料详情", exact: true }).click();
+  await expect(page.getByRole("listbox")).toHaveCount(0); await expect(input).toHaveValue("尚未保存的资料草稿");
+  await page.getByRole("textbox", { name: "查找资料", exact: true }).fill("不存在的材料");
+  await expect(page.getByText("没有找到相关资料，请调整查找条件。")).toBeVisible();
+  await page.getByRole("button", { name: "清空筛选", exact: true }).click();
+  await expect(main(page).getByRole("article")).toHaveCount(6);
+  await page.getByRole("combobox", { name: "资料类型", exact: true }).click();
+  await page.getByRole("option", { name: "课堂任务", exact: true }).click();
+  await expect(main(page).getByRole("article")).toHaveCount(3);
+});
+
+test("spacing hierarchy: independent choices, equality and zero preserve live drafts and actual panel geometry", async ({ page }, info) => {
+  await page.setViewportSize({ width: 1280, height: 900 }); await page.goto("/#layouts");
+  const title = page.getByRole("textbox", { name: "资料标题", exact: true }), original = await title.elementHandle();
+  await title.fill("调整间距时保留的未保存草稿");
+  await page.getByText("调整资料面板间距", { exact: true }).click();
+  const results = [];
+  for (const [inset, section, item] of [[24, 20, 12], [20, 20, 12], [16, 16, 16], [40, 36, 24], [0, 0, 0]]) {
+    await chooseSpacing(page, "边缘留白", inset!); await chooseSpacing(page, "分区间距", section!); await chooseSpacing(page, "信息间距", item!);
+    await page.getByRole("button", { name: "应用面板间距" }).click();
+    await expect(page.getByRole("alert")).toHaveCount(0);
+    const geometry = await panelGeometry(page); results.push({ chosen: { inset, section, item }, geometry });
+    expect(geometry).toEqual({ inset, topInset: inset, section, item, articles: section, sidebarInset: inset, sidebarGap: `${section}px` });
+    await expect(title).toHaveValue("调整间距时保留的未保存草稿");
+    expect(await title.evaluate((el, prior) => el === prior, original)).toBe(true);
+  }
+  await chooseSpacing(page, "边缘留白", 16); await chooseSpacing(page, "分区间距", 16); await chooseSpacing(page, "信息间距", 16);
+  await page.getByRole("button", { name: "应用面板间距" }).click();
+  await page.setViewportSize({ width: 375, height: 800 }); await check(page, "深色主题"); await check(page, "紧凑控件");
+  await expect(split(page)).toHaveAttribute("data-stacked", "true");
+  expect((await panelGeometry(page)).section).toBe(16);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: info.outputPath("equal-375-dark-compact.png"), fullPage: true });
+  writeFileSync(info.outputPath("spacing-choices.json"), JSON.stringify(results, null, 2));
+});
+
+test("spacing hierarchy: invalid combinations explain the constraint and retain the last valid preview", async ({ page }) => {
+  await page.goto("/#layouts"); await page.getByText("调整资料面板间距", { exact: true }).click();
+  await chooseSpacing(page, "边缘留白", 8);
+  await page.getByRole("button", { name: "应用面板间距" }).click();
+  await expect(page.getByRole("alert")).toContainText("预览保留上一次有效设置");
+  expect((await panelGeometry(page)).inset).toBe(16);
+  await chooseSpacing(page, "边缘留白", 16); await chooseSpacing(page, "信息间距", 20);
+  await page.getByRole("button", { name: "应用面板间距" }).click();
+  await expect(page.getByRole("alert")).toContainText("边缘留白 ≥ 分区间距 ≥ 信息间距");
+  expect((await panelGeometry(page)).item).toBe(8);
+  await chooseSpacing(page, "信息间距", 8); await page.getByRole("button", { name: "应用面板间距" }).click();
+  await expect(page.getByRole("alert")).toHaveCount(0);
+  await expect(page.getByRole("status").filter({ hasText: "已应用到下方" })).toBeVisible();
+});
+
+test("RN-06 narrow viewport: grouped actions, long validation, theme changes and forced colors remain usable", async ({ page }, info) => {
+  await page.setViewportSize({ width: 320, height: 800 }); await page.goto("/#layouts");
+  await expect(split(page)).toHaveAttribute("data-stacked", "true");
+  const name = page.getByRole("textbox", { name: "课程名称", exact: true });
+  await name.fill(""); await page.getByRole("button", { name: "保存设置", exact: true }).click();
+  await expect(name).toBeFocused(); await expect(name).toHaveAttribute("aria-invalid", "true");
+  await expect(name).toHaveAccessibleDescription("请输入课程名称。较长的课程名称也可以完整填写，内容会保留在当前页面。");
+  for (const actions of [page.locator('[data-example="query-actions"]'), page.locator('[data-example="layout-settings"] .layout-example-actions')]) {
+    const positions = await actions.getByRole("button").evaluateAll(nodes => nodes.map(el => { const r = el.getBoundingClientRect(); return { top: r.top, left: r.left, right: r.right }; }));
+    expect(positions[0]!.top).toBe(positions[1]!.top); expect(positions[1]!.right).toBeLessThanOrEqual(304);
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await page.screenshot({ path: info.outputPath("viewport-320-error.png"), fullPage: true });
+  await check(page, "深色主题"); await page.emulateMedia({ forcedColors: "active", reducedMotion: "reduce" });
+  await main(page).focus();
+  await page.keyboard.press("Tab");
+  expect(await page.evaluate(() => document.activeElement !== document.body)).toBe(true);
+  await page.screenshot({ path: info.outputPath("viewport-320-forced-colors.png"), fullPage: true });
+});
+
+test("RN-06 independent consumer: prototype uses the package alongside unchanged Card and Dialog", async ({ page }) => {
+  await page.goto(process.env.RAIN_LAYOUTS_PROTOTYPE_URL ?? "http://127.0.0.1:4174");
+  await expect(page.locator('[data-example="settings-grid"]')).toHaveCSS("gap", "12px");
+  await expect(page.locator('[data-example="cr-01"]')).toHaveCSS("padding-top", "20px");
+  await expect(page.locator('[data-rain-id="layout-split"]')).toBeVisible();
+  await page.getByRole("button", { name: "编辑课程资料", exact: true }).click();
+  await expect(page.getByRole("dialog", { name: "编辑课程资料", exact: true })).toHaveCSS("width", "480px");
+});

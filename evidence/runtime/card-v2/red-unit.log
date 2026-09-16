@@ -1,0 +1,88 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+stderr | packages/ui/src/card/card.test.tsx > Card V2 contract > applies one root Recipe to owned parts through ordinary wrappers
+React does not recognize the `localRecipe` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `localrecipe` instead. If you accidentally passed it from a parent component, remove it from the DOM element.
+
+ ❯ packages/ui/src/card/card.test.tsx (5 tests | 4 failed) 85ms
+     × defaults its own size independently of compact Density 64ms
+     × exposes the small Card size as configuration, not native state 3ms
+     × applies one root Recipe to owned parts through ordinary wrappers 4ms
+     × resets recipe ownership at a nested Card and an unrelated sibling 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/card/card.test.tsx > Card V2 contract > defaults its own size independently of compact Density
+Error: expect(element).toHaveAttribute("data-size", "default") // element.getAttribute("data-size") === "default"
+
+Expected the element to have attribute:
+  data-size="default"
+Received:
+  null
+ ❯ packages/ui/src/card/card.test.tsx:17:62
+     15|   it("defaults its own size independently of compact Density", () => {
+     16|     render(<DensityProvider density="compact"><Card aria-label="Defaul…
+     17|     expect(screen.getByRole("article", { name: "Default" })).toHaveAtt…
+       |                                                              ^
+     18|   });
+     19|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  packages/ui/src/card/card.test.tsx > Card V2 contract > exposes the small Card size as configuration, not native state
+Error: expect(element).toHaveAttribute("data-size", "sm") // element.getAttribute("data-size") === "sm"
+
+Expected the element to have attribute:
+  data-size="sm"
+Received:
+  null
+ ❯ packages/ui/src/card/card.test.tsx:23:18
+     21|     render(<Card aria-label="Small" size="sm"><CardContent>Content</Ca…
+     22|     const card = screen.getByRole("article", { name: "Small" });
+     23|     expect(card).toHaveAttribute("data-size", "sm");
+       |                  ^
+     24|     expect(card).not.toHaveAttribute("size");
+     25|     expect(card).not.toHaveAttribute("tabindex");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  packages/ui/src/card/card.test.tsx > Card V2 contract > applies one root Recipe to owned parts through ordinary wrappers
+Error: expect(element).toHaveAttribute("data-local-recipe", "card-test-inset") // element.getAttribute("data-local-recipe") === "card-test-inset"
+
+Expected the element to have attribute:
+  data-local-recipe="card-test-inset"
+Received:
+  null
+ ❯ packages/ui/src/card/card.test.tsx:33:41
+     31|       <div><CardHeader><CardTitle>Title</CardTitle></CardHeader><CardC…
+     32|     </Card>);
+     33|     expect(screen.getByRole("article")).toHaveAttribute("data-local-re…
+       |                                         ^
+     34|     expect(screen.getByTestId("owned")).toHaveClass("px-rain-0");
+     35|     expect(screen.getByTestId("owned").className).not.toContain("px-(-…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  packages/ui/src/card/card.test.tsx > Card V2 contract > resets recipe ownership at a nested Card and an unrelated sibling
+Error: expect(element).toHaveClass("px-rain-0")
+
+Expected the element to have class:
+  px-rain-0
+Received:
+  rain-card__content
+ ❯ packages/ui/src/card/card.test.tsx:44:41
+     42|       <Card><CardContent data-testid="inner">Nested</CardContent></Car…
+     43|     </CardContent></Card><Card><CardContent data-testid="sibling">Sibl…
+     44|     expect(screen.getByTestId("outer")).toHaveClass("px-rain-0");
+       |                                         ^
+     45|     expect(screen.getByTestId("inner")).not.toHaveClass("px-rain-0");
+     46|     expect(screen.getByTestId("sibling")).not.toHaveClass("px-rain-0");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  4 failed | 7 passed (11)
+   Start at  17:32:27
+   Duration  758ms (transform 104ms, setup 210ms, import 115ms, tests 157ms, environment 783ms)
+

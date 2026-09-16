@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/m2.test.ts (5 tests | 1 failed) 363ms
+   × projects only the reviewed M2 prototype entrance without changing the frozen source transitions 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/m2.test.ts > projects only the reviewed M2 prototype entrance without changing the frozen source transitions
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ scripts/m2.test.ts:51:94
+     49|   const expected = createHash("sha256").update(before).digest("hex");
+     50|   const transitions = JSON.parse(read("evidence/runtime/rn15-delivery/…
+     51|   expect(governance.matchesRn15ProtectedSource(file, source, expected,…
+       |                                                                                              ^
+     52|   const movedEntry = source.match(/\/\/ m2-entry:start[\s\S]*?\/\/ m2-…
+     53|   for (const changed of [source.replace(movedEntry, "") + movedEntry, …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 16 passed (17)
+   Start at  18:11:31
+   Duration  5.83s (transform 607ms, setup 429ms, import 1.57s, tests 2.59s, environment 889ms)
+

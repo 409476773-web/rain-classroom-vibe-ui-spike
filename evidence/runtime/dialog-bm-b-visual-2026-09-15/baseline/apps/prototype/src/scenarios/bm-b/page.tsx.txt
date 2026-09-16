@@ -1,0 +1,187 @@
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
+import { Grid, Inline, Stack } from "@rain-next/layouts";
+import { Button, Card, CardContent, CardHeader, CardTitle, Checkbox, Dialog, AlertDialog, FormItem, Input, Select, Textarea, defineRainLocalRecipe, type DialogLocalRecipe, type SelectHandle } from "@rain-next/ui";
+import { copyTextbook, initialTextbook, simulateTask, subjects, validateFiles, validateTextbook, type Attachment, type Textbook } from "./state";
+import "./page.css";
+
+const recipe: DialogLocalRecipe = defineRainLocalRecipe({
+  id: "bm-b-textbook-dialog", origin: "ui-dialog", scope: "feature",
+  classes: { content: "bm-b-dialog", header: "bm-b-header", body: "bm-b-body", footer: "bm-b-footer" },
+  modifiedParts: ["content", "header", "body", "footer"], candidateTokens: [], promotionStatus: "not-proposed",
+});
+type Task = (signal: AbortSignal, fail: boolean) => Promise<void>;
+
+/** The page owns the saved object, draft and requests; layout and UI own no task state. */
+export function TextbookFormScenario({ saveTask = simulateTask, uploadTask = simulateTask }: { saveTask?: Task; uploadTask?: Task }) {
+  const [saved, setSaved] = useState(() => copyTextbook(initialTextbook));
+  const [draft, setDraft] = useState(() => copyTextbook(initialTextbook));
+  const [open, setOpen] = useState(false), [saving, setSaving] = useState(false);
+  const [confirmDiscard, setConfirmDiscard] = useState(false), safeAction = useRef<HTMLButtonElement>(null);
+  const dirty = JSON.stringify(draft) !== JSON.stringify(saved);
+  const [wide, setWide] = useState(true), [twoColumns, setTwoColumns] = useState(true);
+  const [errors, setErrors] = useState<ReturnType<typeof validateTextbook>>({});
+  const [saveError, setSaveError] = useState(""), [fileError, setFileError] = useState(""), [notice, setNotice] = useState("");
+  const [failSave, setFailSave] = useState(false), [failUpload, setFailUpload] = useState(false);
+  const formId = useId(), titleRef = useRef<HTMLInputElement>(null), fileRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null), errorRef = useRef<HTMLParagraphElement>(null);
+  const subjectRef = useRef<SelectHandle>(null);
+  const uploadButtonRef = useRef<HTMLButtonElement>(null);
+  const attachmentError = fileError || (draft.attachments.some(file => file.status !== "ready") ? errors.attachments : "");
+  const savingRequest = useRef<AbortController | null>(null), uploads = useRef(new Map<string, AbortController>());
+  useEffect(() => () => {
+    savingRequest.current?.abort();
+    uploads.current.forEach(request => request.abort());
+    uploads.current.clear();
+  }, []);
+
+  function change(key: Exclude<keyof Textbook, "attachments">, value: string) {
+    setDraft(current => ({ ...current, [key]: value }));
+    setErrors(current => ({ ...current, [key]: undefined }));
+  }
+  function discard() {
+    uploads.current.forEach(request => request.abort()); uploads.current.clear();
+    setDraft(copyTextbook(saved)); setOpen(false); setNotice("已取消修改，教材保持原内容。");
+  }
+  function removeAttachment(id: string) {
+    uploads.current.get(id)?.abort(); uploads.current.delete(id);
+    setDraft(current => ({ ...current, attachments: current.attachments.filter(file => file.id !== id) }));
+    setFileError(""); setErrors(current => ({ ...current, attachments: undefined }));
+  }
+  async function upload(file: Attachment, fail: boolean) {
+    const request = new AbortController(); uploads.current.set(file.id, request);
+    setDraft(current => ({ ...current, attachments: current.attachments.map(item => item.id === file.id ? { ...item, status: "uploading" } : item) }));
+    try {
+      await uploadTask(request.signal, fail);
+      if (request.signal.aborted || uploads.current.get(file.id) !== request) return;
+      setDraft(current => ({ ...current, attachments: current.attachments.map(item => item.id === file.id ? { ...item, status: "ready" } : item) }));
+    } catch {
+      if (request.signal.aborted || uploads.current.get(file.id) !== request) return;
+      setDraft(current => ({ ...current, attachments: current.attachments.map(item => item.id === file.id ? { ...item, status: "failed" } : item) }));
+    } finally {
+      if (uploads.current.get(file.id) === request) uploads.current.delete(file.id);
+    }
+  }
+  function addFiles(files: File[]) {
+    const error = validateFiles(files, draft.attachments.length);
+    setFileError(error); setErrors(current => ({ ...current, attachments: undefined }));
+    if (error || !files.length) return;
+    const added: Attachment[] = files.map(file => ({ id: crypto.randomUUID(), name: file.name, size: file.size, status: "uploading" }));
+    setDraft(current => ({ ...current, attachments: [...current.attachments, ...added] }));
+    setFailUpload(false);
+    added.forEach((file, index) => { void upload(file, failUpload && index === 0); });
+  }
+  async function save(event: FormEvent) {
+    event.preventDefault();
+    if (savingRequest.current) return;
+    const nextErrors = validateTextbook(draft); setErrors(nextErrors); setSaveError("");
+    const firstError = Object.keys(nextErrors)[0];
+    if (firstError) {
+      if (firstError === "subject") subjectRef.current?.focus();
+      else if (firstError === "attachments") uploadButtonRef.current?.focus();
+      else formRef.current?.querySelector<HTMLElement>(`[name="${firstError}"]`)?.focus();
+      return;
+    }
+    const request = new AbortController(), submitted = copyTextbook(draft);
+    submitted.title = submitted.title.trim();
+    savingRequest.current = request; setSaving(true); setFailSave(false);
+    try {
+      await saveTask(request.signal, failSave);
+      if (request.signal.aborted || savingRequest.current !== request) return;
+      setSaved(submitted); setOpen(false); setNotice("教材已保存到当前页面。");
+    } catch {
+      if (request.signal.aborted || savingRequest.current !== request) return;
+      setSaveError("保存失败，填写内容已保留。请重试。");
+    } finally {
+      if (savingRequest.current === request && !request.signal.aborted) { savingRequest.current = null; setSaving(false); }
+    }
+  }
+  useEffect(() => { if (saveError) errorRef.current?.focus(); }, [saveError]);
+
+  return <section className="bm-b-scenario" data-rain-id="scenario-bm-b" data-asset-identity="local-experiment" aria-label="教材编辑示例">
+    <Card>
+      <CardHeader><CardTitle as="h2">{saved.title}</CardTitle></CardHeader>
+      <CardContent><Stack gap={16}>
+        <p>{subjects.find(subject => subject.value === saved.subject)?.label} · {saved.author || "未填写作者"} · {saved.publisher || "未填写出版社"}</p>
+        <p className="bm-b-reading" data-slot="saved-description">{saved.description}</p>
+        <p data-slot="saved-attachments">{saved.attachments.length ? `已保存附件：${saved.attachments.map(file => file.name).join("、")}` : "尚未添加附件"}</p>
+        <Dialog.Root open={open} onOpenChange={(next, details) => {
+          if (savingRequest.current) { details.cancel(); return; }
+          if (!next) { if (dirty) { details.cancel(); setConfirmDiscard(true); } else discard(); return; }
+          setDraft(copyTextbook(saved)); setErrors({}); setSaveError(""); setFileError(""); setNotice(""); setOpen(true);
+        }}>
+          <Dialog.Trigger render={<Button className="self-start" variant="primary">编辑教材</Button>} />
+          <Dialog.Content width={wide ? 916 : 616} initialFocus={titleRef} localRecipe={recipe} aria-busy={saving}>
+            <Dialog.Header>
+              <Inline justify="between" align="start" wrap={false} gap={16}>
+                <div><Dialog.Title>编辑教材</Dialog.Title><Dialog.Description>完善教材信息与阅读材料，保存后更新课程教材。</Dialog.Description></div>
+                <Dialog.Close render={<Button variant="text" disabled={saving} aria-label="关闭教材编辑">关闭</Button>} />
+              </Inline>
+              <Inline gap={16} aria-label="表单布局"><Checkbox label="宽版容器" checked={wide} onCheckedChange={setWide} /><Checkbox label="双列布局" checked={twoColumns} onCheckedChange={setTwoColumns} /></Inline>
+            </Dialog.Header>
+            <Dialog.Body>
+              <form id={formId} ref={formRef} onSubmit={save} noValidate aria-label="教材表单" aria-busy={saving}>
+                <Stack gap={24}>
+                  <section aria-labelledby={`${formId}-basic`}><h3 id={`${formId}-basic`}>基本信息</h3><Stack gap={16}>
+                    <FormItem label="教材标题" required disabled={saving} status={errors.title ? "error" : "default"} message={errors.title}>
+                      <Input ref={titleRef} name="title" value={draft.title} onValueChange={value => change("title", value)} maxLength={80} placeholder="请输入教材标题" />
+                    </FormItem>
+                    <Grid columns={twoColumns ? 2 : 1} minColumnWidth={240} gap={16}>
+                      <FormItem label="作者" disabled={saving} status={errors.author ? "error" : "default"} message={errors.author}><Input name="author" value={draft.author} onValueChange={value => change("author", value)} maxLength={80} /></FormItem>
+                      <FormItem label="出版社" disabled={saving} status={errors.publisher ? "error" : "default"} message={errors.publisher}><Input name="publisher" value={draft.publisher} onValueChange={value => change("publisher", value)} maxLength={80} /></FormItem>
+                      <FormItem label="所属学科" required disabled={saving} status={errors.subject ? "error" : "default"} message={errors.subject}>
+                        <Select ref={subjectRef} value={draft.subject} onValueChange={value => change("subject", String(value ?? ""))} options={subjects} placeholder="请选择学科" />
+                      </FormItem>
+                    </Grid>
+                  </Stack></section>
+                  <section aria-labelledby={`${formId}-introduction`}><h3 id={`${formId}-introduction`}>简介</h3><Stack gap={16}>
+                    <FormItem label="内容简介" required disabled={saving} help="介绍主要内容与学习目标，最多 2000 个字符。" status={errors.description ? "error" : "default"} message={errors.description}>
+                      <Textarea name="description" value={draft.description} onValueChange={value => change("description", value)} rows={5} maxLength={2000} />
+                    </FormItem>
+                    <Grid columns={twoColumns ? 2 : 1} minColumnWidth={240} gap={16}>
+                      <FormItem label="作者简介" disabled={saving} status={errors.authorIntroduction ? "error" : "default"} message={errors.authorIntroduction}><Textarea name="authorIntroduction" value={draft.authorIntroduction} onValueChange={value => change("authorIntroduction", value)} rows={4} maxLength={1000} /></FormItem>
+                      <FormItem label="本书特色" disabled={saving} status={errors.features ? "error" : "default"} message={errors.features}><Textarea name="features" value={draft.features} onValueChange={value => change("features", value)} rows={4} maxLength={1000} /></FormItem>
+                    </Grid>
+                  </Stack></section>
+                  <section aria-labelledby={`${formId}-contents`}><h3 id={`${formId}-contents`}>目录</h3>
+                    <FormItem label="目录内容" disabled={saving} help="按章节分行填写，最多 4000 个字符。" status={errors.contents ? "error" : "default"} message={errors.contents}><Textarea name="contents" value={draft.contents} onValueChange={value => change("contents", value)} rows={6} maxLength={4000} /></FormItem>
+                  </section>
+                  <section aria-labelledby={`${formId}-files`}><h3 id={`${formId}-files`}>教材内容 / 附件</h3><Stack gap={12}>
+                    <p id={`${formId}-upload-help`}>支持 PDF、PNG、JPEG，最多 10 个，每个不超过 20 MB。本演示仅模拟上传，不传输文件内容。</p>
+                    <Button ref={uploadButtonRef} variant="secondary" className="self-start" disabled={saving} onClick={() => fileRef.current?.click()}
+                      aria-describedby={`${formId}-upload-help${attachmentError ? ` ${formId}-upload-error` : ""}`} aria-invalid={Boolean(attachmentError)}>添加教材附件</Button>
+                    <input ref={fileRef} aria-label="添加教材附件" name="attachments" type="file" hidden multiple accept=".pdf,.png,.jpg,.jpeg" disabled={saving}
+                      onChange={event => { addFiles(Array.from(event.currentTarget.files ?? [])); event.currentTarget.value = ""; }} />
+                    {attachmentError && <p id={`${formId}-upload-error`} role="alert" className="bm-b-error">{attachmentError}</p>}
+                    <ul className="bm-b-files" aria-label="附件列表">{draft.attachments.map(file => <li key={file.id}>
+                      <div><span className="bm-b-filename">{file.name}</span><span className="bm-b-file-status" role="status">{Math.max(1, Math.ceil(file.size / 1024))} KB · {file.status === "uploading" ? "正在模拟上传…" : file.status === "failed" ? "上传失败，请重试或移除" : "模拟上传成功"}</span></div>
+                      <Inline gap={8}>{file.status === "failed" && <Button variant="secondary" disabled={saving} onClick={() => { void upload(file, false); }} aria-label={`重试上传 ${file.name}`}>重试</Button>}
+                        <Button variant="text" disabled={saving} onClick={() => removeAttachment(file.id)} aria-label={`移除附件 ${file.name}`}>移除</Button></Inline>
+                    </li>)}</ul>
+                  </Stack></section>
+                </Stack>
+              </form>
+            </Dialog.Body>
+            <Dialog.Footer divider>
+              <div className="bm-b-feedback">{saveError ? <p ref={errorRef} tabIndex={-1} role="alert" className="bm-b-error">{saveError}</p> : <p role="status">{saving ? "正在模拟保存，请稍候…" : "修改将在保存后生效"}</p>}</div>
+              <Inline gap={12}><Dialog.Close render={<Button variant="secondary" disabled={saving}>取消</Button>} />
+                <Button type="submit" form={formId} variant="primary" loading={saving} disabled={saving}>{saveError ? "重试保存" : "保存教材"}</Button></Inline>
+            </Dialog.Footer>
+            <AlertDialog.Root open={confirmDiscard} onOpenChange={setConfirmDiscard}>
+              <AlertDialog.Content initialFocus={safeAction}>
+                <AlertDialog.Header><AlertDialog.Title>放弃教材修改？</AlertDialog.Title><AlertDialog.Description>未保存的填写内容和本轮附件调整将丢失。</AlertDialog.Description></AlertDialog.Header>
+                <AlertDialog.Footer><AlertDialog.Close render={<Button ref={safeAction} variant="secondary">继续编辑</Button>} />
+                  <Button variant="primary" tone="danger" onClick={() => { setConfirmDiscard(false); discard(); }}>放弃修改</Button></AlertDialog.Footer>
+              </AlertDialog.Content>
+            </AlertDialog.Root>
+          </Dialog.Content>
+        </Dialog.Root>
+      </Stack></CardContent>
+    </Card>
+    <p role="status">{notice}</p>
+    <details className="bm-b-demo"><summary>演示选项</summary><Inline gap={16}>
+      <Checkbox label="模拟下次保存失败" checked={failSave} onCheckedChange={setFailSave} />
+      <Checkbox label="模拟下次上传失败" checked={failUpload} onCheckedChange={setFailUpload} />
+    </Inline></details>
+    <p className="bm-b-note">虚构教材示例。保存与上传均为本地模拟，刷新页面后恢复初始内容。</p>
+  </section>;
+}

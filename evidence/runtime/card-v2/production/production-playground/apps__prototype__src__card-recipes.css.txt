@@ -1,0 +1,16 @@
+.card-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: var(--rain-space-24); }
+.card-example { min-width: 0; }
+.card-example-label { margin: 0 0 var(--rain-space-12); font-family: var(--rain-font-ui); font-size: var(--rain-font-size-13); line-height: var(--rain-line-height-22); color: var(--rain-category-text-neutral-3); }
+.card-gallery[data-narrow="true"] { grid-template-columns: minmax(0, 300px); }
+.course-card-layout { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.course-card-cover { display: grid; place-items: center; aspect-ratio: 16 / 7; overflow: hidden; border-start-start-radius: var(--rain-radius-8); border-start-end-radius: var(--rain-radius-8); background: var(--rain-category-background-neutral-2); color: var(--rain-category-text-neutral-2); }
+.course-card-cover > div { display: flex; flex-direction: column; gap: var(--rain-space-8); padding: var(--rain-space-20); }
+.course-card-cover strong { font-family: var(--rain-font-ui); font-size: var(--rain-font-size-28); line-height: var(--rain-line-height-36); font-weight: var(--rain-font-weight-semibold); }
+.course-card-cover span { font-family: var(--rain-font-ui); font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); }
+.course-card-body { display: flex; flex-direction: column; min-width: 0; gap: var(--rain-card-spacing); padding-block: var(--rain-card-spacing); }
+.card-action-status { grid-column: 1 / -1; margin: 0; font-family: var(--rain-font-ui); font-size: var(--rain-font-size-13); line-height: var(--rain-line-height-22); color: var(--rain-category-text-neutral-3); }
+@container rain-card (min-width: 480px) {
+  .course-card-layout[data-media-layout="side"] { grid-template-columns: 36% minmax(0, 1fr); }
+  .course-card-layout[data-media-layout="side"] > .course-card-cover { aspect-ratio: auto; border-start-end-radius: 0; border-end-start-radius: var(--rain-radius-8); }
+}
+@media (max-width: 760px) { .card-gallery { grid-template-columns: minmax(0, 1fr); } }

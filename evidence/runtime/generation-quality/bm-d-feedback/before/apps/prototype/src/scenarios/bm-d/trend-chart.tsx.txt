@@ -1,0 +1,49 @@
+import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { summarize, type WeekData } from "./state";
+
+type Metric = "average" | "completion";
+const classFor = (group: WeekData["group"]) => group === "一班" ? "bm-d-series-one" : "bm-d-series-two";
+
+// Local six-week report only. Preserve absent weeks as null instead of joining across them.
+export function buildTrendPoints(rows: readonly WeekData[], metric: Metric, firstWeek: number) {
+  return Array.from({ length: 7 - firstWeek }, (_, index) => {
+    const week = firstWeek + index;
+    const value = (group: WeekData["group"]) => summarize(rows.filter(row => row.week === week && row.group === group))[metric];
+    return { week, 一班: value("一班"), 二班: value("二班") };
+  });
+}
+
+function Point({ cx, cy, square, colorClass, r = 3 }: { cx?: number; cy?: number; square: boolean; colorClass?: string; r?: number }) {
+  if (cx == null || cy == null) return null;
+  return square ? <rect className={colorClass} x={cx - r} y={cy - r} width={r * 2} height={r * 2} fill="currentColor" stroke="currentColor" />
+    : <circle className={colorClass} cx={cx} cy={cy} r={r} fill="currentColor" stroke="currentColor" />;
+}
+
+export function TrendChart({ rows, metric, firstWeek, selectedWeek }: { rows: readonly WeekData[]; metric: Metric; firstWeek: number; selectedWeek: number }) {
+  const data = buildTrendPoints(rows, metric, firstWeek);
+  const groups = (["一班", "二班"] as const).filter(group => rows.some(row => row.group === group));
+  const label = metric === "average" ? "平均分" : "提交率", unit = metric === "average" ? "分" : "%";
+  return <figure className="bm-d-chart-figure" data-rain-id="local-report-trend" data-asset-identity="local-experiment">
+    <figcaption>
+      <span className="bm-d-legend">{groups.map(group => <span key={group}><svg className={classFor(group)} width="28" height="16" viewBox="0 0 28 16" aria-hidden="true"><line x1="1" x2="27" y1="8" y2="8" stroke="currentColor" strokeDasharray={group === "二班" ? "5 3" : undefined} /><Point cx={14} cy={8} square={group === "二班"} /></svg>{group}</span>)}</span>
+      <span>纵轴 0–100{unit} · 左右键逐周读数</span>
+    </figcaption>
+    <div className="bm-d-chart">
+      <ResponsiveContainer width="100%" height="100%" minWidth={0} initialDimension={{ width: 760, height: 280 }}>
+        <LineChart data={data} margin={{ top: 16, right: 16, bottom: 0, left: 0 }} accessibilityLayer aria-label={`${label}趋势图`} data-focus="item">
+          <CartesianGrid vertical={false} className="bm-d-gridline" />
+          <XAxis dataKey="week" axisLine={false} tickLine={false} tickMargin={12} height={36} interval={0} tickFormatter={week => `第${week}周`} />
+          <YAxis domain={[0, 100]} ticks={[0, 25, 50, 75, 100]} width={36} axisLine={false} tickLine={false} tickMargin={8} />
+          <ReferenceLine x={selectedWeek} className="bm-d-marker" stroke="inherit" />
+          <Tooltip isAnimationActive={false} filterNull={false} cursor={{ className: "bm-d-marker" }} content={({ active, label: week }) => {
+            const point = data.find(point => point.week === Number(week));
+            return active && point ? <div className="bm-d-tooltip" role="status" aria-label="图表即时读数" aria-live="polite"><strong>第 {point.week} 周 · {label}</strong>{groups.map(group => <p key={group}>{group}<b>{point[group] === null ? "缺测" : `${point[group].toFixed(1)}${unit}`}</b></p>)}</div> : null;
+          }} />
+          {groups.map(group => <Line key={group} className={classFor(group)} name={group} dataKey={group} type="linear" stroke="currentColor" strokeDasharray={group === "二班" ? "6 4" : undefined}
+            connectNulls={false} isAnimationActive={false} dot={props => <Point key={props.key} cx={props.cx} cy={props.cy} square={group === "二班"} colorClass={classFor(group)} />}
+            activeDot={props => <Point cx={props.cx} cy={props.cy} square={group === "二班"} colorClass={classFor(group)} r={5} />} />)}
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  </figure>;
+}

@@ -23,6 +23,8 @@ export { Link } from "./link/link";
 export type { LinkAppearance, LinkProps } from "./link/link";
 
 export { Input } from "./input/input";
+export { Textarea } from "./textarea/textarea";
+export type { TextareaProps } from "./textarea/textarea";
 export type {
   InputCountMode,
   InputProps,
@@ -91,6 +93,9 @@ export type {
   CardFooterProps,
   CardHeaderProps,
   CardProps,
+  CardPart,
+  CardSize,
+  CardLocalRecipe,
   CardTitleElement,
   CardTitleProps,
   CardVariant,
@@ -120,3 +125,16 @@ export type { RadioPreviewCardProps, CheckboxObjectCardProps, RadioComparisonCar
 
 export { Tabs } from "./tabs/tabs";
 export type { TabsProps, TabsRootProps, TabsNavProps, TabsItem, TabsValue, TabsChangeDetails, TabsSize, TabsAppearance, TabsPanelMount, TabsPart, TabsLocalRecipe } from "./tabs/tabs";
+export { Dialog, AlertDialog, type DialogRootProps, type AlertDialogRootProps, type DialogContentProps, type DialogFooterProps, type DialogPart, type DialogLocalRecipe } from "./dialog/dialog";
+export { Separator, type SeparatorProps } from "./separator/separator";
+export { Table, TableScrollArea, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption } from "./table/table";
+export { Pagination, type PaginationProps, type PaginationChangeDetails, type PaginationSize, type PaginationVariant, type PaginationPart } from "./pagination/pagination";
+export { Empty, EmptyMedia, EmptyTitle, EmptyDescription, EmptyActions } from "./empty/empty";
+export type { EmptyProps, EmptyMediaProps, EmptyTitleProps, EmptyPresentation, EmptyIllustration } from "./empty/empty";
+export { Avatar, type AvatarProps, type AvatarSize, type AvatarShape } from "./avatar/avatar";
+export { AvatarGroup, type AvatarGroupProps, type AvatarMember } from "./avatar/avatar-group";
+export { AvatarGrid, type AvatarGridProps } from "./avatar/avatar-grid";
+export { avatarAssets, assignAvatarAssets, type AvatarAssetId, type AvatarAssetRole } from "./avatar/avatar-assets";
+export { StatusIndicator, StatusIndicatorGroup, ActivityOverlay } from "./status-indicator/status-indicator";
+export type { StatusIndicatorProps, StatusIndicatorGroupProps, ActivityOverlayProps, StatusTone } from "./status-indicator/status-indicator";
+export { InputNumber, type InputNumberProps, type InputNumberValidity } from "./input-number/input-number";

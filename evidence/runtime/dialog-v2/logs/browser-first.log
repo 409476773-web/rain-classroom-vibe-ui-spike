@@ -1,0 +1,307 @@
+
+Running 8 tests using 1 worker
+
+(node:90244) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/dialog.spec.ts:11:1 › RO-01/02: modal focus, nested Select dismissal and trigger return (2.5s)
+  ✓  2 [chromium] › tests/e2e/dialog.spec.ts:29:1 › RO-04/05: validation, pending dismissal guard, failure, retry and cancel own separate values (2.5s)
+  ✘  3 [chromium] › tests/e2e/dialog.spec.ts:52:3 › RO-03/06: light default portal, paints and long-content geometry (30.1s)
+(node:90788) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [chromium] › tests/e2e/dialog.spec.ts:52:3 › RO-03/06: light compact portal, paints and long-content geometry (30.1s)
+(node:90947) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 [chromium] › tests/e2e/dialog.spec.ts:52:3 › RO-03/06: dark default portal, paints and long-content geometry (30.1s)
+(node:91092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  6 [chromium] › tests/e2e/dialog.spec.ts:52:3 › RO-03/06: dark compact portal, paints and long-content geometry (30.1s)
+(node:91623) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  7 [chromium] › tests/e2e/dialog.spec.ts:88:1 › RO-06: narrow viewport, forced colors, separator and nested dialog isolation (30.1s)
+(node:92152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  8 [chromium] › tests/e2e/dialog.spec.ts:105:1 › RN-04 consumer: independent prototype uses Dialog with existing Card intact (1.1s)
+
+
+  1) [chromium] › tests/e2e/dialog.spec.ts:52:3 › RO-03/06: light default portal, paints and long-content geometry 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('checkbox', { name: '长内容' })
+        - locator resolved to <input value="on" class="sr-only" type="checkbox" data-slot="input" aria-checked="false" data-focus="control" aria-labelledby="_r_3_-label"/>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        57 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      54 |     if (theme === "dark") await page.getByRole("checkbox", { name: "深色主题" }).check();
+      55 |     if (compact) await page.getByRole("checkbox", { name: "紧凑控件" }).check();
+    > 56 |     await page.getByRole("checkbox", { name: "长内容" }).check(); await openEditor(page);
+         |                                                       ^
+      57 |     const popup = editor(page), body = popup.locator('[data-slot="body"]'), footer = popup.locator('[data-slot="footer"]');
+      58 |     await expect(popup).toHaveAttribute("data-rain-theme", theme);
+      59 |     await expect(popup).toHaveAttribute("data-density", compact ? "compact" : "default");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/dialog.spec.ts:56:55
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/dialog-v2/dev/dialog-RO-03-06-light-defa-e6b20-s-and-long-content-geometry-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/dialog-v2/dev/dialog-RO-03-06-light-defa-e6b20-s-and-long-content-geometry-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/dialog-v2/dev/dialog-RO-03-06-light-defa-e6b20-s-and-long-content-geometry-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/dialog-v2/dev/dialog-RO-03-06-light-defa-e6b20-s-and-long-content-geometry-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/e2e/dialog.spec.ts:52:3 › RO-03/06: light compact portal, paints and long-content geometry 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('checkbox', { name: '紧凑控件' })
+        - locator resolved to <input value="on" class="sr-only" type="checkbox" data-slot="input" aria-checked="false" data-focus="control" aria-labelledby="_r_2_-label"/>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        57 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      53 |     await page.setViewportSize({ width: 1280, height: 800 }); await page.goto("/#dialog");
+      54 |     if (theme === "dark") await page.getByRole("checkbox", { name: "深色主题" }).check();
+    > 55 |     if (compact) await page.getByRole("checkbox", { name: "紧凑控件" }).check();
+         |                                                                     ^
+      56 |     await page.getByRole("checkbox", { name: "长内容" }).check(); await openEditor(page);
+      57 |     const popup = editor(page), body = popup.locator('[data-slot="body"]'), footer = popup.locator('[data-slot="footer"]');
+      58 |     await expect(popup).toHaveAttribute("data-rain-theme", theme);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/dialog.spec.ts:55:69
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/dialog-v2/dev/dialog-RO-03-06-light-comp-e9138-s-and-long-content-geometry-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/dialog-v2/dev/dialog-RO-03-06-light-comp-e9138-s-and-long-content-geometry-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/dialog-v2/dev/dialog-RO-03-06-light-comp-e9138-s-and-long-content-geometry-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/dialog-v2/dev/dialog-RO-03-06-light-comp-e9138-s-and-long-content-geometry-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › tests/e2e/dialog.spec.ts:52:3 › RO-03/06: dark default portal, paints and long-content geometry 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('checkbox', { name: '深色主题' })
+        - locator resolved to <input value="on" class="sr-only" type="checkbox" data-slot="input" aria-checked="false" data-focus="control" aria-labelledby="_r_1_-label"/>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        57 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      52 |   test(`RO-03/06: ${theme} ${compact ? "compact" : "default"} portal, paints and long-content geometry`, async ({ page }, info) => {
+      53 |     await page.setViewportSize({ width: 1280, height: 800 }); await page.goto("/#dialog");
+    > 54 |     if (theme === "dark") await page.getByRole("checkbox", { name: "深色主题" }).check();
+         |                                                                              ^
+      55 |     if (compact) await page.getByRole("checkbox", { name: "紧凑控件" }).check();
+      56 |     await page.getByRole("checkbox", { name: "长内容" }).check(); await openEditor(page);
+      57 |     const popup = editor(page), body = popup.locator('[data-slot="body"]'), footer = popup.locator('[data-slot="footer"]');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/dialog.spec.ts:54:78
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/dialog-v2/dev/dialog-RO-03-06-dark-defau-3ec5c-s-and-long-content-geometry-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/dialog-v2/dev/dialog-RO-03-06-dark-defau-3ec5c-s-and-long-content-geometry-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/dialog-v2/dev/dialog-RO-03-06-dark-defau-3ec5c-s-and-long-content-geometry-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/dialog-v2/dev/dialog-RO-03-06-dark-defau-3ec5c-s-and-long-content-geometry-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium] › tests/e2e/dialog.spec.ts:52:3 › RO-03/06: dark compact portal, paints and long-content geometry 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('checkbox', { name: '深色主题' })
+        - locator resolved to <input value="on" class="sr-only" type="checkbox" data-slot="input" aria-checked="false" data-focus="control" aria-labelledby="_r_1_-label"/>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        57 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      52 |   await openEditor(page); await expect(name).toHaveValue("交互设计研讨");
+      53 | });
+    > 54 |
+         | ^
+      55 | for (const theme of ["light", "dark"] as const) for (const compact of [false, true]) {
+      56 |   test(`RO-03/06: ${theme} ${compact ? "compact" : "default"} portal, paints and long-content geometry`, async ({ page }, info) => {
+      57 |     await page.setViewportSize({ width: 1280, height: 800 }); await page.goto("/#dialog");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/dialog.spec.ts:54:78
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/dialog-v2/dev/dialog-RO-03-06-dark-compa-a242e-s-and-long-content-geometry-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/dialog-v2/dev/dialog-RO-03-06-dark-compa-a242e-s-and-long-content-geometry-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/dialog-v2/dev/dialog-RO-03-06-dark-compa-a242e-s-and-long-content-geometry-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/dialog-v2/dev/dialog-RO-03-06-dark-compa-a242e-s-and-long-content-geometry-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [chromium] › tests/e2e/dialog.spec.ts:88:1 › RO-06: narrow viewport, forced colors, separator and nested dialog isolation 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('checkbox', { name: '长内容' })
+        - locator resolved to <input value="on" class="sr-only" type="checkbox" data-slot="input" aria-checked="false" data-focus="control" aria-labelledby="_r_3_-label"/>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        57 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      88 |     await expect(popup).toHaveAttribute("data-rain-theme", theme === "dark" ? "light" : "dark");
+      89 |   });
+    > 90 | }
+         |  ^
+      91 |
+      92 | test("RO-06: narrow viewport, forced colors, separator and nested dialog isolation", async ({ page }, info) => {
+      93 |   await page.setViewportSize({ width: 375, height: 667 }); await page.emulateMedia({ reducedMotion: "reduce", forcedColors: "active" });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/dialog.spec.ts:90:82
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/dialog-v2/dev/dialog-RO-06-narrow-viewpo-26391-and-nested-dialog-isolation-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/dialog-v2/dev/dialog-RO-06-narrow-viewpo-26391-and-nested-dialog-isolation-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/dialog-v2/dev/dialog-RO-06-narrow-viewpo-26391-and-nested-dialog-isolation-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/dialog-v2/dev/dialog-RO-06-narrow-viewpo-26391-and-nested-dialog-isolation-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    [chromium] › tests/e2e/dialog.spec.ts:52:3 › RO-03/06: light default portal, paints and long-content geometry 
+    [chromium] › tests/e2e/dialog.spec.ts:52:3 › RO-03/06: light compact portal, paints and long-content geometry 
+    [chromium] › tests/e2e/dialog.spec.ts:52:3 › RO-03/06: dark default portal, paints and long-content geometry 
+    [chromium] › tests/e2e/dialog.spec.ts:52:3 › RO-03/06: dark compact portal, paints and long-content geometry 
+    [chromium] › tests/e2e/dialog.spec.ts:88:1 › RO-06: narrow viewport, forced colors, separator and nested dialog isolation 
+  3 passed (2.7m)

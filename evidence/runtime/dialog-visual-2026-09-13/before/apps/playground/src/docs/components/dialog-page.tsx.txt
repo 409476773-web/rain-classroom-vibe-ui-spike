@@ -1,0 +1,35 @@
+import { useState } from "react";
+import { DensityProvider } from "@rain-next/foundations";
+import { Button, Checkbox, Dialog, Link, Separator, Tag } from "@rain-next/ui";
+import { CourseDialogExample } from "../../../../prototype/src/course-dialog";
+import "./dialog-page.css";
+
+export function DialogPage() {
+  const [dark, setDark] = useState(false), [compact, setCompact] = useState(false), [longContent, setLongContent] = useState(false);
+  return <DensityProvider density={compact ? "compact" : "default"}><main className="dialog-review" data-rain-theme={dark ? "dark" : "light"} data-rain-id="dialog-page" data-asset-identity="local-experiment">
+    <Link href="#components">返回组件</Link><h1 id="dialog-title" tabIndex={-1}>Dialog 对话框</h1>
+    <p>集中完成一项编辑或确认，保留任务上下文与明确的返回路径。</p><Tag size={20} color="neutral">待评审候选</Tag>
+    <div className="dialog-review-controls" aria-label="预览设置"><Checkbox label="深色主题" checked={dark} onCheckedChange={setDark} /><Checkbox label="紧凑控件" checked={compact} onCheckedChange={setCompact} /><Checkbox label="长内容" checked={longContent} onCheckedChange={setLongContent} /></div>
+    <CourseDialogExample longContent={longContent} />
+    <section><h2>轻量确认</h2><Dialog.Root><Dialog.Trigger render={<Button variant="secondary">查看发布提示</Button>} /><Dialog.Content width={420}>
+      <Dialog.Header><Dialog.Title>发布前再看一眼</Dialog.Title><Dialog.Description>确认课程资料完整后，再开始邀请学生。</Dialog.Description></Dialog.Header>
+      <Dialog.Body><p>本次只展示提示，不会发布课程。</p><Dialog.Root><Dialog.Trigger render={<Button variant="tertiary">查看说明</Button>} /><Dialog.Content width={360}>
+        <Dialog.Header><Dialog.Title>资料说明</Dialog.Title><Dialog.Description>课程名称和教学方式将展示给加入课程的学生。</Dialog.Description></Dialog.Header>
+        <Dialog.Footer><Dialog.Close render={<Button>返回提示</Button>} /></Dialog.Footer>
+      </Dialog.Content></Dialog.Root></Dialog.Body><Dialog.Footer><Dialog.Close render={<Button>知道了</Button>} /></Dialog.Footer>
+    </Dialog.Content></Dialog.Root></section>
+    <section><h2>Separator 分隔线</h2><p>用于区分相邻内容组，不承担交互。</p><Separator /><div className="dialog-review-separators"><span>课程介绍</span><Separator orientation="vertical" /><span>学习安排</span></div></section>
+    <details><summary data-focus="control">使用与验证边界</summary><p>Dialog 使用 Root / Trigger / Content / Header / Body / Footer / Title / Description / Close 组合；Trigger 与 Close 通过 render 复用 Rain Button 或 IconButton。长内容放入 Body，保存状态与草稿保留在宿主。</p>
+      <p>主题和控件密度由触发器上下文传入。局部变量需要在 Content 显式设置，命名 Recipe 只修改当前对话框。必要文字、焦点、真实读屏和人工视觉验收分别记录。本例不代表完整大表单 Benchmark。</p>
+      <pre>{`import { Dialog, Button } from "@rain-next/ui";
+<Dialog.Root>
+  <Dialog.Trigger render={<Button>打开</Button>} />
+  <Dialog.Content>
+    <Dialog.Header><Dialog.Title>任务标题</Dialog.Title></Dialog.Header>
+    <Dialog.Body>任务内容</Dialog.Body>
+    <Dialog.Footer><Dialog.Close render={<Button>关闭</Button>} /></Dialog.Footer>
+  </Dialog.Content>
+</Dialog.Root>`}</pre>
+    </details>
+  </main></DensityProvider>;
+}

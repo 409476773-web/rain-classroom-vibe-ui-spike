@@ -79,6 +79,17 @@ export function SelectPage() {
           <FormItem label="搜索多选"><Select multiple searchable options={options} defaultValue={["a"]} /></FormItem>
         </div>
       </section>
+      <section className="select-page__surface select-page__stack" data-parent={parent} aria-labelledby="select-inside-label-title">
+        <h2 id="select-inside-label-title" className="rain-type-heading-section">框内固定标题</h2>
+        <p>筛选栏把标题和选中内容放在同一行。多选使用单行摘要或数量，超出宽度时保留选中数量；搜索仍在展开面板中进行。</p>
+        <div className="select-page__grid">
+          <FormItem label="教学班" labelPosition="inside"><Select size={32} options={options} defaultValue="a" /></FormItem>
+          <FormItem label="授课范围" labelPosition="inside"><Select size={32} multiple searchable options={options} defaultValue={["a", "b", "c"]} /></FormItem>
+        </div>
+        <pre>{`<FormItem label="教学班" labelPosition="inside">
+  <Select size={32} options={options} />
+</FormItem>`}</pre>
+      </section>
       <section aria-labelledby="select-appearances" className="select-page__stack">
         <h2 id="select-appearances" className="rain-type-heading-section">Input 与 Select 外观对照</h2>
         <p>下方 Input 用于并排比较描边、填充与底线；单位、内部按钮和搜索等完整用法统一在 Input 详情页。</p>

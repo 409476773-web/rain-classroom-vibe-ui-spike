@@ -1,0 +1,132 @@
+{
+  "task": "RN-14 BM-A round 0",
+  "executionKind": "actual-ai-edit",
+  "generationMode": "reuse-generation",
+  "fromScratch": false,
+  "blindTest": false,
+  "status": "completed-self-check-only",
+  "root": "/tmp/rain-next-rn14-20260915-1817",
+  "snapshotId": "rn14-ad0010241f86064f",
+  "startedAtUtc": "2026-09-15 10:21:10 UTC",
+  "endedAtUtc": "2026-09-15 10:22:49 UTC",
+  "modelExactId": "not-measured",
+  "tokens": "not-measured",
+  "filesRead": [
+    "source-lock.json",
+    "apps/prototype/src/scenarios/bm-a/page.tsx",
+    "apps/prototype/src/scenarios/bm-a/state-contract.md",
+    "apps/prototype/src/data-table-recipe.tsx",
+    "apps/prototype/src/data-table-recipe.css",
+    "packages/layouts/src/layout.tsx",
+    "packages/layouts/src/index.ts",
+    "packages/ui/src/card/card.tsx",
+    "packages/ui/src/card/card.styles.ts",
+    "packages/ui/src/card/card.css"
+  ],
+  "fileDiscovery": [
+    {
+      "command": "rg --files -g 'source-lock.json' -g '*state-contract.md' -g 'page.tsx' -g 'layout.tsx' -g 'index.ts' -g 'data-table-recipe.tsx' -g 'data-table-recipe.css'",
+      "exitCode": 0,
+      "result": "Listed matching paths only; BM-B paths were listed but their contents were not opened."
+    },
+    {
+      "command": "rg --files packages/ui/src -g '*typography*' -g '*card*' -g 'index.ts'",
+      "exitCode": 0,
+      "result": "Located Card API and styles used to verify existing Rain typography classes."
+    }
+  ],
+  "commands": [
+    {
+      "command": "cat apps/prototype/src/scenarios/bm-a/page.tsx apps/prototype/src/scenarios/bm-a/state-contract.md apps/prototype/src/data-table-recipe.tsx apps/prototype/src/data-table-recipe.css packages/layouts/src/layout.tsx packages/layouts/src/index.ts",
+      "exitCode": 0,
+      "result": "Read requested source; displayed output truncated around toolbar, completed with targeted reads."
+    },
+    {
+      "command": "cat source-lock.json",
+      "exitCode": 0,
+      "result": "Output truncated because source-lock contains large hash maps. Snapshot identity and relevant hashes were available."
+    },
+    {
+      "command": "sed -n '185,250p' apps/prototype/src/data-table-recipe.tsx",
+      "exitCode": 0,
+      "result": "Read table toolbar and rendering section."
+    },
+    {
+      "command": "cat packages/ui/src/card/card.tsx packages/ui/src/card/card.styles.ts packages/ui/src/card/card.css",
+      "exitCode": 0,
+      "result": "Read actual Card API, Rain typography classes, and scoped CSS."
+    },
+    {
+      "command": "sed -n '170,185p' apps/prototype/src/data-table-recipe.tsx",
+      "exitCode": 0,
+      "result": "Completed reading truncated toolbar content."
+    },
+    {
+      "command": "python3",
+      "stdinScriptPurpose": "Parse source-lock.json and print root fields plus six relevant source hashes.",
+      "exitCode": 0,
+      "result": "Relevant hashes printed; root files map also printed and caused output truncation. No other file content was read."
+    },
+    {
+      "command": "pnpm --filter @rain-next/prototype typecheck",
+      "executionWrapper": "python3 subprocess.run with stdout/stderr captured to the authorized log",
+      "startedAtUtc": "2026-09-15T10:22:15.133149+00:00",
+      "endedAtUtc": "2026-09-15T10:22:15.720702+00:00",
+      "exitCode": 0,
+      "result": "tsc --noEmit --project tsconfig.json passed",
+      "log": "/tmp/rn14-a0-typecheck.log"
+    },
+    {
+      "command": "python3",
+      "stdinScriptPurpose": "Assert unique native-header stable ID, retained scenario/aria/class, one reused DataTableRecipe after context, required text, no local density provider/state, and matching hashes for eight previously read readonly files.",
+      "exitCode": 0,
+      "result": "All assertions passed."
+    }
+  ],
+  "applicationFilesChanged": [
+    "apps/prototype/src/scenarios/bm-a/page.tsx"
+  ],
+  "changeSummary": [
+    "Import existing Inline and Stack.",
+    "Add a short course context header titled 教学设计 · 第三周 with visible 虚构课堂资料 notice and one supporting sentence.",
+    "Put data-rain-id=local-rn14-bm-a-context on native header because Stack and Inline write their own data-rain-id.",
+    "Use existing Rain typography class values observed in Card styles.",
+    "Retain original scenario wrapper and one unchanged DataTableRecipe invocation; inherit the same external density context."
+  ],
+  "hashes": {
+    "pageBeforeSha256": "a1d5fa6042afddf042a40ade073a0f152ff789e81943828b24790fc2d1e11908",
+    "pageAfterSha256": "1d93e86dfca5f5ca12609123415de41cc5cafe57e951fb49f1400df22ce146cb"
+  },
+  "readonlyHashesMatched": [
+    "apps/prototype/src/scenarios/bm-a/state-contract.md",
+    "apps/prototype/src/data-table-recipe.tsx",
+    "apps/prototype/src/data-table-recipe.css",
+    "packages/layouts/src/layout.tsx",
+    "packages/layouts/src/index.ts",
+    "packages/ui/src/card/card.tsx",
+    "packages/ui/src/card/card.styles.ts",
+    "packages/ui/src/card/card.css"
+  ],
+  "validation": {
+    "typecheck": "passed",
+    "sourceSelfCheck": "passed",
+    "behaviorAndCompactDensity": "preserved by unchanged recipe and inherited context; not independently runtime-tested",
+    "browserVerification": "not-performed",
+    "independentReview": "not-performed",
+    "humanGate": "not-performed"
+  },
+  "scope": {
+    "recipeEdited": false,
+    "sharedPackagesEdited": false,
+    "rootConfigurationEdited": false,
+    "bmBEdited": false,
+    "originalRepositoryEdited": false,
+    "gitWritten": false,
+    "externalMessagesSent": false,
+    "networkResearch": false,
+    "dependenciesInstalled": false,
+    "memoryOrTaskHistoryRead": false,
+    "laterRoundImplemented": false
+  },
+  "next": "Await the next structural-edit instruction."
+}

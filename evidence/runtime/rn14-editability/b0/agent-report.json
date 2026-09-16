@@ -1,0 +1,209 @@
+{
+  "task": "RN-14 BM-B round 0",
+  "mode": "actual AI editing evaluation; reuse of the copied current textbook scene; not from scratch; not blind",
+  "workspace": "/tmp/rain-next-rn14-20260915-1817",
+  "sourceSnapshotId": "rn14-ad0010241f86064f",
+  "utcStart": "2026-09-15 10:42:52 UTC",
+  "utcEnd": "2026-09-15 10:48:15 UTC",
+  "exactModelId": "not-measured",
+  "tokenUsage": "not-measured",
+  "filesRead": [
+    {
+      "path": "/tmp/rain-next-rn14-20260915-1817/source-lock.json",
+      "scopes": [
+        "source/provenance fields only",
+        "source/provenance metadata and BM-B source hashes only"
+      ]
+    },
+    {
+      "path": "/tmp/rain-next-rn14-20260915-1817/apps/prototype/src/scenarios/bm-b/page.tsx",
+      "scopes": [
+        "full"
+      ]
+    },
+    {
+      "path": "/tmp/rain-next-rn14-20260915-1817/apps/prototype/src/scenarios/bm-b/page.css",
+      "scopes": [
+        "full"
+      ]
+    },
+    {
+      "path": "/tmp/rain-next-rn14-20260915-1817/apps/prototype/src/scenarios/bm-b/state.ts",
+      "scopes": [
+        "full"
+      ]
+    },
+    {
+      "path": "/tmp/rain-next-rn14-20260915-1817/apps/prototype/src/scenarios/bm-b/state-contract.md",
+      "scopes": [
+        "full"
+      ]
+    },
+    {
+      "path": "/tmp/rain-next-rn14-20260915-1817/packages/layouts/src/layout.tsx",
+      "scopes": [
+        "full; actual layout/typography API"
+      ]
+    },
+    {
+      "path": "/tmp/rain-next-rn14-20260915-1817/packages/foundations/src/typography.css",
+      "scopes": [
+        "full; actual layout/typography API"
+      ]
+    },
+    {
+      "path": "/tmp/rain-next-rn14-20260915-1817/packages/foundations/src/tailwind-theme.css",
+      "scopes": [
+        "matching theme declarations for Rain size/line/weight/spacing",
+        "lines 1-110; exact typography utility names"
+      ]
+    },
+    {
+      "path": "/tmp/rain-next-rn14-20260915-1817/packages/ui/src/dialog/dialog.tsx",
+      "scopes": [
+        "pointer dismissal / Root matches",
+        "lines 1-55; Root defaults and change routing"
+      ]
+    }
+  ],
+  "generatedOutputsRead": [
+    "/tmp/rn14-b0-typecheck.log"
+  ],
+  "sourceLockReadNote": "Only source/provenance fields were requested. The first field filter included sourceFiles hash maps and produced truncated output; no referenced file content was read through that output.",
+  "changedFiles": [
+    {
+      "path": "/tmp/rain-next-rn14-20260915-1817/apps/prototype/src/scenarios/bm-b/page.tsx",
+      "sha256": "540c2a66e11bcf9f19104c2218a4598ea2ac9c369c29b4aeab20b93b1aee8043"
+    },
+    {
+      "path": "/tmp/rain-next-rn14-20260915-1817/apps/prototype/src/scenarios/bm-b/state-contract.md",
+      "sha256": "7e30debcc634307a0430b6e1ff950b70187182d41b42d1857c5791661c5ed5c7"
+    }
+  ],
+  "changes": [
+    "Added one native header before the existing Card, with data-rain-id=local-rn14-bm-b-context, course text 教材共建 · 第三周, fictional-teaching label and a short sentence.",
+    "Used existing Stack/Inline, Rain typography, and mb-rain-16 for context-to-Card spacing.",
+    "Corrected only local contract entries for dirty-draft confirmation, discard cleanup and non-dismissing backdrop; documented that the copy follows current implementation and the original repository is unchanged."
+  ],
+  "preservation": {
+    "existingPageContent": "passed: removing only the inserted header restores the source-lock SHA-256 exactly",
+    "unrelatedContractContent": "passed: reverting only the described contract corrections restores the source-lock SHA-256 exactly",
+    "stateTs": "source-lock SHA-256 unchanged",
+    "pageCss": "source-lock SHA-256 unchanged",
+    "originalRepository": "no reads or writes",
+    "sharedPackages": "necessary API files read only",
+    "bmA": "no file-content reads or writes"
+  },
+  "verification": {
+    "scopeSelfcheck": {
+      "exitCode": 0,
+      "result": {
+        "status": "passed",
+        "page_change": "one native context header only",
+        "contract_change": "discard and backdrop behavior corrections only",
+        "unchanged": [
+          "apps/prototype/src/scenarios/bm-b/page.css",
+          "apps/prototype/src/scenarios/bm-b/state.ts"
+        ],
+        "sha256": {
+          "apps/prototype/src/scenarios/bm-b/page.tsx": "540c2a66e11bcf9f19104c2218a4598ea2ac9c369c29b4aeab20b93b1aee8043",
+          "apps/prototype/src/scenarios/bm-b/state-contract.md": "7e30debcc634307a0430b6e1ff950b70187182d41b42d1857c5791661c5ed5c7"
+        }
+      }
+    },
+    "typecheck": {
+      "command": "pnpm --filter @rain-next/prototype typecheck",
+      "exitCode": 0,
+      "log": "/tmp/rn14-b0-typecheck.log"
+    },
+    "build": "not run by this agent; parent-owned",
+    "browser": "not run by this agent; parent-owned"
+  },
+  "commandWorkdir": "/tmp/rain-next-rn14-20260915-1817",
+  "actualCommands": [
+    {
+      "command": "python3 -c 'import json; from pathlib import Path; p=Path(\"source-lock.json\"); d=json.loads(p.read_text()); print(json.dumps({k:v for k,v in d.items() if any(x in k.lower() for x in (\"source\", \"origin\", \"copied\", \"snapshot\"))}, ensure_ascii=False, indent=2))'",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -c 'import json; d=json.load(open(\"source-lock.json\")); print(json.dumps({k:v for k,v in d.items() if (any(x in k.lower() for x in (\"source\", \"origin\", \"copied\", \"snapshot\")) and not isinstance(v, dict))},ensure_ascii=False,indent=2)); print(json.dumps({k:v for k,v in d.get(\"sourceFiles\",{}).items() if k.startswith(\"apps/prototype/src/scenarios/bm-b/\")},ensure_ascii=False,indent=2))'",
+      "exit_code": 0
+    },
+    {
+      "command": "cat apps/prototype/src/scenarios/bm-b/page.tsx",
+      "exit_code": 0
+    },
+    {
+      "command": "cat apps/prototype/src/scenarios/bm-b/page.css",
+      "exit_code": 0
+    },
+    {
+      "command": "cat apps/prototype/src/scenarios/bm-b/state.ts",
+      "exit_code": 0
+    },
+    {
+      "command": "cat apps/prototype/src/scenarios/bm-b/state-contract.md",
+      "exit_code": 0
+    },
+    {
+      "command": "cat packages/layouts/src/layout.tsx",
+      "exit_code": 0
+    },
+    {
+      "command": "cat packages/foundations/src/typography.css",
+      "exit_code": 0
+    },
+    {
+      "command": "rg -n -- '--(text|font-weight|leading|spacing)-rain-(20|28|16|semibold)|@theme' packages/foundations/src/tailwind-theme.css",
+      "exit_code": 0
+    },
+    {
+      "command": "sed -n '1,110p' packages/foundations/src/tailwind-theme.css",
+      "exit_code": 0
+    },
+    {
+      "command": "rg -n 'dismiss|Dismiss|outside|Outside|modal|backdrop|Backdrop|function DialogRoot|DialogRoot' packages/ui/src/dialog/dialog.tsx",
+      "exit_code": 0
+    },
+    {
+      "command": "sed -n '1,55p' packages/ui/src/dialog/dialog.tsx",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 - <<'PY'\nimport hashlib, json, re\nfrom pathlib import Path\nbase = Path(\".\")\nsource = json.loads((base / \"source-lock.json\").read_text())[\"sourceFiles\"]\npage_path = \"apps/prototype/src/scenarios/bm-b/page.tsx\"\ncontract_path = \"apps/prototype/src/scenarios/bm-b/state-contract.md\"\npage = (base / page_path).read_text()\npattern = r'    <header className=\"mb-rain-16\" data-rain-id=\"local-rn14-bm-b-context\">[\\s\\S]*?    </header>\\n'\nbaseline, count = re.subn(pattern, \"\", page)\nassert count == 1, \"Expected exactly one new native context header\"\nassert hashlib.sha256(baseline.encode()).hexdigest() == source[page_path], \"Existing page content changed\"\nassert \"教材共建 · 第三周\" in page and \"虚构教学示例\" in page\nassert re.search(pattern + r\"    <Card>\", page), \"Context must directly precede existing Card\"\ncontract = (base / contract_path).read_text()\nreplacements = [\n(\"本地副本说明：以下取消与丢弃条目跟随当前 `page.tsx` 已有的 AlertDialog 脏草稿确认实现，仅校正副本合同，原仓库不变。\\n\\n\", \"\"),\n(\"| 保存中 | 禁用字段、附件和提交；重复提交忽略；取消、关闭、Escape 被拦截 |\", \"| 保存中 | 禁用字段、附件和提交；重复提交忽略；取消、关闭、Escape/遮罩被拦截 |\"),\n(\"| 取消/关闭/Escape | 保存中被拦截；无改动时直接关闭；有脏草稿时拦截关闭并打开 AlertDialog，默认焦点进入“继续编辑” |\", \"| 取消/关闭/Escape/遮罩 | 保存中之外均丢弃草稿，中止全部未完成上传，不另加确认弹窗 |\"),\n(\"| 遮罩点击 | 当前 Dialog.Root 默认 `disablePointerDismissal=true`，本场景未覆盖；点击遮罩不关闭教材编辑，也不触发丢弃或脏草稿确认 |\\n\", \"\"),\n(\"| 脏草稿确认 | “继续编辑”仅关闭确认框并保留草稿；“放弃修改”恢复已保存教材、中止全部未完成上传并关闭教材编辑 |\\n\", \"\"),\n(\"| 移除/丢弃草稿/卸载 |\", \"| 移除/关闭/卸载 |\"),\n(\"脏草稿须确认后才丢弃；\", \"取消是明确丢弃；\"),\n]\nfor current, previous in replacements:\n    assert contract.count(current) == 1, current\n    contract = contract.replace(current, previous, 1)\nassert hashlib.sha256(contract.encode()).hexdigest() == source[contract_path], \"Unrelated contract content changed\"\nunchanged = [\"apps/prototype/src/scenarios/bm-b/page.css\", \"apps/prototype/src/scenarios/bm-b/state.ts\"]\nfor path in unchanged:\n    assert hashlib.sha256((base / path).read_bytes()).hexdigest() == source[path], path + \" changed\"\nprint(json.dumps({\"status\": \"passed\", \"page_change\": \"one native context header only\", \"contract_change\": \"discard and backdrop behavior corrections only\", \"unchanged\": unchanged, \"sha256\": {p: hashlib.sha256((base / p).read_bytes()).hexdigest() for p in [page_path, contract_path]}}, ensure_ascii=False, indent=2))\nPY",
+      "exit_code": 0
+    },
+    {
+      "command": "pnpm --filter @rain-next/prototype typecheck > /tmp/rn14-b0-typecheck.log 2>&1",
+      "exit_code": 0
+    },
+    {
+      "command": "cat /tmp/rn14-b0-typecheck.log",
+      "exit_code": 0
+    }
+  ],
+  "fileMutationTools": [
+    {
+      "tool": "apply_patch",
+      "targets": [
+        "apps/prototype/src/scenarios/bm-b/page.tsx",
+        "apps/prototype/src/scenarios/bm-b/state-contract.md"
+      ],
+      "result": "applied and verified by source comparison"
+    }
+  ],
+  "outputFiles": [
+    "/tmp/rn14-b0-typecheck.log",
+    "/tmp/rn14-b0-agent.json"
+  ],
+  "constraints": {
+    "dependenciesInstalled": false,
+    "gitOperations": false,
+    "networkUsed": false,
+    "externalMessagesSent": false,
+    "memoryOrTaskHistoryRead": false,
+    "structuralFormChanges": false,
+    "futureRoundsRun": false
+  },
+  "status": "round-0 editing and typecheck complete; waiting for parent build/browser validation and further instructions"
+}

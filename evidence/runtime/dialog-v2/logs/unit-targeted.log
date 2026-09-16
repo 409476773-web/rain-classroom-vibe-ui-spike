@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/dialog-v2.test.ts (3 tests | 1 failed) 141ms
+   × limits RN-05 authorization, headless imports and candidate metadata 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/dialog-v2.test.ts > limits RN-05 authorization, headless imports and candidate metadata
+Error: Invalid YAML subset at line 21: unsupported scalar "[\"content\", \"header\", \"body\", \"footer\", \"title\", \"description\"]"; registry scalars must be quoted or JSON-like
+ ❯ yamlError scripts/verification-helpers.mjs:5:10
+      3| function yamlError(line, message) {
+      4|   const location = line ? ` at line ${line.number}` : "";
+      5|   return new Error(`Invalid YAML subset${location}: ${message}`);
+       |          ^
+      6| }
+      7|
+ ❯ parseYamlScalar scripts/verification-helpers.mjs:35:9
+ ❯ parseMapping scripts/verification-helpers.mjs:89:22
+ ❯ parseBlock scripts/verification-helpers.mjs:164:9
+ ❯ parseYamlSubset scripts/verification-helpers.mjs:171:18
+ ❯ scripts/dialog-v2.test.ts:22:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 25 passed (26)
+   Start at  02:53:17
+   Duration  3.31s (transform 654ms, setup 293ms, import 1.19s, tests 2.75s, environment 1.16s)
+

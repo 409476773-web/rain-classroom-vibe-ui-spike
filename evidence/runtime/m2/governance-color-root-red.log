@@ -1,0 +1,58 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/m2.test.ts (5 tests | 1 failed | 4 skipped) 7ms
+   × reads frozen M2 color metadata from the requested repository root without falling back 6ms
+ ❯ scripts/verify-tailwind-b2.test.ts (178 tests | 1 failed | 177 skipped) 5055ms
+     × accepts only the recorded QuestionNumber 32 px visual Gate without accepting contrast findings 3010ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/m2.test.ts > reads frozen M2 color metadata from the requested repository root without falling back
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ scripts/m2.test.ts:109:45
+    107|     writeFileSync(join(root, "status/current-phase.yaml"), read("statu…
+    108|     writeFileSync(join(root, "evidence/runtime/m2/color-consumers.json…
+    109|     expect(() => getM2ColorConsumers(root)).toThrow(/M2 color metadata…
+       |                                             ^
+    110|     const outputs = getTokenFoundationOutputs(); outputs.colorCssConsu…
+    111|     const filePath = "apps/prototype/src/scenarios/bm-c/page.css";
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > accepts only the recorded QuestionNumber 32 px visual Gate without accepting contrast findings
+AssertionError: expected [ …(3) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "M2 color registration cannot be checked: The URL must be of scheme file",
++   "Category/local colors require registered Token consumer metadata: apps/prototype/src/scenarios/bm-c/page.css",
++   "Category/local colors require registered Token consumer metadata: apps/prototype/src/scenarios/bm-d/page.css",
++ ]
+
+ ❯ scripts/verify-tailwind-b2.test.ts:2397:31
+    2395|       expect(validateTailwindB2SystemContract({ root: fixtureRoot })).…
+    2396|       const tokens = verifyTokenFoundations({ root: fixtureRoot });
+    2397|       expect(tokens.failures).toEqual([]);
+       |                               ^
+    2398|       expect(tokens.pendingContrastFindings.length).toBeGreaterThan(0);
+    2399|       expect(tokens.acceptedTextContrastExceptions.some((entry: any) =…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 181 skipped (183)
+   Start at  22:38:14
+   Duration  6.09s (transform 535ms, setup 187ms, import 770ms, tests 5.06s, environment 373ms)
+

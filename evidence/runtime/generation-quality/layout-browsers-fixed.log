@@ -1,0 +1,187 @@
+
+Running 12 tests using 1 worker
+
+(node:18058) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/m2.spec.ts:98:1 › BM-D scope choices support native radio keys without changing local metric ownership (603ms)
+  ✓   2 [chromium] › tests/e2e/m2.spec.ts:114:1 › BM-D full-range metrics survive pagination and chart selection with separate numeric fonts (730ms)
+  ✘   3 [chromium] › tests/e2e/m2.spec.ts:132:1 › BM-D filters the source, distinguishes chart state and recovers from failure and empty (30.1s)
+(node:19572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 [chromium] › tests/e2e/m2.spec.ts:146:1 › BM-D narrow dark report retains readable equivalent data and keyboard access (714ms)
+(node:19580) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [firefox] › tests/e2e/m2.spec.ts:98:1 › BM-D scope choices support native radio keys without changing local metric ownership (1.3s)
+  ✓   6 [firefox] › tests/e2e/m2.spec.ts:114:1 › BM-D full-range metrics survive pagination and chart selection with separate numeric fonts (765ms)
+  ✘   7 [firefox] › tests/e2e/m2.spec.ts:132:1 › BM-D filters the source, distinguishes chart state and recovers from failure and empty (30.8s)
+(node:20724) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [firefox] › tests/e2e/m2.spec.ts:146:1 › BM-D narrow dark report retains readable equivalent data and keyboard access (1.4s)
+(node:20734) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [webkit] › tests/e2e/m2.spec.ts:98:1 › BM-D scope choices support native radio keys without changing local metric ownership (970ms)
+  ✓  10 [webkit] › tests/e2e/m2.spec.ts:114:1 › BM-D full-range metrics survive pagination and chart selection with separate numeric fonts (828ms)
+  ✘  11 [webkit] › tests/e2e/m2.spec.ts:132:1 › BM-D filters the source, distinguishes chart state and recovers from failure and empty (30.2s)
+(node:21940) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 [webkit] › tests/e2e/m2.spec.ts:146:1 › BM-D narrow dark report retains readable equivalent data and keyboard access (929ms)
+
+
+  1) [chromium] › tests/e2e/m2.spec.ts:132:1 › BM-D filters the source, distinguishes chart state and recovers from failure and empty 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('radiogroup', { name: '报告班级' }).getByText('二班', { exact: true })
+        - locator resolved to <span data-slot="label" class="min-w-rain-0 truncate">二班</span>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label data-size="28" data-slot="root" data-color="neutral" data-checked="false" data-state="default" data-density="default" data-appearance="filled" data-rain-id="ui-checkable-tag" class="rain-tag relative box-border inline-flex max-w-full items-center align-middle whitespace-nowrap border-solid border-rain-line-1 border-transparent font-rain-ui tracking-rain-default normal-nums font-rain-regular text-rain-category-text-neutral-3 bg-rain-category-fill-neutral-alpha-6 min-w-rain-0 h-rain-tag-28 px-ra…>…</label> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label data-size="28" data-slot="root" data-color="neutral" data-checked="false" data-state="default" data-density="default" data-appearance="filled" data-rain-id="ui-checkable-tag" class="rain-tag relative box-border inline-flex max-w-full items-center align-middle whitespace-nowrap border-solid border-rain-line-1 border-transparent font-rain-ui tracking-rain-default normal-nums font-rain-regular text-rain-category-text-neutral-3 bg-rain-category-fill-neutral-alpha-6 min-w-rain-0 h-rain-tag-28 px-ra…>…</label> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        57 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <label data-size="28" data-slot="root" data-color="neutral" data-checked="false" data-state="default" data-density="default" data-appearance="filled" data-rain-id="ui-checkable-tag" class="rain-tag relative box-border inline-flex max-w-full items-center align-middle whitespace-nowrap border-solid border-rain-line-1 border-transparent font-rain-ui tracking-rain-default normal-nums font-rain-regular text-rain-category-text-neutral-3 bg-rain-category-fill-neutral-alpha-6 min-w-rain-0 h-rain-tag-28 px-ra…>…</label> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      131 |
+      132 | test("BM-D filters the source, distinguishes chart state and recovers from failure and empty", async ({ page }) => {
+    > 133 |   await page.goto("/#bm-d"); await page.getByRole("radiogroup", { name: "报告班级" }).getByText("二班", { exact: true }).click();
+          |                                                                                                                    ^
+      134 |   await expect(page.getByRole("region", { name: "关键指标" }).locator('[data-slot="value"]')).toHaveText(["156", "129", "81.9", "82.7%"]);
+      135 |   await page.getByRole("combobox", { name: "报告周期", exact: true }).click();
+      136 |   await page.getByRole("option", { name: "第 4–6 周", exact: true }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/m2.spec.ts:133:116
+
+    Error Context: ../../../../../../tmp/rain-quality-layout-fixed/results/m2-BM-D-filters-the-source-e3440-vers-from-failure-and-empty-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-quality-layout-fixed/results/m2-BM-D-filters-the-source-e3440-vers-from-failure-and-empty-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-quality-layout-fixed/results/m2-BM-D-filters-the-source-e3440-vers-from-failure-and-empty-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [firefox] › tests/e2e/m2.spec.ts:132:1 › BM-D filters the source, distinguishes chart state and recovers from failure and empty 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('radiogroup', { name: '报告班级' }).getByText('二班', { exact: true })
+        - locator resolved to <span data-slot="label" class="min-w-rain-0 truncate">二班</span>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label data-size="28" data-slot="root" data-color="neutral" data-checked="false" data-state="default" data-density="default" data-appearance="filled" data-rain-id="ui-checkable-tag" class="rain-tag relative box-border inline-flex max-w-full items-center align-middle whitespace-nowrap border-solid border-rain-line-1 border-transparent font-rain-ui tracking-rain-default normal-nums font-rain-regular text-rain-category-text-neutral-3 bg-rain-category-fill-neutral-alpha-6 min-w-rain-0 h-rain-tag-28 px-ra…>…</label> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label data-size="28" data-slot="root" data-color="neutral" data-checked="false" data-state="default" data-density="default" data-appearance="filled" data-rain-id="ui-checkable-tag" class="rain-tag relative box-border inline-flex max-w-full items-center align-middle whitespace-nowrap border-solid border-rain-line-1 border-transparent font-rain-ui tracking-rain-default normal-nums font-rain-regular text-rain-category-text-neutral-3 bg-rain-category-fill-neutral-alpha-6 min-w-rain-0 h-rain-tag-28 px-ra…>…</label> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        58 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <label data-size="28" data-slot="root" data-color="neutral" data-checked="false" data-state="default" data-density="default" data-appearance="filled" data-rain-id="ui-checkable-tag" class="rain-tag relative box-border inline-flex max-w-full items-center align-middle whitespace-nowrap border-solid border-rain-line-1 border-transparent font-rain-ui tracking-rain-default normal-nums font-rain-regular text-rain-category-text-neutral-3 bg-rain-category-fill-neutral-alpha-6 min-w-rain-0 h-rain-tag-28 px-ra…>…</label> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      131 |
+      132 | test("BM-D filters the source, distinguishes chart state and recovers from failure and empty", async ({ page }) => {
+    > 133 |   await page.goto("/#bm-d"); await page.getByRole("radiogroup", { name: "报告班级" }).getByText("二班", { exact: true }).click();
+          |                                                                                                                    ^
+      134 |   await expect(page.getByRole("region", { name: "关键指标" }).locator('[data-slot="value"]')).toHaveText(["156", "129", "81.9", "82.7%"]);
+      135 |   await page.getByRole("combobox", { name: "报告周期", exact: true }).click();
+      136 |   await page.getByRole("option", { name: "第 4–6 周", exact: true }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/m2.spec.ts:133:116
+
+    Error Context: ../../../../../../tmp/rain-quality-layout-fixed/results/m2-BM-D-filters-the-source-e3440-vers-from-failure-and-empty-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-quality-layout-fixed/results/m2-BM-D-filters-the-source-e3440-vers-from-failure-and-empty-firefox/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-quality-layout-fixed/results/m2-BM-D-filters-the-source-e3440-vers-from-failure-and-empty-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [webkit] › tests/e2e/m2.spec.ts:132:1 › BM-D filters the source, distinguishes chart state and recovers from failure and empty 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('radiogroup', { name: '报告班级' }).getByText('二班', { exact: true })
+        - locator resolved to <span data-slot="label" class="min-w-rain-0 truncate">二班</span>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label data-size="28" data-slot="root" data-color="neutral" data-checked="false" data-state="default" data-density="default" data-appearance="filled" data-rain-id="ui-checkable-tag" class="rain-tag relative box-border inline-flex max-w-full items-center align-middle whitespace-nowrap border-solid border-rain-line-1 border-transparent font-rain-ui tracking-rain-default normal-nums font-rain-regular text-rain-category-text-neutral-3 bg-rain-category-fill-neutral-alpha-6 min-w-rain-0 h-rain-tag-28 px-ra…>…</label> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label data-size="28" data-slot="root" data-color="neutral" data-checked="false" data-state="default" data-density="default" data-appearance="filled" data-rain-id="ui-checkable-tag" class="rain-tag relative box-border inline-flex max-w-full items-center align-middle whitespace-nowrap border-solid border-rain-line-1 border-transparent font-rain-ui tracking-rain-default normal-nums font-rain-regular text-rain-category-text-neutral-3 bg-rain-category-fill-neutral-alpha-6 min-w-rain-0 h-rain-tag-28 px-ra…>…</label> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        57 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <label data-size="28" data-slot="root" data-color="neutral" data-checked="false" data-state="default" data-density="default" data-appearance="filled" data-rain-id="ui-checkable-tag" class="rain-tag relative box-border inline-flex max-w-full items-center align-middle whitespace-nowrap border-solid border-rain-line-1 border-transparent font-rain-ui tracking-rain-default normal-nums font-rain-regular text-rain-category-text-neutral-3 bg-rain-category-fill-neutral-alpha-6 min-w-rain-0 h-rain-tag-28 px-ra…>…</label> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      131 |
+      132 | test("BM-D filters the source, distinguishes chart state and recovers from failure and empty", async ({ page }) => {
+    > 133 |   await page.goto("/#bm-d"); await page.getByRole("radiogroup", { name: "报告班级" }).locator("label").filter({ has: page.getByRole("radio", { name: "二班", exact: true }) }).click();
+          |                                                                                                                    ^
+      134 |   await expect(page.getByRole("region", { name: "关键指标" }).locator('[data-slot="value"]')).toHaveText(["156", "129", "81.9", "82.7%"]);
+      135 |   await page.getByRole("combobox", { name: "报告周期", exact: true }).click();
+      136 |   await page.getByRole("option", { name: "第 4–6 周", exact: true }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/m2.spec.ts:133:116
+
+    Error Context: ../../../../../../tmp/rain-quality-layout-fixed/results/m2-BM-D-filters-the-source-e3440-vers-from-failure-and-empty-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-quality-layout-fixed/results/m2-BM-D-filters-the-source-e3440-vers-from-failure-and-empty-webkit/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-quality-layout-fixed/results/m2-BM-D-filters-the-source-e3440-vers-from-failure-and-empty-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [chromium] › tests/e2e/m2.spec.ts:132:1 › BM-D filters the source, distinguishes chart state and recovers from failure and empty 
+    [firefox] › tests/e2e/m2.spec.ts:132:1 › BM-D filters the source, distinguishes chart state and recovers from failure and empty 
+    [webkit] › tests/e2e/m2.spec.ts:132:1 › BM-D filters the source, distinguishes chart state and recovers from failure and empty 
+  9 passed (1.7m)

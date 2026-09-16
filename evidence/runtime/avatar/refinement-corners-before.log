@@ -1,0 +1,82 @@
+[WebServer] (node:17160) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:17162) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:17168) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:17170) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:17176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/avatar.spec.ts:142:1 › Grid retains Classic 1px gutters and uses filled device/status icons (1.1s)
+(node:17182) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/e2e/avatar.spec.ts:166:1 › Classic interaction frames preserve full-size portraits and front-to-back group stacking (780ms)
+
+
+  1) [chromium] › tests/e2e/avatar.spec.ts:142:1 › Grid retains Classic 1px gutters and uses filled device/status icons 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "5px"
+    Received: "6px"
+
+      154 |   }));
+      155 |   for (const corner of corners) {
+    > 156 |     expect(corner.outer).toBe('5px'); expect(corner.inner).toBe('4px'); expect(corner.clip).toBe('hidden');
+          |                          ^
+      157 |     expect(corner.cells.every(radius => radius === `${corner.count === 1 ? 4 : corner.count <= 4 ? 2 : 1}px`)).toBe(true);
+      158 |   }
+      159 |   await page.locator('.avatar-review-section').nth(2).screenshot({ path: `${evidence}/grid-corners.png` });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/avatar.spec.ts:156:26
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/avatar-Grid-retains-Classi-2563b--filled-device-status-icons-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/avatar-Grid-retains-Classi-2563b--filled-device-status-icons-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/avatar-Grid-retains-Classi-2563b--filled-device-status-icons-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/avatar-Grid-retains-Classi-2563b--filled-device-status-icons-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/e2e/avatar.spec.ts:166:1 › Classic interaction frames preserve full-size portraits and front-to-back group stacking 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 40
+    Received: 38
+
+      169 |   const image = picture.locator('[data-slot="portrait"]');
+      170 |   const size = (await avatar.boundingBox())!.width;
+    > 171 |   expect((await image.boundingBox())!.width).toBe(size);
+          |                                              ^
+      172 |   await avatar.hover();
+      173 |   expect((await image.boundingBox())!.width).toBe(size);
+      174 |   await expect(picture).toHaveCSS('background-color', 'rgb(227, 233, 253)');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/avatar.spec.ts:171:46
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/avatar-Classic-interaction-017ff-ront-to-back-group-stacking-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/avatar-Classic-interaction-017ff-ront-to-back-group-stacking-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/avatar-Classic-interaction-017ff-ront-to-back-group-stacking-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/avatar-Classic-interaction-017ff-ront-to-back-group-stacking-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium] › tests/e2e/avatar.spec.ts:142:1 › Grid retains Classic 1px gutters and uses filled device/status icons 
+    [chromium] › tests/e2e/avatar.spec.ts:166:1 › Classic interaction frames preserve full-size portraits and front-to-back group stacking 

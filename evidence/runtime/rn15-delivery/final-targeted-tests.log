@@ -1,0 +1,34 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-tailwind-b2.test.ts (178 tests | 1 failed | 177 skipped) 3950ms
+     × keeps the original B2 bridge and manifest inventory valid without Token Foundations V1 additions 500ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > keeps the original B2 bridge and manifest inventory valid without Token Foundations V1 additions
+AssertionError: expected 'select inside label manifest cannot b…' to contain 'select inside label record must retai…'
+
+- Expected
++ Received
+
+- select inside label record must retain the exact independent implementation and visual acceptance scope
++ select inside label manifest cannot be parsed: Invalid YAML subset at line 2: unsupported scalar "completed"; registry scalars must be quoted or JSON-like
++ Task 5 manifest inventory must be exact: ["manifests/.gitkeep","manifests/contracts/tailwind-b2.yaml","manifests/icons.json","manifests/ui/button.yaml","manifests/ui/input.yaml","manifests/ui/select.yaml"]
+
+ ❯ scripts/verify-tailwind-b2.test.ts:2938:10
+    2936|       writeFileSync(absolute("manifests/ui/select.yaml", fixtureRoot),…
+    2937|       expect(validateTailwindB2SystemContract({ root: fixtureRoot }).j…
+    2938|         .toContain("select inside label record must retain the exact i…
+       |          ^
+    2939|     } finally {
+    2940|       renameSync(heldDemoPath, demoPath);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 1 passed | 177 skipped (179)
+   Start at  21:04:35
+   Duration  5.13s (transform 368ms, setup 236ms, import 497ms, tests 3.99s, environment 558ms)
+

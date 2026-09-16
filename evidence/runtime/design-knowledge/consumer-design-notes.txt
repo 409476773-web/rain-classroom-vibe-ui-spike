@@ -1,0 +1,97 @@
+# 研讨活动编辑：本地消费试验
+
+主任务：教师检查“设计方法与实践”课程的一次研讨活动，编辑并统一保存；保存之前摘要只呈现已保存内容。
+
+## 开工选择（实现前）
+
+- 采用已保存信息页 + Dialog：保留活动上下文，复用 BM-B 的固定头尾、正文滚动、语义分区与统一提交关系。独立整页编辑也可行，但此任务只有七个字段；内联编辑会让统一校验、取消和已保存值边界变复杂。
+- 采用三个填写分区：基本信息（名称、类型、地点）、研讨内容（活动说明、可选提纲）、报名设置。短字段用 Grid 自适应；两段长文各占整行。不复制 BM-B 的四区、附件或布局演示开关。
+- Input / Textarea + FormItem 负责字段及关联反馈。三种类型直接使用 RadioGroup，便于比较与键盘切换；未选择或未知值仍由宿主校验。没有多数候选值，不使用 Select。
+- Checkbox 表示是否启用人数上限。Input 合同明确不承担数字解析，因此人数上限使用页面本地的原生 number input（min=1、max=200、step=1），显式关联 label、help、error，复用 Rain 颜色、字号、间距、Focus。关闭时保留本轮字符串，但不参与校验或保存结果。
+- 宿主持有 saved / draft / errors / saving，Dialog、AlertDialog 负责焦点和退出层级。复用 BM-B 中与业务无关的 simulateTask；失败演示独立放在预览选项，模拟仅下一次有效提交失败。
+- 一个主要保存按钮、一个取消按钮、右上角 CloseBoldIcon（catalog availability=available，28/20）。Card 只表示已保存活动对象，不给每个字段套 Card。
+- 所有改变限于页面本地组合和入口；共享 packages、依赖清单、锁文件、source-lock.json 只读。A/B 样例保留。未授权发布、迁移、Git 或 Figma。
+
+## 本轮已读材料
+
+隔离快照内：
+
+- AGENTS.md；docs/ai/prototype-design.md；docs/ai/form-composition.md。
+- evidence/runtime/design-knowledge/form-desktop.png、form-narrow.png（实际查看图片）。
+- apps/prototype/src/scenarios/bm-b/page.tsx、page.css、state.ts、state-contract.md。
+- evidence/runtime/bm-b-rn10/section-surfaces-2026-09-15.md、header-hint-2026-09-15.md。
+- manifests/ui/form-item.yaml、input.yaml、textarea.yaml、radio-group.yaml、dialog.yaml、alert-dialog.yaml、button.yaml、icon-button.yaml、select.yaml。
+- packages/ui/src/index.ts；input/input.tsx、input/form-item.tsx、field/field.styles.ts、radio/radio.tsx、checkbox/checkbox.tsx、dialog/dialog.tsx、link/link.tsx。
+- packages/foundations/src/typography-contract.ts、token-contract.ts、focus.css、icons/catalog.generated.ts；packages/layouts/src/layout.tsx。
+- apps/prototype/src/main.tsx、styles.css；package.json、apps/prototype/package.json、apps/prototype/tsconfig.json、apps/prototype/vite.config.ts、tsconfig.base.json、source-lock.json；packages/foundations/package.json。
+
+流程技能（只读，不含父项目资料或记忆）：using-superpowers、brainstorming、test-driven-development、verification-before-completion。任务明确要求独立实现且禁止 Git，故方案在此记录后直接执行，不请求设计答案或提交设计文件。
+
+## 证据计划
+
+先写状态/校验检查并观察失败，再实现对应逻辑。第一次可运行后，未经自查修订的源码与桌面/390px 截图保留在 ../consumer-first。后续改动记录原因和差异；最终截图、可重跑浏览器检查及类型/构建日志保留在 ../consumer-review。
+
+本任务只有 AI 自查与技术验证。新页面视觉接受、全部组件对比度、真实服务、真实触屏/软键盘、屏幕阅读器、跨浏览器仍需独立判断。耗时、token、返工成本和量化质量提升均 not-measured。
+
+## 实施与首稿封存
+
+入口：http://127.0.0.1:5357/#activity；#bm-a 和 #bm-b 保留。没有更改依赖或共享组件。
+
+状态检查在业务逻辑前写入，先用无行为占位导出运行：4 项断言失败（必填、人数范围、提交规范化、人数回填），随后实现对应逻辑，4 项通过。浏览器检查也在页面前写入，先确认缺少“编辑活动”入口导致失败。日志见 ../consumer-review/state-red.log、state-green.log、browser-red.log。
+
+第一次可运行后，立即运行 --first，只取景、不执行后续自查修订。首稿封存在 ../consumer-first：main.tsx、activity/（page.tsx、page.css、state.ts、state.check.mjs）、当时的 design-notes.md、saved-desktop.png、form-desktop.png、form-narrow.png、capture.json。桌面 1440×1000、窄屏 390×844；首稿采用 fullPage 截图，所以窄屏图片还包含视口外的宿主页面底部，这不是弹窗布局延伸。
+
+## 首稿后的实际差异
+
+产品修改：
+
+1. 触发：桌面首稿页面标题从 1200px 容器起始，活动卡片是 1000px 容器，两者左缘不齐。判断：同一主任务应共享页面对齐线。处理：仅在 prototype-activity 范围增加一条 CSS，使标题容器同为 1000px。适用范围：本场景页面布局。证据：首稿 saved-desktop.png 与最终 saved-final-desktop.png；AI 自查，未获用户视觉接受。
+2. 删除 Card 上被其固定 data-slot="root" 覆盖的 data-slot="saved-activity"。该属性从未进入 DOM，删除不改变界面或业务行为。浏览器检查改用已有 ui-card 身份。
+
+第一轮自查修订没有改动状态、校验、保存、失败或退出逻辑。后续独立需求审阅要求的退出修复另记在下方；累计产品差异保存在 ../consumer-review/first-to-final.diff。
+
+检查工具修正（不计作产品修复）：
+
+- 原脚本直接对 sr-only Checkbox input 执行 check()，指示图层拦住鼠标；改为聚焦后按空格，检查真实键盘切换结果。失败日志 browser-first-attempt.log。
+- 原脚本依赖会被 Card 覆盖的 data-slot；核对 packages/ui/src/card/card.tsx 后改用实际公开身份。失败日志 browser-second-attempt.log。
+- 320px 调整窗口后立即读取几何，读到了 VisualViewport 更新前的 390px 弹窗；改为等待几何条件满足，不加固定 sleep。失败日志 browser-resize-timing.log。
+- 最终弹窗截图使用当前视口取景，已保存信息页使用 fullPage。此变化仅影响证据取景；首稿图片不覆盖。
+- 检查脚本从运行目录定位现有 Playwright 依赖，因此可直接执行 consumer-review 中保存的副本；没有安装新依赖。
+
+排查过程另使用 systematic-debugging 技能。新增只读材料：packages/ui/src/card/card.tsx；读取 source-lock.json 的 files 映射核对导出文件，sourceFiles 是来源映射，不作为导出文件完整性清单。
+
+## 最终自查与技术验证
+
+- 状态检查：4/4，退出 0。必填/未知类型、整数范围 1–200、隐藏限制不校验、草稿隔离、保留多段文本、提交规范化、上限回填。
+- pnpm typecheck：退出 0。
+- pnpm build：退出 0；保留已有超过 500kB 的 bundle 提示，未做无关拆包。
+- 已从 ../consumer-review/activity-browser-check.mjs 实际运行：退出 0，11 组结果；详见 browser-results.json、browser.log。
+- 浏览器实测：首次焦点；未改动取消；必填错误及关联、第一错误定位；Radio 箭头；人数空/0/201/1.5 拒绝；关闭后隐藏无效值可提交、重开保留本轮输入；保存中禁用与 Escape 拦截、同一事件中重复 requestSubmit；一次失败、保留草稿、重试成功；取消/Close/Escape 的放弃确认、安全动作焦点、继续编辑、明确放弃与触发器焦点恢复；真实浏览器刷新提示及留下保留草稿；Tab 约束并用键盘提交 200 人；长标题、多段说明、空可选提纲保存；A/B/活动入口可达。
+- 几何：1440×1000、390×844、320×640、1280×400；实际检查弹窗不越过视口、无内部横向溢出、底栏操作可达。浅/深色均取景；控制台和 pageerror 为空。
+- 视觉自查实际查看首稿保存页、桌面/窄屏表单，以及最终桌面表单、窄屏底部、长内容保存页。三分区的归属清楚；短字段变为单列；Radio 自然换行；长正文独占一行；窄屏底栏自然分成提示和按钮两行。此为 AI 自查判断，不是视觉验收。
+- 对 source-lock.json 中 2066 个导出文件进行 SHA-256 对照：仅 main.tsx 与基线不同；共享 packages、包清单、锁文件及 A/B 源文件均未变。新增场景文件另列于交付说明，不覆盖 source-lock.json。
+
+## 修复前交付的限制（历史记录）
+
+仅内存保存，没有真实服务或持久化；切换到其他原型场景会卸载本场景。已验证编辑窗口取消/关闭/Escape 和浏览器刷新保护；没有独立实现或验证浏览器同文档 hash 历史导航的草稿守卫。真实 Safari/Firefox、触摸与软键盘、中文 IME、屏幕阅读器、所有文本/控件/焦点对比度未验证。没有用户视觉接受，没有量化质量提升结论。
+
+## 独立需求审阅反馈后的产品修复
+
+触发：独立需求审阅从 #bm-a 进入研讨活动，编辑“历史返回不得丢失”后浏览器返回；入口直接切回 #bm-a，草稿随场景卸载丢失。证据为 ../spec-review/history-navigation.json。这属于原有未保存退出保护要求，不能仅列为未验证项。
+
+修复前的本轮最终源码、截图、检查脚本和记录完整保存在 ../consumer-review-before-navigation-fix；consumer-first、原指南和 source-lock.json 均未覆盖。
+
+先新增 scripts/activity-navigation-check.mjs 并运行，确认原代码在预期的“放弃活动修改？”断言失败，退出 1（navigation-red.log、navigation-red.json、navigation-red.png）。依据 receiving-code-review 与 systematic-debugging 先核对入口、页面和实际浏览器事件。
+
+产品修复只改 activity/page.tsx：
+
+- 使用原生 Navigation API 在同文档导航提交和 hashchange 之前取消离开；保留当前 URL、场景、草稿和保存值。
+- 待保存草稿复用现有 AlertDialog。继续编辑或 Escape 清除待导航目标；明确放弃才使用原生 traverseTo(key) 前往原历史条目，保留返回/前进记录。
+- 保存请求存在时取消导航，不打开放弃确认；成功仍更新当前活动。无修改时允许正常离开。
+- 没有路由依赖、通用路由机制或共享组件修改；页面外观未改。
+
+过程中的工具/实现核对：嵌套确认时父表单按模态语义退出可访问树，脚本用实际原生字段核对保留值，并等待确认关闭。实际浏览器返回/前进使用 Playwright 的 goBack/goForward。诊断发现取消前进后旧 History API 的相对重放不可靠，最终实现使用原生历史条目 key；该现象记录在 navigation-diagnostic.json。保存中的断言先检查提交禁用，再尝试浏览器导航并检查最终 URL/保存结果，不在被取消的导航等待结束后要求保存仍未完成。
+
+最终从 consumer-review 中的脚本副本实际复跑：navigation-green.log、navigation-results.json 为 5 组通过、退出 0。范围为返回/前进、继续/Escape、明确放弃、前进历史保留、无修改退出、保存中双向导航被取消且最终保存内容保留，运行错误为空。既有浏览器 11 组、状态 4 项、类型、构建全部退出 0；构建保留已有大包提示。新增截图 navigation-back-confirm.png、navigation-save-retained.png；本次单独差异见 navigation-fix.diff。
+
+当前限制：历史导航保护依赖浏览器原生 Navigation API，实际在本机 Chromium 151 验证；没有加入旧浏览器替代机制。真实 Safari/Firefox、触屏/软键盘、IME、读屏与完整对比度仍未验证。仅内存保存；明确离开原型场景后会卸载。独立复核结论由审阅方给出；本记录不宣称用户视觉接受或量化提升。

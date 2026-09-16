@@ -1,34 +1,50 @@
-import { forwardRef, type HTMLAttributes } from "react";
+// Adapted from shadcn-ui/ui Card + Nova; MIT notice in evidence/runtime/card-v2/upstream/LICENSE.md.
+import { createContext, forwardRef, useContext, type HTMLAttributes } from "react";
+import { type RainLocalRecipe, getRainLocalRecipePart } from "../recipes/local-recipe";
+import { rainCn } from "../utils/rain-class-names";
+import { cardClasses, cardPaints, type CardPart } from "./card.styles";
+import "./card.css";
 
 export type CardVariant = "panel" | "raised";
+export type CardSize = "default" | "sm";
+export type CardLocalRecipe = RainLocalRecipe<CardPart, "ui-card">;
+export type { CardPart } from "./card.styles";
 
-function mergeClassNames(...names: Array<string | undefined>) {
-  return names.filter(Boolean).join(" ");
+const CardRecipeContext = createContext<CardLocalRecipe | undefined>(undefined);
+
+function usePartClasses(part: CardPart, className?: string) {
+  const recipe = useContext(CardRecipeContext);
+  return rainCn(cardClasses[part], part in cardPaints && cardPaints[part as keyof typeof cardPaints], className, getRainLocalRecipePart(recipe, part));
 }
 
 export interface CardProps extends HTMLAttributes<HTMLElement> {
   variant?: CardVariant;
+  /** Card insets only; child control density belongs to the outer DensityProvider. */
+  size?: CardSize;
+  localRecipe?: CardLocalRecipe;
 }
 
 export const Card = forwardRef<HTMLElement, CardProps>(function Card(
-  { className, variant = "panel", ...nativeProps },
+  { className, variant = "panel", size = "default", localRecipe, ...nativeProps },
   ref,
 ) {
   return (
-    <article
+    <CardRecipeContext.Provider value={localRecipe}><article
       {...nativeProps}
       ref={ref}
-      className={mergeClassNames("rain-card", className)}
+      className={rainCn(cardClasses.root, cardPaints.root, variant === "raised" && cardPaints.raised, className, getRainLocalRecipePart(localRecipe, "root"))}
       data-rain-id="ui-card"
       data-slot="root"
       data-variant={variant}
-    />
+      data-size={size}
+      data-local-recipe={localRecipe?.id}
+    /></CardRecipeContext.Provider>
   );
 });
 
 Card.displayName = "Card";
 
-function createCardPart(slot: string, className: string) {
+function createCardPart(slot: "header" | "action" | "content") {
   const Part = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(function CardPart(
     { className: customClassName, ...nativeProps },
     ref,
@@ -37,7 +53,7 @@ function createCardPart(slot: string, className: string) {
       <div
         {...nativeProps}
         ref={ref}
-        className={mergeClassNames(className, customClassName)}
+        className={usePartClasses(slot, customClassName)}
         data-slot={slot}
       />
     );
@@ -47,10 +63,7 @@ function createCardPart(slot: string, className: string) {
 }
 
 export type CardHeaderProps = HTMLAttributes<HTMLDivElement>;
-export const CardHeader = createCardPart(
-  "header",
-  "rain-card__header",
-);
+export const CardHeader = createCardPart("header");
 
 export type CardDescriptionProps = HTMLAttributes<HTMLParagraphElement>;
 export const CardDescription = forwardRef<
@@ -61,7 +74,7 @@ export const CardDescription = forwardRef<
     <p
       {...nativeProps}
       ref={ref}
-      className={mergeClassNames("rain-card__description", className)}
+      className={usePartClasses("description", className)}
       data-slot="description"
     />
   );
@@ -69,16 +82,10 @@ export const CardDescription = forwardRef<
 CardDescription.displayName = "CardDescription";
 
 export type CardActionProps = HTMLAttributes<HTMLDivElement>;
-export const CardAction = createCardPart(
-  "action",
-  "rain-card__action",
-);
+export const CardAction = createCardPart("action");
 
 export type CardContentProps = HTMLAttributes<HTMLDivElement>;
-export const CardContent = createCardPart(
-  "content",
-  "rain-card__content",
-);
+export const CardContent = createCardPart("content");
 
 export type CardFooterProps = HTMLAttributes<HTMLElement>;
 export const CardFooter = forwardRef<HTMLElement, CardFooterProps>(
@@ -87,7 +94,7 @@ export const CardFooter = forwardRef<HTMLElement, CardFooterProps>(
       <footer
         {...nativeProps}
         ref={ref}
-        className={mergeClassNames("rain-card__footer", className)}
+        className={usePartClasses("footer", className)}
         data-slot="footer"
       />
     );
@@ -109,7 +116,7 @@ export const CardTitle = forwardRef<HTMLElement, CardTitleProps>(
       <Component
         {...nativeProps}
         ref={ref as never}
-        className={mergeClassNames("rain-card__title", className)}
+        className={usePartClasses("title", className)}
         data-slot="title"
       />
     );

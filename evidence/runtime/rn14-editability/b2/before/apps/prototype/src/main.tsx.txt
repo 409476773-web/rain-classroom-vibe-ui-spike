@@ -1,0 +1,31 @@
+import { StrictMode, useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { DensityProvider } from "@rain-next/foundations";
+import { Button, Checkbox } from "@rain-next/ui";
+import { Inline } from "@rain-next/layouts";
+import { MaterialManagementScenario } from "./scenarios/bm-a/page";
+import { TextbookFormScenario } from "./scenarios/bm-b/page";
+import "@rain-next/foundations/tokens.css";
+import "@rain-next/foundations/typography.css";
+import "@rain-next/foundations/motion.css";
+import "@rain-next/foundations/focus.css";
+import "@rain-next/ui/styles.css";
+import "@rain-next/layouts/styles.css";
+import "./styles.css";
+function App() {
+  const [route, setRoute] = useState(location.hash), [compact, setCompact] = useState(true);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  useEffect(() => { const update = () => setRoute(location.hash); addEventListener("hashchange", update); return () => removeEventListener("hashchange", update); }, []);
+  const form = route === "#bm-b";
+  return <DensityProvider density={form ? "default" : compact ? "compact" : "default"}>
+    <main className="rain-prototype" data-rain-theme={theme} data-rain-id={form ? "prototype-bm-b" : "prototype-bm-a"}>
+      <header className="rain-prototype-heading"><h1>{form ? "教材资料" : "课程资料"}</h1>
+        <Inline gap={16} align="center"><Button variant="secondary" onClick={() => { location.hash = form ? "bm-a" : "bm-b"; }}>{form ? "课程资料" : "教材资料"}</Button>
+          {!form && <Checkbox label="紧凑密度" checked={compact} onCheckedChange={setCompact} />}
+          <Button variant="secondary" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>{theme === "light" ? "切换深色" : "切换浅色"}</Button></Inline>
+      </header>
+      {form ? <TextbookFormScenario /> : <MaterialManagementScenario />}
+    </main>
+  </DensityProvider>;
+}
+createRoot(document.getElementById("root")!).render(<StrictMode><App /></StrictMode>);

@@ -1,0 +1,86 @@
+import {createRequire} from 'node:module';
+import {writeFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const require=createRequire('/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/package.json');
+const {chromium,expect}=require('@playwright/test');
+const browser=await chromium.launch({headless:true});
+const page=await browser.newPage({viewport:{width:1280,height:900}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const results=[];
+const input=()=>page.getByRole('textbox',{name:'资料标题',exact:true});
+const pane=s=>page.locator(`[data-rain-id="layout-split"] > [data-slot="${s}"]`);
+async function setTriple(values){
+ for(const [i,label] of ['边缘留白','分区间距','信息间距'].entries()){
+  const c=page.getByRole('combobox',{name:label,exact:true});
+  await c.click();
+  const o=page.getByRole('option',{name:`${values[i]}px`,exact:true});
+  await o.waitFor({state:'visible'});await o.click();
+  await expect(c).toHaveText(`${values[i]}px`);await expect(c).toBeFocused();
+ }
+}
+async function facts(){return page.evaluate(()=>{
+ const r=e=>{const a=e.getBoundingClientRect();return {x:a.x,y:a.y,right:a.right,bottom:a.bottom,width:a.width,height:a.height}};
+ const css=e=>getComputedStyle(e), gapY=e=>[...e.children].slice(1).map((n,i)=>r(n).y-r(e.children[i]).bottom);
+ const root=document.querySelector('[data-rain-id="layout-split"]');
+ return {viewport:innerWidth,pageOverflow:document.documentElement.scrollWidth>innerWidth,stacked:root.dataset.stacked,panes:[...root.children].map(e=>{
+   const groups=e.firstElementChild, infos=e.querySelector('[data-example="material-info"]')||[...groups.children].find(c=>c.dataset.rainId==='layout-stack'), list=e.querySelector('[data-example="material-list"]');
+   return {slot:e.dataset.slot,inset:css(e).padding,section:css(groups).gap,item:css(infos).gap,top:r(groups).y-r(e).y+e.scrollTop,left:r(groups).x-r(e).x,sectionActual:gapY(groups),itemActual:gapY(infos),listActual:list?gapY(list):null,width:e.clientWidth,scrollWidth:e.scrollWidth,scrollTop:e.scrollTop,scrollHeight:e.scrollHeight,clientHeight:e.clientHeight,articles:list?[...list.children].map(a=>({border:css(a).borderTopWidth,padding:css(a).paddingTop})):null};
+ })};
+ });}
+try{
+ await page.goto('http://127.0.0.1:5195/#layouts');
+ await page.getByText('调整资料面板间距',{exact:true}).click();
+ const original=await input().elementHandle();
+ await input().fill('独立复核保留的资料草稿');
+ const cases=[{w:1280,t:'light',v:[24,20,12]},{w:1280,t:'dark',v:[20,20,12]},{w:375,t:'dark',v:[16,12,12]},{w:320,t:'light',v:[16,16,16]},{w:320,t:'light',v:[0,0,0]},{w:320,t:'dark',v:[40,40,40]},{w:1280,t:'dark',v:[16,12,8]}];
+ let dark=false;
+ for(const c of cases){
+  await page.setViewportSize({width:c.w,height:900});
+  if((c.t==='dark')!==dark){const box=page.getByRole('checkbox',{name:'深色主题',exact:true});await box.focus();await page.keyboard.press('Space');dark=!dark;}
+  await setTriple(c.v);await page.getByRole('button',{name:'应用面板间距',exact:true}).click();
+  await expect(page.getByRole('status',{name:''}).filter({hasText:'已应用到下方'})).toBeVisible();
+  await expect(input()).toHaveValue('独立复核保留的资料草稿');
+  assert(await input().evaluate((e,old)=>e===old,original),'input DOM identity');
+  await expect(page.getByRole('button',{name:'应用面板间距',exact:true})).toBeFocused();
+  for(const s of ['main','sidebar']) await pane(s).evaluate(e=>e.scrollTop=0);
+  const f=await facts();assert.equal(f.pageOverflow,false);
+  for(const p of f.panes){
+   assert.equal(p.inset,`${c.v[0]}px`);assert.equal(p.section,`${c.v[1]}px`);assert.equal(p.item,`${c.v[2]}px`);
+   assert.equal(p.top,c.v[0]);assert.equal(p.left,c.v[0]);assert(p.width>=p.scrollWidth,'pane overflow');
+   for(const g of p.sectionActual) assert.equal(g,c.v[1]);
+   for(const g of p.itemActual) assert.equal(g,c.v[2]);
+   for(const g of p.listActual??[]) assert.equal(g,c.v[1]);
+   for(const a of p.articles??[]){assert.equal(a.border,'0px');assert.equal(a.padding,'0px');}
+  }
+  results.push({case:c,...f});console.log('PASS',c);
+  await page.screenshot({path:`/tmp/rain-spacing-review/${c.w}-${c.t}-${c.v.join('-')}.png`,fullPage:true});
+ }
+ // Reject both possible inversions without resetting applied visual state or business drafts.
+ for(const bad of [[8,16,8],[16,8,12]]){
+  await setTriple(bad);const before=await facts();
+  await page.getByRole('button',{name:'应用面板间距',exact:true}).click();
+  await expect(page.getByRole('alert')).toContainText('预览保留上一次有效设置');
+  const after=await facts();assert.deepEqual(after.panes.map(p=>[p.inset,p.section,p.item]),before.panes.map(p=>[p.inset,p.section,p.item]));
+  assert(await input().evaluate((e,old)=>e===old,original));await expect(input()).toHaveValue('独立复核保留的资料草稿');
+  results.push({invalid:bad,preserved:after});console.log('PASS invalid',bad);
+ }
+ // Passive valid change leaves the focused business input and both scroll owners mounted.
+ await setTriple([20,16,12]);await input().focus();
+ for(const s of ['main','sidebar']) await pane(s).evaluate(e=>{e.scrollTop=80;});
+ const scrollBefore=await Promise.all(['main','sidebar'].map(s=>pane(s).evaluate(e=>e.scrollTop)));
+ await page.locator('details form').evaluate(e=>e.requestSubmit());
+ await expect(input()).toBeFocused();assert(await input().evaluate((e,old)=>e===old,original));
+ const scrollAfter=await Promise.all(['main','sidebar'].map(s=>pane(s).evaluate(e=>e.scrollTop)));
+ assert.deepEqual(scrollAfter,scrollBefore);results.push({passiveUpdate:{scrollBefore,scrollAfter,focus:'資料标题',domRetained:true}});
+ await page.getByRole('button',{name:'收起当前详情',exact:true}).click();
+ await expect(page.getByRole('button',{name:'展开资料详情',exact:true})).toBeFocused();
+ await page.getByRole('button',{name:'展开资料详情',exact:true}).click();assert(await input().evaluate((e,old)=>e===old,original));
+ await expect(input()).toHaveValue('独立复核保留的资料草稿');
+ // Verify independent consumer default and existing dialog entry only.
+ await page.goto('http://127.0.0.1:5196');
+ assert.equal(await pane('sidebar').evaluate(e=>getComputedStyle(e).padding),'16px');
+ await page.getByRole('button',{name:'编辑课程资料',exact:true}).click();await expect(page.getByRole('dialog',{name:'编辑课程资料',exact:true})).toBeVisible();
+ results.push({prototypeDefault:16,dialogEntry:'visible',pageErrors:errors});assert.deepEqual(errors,[]);
+ writeFileSync('/tmp/rain-spacing-review/results.json',JSON.stringify(results,null,2));
+ console.log('PASS independent review cases',results.length);
+}finally{await browser.close();}

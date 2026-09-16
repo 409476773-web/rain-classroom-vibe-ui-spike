@@ -1,0 +1,24 @@
+--- a/apps/prototype/src/scenarios/bm-a/page.tsx
++++ b/apps/prototype/src/scenarios/bm-a/page.tsx
+@@ -1,6 +1,20 @@
++import { Inline, Stack } from "@rain-next/layouts";
+ import { DataTableRecipe } from "../../data-table-recipe";
+ 
+ /** BM-A reuses the accepted view and host state; the full dataset is local and fictional. */
+ export function MaterialManagementScenario() {
+-  return <section aria-label="课程资料管理" data-scenario="bm-a" className="data-table-consumer"><DataTableRecipe /></section>;
++  return <section aria-label="课程资料管理" data-scenario="bm-a" className="data-table-consumer">
++    <Stack gap={16}>
++      <header data-rain-id="local-rn14-bm-a-context">
++        <Stack gap={4}>
++          <Inline gap={12} align="baseline">
++            <h2 className="m-rain-0 font-rain-ui text-rain-size-16 leading-rain-24 font-rain-semibold text-rain-category-text-neutral-1">教学设计 · 第三周</h2>
++            <span className="font-rain-ui text-rain-size-13 leading-rain-22 text-rain-category-text-neutral-3">虚构课堂资料</span>
++          </Inline>
++          <p className="m-rain-0 font-rain-ui text-rain-size-14 leading-rain-22 text-rain-category-text-neutral-3">本周围绕课堂观察与教学活动设计，整理阅读材料和课堂任务。</p>
++        </Stack>
++      </header>
++      <DataTableRecipe />
++    </Stack>
++  </section>;
+ }

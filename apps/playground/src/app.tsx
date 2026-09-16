@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 
 import { CoreUiPage } from "./docs/components/core-ui-page";
+import { InputNumberPage } from "./docs/components/input-number-page";
 import { InputPage } from "./docs/components/input-page";
 import { SelectPage } from "./docs/components/select-page";
 import { DropdownPage } from "./docs/components/dropdown-page";
@@ -17,6 +18,11 @@ import { ButtonTokenReviewPage } from "./docs/components/button-token-review";
 import { TextButtonHelpPage, TextButtonPage } from "./docs/components/text-button-page";
 import { FoundationsPage } from "./docs/foundations-page";
 import { TokenFoundationsPage } from "./docs/token-foundations/token-foundations-page";
+import { CardPage } from "./docs/components/card-page";
+import { LayoutsPage } from "./docs/components/layouts-page";
+import { TablePage } from "./docs/components/table-page";
+import { AvatarPage } from "./docs/components/avatar-page";
+import { DialogPage } from "./docs/components/dialog-page";
 import { TabsPage } from "./docs/components/tabs-page";
 import { OverviewPage } from "./routes/overview-page";
 
@@ -24,10 +30,15 @@ const IconsPage = lazy(() => import("./docs/icons-page").then((module) => ({ def
 
 type AppRoute = {
   focusTargetId: string;
-  view: "tabs" | "components" | "foundations" | "token-foundations" | "icons" | "overview" | "text-button" | "text-button-help" | "button-tokens" | "icon-button" | "question-number" | "option-button" | "input" | "select" | "dropdown" | "tag" | "checkbox" | "radio" | "selection-cards" | "selection-patterns" | "selection-playground";
+  view: "input-number" | "avatar" | "table" | "layouts" | "dialog" | "card" | "tabs" | "components" | "foundations" | "token-foundations" | "icons" | "overview" | "text-button" | "text-button-help" | "button-tokens" | "icon-button" | "question-number" | "option-button" | "input" | "select" | "dropdown" | "tag" | "checkbox" | "radio" | "selection-cards" | "selection-patterns" | "selection-playground";
 };
 
 function resolveRoute(hash: string): AppRoute {
+  if (hash === "#avatar") return { focusTargetId: "avatar-title", view: "avatar" };
+  if (hash === "#layouts") return { focusTargetId: "layouts-title", view: "layouts" };
+  if (hash === "#table") return { focusTargetId: "table-title", view: "table" };
+  if (hash === "#dialog") return { focusTargetId: "dialog-title", view: "dialog" };
+  if (hash === "#card") return { focusTargetId: "card-title", view: "card" };
   if (hash === "#tabs") return { focusTargetId: "tabs-title", view: "tabs" };
   if (hash === "#dropdown") return { focusTargetId: "dropdown-title", view: "dropdown" };
   if (hash === "#selection-playground") return { focusTargetId: "selection-playground-title", view: "selection-playground" };
@@ -37,6 +48,7 @@ function resolveRoute(hash: string): AppRoute {
   if (hash === "#checkbox") return { focusTargetId: "checkbox-title", view: "checkbox" };
   if (hash === "#select") return { focusTargetId: "select-title", view: "select" };
   if (hash === "#tag") return { focusTargetId: "tag-title", view: "tag" };
+  if (hash === "#input-number") return { focusTargetId: "input-number-title", view: "input-number" };
   if (hash === "#input") return { focusTargetId: "input-title", view: "input" };
   if (hash === "#option-button") {
     return { focusTargetId: "option-button-title", view: "option-button" };
@@ -101,7 +113,17 @@ export function App() {
   }, []);
 
   let page: ReactNode;
-  if (route.view === "tabs") {
+  if (route.view === "avatar") {
+    page = <AvatarPage />;
+  } else if (route.view === "table") {
+    page = <TablePage />;
+  } else if (route.view === "layouts") {
+    page = <LayoutsPage />;
+  } else if (route.view === "dialog") {
+    page = <DialogPage />;
+  } else if (route.view === "card") {
+    page = <CardPage />;
+  } else if (route.view === "tabs") {
     page = <TabsPage />;
 
   } else if (route.view === "selection-playground") {
@@ -116,6 +138,8 @@ export function App() {
     page = <CheckboxPage />;
   } else if (route.view === "tag") {
     page = <TagPage />;
+  } else if (route.view === "input-number") {
+    page = <InputNumberPage />;
   } else if (route.view === "input") {
     page = <InputPage />;
   } else if (route.view === "dropdown") {

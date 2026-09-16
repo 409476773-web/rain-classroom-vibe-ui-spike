@@ -41,7 +41,7 @@ it("updates checked associations immediately, keeps hidden selections, and unlin
   const user = userEvent.setup(); render(<Harness />);
   expect(trigger()).toHaveTextContent("设置标签");
   const panel = await open(user);
-  expect(screen.getByRole("button", { name: "关闭标签面板" })).toHaveTextContent("关闭");
+  expect(screen.getByRole("button", { name: "关闭标签面板" })).toHaveAttribute("data-rain-id", "ui-icon-button");
   expect(panel.closest("[data-rain-theme]")).toHaveAttribute("data-rain-theme", "dark");
   expect(screen.getByRole("textbox", { name: "搜索标签" })).toHaveFocus();
   await user.click(screen.getByRole("checkbox", { name: "重点内容" }));

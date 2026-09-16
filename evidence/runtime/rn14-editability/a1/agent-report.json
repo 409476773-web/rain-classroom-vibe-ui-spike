@@ -1,0 +1,108 @@
+{
+  "task": "RN-14 BM-A round 1",
+  "executionKind": "actual-ai-edit",
+  "generationMode": "incremental-structure-edit-after-round-0",
+  "status": "completed-self-check-only",
+  "root": "/tmp/rain-next-rn14-20260915-1817",
+  "startedAtUtc": "2026-09-15 10:28:03 UTC",
+  "endedAtUtc": "2026-09-15 10:29:42 UTC",
+  "modelExactId": "not-measured",
+  "tokens": "not-measured",
+  "filesRead": [
+    "apps/prototype/src/data-table-recipe.tsx",
+    "apps/prototype/src/data-table-recipe.css",
+    "apps/prototype/src/scenarios/bm-a/page.tsx"
+  ],
+  "applicationFilesChanged": [
+    "apps/prototype/src/data-table-recipe.tsx"
+  ],
+  "hashes": {
+    "apps/prototype/src/data-table-recipe.tsx": {
+      "beforeSha256": "deee3f8ae1807af026e4c56f3a705138816f380f23504b54dcef491b522773f6",
+      "afterSha256": "094b171795495fe89d7fc03256f2f5d493dda581ef55ac8c1a0f8c9c38a5bd56"
+    },
+    "apps/prototype/src/data-table-recipe.css": {
+      "beforeSha256": "0d563bbc468d24fe8fccc9873214202b882959c40efa227f7ecc8ea240e848a0",
+      "afterSha256": "0d563bbc468d24fe8fccc9873214202b882959c40efa227f7ecc8ea240e848a0"
+    },
+    "apps/prototype/src/scenarios/bm-a/page.tsx": {
+      "beforeSha256": "1d93e86dfca5f5ca12609123415de41cc5cafe57e951fb49f1400df22ce146cb",
+      "afterSha256": "1d93e86dfca5f5ca12609123415de41cc5cafe57e951fb49f1400df22ce146cb"
+    }
+  },
+  "commands": [
+    {
+      "command": "sed -n '1,285p' apps/prototype/src/data-table-recipe.tsx",
+      "exitCode": 0,
+      "result": "Read current complete BM-A recipe."
+    },
+    {
+      "command": "cat apps/prototype/src/data-table-recipe.css apps/prototype/src/scenarios/bm-a/page.tsx",
+      "exitCode": 0,
+      "result": "Read current responsive styles and round-0 wrapper."
+    },
+    {
+      "command": "python3",
+      "stdinScriptPurpose": "Read only the three listed scene files and capture their content plus SHA-256 before the edit.",
+      "exitCode": 0,
+      "result": "Captured in tool-session memory; no baseline files written."
+    },
+    {
+      "command": "pnpm --filter @rain-next/prototype typecheck",
+      "executionWrapper": "python3 subprocess.run with stdout/stderr captured to the authorized log",
+      "startedAtUtc": "2026-09-15T10:28:55.957583+00:00",
+      "endedAtUtc": "2026-09-15T10:28:56.610234+00:00",
+      "exitCode": 0,
+      "result": "tsc --noEmit --project tsconfig.json passed",
+      "log": "/tmp/rn14-a1-typecheck.log"
+    },
+    {
+      "command": "python3",
+      "stdinScriptPurpose": "Read only the same three scene files and capture their content plus SHA-256 after the edit.",
+      "exitCode": 0,
+      "result": "Captured successfully."
+    }
+  ],
+  "changeSummary": [
+    "Move the existing table/card switch from the query fieldset into data-table-result-tools beside result information and display controls.",
+    "Add data-slot=rn14-query to the existing native fieldset.",
+    "Add one native div around the original result-actions Inline with data-slot=rn14-results-tools.",
+    "Add disabled={loading} to both moved buttons to preserve their previous inherited fieldset disabled behavior.",
+    "Keep existing query-row and responsive CSS; the remaining query group fills its own row."
+  ],
+  "selfCheck": {
+    "status": "passed",
+    "checks": [
+      "whole-file diff limited to move, two native slots, and explicit loading disabled state",
+      "search/status query fieldset excludes view switch",
+      "native results wrapper preserves slot",
+      "all pre-render logic byte-identical",
+      "a0 BM-A wrapper and recipe CSS hashes unchanged"
+    ]
+  },
+  "validation": {
+    "typecheck": "passed",
+    "stateLogic": "byte-identical before render; entire source checked against only the authorized structural transformation",
+    "css": "unchanged",
+    "round0CourseContext": "unchanged",
+    "build": "not-performed-as-requested",
+    "browserVerification": "not-performed-as-requested",
+    "independentReview": "not-performed",
+    "humanGate": "not-performed"
+  },
+  "scope": {
+    "sharedPackagesEdited": false,
+    "rootConfigurationEdited": false,
+    "bmAWrapperEdited": false,
+    "bmBEdited": false,
+    "originalRepositoryEdited": false,
+    "gitWritten": false,
+    "externalMessagesSent": false,
+    "networkResearch": false,
+    "dependenciesInstalled": false,
+    "memoryOrTaskHistoryRead": false,
+    "laterRoundImplemented": false,
+    "publicApiExpanded": false
+  },
+  "next": "Parent agent performs round-specific verification; await the next instruction."
+}

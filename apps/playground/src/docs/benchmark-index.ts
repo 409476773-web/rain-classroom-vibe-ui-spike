@@ -8,8 +8,8 @@ export type BenchmarkIndexEntry = {
   title: string;
   evidenceIds: readonly `VE-${string}`[];
   implementation: "not-started" | "in-progress" | "completed";
-  automatedVerification: "not-run";
-  humanGate: "not-evaluated";
+  automatedVerification: "not-run" | "failed" | "passed";
+  humanGate: "not-evaluated" | "awaiting_human" | "accepted";
 };
 
 export const benchmarkIndex: readonly BenchmarkIndexEntry[] = [
@@ -18,35 +18,35 @@ export const benchmarkIndex: readonly BenchmarkIndexEntry[] = [
     key: "compact-data-management",
     title: "Compact Data Management",
     evidenceIds: ["VE-001", "VE-009"],
-    implementation: "not-started",
-    automatedVerification: "not-run",
-    humanGate: "not-evaluated",
+    implementation: "completed",
+    automatedVerification: "passed",
+    humanGate: "accepted",
   },
   {
     id: "BM-B",
     key: "default-large-form",
     title: "Default Large Form",
     evidenceIds: ["VE-014"],
-    implementation: "not-started",
-    automatedVerification: "not-run",
-    humanGate: "not-evaluated",
+    implementation: "completed",
+    automatedVerification: "passed",
+    humanGate: "accepted",
   },
   {
     id: "BM-C",
     key: "complex-workbench",
     title: "Complex Workbench",
     evidenceIds: ["VE-003", "VE-012", "VE-009"],
-    implementation: "not-started",
-    automatedVerification: "not-run",
-    humanGate: "not-evaluated",
+    implementation: "completed",
+    automatedVerification: "passed",
+    humanGate: "awaiting_human",
   },
   {
     id: "BM-D",
     key: "report-key-data",
     title: "Report / Key Data",
     evidenceIds: ["VE-010", "VE-007"],
-    implementation: "not-started",
-    automatedVerification: "not-run",
-    humanGate: "not-evaluated",
+    implementation: "completed",
+    automatedVerification: "passed",
+    humanGate: "awaiting_human",
   },
 ];

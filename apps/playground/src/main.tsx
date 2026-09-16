@@ -7,6 +7,7 @@ import "@rain-next/foundations/typography.css";
 import "@rain-next/foundations/motion.css";
 import "@rain-next/foundations/focus.css";
 import "@rain-next/ui/styles.css";
+import "@rain-next/layouts/styles.css";
 import "./styles.css";
 
 const rootElement = document.getElementById("root");

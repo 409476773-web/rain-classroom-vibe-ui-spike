@@ -1,0 +1,40 @@
+[WebServer] (node:26709) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:26711) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:26717) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/m2.spec.ts:44:1 › BM-C contains pane scrolling, restores collapse focus and survives narrow reflow (531ms)
+
+
+  1) [chromium] › tests/e2e/m2.spec.ts:44:1 › BM-C contains pane scrolling, restores collapse focus and survives narrow reflow 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 140
+    Received:    87
+
+      65 |   await expect(nextHeading).toBeFocused();
+      66 |   const navigation = await nextHeading.evaluate(heading => ({ headingTop: heading.getBoundingClientRect().top, paneTop: heading.closest(".bm-c-answer")!.getBoundingClientRect().top }));
+    > 67 |   expect(navigation.headingTop).toBeGreaterThanOrEqual(navigation.paneTop);
+         |                                 ^
+      68 |   await page.getByRole("button", { name: "上一位", exact: true }).click(); await expect(score).toHaveValue("8");
+      69 |   await page.setViewportSize({ width: 390, height: 844 }); await expect(score).toHaveValue("8");
+      70 |   await page.getByRole("button", { name: "切换深色", exact: true }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/m2.spec.ts:67:33
+
+    Error Context: ../../../../../../tmp/rain-m2-scroll-red-20260915/results/m2-BM-C-contains-pane-scro-52561--and-survives-narrow-reflow-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-m2-scroll-red-20260915/results/m2-BM-C-contains-pane-scro-52561--and-survives-narrow-reflow-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-m2-scroll-red-20260915/results/m2-BM-C-contains-pane-scro-52561--and-survives-narrow-reflow-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/m2.spec.ts:44:1 › BM-C contains pane scrolling, restores collapse focus and survives narrow reflow 

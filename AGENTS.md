@@ -51,6 +51,8 @@ Rain Next 的核心目标是：
 
 不得为了节省上下文而跳过相关 Evidence、Benchmark、Manifest 或 ADR，也不得每次无差别加载全部资料。
 
+生成或改造原型页面前，先读 [原型设计入口](docs/ai/prototype-design.md)，按主任务读取命中的组合、参考图与组件合同。用几行记录适用原因、保持关系和必要变化；交付前查看真实整页与必要状态。反馈按该入口回流到组件合同、组合指南或页面局部记录，不把单页数值升级为全库默认。独立 Starter 随附同一设计入口，避免只交付源码而丢失使用依据。
+
 涉及图标时，先阅读 [图标选择规范](docs/ai/icon-selection.md)，再查询 `@rain-next/foundations/icons/catalog` 的身份、可用性与静态引用。按实际行为选择；唯一已确认规则直接使用。仅 `availability: available` 的资产可导入，未定义用途不等于不可用。使用 `@rain-next/ui/icons/<slug>` 单图标入口并加载已有 UI 样式；目录预览入口仅供完整图库页面使用。普通图标颜色由宿主提供，不在页面补写白色、重画 SVG 或用近似字符替代。来源与未解决项见 [图标来源记录](evidence/icons/README.md)。
 
 ### Bootstrap 规则

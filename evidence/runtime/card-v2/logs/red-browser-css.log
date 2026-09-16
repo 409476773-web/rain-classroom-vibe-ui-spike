@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:70531) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/card.spec.ts:3:1 › Card content layout utilities override the old visual declaration (5.9s)
+
+
+  1) [chromium] › tests/e2e/card.spec.ts:3:1 › Card content layout utilities override the old visual declaration 
+
+    Error: expect(locator).toHaveCSS(expected) failed
+
+    Locator:  locator('[data-rain-id="ui-card"] [data-slot="content"]').first()
+    Expected: "0px"
+    Received: "20px"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCSS" with timeout 5000ms
+      - waiting for locator('[data-rain-id="ui-card"] [data-slot="content"]').first()
+        14 × locator resolved to <div data-slot="content" class="rain-card__content min-w-0 wrap-anywhere px-(--rain-card-spacing) font-rain-ui text-rain-size-14 leading-rain-24 font-rain-regular px-rain-0">一个可被独立识别、复用和操作的内容对象。</div>
+           - unexpected value "20px"
+
+
+       5 |   const content = page.locator('[data-rain-id="ui-card"] [data-slot="content"]').first();
+       6 |   await content.evaluate(element => element.classList.add("px-rain-0"));
+    >  7 |   await expect(content).toHaveCSS("padding-left", "0px");
+         |                         ^
+       8 |   await expect(content).toHaveCSS("padding-right", "0px");
+       9 | });
+      10 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/card.spec.ts:7:25
+
+    Error Context: ../../../../../../tmp/rain-card-v2-browser/card-Card-content-layout-u-ec025--the-old-visual-declaration-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-card-v2-browser/card-Card-content-layout-u-ec025--the-old-visual-declaration-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-card-v2-browser/card-Card-content-layout-u-ec025--the-old-visual-declaration-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/card.spec.ts:3:1 › Card content layout utilities override the old visual declaration 

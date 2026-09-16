@@ -1,0 +1,35 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-tailwind-b2.test.ts (178 tests | 5 failed) 4918302ms
+     × rejects 'changed locked reference color' 991222ms
+     × rejects 'comment-camouflaged component mapping' 948372ms
+     × rejects 'comment-camouflaged TypeScript compos…' 954479ms
+     × rejects 'second Tailwind import' 941489ms
+     × rejects 'commented UI test source exclusion' 988392ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > rejects 'changed locked reference color'
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > rejects 'comment-camouflaged component mapping'
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > rejects 'comment-camouflaged TypeScript compos…'
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > rejects 'second Tailwind import'
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > rejects 'commented UI test source exclusion'
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/verify-tailwind-b2.test.ts:3791:5
+    3789|       expected: /protected icon tree changed/i,
+    3790|     },
+    3791|   ])("rejects $label", ({ filePath, mutate, expected }) => {
+       |     ^
+    3792|     const result = mutateAndVerify(filePath, mutate);
+    3793|     expect(outputOf(result)).toMatch(expected);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  5 failed | 434 passed (439)
+   Start at  02:54:35
+   Duration  4919.35s (transform 735ms, setup 469ms, import 1.36s, tests 4933.68s, environment 1.88s)
+

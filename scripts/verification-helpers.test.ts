@@ -24,6 +24,34 @@ import {
 import * as verificationHelpers from "./verification-helpers.mjs";
 
 const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+it("keeps Card V2 authorization separate from frozen history and rejects scope or Git escalation", () => {
+  const status = parseYamlSubset(readFileSync(join(workspaceRoot, "status/current-phase.yaml"), "utf8")) as any;
+  expect(verificationHelpers.hasCardV2Authorization(status)).toBe(true);
+  expect(verificationHelpers.getValidatedTailwindB2History(status)).toEqual(status.phaseHistory.tailwindB2);
+  for (const change of [
+    { authorization: "missing" }, { scope: "all-components" }, { humanGate: "accepted" },
+    { contrastAcceptance: "accepted" }, { dependency: "new-framework" },
+    { userStatement: "开始详细计划" }, { implementation: "published" },
+  ]) {
+    const invalid = structuredClone(status);
+    Object.assign(invalid.componentRefinements.cardV2.visualRefinement, change);
+    expect(verificationHelpers.hasCardV2Authorization(invalid)).toBe(false);
+  }
+  const originalBatch = structuredClone(status);
+  delete originalBatch.componentRefinements.cardV2.visualRefinement;
+  expect(verificationHelpers.hasCardV2Authorization(originalBatch)).toBe(true);
+  for (const change of [
+    { scope: "all-components" }, { humanGate: "accepted" }, { contrastAcceptance: "accepted" },
+    { doesNotAuthorize: [] }, { sourceControl: { ...status.componentRefinements.cardV2.sourceControl, remoteWrite: "authorized" } },
+    { sourceControl: { ...status.componentRefinements.cardV2.sourceControl, baselineCommit: "unexpected" } },
+  ]) {
+    const invalid = structuredClone(status);
+    Object.assign(invalid.componentRefinements.cardV2, change);
+    expect(verificationHelpers.hasCardV2Authorization(invalid)).toBe(false);
+    expect(() => verificationHelpers.getValidatedTailwindB2History(invalid)).toThrow();
+  }
+});
+
 it("records the five current visual acceptances without granting colors, devices or publication", () => {
   const original = parseYamlSubset(readFileSync(join(workspaceRoot, "status/current-phase.yaml"), "utf8")) as any;
   const cases = [
@@ -237,6 +265,14 @@ function createEvidenceFixture() {
     cpSync(sourcePath, targetPath, { recursive: true });
   }
   writeFileSync(join(fixtureRoot, "status/current-phase.yaml"), readFrozenB2File("status/current-phase.yaml"));
+  for (const [filePath, checksum] of [
+    ["benchmarks/benchmark-registry.yaml", "06da78a15c264a6985e1b129ffafb87f5d86d901875cb904ac6f43a1664f18d3"],
+    ["apps/playground/src/docs/benchmark-index.ts", "a01201fe5ca6cdcfbd6345bdaf02ab4f7926526f0b28bc9b00b7a9cf489f7f02"],
+  ] as const) {
+    const source = readWorkspaceFile(`evidence/runtime/bm-a-rn09/before/${filePath}.txt`);
+    expect(createHash("sha256").update(source).digest("hex")).toBe(checksum);
+    writeFileSync(join(fixtureRoot, filePath), source);
+  }
   return fixtureRoot;
 }
 
@@ -734,6 +770,18 @@ describe("Tailwind B2 real CLI boundaries", () => {
   beforeAll(() => {
     fixtureRoot = mkdtempSync(join(tmpdir(), "rain-b2-cli-gate-"));
     const tokenFiles = new Set([
+      ...Object.values(verificationHelpers.avatarFamilyFiles).flat(), "evidence/runtime/avatar",
+      ...Object.values(verificationHelpers.m2DeliveryFiles).flat(), "evidence/runtime/m2",
+      ...Object.values(verificationHelpers.rn15DeliveryFiles).flat(), "evidence/runtime/rn15-delivery",
+      "manifests/ui/alert-dialog.yaml", "packages/foundations/src/overlay-token-contract.ts", "scripts/dialog-refinement.test.ts", "tests/e2e/dialog-refinement.spec.ts", "evidence/runtime/dialog-refinement-2026-09-15",
+      ...Object.values(verificationHelpers.rn14EditabilityFiles).flat(), "evidence/runtime/rn14-editability",
+      ...Object.values(verificationHelpers.rn13AssetIndexFiles).flat(), "evidence/runtime/rn13-asset-index",
+      ...Object.values(verificationHelpers.tableRn08Files).flat(), ...Object.values(verificationHelpers.tablePaginationFiles).flat(), "evidence/runtime/table-rn08", "evidence/runtime/table-pagination-replacement",
+      ...Object.values(verificationHelpers.emptyRefinementFiles).flat(), "evidence/runtime/empty-refinement",
+      ...verificationHelpers.insideFieldLabelBrowserFiles,
+      ...Object.values(verificationHelpers.layoutsV1Files).flat(), "evidence/runtime/layouts-v1",
+      ...Object.values(verificationHelpers.dialogV2Files).flat(), "evidence/runtime/dialog-v2",
+      ...Object.values(verificationHelpers.cardV2Files).flat(), "apps/prototype", "evidence/runtime/card-v2",
       ...Object.values(verificationHelpers.tokenFoundationsV1Files).flat(),
       ...Object.values(verificationHelpers.tabsPreflightFiles).flat(), ...Object.values(verificationHelpers.tabsTokenFiles).flat(), ...Object.values(verificationHelpers.tabsColorFiles).flat(), ...Object.values(verificationHelpers.tabsComponentFiles).flat(),
       ...Object.values(verificationHelpers.tabsVisualRefinementFiles).flat(),
@@ -743,6 +791,8 @@ describe("Tailwind B2 real CLI boundaries", () => {
       ...Object.values(verificationHelpers.dropdownBatchOneFiles).flat(),
       ...Object.values(verificationHelpers.dropdownFamilyFiles).flat(),
       ...Object.values(verificationHelpers.checkboxSc01Files).flat(),
+      ...Object.values(verificationHelpers.bmARn09Files).flat(),
+      ...Object.values(verificationHelpers.bmBRn10Files).flat(),
       ...Object.values(verificationHelpers.radioSc01Files).flat(),
       ...Object.values(verificationHelpers.selectionCardsSc02Files).flat(),
       ...Object.values(verificationHelpers.selectionPatternsSc03Files).flat(),
@@ -772,9 +822,10 @@ describe("Tailwind B2 real CLI boundaries", () => {
       recursive: true,
       filter: (source) => !tokenFiles.has(relative(workspaceRoot, source))
         && !relative(workspaceRoot, source).split(/[\\/]/).some((part) => [
-          "node_modules", "dist", "playwright-report", "test-results", "coverage", ".vite", "token-foundations-v1", "token-foundations",
+          ".git", "node_modules", "dist", "playwright-report", "test-results", "coverage", ".vite", "token-foundations-v1", "token-foundations",
         ].includes(part)),
     });
+    expect(spawnSync("git", ["init", "--quiet"], { cwd: fixtureRoot }).status).toBe(0);
     // Run the current verifier against the complete frozen B2 input, so new
     // Token files and values cannot silently redefine the historical fixture.
     const archive = join(workspaceRoot, "evidence/runtime/token-foundations-v1/pre-token-runtime.tar.gz");
@@ -782,6 +833,8 @@ describe("Tailwind B2 real CLI boundaries", () => {
       .toBe("39b6253185367626ddf8f66e6b1cd99ed2e8addd4937e7c93f3c12ad48289280");
     const extracted = spawnSync("tar", ["-xzf", archive, "-C", fixtureRoot], { encoding: "utf8" });
     expect(extracted.status, `${extracted.stdout}${extracted.stderr}`).toBe(0);
+    // BM-A is a later scenario; the historical B2 fixture retains its pre-RN-09 registry.
+    writeFileSync(join(fixtureRoot, "benchmarks/benchmark-registry.yaml"), readFileSync(join(workspaceRoot, "evidence/runtime/bm-a-rn09/before/benchmarks/benchmark-registry.yaml.txt")));
     const inventoryPath = join(fixtureRoot, "evidence/icons/inventory.json");
     const inventory = JSON.parse(readFileSync(inventoryPath, "utf8"));
     inventory.icons = inventory.icons.filter((icon: any) => !["icon/grading-pending", "icon/grading-reviewed"].includes(icon.assetId));
@@ -1601,6 +1654,7 @@ describe("Icon library workspace command boundary", () => {
       }
       const packagePath = join(fixtureRoot, "package.json");
       writeFileSync(join(fixtureRoot, "status/current-phase.yaml"), readFrozenB2File("status/current-phase.yaml"));
+      writeFileSync(join(fixtureRoot, "pnpm-lock.yaml"), readFrozenB2File("pnpm-lock.yaml"));
       const rootPackage = JSON.parse(readFrozenB2File("package.json"));
       rootPackage.scripts["generate:icons"] = "node scripts/generate-icons.mjs";
       rootPackage.scripts["verify:icons"] = "node scripts/verify-icons.mjs";
@@ -2146,4 +2200,78 @@ describe("OptionButton visual acceptance and next content batch", () => {
       expect(verificationHelpers.hasOptionButtonRefinementAuthorization(candidate)).toBe(false);
     }
   });
+});
+
+
+it("normalizes only the exact approved dropdown width source for frozen history", () => {
+  const hashes = JSON.parse(readFileSync(join(workspaceRoot, "evidence/runtime/table-rn08/before-hashes.json"), "utf8"));
+  for (const file of ["packages/ui/src/dropdown-menu/dropdown-menu.tsx", "packages/ui/src/dropdown-menu/dropdown-menu.css"]) {
+    const source = readFileSync(join(workspaceRoot, file));
+    const restored = verificationHelpers.restoreDropdownWidthBaseline(file, source);
+    expect(createHash("sha256").update(restored).digest("hex")).toBe(hashes[file]);
+    const changed = Buffer.concat([source, Buffer.from("/* unapproved change */")]);
+    expect(verificationHelpers.restoreDropdownWidthBaseline(file, changed)).toBe(changed);
+    expect(verificationHelpers.restoreDropdownWidthBaseline("unrelated.css", source)).toBe(source);
+  }
+});
+
+
+it("admits only RN-10 form scope while rejecting fabricated acceptance or publication", () => {
+  const status = parseYamlSubset(readWorkspaceFile("status/current-phase.yaml")) as any;
+  expect(verificationHelpers.hasBmBRn10Authorization(status)).toBe(true);
+  for (const change of [{ scope: "all-benchmarks" }, { humanGate: "accepted", humanGateDecision: undefined }, { publication: "published" }, { businessMigration: "authorized" }, { userStatement: "assumed" }, { unexpected: true }, { implementation: "completed", automatedVerification: "not-run" }]) {
+    const invalid = structuredClone(status); Object.assign(invalid.componentRefinements.bmBRn10, change);
+    expect(verificationHelpers.hasBmBRn10Authorization(invalid)).toBe(false);
+    expect(() => verificationHelpers.getValidatedTailwindB2History(invalid)).toThrow();
+  }
+  const sources = JSON.parse(readWorkspaceFile("evidence/runtime/bm-b-rn10/textarea-source.json"));
+  const transitions = JSON.parse(readWorkspaceFile("evidence/runtime/rn15-delivery/source-transitions.json"));
+  for (const file of sources.files.filter((file: any) => file.target.startsWith("packages/"))) {
+    expect(verificationHelpers.matchesRn15ProtectedSource(file.target, readWorkspaceFile(file.target), file.sha256, status, transitions), file.target).toBe(true);
+  }
+  const registry = JSON.parse(readWorkspaceFile("registry/textarea.json"));
+  expect(registry.publication).toBe("not-published"); expect(registry.humanGate).toBe("awaiting_human");
+});
+
+it("admits only RN-09 local BM-A without widening any prior phase", () => {
+  const status = parseYamlSubset(readFileSync(join(workspaceRoot, "status/current-phase.yaml"), "utf8")) as any;
+  expect(verificationHelpers.hasBmARn09Authorization(status)).toBe(true);
+  for (const change of [{ scope: "all-benchmarks" }, { humanGate: "system-approved" }, { publication: "published" }, { businessMigration: "authorized" }, { userStatement: "assumed" }, { unexpected: true }]) {
+    const invalid = structuredClone(status); Object.assign(invalid.componentRefinements.bmARn09, change);
+    expect(verificationHelpers.hasBmARn09Authorization(invalid)).toBe(false);
+    expect(() => verificationHelpers.getValidatedTailwindB2History(invalid)).toThrow();
+  }
+  const { bmARn09, ...earlier } = status.componentRefinements;
+  if (verificationHelpers.hasBmBRn10Authorization(status)) delete earlier.bmBRn10;
+  if (verificationHelpers.hasAvatarFamilyAuthorization(status)) delete earlier.avatarFamily;
+  if (verificationHelpers.hasInputNumberAuthorization(status)) delete earlier.inputNumber;
+  if (verificationHelpers.hasGenerationQualityAuthorization(status)) delete earlier.generationQuality;
+  if (verificationHelpers.hasM2Authorization(status)) delete earlier.m2Delivery;
+  if (verificationHelpers.hasRn15Authorization(status)) delete earlier.rn15Delivery;
+  if (verificationHelpers.hasDialogRefinementAuthorization(status)) delete earlier.dialogRefinement;
+  if (verificationHelpers.hasRn14Authorization(status)) delete earlier.rn14Editability;
+  if (verificationHelpers.hasRn13Authorization(status)) delete earlier.rn13AssetIndex;
+  expect({ ...status, componentRefinements: earlier }).toEqual(parseYamlSubset(readFileSync(join(workspaceRoot, "evidence/runtime/bm-a-rn09/before/status/current-phase.yaml.txt"), "utf8")));
+});
+
+it("closes BM-A only with scoped human confirmation and completed technical verification", () => {
+  const status = parseYamlSubset(readWorkspaceFile("status/current-phase.yaml")) as any;
+  Object.assign(status.componentRefinements.bmARn09, {
+    implementation: "completed", automatedVerification: "passed", independentReview: "passed", humanGate: "accepted",
+    humanGateDecision: {
+      acceptedAt: "2026-09-15", decisionSource: "explicit-user-confirmation-after-density-repair",
+      userStatement: "确认。", scope: "bm-a-page-and-density-switching-only",
+      evidence: "../evidence/runtime/bm-a-rn09/verification.md",
+    },
+  });
+  expect(verificationHelpers.hasBmARn09Authorization(status)).toBe(true);
+  expect(() => verificationHelpers.getValidatedTailwindB2History(status)).not.toThrow();
+  for (const change of [{ independentReview: "not-run" }, { independentReview: "findings" }, { automatedVerification: "not-run" }, { implementation: "in-progress" }, { humanGateDecision: undefined }, { humanGate: "awaiting_human" }]) {
+    const invalid = structuredClone(status); Object.assign(invalid.componentRefinements.bmARn09, change);
+    expect(verificationHelpers.hasBmARn09Authorization(invalid)).toBe(false);
+  }
+  for (const change of [{ scope: "all-benchmarks" }, { userStatement: "assumed" }, { evidence: "missing.md" }, { publication: "authorized" }]) {
+    const invalid = structuredClone(status); Object.assign(invalid.componentRefinements.bmARn09.humanGateDecision, change);
+    expect(verificationHelpers.hasBmARn09Authorization(invalid)).toBe(false);
+  }
 });

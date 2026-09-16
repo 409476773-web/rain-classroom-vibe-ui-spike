@@ -11,10 +11,12 @@ styleSourcePath: "packages/ui/src/input/input.styles.ts"
 sharedFrameSource: "packages/ui/src/field/field.styles.ts"
 sourceVersion: "local-2026-09-08"
 publication: "unpublished"
-description: "The Input family provides complete single-line editing, supporting Parts and shared field appearances; SearchInput is its search shortcut."
+description: "单行文本编辑与完整字段 Parts；可用于宿主控制的即时搜索、逐字过滤或普通表单输入。"
 useWhen:
+  - "输入改变后立即过滤内容时保留 Input，由宿主决定请求时机；可使用现有前置图标和清空能力。"
   - "A form or toolbar needs a single-line text value."
 doNotUseWhen:
+  - "需要按钮或 Enter 明确提交搜索时比较 SearchInput；不要仅因字段名包含搜索就改变既定提交方式。"
   - "A closed option set, multiline content, numeric parsing or a password is required."
 anatomy:
   - "Root"
@@ -85,6 +87,8 @@ tokens:
   - "Public Text/Icon/Border/Fill category colors and shared Focus"
   - "Text/Neutral/5 for placeholder, suffixText units and normal count; prefix/custom text retain Text/Neutral/4"
 compositionRules:
+  - "FormItem labelPosition=inside places its fixed visible label within the field; top remains the default and label identity/description ownership is unchanged."
+  - "For a one-line toolbar, compose explicit size32 in default density and size28 in compact density with matching Buttons; global component defaults remain unchanged."
   - "Explicit size wins; all internal gaps are Space/4."
   - "FormItem owns labels, descriptions and validation presentation; page owns validation rules."
   - "Clear uses the standard value event path once and returns focus; it does not dismiss validation."
@@ -146,3 +150,15 @@ sharedFieldRefinement:
   evidence: "evidence/runtime/select/verification.md"
   humanGate: "accepted"
   humanGateScope: "input-search-input-form-item-runtime-visual-only"
+
+insideFieldLabels:
+  implementation: "completed"
+  automated: "passed"
+  independentReview: "findings"
+  plan: "docs/plans/2026-09-14-inside-field-labels.md"
+  evidence: "evidence/runtime/inside-field-labels/verification.md"
+  labelPosition: "optional-inside-default-top"
+  humanGate: "accepted"
+  humanGateScope: "input-search-input-select-inside-labels-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  publication: "not-authorized"

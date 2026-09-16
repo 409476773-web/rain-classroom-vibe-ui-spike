@@ -1,0 +1,130 @@
+import { expect, test } from "@playwright/test";
+
+async function choose(page: import("@playwright/test").Page, label: string, option: string) {
+  await page.getByRole("combobox", { name: label, exact: true }).click();
+  await page.getByRole("option", { name: option, exact: true }).click();
+}
+
+test("Card owns spacing and parts independently of nested cards and control density", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1200 });
+  await page.goto("/#card");
+  const card = (name: string) => page.locator('[data-example="' + name + '"]');
+  await expect(card("cr-01")).toHaveCSS("padding-top", "20px");
+  await expect(card("cr-01")).toHaveCSS("row-gap", "20px");
+  await expect(card("cr-01").locator('[data-slot="content"]')).toHaveCSS("padding-left", "20px");
+  await expect(card("isolation-target")).toHaveCSS("padding-top", "24px");
+  await expect(card("isolation-target").locator(':scope > [data-slot="content"]')).toHaveCSS("padding-left", "0px");
+  for (const name of ["nested-default", "isolation-control"]) {
+    await expect(card(name)).toHaveCSS("padding-top", "20px");
+    await expect(card(name).locator(':scope > [data-slot="content"]')).toHaveCSS("padding-left", "20px");
+  }
+  expect(await card("isolation-target").locator(':scope > [data-slot="header"]').evaluate(el => getComputedStyle(el).gridTemplateColumns.split(" ").length)).toBe(1);
+  await expect(card("cr-04").locator('[data-slot="action"]')).toHaveCSS("grid-column-start", "2");
+  const input = page.getByRole("textbox", { name: "提醒标题" });
+  const height = await input.evaluate(el => el.getBoundingClientRect().height);
+  await choose(page, "普通卡片留白", "紧凑");
+  await expect(card("cr-01")).toHaveCSS("padding-top", "16px");
+  expect(await input.evaluate(el => el.getBoundingClientRect().height)).toBe(height);
+  await page.getByRole("checkbox", { name: "紧凑控件" }).focus(); await page.keyboard.press("Space");
+  expect(await input.evaluate(el => el.getBoundingClientRect().height)).toBeLessThan(height);
+  await expect(card("cr-01")).toHaveCSS("padding-top", "16px");
+  await page.getByRole("checkbox", { name: "显示 Header" }).focus(); await page.keyboard.press("Space");
+  await page.getByRole("checkbox", { name: "显示 Footer" }).focus(); await page.keyboard.press("Space");
+  await expect(card("cr-04").locator('[data-slot="header"], [data-slot="footer"]')).toHaveCount(0);
+  await expect(card("cr-04").locator('[data-slot="content"]')).toBeVisible();
+  await expect(card("cr-01")).not.toHaveAttribute("tabindex");
+  await expect(card("cr-01")).not.toHaveAttribute("role");
+});
+
+test("Card media reflows without clipping content, focus or independent operations", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1200 });
+  await page.goto("/#card");
+  const course = page.locator('[data-example="cr-02"]');
+  const media = course.locator(".course-card-cover"), body = course.locator(".course-card-body");
+  await choose(page, "课程卡布局", "上图下文");
+  const before = await media.boundingBox();
+  expect((await body.boundingBox())!.y).toBeGreaterThan(before!.y + before!.height - 1);
+  await choose(page, "课程卡布局", "左图右文");
+  expect((await body.boundingBox())!.x).toBeGreaterThan((await media.boundingBox())!.x + (await media.boundingBox())!.width - 1);
+  await expect(course).toHaveCSS("overflow", "visible");
+  await page.getByRole("button", { name: "查看课程", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("已查看统计学");
+  await page.getByRole("textbox", { name: "提醒标题" }).fill("复习第三单元");
+  await choose(page, "提醒对象", "尚未完成的学生");
+  await page.getByRole("button", { name: "保存提醒", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("复习第三单元");
+  await page.getByRole("button", { name: "更多操作", exact: true }).focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("menuitem", { name: "复制提醒", exact: true })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("button", { name: "更多操作", exact: true })).toBeFocused();
+  await page.keyboard.press("Enter");
+  await page.getByRole("menuitem", { name: "复制提醒", exact: true }).click();
+  await expect(page.getByRole("status")).toHaveText("已复制提醒（演示）");
+  await page.getByRole("checkbox", { name: "长内容" }).focus(); await page.keyboard.press("Space");
+  await page.getByRole("checkbox", { name: "窄容器" }).focus(); await page.keyboard.press("Space");
+  await expect(page.locator('[data-example="cr-04"] [data-slot="action"]')).toHaveCSS("grid-column-start", "1");
+  expect((await body.boundingBox())!.y).toBeGreaterThan((await media.boundingBox())!.y + (await media.boundingBox())!.height - 1);
+  await course.locator('[data-slot="title"]').evaluate(el => { el.textContent += "AnUninterruptedEnglishCourseTitle".repeat(5); });
+  for (const element of await page.locator(".card-gallery .rain-card").all()) {
+    expect(await element.evaluate(el => el.scrollWidth <= el.clientWidth + 2)).toBe(true);
+  }
+});
+
+test("Card themes and preference emulation retain visible content", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 1440, height: 1200 });
+  await page.goto("/#card");
+  const target = page.locator('[data-example="cr-01"]');
+  const light = await target.evaluate(el => getComputedStyle(el).backgroundColor);
+  await page.screenshot({ path: testInfo.outputPath("card-light.png"), fullPage: true });
+  await choose(page, "主题", "深色");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveCSS("color", await page.locator(".card-review").evaluate(el => getComputedStyle(el).color));
+  expect(await target.evaluate(el => getComputedStyle(el).backgroundColor)).not.toBe(light);
+  await expect(page.locator('[data-example="theme-island"]')).toHaveCSS("background-color", light);
+  await page.screenshot({ path: testInfo.outputPath("card-dark.png"), fullPage: true });
+  await page.emulateMedia({ forcedColors: "active", reducedMotion: "reduce" });
+  await expect(page.getByRole("textbox", { name: "提醒标题" })).toBeVisible();
+  await page.getByRole("button", { name: "保存提醒", exact: true }).focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("status")).toContainText("已保存");
+  await page.setViewportSize({ width: 360, height: 900 });
+  await page.getByRole("checkbox", { name: "长内容" }).focus(); await page.keyboard.press("Space");
+  expect(await page.locator("body").evaluate(el => el.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath("card-narrow-forced-colors.png"), fullPage: true });
+});
+
+test("Card content layout utilities override the old visual declaration", async ({ page }) => {
+  await page.goto("/#components");
+  const content = page.locator('[data-rain-id="ui-card"] [data-slot="content"]').first();
+  await content.evaluate(element => element.classList.add("px-rain-0"));
+  await expect(content).toHaveCSS("padding-left", "0px");
+  await expect(content).toHaveCSS("padding-right", "0px");
+});
+
+test("minimal prototype consumes Card without Playground CSS and retains native type hierarchy", async ({ page }, testInfo) => {
+  const errors: string[] = [];
+  page.on("pageerror", error => errors.push(error.message));
+  await page.setViewportSize({ width: 1440, height: 1200 });
+  await page.goto(process.env.RAIN_CARD_PROTOTYPE_URL ?? "http://127.0.0.1:4174");
+  await expect(page.getByRole("heading", { name: "课程空间", level: 1 })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "课程公告", level: 2 })).toHaveCSS("font-size", "16px");
+  const description = page.locator('[data-example="cr-01"] [data-slot="description"]');
+  await expect(description).toHaveCSS("font-size", "13px");
+  await expect(description).toHaveCSS("line-height", "22px");
+  await expect(page.locator('[data-example="cr-02"] [data-slot="description"]')).toHaveCSS("font-size", "12px");
+  await expect(page.locator('[data-example="cr-01"]')).toHaveCSS("padding-top", "20px");
+  const requests = await page.evaluate(() => performance.getEntriesByType("resource").map(entry => entry.name));
+  expect(requests.some(url => /playground|card-page/.test(url))).toBe(false);
+  await page.getByRole("button", { name: "更多操作", exact: true }).click();
+  await page.getByRole("menuitem", { name: "稍后处理", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("稍后处理");
+  await page.getByRole("button", { name: "切换深色" }).click();
+  await expect(description).toHaveCSS("font-size", "13px");
+  await page.screenshot({ path: testInfo.outputPath("prototype-dark.png"), fullPage: true });
+  await page.setViewportSize({ width: 360, height: 900 });
+  expect(await page.locator("body").evaluate(el => el.scrollWidth <= innerWidth)).toBe(true);
+  await page.getByRole("textbox", { name: "提醒标题" }).fill("原型独立消费");
+  await page.getByRole("button", { name: "保存提醒", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("原型独立消费");
+  expect(errors).toEqual([]);
+});

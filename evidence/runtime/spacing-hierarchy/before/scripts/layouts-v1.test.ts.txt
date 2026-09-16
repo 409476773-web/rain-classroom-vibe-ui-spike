@@ -1,0 +1,58 @@
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { createHash } from "node:crypto";
+import { expect, it } from "vitest";
+import { hasLayoutsV1Authorization, layoutsV1Files, parseYamlSubset } from "./verification-helpers.mjs";
+import { validateLayoutsRuntimeGeometry, validateRegisteredRecipeColors } from "./verify-token-foundations.mjs";
+
+const path = (file: string) => fileURLToPath(new URL("../" + file, import.meta.url));
+const read = (file: string) => readFileSync(path(file), "utf8");
+const phase = () => parseYamlSubset(read("status/current-phase.yaml")) as any;
+
+it("limits RN-06 to its exact candidate authorization and preserves every earlier phase record", () => {
+  const status = phase();
+  expect(hasLayoutsV1Authorization(status)).toBe(true);
+  for (const patch of [{ humanGate: "accepted" }, { contrastAcceptance: "accepted" }, { scope: "all-layouts" }, { unexpected: true }]) {
+    expect(hasLayoutsV1Authorization({ ...status, componentRefinements: { ...status.componentRefinements, layoutsV1: { ...status.componentRefinements.layoutsV1, ...patch } } })).toBe(false);
+  }
+  const { layoutsV1, ...earlier } = status.componentRefinements;
+  const before: any = parseYamlSubset(read("evidence/runtime/layouts-v1/before/status/current-phase.yaml.txt"));
+  expect({ ...status, componentRefinements: earlier }).toEqual(before);
+  expect(layoutsV1.scope).toBe("rn-06-stack-inline-grid-split-and-local-consumers");
+  expect(layoutsV1Files.layouts).toHaveLength(7);
+});
+
+it("keeps Layout variables local to finite geometry and reuses the existing Space classes", () => {
+  const status = phase(), filePath = "packages/layouts/src/layout.tsx", source = read(filePath);
+  const verify = (source: string, file = filePath) => validateLayoutsRuntimeGeometry({ filePath: file, source, status });
+  expect(verify(source)).toEqual([]);
+  expect(validateLayoutsRuntimeGeometry({ filePath, source, status: {} }).length).toBeGreaterThan(0);
+  expect(verify(source, "apps/prototype/src/layout-recipes.tsx").length).toBeGreaterThan(0);
+  expect(verify(source.replace('"--rain-layout-gap": compositionSpaceTokens[gap]', '"--rain-layout-gap": "red"')).length).toBeGreaterThan(0);
+  expect(verify(source.replace('0: "gap-rain-0"', '0: "gap-0"')).length).toBeGreaterThan(0);
+  expect(verify(source.replace('"--rain-layout-columns": columns', 'backgroundColor: "red", "--rain-layout-columns": columns')).length).toBeGreaterThan(0);
+  const cssPath = "packages/layouts/src/layout.css", css = read(cssPath);
+  expect(verify(css, cssPath)).toEqual([]);
+  expect(verify(css + ".rain-grid { color: red }", cssPath).length).toBeGreaterThan(0);
+  expect(verify(css.replace("width: var(--rain-layout-sidebar-width)", "color: var(--rain-layout-sidebar-width)"), cssPath).length).toBeGreaterThan(0);
+  const examplePath = "apps/prototype/src/layout-recipes.css", example = read(examplePath);
+  expect(validateRegisteredRecipeColors({ filePath: examplePath, source: example })).toEqual([]);
+  expect(validateRegisteredRecipeColors({ filePath: examplePath, source: example + ".outside { color: red; }" }).length).toBeGreaterThan(0);
+});
+
+it("adds only workspace Layout links and leaves upstream resolutions, UI and Foundations unchanged", () => {
+  for (const app of ["playground", "prototype"]) {
+    const file = `apps/${app}/package.json`;
+    const before = JSON.parse(read(`evidence/runtime/layouts-v1/before/${file}.txt`));
+    expect(JSON.parse(read(file))).toEqual({ ...before, dependencies: { ...before.dependencies, "@rain-next/layouts": "workspace:*" } });
+  }
+  const pkg = JSON.parse(read("packages/layouts/package.json"));
+  expect(pkg.dependencies).toEqual({ "@rain-next/foundations": "workspace:*", react: "^19.2.8" });
+  expect(pkg.exports).toEqual({ ".": "./src/index.ts", "./styles.css": "./src/layout.css" });
+  const beforeLock = read("evidence/runtime/layouts-v1/before/pnpm-lock.yaml.txt");
+  expect(read("pnpm-lock.yaml").split("\npackages:\n")[1]).toBe(beforeLock.split("\npackages:\n")[1]);
+  const baseline = JSON.parse(read("evidence/runtime/layouts-v1/baseline.json"));
+  for (const [file, checksum] of Object.entries(baseline.protectedSha256)) {
+    expect(createHash("sha256").update(readFileSync(path(file))).digest("hex"), file).toBe(checksum);
+  }
+});

@@ -1,0 +1,27 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/m2.test.ts (4 tests | 1 failed | 3 skipped) 27ms
+   × checks each local color on its real surfaces and rejects weakened SVG, text, scope or source metadata 27ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/m2.test.ts > checks each local color on its real surfaces and rejects weakened SVG, text, scope or source metadata
+Error: ENOENT: no such file or directory, open '/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/m2/color-consumers.json'
+ ❯ getM2ColorConsumers scripts/verify-token-foundations.mjs:38:18
+     36| // This snapshot locks only two local CSS consumers, including real te…
+     37| export function getM2ColorConsumers() {
+     38|   const source = readFileSync(new URL("../evidence/runtime/m2/color-co…
+       |                  ^
+     39|   if (createHash("sha256").update(source).digest("hex") !== "M2_COLOR_…
+     40|   return JSON.parse(source);
+ ❯ scripts/m2.test.ts:73:37
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  22:26:58
+   Duration  785ms (transform 243ms, setup 236ms, import 396ms, tests 27ms, environment 0ms)
+

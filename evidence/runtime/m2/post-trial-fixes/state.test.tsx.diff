@@ -1,0 +1,15 @@
+--- c2/apps/prototype/src/scenarios/bm-c/state.test.tsx
++++ final/apps/prototype/src/scenarios/bm-c/state.test.tsx
+@@ -66,3 +66,12 @@
+   await user.click(screen.getByText("第 1 题 · 运动与受力", { selector: "summary" }));
+   expect(screen.getByRole("heading", { name: "示例学生 04 · 第 1 题" })).toBeInTheDocument();
+ });
++
++it("keeps search focus while typing changes the selected answer", async () => {
++  const user = userEvent.setup(); render(<GradingWorkbenchScenario />);
++  const search = screen.getByRole("textbox", { name: "查找批改对象" });
++  await user.type(search, "第 2 题");
++  expect(search).toHaveValue("第 2 题");
++  expect(search).toHaveFocus();
++  expect(screen.getByRole("heading", { name: "示例学生 01 · 第 2 题" })).toBeInTheDocument();
++});

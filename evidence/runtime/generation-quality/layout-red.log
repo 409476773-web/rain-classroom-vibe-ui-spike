@@ -1,0 +1,38 @@
+
+Running 1 test using 1 worker
+
+(node:9432) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/m2.spec.ts:98:1 › BM-D scope choices support native radio keys without changing local metric ownership (30.1s)
+
+
+  1) [chromium] › tests/e2e/m2.spec.ts:98:1 › BM-D scope choices support native radio keys without changing local metric ownership 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.focus: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('radiogroup', { name: '报告班级', exact: true }).getByRole('radio', { name: '全部班级', exact: true })
+
+
+       99 |   await page.goto("/#bm-d");
+      100 |   const scope = page.getByRole("radiogroup", { name: "报告班级", exact: true });
+    > 101 |   await scope.getByRole("radio", { name: "全部班级", exact: true }).focus();
+          |                                                                 ^
+      102 |   await page.keyboard.press("ArrowRight");
+      103 |   await expect(scope.getByRole("radio", { name: "一班", exact: true })).toBeChecked();
+      104 |   const values = page.getByRole("region", { name: "关键指标" }).locator('[data-slot="value"]');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/m2.spec.ts:101:65
+
+    Error Context: ../../../../../../tmp/rain-quality-layout-red/results/m2-BM-D-scope-choices-supp-f13fd-ging-local-metric-ownership-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-quality-layout-red/results/m2-BM-D-scope-choices-supp-f13fd-ging-local-metric-ownership-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-quality-layout-red/results/m2-BM-D-scope-choices-supp-f13fd-ging-local-metric-ownership-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/m2.spec.ts:98:1 › BM-D scope choices support native radio keys without changing local metric ownership 

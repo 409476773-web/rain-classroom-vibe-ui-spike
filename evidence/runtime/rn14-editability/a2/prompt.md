@@ -1,0 +1,3 @@
+RN-14 BM-A 第2轮，在a1基础上做第二次结构修改：将“已选数量/取消选择/标为已发布”整组移到表格或卡片内容之后，并把原notice反馈移入同一局部区域，放在单独的分页区域之前。使用两个原生section，分别 data-slot="rn14-batch-summary" 与 data-slot="rn14-pagination"，提供对应可访问名称；分页保留原Pagination组件。批量反馈改成该区域内普通状态提示，去掉本地data-table-notice的fixed定位，窄屏自然堆叠。保留a0/a1结构、数据引擎及全部选择/分页/搜索/过滤/刷新/加载禁用语义；每组只存在一份。
+仅可修改 /tmp/rain-next-rn14-20260915-1817/apps/prototype/src/data-table-recipe.tsx 与 data-table-recipe.css。共享packages、BM-A包装、BM-B、根配置及原仓库只读，不改历史说明/状态合同。沿用已有Rain Token/布局，不能新增默认颜色或组件API。只读范围仍为本场景及必要实际API，不读memory/历史，不写Git、不安装依赖。
+运行 pnpm --filter @rain-next/prototype typecheck，记录实际读文件、命令、结果、UTC开始结束时间至 /tmp/rn14-a2-agent.json，日志 /tmp/rn14-a2-typecheck.log。代码自检后汇报，主代理负责逐轮浏览器检查；不要再做其他改造。

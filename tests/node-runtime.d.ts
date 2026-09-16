@@ -1,6 +1,7 @@
 declare const process: {
   env: Record<string, string | undefined>;
   execPath: string;
+  cwd(): string;
 };
 
 declare class Buffer extends Uint8Array {
@@ -81,6 +82,10 @@ declare module "node:fs" {
 
 declare module "node:os" {
   export function tmpdir(): string;
+}
+
+declare module "node:module" {
+  export function createRequire(url: string): any;
 }
 
 declare module "node:path" {

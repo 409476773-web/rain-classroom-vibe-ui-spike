@@ -1,0 +1,57 @@
+--- consumer-review-before-navigation-fix/source/activity/page.tsx
++++ consumer/apps/prototype/src/scenarios/activity/page.tsx
+@@ -22,6 +22,7 @@
+   const formId = useId(), nameRef = useRef<HTMLInputElement>(null), safeAction = useRef<HTMLButtonElement>(null);
+   const formRef = useRef<HTMLFormElement>(null), errorRef = useRef<HTMLParagraphElement>(null);
+   const requestRef = useRef<AbortController | null>(null);
++  const pendingNavigation = useRef<NavigationDestination | null>(null), allowNavigation = useRef(false);
+   const dirty = JSON.stringify(draft) !== JSON.stringify(toDraft(saved));
+   useEffect(() => () => { requestRef.current?.abort(); }, []);
+   useEffect(() => { if (saveError) errorRef.current?.focus(); }, [saveError]);
+@@ -31,13 +32,37 @@
+     addEventListener("beforeunload", protectDraft);
+     return () => removeEventListener("beforeunload", protectDraft);
+   }, [open, dirty, saving]);
++  useEffect(() => {
++    // ponytail: local hash protection uses Navigation API; add a legacy fallback only if that browser support is required.
++    if (!open || !window.navigation) return;
++    const protectNavigation = (event: NavigateEvent) => {
++      if (!event.destination.sameDocument || new URL(event.destination.url).hash === location.hash) return;
++      if (allowNavigation.current) { allowNavigation.current = false; return; }
++      if (!requestRef.current && !dirty) return;
++      event.preventDefault();
++      if (!requestRef.current) { pendingNavigation.current = event.destination; setConfirmDiscard(true); }
++    };
++    window.navigation.addEventListener("navigate", protectNavigation);
++    return () => window.navigation.removeEventListener("navigate", protectNavigation);
++  }, [open, dirty]);
+ 
+   function change<K extends keyof ActivityDraft>(key: K, value: ActivityDraft[K]) {
+     setDraft(current => ({ ...current, [key]: value }));
+     setErrors(current => ({ ...current, [key === "limitEnabled" ? "capacity" : key]: undefined }));
+   }
+   function discard() {
++    const destination = pendingNavigation.current;
++    pendingNavigation.current = null;
+     setDraft(toDraft(saved)); setOpen(false); setNotice("已取消修改，活动信息保持不变。");
++    if (destination) {
++      allowNavigation.current = true;
++      if (destination.key) {
++        const navigation = window.navigation.traverseTo(destination.key);
++        void Promise.all([navigation.committed, navigation.finished]).catch(() => {
++          allowNavigation.current = false; setNotice("页面跳转未完成，请重新选择。");
++        });
++      } else location.hash = new URL(destination.url).hash;
++    }
+   }
+   async function save(event: FormEvent) {
+     event.preventDefault();
+@@ -147,7 +172,7 @@
+             <Button type="submit" form={formId} variant="primary" loading={saving} disabled={saving}>{saveError ? "重试保存" : "保存活动"}</Button>
+           </Inline>
+         </Dialog.Footer>
+-        <AlertDialog.Root open={confirmDiscard} onOpenChange={setConfirmDiscard}>
++        <AlertDialog.Root open={confirmDiscard} onOpenChange={next => { setConfirmDiscard(next); if (!next) pendingNavigation.current = null; }}>
+           <AlertDialog.Content initialFocus={safeAction}>
+             <AlertDialog.Header><AlertDialog.Title>放弃活动修改？</AlertDialog.Title>
+               <AlertDialog.Description>本轮未保存的内容将丢失，已保存的活动信息不受影响。</AlertDialog.Description></AlertDialog.Header>

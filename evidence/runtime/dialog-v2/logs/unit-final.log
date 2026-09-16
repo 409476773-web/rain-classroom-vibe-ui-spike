@@ -1,0 +1,66 @@
+
+> @rain-next/workspace@0.0.0 test /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> vitest run --maxWorkers=2 --reporter=dot
+
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+························································································································································································································································································································································x·········································································································································································································································································································································x····························································································································································································································································································································································································································································································································································································································
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 2 governance > keeps the Task 2 files while Task 5 promotes its verifier into governance
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /verification passed/
+
+- Expected:
+/verification passed/
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: evidence/runtime/dialog-v2/production/.playwright-artifacts-3/traces/resources/3d728eeda504542d5c4bb9bf72ce975cdc586e28.css
+- source file outside the complete Day 3 allowlist: evidence/runtime/dialog-v2/production/.playwright-artifacts-3/traces/resources/8f5885b56e4bc1d4ecad1691e9ed9aabde032d20.html
+- source file outside the complete Day 3 allowlist: evidence/runtime/dialog-v2/production/.playwright-artifacts-3/traces/resources/af4084d63a8a091e989bd833fb138c187e8588bf.css
+- source file outside the complete Day 3 allowlist: evidence/runtime/dialog-v2/production/.playwright-artifacts-3/traces/resources/c9642f1b8162b2592489228a9fd68292fe252196.css
+- source file outside the complete Day 3 allowlist: evidence/runtime/dialog-v2/production/.playwright-artifacts-3/traces/resources/f7cd07a873fc4697965e8d42543009d7739cd594.html
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:1924:32
+    1922|     for (const script of ["verify-boundaries.mjs", "verify-workspace.m…
+    1923|       const result = runScript(join(workspaceRoot, "scripts", script),…
+    1924|       expect(outputOf(result)).toMatch(/verification passed/);
+       |                                ^
+    1925|       expect(result.status).toBe(0);
+    1926|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > passes both the Task 4 bridge verifier and the fail-closed phase boundary
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /verification passed/i
+
+- Expected:
+/verification passed/i
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: evidence/runtime/dialog-v2/production/.playwright-artifacts-13/traces/resources/2ac9dadd4f1f71f62430670f1d1b197525a9eb6b.html
+- source file outside the complete Day 3 allowlist: evidence/runtime/dialog-v2/production/.playwright-artifacts-13/traces/resources/380a8946861f5b469520c150b2d1cc93eefb38d5.css
+- source file outside the complete Day 3 allowlist: evidence/runtime/dialog-v2/production/.playwright-artifacts-13/traces/resources/3d728eeda504542d5c4bb9bf72ce975cdc586e28.css
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:3246:32
+    3244|     for (const script of [verifierPath, boundaryVerifierPath]) {
+    3245|       const result = runScript(script, workspaceRoot);
+    3246|       expect(outputOf(result)).toMatch(/verification passed/i);
+       |                                ^
+    3247|       expect(result.status).toBe(0);
+    3248|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 87 passed (88)
+      Tests  2 failed | 1277 passed (1279)
+   Start at  11:13:49
+   Duration  116.43s (transform 2.57s, setup 8.68s, import 14.51s, tests 164.97s, environment 35.65s)
+
+ ELIFECYCLE  Test failed. See above for more details.

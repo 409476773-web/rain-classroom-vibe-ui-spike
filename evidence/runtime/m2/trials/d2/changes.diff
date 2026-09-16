@@ -1,0 +1,50 @@
+--- d1/page.css
++++ d2/page.css
+@@ -17,7 +17,10 @@
+ .bm-d-statistic dd { display: flex; align-items: baseline; gap: var(--rain-space-8); margin-block: var(--rain-space-12); }
+ .bm-d-statistic [data-slot="unit"] { font-family: var(--rain-font-ui); font-size: var(--rain-font-size-14); }
+ .bm-d-trend { padding: var(--rain-space-24); border-radius: var(--rain-radius-8); background: var(--rain-category-background-neutral-1); }
+-.bm-d-chart { display: block; width: 100%; height: auto; }
++.bm-d-report-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; align-items: start; gap: var(--rain-space-24); }
++.bm-d-report-layout > section { min-width: 0; }
++.bm-d-chart-scroll { overflow: auto; }
++.bm-d-chart { display: block; width: 100%; min-width: 640px; height: auto; }
+ .bm-d-chart text { fill: currentColor; font: var(--rain-font-size-12) var(--rain-font-ui); }
+ .bm-d-gridline, .bm-d-marker { stroke: var(--rain-category-border-neutral-3); stroke-width: var(--rain-line-thickness-1); }
+ .bm-d-marker { stroke-dasharray: 4 4; }
+@@ -39,4 +42,5 @@
+ .bm-d summary { cursor: pointer; padding-block: var(--rain-space-8); }
+ .bm-d-message { padding: var(--rain-space-32); background: var(--rain-category-background-neutral-1); border-radius: var(--rain-radius-8); }
+ .bm-d-message [role="alert"] { color: var(--rain-category-text-red-1); }
++@media (max-width: 1060px) { .bm-d-report-layout { grid-template-columns: minmax(0, 1fr); } }
+ @media (max-width: 640px) { .bm-d { padding: var(--rain-space-16); } .bm-d h1 { font-size: var(--rain-font-size-24); line-height: var(--rain-line-height-32); } .bm-d-trend, .bm-d-insight { padding: var(--rain-space-20); } }
+--- d1/page.tsx
++++ d2/page.tsx
+@@ -59,9 +59,10 @@
+             <Statistic label="提交率" value={`${format(totals.completion)}%`} unit="" detail="实际提交 ÷ 应交作业" />
+           </Grid></dl></section>
+           <section className="bm-d-summary"><h2>本期摘要</h2><p className="rain-type-reading">{group}在第 {firstWeek}–6 周共提交 {totals.submissions} 份作业，平均分为 {format(totals.average)} 分。第 {firstWeek} 周与第 6 周平均分分别为 {format(first.average)} 分、{format(last.average)} 分。</p><p className="rain-type-reading">这些数值描述当前教学样例，不用于推断教学因果。周度汇总没有学生身份，不能据此计算去重人数。</p></section>
++          <div className="bm-d-report-layout">
+           <section className="bm-d-trend" aria-labelledby="bm-d-trend-title"><Stack gap={20}>
+             <Inline justify="between" gap={16}><div><h2 id="bm-d-trend-title">每周学习趋势</h2><p>查看各班的{metricLabel}，或选择一周读取具体数值。</p></div><Inline gap={4} aria-label="趋势指标"><Button variant={metric === "average" ? "secondary" : "tertiary"} aria-pressed={metric === "average"} onClick={() => setMetric("average")}>平均分</Button><Button variant={metric === "completion" ? "secondary" : "tertiary"} aria-pressed={metric === "completion"} onClick={() => setMetric("completion")}>提交率</Button></Inline></Inline>
+-            <figure><svg className="bm-d-chart" viewBox="0 0 720 256" role="img" aria-labelledby="bm-d-chart-title bm-d-chart-desc">
++            <figure><div className="bm-d-chart-scroll" role="region" aria-label="趋势图横向滚动区" tabIndex={0} data-focus="item"><svg className="bm-d-chart" viewBox="0 0 720 256" role="img" aria-labelledby="bm-d-chart-title bm-d-chart-desc">
+               <title id="bm-d-chart-title">第 {firstWeek}–6 周各班{metricLabel}</title><desc id="bm-d-chart-desc">一班使用实线圆点，二班使用虚线方点。下方提供按周读数及完整数据表。</desc>
+               {[0, 25, 50, 75, 100].map(value => <g key={value}><line className="bm-d-gridline" x1={48} x2={672} y1={y(value)} y2={y(value)} /><text x={36} y={y(value) + 4} textAnchor="end">{value}</text></g>)}
+               <line className="bm-d-marker" x1={x(week)} x2={x(week)} y1={32} y2={220} />
+@@ -70,13 +71,11 @@
+                 {weeks.map(value => { const score = pointValue(label, value); return score === null ? null : label === "一班" ? <circle key={value} className="bm-d-point" cx={x(value)} cy={y(score)} r={4} /> : <rect key={value} className="bm-d-point" x={x(value) - 4} y={y(score) - 4} width={8} height={8} />; })}
+               </g>)}
+               {weeks.map(value => <text key={value} x={x(value)} y={246} textAnchor="middle">第 {value} 周</text>)}
+-            </svg><figcaption><span className="bm-d-legend-one">● 一班 · 实线</span><span className="bm-d-legend-two">■ 二班 · 虚线</span><span>纵轴 0–100{unit === "%" ? "%" : " 分"}</span></figcaption></figure>
++            </svg></div><figcaption><span className="bm-d-legend-one">● 一班 · 实线</span><span className="bm-d-legend-two">■ 二班 · 虚线</span><span>纵轴 0–100{unit === "%" ? "%" : " 分"}</span></figcaption></figure>
+             <Inline gap={8} aria-label="选择趋势周">{weeks.map(value => <Button key={value} variant={week === value ? "secondary" : "tertiary"} aria-pressed={week === value} onClick={() => setSelectedWeek(value)}>第 {value} 周</Button>)}</Inline>
+             <p className="bm-d-readout" role="status" aria-label="趋势读数">第 {week} 周{metricLabel}：{groups.map(label => `${label} ${format(pointValue(label, week))}${unit}`).join("；")}。</p>
+           </Stack></section>
+-          <div className="bm-d-findings">
+-
+-            <section className="bm-d-insight" aria-labelledby="bm-d-insight-title"><p className="bm-d-ai-label">AI 洞察 · 示例</p><h2 id="bm-d-insight-title">把关注点带回下一次课堂</h2><p className="rain-type-reading">平均分与提交情况可作为回看作业的线索。建议先查看未提交的原因，再从典型作答中选择需要讨论的概念。</p><a href="#bm-c" data-focus="item">查看作答与评分 →</a><p className="bm-d-scope">示例解读，未调用 AI 服务。</p></section>
++          <section className="bm-d-insight" aria-labelledby="bm-d-insight-title"><p className="bm-d-ai-label">AI 洞察 · 示例</p><h2 id="bm-d-insight-title">把关注点带回下一次课堂</h2><p className="rain-type-reading">平均分与提交情况可作为回看作业的线索。建议先查看未提交的原因，再从典型作答中选择需要讨论的概念。</p><a href="#bm-c" data-focus="item">查看作答与评分 →</a><p className="bm-d-scope">示例解读，未调用 AI 服务。</p></section>
+           </div>
+           <section className="bm-d-details" aria-labelledby="bm-d-details-title"><Inline justify="between"><h2 id="bm-d-details-title">数据明细</h2><span className="bm-d-scope">每页 4 条 · 分页只改变明细</span></Inline>
+             <DensityProvider density="compact"><TableScrollArea aria-label="报告明细滚动区"><Table><TableCaption>当前筛选范围的周度汇总，分页不改变关键指标。</TableCaption><TableHeader><TableRow><TableHead>周次</TableHead><TableHead>班级</TableHead><TableHead>应交</TableHead><TableHead>已交</TableHead><TableHead>平均分</TableHead><TableHead>提交率</TableHead></TableRow></TableHeader><TableBody>{rows.slice((page - 1) * 4, page * 4).map(row => <TableRow key={`${row.group}-${row.week}`}><TableCell>第 {row.week} 周</TableCell><TableCell>{row.group}</TableCell><TableCell>{row.expected}</TableCell><TableCell>{row.submitted}</TableCell><TableCell>{format(summarize([row]).average)}</TableCell><TableCell>{format(summarize([row]).completion)}%</TableCell></TableRow>)}</TableBody></Table></TableScrollArea>

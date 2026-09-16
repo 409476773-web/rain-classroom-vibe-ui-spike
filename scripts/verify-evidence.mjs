@@ -1,3 +1,5 @@
+import { hasM2Authorization, hasBmARn09Authorization, hasBmBRn10Authorization, hasRn13Authorization } from "./verification-helpers.mjs";
+import { verifyAssetIndex } from "./asset-index.mjs";
 import {
   existsSync,
   lstatSync,
@@ -119,6 +121,13 @@ function isInside(parentPath, candidatePath) {
 const evidenceRegistry = parseYamlDocument("evidence/visual-evidence.yaml");
 const benchmarkRegistry = parseYamlDocument("benchmarks/benchmark-registry.yaml");
 let phaseStatus = parseYamlDocument("status/current-phase.yaml");
+if (hasRn13Authorization(phaseStatus)) {
+  try { verifyAssetIndex(workspaceRoot); }
+  catch (error) { failures.push(error.message); }
+}
+const m2 = hasM2Authorization(phaseStatus) ? phaseStatus.componentRefinements.m2Delivery.benchmarks : null;
+const bmA = hasBmARn09Authorization(phaseStatus) ? phaseStatus.componentRefinements.bmARn09 : null;
+const bmB = hasBmBRn10Authorization(phaseStatus) ? phaseStatus.componentRefinements.bmBRn10 : null;
 try { phaseStatus = getCurrentB2Status(phaseStatus); }
 catch (error) { failures.push(error.message); }
 const evidenceIndex = parseIndex(
@@ -514,13 +523,20 @@ const expectedBenchmarkContracts = {
 };
 
 for (const benchmark of benchmarkEntries) {
+  const scenario = benchmark.id === "BM-A" ? bmA : benchmark.id === "BM-B" ? bmB : benchmark.id === "BM-C" ? m2?.bmC : benchmark.id === "BM-D" ? m2?.bmD : null;
+  if (scenario) {
+    const key = benchmark.id.toLowerCase(), task = benchmark.id === "BM-A" ? "rn09" : "rn10";
+    const reference = { entry: `../apps/prototype/src/scenarios/${key}/page.tsx`, stateContract: `../apps/prototype/src/scenarios/${key}/state-contract.md`, evidence: ["BM-C", "BM-D"].includes(benchmark.id) ? "../evidence/runtime/m2/verification.md" : `../evidence/runtime/${key}-${task}/verification.md` };
+    assertExact(`${benchmark.id} implementation reference`, benchmark.currentImplementation, reference);
+    for (const file of Object.values(reference)) if (!existsSync(resolve(workspaceRoot, "benchmarks", file))) failures.push(`Missing ${benchmark.id} implementation file: ${file}`);
+  } else if (benchmark.currentImplementation !== undefined) failures.push(`Unapproved Benchmark implementation: ${benchmark.id}`);
   assertExact(`${benchmark.id} registered contract`, {
     key: benchmark.key,
     title: benchmark.title,
     evaluationScope: benchmark.evaluationScope,
   }, expectedBenchmarkContracts[benchmark.id]);
   if (isEvidenceLifecycleLocked) {
-    assertExact(`${benchmark.id} lifecycle`, benchmark.status, expectedEntryStatus);
+    assertExact(`${benchmark.id} lifecycle`, benchmark.status, scenario ? { ...expectedEntryStatus, implementation: scenario.implementation, automatedVerification: scenario.automatedVerification, humanGate: scenario.humanGate } : expectedEntryStatus);
   }
   if (!Array.isArray(benchmark.visualEvidenceRefs)) {
     failures.push(`${benchmark.id} visualEvidenceRefs must be an array`);

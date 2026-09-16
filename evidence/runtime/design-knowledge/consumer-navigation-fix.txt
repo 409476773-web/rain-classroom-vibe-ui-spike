@@ -1,0 +1,20 @@
+# 独立需求审阅反馈后的产品修复
+
+本轮只修复已复现的“浏览器历史导航卸载未保存草稿”。预览仍为 http://127.0.0.1:5357/#activity。
+
+- 修复前交付完整保留：`../consumer-review-before-navigation-fix`；首稿 `../consumer-first` 不变。
+- 产品只改 `consumer/apps/prototype/src/scenarios/activity/page.tsx`。原生 Navigation API 提交前取消同文档离开；脏草稿进入原 AlertDialog，明确放弃后按原历史条目 key 跳转；保存中导航取消；无修改允许退出。未新增路由依赖或一般化机制。
+- 单独差异：`navigation-fix.diff`。累计首稿差异：`first-to-final.diff`。
+- 先写 `consumer/scripts/activity-navigation-check.mjs` 并观察失败（`navigation-red.log`，退出 1）；最终从本目录脚本副本执行，5 组通过、退出 0（`navigation-green.log`、`navigation-results.json`）。
+- 验证使用真实浏览器返回/前进命令，覆盖继续编辑、Escape、明确放弃、无修改退出、保存中双向拦截；确认后原历史条目和前进记录保留，保存结果留在当前活动。
+- 状态检查 4 项、既有浏览器检查 11 组、类型和构建均退出 0。运行错误为空；构建仍有已有大包提示。
+
+在 consumer 目录复跑：
+
+```sh
+node ../consumer-review/activity-navigation-check.mjs
+```
+
+检查脚本中的隐藏父表单定位、确认关闭等待与保存等待时机调整属于工具修正。实际取消历史导航后，相对 History API 重放不可靠的问题由原生 `traverseTo(key)` 解决，属于本轮产品修复。
+
+原 M1 指南/source-lock、共享 packages、A/B、依赖和锁文件保持只读。历史导航保护依赖 Navigation API，本机 Chromium 151 已验证；其他浏览器与旧浏览器替代机制未验证或实现。独立审阅结论与用户视觉接受不由本实现报告代替。

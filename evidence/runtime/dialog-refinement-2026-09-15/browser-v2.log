@@ -1,0 +1,65 @@
+
+Running 18 tests using 2 workers
+
+(node:43304) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43305) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/bm-b.spec.ts:10:1 › validates, retries, commits, discards and restores focus (4.4s)
+  ✓   3 [chromium] › tests/e2e/bm-b.spec.ts:43:1 › handles file validation, upload failure, retry, removal and commit (3.4s)
+  ✓   2 [chromium] › tests/e2e/dialog-refinement.spec.ts:9:1 › confirmed mask paints, one effective layer and weak-mask dismissal in both themes (8.7s)
+  ✓   4 [chromium] › tests/e2e/bm-b.spec.ts:67:1 › keeps the draft and fixed actions across layouts, themes and narrow viewports (3.2s)
+  ✓   6 [chromium] › tests/e2e/dialog.spec.ts:16:1 › RO-01/02: modal focus, nested Select dismissal and trigger return (1.7s)
+  ✓   7 [chromium] › tests/e2e/dialog.spec.ts:34:1 › RO-04/05: validation, pending dismissal guard, failure, retry and cancel own separate values (4.5s)
+  ✓   8 [chromium] › tests/e2e/dialog.spec.ts:58:3 › RO-03/06: light default portal, paints and long-content geometry (1.2s)
+  ✓   9 [chromium] › tests/e2e/dialog.spec.ts:58:3 › RO-03/06: light compact portal, paints and long-content geometry (1.2s)
+  ✓  10 [chromium] › tests/e2e/dialog.spec.ts:58:3 › RO-03/06: dark default portal, paints and long-content geometry (1.2s)
+  ✓  11 [chromium] › tests/e2e/dialog.spec.ts:58:3 › RO-03/06: dark compact portal, paints and long-content geometry (1.2s)
+  ✓  12 [chromium] › tests/e2e/dialog.spec.ts:109:1 › RO-06: narrow viewport, forced colors, separator and nested dialog isolation (1.5s)
+  ✓  13 [chromium] › tests/e2e/dialog.spec.ts:136:1 › RN-04 consumer: independent prototype uses Dialog with existing Card intact (946ms)
+  ✓   5 [chromium] › tests/e2e/dialog-refinement.spec.ts:37:1 › border-box widths, 40/60/16 insets and short-view action access (17.1s)
+  ✓  14 [chromium] › tests/e2e/dialog.spec.ts:144:1 › composition: short Dialog keeps one content edge and intentional group intervals (3.5s)
+  ✓  15 [chromium] › tests/e2e/dialog-refinement.spec.ts:68:40 › nested confirmation preserves draft, scroll and safe focus: light (2.4s)
+  ✓  16 [chromium] › tests/e2e/dialog-refinement.spec.ts:68:40 › nested confirmation preserves draft, scroll and safe focus: dark (2.5s)
+  ✘  17 [chromium] › tests/e2e/dialog-refinement.spec.ts:95:1 › actual action groups use 8 or 12px and one primary action (30.1s)
+(node:43734) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  18 [chromium] › tests/e2e/dialog-refinement.spec.ts:106:1 › 180ms centered transitions, reversible paint and reduced motion (1.3s)
+
+
+  1) [chromium] › tests/e2e/dialog-refinement.spec.ts:95:1 › actual action groups use 8 or 12px and one primary action 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.focus: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('checkbox', { name: '按钮间距 12px', exact: true })
+
+
+      4 | const modal = (page: Page) => page.locator('.rain-dialog[data-rain-id="ui-dialog"]');
+      5 | async function settled(popup: Locator) { await expect.poll(() => popup.evaluate(el => el.getAnimations().length)).toBe(0); }
+    > 6 | async function toggle(page: Page, name: string) { await page.getByRole("checkbox", { name, exact: true }).focus(); await page.keyboard.press("Space"); }
+        |                                                                                                           ^
+      7 | async function visibleMasks(page: Page) { return page.locator('.rain-dialog-backdrop').evaluateAll(elements => elements.filter(el => getComputedStyle(el).visibility === "visible" && Number(getComputedStyle(el).opacity) > 0).length); }
+      8 |
+      9 | test("confirmed mask paints, one effective layer and weak-mask dismissal in both themes", async ({ page }, info) => {
+        at toggle (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/dialog-refinement.spec.ts:6:107)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/dialog-refinement.spec.ts:97:56
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/dialog-refinement-2026-09-15/cross-browser-results/dialog-refinement-actual-a-a3802-12px-and-one-primary-action-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/dialog-refinement-2026-09-15/cross-browser-results/dialog-refinement-actual-a-a3802-12px-and-one-primary-action-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/dialog-refinement-2026-09-15/cross-browser-results/dialog-refinement-actual-a-a3802-12px-and-one-primary-action-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/dialog-refinement-2026-09-15/cross-browser-results/dialog-refinement-actual-a-a3802-12px-and-one-primary-action-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/dialog-refinement.spec.ts:95:1 › actual action groups use 8 or 12px and one primary action 
+  17 passed (1.1m)

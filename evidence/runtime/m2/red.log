@@ -1,0 +1,166 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/prototype/src/scenarios/bm-d/state.test.tsx (3 tests | 3 failed) 67ms
+   × weights every submission across the full dataset and handles empty or zero denominators 5ms
+   × keeps full-range KPIs unchanged by detail pagination and local chart selection 59ms
+   × does not show stale metrics on loading or failure and can retry or recover from empty 3ms
+ ❯ apps/prototype/src/scenarios/bm-c/state.test.tsx (3 tests | 3 failed) 68ms
+   × keeps paper and parent boundaries, distinguishes zero scores and filters answer records 4ms
+   × preserves drafts, blocks duplicate saves and navigation, stays on failure and advances only after retry 60ms
+   × aborts an unfinished save on unmount 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/prototype/src/scenarios/bm-c/state.test.tsx > keeps paper and parent boundaries, distinguishes zero scores and filters answer records
+AssertionError: expected [] to have a length of 18 but got +0
+
+- Expected
++ Received
+
+- 18
++ 0
+
+ ❯ apps/prototype/src/scenarios/bm-c/state.test.tsx:9:19
+      7| it("keeps paper and parent boundaries, distinguishes zero scores and f…
+      8|   const current = answers[0]!, visible = filterAnswers("A", "all", "",…
+      9|   expect(visible).toHaveLength(18);
+       |                   ^
+     10|   expect(groupSequence(current, "question", visible).map(answer => ans…
+     11|   expect(groupSequence(current, "student", visible).map(answer => answ…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  apps/prototype/src/scenarios/bm-c/state.test.tsx > preserves drafts, blocks duplicate saves and navigation, stays on failure and advances only after retry
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "保存并下一位"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div />[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/prototype/src/scenarios/bm-c/state.test.tsx:26:27
+     24|   const first = new Promise<void>((_resolve, fail) => { reject = fail;…
+     25|   render(<GradingWorkbenchScenario saveTask={() => ++calls === 1 ? fir…
+     26|   await user.click(screen.getByRole("button", { name: "保存并下一位" }));
+       |                           ^
+     27|   expect(screen.getByRole("textbox", { name: "本题得分" })).toHaveFocus();…
+     28|   await user.type(screen.getByRole("textbox", { name: "本题得分" }), "8.5"…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  apps/prototype/src/scenarios/bm-c/state.test.tsx > aborts an unfinished save on unmount
+TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name "本题得分"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div />[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/prototype/src/scenarios/bm-c/state.test.tsx:55:26
+     53|   const user = userEvent.setup(); let signal!: AbortSignal;
+     54|   const view = render(<GradingWorkbenchScenario saveTask={next => { si…
+     55|   await user.type(screen.getByRole("textbox", { name: "本题得分" }), "0");
+       |                          ^
+     56|   await user.click(screen.getByRole("button", { name: "保存", exact: tru…
+     57|   view.unmount(); expect(signal.aborted).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  apps/prototype/src/scenarios/bm-d/state.test.tsx > weights every submission across the full dataset and handles empty or zero denominators
+AssertionError: expected { students: +0, submissions: +0, …(2) } to deeply equal { students: 20, submissions: 30, …(2) }
+
+- Expected
++ Received
+
+  {
+-   "average": 80,
+-   "completion": 75,
+-   "students": 20,
+-   "submissions": 30,
++   "average": null,
++   "completion": null,
++   "students": 0,
++   "submissions": 0,
+  }
+
+ ❯ apps/prototype/src/scenarios/bm-d/state.test.tsx:9:27
+      7| it("weights every submission across the full dataset and handles empty…
+      8|   const rows = [{ group: "一班" as const, week: 1, expected: 20, submitt…
+      9|   expect(summarize(rows)).toEqual({ students: 20, submissions: 30, ave…
+       |                           ^
+     10|   expect(summarize([])).toEqual({ students: 0, submissions: 0, average…
+     11|   expect(summarize([{ ...rows[0]!, expected: 0, submitted: 0, scoreTot…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  apps/prototype/src/scenarios/bm-d/state.test.tsx > keeps full-range KPIs unchanged by detail pagination and local chart selection
+TestingLibraryElementError: Unable to find an accessible element with the role "region" and name "关键指标"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div />[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/prototype/src/scenarios/bm-d/state.test.tsx:16:26
+     14| it("keeps full-range KPIs unchanged by detail pagination and local cha…
+     15|   const user = userEvent.setup(); render(<LearningReportScenario />);
+     16|   const metrics = screen.getByRole("region", { name: "关键指标" }), origin…
+       |                          ^
+     17|   expect(within(metrics).getByText("252")).toBeInTheDocument();
+     18|   await user.click(screen.getByRole("button", { name: "下一页" }));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  apps/prototype/src/scenarios/bm-d/state.test.tsx > does not show stale metrics on loading or failure and can retry or recover from empty
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "刷新报告"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div />[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/prototype/src/scenarios/bm-d/state.test.tsx:32:27
+     30|   const first = new Promise<void>((_resolve, fail) => { reject = fail;…
+     31|   render(<LearningReportScenario loadTask={() => ++calls === 1 ? first…
+     32|   await user.click(screen.getByRole("button", { name: "刷新报告", exact: t…
+       |                           ^
+     33|   expect(screen.queryByRole("region", { name: "关键指标" })).not.toBeInThe…
+     34|   expect(screen.getByRole("status")).toHaveTextContent("正在更新");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  6 failed (6)
+   Start at  22:02:29
+   Duration  993ms (transform 60ms, setup 335ms, import 114ms, tests 135ms, environment 1.20s)
+

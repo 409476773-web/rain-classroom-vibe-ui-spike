@@ -1,4 +1,6 @@
 import { expect, test } from "@playwright/test";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { buttonColorRecipes, validateButtonColorRecipe } from "../../packages/foundations/src/button-token-contract";
 import { contrastRatio } from "./color-contrast";
 
@@ -312,9 +314,13 @@ test("the Day 3 Core UI page exposes truthful families and real interaction", as
   const loadingIndicator = loadingButton.locator('[data-slot="loading-indicator"]');
   await expect(loadingIndicator).toHaveCSS("width", "16px");
   await expect(loadingIndicator).toHaveCSS("animation-name", "rain-button-loading-spin");
-  expect(
-    await loadingIndicator.evaluate((element) => getComputedStyle(element).maskImage),
-  ).toContain("button-loading");
+  const maskImage = await loadingIndicator.evaluate((element) => getComputedStyle(element).maskImage);
+  if (maskImage.includes("data:image/png;base64,")) {
+    const loadingAsset = readFileSync(fileURLToPath(new URL("../../packages/ui/src/icons/assets/button-loading.png", import.meta.url))).toString("base64");
+    expect(maskImage).toContain("data:image/png;base64," + loadingAsset);
+  } else {
+    expect(maskImage).toContain("button-loading");
+  }
   await expect(loadingButton).toHaveCSS("opacity", "1");
   await expect(loadingButton.locator('[data-slot="loading-overlay"]')).toHaveCount(0);
 

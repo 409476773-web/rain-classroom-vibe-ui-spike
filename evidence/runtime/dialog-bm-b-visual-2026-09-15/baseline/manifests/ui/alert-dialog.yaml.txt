@@ -1,0 +1,124 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-alert-dialog"
+name: "AlertDialog"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/dialog/dialog.tsx"
+styleSourcePath: "packages/ui/src/dialog/dialog.css"
+sourceVersion: "local-2026-09-15"
+description: "需要明确回应的重要确认；真实alertdialog语义，共享Dialog Parts和视觉体系。"
+useWhen:
+  - "简短重要确认；危险操作将initialFocus放在安全动作上，危险主按钮仍使用一级视觉。"
+doNotUseWhen:
+  - "简单行操作使用 DropdownMenu，轻量非模态设置使用 Popover，长时间工作进入独立页面。"
+anatomy:
+  - "Root / Trigger / Content（Portal、Backdrop、Popup）/ Header / Body / Footer / Title / Description / Close。"
+parts:
+  - "content"
+  - "header"
+  - "body"
+  - "footer"
+  - "title"
+  - "description"
+props:
+  - "Root 使用 Base UI AlertDialog.Root.Props，固定模态并阻止外点关闭；受控打开、关闭原因与cancel由底座提供。"
+  - "Content 使用 Popup.Props 与 ref；theme 可显式指定 light/dark；width 默认为416，支持416/516/616/716/816/916/1016/1116或viewport；viewportInset为40（默认）或60；mask为none/separation/focus/modal（默认）/immersive；支持 initialFocus/finalFocus、原生 ARIA、string className、显式 style 和命名 localRecipe。"
+  - "Title/Description 建立名称与说明；没有 Title 时必须提供有效 aria-label/aria-labelledby。Trigger/Close 用 render 组合 Rain Button 或 IconButton。"
+slots:
+  - "Trigger render"
+  - "Close render"
+  - "Content children"
+  - "各部件 children"
+variants:
+  - "默认重要确认容器"
+  - "现有部件的具名 Local Recipe"
+states:
+  - "open"
+  - "closed"
+  - "focus-visible"
+  - "host-pending"
+  - "host-error"
+  - "host-empty"
+dependencies:
+  - "react"
+  - "@base-ui/react@1.8.0"
+  - "@rain-next/foundations"
+  - "tailwind-merge"
+tokens:
+  - "Background/Neutral/1、Text/Neutral/1/2/3、Border/Neutral/3；专用--rain-overlay-separation/focus/modal/immersive；具体用途登记在 Token 合同。"
+  - "Title18/28/600，正文14/24/400，Header Space/24，Body横24底24且无Header时补顶24，Footer横24纵16及Space/8或12动作间距（实际按钮组管理）；Radius/10、Line/1、Shadow/dialog。"
+  - "Portal以原生VisualViewport同步width/height/left/top四项运行时几何，跟随软键盘与缩放；监听随Portal卸载清理，无API时回退100vw/100dvh。"
+  - "--rain-popup-width 仅运行时几何；标准宽度包含边框；桌面安全边距40/60，640px及以下16；高度下限128，可用视口优先。"
+layoutConstraints:
+  - "Header/Footer为不收缩的固定区，Body min-height:0 并负责滚动，窄屏按可用视口约束；不用根级裁切。"
+  - "Backdrop z30 / Popup z31，现有 Select/Menu z40；每个Portal建立独立层级，嵌套Portal置于父任务之上；最上层模态接管唯一有效蒙层，退出过渡期间保持交接。"
+compositionRules:
+  - "2026-09-15用户明确要求弹窗叉号更粗、图标更大：关闭IconButton选用正式icon/close-bold及28/20规格（按钮28px、图标20px）；颜色由宿主IconButton负责。"
+  - "Footer不独立绘制底色，与Content共享表面；divider默认false。短弹窗和确认弹窗不显示分割线，长内容表单可显式开启divider。"
+  - "PopupProvider 只桥接触发器的最近主题与密度，动态主题同步；子控件继承实际 DensityProvider，不强制 compact。嵌套无触发器时继承父Dialog主题，顶层无触发器时可通过Content.theme显式指定。"
+  - "Root/Content 重置 Recipe Context，嵌套隔离；style 中的局部变量必须显式传入 Portal。任意祖先 CSS 变量不会自动复制。"
+  - "宿主持有草稿、验证、提交、失败重试与关闭保护；Select值从 React 状态提交，不假定 FormData 桥接。"
+  - "键盘/触摸入口须有可达的 Close；当触发器消失，提供仍存在的 finalFocus。"
+allowedModifications:
+  - "内容组合、已登记部件布局、width几何、焦点目标及具名 Local Recipe"
+restrictedModifications:
+  - "不修改共享行为控制器，不复制控件，不局部硬编码颜色/字体/Focus，不将保存状态加入公共Root"
+nativeCssExceptions:
+  - "dialog.css components layer 承担模态视口几何、已登记表面色、滚动边界；根边框色及Footer顶线使用不分层的低特异性 :where 规则，避免preflight覆盖且不提前建立utilities层；forced-colors 使用系统颜色。180ms透明度/98%缩放过渡，viewport模式仅淡入淡出；减少动态效果沿用0ms；极矮视口整窗滚动保证操作可达。"
+accessibility:
+  - "具名alertdialog、固定modal、initial/final focus、Tab约束、Escape和外点拦截由Base UI负责；禁止嵌套button。"
+  - "必要文字4.5:1、Focus3:1独立测量；真实屏幕阅读器与触屏仍待验证。"
+examples:
+  - "#dialog"
+  - "apps/prototype/src/course-dialog.tsx"
+recipes:
+  - "课程与教材放弃确认：宿主判断dirty、控制两层开关，安全动作initialFocus、一级危险操作仅确认后执行。"
+antiPatterns:
+  - "保存失败前就关闭窗口"
+  - "在公共Dialog存业务数据"
+  - "把长内容整体裁掉"
+  - "没有可读名称或关闭入口"
+relatedComponents:
+  - "Dialog"
+  - "Button"
+  - "IconButton"
+  - "Input"
+  - "Select"
+  - "FormItem"
+  - "Separator"
+  - "Popover"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "VE-014：固定头尾、表单分组与白色任务表面；Classic没有可直接搬迁的公共Dialog。"
+  externalReferences:
+    - "shadcn-ui/ui base Dialog 作者结构"
+    - "https://base-ui.com/react/components/alert-dialog"
+  retainedTraits:
+    - "Rain冷色正文、白色任务表面、克制圆角、固定操作"
+  redesignedTraits:
+    - "React开放组合、视口内独立滚动、Rain主题/密度与Portal衔接"
+  intentionallyNotInherited:
+    - "上游默认视觉、自动图标关闭依赖、cn工具包与所有业务流程"
+    - "VE-014整页Card嵌套样式"
+figmaMapping:
+  status: "reference-only"
+  evidence: "VE-014"
+source:
+  repository: "https://github.com/shadcn-ui/ui"
+  commit: "3ba91b1cc83e1bbe4ab35a422ff2a694849c5048"
+  license: "MIT"
+  evidence: "evidence/runtime/dialog-v2/source-lock.json"
+migrationNotes:
+  - "RN-05新接入；不迁移既有Popover、Select或局部Dialog实验；react-only是历史目标关系，本批源码路径为adapt-shadcn。"
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/dialog-refinement-2026-09-15/verification.md"

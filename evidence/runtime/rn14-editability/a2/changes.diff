@@ -1,0 +1,66 @@
+--- a/apps/prototype/src/data-table-recipe.css
++++ b/apps/prototype/src/data-table-recipe.css
+@@ -12,15 +12,12 @@
+ .data-table-view button[aria-pressed="true"], .data-table-view button:focus-visible { z-index: 1; }
+ .data-table-query { flex: 1; min-width: 0; }
+ .data-table-query > button { flex: none; }
+-.data-table-batch-actions { flex: none; margin-inline-start: auto; }
+ .data-table-result-info, .data-table-display-tools { flex: none; }
+ .data-table-result-info > span, .data-table-batch-actions > span { white-space: nowrap; }
+ .data-table-actions-row { min-height: 44px; }
+ .data-table-refresh { position: relative; }
+ .data-table-refresh-hint { pointer-events: none; container-type: normal; display: none; position: absolute; top: 100%; left: 0; width: max-content; z-index: 10; }
+ .data-table-refresh:hover .data-table-refresh-hint, .data-table-refresh:focus-within .data-table-refresh-hint { display: block; }
+-.data-table-notice > .rain-card { container-type: normal; }
+-.data-table-notice { position: fixed; z-index: 20; inset-inline-end: 24px; bottom: 24px; max-width: calc(100vw - 48px); }
+ @container (max-width: 960px) {
+   .data-table-result-tools { flex-wrap: wrap; }
+ }
+@@ -37,7 +34,7 @@
+ .data-table-grid [data-slot="cell"]:nth-child(2) { width: 36%; min-width: 220px; overflow-wrap: anywhere; }
+ .data-table-grid [data-slot="cell"]:not(:nth-child(2)) { white-space: nowrap; }
+ .data-table-note { font-size: var(--rain-font-size-13); line-height: var(--rain-line-height-22); }
+-.data-table-toolbar [data-slot="result-count"], .data-table-toolbar [data-slot="selected-count"] { font-size: var(--rain-font-size-14); }
++.data-table-toolbar [data-slot="result-count"], .data-table-batch-actions [data-slot="selected-count"] { font-size: var(--rain-font-size-14); }
+ .data-table-recipe p { margin: 0; }
+ .data-table-recipe summary { cursor: pointer; }
+ .data-table-consumer { max-width: 1200px; margin-inline: auto; }
+--- a/apps/prototype/src/data-table-recipe.tsx
++++ b/apps/prototype/src/data-table-recipe.tsx
+@@ -212,15 +212,9 @@
+                   </DropdownMenu.RadioGroup></DropdownMenu.Content></DropdownMenu.Root>}
+             </Inline>
+           </Inline>
+-          <Inline gap={8} align="center" justify="end" wrap={false} className="data-table-batch-actions">
+-            {selected > 0 && <><span className="data-table-note data-table-metadata" data-slot="selected-count"><span>已选 {selected} 份资料</span>{otherPageSelected > 0 && <span className="block">含其他页 {otherPageSelected} 份</span>}</span>
+-              <Button variant="tertiary" size={actionSize} disabled={loading} onClick={() => setSelection({})}>取消选择</Button></>}
+-            <Button size={actionSize} variant="primary" disabled={selected === 0 || loading} onClick={publishSelected}>标为已发布</Button>
+-          </Inline>
+         </Inline></div>
+       </Stack>
+       <span id={selectionHelpId} className="sr-only">全选仅作用于当前页可操作资料。翻页或切换视图后，已选资料仍会保留。</span>
+-      <div role="status" aria-atomic="true" className={notice ? "data-table-notice" : "sr-only"}>{loading ? "正在刷新资料，当前内容会保留。" : notice && <Card size="sm"><CardContent>{notice}</CardContent></Card>}</div>
+       {failed && <Inline gap={12} align="center"><p role="alert">刷新失败，当前资料和选择已保留。</p><Button size={actionSize} variant="secondary" onClick={refresh}>重试</Button></Inline>}
+       <div aria-busy={loading}>
+         {rows.length === 0 ? empty : view === "table" ? <TableScrollArea aria-label="课程资料表滚动区"><Table className="data-table-grid">
+@@ -246,9 +240,19 @@
+             </Stack></CardContent>
+           </Card>)}</Grid>}
+       </div>
+-      <Pagination variant="data" total={total} page={pagination.pageIndex + 1} pageSize={pagination.pageSize}
++      <section data-slot="rn14-batch-summary" aria-label="已选资料与批量操作"><Stack gap={8}>
++        <Inline gap={8} align="center" justify="end" className="data-table-batch-actions">
++          {selected > 0 && <><span className="data-table-note data-table-metadata" data-slot="selected-count"><span>已选 {selected} 份资料</span>{otherPageSelected > 0 && <span className="block">含其他页 {otherPageSelected} 份</span>}</span>
++            <Button variant="tertiary" size={actionSize} disabled={loading} onClick={() => setSelection({})}>取消选择</Button></>}
++          <Button size={actionSize} variant="primary" disabled={selected === 0 || loading} onClick={publishSelected}>标为已发布</Button>
++        </Inline>
++        <p role="status" aria-atomic="true" className={loading || notice ? "data-table-note data-table-notice" : "sr-only"}>{loading ? "正在刷新资料，当前内容会保留。" : notice}</p>
++      </Stack></section>
++      <section data-slot="rn14-pagination" aria-label="课程资料分页">
++        <Pagination variant="data" total={total} page={pagination.pageIndex + 1} pageSize={pagination.pageSize}
+         pageSizeOptions={[5, 10, 20]} pageSizePlacement="inline" loading={loading}
+         onChange={({ page, pageSize }) => setPagination({ pageIndex: page - 1, pageSize })} />
++      </section>
+       <details><summary>试用加载与空数据状态</summary><Inline gap={12} align="center" className="pt-rain-12">
+         <Checkbox label="下次刷新模拟失败" disabled={loading} checked={failNext} onCheckedChange={setFailNext} />
+         <Button size={actionSize} variant="tertiary" disabled={loading} onClick={() => showDataset(true)}>预览空数据</Button><Button size={actionSize} variant="tertiary" disabled={loading} onClick={() => showDataset(false)}>恢复示例资料</Button>

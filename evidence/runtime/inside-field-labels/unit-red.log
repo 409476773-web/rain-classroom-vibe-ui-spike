@@ -1,0 +1,161 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/input/input-field.test.tsx (11 tests | 2 failed) 234ms
+     × keeps a single real label associated through edits, clear and layout switches ({ '$$typeof': Symbol(react.forward_ref), render: [Function Input], displayName: 'Input' }) 6ms
+     × keeps a single real label associated through edits, clear and layout switches ({ '$$typeof': Symbol(react.forward_ref), render: [Function SearchInput], displayName: 'SearchInput' }) 5ms
+ ❯ packages/ui/src/select/select.test.tsx (50 tests | 4 failed) 3121ms
+   × keeps inside labels named and persistent through native activation, selection and clear (multiple=false, searchable=false) 9ms
+   × keeps inside labels named and persistent through native activation, selection and clear (multiple=false, searchable=true) 6ms
+   × keeps inside labels named and persistent through native activation, selection and clear (multiple=true, searchable=false) 6ms
+   × keeps inside labels named and persistent through native activation, selection and clear (multiple=true, searchable=true) 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/input/input-field.test.tsx > inside field labels > keeps a single real label associated through edits, clear and layout switches ({ '$$typeof': Symbol(react.forward_ref), render: [Function Input], displayName: 'Input' })
+ FAIL  packages/ui/src/input/input-field.test.tsx > inside field labels > keeps a single real label associated through edits, clear and layout switches ({ '$$typeof': Symbol(react.forward_ref), render: [Function SearchInput], displayName: 'SearchInput' })
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ checkLabel packages/ui/src/input/input-field.test.tsx:129:77
+    127|       const label = labels[0]!.closest("label")!;
+    128|       expect(label).toHaveAttribute("for", control.id);
+    129|       expect(control.closest('[data-rain-id="ui-input"]')!.contains(la…
+       |                                                                             ^
+    130|       expect(control).toHaveAccessibleName("课程检索");
+    131|       expect(control).toHaveAccessibleDescription("按名称查找 请核对名称");
+ ❯ packages/ui/src/input/input-field.test.tsx:136:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  packages/ui/src/select/select.test.tsx > keeps inside labels named and persistent through native activation, selection and clear (multiple=false, searchable=false)
+Error: expect(element).toContainElement(element)
+
+<div
+  class="rain-field-frame relative box-border inline-flex min-w-0 items-center gap-rain-4 border-solid border-rain-line-1 overflow-visible px-rain-12 rounded-rain-6 rain-type-ui-default bg-rain-category-fill-red-solid-3 border-rain-category-border-red-1 text-rain-category-text-neutral-1 h-rain-select-32"
+  data-appearance="outlined"
+  data-display="summary"
+  data-open="false"
+  data-permission="editable"
+  data-size="32"
+  data-slot="frame"
+  data-status="error"
+/> does not contain: <label
+  class="inline-flex items-center gap-rain-4"
+  data-slot="label"
+  for="rain-field-_r_7k_"
+  id="rain-field-_r_7k_-label"
+/>
+        
+ ❯ checkLabel packages/ui/src/select/select.test.tsx:430:59
+    428|       expect(labels).toHaveLength(1);
+    429|       const label = labels[0]!.closest("label")!;
+    430|       expect(root().querySelector('[data-slot="frame"]')).toContainEle…
+       |                                                           ^
+    431|       expect(label).toHaveAttribute("for", trigger().id);
+    432|       expect(trigger()).toHaveAccessibleName("教学班");
+ ❯ packages/ui/src/select/select.test.tsx:438:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  packages/ui/src/select/select.test.tsx > keeps inside labels named and persistent through native activation, selection and clear (multiple=false, searchable=true)
+Error: expect(element).toContainElement(element)
+
+<div
+  class="rain-field-frame relative box-border inline-flex min-w-0 items-center gap-rain-4 border-solid border-rain-line-1 overflow-visible px-rain-12 rounded-rain-6 rain-type-ui-default bg-rain-category-fill-red-solid-3 border-rain-category-border-red-1 text-rain-category-text-neutral-1 h-rain-select-32"
+  data-appearance="outlined"
+  data-display="summary"
+  data-open="false"
+  data-permission="editable"
+  data-size="32"
+  data-slot="frame"
+  data-status="error"
+/> does not contain: <label
+  class="inline-flex items-center gap-rain-4"
+  data-slot="label"
+  for="rain-field-_r_7p_"
+  id="rain-field-_r_7p_-label"
+/>
+        
+ ❯ checkLabel packages/ui/src/select/select.test.tsx:430:59
+    428|       expect(labels).toHaveLength(1);
+    429|       const label = labels[0]!.closest("label")!;
+    430|       expect(root().querySelector('[data-slot="frame"]')).toContainEle…
+       |                                                           ^
+    431|       expect(label).toHaveAttribute("for", trigger().id);
+    432|       expect(trigger()).toHaveAccessibleName("教学班");
+ ❯ packages/ui/src/select/select.test.tsx:438:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  packages/ui/src/select/select.test.tsx > keeps inside labels named and persistent through native activation, selection and clear (multiple=true, searchable=false)
+Error: expect(element).toContainElement(element)
+
+<div
+  class="rain-field-frame relative box-border inline-flex min-w-0 items-center gap-rain-4 border-solid border-rain-line-1 overflow-visible px-rain-12 rounded-rain-6 rain-type-ui-default bg-rain-category-fill-red-solid-3 border-rain-category-border-red-1 text-rain-category-text-neutral-1 h-rain-select-32"
+  data-appearance="outlined"
+  data-display="summary"
+  data-open="false"
+  data-permission="editable"
+  data-size="32"
+  data-slot="frame"
+  data-status="error"
+/> does not contain: <label
+  class="inline-flex items-center gap-rain-4"
+  data-slot="label"
+  for="rain-field-_r_7u_"
+  id="rain-field-_r_7u_-label"
+/>
+        
+ ❯ checkLabel packages/ui/src/select/select.test.tsx:430:59
+    428|       expect(labels).toHaveLength(1);
+    429|       const label = labels[0]!.closest("label")!;
+    430|       expect(root().querySelector('[data-slot="frame"]')).toContainEle…
+       |                                                           ^
+    431|       expect(label).toHaveAttribute("for", trigger().id);
+    432|       expect(trigger()).toHaveAccessibleName("教学班");
+ ❯ packages/ui/src/select/select.test.tsx:438:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  packages/ui/src/select/select.test.tsx > keeps inside labels named and persistent through native activation, selection and clear (multiple=true, searchable=true)
+Error: expect(element).toContainElement(element)
+
+<div
+  class="rain-field-frame relative box-border inline-flex min-w-0 items-center gap-rain-4 border-solid border-rain-line-1 overflow-visible px-rain-12 rounded-rain-6 rain-type-ui-default bg-rain-category-fill-red-solid-3 border-rain-category-border-red-1 text-rain-category-text-neutral-1 h-rain-select-32"
+  data-appearance="outlined"
+  data-display="summary"
+  data-open="false"
+  data-permission="editable"
+  data-size="32"
+  data-slot="frame"
+  data-status="error"
+/> does not contain: <label
+  class="inline-flex items-center gap-rain-4"
+  data-slot="label"
+  for="rain-field-_r_83_"
+  id="rain-field-_r_83_-label"
+/>
+        
+ ❯ checkLabel packages/ui/src/select/select.test.tsx:430:59
+    428|       expect(labels).toHaveLength(1);
+    429|       const label = labels[0]!.closest("label")!;
+    430|       expect(root().querySelector('[data-slot="frame"]')).toContainEle…
+       |                                                           ^
+    431|       expect(label).toHaveAttribute("for", trigger().id);
+    432|       expect(trigger()).toHaveAccessibleName("教学班");
+ ❯ packages/ui/src/select/select.test.tsx:438:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  6 failed | 55 passed (61)
+   Start at  19:59:06
+   Duration  4.48s (transform 270ms, setup 345ms, import 633ms, tests 3.36s, environment 1.23s)
+

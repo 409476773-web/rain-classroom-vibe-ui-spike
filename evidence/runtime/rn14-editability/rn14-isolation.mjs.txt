@@ -1,0 +1,23 @@
+import { createRequire } from 'node:module';
+import { realpathSync, readdirSync, readFileSync } from 'node:fs';
+import { resolve, join, relative } from 'node:path';
+import assert from 'node:assert/strict';
+const root=realpathSync(process.cwd());
+const names={'apps/prototype':['react','react-dom','@tanstack/react-table','@rain-next/ui','@rain-next/layouts','@rain-next/foundations'],'packages/ui':['@base-ui/react','class-variance-authority','tailwind-merge','@rain-next/foundations']};
+const resolutions=[];
+for(const [from,modules] of Object.entries(names)){
+ const require=createRequire(resolve(root,from,'package.json'));
+ for(const name of modules){const resolved=realpathSync(require.resolve(name));assert.ok(resolved.startsWith(root+'/'),resolved);resolutions.push({from,name,resolved});}
+}
+const forbidden=['/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构','/tmp/rain-next-rn14-20260915-1817','/private/tmp/rain-next-rn14-20260915-1817','apps/playground'];
+let checkedFiles=0;const leaks=[];
+function scan(directory){for(const entry of readdirSync(directory,{withFileTypes:true})){
+ const path=join(directory,entry.name);assert.ok(!entry.isSymbolicLink(),path);
+ if(entry.isDirectory())scan(path);
+ else if(/\.(?:[cm]?[jt]sx?|css|html|json)$/.test(entry.name)){
+  checkedFiles++;const content=readFileSync(path,'utf8');for(const pattern of forbidden)if(content.includes(pattern))leaks.push({file:relative(root,path),pattern});
+ }
+}}
+for(const folder of ['apps/prototype/src','apps/prototype/dist','packages/foundations/src','packages/ui/src','packages/layouts/src'])scan(join(root,folder));
+assert.deepEqual(leaks,[]);
+console.log(JSON.stringify({consumerDirectory:root,resolutions,checkedFiles,forbiddenRuntimePaths:forbidden,leaks,lockfileNote:'The unchanged pnpm lockfile retains the unused playground importer as metadata; no playground application or runtime is included.'},null,2));

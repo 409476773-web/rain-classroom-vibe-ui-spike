@@ -1,5 +1,7 @@
 # 既有基础组件使用合同索引
 
+2026-09-15 RN-13接续说明：本文以下内容保留为09-12历史审计。当前Card已由V2改造，使用[当前Card合同](../../manifests/ui/card.yaml)，不沿用下文旧Card API/样式描述。Badge、Surface、Link现已补[Badge](../../manifests/ui/badge.yaml)、[Surface](../../manifests/ui/surface.yaml)、[Link](../../manifests/ui/link.yaml)合同及[本地源码关系](../../registry/core-ui.json)，仍为local-experiment / prototype-ready；原验收、颜色和Token迁移债务未因登记而关闭。
+
 核对日期：2026-09-12。范围：Badge、Surface、Card、Link 的当前源码与已有证据。本文件供源码审核和现有原型使用；不是新增 Manifest / Registry，不改变资产身份、成熟度、人工验收或发布状态。本索引只整理说明，没有修改组件；本批实际测试与复核结果见[收口执行记录](../plans/2026-09-12-existing-assets-closure.md#本批执行记录)。
 
 ## 共同入口与边界

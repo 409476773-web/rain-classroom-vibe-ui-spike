@@ -1,0 +1,3 @@
+RN-14 BM-B 第1轮，在b0基础上重组长文本区域：将现有“简介”和“目录”两个section合为一个原生section，标题“阅读内容”，增加 data-slot="rn14-reading"。其中内容简介、作者简介、本书特色、目录内容四个Textarea均按原顺序全宽纵向排列，移除作者简介/本书特色外的双列Grid，沿用Stack和已有间距。基本信息仍保留原单/双列Grid，附件暂留在原位置；a0课程上下文保持（本场景b0新增header）。
+仅可改 /tmp/rain-next-rn14-20260915-1817/apps/prototype/src/scenarios/bm-b/page.tsx。不得修改state、css、合同、packages、根配置、BM-A或原仓库。保持字段name/label/ref/值/长度/错误/disabled/onValueChange，以及所有草稿、保存、上传、取消确认、焦点恢复逻辑完全不变。只做本轮结构移动，没有新增功能/Token/API。
+在同目录树运行 pnpm --filter @rain-next/prototype typecheck；记录UTC起止、实际读取文件/命令/退出码到 /tmp/rn14-b1-agent.json，日志 /tmp/rn14-b1-typecheck.log。继续只读本场景与必要API，不读memory/历史、不安装依赖、不写Git。自检后返回，等待第2轮，构建和浏览器由主代理验证。

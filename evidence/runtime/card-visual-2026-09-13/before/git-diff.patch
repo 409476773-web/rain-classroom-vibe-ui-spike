@@ -1,0 +1,1307 @@
+diff --git a/README.md b/README.md
+index 6277e3c..ae72264 100644
+--- a/README.md
++++ b/README.md
+@@ -60,7 +60,8 @@ pnpm test:e2e
+ | 选择卡 / 组合 `#selection-cards`、`#selection-patterns` | SC-02 视觉、SC-03 视觉/交互已接受，保留各自颜色与设备边界。[卡片](evidence/runtime/selection-cards/verification.md) · [组合](evidence/runtime/selection-patterns/verification.md) |
+ | 选择综合页 `#selection-playground` | 2026-09-12 编辑/分类/预览/关闭的视觉与交互已接受；38 项完整验收仍为 30 项有范围内证据、8 项未关闭。[具体验收范围](evidence/runtime/selection-playground/verification.md) |
+ | Tabs `#tabs` | 2026-09-12 当前运行视觉已接受；最新限定矩阵 findings=0，不能复用旧 108 项作为当前结论。[最新记录](evidence/runtime/tabs-visual-refinement/verification.md) |
+-| Badge / Surface / Card `#components`、Link `#text-button` | 已有公共源码和示例，独立 Manifest / Registry 尚缺；保留早期实现和各自验收边界。[当前合同与债务](docs/audits/2026-09-12-core-ui-contracts.md) |
++| Card `#card` | V2 技术候选，四 Recipe 与最小同仓原型；待本批视觉评审。[实施](docs/plans/2026-09-12-card-v2-implementation.md) · [验证](evidence/runtime/card-v2/verification.md) |
++| Badge / Surface `#components`、Link `#text-button` | 已有公共源码和示例，独立 Manifest / Registry 尚缺；保留早期实现和各自验收边界。[当前合同与债务](docs/audits/2026-09-12-core-ui-contracts.md) |
+ 
+ Button / Input 虽有现有 Manifest，但也没有各自独立的 Registry 条目；不能声称整个公共出口已经具备完整安装关系。TextButton 通过 `Button variant="text"` 提供，导航使用 Link，不另建同义组件。
+ 
+diff --git a/apps/playground/src/app.tsx b/apps/playground/src/app.tsx
+index 98df3c3..4ab3e69 100644
+--- a/apps/playground/src/app.tsx
++++ b/apps/playground/src/app.tsx
+@@ -17,6 +17,7 @@ import { ButtonTokenReviewPage } from "./docs/components/button-token-review";
+ import { TextButtonHelpPage, TextButtonPage } from "./docs/components/text-button-page";
+ import { FoundationsPage } from "./docs/foundations-page";
+ import { TokenFoundationsPage } from "./docs/token-foundations/token-foundations-page";
++import { CardPage } from "./docs/components/card-page";
+ import { TabsPage } from "./docs/components/tabs-page";
+ import { OverviewPage } from "./routes/overview-page";
+ 
+@@ -24,10 +25,11 @@ const IconsPage = lazy(() => import("./docs/icons-page").then((module) => ({ def
+ 
+ type AppRoute = {
+   focusTargetId: string;
+-  view: "tabs" | "components" | "foundations" | "token-foundations" | "icons" | "overview" | "text-button" | "text-button-help" | "button-tokens" | "icon-button" | "question-number" | "option-button" | "input" | "select" | "dropdown" | "tag" | "checkbox" | "radio" | "selection-cards" | "selection-patterns" | "selection-playground";
++  view: "card" | "tabs" | "components" | "foundations" | "token-foundations" | "icons" | "overview" | "text-button" | "text-button-help" | "button-tokens" | "icon-button" | "question-number" | "option-button" | "input" | "select" | "dropdown" | "tag" | "checkbox" | "radio" | "selection-cards" | "selection-patterns" | "selection-playground";
+ };
+ 
+ function resolveRoute(hash: string): AppRoute {
++  if (hash === "#card") return { focusTargetId: "card-title", view: "card" };
+   if (hash === "#tabs") return { focusTargetId: "tabs-title", view: "tabs" };
+   if (hash === "#dropdown") return { focusTargetId: "dropdown-title", view: "dropdown" };
+   if (hash === "#selection-playground") return { focusTargetId: "selection-playground-title", view: "selection-playground" };
+@@ -101,7 +103,9 @@ export function App() {
+   }, []);
+ 
+   let page: ReactNode;
+-  if (route.view === "tabs") {
++  if (route.view === "card") {
++    page = <CardPage />;
++  } else if (route.view === "tabs") {
+     page = <TabsPage />;
+ 
+   } else if (route.view === "selection-playground") {
+diff --git a/apps/playground/src/docs/components/core-ui-page.tsx b/apps/playground/src/docs/components/core-ui-page.tsx
+index 489ddf6..3697db0 100644
+--- a/apps/playground/src/docs/components/core-ui-page.tsx
++++ b/apps/playground/src/docs/components/core-ui-page.tsx
+@@ -383,6 +383,7 @@ export function CoreUiPage() {
+               <Surface variant="raised">Raised · 抬高表面</Surface>
+             </div>
+             <div className="card-grid">
++              <Link href="#card">查看 Card 完整用法与局部修改</Link>
+               <Card>
+                 <CardHeader>
+                   <CardTitle as="h3">课程资源包</CardTitle>
+@@ -410,7 +411,7 @@ export function CoreUiPage() {
+             { label: "结构", value: "Card / Header / Title / Description / Action / Content / Footer。" },
+             { label: "无障碍", value: "Card 默认是独立 article；标题级别由页面决定；整卡非交互。" },
+             { label: "参考成熟库", value: "学习 shadcn/ui Card 的清晰 Parts，学习 Ant Design 后台对象卡的内容完整度。" },
+-            { label: "Rain 来源", value: "Surface/Card 为 react-only 重设计，但继续使用 Rain 表面、边框、圆角和信息层级。" },
++            { label: "Rain 来源", value: "Card 按 shadcn 作者源码与 Nova 样式转译为 Rain；Surface 保留现有实现。视觉采用 Rain Token。" },
+             { label: "修改边界", value: "Container 仍只管宽度与左右留白；滚动和布局不归 Surface/Card。" },
+           ]} />
+         </div>
+diff --git a/apps/playground/src/styles.css b/apps/playground/src/styles.css
+index 3f99afc..be480d1 100644
+--- a/apps/playground/src/styles.css
++++ b/apps/playground/src/styles.css
+@@ -13,6 +13,8 @@
+ @source "./docs/components/input-page.tsx";
+ @source "./docs/components/select-page.tsx";
+ @source "./docs/components/tabs-page.tsx";
++@source "./docs/components/card-page.tsx";
++@source "../../prototype/src/card-recipes.tsx";
+ @source "./docs/components/dropdown-page.tsx";
+ @source "./docs/components/tag-page.tsx";
+ @source "./docs/components/question-number-page.tsx";
+diff --git a/manifests/contracts/tailwind-b2.yaml b/manifests/contracts/tailwind-b2.yaml
+index 08f85e2..79814a2 100644
+--- a/manifests/contracts/tailwind-b2.yaml
++++ b/manifests/contracts/tailwind-b2.yaml
+@@ -19,6 +19,15 @@ protectedPaths:
+     - "packages/ui/src/button/button.tsx"
+     - "packages/ui/src/input/input.tsx"
+   optional:
++    - "packages/ui/src/card/card.tsx"
++    - "packages/ui/src/card/card.styles.ts"
++    - "packages/ui/src/card/card.css"
++    - "apps/playground/src/docs/components/card-page.tsx"
++    - "apps/playground/src/docs/components/card-page.css"
++    - "apps/prototype/src/card-recipes.tsx"
++    - "apps/prototype/src/card-recipes.css"
++    - "apps/prototype/src/styles.css"
++    - "apps/prototype/src/main.tsx"
+     - "packages/ui/src/tabs/tabs.styles.ts"
+     - "apps/playground/src/docs/components/tabs-page.tsx"
+     - "packages/ui/src/tabs/tabs.tsx"
+diff --git a/manifests/contracts/token-foundations-v1.json b/manifests/contracts/token-foundations-v1.json
+index 27e3fcf..e9ca9f6 100644
+--- a/manifests/contracts/token-foundations-v1.json
++++ b/manifests/contracts/token-foundations-v1.json
+@@ -40,6 +40,7 @@
+     "packages/ui/src/field/field.styles.ts",
+     "packages/ui/src/select/select.styles.ts",
+     "packages/ui/src/tabs/tabs.styles.ts",
++    "packages/ui/src/card/card.styles.ts",
+     "apps/playground/src/docs/components/input-page.css",
+     "apps/playground/src/docs/components/icon-button-page.css",
+     "apps/playground/src/docs/components/question-number-page.css",
+@@ -54,7 +55,10 @@
+     "apps/playground/src/patterns/selection-patterns.css",
+     "packages/ui/src/dropdown-menu/dropdown-menu.css",
+     "apps/playground/src/docs/components/dropdown-page.css",
+-    "apps/playground/src/docs/components/tabs-page.css"
++    "apps/playground/src/docs/components/tabs-page.css",
++    "apps/playground/src/docs/components/card-page.css",
++    "apps/prototype/src/styles.css",
++    "apps/prototype/src/card-recipes.css"
+   ],
+   "defaultConsumption": "complete-recipe-first",
+   "utilities": [
+@@ -38734,6 +38738,145 @@
+           "parentBackgroundId": "Background/Neutral/1"
+         }
+       ]
++    },
++    {
++      "filePath": "packages/ui/src/card/card.styles.ts",
++      "symbol": "cardPaints",
++      "kind": "static",
++      "scope": "[data-rain-id=\"ui-card\"]",
++      "foregroundContent": "text",
++      "parentSurfaces": [
++        "Background/Neutral/1",
++        "Background/Neutral/2"
++      ],
++      "definition": {
++        "root": "border-rain-category-border-neutral-3 bg-rain-category-background-neutral-1 text-rain-category-text-neutral-2",
++        "title": "text-rain-category-text-neutral-1",
++        "description": "text-rain-category-text-neutral-3",
++        "footer": "text-rain-category-text-neutral-3",
++        "raised": "bg-rain-category-background-neutral-2 border-rain-category-border-neutral-2 text-rain-category-text-neutral-2"
++      },
++      "recipes": [
++        {
++          "id": "card-root",
++          "state": "ordinary",
++          "foreground": {
++            "tokenId": "Text/Neutral/2",
++            "content": "text",
++            "recipeId": "card-root",
++            "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++            "context": "component-recipe",
++            "role": "text",
++            "property": "color",
++            "interaction": "non-interactive",
++            "critical": true
++          },
++          "background": {
++            "tokenId": "Background/Neutral/1",
++            "content": "surface",
++            "recipeId": "card-root",
++            "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++            "context": "component-recipe",
++            "role": "background",
++            "property": "background-color",
++            "interaction": "non-interactive",
++            "critical": false
++          },
++          "boundary": {
++            "tokenId": "Border/Neutral/3",
++            "content": "decorative",
++            "recipeId": "card-root",
++            "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++            "context": "component-recipe",
++            "role": "border",
++            "property": "border-color",
++            "interaction": "non-interactive",
++            "critical": false
++          }
++        },
++        {
++          "id": "card-title",
++          "state": "ordinary",
++          "foreground": {
++            "tokenId": "Text/Neutral/1",
++            "content": "text",
++            "recipeId": "card-title",
++            "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++            "context": "component-recipe",
++            "role": "text",
++            "property": "color",
++            "interaction": "non-interactive",
++            "critical": true
++          }
++        },
++        {
++          "id": "card-description",
++          "state": "ordinary",
++          "foreground": {
++            "tokenId": "Text/Neutral/3",
++            "content": "text",
++            "recipeId": "card-description",
++            "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++            "context": "component-recipe",
++            "role": "text",
++            "property": "color",
++            "interaction": "non-interactive",
++            "critical": true
++          }
++        },
++        {
++          "id": "card-footer",
++          "state": "ordinary",
++          "foreground": {
++            "tokenId": "Text/Neutral/3",
++            "content": "text",
++            "recipeId": "card-footer",
++            "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++            "context": "component-recipe",
++            "role": "text",
++            "property": "color",
++            "interaction": "non-interactive",
++            "critical": true
++          }
++        },
++        {
++          "id": "card-raised",
++          "state": "ordinary",
++          "foreground": {
++            "tokenId": "Text/Neutral/2",
++            "content": "text",
++            "recipeId": "card-raised",
++            "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++            "context": "component-recipe",
++            "role": "text",
++            "property": "color",
++            "interaction": "non-interactive",
++            "critical": true
++          },
++          "background": {
++            "tokenId": "Background/Neutral/2",
++            "content": "surface",
++            "recipeId": "card-raised",
++            "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++            "context": "component-recipe",
++            "role": "background",
++            "property": "background-color",
++            "interaction": "non-interactive",
++            "critical": false
++          },
++          "boundary": {
++            "tokenId": "Border/Neutral/2",
++            "content": "decorative",
++            "recipeId": "card-raised",
++            "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++            "context": "component-recipe",
++            "role": "border",
++            "property": "border-color",
++            "interaction": "non-interactive",
++            "critical": false
++          }
++        }
++      ]
+     }
+   ],
+   "colorCssConsumers": [
+@@ -45421,6 +45564,206 @@
+         "interaction": "non-interactive",
+         "critical": false
+       }
++    },
++    {
++      "filePath": "apps/playground/src/docs/components/card-page.css",
++      "selector": ".card-review",
++      "property": "background",
++      "value": "var(--rain-category-background-neutral-3)",
++      "parentSurfaces": [
++        "Background/Neutral/1"
++      ],
++      "use": {
++        "tokenId": "Background/Neutral/3",
++        "content": "surface",
++        "recipeId": "card-examples",
++        "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++        "context": "local-recipe",
++        "role": "background",
++        "property": "background-color",
++        "interaction": "non-interactive",
++        "critical": false
++      }
++    },
++    {
++      "filePath": "apps/playground/src/docs/components/card-page.css",
++      "selector": ".card-review",
++      "property": "color",
++      "value": "var(--rain-category-text-neutral-1)",
++      "parentSurfaces": [
++        "Background/Neutral/3"
++      ],
++      "use": {
++        "tokenId": "Text/Neutral/1",
++        "content": "text",
++        "recipeId": "card-examples",
++        "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++        "context": "local-recipe",
++        "role": "text",
++        "property": "color",
++        "interaction": "non-interactive",
++        "critical": true
++      }
++    },
++    {
++      "filePath": "apps/playground/src/docs/components/card-page.css",
++      "selector": ".card-review pre",
++      "property": "background",
++      "value": "var(--rain-category-background-neutral-1)",
++      "parentSurfaces": [
++        "Background/Neutral/3"
++      ],
++      "use": {
++        "tokenId": "Background/Neutral/1",
++        "content": "surface",
++        "recipeId": "card-examples",
++        "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++        "context": "local-recipe",
++        "role": "background",
++        "property": "background-color",
++        "interaction": "non-interactive",
++        "critical": false
++      }
++    },
++    {
++      "filePath": "apps/prototype/src/styles.css",
++      "selector": ".rain-prototype",
++      "property": "background",
++      "value": "var(--rain-category-background-neutral-3)",
++      "parentSurfaces": [
++        "Background/Neutral/1"
++      ],
++      "use": {
++        "tokenId": "Background/Neutral/3",
++        "content": "surface",
++        "recipeId": "card-examples",
++        "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++        "context": "local-recipe",
++        "role": "background",
++        "property": "background-color",
++        "interaction": "non-interactive",
++        "critical": false
++      }
++    },
++    {
++      "filePath": "apps/prototype/src/styles.css",
++      "selector": ".rain-prototype",
++      "property": "color",
++      "value": "var(--rain-category-text-neutral-1)",
++      "parentSurfaces": [
++        "Background/Neutral/3"
++      ],
++      "use": {
++        "tokenId": "Text/Neutral/1",
++        "content": "text",
++        "recipeId": "card-examples",
++        "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++        "context": "local-recipe",
++        "role": "text",
++        "property": "color",
++        "interaction": "non-interactive",
++        "critical": true
++      }
++    },
++    {
++      "filePath": "apps/prototype/src/styles.css",
++      "selector": ".rain-prototype-note",
++      "property": "color",
++      "value": "var(--rain-category-text-neutral-3)",
++      "parentSurfaces": [
++        "Background/Neutral/3"
++      ],
++      "use": {
++        "tokenId": "Text/Neutral/3",
++        "content": "text",
++        "recipeId": "card-examples",
++        "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++        "context": "local-recipe",
++        "role": "text",
++        "property": "color",
++        "interaction": "non-interactive",
++        "critical": true
++      }
++    },
++    {
++      "filePath": "apps/prototype/src/card-recipes.css",
++      "selector": ".card-example-label",
++      "property": "color",
++      "value": "var(--rain-category-text-neutral-3)",
++      "parentSurfaces": [
++        "Background/Neutral/3"
++      ],
++      "use": {
++        "tokenId": "Text/Neutral/3",
++        "content": "text",
++        "recipeId": "card-examples",
++        "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++        "context": "local-recipe",
++        "role": "text",
++        "property": "color",
++        "interaction": "non-interactive",
++        "critical": true
++      }
++    },
++    {
++      "filePath": "apps/prototype/src/card-recipes.css",
++      "selector": ".card-action-status",
++      "property": "color",
++      "value": "var(--rain-category-text-neutral-3)",
++      "parentSurfaces": [
++        "Background/Neutral/3"
++      ],
++      "use": {
++        "tokenId": "Text/Neutral/3",
++        "content": "text",
++        "recipeId": "card-examples",
++        "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++        "context": "local-recipe",
++        "role": "text",
++        "property": "color",
++        "interaction": "non-interactive",
++        "critical": true
++      }
++    },
++    {
++      "filePath": "apps/prototype/src/card-recipes.css",
++      "selector": ".course-card-cover",
++      "property": "background",
++      "value": "var(--rain-category-background-neutral-2)",
++      "parentSurfaces": [
++        "Background/Neutral/1"
++      ],
++      "use": {
++        "tokenId": "Background/Neutral/2",
++        "content": "surface",
++        "recipeId": "card-examples",
++        "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++        "context": "local-recipe",
++        "role": "background",
++        "property": "background-color",
++        "interaction": "non-interactive",
++        "critical": false
++      }
++    },
++    {
++      "filePath": "apps/prototype/src/card-recipes.css",
++      "selector": ".course-card-cover",
++      "property": "color",
++      "value": "var(--rain-category-text-neutral-2)",
++      "parentSurfaces": [
++        "Background/Neutral/2"
++      ],
++      "use": {
++        "tokenId": "Text/Neutral/2",
++        "content": "text",
++        "recipeId": "card-examples",
++        "evidenceRef": "docs/plans/2026-09-12-card-v2-implementation.md",
++        "context": "local-recipe",
++        "role": "text",
++        "property": "color",
++        "interaction": "non-interactive",
++        "critical": true
++      }
+     }
+   ],
+   "color": {
+diff --git a/packages/ui/src/card/card.tsx b/packages/ui/src/card/card.tsx
+index c25bc9e..2fdc7a5 100644
+--- a/packages/ui/src/card/card.tsx
++++ b/packages/ui/src/card/card.tsx
+@@ -1,34 +1,50 @@
+-import { forwardRef, type HTMLAttributes } from "react";
++// Adapted from shadcn-ui/ui Card + Nova; MIT notice in evidence/runtime/card-v2/upstream/LICENSE.md.
++import { createContext, forwardRef, useContext, type HTMLAttributes } from "react";
++import { type RainLocalRecipe, getRainLocalRecipePart } from "../recipes/local-recipe";
++import { rainCn } from "../utils/rain-class-names";
++import { cardClasses, cardPaints, type CardPart } from "./card.styles";
++import "./card.css";
+ 
+ export type CardVariant = "panel" | "raised";
++export type CardSize = "default" | "sm";
++export type CardLocalRecipe = RainLocalRecipe<CardPart, "ui-card">;
++export type { CardPart } from "./card.styles";
+ 
+-function mergeClassNames(...names: Array<string | undefined>) {
+-  return names.filter(Boolean).join(" ");
++const CardRecipeContext = createContext<CardLocalRecipe | undefined>(undefined);
++
++function usePartClasses(part: CardPart, className?: string) {
++  const recipe = useContext(CardRecipeContext);
++  return rainCn(cardClasses[part], part in cardPaints && cardPaints[part as keyof typeof cardPaints], className, getRainLocalRecipePart(recipe, part));
+ }
+ 
+ export interface CardProps extends HTMLAttributes<HTMLElement> {
+   variant?: CardVariant;
++  /** Card insets only; child control density belongs to the outer DensityProvider. */
++  size?: CardSize;
++  localRecipe?: CardLocalRecipe;
+ }
+ 
+ export const Card = forwardRef<HTMLElement, CardProps>(function Card(
+-  { className, variant = "panel", ...nativeProps },
++  { className, variant = "panel", size = "default", localRecipe, ...nativeProps },
+   ref,
+ ) {
+   return (
+-    <article
++    <CardRecipeContext.Provider value={localRecipe}><article
+       {...nativeProps}
+       ref={ref}
+-      className={mergeClassNames("rain-card", className)}
++      className={rainCn(cardClasses.root, cardPaints.root, variant === "raised" && cardPaints.raised, className, getRainLocalRecipePart(localRecipe, "root"))}
+       data-rain-id="ui-card"
+       data-slot="root"
+       data-variant={variant}
+-    />
++      data-size={size}
++      data-local-recipe={localRecipe?.id}
++    /></CardRecipeContext.Provider>
+   );
+ });
+ 
+ Card.displayName = "Card";
+ 
+-function createCardPart(slot: string, className: string) {
++function createCardPart(slot: "header" | "action" | "content") {
+   const Part = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(function CardPart(
+     { className: customClassName, ...nativeProps },
+     ref,
+@@ -37,7 +53,7 @@ function createCardPart(slot: string, className: string) {
+       <div
+         {...nativeProps}
+         ref={ref}
+-        className={mergeClassNames(className, customClassName)}
++        className={usePartClasses(slot, customClassName)}
+         data-slot={slot}
+       />
+     );
+@@ -47,10 +63,7 @@ function createCardPart(slot: string, className: string) {
+ }
+ 
+ export type CardHeaderProps = HTMLAttributes<HTMLDivElement>;
+-export const CardHeader = createCardPart(
+-  "header",
+-  "rain-card__header",
+-);
++export const CardHeader = createCardPart("header");
+ 
+ export type CardDescriptionProps = HTMLAttributes<HTMLParagraphElement>;
+ export const CardDescription = forwardRef<
+@@ -61,7 +74,7 @@ export const CardDescription = forwardRef<
+     <p
+       {...nativeProps}
+       ref={ref}
+-      className={mergeClassNames("rain-card__description", className)}
++      className={usePartClasses("description", className)}
+       data-slot="description"
+     />
+   );
+@@ -69,16 +82,10 @@ export const CardDescription = forwardRef<
+ CardDescription.displayName = "CardDescription";
+ 
+ export type CardActionProps = HTMLAttributes<HTMLDivElement>;
+-export const CardAction = createCardPart(
+-  "action",
+-  "rain-card__action",
+-);
++export const CardAction = createCardPart("action");
+ 
+ export type CardContentProps = HTMLAttributes<HTMLDivElement>;
+-export const CardContent = createCardPart(
+-  "content",
+-  "rain-card__content",
+-);
++export const CardContent = createCardPart("content");
+ 
+ export type CardFooterProps = HTMLAttributes<HTMLElement>;
+ export const CardFooter = forwardRef<HTMLElement, CardFooterProps>(
+@@ -87,7 +94,7 @@ export const CardFooter = forwardRef<HTMLElement, CardFooterProps>(
+       <footer
+         {...nativeProps}
+         ref={ref}
+-        className={mergeClassNames("rain-card__footer", className)}
++        className={usePartClasses("footer", className)}
+         data-slot="footer"
+       />
+     );
+@@ -109,7 +116,7 @@ export const CardTitle = forwardRef<HTMLElement, CardTitleProps>(
+       <Component
+         {...nativeProps}
+         ref={ref as never}
+-        className={mergeClassNames("rain-card__title", className)}
++        className={usePartClasses("title", className)}
+         data-slot="title"
+       />
+     );
+diff --git a/packages/ui/src/index.ts b/packages/ui/src/index.ts
+index e3e9728..1204d25 100644
+--- a/packages/ui/src/index.ts
++++ b/packages/ui/src/index.ts
+@@ -91,6 +91,9 @@ export type {
+   CardFooterProps,
+   CardHeaderProps,
+   CardProps,
++  CardPart,
++  CardSize,
++  CardLocalRecipe,
+   CardTitleElement,
+   CardTitleProps,
+   CardVariant,
+diff --git a/packages/ui/src/styles.css b/packages/ui/src/styles.css
+index 15b4dd5..768237c 100644
+--- a/packages/ui/src/styles.css
++++ b/packages/ui/src/styles.css
+@@ -612,69 +612,6 @@
+   box-shadow: var(--rain-shadow-none);
+ }
+ 
+-.rain-card {
+-  overflow: hidden;
+-  color: var(--rain-color-text-primary);
+-  background: var(--rain-color-surface-panel);
+-  border: 1px solid var(--rain-color-border-default);
+-  border-radius: var(--rain-radius-8);
+-  box-shadow: var(--rain-shadow-none);
+-}
+-
+-.rain-card[data-variant="raised"] {
+-  background: var(--rain-color-surface-raised);
+-  border-color: var(--rain-color-border-strong);
+-}
+-
+-.rain-card__header {
+-  display: grid;
+-  grid-template-columns: minmax(0, 1fr) auto;
+-  gap: 6px 18px;
+-  align-items: start;
+-  padding: 18px 20px 14px;
+-}
+-
+-.rain-card__title,
+-.rain-card__description {
+-  margin: 0;
+-}
+-
+-.rain-card__title {
+-  color: var(--rain-color-text-primary);
+-  font-size: 16px;
+-  font-weight: 600;
+-  line-height: 24px;
+-}
+-
+-.rain-card__description {
+-  grid-column: 1;
+-  color: var(--rain-color-text-muted);
+-  font-size: 13px;
+-  line-height: 20px;
+-}
+-
+-.rain-card__action {
+-  grid-row: 1 / span 2;
+-  grid-column: 2;
+-  color: var(--rain-color-text-muted);
+-  font-size: 12px;
+-}
+-
+-.rain-card__content {
+-  padding: 0 20px 18px;
+-  color: var(--rain-color-text-secondary);
+-  font-size: 14px;
+-  line-height: 22px;
+-}
+-
+-.rain-card__footer {
+-  padding: 12px 20px;
+-  color: var(--rain-color-text-muted);
+-  font-size: 12px;
+-  background: var(--rain-color-surface-subtle);
+-  border-top: 1px solid var(--rain-color-border-subtle);
+-}
+-
+ @media (forced-colors: active) {
+   /* @rain-css-exception button-forced-colors */
+   .rain-button:focus-visible {
+diff --git a/playwright.config.ts b/playwright.config.ts
+index 00a91ce..f82a9d1 100644
+--- a/playwright.config.ts
++++ b/playwright.config.ts
+@@ -11,13 +11,18 @@ export default defineConfig({
+     screenshot: "only-on-failure",
+     trace: "retain-on-failure",
+   },
+-  webServer: {
++  webServer: [{
+     command:
+       "pnpm --filter @rain-next/playground exec vite --host 127.0.0.1 --port 4173",
+     url: "http://127.0.0.1:4173",
+     reuseExistingServer: false,
+     timeout: 120_000,
+-  },
++  }, {
++    command: "pnpm --filter @rain-next/prototype exec vite --host 127.0.0.1 --port 4174 --strictPort",
++    url: "http://127.0.0.1:4174",
++    reuseExistingServer: false,
++    timeout: 120_000,
++  }],
+   projects: [
+     {
+       name: "chromium",
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 6ae5142..ef275bf 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -79,6 +79,28 @@ importers:
+         specifier: ^19.2.5
+         version: 19.2.5(@types/react@19.2.18)
+ 
++  apps/prototype:
++    dependencies:
++      '@rain-next/foundations':
++        specifier: workspace:*
++        version: link:../../packages/foundations
++      '@rain-next/ui':
++        specifier: workspace:*
++        version: link:../../packages/ui
++      react:
++        specifier: ^19.2.8
++        version: 19.2.8
++      react-dom:
++        specifier: ^19.2.8
++        version: 19.2.8(react@19.2.8)
++    devDependencies:
++      '@types/react':
++        specifier: ^19.2.18
++        version: 19.2.18
++      '@types/react-dom':
++        specifier: ^19.2.5
++        version: 19.2.5(@types/react@19.2.18)
++
+   packages/foundations:
+     dependencies:
+       react:
+diff --git a/scripts/token-foundation-outputs.mjs b/scripts/token-foundation-outputs.mjs
+index f60f939..b49783f 100644
+--- a/scripts/token-foundation-outputs.mjs
++++ b/scripts/token-foundation-outputs.mjs
+@@ -253,12 +253,59 @@ function getIconButtonColorConsumers() {
+   return { colorRecipeConsumers, colorCssConsumers };
+ }
+ 
++export function getCardColorConsumers() {
++  const evidenceRef = "docs/plans/2026-09-12-card-v2-implementation.md";
++  const surfaces = ["Background/Neutral/1", "Background/Neutral/2"];
++  const use = (tokenId, content, recipeId) => ({
++    tokenId, content, recipeId, evidenceRef, context: "component-recipe",
++    role: tokenId.split("/")[0].toLowerCase(),
++    property: /^(Background|Fill)\//.test(tokenId) ? "background-color" : tokenId.startsWith("Border/") ? "border-color" : "color",
++    interaction: "non-interactive", critical: content === "text",
++  });
++  const definition = {
++    root: "border-rain-category-border-neutral-3 bg-rain-category-background-neutral-1 text-rain-category-text-neutral-2",
++    title: "text-rain-category-text-neutral-1",
++    description: "text-rain-category-text-neutral-3",
++    footer: "text-rain-category-text-neutral-3",
++    raised: "bg-rain-category-background-neutral-2 border-rain-category-border-neutral-2 text-rain-category-text-neutral-2",
++  };
++  const recipes = Object.keys(definition).map(part => ({
++    id: "card-" + part, state: "ordinary",
++    foreground: use("Text/Neutral/" + (part === "title" ? 1 : ["description", "footer"].includes(part) ? 3 : 2), "text", "card-" + part),
++    ...(["root", "raised"].includes(part) ? {
++      background: use("Background/Neutral/" + (part === "root" ? 1 : 2), "surface", "card-" + part),
++      boundary: use("Border/Neutral/" + (part === "root" ? 3 : 2), "decorative", "card-" + part),
++    } : {}),
++  }));
++  const rows = [
++    ["apps/playground/src/docs/components/card-page.css", ".card-review", "background", "Background/Neutral/3", "surface", ["Background/Neutral/1"]],
++    ["apps/playground/src/docs/components/card-page.css", ".card-review", "color", "Text/Neutral/1", "text", ["Background/Neutral/3"]],
++    ["apps/playground/src/docs/components/card-page.css", ".card-review pre", "background", "Background/Neutral/1", "surface", ["Background/Neutral/3"]],
++    ["apps/prototype/src/styles.css", ".rain-prototype", "background", "Background/Neutral/3", "surface", ["Background/Neutral/1"]],
++    ["apps/prototype/src/styles.css", ".rain-prototype", "color", "Text/Neutral/1", "text", ["Background/Neutral/3"]],
++    ["apps/prototype/src/styles.css", ".rain-prototype-note", "color", "Text/Neutral/3", "text", ["Background/Neutral/3"]],
++    ["apps/prototype/src/card-recipes.css", ".card-example-label", "color", "Text/Neutral/3", "text", ["Background/Neutral/3"]],
++    ["apps/prototype/src/card-recipes.css", ".card-action-status", "color", "Text/Neutral/3", "text", ["Background/Neutral/3"]],
++    ["apps/prototype/src/card-recipes.css", ".course-card-cover", "background", "Background/Neutral/2", "surface", ["Background/Neutral/1"]],
++    ["apps/prototype/src/card-recipes.css", ".course-card-cover", "color", "Text/Neutral/2", "text", ["Background/Neutral/2"]],
++  ];
++  return {
++    colorRecipeConsumers: [{ filePath: "packages/ui/src/card/card.styles.ts", symbol: "cardPaints", kind: "static", scope: '[data-rain-id="ui-card"]',
++      foregroundContent: "text", parentSurfaces: surfaces, definition, recipes }],
++    colorCssConsumers: rows.map(([filePath, selector, property, tokenId, content, parentSurfaces]) => ({
++      filePath, selector, property, value: "var(" + colorTokenOutputs.find(entry => entry.id === tokenId).variable + ")",
++      parentSurfaces,
++      use: { ...use(tokenId, content, "card-examples"), context: "local-recipe" },
++    })),
++  };
++}
++
+ function getComponentColorConsumers() {
+   const inputs = getInputColorConsumers(), icons = getIconButtonColorConsumers(), questions = getQuestionNumberColorConsumers(), options = getOptionButtonColorConsumers(), optionContent = getOptionButtonContentColorConsumers();
+   const tags = getTagColorConsumers(), tagThree = getTagBatchThreeColorConsumers(), selects = getSelectColorConsumers();
+   return {
+-    colorRecipeConsumers: [...inputs.colorRecipeConsumers, ...icons.colorRecipeConsumers, ...questions.colorRecipeConsumers, ...options.colorRecipeConsumers, ...optionContent, ...tags.colorRecipeConsumers, ...getTagDomainColorConsumers(), ...tagThree.colorRecipeConsumers, ...selects.colorRecipeConsumers, ...getTabsColorConsumers()],
+-    colorCssConsumers: [...inputs.colorCssConsumers, ...icons.colorCssConsumers, ...questions.colorCssConsumers, ...options.colorCssConsumers, ...getQuestionOptionSizeReviewColorConsumers(), ...tags.colorCssConsumers, ...tagThree.colorCssConsumers, ...selects.colorCssConsumers, ...getCheckboxColorConsumers(), ...getRadioColorConsumers(), ...getSelectionCardColorConsumers(), ...getSelectionPatternColorConsumers(), ...getDropdownFamilyColorConsumers(), ...getTabsPageColorConsumers()],
++    colorRecipeConsumers: [...inputs.colorRecipeConsumers, ...icons.colorRecipeConsumers, ...questions.colorRecipeConsumers, ...options.colorRecipeConsumers, ...optionContent, ...tags.colorRecipeConsumers, ...getTagDomainColorConsumers(), ...tagThree.colorRecipeConsumers, ...selects.colorRecipeConsumers, ...getTabsColorConsumers(), ...getCardColorConsumers().colorRecipeConsumers],
++    colorCssConsumers: [...inputs.colorCssConsumers, ...icons.colorCssConsumers, ...questions.colorCssConsumers, ...options.colorCssConsumers, ...getQuestionOptionSizeReviewColorConsumers(), ...tags.colorCssConsumers, ...tagThree.colorCssConsumers, ...selects.colorCssConsumers, ...getCheckboxColorConsumers(), ...getRadioColorConsumers(), ...getSelectionCardColorConsumers(), ...getSelectionPatternColorConsumers(), ...getDropdownFamilyColorConsumers(), ...getTabsPageColorConsumers(), ...getCardColorConsumers().colorCssConsumers],
+   };
+ }
+ 
+diff --git a/scripts/verification-helpers.mjs b/scripts/verification-helpers.mjs
+index a451b07..7d3a0ca 100644
+--- a/scripts/verification-helpers.mjs
++++ b/scripts/verification-helpers.mjs
+@@ -1527,6 +1527,44 @@ export function hasCheckboxSc01Authorization(status) {
+     });
+ }
+ 
++export const cardV2Files = {
++  application: [
++    "apps/playground/src/docs/components/card-page.tsx", "apps/playground/src/docs/components/card-page.css",
++    "apps/prototype/package.json", "apps/prototype/tsconfig.json", "apps/prototype/vite.config.ts", "apps/prototype/index.html",
++    "apps/prototype/src/main.tsx", "apps/prototype/src/styles.css", "apps/prototype/src/card-recipes.tsx", "apps/prototype/src/card-recipes.css",
++  ],
++  ui: ["packages/ui/src/card/card.styles.ts", "packages/ui/src/card/card.css", "packages/ui/src/card/card.css.d.ts", "packages/ui/src/card/card.test.tsx"],
++  documents: ["manifests/ui/card.yaml", "registry/card.json"],
++  workspace: ["tests/e2e/card.spec.ts"],
++};
++
++export function hasCardV2Authorization(status) {
++  const entry = status?.componentRefinements?.cardV2;
++  if (!entry || !["in-progress", "completed"].includes(entry.implementation)
++    || !["not-run", "failed", "passed"].includes(entry.automatedVerification)
++    || !["not-run", "findings", "passed"].includes(entry.independentReview)
++    || !["not-evaluated", "awaiting_human"].includes(entry.humanGate)) return false;
++  return exactRecord(entry, {
++    authorization: "authorized", authorizedAt: "2026-09-12",
++    decisionSource: "explicit-user-start-v2-card-batch", userStatement: "开始工作",
++    scope: "card-replacement-recipes-and-minimal-prototype",
++    plan: "../docs/plans/2026-09-12-card-v2-implementation.md",
++    implementation: entry.implementation, automatedVerification: entry.automatedVerification,
++    independentReview: entry.independentReview, humanGate: entry.humanGate, contrastAcceptance: "not-granted",
++    sourceControl: {
++      baselineCommit: "321e1a0c1b5f9284e0fcb5167fa059d6174b1752", existingRemote: "origin",
++      existingRemoteUrl: "https://github.com/409476773-web/rain-classroom-vibe-ui-spike.git",
++      priorAuthorization: "../docs/plans/2026-09-12-existing-assets-closure.md",
++      localIsolation: "codex/card-v2", newCommit: "not-created", remoteWrite: "not-authorized",
++    },
++    doesNotAuthorize: [
++      "dialog-or-other-component-batches", "global-brand-font-focus-or-existing-accepted-visual-changes",
++      "new-headless-or-dependency-upgrades", "human-gate-or-contrast-acceptance",
++      "new-commit-remote-writes-figma-publication-or-business-migration",
++    ],
++  });
++}
++
+ export function getValidatedTailwindB2History(status) {
+   const fail = () => { throw new Error("Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged"); };
+   const history = status?.phaseHistory?.tailwindB2;
+@@ -1536,7 +1574,8 @@ export function getValidatedTailwindB2History(status) {
+   for (const key of ["schemaVersion", "kind", "preparationOutputs", "preparationChecks", "componentRefinements", "componentHumanGates", "independentAuditCheckpoints", "pendingGitActions"]) {
+     const current = key === "componentRefinements"
+       ? Object.fromEntries(Object.entries(status[key]).filter(([name]) =>
+-        !(name === "dropdownFamily" && hasDropdownFamilyAuthorization(status))
++        !(name === "cardV2" && hasCardV2Authorization(status))
++        && !(name === "dropdownFamily" && hasDropdownFamilyAuthorization(status))
+         && !(name === "tabs" && hasTabsRefinementAuthorization(status))
+         && !(name === "selectionPlaygroundSc04" && hasSelectionPlaygroundSc04Authorization(status))
+         && !(name === "selectionPatternsSc03" && hasSelectionPatternsSc03Authorization(status))
+diff --git a/scripts/verification-helpers.test.ts b/scripts/verification-helpers.test.ts
+index 195d904..921fc1d 100644
+--- a/scripts/verification-helpers.test.ts
++++ b/scripts/verification-helpers.test.ts
+@@ -24,6 +24,22 @@ import {
+ import * as verificationHelpers from "./verification-helpers.mjs";
+ 
+ const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
++it("keeps Card V2 authorization separate from frozen history and rejects scope or Git escalation", () => {
++  const status = parseYamlSubset(readFileSync(join(workspaceRoot, "status/current-phase.yaml"), "utf8")) as any;
++  expect(verificationHelpers.hasCardV2Authorization(status)).toBe(true);
++  expect(verificationHelpers.getValidatedTailwindB2History(status)).toEqual(status.phaseHistory.tailwindB2);
++  for (const change of [
++    { scope: "all-components" }, { humanGate: "accepted" }, { contrastAcceptance: "accepted" },
++    { doesNotAuthorize: [] }, { sourceControl: { ...status.componentRefinements.cardV2.sourceControl, remoteWrite: "authorized" } },
++    { sourceControl: { ...status.componentRefinements.cardV2.sourceControl, baselineCommit: "unexpected" } },
++  ]) {
++    const invalid = structuredClone(status);
++    Object.assign(invalid.componentRefinements.cardV2, change);
++    expect(verificationHelpers.hasCardV2Authorization(invalid)).toBe(false);
++    expect(() => verificationHelpers.getValidatedTailwindB2History(invalid)).toThrow();
++  }
++});
++
+ it("records the five current visual acceptances without granting colors, devices or publication", () => {
+   const original = parseYamlSubset(readFileSync(join(workspaceRoot, "status/current-phase.yaml"), "utf8")) as any;
+   const cases = [
+@@ -734,6 +750,7 @@ describe("Tailwind B2 real CLI boundaries", () => {
+   beforeAll(() => {
+     fixtureRoot = mkdtempSync(join(tmpdir(), "rain-b2-cli-gate-"));
+     const tokenFiles = new Set([
++      ...Object.values(verificationHelpers.cardV2Files).flat(), "apps/prototype", "evidence/runtime/card-v2",
+       ...Object.values(verificationHelpers.tokenFoundationsV1Files).flat(),
+       ...Object.values(verificationHelpers.tabsPreflightFiles).flat(), ...Object.values(verificationHelpers.tabsTokenFiles).flat(), ...Object.values(verificationHelpers.tabsColorFiles).flat(), ...Object.values(verificationHelpers.tabsComponentFiles).flat(),
+       ...Object.values(verificationHelpers.tabsVisualRefinementFiles).flat(),
+@@ -772,9 +789,10 @@ describe("Tailwind B2 real CLI boundaries", () => {
+       recursive: true,
+       filter: (source) => !tokenFiles.has(relative(workspaceRoot, source))
+         && !relative(workspaceRoot, source).split(/[\\/]/).some((part) => [
+-          "node_modules", "dist", "playwright-report", "test-results", "coverage", ".vite", "token-foundations-v1", "token-foundations",
++          ".git", "node_modules", "dist", "playwright-report", "test-results", "coverage", ".vite", "token-foundations-v1", "token-foundations",
+         ].includes(part)),
+     });
++    expect(spawnSync("git", ["init", "--quiet"], { cwd: fixtureRoot }).status).toBe(0);
+     // Run the current verifier against the complete frozen B2 input, so new
+     // Token files and values cannot silently redefine the historical fixture.
+     const archive = join(workspaceRoot, "evidence/runtime/token-foundations-v1/pre-token-runtime.tar.gz");
+@@ -1601,6 +1619,7 @@ describe("Icon library workspace command boundary", () => {
+       }
+       const packagePath = join(fixtureRoot, "package.json");
+       writeFileSync(join(fixtureRoot, "status/current-phase.yaml"), readFrozenB2File("status/current-phase.yaml"));
++      writeFileSync(join(fixtureRoot, "pnpm-lock.yaml"), readFrozenB2File("pnpm-lock.yaml"));
+       const rootPackage = JSON.parse(readFrozenB2File("package.json"));
+       rootPackage.scripts["generate:icons"] = "node scripts/generate-icons.mjs";
+       rootPackage.scripts["verify:icons"] = "node scripts/verify-icons.mjs";
+diff --git a/scripts/verify-boundaries.mjs b/scripts/verify-boundaries.mjs
+index ce0649e..2d508a9 100644
+--- a/scripts/verify-boundaries.mjs
++++ b/scripts/verify-boundaries.mjs
+@@ -1,4 +1,4 @@
+-import { getTabsRefinementFiles, isTabsImport, validateTabsPreflightInventory } from "./verification-helpers.mjs";
++import { cardV2Files, hasCardV2Authorization, getTabsRefinementFiles, isTabsImport, validateTabsPreflightInventory } from "./verification-helpers.mjs";
+ import { selectionPlaygroundSc04Files, hasSelectionPlaygroundSc04Authorization, selectionPatternsSc03Files, hasSelectionPatternsSc03Authorization, selectionCardsSc02Files, hasSelectionCardsSc02Authorization, radioSc01Files, hasRadioSc01Authorization, checkboxSc01Files, hasCheckboxSc01Authorization } from "./verification-helpers.mjs";
+ import {
+   existsSync,
+@@ -70,6 +70,7 @@ function collectFiles(directory, { ignoreNamedNodeModules = true } = {}) {
+       "playwright-report",
+       "test-results",
+       "apps/playground/dist",
++      "apps/prototype/dist",
+       "apps/playground/node_modules",
+     ].map((filePath) => join(workspaceRoot, filePath)),
+   );
+@@ -184,6 +185,8 @@ function loadPhaseStatus() {
+ }
+ 
+ const livePhaseStatus = loadPhaseStatus();
++const cardV2Authorized = hasCardV2Authorization(livePhaseStatus);
++const cardFiles = Object.fromEntries(Object.entries(cardV2Files).map(([kind, files]) => [kind, cardV2Authorized ? files : []]));
+ const isTokenFoundationsV1 = livePhaseStatus?.currentPhase?.id === "token-foundations-v1";
+ const dropdownBatchOneAuthorized = hasDropdownBatchOneAuthorization(livePhaseStatus);
+ const tagBatchThreeAuthorized = hasTagBatchThreeAuthorization(livePhaseStatus);
+@@ -2059,6 +2062,7 @@ if (isDayThree || isTailwindB2) {
+     "package.json",
+     "packages/foundations/package.json",
+     "packages/ui/package.json",
++    ...(cardV2Authorized ? ["apps/prototype/package.json"] : []),
+   ];
+   for (const packageFile of packageFiles) {
+     if (!allowedPackageFiles.includes(packageFile)) {
+@@ -2071,7 +2075,7 @@ if (isDayThree || isTailwindB2) {
+     }
+   }
+   if (isCompleted) {
+-    assertExact("Day 3 package manifest set", packageFiles, allowedPackageFiles);
++    assertExact("Day 3 package manifest set", packageFiles, [...allowedPackageFiles].sort());
+   }
+ 
+   const expectedDependencySets = {
+@@ -2233,6 +2237,14 @@ if (isDayThree || isTailwindB2) {
+       "version",
+     ],
+   };
++  if (cardV2Authorized) {
++    expectedDependencySets["apps/prototype/package.json"] = {
++      ...expectedDependencySets["apps/playground/package.json"],
++      dependencies: { "@rain-next/foundations": "workspace:*", "@rain-next/ui": "workspace:*", react: "^19.2.8", "react-dom": "^19.2.8" },
++    };
++    expectedScripts["apps/prototype/package.json"] = expectedScripts["apps/playground/package.json"];
++    expectedManifestKeys["apps/prototype/package.json"] = expectedManifestKeys["apps/playground/package.json"];
++  }
+   function normalizedDependencyMap(dependencies) {
+     return Object.fromEntries(Object.entries(dependencies ?? {}).sort());
+   }
+@@ -2397,6 +2409,7 @@ if (isDayThree || isTailwindB2) {
+ 
+   const allowedDayThreeApplicationSources = new Set(
+     [
++      ...cardFiles.application,
+       ...dropdownFiles.application,
+       ...sizeReviewFiles.application,
+       ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application,
+@@ -2448,6 +2461,7 @@ if (isDayThree || isTailwindB2) {
+   }
+ 
+   const expectedAppFiles = [
++    ...cardFiles.application,
+     ...dropdownFiles.application.filter((file) => existsSync(join(workspaceRoot, file))),
+     ...sizeReviewFiles.application,
+     ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application,
+@@ -2492,6 +2506,7 @@ if (isDayThree || isTailwindB2) {
+   }
+ 
+   const expectedUiFiles = [
++    ...cardFiles.ui,
+     ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)),
+     ...textButtonFiles.ui,
+     ...iconFiles.ui,
+@@ -2563,6 +2578,7 @@ if (isDayThree || isTailwindB2) {
+     const directoryFiles = collectFiles(directoryPath);
+     const placeholderPath = join(directoryPath, ".gitkeep");
+     const authorizedDocuments = [
++      ...cardFiles.documents,
+       ...dropdownFiles.documents, ...dropdownFiles.application,
+       ...optionButtonFiles.documents, ...questionNumberFiles.documents, ...iconButtonFiles.documents, ...inputFiles.documents, ...selectFiles.documents, ...dropdownPublicFiles.documents, ...checkboxFiles.documents, ...selectionCardFiles.documents, ...selectionPatternFiles.documents, ...selectionPlaygroundFiles.documents, ...radioFiles.documents, ...tabsFiles.documents, ...tagFiles.documents,
+       ...(isTokenFoundationsV1 ? tokenFoundationsV1Files.documents : []),
+@@ -2708,6 +2724,7 @@ if (isDayThree || isTailwindB2) {
+ 
+   const allowedDayThreeWorkspaceSources = new Set(
+     [
++      ...cardFiles.application, ...cardFiles.ui, ...cardFiles.workspace,
+       ...dropdownFiles.application, ...dropdownFiles.workspace,
+       ...sizeReviewFiles.application, ...sizeReviewFiles.workspace,
+       ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application, ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)), ...optionButtonFiles.foundations, ...questionNumberFiles.foundations, ...iconButtonFiles.foundations, ...inputFiles.foundations, ...selectFiles.foundations, ...checkboxFiles.foundations, ...selectionCardFiles.foundations, ...selectionPatternFiles.foundations, ...selectionPlaygroundFiles.foundations, ...radioFiles.foundations, ...tabsFiles.foundations, ...tagFiles.foundations, ...optionButtonFiles.workspace, ...questionNumberFiles.workspace, ...iconButtonFiles.workspace, ...inputFiles.workspace, ...selectFiles.workspace, ...dropdownPublicFiles.workspace, ...checkboxFiles.workspace, ...selectionCardFiles.workspace, ...selectionPatternFiles.workspace, ...selectionPlaygroundFiles.workspace, ...radioFiles.workspace, ...tabsFiles.workspace, ...tagFiles.workspace,
+@@ -2827,6 +2844,17 @@ if (isDayThree || isTailwindB2) {
+   } catch (error) {
+     failures.push(`Git workspace cannot be audited: ${error.message}`);
+   }
++  if (cardV2Authorized) {
++    const baseline = livePhaseStatus.componentRefinements.cardV2.sourceControl;
++    try {
++      const git = (...args) => execFileSync("git", args, { cwd: workspaceRoot, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
++      if (git("rev-parse", "HEAD") !== baseline.baselineCommit) failures.push("Card V2 Git HEAD must retain the authorized pre-existing baseline; new commits are not authorized");
++      if (git("remote") !== baseline.existingRemote || git("remote", "get-url", "--all", baseline.existingRemote) !== baseline.existingRemoteUrl
++        || git("remote", "get-url", "--push", "--all", baseline.existingRemote) !== baseline.existingRemoteUrl) failures.push("Card V2 Git remote must retain the exact pre-existing origin");
++      const prior = readRegularNonSymbolicFile(join(workspaceRoot, "status", baseline.priorAuthorization), "prior Git authorization").toString("utf8");
++      if (!prior.includes("GitHub 私有送审续步") || !prior.includes("继续下一步")) failures.push("Card V2 pre-existing Git state requires its recorded authorization");
++    } catch (error) { failures.push("Card V2 Git baseline cannot be audited: " + error.message); }
++  } else {
+   try {
+     execFileSync("git", ["rev-parse", "--verify", "HEAD"], {
+       cwd: workspaceRoot,
+@@ -2855,6 +2883,7 @@ if (isDayThree || isTailwindB2) {
+   } catch (error) {
+     failures.push(`Git remotes cannot be audited: ${error.message}`);
+   }
++  }
+ }
+ 
+ const sharedPackageSources = collectFiles(join(workspaceRoot, "packages")).filter(
+diff --git a/scripts/verify-tailwind-b2.mjs b/scripts/verify-tailwind-b2.mjs
+index 559350c..26a4342 100644
+--- a/scripts/verify-tailwind-b2.mjs
++++ b/scripts/verify-tailwind-b2.mjs
+@@ -1,4 +1,5 @@
+ import { createHash } from "node:crypto";
++import { hasCardV2Authorization } from "./verification-helpers.mjs";
+ import { spawnSync } from "node:child_process";
+ import {
+   existsSync,
+@@ -3639,6 +3640,7 @@ export function validateTailwindB2CompositionBridge({ root = process.cwd() } = {
+       ...(inputAuthorized ? ['@source "./docs/components/input-page.tsx";'] : []),
+       ...(selectAuthorized ? ['@source "./docs/components/select-page.tsx";'] : []),
+       ...(hasTabsRefinementAuthorization(status) && ["component", "documentation"].includes(status.componentRefinements.tabs.stage) ? ['@source "./docs/components/tabs-page.tsx";'] : []),
++      ...(hasCardV2Authorization(status) ? ['@source "./docs/components/card-page.tsx";', '@source "../../prototype/src/card-recipes.tsx";'] : []),
+       ...(hasDropdownFamilyAuthorization(status) ? ['@source "./docs/components/dropdown-page.tsx";'] : []),
+       ...(tagAuthorized ? ['@source "./docs/components/tag-page.tsx";'] : []),
+       ...(questionNumberAuthorized ? ['@source "./docs/components/question-number-page.tsx";'] : []),
+@@ -4727,6 +4729,7 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {})
+       if (tokenFoundationsAuthorized && filePath.startsWith("apps/playground/src/docs/token-foundations/")) continue;
+       const source = readFileSync(join(root, filePath), "utf8");
+       for (const [, utility] of source.matchAll(/(?<![a-z0-9-])(?:[a-z-]+:)*(border-dashed|flex-wrap|overflow-x-auto)(?![a-z0-9-])/g)) {
++        if (hasCardV2Authorization(phaseStatus) && filePath === "packages/ui/src/card/card.styles.ts" && utility === "flex-wrap") continue;
+         if (selectionCardsAuthorized && filePath === "packages/ui/src/recipes/selection-card-recipes.tsx" && utility === "flex-wrap") continue;
+         if (optionButtonAuthorized && filePath === "packages/ui/src/option-button/option-button.tsx" && utility === "flex-wrap") continue;
+         if (hasCheckboxSc01Authorization(phaseStatus) && filePath === "packages/ui/src/checkbox/checkbox.tsx" && utility === "flex-wrap") continue;
+@@ -5061,6 +5064,18 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {})
+   }
+ 
+   const tabsComponentAuthorized = hasTabsRefinementAuthorization(phaseStatus) && ["component", "documentation"].includes(phaseStatus.componentRefinements.tabs.stage);
++  if (hasCardV2Authorization(phaseStatus)) {
++    try {
++      const manifest = loadYaml(root, "manifests/ui/card.yaml", "Card Manifest", failures);
++      const registry = JSON.parse(readFileSync(join(root, "registry/card.json"), "utf8"));
++      failures.push(...validateCardV2Metadata({ manifest, registry }));
++      const item = registry.items?.[0];
++      for (const path of [...(registry.shared?.files ?? []), ...(item?.files ?? []), item?.sourceLock, item?.license]) {
++        if (typeof path !== "string" || isAbsolute(path) || path.split("/").includes("..") || !existsSync(join(root, path))
++          || !lstatSync(join(root, path)).isFile() || lstatSync(join(root, path)).isSymbolicLink()) failures.push("Card Registry requires available regular workspace sources: " + path);
++      }
++    } catch (error) { failures.push("Card V2 metadata cannot be read: " + error.message); }
++  }
+   if (tabsComponentAuthorized) {
+     try { failures.push(...validateTabsMetadata({ manifest: loadYaml(root, "manifests/ui/tabs.yaml", "Tabs Manifest", failures), registry: JSON.parse(readFileSync(join(root, "registry/tabs.json"), "utf8")), root, review: phaseStatus.componentRefinements.tabs })); }
+     catch (error) { failures.push(`Tabs metadata cannot be read: ${error.message}`); }
+@@ -5080,6 +5095,7 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {})
+     } catch (error) { failures.push(`Dropdown family Registry cannot be read: ${error.message}`); }
+   }
+   const expectedManifestFiles = [
++    ...(hasCardV2Authorization(phaseStatus) ? ["manifests/ui/card.yaml"] : []),
+     ...(tabsComponentAuthorized ? ["manifests/ui/tabs.yaml"] : []),
+     "manifests/.gitkeep",
+     "manifests/icons.json",
+@@ -5103,7 +5119,7 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {})
+     failures.push(`Task 5 manifest inventory must be exact: ${JSON.stringify(manifestFiles)}`);
+   }
+   const registryFiles = collectTaskFiveFiles(root, "registry", failures).sort();
+-  const expectedRegistryFiles = [...(tabsComponentAuthorized ? ["registry/tabs.json"] : []),...(dropdownFamilyAuthorized ? ["registry/dropdown-family.json"] : []),...(selectionPatternsAuthorized ? ["registry/selection-patterns.json"] : []),...(selectionCardsAuthorized ? ["registry/selection-cards.json"] : []),...(radioAuthorized ? ["registry/radio.json"] : []),...(tagBatchThreeAuthorized ? ["registry/tag-select.json"] : []), ...(checkboxAuthorized ? ["registry/checkbox.json"] : []), ...(selectAuthorized ? ["registry/select.json"] : []), ...(tagAuthorized ? ["registry/tag.json"] : []), "registry/.gitkeep", "registry/icons.json", ...(iconButtonAuthorized ? ["registry/icon-button.json"] : []), ...(questionNumberAuthorized ? ["registry/question-number.json"] : []), ...(optionButtonAuthorized ? ["registry/option-button.json"] : [])].sort();
++  const expectedRegistryFiles = [...(hasCardV2Authorization(phaseStatus) ? ["registry/card.json"] : []),...(tabsComponentAuthorized ? ["registry/tabs.json"] : []),...(dropdownFamilyAuthorized ? ["registry/dropdown-family.json"] : []),...(selectionPatternsAuthorized ? ["registry/selection-patterns.json"] : []),...(selectionCardsAuthorized ? ["registry/selection-cards.json"] : []),...(radioAuthorized ? ["registry/radio.json"] : []),...(tagBatchThreeAuthorized ? ["registry/tag-select.json"] : []), ...(checkboxAuthorized ? ["registry/checkbox.json"] : []), ...(selectAuthorized ? ["registry/select.json"] : []), ...(tagAuthorized ? ["registry/tag.json"] : []), "registry/.gitkeep", "registry/icons.json", ...(iconButtonAuthorized ? ["registry/icon-button.json"] : []), ...(questionNumberAuthorized ? ["registry/question-number.json"] : []), ...(optionButtonAuthorized ? ["registry/option-button.json"] : [])].sort();
+   if (!same(registryFiles, expectedRegistryFiles)) {
+     failures.push(`Task 5 Registry must remain unpublished with only the exact authorized local candidates: ${JSON.stringify(registryFiles)}`);
+   }
+@@ -5210,6 +5226,28 @@ export function validateTabsMetadata({ manifest, registry, root, review = { impl
+ }
+ 
+ // Fingerprint only parsed Tabs rules: unrelated CSS and formatting remain editable.
++export function validateCardV2Metadata({ manifest, registry }) {
++  const failures = [], exports = ["Card", "CardHeader", "CardTitle", "CardDescription", "CardAction", "CardContent", "CardFooter"];
++  const files = ["packages/ui/src/card/card.tsx", "packages/ui/src/card/card.styles.ts", "packages/ui/src/card/card.css", "packages/ui/src/card/card.css.d.ts"];
++  if (manifest?.id !== "ui-card" || manifest?.publication !== "unpublished" || manifest?.maturity !== "registry-candidate"
++    || manifest?.humanGate !== "awaiting_human" || manifest?.contrastAcceptance !== "not-granted"
++    || !same(manifest?.exports, exports) || !same(manifest?.parts, ["root", "header", "title", "description", "action", "content", "footer"])
++    || manifest?.source?.commit !== "3ba91b1cc83e1bbe4ab35a422ff2a694849c5048" || manifest?.source?.license !== "MIT") failures.push("Card V2 Manifest must retain its source, seven parts and unaccepted candidate boundaries");
++  if (registry?.kind !== "RainLocalSourceRegistry" || registry?.publication !== "not-published" || registry?.scope !== "current-workspace"
++    || registry?.humanGate !== "awaiting_human" || registry?.contrastAcceptance !== "not-granted"
++    || !same(registry?.shared, {
++      files: ["packages/ui/src/recipes/local-recipe.ts", "packages/ui/src/utils/rain-class-names.ts"],
++      peerDependencies: ["react", "@rain-next/foundations", "tailwind-merge"],
++      styleDependencies: ["@rain-next/foundations/tokens.css", "@rain-next/foundations/typography.css", "@rain-next/foundations/focus.css", "@rain-next/foundations/tailwind-theme.css", "@rain-next/ui/styles.css"],
++      registryDependencies: [],
++    })
++    || !same(registry?.items, [{
++      name: "card", exportNames: exports, importPath: "@rain-next/ui", manifest: "manifests/ui/card.yaml",
++      sourceLock: "evidence/runtime/card-v2/source-lock.json", license: "evidence/runtime/card-v2/upstream/LICENSE.md", files,
++    }])) failures.push("Card V2 Registry must retain its exact local source inventory and unaccepted candidate boundaries");
++  return failures;
++}
++
+ export function validateTabsCssExceptions({ source, contract, authorized }) {
+   const failures = [], ids = ["tabs-geometry", "tabs-touch-targets", "tabs-forced-colors"];
+   const entries = (contract?.cssExceptions?.entries ?? []).filter(entry => entry.component === "ui-tabs" || ids.includes(entry.id));
+diff --git a/scripts/verify-tailwind-b2.test.ts b/scripts/verify-tailwind-b2.test.ts
+index eb94370..ebc616a 100644
+--- a/scripts/verify-tailwind-b2.test.ts
++++ b/scripts/verify-tailwind-b2.test.ts
+@@ -21,12 +21,24 @@ import { verifyIcons } from "./verify-icons.mjs";
+ import { validateRegisteredRecipeColors, verifyTokenFoundations } from "./verify-token-foundations.mjs";
+ import {
+   validateProtectedTailwindSource,
++  validateCardV2Metadata,
+   validateTailwindB2CompositionBridge,
+   validateTailwindB2SystemContract,
+ } from "./verify-tailwind-b2.mjs";
+-import { dropdownFamilyFiles, hasQuestionNumberRefinementAuthorization, hasTagBatchThreeAuthorization, inspectPngMetadata, parseYamlSubset, selectionPatternsSc03Files, selectionCardsSc02Files, selectRefinementFiles, tagRefinementFiles, tagBatchTwoRefinementFiles, tagBatchTwoNames, tagBatchThreeFiles, validateTokenFoundationsV1Phase } from "./verification-helpers.mjs";
++import { cardV2Files, hasCardV2Authorization, dropdownFamilyFiles, hasQuestionNumberRefinementAuthorization, hasTagBatchThreeAuthorization, inspectPngMetadata, parseYamlSubset, selectionPatternsSc03Files, selectionCardsSc02Files, selectRefinementFiles, tagRefinementFiles, tagBatchTwoRefinementFiles, tagBatchTwoNames, tagBatchThreeFiles, validateTokenFoundationsV1Phase } from "./verification-helpers.mjs";
+ 
+ const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
++it("keeps Card V2 registration local and rejects premature acceptance or lost exports", () => {
++  const manifest = parseYamlSubset(readFileSync(join(workspaceRoot, "manifests/ui/card.yaml"), "utf8")) as any;
++  const registry = JSON.parse(readFileSync(join(workspaceRoot, "registry/card.json"), "utf8"));
++  expect(validateCardV2Metadata({ manifest, registry })).toEqual([]);
++  for (const patch of [{ humanGate: "accepted" }, { publication: "published" }, { exports: ["Card"] }]) {
++    expect(validateCardV2Metadata({ manifest: { ...manifest, ...patch }, registry }).length).toBeGreaterThan(0);
++  }
++  expect(validateCardV2Metadata({ manifest, registry: { ...registry, publication: "published" } }).length).toBeGreaterThan(0);
++  expect(validateCardV2Metadata({ manifest, registry: { ...registry, shared: undefined } }).length).toBeGreaterThan(0);
++  expect(validateCardV2Metadata({ manifest, registry: { ...registry, shared: { ...registry.shared, peerDependencies: [...registry.shared.peerDependencies, "unapproved-card-engine"] } } }).length).toBeGreaterThan(0);
++});
+ const benchmarkPath = "benchmarks/tailwind-b2-ai-editability.yaml";
+ const baselinePath = "evidence/runtime/tailwind-b2/baseline-results.yaml";
+ const evidenceReadmePath = "evidence/runtime/tailwind-b2/README.md";
+@@ -2872,7 +2884,7 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
+     const addedTagPaths = [...tagBatchTwoRefinementFiles.ui, ...tagBatchTwoNames.map((name) => `manifests/ui/${name}.yaml`), ...tagRefinementFiles.ui, ...tagRefinementFiles.application, "registry/tag.json", ...["tag", "link-tag", "checkable-tag", "checkable-tag-group"].map((name) => `manifests/ui/${name}.yaml`)];
+     addedTagPaths.push(...tagBatchThreeFiles.ui, ...tagBatchThreeFiles.application, "manifests/ui/tag-select.yaml", "registry/tag-select.json");
+     const addedDropdownPaths = [...dropdownFamilyFiles.ui, ...dropdownFamilyFiles.application, ...dropdownFamilyFiles.documents];
+-    const addedTabsPaths = ["manifests/ui/tabs.yaml", "registry/tabs.json"];
++    const addedTabsPaths = ["manifests/ui/tabs.yaml", "registry/tabs.json", ...Object.values(cardV2Files).flat()];
+     const addedSelectPaths = [...selectRefinementFiles.ui, ...selectRefinementFiles.application, "manifests/ui/select.yaml", "registry/select.json"];
+     const addedCheckboxPaths = ["packages/ui/src/checkbox/checkbox.tsx", "packages/ui/src/checkbox/checkbox.test.tsx",
+       "apps/playground/src/docs/components/checkbox-page.tsx", "apps/playground/src/docs/components/checkbox-page.css",
+@@ -2991,7 +3003,7 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
+     ]);
+     const sourceStatements = applicationCss.match(/@source\s+["'][^"']*["'];/g) ?? [];
+     expect(sourceStatements.filter((statement) => /docs|evidence|registry|\/private\/tmp/.test(statement)))
+-      .toEqual(['@source "./docs/token-foundations";', '@source "./docs/components/icon-button-page.tsx";', '@source "./docs/components/input-page.tsx";', '@source "./docs/components/select-page.tsx";', '@source "./docs/components/tabs-page.tsx";', '@source "./docs/components/dropdown-page.tsx";', '@source "./docs/components/tag-page.tsx";', '@source "./docs/components/question-number-page.tsx";', '@source "./docs/components/option-button-page.tsx";', '@source "./docs/components/checkbox-page.tsx";', '@source "./docs/components/radio-page.tsx";', '@source "./docs/components/selection-cards-page.tsx";', '@source "./docs/components/selection-patterns-page.tsx";', '@source "./docs/components/selection-playground-page.tsx";']);
++      .toEqual(['@source "./docs/token-foundations";', '@source "./docs/components/icon-button-page.tsx";', '@source "./docs/components/input-page.tsx";', '@source "./docs/components/select-page.tsx";', '@source "./docs/components/tabs-page.tsx";', '@source "./docs/components/card-page.tsx";', '@source "./docs/components/dropdown-page.tsx";', '@source "./docs/components/tag-page.tsx";', '@source "./docs/components/question-number-page.tsx";', '@source "./docs/components/option-button-page.tsx";', '@source "./docs/components/checkbox-page.tsx";', '@source "./docs/components/radio-page.tsx";', '@source "./docs/components/selection-cards-page.tsx";', '@source "./docs/components/selection-patterns-page.tsx";', '@source "./docs/components/selection-playground-page.tsx";']);
+   });
+ 
+   it("proves the fail-closed source roots with a fresh real Vite build", () => {
+@@ -3186,6 +3198,8 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
+       for (const utility of ["border-dashed", "flex-wrap", "overflow-x-auto"]) currentStructuralAllowlist.add(utility);
+       if (hasTagBatchThreeAuthorization(readYaml("status/current-phase.yaml")))
+         for (const utility of ["justify-between", "whitespace-normal"]) currentStructuralAllowlist.add(utility);
++      if (hasCardV2Authorization(readYaml("status/current-phase.yaml")))
++        for (const utility of ["auto-rows-min", "col-start-1", "items-baseline", "justify-end", "wrap-anywhere", "order-1"]) currentStructuralAllowlist.add(utility);
+       const normalizeUtility = (utility: string) => {
+         if (utility === "\\[\\&\\>\\.rain-icon\\]\\:size-full>.rain-icon") return "size-full";
+         const unescaped = utility.replaceAll("\\:", ":").replaceAll("\\*", "*");
+diff --git a/scripts/verify-token-foundations.mjs b/scripts/verify-token-foundations.mjs
+index c155e0d..37117e3 100644
+--- a/scripts/verify-token-foundations.mjs
++++ b/scripts/verify-token-foundations.mjs
+@@ -1,3 +1,5 @@
++import { hasCardV2Authorization } from "./verification-helpers.mjs";
++import { getCardColorConsumers } from "./token-foundation-outputs.mjs";
+ import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from "node:fs";
+ import { createHash } from "node:crypto";
+ import { join, relative, resolve } from "node:path";
+@@ -99,6 +101,12 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
+     && hasOptionButtonRefinementAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")));
+   const optionButtonContentAuthorized = optionButtonAuthorized
+     && hasOptionButtonContentRefinementAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")));
++  const expectedCard = getCardColorConsumers();
++  const cardScope = [...expectedCard.colorRecipeConsumers, ...expectedCard.colorCssConsumers].some(entry => entry.filePath === filePath);
++  const cardAuthorized = cardScope && existsSync(join(root, "status/current-phase.yaml"))
++    && hasCardV2Authorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")));
++  if (cardScope && (!cardAuthorized || JSON.stringify(recipes) !== JSON.stringify(expectedCard.colorRecipeConsumers.filter(entry => entry.filePath === filePath))
++    || JSON.stringify(cssConsumers) !== JSON.stringify(expectedCard.colorCssConsumers.filter(entry => entry.filePath === filePath)))) failures.push("Card V2 colors require exact scoped authorization, source definitions and text contrast roles");
+   const inputPhase = ["packages/ui/src/input/input.styles.ts", "packages/ui/src/input/form-item.tsx"].includes(filePath) && existsSync(join(root, "status/current-phase.yaml"))
+     ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : null;
+   const inputAuthorized = hasInputRefinementAuthorization(inputPhase);
+@@ -238,7 +246,7 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
+         const from = consumer.kind === "cva" ? "class-variance-authority" : "@rain-next/ui";
+         if (consumer.kind !== "static" && (init?.type !== "CallExpression" || init.callee?.name !== callee
+           || !imports.some((entry) => entry.source.value === from && entry.specifiers.some((part) => part.imported?.name === callee && part.local.name === callee)))) throw new Error("Registered recipe must use its declared recipe factory");
+-        if (consumer.kind === "static" && !questionNumberAuthorized && !optionButtonAuthorized && !(inputAuthorized && Object.hasOwn(inputConsumerContent, consumer.symbol))
++        if (consumer.kind === "static" && !(cardAuthorized && consumer.symbol === "cardPaints") && !questionNumberAuthorized && !optionButtonAuthorized && !(inputAuthorized && Object.hasOwn(inputConsumerContent, consumer.symbol))
+           && !(tabsAuthorized && consumer.symbol === "tabsPaints") && !selectAuthorized && !(tagThreeAuthorized && consumer.symbol === "tagSelectPaints") && !(tagDomainAuthorized && ["tagStatusPaints", "tagDomainPaints"].includes(consumer.symbol)) && !(tagAuthorized && ["tagColorPaints", "tagSolidPaints"].includes(consumer.symbol))) throw new Error("Static color recipe requires its exact component authorization");
+         if (optionContentSymbols.includes(consumer.symbol) && (!optionButtonContentAuthorized || consumer.refinement !== "option-button-content")) throw new Error("OptionButton content color recipe requires its separate exact authorization");
+         if (consumer.refinement === "option-button-content" && !optionContentSymbols.includes(consumer.symbol)) throw new Error("OptionButton content authorization cannot expand the accepted selection recipes");
+diff --git a/status/current-phase.yaml b/status/current-phase.yaml
+index 1b60b53..a2bac64 100644
+--- a/status/current-phase.yaml
++++ b/status/current-phase.yaml
+@@ -629,6 +629,32 @@ tokenRefinements:
+       - "new-color-values-or-dark-theme"
+       - "figma-publication-business-migration-or-git"
+ componentRefinements:
++  cardV2:
++    authorization: "authorized"
++    authorizedAt: "2026-09-12"
++    decisionSource: "explicit-user-start-v2-card-batch"
++    userStatement: "开始工作"
++    scope: "card-replacement-recipes-and-minimal-prototype"
++    plan: "../docs/plans/2026-09-12-card-v2-implementation.md"
++    implementation: "completed"
++    automatedVerification: "passed"
++    independentReview: "passed"
++    humanGate: "awaiting_human"
++    contrastAcceptance: "not-granted"
++    sourceControl:
++      baselineCommit: "321e1a0c1b5f9284e0fcb5167fa059d6174b1752"
++      existingRemote: "origin"
++      existingRemoteUrl: "https://github.com/409476773-web/rain-classroom-vibe-ui-spike.git"
++      priorAuthorization: "../docs/plans/2026-09-12-existing-assets-closure.md"
++      localIsolation: "codex/card-v2"
++      newCommit: "not-created"
++      remoteWrite: "not-authorized"
++    doesNotAuthorize:
++      - "dialog-or-other-component-batches"
++      - "global-brand-font-focus-or-existing-accepted-visual-changes"
++      - "new-headless-or-dependency-upgrades"
++      - "human-gate-or-contrast-acceptance"
++      - "new-commit-remote-writes-figma-publication-or-business-migration"
+   tabs:
+     authorization: "authorized"
+     authorizedAt: "2026-09-10"
+diff --git a/tests/e2e/core-ui.spec.ts b/tests/e2e/core-ui.spec.ts
+index caeec7b..9b0b3a4 100644
+--- a/tests/e2e/core-ui.spec.ts
++++ b/tests/e2e/core-ui.spec.ts
+@@ -1,4 +1,6 @@
+ import { expect, test } from "@playwright/test";
++import { readFileSync } from "node:fs";
++import { fileURLToPath } from "node:url";
+ import { buttonColorRecipes, validateButtonColorRecipe } from "../../packages/foundations/src/button-token-contract";
+ import { contrastRatio } from "./color-contrast";
+ 
+@@ -312,9 +314,13 @@ test("the Day 3 Core UI page exposes truthful families and real interaction", as
+   const loadingIndicator = loadingButton.locator('[data-slot="loading-indicator"]');
+   await expect(loadingIndicator).toHaveCSS("width", "16px");
+   await expect(loadingIndicator).toHaveCSS("animation-name", "rain-button-loading-spin");
+-  expect(
+-    await loadingIndicator.evaluate((element) => getComputedStyle(element).maskImage),
+-  ).toContain("button-loading");
++  const maskImage = await loadingIndicator.evaluate((element) => getComputedStyle(element).maskImage);
++  if (maskImage.includes("data:image/png;base64,")) {
++    const loadingAsset = readFileSync(fileURLToPath(new URL("../../packages/ui/src/icons/assets/button-loading.png", import.meta.url))).toString("base64");
++    expect(maskImage).toContain("data:image/png;base64," + loadingAsset);
++  } else {
++    expect(maskImage).toContain("button-loading");
++  }
+   await expect(loadingButton).toHaveCSS("opacity", "1");
+   await expect(loadingButton.locator('[data-slot="loading-overlay"]')).toHaveCount(0);
+ 

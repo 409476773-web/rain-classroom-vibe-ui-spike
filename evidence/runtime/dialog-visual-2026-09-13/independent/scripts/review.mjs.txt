@@ -1,0 +1,59 @@
+import { createRequire } from 'node:module';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import assert from 'node:assert/strict';
+const require=createRequire('/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/package.json');
+const {chromium}=require('@playwright/test');
+const out='/tmp/rain-dialog-refinement-review'; mkdirSync(out,{recursive:true});
+const browser=await chromium.launch({headless:true});
+const results=[];
+const errors=[];
+const page=await browser.newPage({viewport:{width:1280,height:800}});
+page.setDefaultTimeout(8000);
+page.on('pageerror',error=>errors.push(String(error)));
+const modules=[];page.on('request',r=>{if(/react\.js|react-dom_client|packages\/ui\/src\/index/.test(r.url()))modules.push(r.url())});
+const open=async()=>{await page.getByRole('button',{name:'编辑课程资料',exact:true}).click(); await page.getByRole('dialog',{name:'编辑课程资料',exact:true}).waitFor()};
+const check=async name=>{await page.getByRole('checkbox',{name}).focus(); await page.keyboard.press('Space')};
+const read=()=>page.getByRole('dialog',{name:'编辑课程资料',exact:true}).evaluate(el=>{
+const q=s=>el.querySelector(s),rect=n=>{const r=n.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};
+const style=n=>{const s=getComputedStyle(n);return {padding:s.padding,gap:s.gap,background:s.backgroundColor,color:s.color,border:s.borderTop,borderRadius:s.borderRadius}};
+return {popup:rect(el),header:rect(q('[data-slot="header"]')),description:rect(q('[data-slot="description"]')),title:rect(q('[data-slot="title"]')),close:rect(q('[aria-label="关闭编辑"]')),fields:[...el.querySelectorAll('form > *')].map(rect),separator:rect(q('[role="separator"]')),noteTitle:rect(q('section h3')),note:rect(q('section p')),body:{...rect(q('[data-slot="body"]')),scroll:q('[data-slot="body"]').scrollHeight,client:q('[data-slot="body"]').clientHeight,scrollTop:q('[data-slot="body"]').scrollTop},footer:{...rect(q('[data-slot="footer"]')),style:style(q('[data-slot="footer"]'))},buttons:[...el.querySelectorAll('[data-slot="footer"] button')].map(n=>({...rect(n),text:n.innerText,style:style(n)})),progress:{...rect(q('.course-dialog-progress')),style:style(q('.course-dialog-progress'))},styles:style(el),density:el.getAttribute('data-density'),theme:el.getAttribute('data-rain-theme'),busy:el.getAttribute('aria-busy')};
+});
+try{
+ for(const dark of [false,true])for(const compact of [false,true])for(const long of [false,true]){
+  await page.goto('about:blank');await page.goto('http://127.0.0.1:5193/#dialog');
+  if(dark)await check('深色主题');if(compact)await check('紧凑控件');if(long)await check('长内容');
+  await open();const before=await read();
+  assert.equal(before.popup.width,long?560:480);assert.equal(before.fields[0].y-before.description.bottom,24);assert.equal(before.fields[1].y-before.fields[0].bottom,20);assert.equal(before.separator.y-before.fields[1].bottom,24);assert.equal(before.noteTitle.y-before.separator.bottom,16);assert.equal(before.note.y-before.noteTitle.bottom,4);
+  assert.equal(before.close.height,28);assert.equal(before.close.y+14,before.title.y+14);assert.equal(before.footer.style.padding,'16px 24px');assert.equal(before.footer.style.gap,'8px');assert.ok(before.footer.style.border.startsWith('1px solid'));assert.deepEqual(before.buttons.map(b=>b.height),[32,32]);
+  if(long){assert.ok(before.body.scroll>before.body.client);await page.getByRole('dialog',{name:'编辑课程资料',exact:true}).locator('[data-slot="body"]').evaluate(el=>el.scrollTop=el.scrollHeight);const after=await read();assert.deepEqual(after.header,before.header);assert.equal(after.footer.y,before.footer.y);assert.ok(after.footer.bottom<=784);}
+  else assert.equal(before.footer.y-before.note.bottom,24);
+  results.push({case:`${dark?'dark':'light'}-${compact?'compact':'default'}-${long?'long':'short'}`,facts:before});
+  if(!compact&&!long)await page.screenshot({path:`${out}/${dark?'dark':'light'}-short.png`});
+  await page.keyboard.press('Escape');
+ }
+ for(const width of [375,320])for(const dark of [false,true]){
+  await page.setViewportSize({width,height:667});await page.goto('about:blank');await page.goto('http://127.0.0.1:5193/#dialog');if(dark)await check('深色主题');await check('长内容');await open();
+  await page.getByRole('dialog',{name:'编辑课程资料',exact:true}).getByRole('button',{name:'保存更改'}).click();
+  const pending=await read();assert.equal(pending.busy,'true');assert.ok(pending.popup.x>=16);assert.ok(pending.popup.right<=width-16);assert.ok(pending.footer.bottom<=651);
+  for(const button of pending.buttons){assert.ok(button.x>=pending.footer.x);assert.ok(button.right<=pending.footer.right);assert.ok(button.bottom<=pending.footer.bottom)}
+  await page.keyboard.press('Escape');assert.equal(await page.getByRole('dialog',{name:'编辑课程资料',exact:true}).count(),1);
+  await page.screenshot({path:`${out}/narrow-${width}-${dark?'dark':'light'}-pending.png`});
+  await page.getByRole('alert').waitFor();const failure=await read();assert.ok(failure.footer.bottom<=651);
+  results.push({case:`narrow-${width}-${dark?'dark':'light'}-pending`,facts:pending});results.push({case:`narrow-${width}-${dark?'dark':'light'}-failure`,facts:failure});
+  await page.getByRole('dialog',{name:'编辑课程资料',exact:true}).getByRole('button',{name:'取消',exact:true}).click();
+ }
+ await page.setViewportSize({width:1280,height:800});await page.goto('about:blank');await page.goto('http://127.0.0.1:5193/#dialog');
+ const moduleUrls={react:modules.find(u=>u.includes('/react.js')),dom:modules.find(u=>u.includes('react-dom_client')),ui:modules.find(u=>u.includes('packages/ui/src/index'))};
+ await page.evaluate(async urls=>{
+  const React=await import(urls.react),ReactDOM=await import(urls.dom),{Dialog,Button}=await import(urls.ui);
+  const h=React.createElement,host=document.createElement('div');document.body.appendChild(host);
+  const root=ReactDOM.createRoot(host);window.reviewFixtureRoot=root;
+  root.render(h(Dialog.Root,{defaultOpen:true},h(Dialog.Content,{'aria-label':'无 Header 组合'},h(Dialog.Body,null,h('p',null,'正文起点')),h(Dialog.Footer,null,h(Dialog.Close,{render:h(Button,null,'关闭无头')})))));
+ },moduleUrls);
+ const bare=page.getByRole('dialog',{name:'无 Header 组合'});await bare.waitFor();
+ const bareFacts=await bare.evaluate(el=>{const body=el.querySelector('[data-slot="body"]'),s=getComputedStyle(body);return {paddingTop:s.paddingTop,paddingBottom:s.paddingBottom,first:body.matches(':first-child'),bodyY:body.getBoundingClientRect().y,contentY:body.firstElementChild.getBoundingClientRect().y}});
+ assert.equal(bareFacts.paddingTop,'24px');assert.equal(bareFacts.contentY-bareFacts.bodyY,24);results.push({case:'without-header',facts:bareFacts});
+ await page.getByRole('button',{name:'关闭无头'}).click();await page.evaluate(()=>window.reviewFixtureRoot.unmount());
+ assert.deepEqual(errors,[]);console.log(JSON.stringify({passed:results.length,cases:results.map(r=>r.case),errors},null,2));
+}catch(error){console.error(error);writeFileSync(`${out}/failure.txt`,String(error));process.exitCode=1;}
+finally{writeFileSync(`${out}/results.json`,JSON.stringify({results,errors},null,2));await browser.close()}

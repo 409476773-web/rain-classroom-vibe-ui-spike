@@ -10,8 +10,9 @@ sourcePath: "packages/ui/src/popover/popover.tsx"
 styleSourcePath: "packages/ui/src/dropdown-menu/dropdown-menu.css"
 sourceVersion: "local-2026-09-10"
 publication: "unpublished"
-description: "Named Rain content panel with normal form semantics and open content composition."
+description: "具名的局部浮层任务面板；适合包含独立字段、筛选、搜索、预览或确认操作的内容。"
 useWhen:
+  - "浮层中包含需要正常表单语义的独立控件；字段值、异步请求、失败恢复和关闭时机由宿主拥有。"
   - "Use a local task with search, filters, preview, independent actions or a confirmation footer."
 doNotUseWhen:
   - "Use DropdownMenu for single-target menu rows; use a larger task surface when task duration or available space warrants it."
@@ -53,6 +54,7 @@ layoutConstraints:
   - "Title and Description do not impose a line clamp. The caller owns content wrapping, layout, form labels and complete critical reasons."
   - "Viewport width/height constrain content; a template recipe scrolls its body while keeping a normal footer."
 compositionRules:
+  - "Pure dismissal uses a top-right IconButton, never a secondary footer close button. Cancellation and confirmation retain their action semantics."
   - "Use the complete example first; change an existing variant, then a local recipe, then a local fork only if internal behavior changes."
   - "Base UI exclusively owns open, positioning, focus and dismissal. The shared private bridge carries visual context only."
   - "Content children default to the existing compact DensityProvider: Input uses 24px and Button uses small unless explicitly sized; an inner DensityProvider may override. The trigger retains the page density."

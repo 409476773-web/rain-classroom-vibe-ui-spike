@@ -1,0 +1,13 @@
+from pathlib import Path
+import datetime,json,subprocess,sys
+source=Path('/tmp/rain-next-rn14-consumer-20260915')
+evidence=Path('/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/rn14-editability/consumption')
+evidence.mkdir(exist_ok=True)
+label,*command=sys.argv[1:]
+def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+started=now()
+with (evidence/(label+'.log')).open('x') as output:
+ result=subprocess.run(command,cwd=source,stdout=output,stderr=subprocess.STDOUT)
+(evidence/(label+'-command.json')).write_text(json.dumps({'command':command,'cwd':str(source),'startedAt':started,'finishedAt':now(),'exitCode':result.returncode},indent=2)+'\n')
+print(label,result.returncode)
+sys.exit(result.returncode)

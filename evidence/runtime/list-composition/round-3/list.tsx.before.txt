@@ -1,0 +1,264 @@
+import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable,
+  type ColumnDef, type ColumnFiltersState, type PaginationState, type RowSelectionState, type SortingState, type VisibilityState } from "@tanstack/react-table";
+import { tagSystemProfiles } from "@rain-next/foundations";
+import { Grid, Inline, Stack } from "@rain-next/layouts";
+import { Button, Card, CardAction, CardFooter, CardHeader, Checkbox, DropdownMenu, Empty, EmptyActions, EmptyDescription, EmptyMedia, EmptyTitle, IconButton,
+  Dialog, FormItem, Pagination, Popover, SearchInput, defineRainLocalRecipe, Select, Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, TableScrollArea, Tag } from "@rain-next/ui";
+import { MoreHorizontalIcon } from "@rain-next/ui/icons/more-horizontal";
+import { RefreshIcon } from "@rain-next/ui/icons/refresh";
+import { CloseIcon } from "@rain-next/ui/icons/close";
+import { InfoIcon } from "@rain-next/ui/icons/info";
+import { ArrowDownIcon } from "@rain-next/ui/icons/arrow-down";
+import { ListViewIcon } from "@rain-next/ui/icons/list-view";
+import { CardViewIcon } from "@rain-next/ui/icons/card-view";
+import { Settings3Icon } from "@rain-next/ui/icons/settings-3";
+import "./list.css";
+
+export type Material = { id: string; name: string; kind: string; status: "ready" | "draft"; updated: string; locked: boolean; course?: string };
+type LoadMaterials = (current: readonly Material[], signal: AbortSignal) => Promise<Material[]>;
+function reloadMaterialSnapshot(current: readonly Material[], signal: AbortSignal): Promise<Material[]> {
+  return new Promise((resolve, reject) => {
+    const abort = () => { clearTimeout(timer); reject(new DOMException("Request aborted", "AbortError")); };
+    const timer = setTimeout(() => { signal.removeEventListener("abort", abort); resolve(current.map(record => ({ ...record }))); }, 450);
+    if (signal.aborted) abort(); else signal.addEventListener("abort", abort, { once: true });
+  });
+}
+
+export const examples: Material[] = ["设计方法导论", "课堂观察记录", "教学案例研读", "小组讨论任务", "课程阅读清单", "访谈提纲", "学习作品评价", "实践项目说明", "同伴反馈指南", "阶段复习任务", "课堂活动设计", "结课作品要求", "从真实课堂问题出发的观察、记录与教学改进：课程资料使用说明"].map((name, index) => ({
+  id: `material-${String(index + 1).padStart(2, "0")}`, name, kind: index % 2 ? "课堂任务" : "阅读材料", status: index % 3 ? "draft" : "ready", updated: `2026-09-${String(13 - index).padStart(2, "0")}`, locked: index === 1,
+}));
+const headerSortRecipe = defineRainLocalRecipe<"root" | "label", "ui-button">({
+  id: "lc-table-header-sort", scope: "feature", origin: "ui-button", classes: { root: "lc-table-sort enabled:text-inherit", label: "text-inherit" },
+  modifiedParts: ["root", "label"], candidateTokens: [], promotionStatus: "not-proposed",
+});
+const viewStartRecipe = defineRainLocalRecipe<"root", "ui-button">({
+  id: "lc-material-view-start", scope: "feature", origin: "ui-button", classes: { root: "lc-material-view-start" },
+  modifiedParts: ["root"], candidateTokens: [], promotionStatus: "not-proposed",
+});
+const viewEndRecipe = defineRainLocalRecipe<"root", "ui-button">({
+  id: "lc-material-view-end", scope: "feature", origin: "ui-button", classes: { root: "lc-material-view-end" },
+  modifiedParts: ["root"], candidateTokens: [], promotionStatus: "not-proposed",
+});
+const detailRecipe = defineRainLocalRecipe({ id: "list-composition-details", origin: "ui-dialog", scope: "feature", classes: { title: "text-rain-size-16 leading-rain-24" }, modifiedParts: ["title"], candidateTokens: [], promotionStatus: "not-proposed" });
+const statusName = (status: Material["status"]) => status === "ready" ? "已发布" : "草稿";
+const materialCardRecipe = defineRainLocalRecipe<"root" | "header" | "footer", "ui-card">({
+  id: "lc-material-card-selection", scope: "feature", origin: "ui-card",
+  classes: { root: "lc-material-card", header: "lc-card-header", footer: "lc-card-footer" },
+  modifiedParts: ["root", "header", "footer"], candidateTokens: [], promotionStatus: "not-proposed",
+});
+
+function MaterialStatus({ status }: { status: Material["status"] }) {
+  return <Tag size={24} color={status === "ready" ? tagSystemProfiles.success : "neutral"} appearance="filled">{statusName(status)}</Tag>;
+}
+function MaterialActions({ material, loading, card = false, onNotice, onView }: {
+  material: Material; loading: boolean; card?: boolean; onNotice: (notice: string) => void; onView: (material: Material) => void;
+}) {
+  const label = `更多操作 ${material.name}`;
+  return <DropdownMenu.Root><DropdownMenu.Trigger disabled={loading} render={card
+    ? <IconButton size="24/16" tone="default" highlight="none" aria-label={label} icon={<MoreHorizontalIcon />} />
+    : <Button variant="text" tone="brand" aria-label={label}>更多</Button>} />
+    <DropdownMenu.Content><DropdownMenu.Item label="查看资料" onClick={() => onView(material)} />
+      <DropdownMenu.Item label="记录稍后处理" disabled={material.locked} description={material.locked ? "只读资料不可修改" : undefined} critical={material.locked}
+        onClick={() => onNotice(`已记录《${material.name}》，仅在本页演示。`)} /></DropdownMenu.Content></DropdownMenu.Root>;
+}
+
+/** Local client-side recipe: one table model, host-owned state, fictional records only. */
+export function ListComposition({ loadRecords = reloadMaterialSnapshot, initialRecords = examples, title = "课程资料库", context = "教学设计 · 2026 秋季", transfer = false }: { loadRecords?: LoadMaterials; initialRecords?: Material[]; title?: string; context?: string; transfer?: boolean } = {}) {
+  const controlSize = 36;
+  const [opened, setOpened] = useState<Material | null>(null);
+  const [records, setRecords] = useState(initialRecords), [searchDraft, setSearchDraft] = useState("");
+  const [filters, setFilters] = useState<ColumnFiltersState>([]), [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 });
+  const [selection, setSelection] = useState<RowSelectionState>({}), [visibility, setVisibility] = useState<VisibilityState>({});
+  const [view, setView] = useState<"table" | "cards">("table"), [notice, setNotice] = useState("");
+  const [loading, setLoading] = useState(false), [failed, setFailed] = useState(false), [failNext, setFailNext] = useState(false);
+  const request = useRef<AbortController | null>(null), searchRef = useRef<HTMLInputElement>(null);
+  const detailTrigger = useRef<HTMLButtonElement | null>(null);
+  const pageSelectionRef = useRef<HTMLInputElement | null>(null);
+  const titleId = useId(), selectionHelpId = `${titleId}-selection-help`;
+  function showDetails(material: Material) {
+    detailTrigger.current = document.getElementById(`${titleId}-${material.id}-open`) as HTMLButtonElement | null;
+    setOpened(material);
+  }
+  useEffect(() => {
+    setLoading(false);
+    return () => { request.current?.abort(); request.current = null; };
+  }, [loadRecords]);
+  useEffect(() => {
+    if (!notice) return;
+    const timeout = setTimeout(() => setNotice(""), 5000);
+    return () => clearTimeout(timeout);
+  }, [notice]);
+  const columns = useMemo<ColumnDef<Material>[]>(() => [
+    { id: "selection", enableHiding: false, enableSorting: false,
+      header: ({ table }) => <Checkbox ref={pageSelectionRef} title="选择当前页可操作资料" aria-describedby={selectionHelpId} aria-label="选择当前页可操作资料" checked={table.getIsAllPageRowsSelected()} indeterminate={table.getIsSomePageRowsSelected()}
+        disabled={loading || !table.getRowModel().rows.some(row => row.getCanSelect())} onCheckedChange={checked => table.toggleAllPageRowsSelected(checked)} />,
+      cell: ({ row }) => <Checkbox aria-label={`选择 ${row.original.name}`} aria-describedby={row.original.locked ? `${titleId}-${row.id}-locked` : undefined}
+        checked={row.getIsSelected()} disabled={loading || !row.getCanSelect()} onCheckedChange={row.toggleSelected} /> },
+    { accessorKey: "name", header: ({ column }) => <Button variant="text" tone="default" size="regular" localRecipe={headerSortRecipe} aria-label="按资料名称排序" disabled={loading} onClick={column.getToggleSortingHandler()}>
+      资料名称{column.getIsSorted() === "asc" ? " · 升序" : column.getIsSorted() === "desc" ? " · 降序" : ""}</Button>,
+      sortingFn: (a, b) => a.original.name.localeCompare(b.original.name, "zh-CN"),
+      cell: ({ row }) => <div className="lc-object"><button type="button" className="lc-name" title={row.original.name} data-focus="item" id={`${titleId}-${row.id}-open`} onClick={() => showDetails(row.original)}>{row.original.name}</button>{row.original.course && <span className="lc-secondary">{row.original.course}{row.original.locked ? " · 只读" : ""}</span>}{row.original.locked && <span id={`${titleId}-${row.id}-locked`} className={row.original.course ? "sr-only" : "lc-note lc-metadata"}>只读资料，不参与批量操作</span>}</div> },
+    { accessorKey: "kind", enableSorting: false, filterFn: "equalsString", header: "资料类型", cell: ({ row }) => <span>{row.original.kind}</span> },
+    { accessorKey: "status", enableSorting: false, header: "状态", filterFn: "equalsString", cell: ({ row }) => <MaterialStatus status={row.original.status} /> },
+    { accessorKey: "updated", enableSorting: false, header: "更新时间", cell: ({ row }) => <time dateTime={row.original.updated} className="lc-note lc-metadata">{row.original.updated}</time> },
+    { id: "actions", enableHiding: false, cell: ({ row }) => <MaterialActions material={row.original} loading={loading} onNotice={setNotice} onView={showDetails} />, header: "操作" },
+  ], [loading, titleId, selectionHelpId]);
+  const table = useReactTable({ data: records, columns, getRowId: record => record.id,
+    state: { columnFilters: filters, sorting, pagination, rowSelection: selection, columnVisibility: visibility },
+    onColumnFiltersChange: setFilters, onSortingChange: updater => { setSorting(updater); setPagination(value => ({ ...value, pageIndex: 0 })); },
+    onPaginationChange: setPagination, onRowSelectionChange: setSelection, onColumnVisibilityChange: setVisibility,
+    enableRowSelection: row => !row.original.locked, autoResetPageIndex: false,
+    getCoreRowModel: getCoreRowModel(), getFilteredRowModel: getFilteredRowModel(), getSortedRowModel: getSortedRowModel(), getPaginationRowModel: getPaginationRowModel(),
+  });
+  const filteredRows = table.getFilteredRowModel().rows, rows = table.getRowModel().rows, total = filteredRows.length;
+  const selected = Object.values(selection).filter(Boolean).length;
+  const otherPageSelected = selected - rows.filter(row => row.getIsSelected()).length;
+  const sortValue = sorting[0] ? sorting[0].desc ? "desc" : "asc" : "default";
+  useEffect(() => {
+    const selectable = new Set(filteredRows.filter(row => row.getCanSelect()).map(row => row.id));
+    const retained = Object.entries(selection).filter(([id, checked]) => checked && selectable.has(id));
+    const removed = selected - retained.length;
+    if (!removed) return;
+    setSelection(Object.fromEntries(retained));
+    setNotice(`资料已刷新，${removed} 份已选资料已不存在、不符合筛选或不可操作，已取消其选择。`);
+  }, [filteredRows, selection, selected]);
+  useEffect(() => {
+    setPagination(previous => {
+      const pageIndex = Math.min(previous.pageIndex, Math.max(0, Math.ceil(total / previous.pageSize) - 1));
+      return pageIndex === previous.pageIndex ? previous : { ...previous, pageIndex };
+    });
+  }, [total, pagination.pageSize]);
+  const kindFilter = String(filters.find(filter => filter.id === "kind")?.value ?? "all");
+  const kinds = [...new Set(initialRecords.map(record => record.kind))];
+  const statusFilter = String(filters.find(filter => filter.id === "status")?.value ?? "all");
+  function changeFilter(id: string, value: string) {
+    setFilters(previous => [...previous.filter(filter => filter.id !== id), ...(value ? [{ id, value }] : [])]);
+    setSelection({}); setPagination(previous => ({ ...previous, pageIndex: 0 })); setNotice("");
+  }
+  function clearQuery() { setSearchDraft(""); setFilters([]); setSelection({}); setPagination(previous => ({ ...previous, pageIndex: 0 })); setNotice(""); searchRef.current?.focus(); }
+  async function refresh() {
+    if (request.current) return;
+    const controller = new AbortController(), shouldFail = failNext;
+    request.current = controller;
+    setLoading(true); setFailed(false); setNotice(""); setFailNext(false);
+    try {
+      const next = await loadRecords(records.map(record => ({ ...record })), controller.signal);
+      if (controller.signal.aborted || request.current !== controller) return;
+      if (shouldFail) throw new Error("Simulated refresh failure");
+      if (new Set(next.map(record => record.id)).size !== next.length) throw new Error("Duplicate material IDs");
+      setRecords(next.map(record => ({ ...record })));
+      setNotice("资料已刷新，当前查询和选择保持不变。");
+    } catch {
+      if (controller.signal.aborted || request.current !== controller) return;
+      setFailed(true);
+    } finally {
+      if (request.current === controller) { request.current = null; setLoading(false); }
+    }
+  }
+  function clearSelection() {
+    pageSelectionRef.current?.focus();
+    setSelection({});
+  }
+  function publishSelected() {
+    setRecords(previous => previous.map(record => selection[record.id] && !record.locked ? { ...record, status: "ready" } : record));
+    clearSelection(); setPagination(previous => ({ ...previous, pageIndex: 0 })); setNotice(`已将 ${selected} 份资料标为已发布，仅在本页生效。`);
+  }
+  function showDataset(empty: boolean) {
+    setRecords(empty ? [] : initialRecords); setSearchDraft(""); setFilters([]); setSelection({}); setPagination(previous => ({ ...previous, pageIndex: 0 })); setFailed(false); setNotice("");
+  }
+  const empty = <Empty presentation="illustration" className="py-rain-24">
+    <EmptyMedia illustration={records.length === 0 ? "empty-box" : "empty-search"} />
+    <EmptyTitle>{records.length === 0 ? "还没有课程资料" : "没有找到相关资料"}</EmptyTitle>
+    <EmptyDescription>{records.length === 0 ? "添加第一份资料后，就可以在这里管理。" : "试试其他关键词，或清空当前筛选条件。"}</EmptyDescription>
+    {records.length === 0 && <EmptyActions><Button size="mini" variant="secondary" disabled={loading} onClick={() => showDataset(false)}>添加示例资料</Button></EmptyActions>}</Empty>;
+
+  return <section className="lc-recipe" data-rain-id="local-list-composition" data-asset-identity="local-experiment" data-processing-mode="client" aria-labelledby={titleId}>
+    <header className="lc-heading"><div className="lc-heading-inner">
+      <div className="lc-heading-title"><h1 id={titleId}>{title}</h1><span className="lc-secondary" data-slot="result-count">{filters.length > 0 ? `找到 ${total} 份资料` : `共 ${total} 份资料`}</span></div>
+      <p className="lc-secondary">{context}</p>
+    </div></header>
+    <div className="lc-workspace">
+    <div className="lc-toolbar">
+      <fieldset disabled={loading} className="lc-controls">
+        <div className="lc-query">
+          <SearchInput size={controlSize} ref={searchRef} value={searchDraft} onValueChange={setSearchDraft} onSearch={value => changeFilter("name", value.trim())}
+            aria-label="查找资料" placeholder={transfer ? "搜索案例名称" : "搜索资料名称"} />
+          {transfer && <FormItem label="资料类型" labelPosition="inside"><Select size={controlSize} clearable={false} disabled={loading} value={kindFilter}
+            options={[{ value: "all", label: "全部类型" }, ...kinds.map(kind => ({ value: kind, label: kind }))]}
+            onValueChange={value => changeFilter("kind", value === "all" ? "" : String(value))} /></FormItem>}
+          <FormItem label="发布状态" labelPosition="inside"><Select size={controlSize} clearable={false} disabled={loading} value={statusFilter}
+            options={[{ value: "all", label: "全部状态" }, { value: "ready", label: "已发布" }, { value: "draft", label: "草稿" }]}
+            onValueChange={value => { if (["all", "ready", "draft"].includes(String(value))) changeFilter("status", value === "all" ? "" : String(value)); }} /></FormItem>
+          {filters.length > 0 && <Button variant="text" size="regular" disabled={loading} onClick={clearQuery}>清空筛选</Button>}
+        </div>
+      </fieldset>
+      <div className="lc-display" role="group" aria-label="资料显示设置">
+        {view === "table" && <DropdownMenu.Root><DropdownMenu.Trigger disabled={loading} render={<IconButton size="36/20" aria-label="显示列" title="显示列" icon={<Settings3Icon />} />} />
+          <DropdownMenu.Content>{["kind", "status", "updated"].map((id, index) => <DropdownMenu.CheckboxItem key={id} label={["资料类型", "状态", "更新时间"][index]!}
+            checked={table.getColumn(id)!.getIsVisible()} onCheckedChange={table.getColumn(id)!.toggleVisibility} />)}</DropdownMenu.Content></DropdownMenu.Root>}
+        {view === "cards" && <DropdownMenu.Root><DropdownMenu.Trigger disabled={loading || total === 0} render={<Button variant="text" size="regular" aria-label="按资料名称排序" trailingIcon={<ArrowDownIcon />}>{sortValue === "default" ? "默认顺序" : `名称${sortValue === "asc" ? "升序" : "降序"}`}</Button>} />
+          <DropdownMenu.Content><DropdownMenu.RadioGroup value={sortValue} onValueChange={value => table.setSorting(value === "default" ? [] : [{ id: "name", desc: value === "desc" }])}>
+            <DropdownMenu.RadioItem value="default" label="默认顺序" /><DropdownMenu.RadioItem value="asc" label="名称升序" /><DropdownMenu.RadioItem value="desc" label="名称降序" />
+          </DropdownMenu.RadioGroup></DropdownMenu.Content></DropdownMenu.Root>}
+        <IconButton size="36/20" aria-label="刷新资料" title="刷新资料" loading={loading} icon={<RefreshIcon />} onClick={refresh} />
+        <div className="lc-view" role="group" aria-label="资料视图">
+          <Button size="medium" localRecipe={viewStartRecipe} variant={view === "table" ? "secondary" : "tertiary"} aria-label="表格视图" aria-pressed={view === "table"} leadingIcon={<ListViewIcon />} onClick={() => setView("table")}>表格</Button>
+          <Button size="medium" localRecipe={viewEndRecipe} variant={view === "cards" ? "secondary" : "tertiary"} aria-label="卡片视图" aria-pressed={view === "cards"} leadingIcon={<CardViewIcon />} onClick={() => setView("cards")}>卡片</Button>
+        </div>
+      </div>
+    </div>
+    {(selected > 0 || view === "cards") && <div className="lc-selection-bar" data-selected={selected > 0}>
+      {view === "cards" && <Checkbox ref={pageSelectionRef} label="选择本页" aria-label="选择当前页可操作资料" checked={table.getIsAllPageRowsSelected()} indeterminate={table.getIsSomePageRowsSelected()}
+        disabled={loading || !rows.some(row => row.getCanSelect())} onCheckedChange={checked => table.toggleAllPageRowsSelected(checked)} />}
+      {selected > 0 && <><span data-slot="selected-count">已选 {selected} 份{otherPageSelected > 0 ? `（含其他页 ${otherPageSelected} 份）` : ""}</span>
+        <Button size="medium" variant="primary" disabled={loading} onClick={publishSelected}>标为已发布</Button>
+        <Button variant="text" size="regular" disabled={loading} onClick={clearSelection}>取消选择</Button>
+        <Popover.Root><Popover.Trigger render={<IconButton size="28/16" aria-label="选择规则说明" title="选择规则说明" icon={<InfoIcon />} />} />
+          <Popover.Content width={300}><Popover.Description>全选仅作用于当前页可操作资料。翻页、排序和切换视图保留已选资料；改变查询条件会清空选择。</Popover.Description></Popover.Content>
+        </Popover.Root></>}
+    </div>}
+    <span id={selectionHelpId} className="sr-only">全选仅作用于当前页可操作资料。翻页或切换视图后，已选资料仍会保留。</span>
+    <div role="status" aria-atomic="true" className={notice ? "lc-notice" : "sr-only"}>{loading ? "正在刷新资料，当前内容会保留。" : notice}</div>
+    {failed && <div className="lc-error"><p role="alert">刷新失败，当前资料和选择已保留。</p><Button size="small" variant="secondary" onClick={refresh}>重试</Button></div>}
+    {view === "table" && <p className="lc-scroll-hint">表格可左右滚动，也可切换为卡片查看。</p>}
+    <div aria-busy={loading} className="lc-results">
+      {rows.length === 0 ? <div className="lc-empty">{empty}{filters.length > 0 && <Button variant="secondary" onClick={clearQuery}>清空筛选条件</Button>}</div>
+        : view === "table" ? <TableScrollArea aria-label="课程资料表滚动区"><Table className="lc-grid">
+          <TableCaption className="sr-only">{title}</TableCaption>
+          <TableHeader className="lc-table-header">{table.getHeaderGroups().map(group => <TableRow key={group.id}>{group.headers.map(header => <TableHead key={header.id} data-column-id={header.column.id}
+            aria-sort={header.column.getCanSort() ? header.column.getIsSorted() === "asc" ? "ascending" : header.column.getIsSorted() === "desc" ? "descending" : "none" : undefined}>
+            {flexRender(header.column.columnDef.header, header.getContext())}</TableHead>)}</TableRow>)}</TableHeader>
+          <TableBody>{rows.map(row => <TableRow key={row.id} selected={row.getIsSelected()} data-record-id={row.id}>
+            {row.getVisibleCells().map(cell => <TableCell key={cell.id} data-column-id={cell.column.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>)}
+          </TableRow>)}</TableBody>
+        </Table></TableScrollArea> : <Grid columns={3} minColumnWidth={320} gap={16} aria-label="课程资料卡片">
+          {rows.map(row => <Card key={row.id} localRecipe={materialCardRecipe} data-record-id={row.id} data-selected={row.getIsSelected()}>
+            <CardHeader>
+              <div className="lc-card-heading"><button type="button" className="lc-name" title={row.original.name} data-focus="item" id={`${titleId}-${row.id}-open`} onClick={() => showDetails(row.original)}><span>{row.original.name}</span></button>
+                <p className="lc-secondary lc-card-meta" title={[row.original.kind, row.original.course, row.original.locked ? "只读" : ""].filter(Boolean).join(" · ")}>{row.original.kind}{row.original.course ? ` · ${row.original.course}` : ""}{row.original.locked ? " · 只读" : ""}</p></div>
+              <CardAction><MaterialActions material={row.original} loading={loading} card onNotice={setNotice} onView={showDetails} /></CardAction>
+            </CardHeader>
+            <CardFooter><div className="lc-card-selection"><Checkbox aria-label={`选择 ${row.original.name}`} aria-describedby={row.original.locked ? `${titleId}-${row.id}-locked` : undefined} disabled={loading || !row.getCanSelect()} checked={row.getIsSelected()} onCheckedChange={row.toggleSelected} />
+              <time dateTime={row.original.updated}>更新于 {row.original.updated}</time></div><MaterialStatus status={row.original.status} />
+              {row.original.locked && <span id={`${titleId}-${row.id}-locked`} className="sr-only">只读资料，不参与批量操作</span>}
+            </CardFooter>
+          </Card>)}</Grid>}
+
+    </div>
+    <footer className="lc-pagination"><Pagination variant="data" total={total} page={pagination.pageIndex + 1} pageSize={pagination.pageSize} pageSizeOptions={[5, 10, 20]} pageSizePlacement="inline" loading={loading}
+      onChange={({ page, pageSize }) => setPagination({ pageIndex: page - 1, pageSize })} /></footer>
+    <Dialog.Root open={opened !== null} onOpenChange={open => { if (!open) setOpened(null); }}>
+      <Dialog.Content localRecipe={detailRecipe} finalFocus={detailTrigger}><Dialog.Header><Dialog.Title>{opened?.name}</Dialog.Title><Dialog.Close render={<IconButton aria-label="关闭资料信息" size="28/16" icon={<CloseIcon />} />} /></Dialog.Header>
+        <Dialog.Body><Stack gap={12}><p>{opened?.course ?? context}</p><p>{opened?.kind} · {opened && statusName(opened.status)}</p><p>更新于 {opened?.updated}</p><p>此处展示虚构资料的信息；本地原型未接入实际文件。</p></Stack></Dialog.Body>
+        <Dialog.Footer><Button variant="secondary" onClick={() => setOpened(null)}>关闭</Button></Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
+    <details className="lc-preview"><summary>原型状态预览 · 虚构数据，仅在本页生效</summary><Inline gap={12} align="center" className="pt-rain-12">
+      <Checkbox label="下次刷新模拟失败" disabled={loading} checked={failNext} onCheckedChange={setFailNext} />
+      <Button size="small" variant="tertiary" disabled={loading} onClick={() => showDataset(true)}>预览空数据</Button><Button size="small" variant="tertiary" disabled={loading} onClick={() => showDataset(false)}>恢复示例资料</Button>
+    </Inline></details>
+    </div>
+  </section>;
+}

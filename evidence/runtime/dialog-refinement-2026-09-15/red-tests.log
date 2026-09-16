@@ -1,0 +1,43 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/dialog/dialog.test.tsx (5 tests | 2 failed) 246ms
+   × keeps outside dismissal opt-in and exposes the agreed geometry and mask defaults 9ms
+   × uses real alert semantics, safe focus and the 416 default without duplicating parts 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/dialog/dialog.test.tsx > keeps outside dismissal opt-in and exposes the agreed geometry and mask defaults
+AssertionError: expected '560px' to be '616px' // Object.is equality
+
+Expected: "616px"
+Received: "560px"
+
+ ❯ packages/ui/src/dialog/dialog.test.tsx:76:62
+     74|   const view = render(<Dialog.Root defaultOpen><Dialog.Content aria-la…
+     75|   const popup = await screen.findByRole("dialog");
+     76|   expect(popup.style.getPropertyValue("--rain-popup-width")).toBe("616…
+       |                                                              ^
+     77|   expect(popup).toHaveAttribute("data-inset", "40");
+     78|   const backdrop = document.querySelector('[data-slot="backdrop"]')!;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/ui/src/dialog/dialog.test.tsx > uses real alert semantics, safe focus and the 416 default without duplicating parts
+AssertionError: expected undefined to be defined
+ ❯ packages/ui/src/dialog/dialog.test.tsx:89:23
+     87| it("uses real alert semantics, safe focus and the 416 default without …
+     88|   const { AlertDialog, Button } = UI, safe = createRef<HTMLButtonEleme…
+     89|   expect(AlertDialog).toBeDefined();
+       |                       ^
+     90|   render(<AlertDialog.Root defaultOpen><AlertDialog.Content initialFoc…
+     91|     <AlertDialog.Header><AlertDialog.Title>放弃修改？</AlertDialog.Title><A…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 3 passed (5)
+   Start at  10:28:15
+   Duration  1.45s (transform 315ms, setup 103ms, import 610ms, tests 246ms, environment 371ms)
+

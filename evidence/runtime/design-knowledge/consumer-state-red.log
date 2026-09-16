@@ -1,0 +1,98 @@
+✖ required fields reject blank input and unknown activity types (0.841625ms)
+✖ capacity accepts only finite integer values from 1 to 200 when enabled (0.097125ms)
+✖ draft edits never mutate saved information; submission normalizes only outer whitespace (0.462959ms)
+✖ opening a saved limited activity restores its cap; unlimited starts a fresh empty cap (0.363625ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 68.180541
+
+✖ failing tests:
+
+test at apps/prototype/src/scenarios/activity/state.check.mjs:5:1
+✖ required fields reject blank input and unknown activity types (0.841625ms)
+  AssertionError [ERR_ASSERTION]: name must be required
+      at TestContext.<anonymous> (file:///private/tmp/rain-design-knowledge-20260916/consumer/apps/prototype/src/scenarios/activity/state.check.mjs:9:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1106:25)
+      at Test.start (node:internal/test_runner/test:1003:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at apps/prototype/src/scenarios/activity/state.check.mjs:15:1
+✖ capacity accepts only finite integer values from 1 to 200 when enabled (0.097125ms)
+  AssertionError [ERR_ASSERTION]:  must be rejected
+      at TestContext.<anonymous> (file:///private/tmp/rain-design-knowledge-20260916/consumer/apps/prototype/src/scenarios/activity/state.check.mjs:21:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1106:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:788:18)
+      at Test.postRun (node:internal/test_runner/test:1235:19)
+      at Test.run (node:internal/test_runner/test:1163:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at apps/prototype/src/scenarios/activity/state.check.mjs:26:1
+✖ draft edits never mutate saved information; submission normalizes only outer whitespace (0.462959ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '  更新后的活动  '
+  - '更新后的活动'
+  
+      at TestContext.<anonymous> (file:///private/tmp/rain-design-knowledge-20260916/consumer/apps/prototype/src/scenarios/activity/state.check.mjs:36:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1106:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:788:18)
+      at Test.postRun (node:internal/test_runner/test:1235:19)
+      at Test.run (node:internal/test_runner/test:1163:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '  更新后的活动  ',
+    expected: '更新后的活动',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at apps/prototype/src/scenarios/activity/state.check.mjs:44:1
+✖ opening a saved limited activity restores its cap; unlimited starts a fresh empty cap (0.363625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   undefined,
+  +   undefined
+  -   true,
+  -   '1'
+    ]
+  
+      at TestContext.<anonymous> (file:///private/tmp/rain-design-knowledge-20260916/consumer/apps/prototype/src/scenarios/activity/state.check.mjs:45:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1106:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:788:18)
+      at Test.postRun (node:internal/test_runner/test:1235:19)
+      at Test.run (node:internal/test_runner/test:1163:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ undefined, undefined ],
+    expected: [ true, '1' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

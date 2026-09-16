@@ -1,0 +1,47 @@
+
+> @rain-next/workspace@0.0.0 test /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> vitest run
+
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-tailwind-b2.test.ts (178 tests | 1 failed) 105301ms
+     × fails closed instead of blocking when the evidence README is a FIFO 1054ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 results validator > fails closed instead of blocking when the evidence README is a FIFO
+AssertionError: expected Error: spawnSync /Users/wenchengkai/.nvm/… { …(5) } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+Error {
+  "message": "spawnSync /Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node ETIMEDOUT",
+  "errno": -60,
+  "code": "ETIMEDOUT",
+  "syscall": "spawnSync /Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+  "path": "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+  "spawnargs": [
+    "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/scripts/verify-tailwind-b2.mjs",
+  ],
+}
+
+ ❯ scripts/verify-tailwind-b2.test.ts:532:28
+    530|       expect(spawnSync("mkfifo", [readmePath]).status).toBe(0);
+    531|       const result = runScript(verifierPath, fixtureRoot, 1_000);
+    532|       expect(result.error).toBeUndefined();
+       |                            ^
+    533|       expect(outputOf(result)).toMatch(/README.*regular non-symbolic f…
+    534|       expect(result.status).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 85 passed (86)
+      Tests  1 failed | 1272 passed (1273)
+   Start at  01:02:08
+   Duration  107.04s (transform 9.04s, setup 18.17s, import 33.01s, tests 194.82s, environment 67.95s)
+
+ ELIFECYCLE  Test failed. See above for more details.

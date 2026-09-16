@@ -1,0 +1,109 @@
+{
+  "task": "RN-14 BM-A round 2",
+  "executionKind": "actual-ai-edit",
+  "generationMode": "incremental-structure-edit-after-round-1",
+  "status": "completed-self-check-only",
+  "root": "/tmp/rain-next-rn14-20260915-1817",
+  "startedAtUtc": "2026-09-15 10:33:57 UTC",
+  "endedAtUtc": "2026-09-15 10:36:11 UTC",
+  "modelExactId": "not-measured",
+  "tokens": "not-measured",
+  "filesRead": [
+    "apps/prototype/src/data-table-recipe.tsx",
+    "apps/prototype/src/data-table-recipe.css",
+    "apps/prototype/src/scenarios/bm-a/page.tsx"
+  ],
+  "applicationFilesChanged": [
+    "apps/prototype/src/data-table-recipe.tsx",
+    "apps/prototype/src/data-table-recipe.css"
+  ],
+  "hashes": {
+    "apps/prototype/src/data-table-recipe.tsx": {
+      "beforeSha256": "094b171795495fe89d7fc03256f2f5d493dda581ef55ac8c1a0f8c9c38a5bd56",
+      "afterSha256": "555d4ead7abbc1daa7b710da5a549a5574b33f395365cc896422eaa972f256b2"
+    },
+    "apps/prototype/src/data-table-recipe.css": {
+      "beforeSha256": "0d563bbc468d24fe8fccc9873214202b882959c40efa227f7ecc8ea240e848a0",
+      "afterSha256": "16afc5af8a79c56661bd56340ee291b007417125daa30b72474a083fae7616a0"
+    },
+    "apps/prototype/src/scenarios/bm-a/page.tsx": {
+      "beforeSha256": "1d93e86dfca5f5ca12609123415de41cc5cafe57e951fb49f1400df22ce146cb",
+      "afterSha256": "1d93e86dfca5f5ca12609123415de41cc5cafe57e951fb49f1400df22ce146cb"
+    }
+  },
+  "commands": [
+    {
+      "command": "python3",
+      "stdinScriptPurpose": "Read only the three listed current scene files and capture full source plus SHA-256 before the edit.",
+      "exitCode": 0,
+      "result": "Complete current recipe, CSS and BM-A wrapper inspected; baseline kept in tool-session memory."
+    },
+    {
+      "command": "pnpm --filter @rain-next/prototype typecheck",
+      "executionWrapper": "python3 subprocess.run with stdout/stderr captured to the authorized log",
+      "startedAtUtc": "2026-09-15T10:35:13.843570+00:00",
+      "endedAtUtc": "2026-09-15T10:35:14.466216+00:00",
+      "exitCode": 0,
+      "result": "tsc --noEmit --project tsconfig.json passed",
+      "log": "/tmp/rn14-a2-typecheck.log"
+    },
+    {
+      "command": "python3",
+      "stdinScriptPurpose": "Read only the same three current scene files and capture content plus SHA-256 after the edit.",
+      "exitCode": 0,
+      "result": "Post-edit source captured for direct invariant checks."
+    }
+  ],
+  "changeSummary": [
+    "Move the single existing selected-count/cancel/publish group below the table/card content into a native section with data-slot=rn14-batch-summary and accessible name 已选资料与批量操作.",
+    "Move the one role=status live region into that section and render ordinary local text with the same notice/loading content.",
+    "Wrap the unchanged Pagination component in a native section with data-slot=rn14-pagination and accessible name 课程资料分页 after the batch section.",
+    "Use existing Stack gap 8 and naturally wrapping Inline for local batch layout.",
+    "Delete former batch auto-margin/flex placement and the notice Card/fixed-position CSS.",
+    "Retarget the existing selected-count font-size selector to the moved batch group while preserving its Rain token value."
+  ],
+  "selfCheck": {
+    "status": "passed",
+    "checks": [
+      "pre-render state logic byte-identical",
+      "batch children/handlers unchanged and unique",
+      "Pagination API/handlers unchanged and unique",
+      "table/card content byte-identical",
+      "a1 toolbar identical except batch removal",
+      "a0 wrapper hash unchanged",
+      "native named sections and status order correct",
+      "plain local live-status region unique",
+      "CSS changes limited to obsolete positioning deletion and preserved selected-count typography"
+    ]
+  },
+  "validation": {
+    "typecheck": "passed",
+    "stateLogic": "byte-identical before render",
+    "batchHandlers": "unchanged",
+    "paginationPropsAndHandlers": "unchanged",
+    "tableAndCardContent": "byte-identical",
+    "round0CourseContext": "unchanged hash",
+    "round1QueryAndResultTools": "unchanged except removal of the moved batch group",
+    "build": "not-performed-as-requested",
+    "browserVerification": "not-performed-as-requested; parent agent owns round-specific browser checks",
+    "independentReview": "not-performed",
+    "humanGate": "not-performed"
+  },
+  "scope": {
+    "sharedPackagesEdited": false,
+    "rootConfigurationEdited": false,
+    "bmAWrapperEdited": false,
+    "bmBEdited": false,
+    "originalRepositoryEdited": false,
+    "stateContractsOrHistoryEdited": false,
+    "gitWritten": false,
+    "externalMessagesSent": false,
+    "networkResearch": false,
+    "dependenciesInstalled": false,
+    "memoryOrTaskHistoryRead": false,
+    "laterRoundImplemented": false,
+    "publicApiExpanded": false,
+    "newDefaultColorsAdded": false
+  },
+  "next": "Parent agent performs round-specific browser verification; await the next instruction."
+}

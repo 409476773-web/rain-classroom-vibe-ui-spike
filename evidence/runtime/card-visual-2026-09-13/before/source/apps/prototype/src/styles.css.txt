@@ -1,0 +1,18 @@
+@import "tailwindcss" source(none);
+@import "@rain-next/foundations/tailwind-theme.css";
+@source "./";
+@source "../../../packages/ui/src";
+@source not "../../../packages/ui/src/icons";
+@source not "../../../packages/ui/src/**/*.test.{ts,tsx}";
+@source not inline("border outline filter underline");
+
+:root { font-family: var(--rain-font-ui); font-synthesis: none; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+.rain-prototype { min-height: 100vh; padding: var(--rain-space-32); background: var(--rain-category-background-neutral-3); color: var(--rain-category-text-neutral-1); }
+.rain-prototype-heading, .rain-prototype .card-gallery, .rain-prototype-note { max-width: 1200px; margin-inline: auto; }
+.rain-prototype-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--rain-space-20); margin-bottom: var(--rain-space-32); }
+.rain-prototype h1 { margin: var(--rain-space-8) 0; font-size: var(--rain-font-size-28); line-height: var(--rain-line-height-36); font-weight: var(--rain-font-weight-semibold); }
+.rain-prototype-heading p, .rain-prototype-note { font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-24); }
+.rain-prototype-note { margin-top: var(--rain-space-32); color: var(--rain-category-text-neutral-3); }
+@media (max-width: 640px) { .rain-prototype { padding: var(--rain-space-16); } }

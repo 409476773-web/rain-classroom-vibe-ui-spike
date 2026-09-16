@@ -1,0 +1,47 @@
+
+> @rain-next/workspace@0.0.0 test:e2e /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> playwright test --config /tmp/rain-outer-card-spacing-production.config.mjs --grep 'outer cards:' --timeout 5000
+
+
+Running 1 test using 1 worker
+
+(node:52804) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/layouts.spec.ts:156:1 › outer cards: apply all three spacings independently from panels without losing drafts (5.1s)
+
+
+  1) [chromium] › tests/e2e/layouts.spec.ts:156:1 › outer cards: apply all three spacings independently from panels without losing drafts 
+
+    Test timeout of 5000ms exceeded.
+
+    Error: locator.click: Test timeout of 5000ms exceeded.
+    Call log:
+      - waiting for getByText('调整外层卡片间距', { exact: true })
+
+
+      159 |   const originalCourse = await course.elementHandle(), originalTitle = await title.elementHandle();
+      160 |   await course.fill("外层卡片调整保留课程草稿"); await title.fill("外层卡片调整保留资料草稿");
+    > 161 |   await page.getByText("调整外层卡片间距", { exact: true }).click();
+          |                                                     ^
+      162 |   const form = page.getByRole("form", { name: "外层卡片间距", exact: true });
+      163 |   async function setCard(inset: number, section: number, item: number) {
+      164 |     for (const [name, value] of [["边缘留白", inset], ["分区间距", section], ["信息间距", item]] as const) {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/layouts.spec.ts:161:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-outer-card-spacing-production/layouts-outer-cards-apply--ea398-anels-without-losing-drafts-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../../tmp/rain-outer-card-spacing-production/layouts-outer-cards-apply--ea398-anels-without-losing-drafts-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-outer-card-spacing-production/layouts-outer-cards-apply--ea398-anels-without-losing-drafts-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-outer-card-spacing-production/layouts-outer-cards-apply--ea398-anels-without-losing-drafts-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/layouts.spec.ts:156:1 › outer cards: apply all three spacings independently from panels without losing drafts 
+ ELIFECYCLE  Command failed with exit code 1.

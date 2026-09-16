@@ -1,0 +1,20 @@
+import { chromium, expect } from '@playwright/test';
+import { mkdirSync, writeFileSync } from 'node:fs';
+const evidence = process.env.TRANSFER_EVIDENCE ?? '/tmp/rain-quality-transfer-check';mkdirSync(evidence,{recursive:true});
+const browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:900}});page.setDefaultTimeout(5000);const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
+try {
+ await page.goto('http://127.0.0.1:5342/'); await expect(page.getByRole('heading',{name:'示例学生 08',exact:true})).toBeVisible();
+ await expect(page.getByText('81 分',{exact:true})).toBeVisible();
+ await expect(page.getByRole('table')).toContainText('待评分'); await expect(page.getByRole('table')).toContainText('未提交');
+ await page.screenshot({path:`${evidence}/student-desktop.png`,fullPage:true});
+ await page.getByRole('tab',{name:'教学跟进',exact:true}).click();await page.getByRole('button',{name:'保存跟进计划',exact:true}).click();await expect(page.getByRole('alert')).toBeVisible();
+ await page.getByRole('combobox',{name:'跟进方式',exact:true}).click();await page.getByRole('option',{name:'课后答疑',exact:true}).click();
+ await page.getByRole('textbox',{name:'沟通要点',exact:true}).fill('了解第 6 周未提交的原因，回看大数定律的练习。');
+ await page.getByRole('tab',{name:'学习记录',exact:true}).click(); await page.getByRole('tab',{name:'教学跟进',exact:true}).click();
+ await expect(page.getByRole('textbox',{name:'沟通要点',exact:true})).toHaveValue('了解第 6 周未提交的原因，回看大数定律的练习。');
+ await page.getByRole('button',{name:'保存跟进计划',exact:true}).click();await expect(page.getByRole('status')).toContainText('计划已保存在当前页面');
+ await page.screenshot({path:`${evidence}/student-plan.png`,fullPage:true});
+ await page.setViewportSize({width:390,height:844});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth-innerWidth)).toBeLessThanOrEqual(1);
+ await page.getByRole('tab',{name:'学习记录',exact:true}).focus();await page.keyboard.press('Enter');await expect(page.getByRole('tabpanel',{name:'学习记录'})).toBeVisible();
+ await page.screenshot({path:`${evidence}/student-narrow.png`,fullPage:true});expect(errors).toEqual([]);writeFileSync(`${evidence}/checks.json`,JSON.stringify({passed:true,checks:['missing scores excluded','missing facts labelled','required validation','draft retained across Tabs','local save feedback','keyboard panels','390px no page overflow','no runtime errors'],errors},null,2));
+}finally{await browser.close()}

@@ -1,0 +1,40 @@
+[WebServer] (node:60206) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:60208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:60214) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/table.spec.ts:84:1 › theme, density, keyboard focus and narrow scrolling render using Rain geometry (911ms)
+
+
+  1) [chromium] › tests/e2e/table.spec.ts:84:1 › theme, density, keyboard focus and narrow scrolling render using Rain geometry 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 32
+    Received: 40.375
+
+      108 |     expect(result.fontSize).toBe("14px"); expect(result.lineHeight).toBe("22px"); expect(result.fontFamily).toContain("PingFang SC");
+      109 |     expect(result.selected).not.toBe("rgba(0, 0, 0, 0)");
+    > 110 |     expect(result.headerHeight).toBe(compact ? 32 : 44);
+          |                                 ^
+      111 |     expect(result.rowHeight).toBe(compact ? 44 : 50);
+      112 |     for (const header of result.headerText) {
+      113 |       expect(header.fontSize).toBe("13px"); expect(header.fontWeight).toBe("400");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/table.spec.ts:110:33
+
+    Error Context: test-results/table-rn08/table-theme-density-keyboa-321c1--render-using-Rain-geometry-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/table-rn08/table-theme-density-keyboa-321c1--render-using-Rain-geometry-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/table-rn08/table-theme-density-keyboa-321c1--render-using-Rain-geometry-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/table.spec.ts:84:1 › theme, density, keyboard focus and narrow scrolling render using Rain geometry 

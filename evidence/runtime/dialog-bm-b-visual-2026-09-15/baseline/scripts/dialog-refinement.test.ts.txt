@@ -1,0 +1,31 @@
+import { readFileSync } from "node:fs";
+import { expect, it } from "vitest";
+import { overlayColors, dialogWidths } from "../packages/foundations/src/overlay-token-contract";
+import { colorAlphaValues, colorToCss, resolveColor } from "../packages/foundations/src/color-registry";
+import { getTokenFoundationOutputs } from "./token-foundation-outputs.mjs";
+import { hasDialogRefinementAuthorization, parseYamlSubset } from "./verification-helpers.mjs";
+import { validateRegisteredRecipeColors } from "./verify-token-foundations.mjs";
+
+it("generates the eight confirmed mask paints without changing the generic Fill or alpha whitelist", () => {
+  const output = getTokenFoundationOutputs();
+  expect(colorAlphaValues).not.toContain(50); expect(colorAlphaValues).not.toContain(70);
+  expect(dialogWidths).toEqual([416, 516, 616, 716, 816, 916, 1016, 1116]);
+  expect(Object.values(overlayColors).map(colors => [colorToCss(colors.light), colorToCss(colors.dark)])).toEqual([
+    ["rgb(34 48 81 / 6%)", "rgb(5 9 26 / 15%)"], ["rgb(34 48 81 / 15%)", "rgb(5 9 26 / 70%)"],
+    ["rgb(34 48 81 / 50%)", "rgb(3 5 16 / 90%)"], ["rgb(27 35 56 / 80%)", "rgb(5 9 26 / 90%)"],
+  ]);
+  for (const [name, colors] of Object.entries(overlayColors)) for (const theme of ["light", "dark"] as const)
+    expect(output.colorThemes[theme]).toHaveProperty(`--rain-overlay-${name}`, colorToCss(colors[theme]));
+  expect(colorToCss(resolveColor("Fill/Neutral/Alpha/1"))).toBe("rgb(84 108 198 / 28%)");
+});
+
+it("keeps implementation authorization and mask consumption exact", () => {
+  const phase: any = parseYamlSubset(readFileSync("status/current-phase.yaml", "utf8"));
+  expect(hasDialogRefinementAuthorization(phase)).toBe(true);
+  for (const patch of [{ scope: "all-components" }, { humanGate: "accepted" }, { contrastAcceptance: "accepted" }, { unexpected: true }])
+    expect(hasDialogRefinementAuthorization({ ...phase, componentRefinements: { ...phase.componentRefinements, dialogRefinement: { ...phase.componentRefinements.dialogRefinement, ...patch } } })).toBe(false);
+  const filePath = "packages/ui/src/dialog/dialog.css", source = readFileSync(filePath, "utf8");
+  expect(validateRegisteredRecipeColors({ filePath, source })).toEqual([]);
+  expect(validateRegisteredRecipeColors({ filePath, source: source.replace("var(--rain-overlay-modal)", "var(--rain-overlay-focus)") }).length).toBeGreaterThan(0);
+  expect(validateRegisteredRecipeColors({ filePath, source: source + ".unregistered { background-color: var(--rain-overlay-modal); }" }).length).toBeGreaterThan(0);
+});

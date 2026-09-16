@@ -1,0 +1,48 @@
+from pathlib import Path
+import hashlib,json,os,shutil,tarfile
+source=Path('/tmp/rain-next-rn14-20260915-1817')
+evidence=Path('/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/rn14-editability')
+consumer=Path('/tmp/rain-next-rn14-consumer-20260915')
+assert not consumer.exists(), 'Refusing to overwrite consumer'
+(source/'README.md').write_text('''# Rain Next RN-14 本地试用样本
+
+BM-A/B复用生成与两轮结构改造的固定源码快照，全部为local-experiment。数据、保存和上传为本地模拟。新样本视觉尚待人工确认，原有颜色、IME、读屏和触屏限制仍保留；未发布或接入业务。
+
+使用当前锁定pnpm版本运行：
+
+```
+pnpm install --frozen-lockfile --offline --ignore-scripts --package-import-method=copy
+pnpm build
+pnpm dev --port 5315 --strictPort
+```
+
+本机缓存缺失时离线安装会失败；另一台机器尚未实测。打开 /#bm-a 或 /#bm-b，页头可切换场景。source-lock.json 区分原始HEAD、内容快照和本地修改，不将未提交内容冒称为Commit版本。
+
+浏览器检查：从本目录运行 `node rn14-browser.mjs http://127.0.0.1:5315 /tmp/rn14-browser-check final chromium`；也支持firefox/webkit。请先启动上述本地服务。浏览器工具依赖来自本目录，浏览器可执行文件使用Playwright本机缓存。
+''')
+ignored={'node_modules','apps/prototype/node_modules','apps/prototype/dist',*[f'packages/{x}/node_modules' for x in ('foundations','ui','layouts')]}
+files={}
+for folder,dirs,names in os.walk(source):
+ dirs[:]=sorted(d for d in dirs if str((Path(folder)/d).relative_to(source)) not in ignored)
+ for name in sorted(names):
+  path=Path(folder)/name;relative=str(path.relative_to(source))
+  if relative=='source-lock.json':continue
+  assert not path.is_symlink(),relative
+  files[relative]=hashlib.sha256(path.read_bytes()).hexdigest()
+lock=json.loads((source/'source-lock.json').read_text());lock['parentSnapshotId']=lock['snapshotId'];lock['files']=files
+lock['snapshotId']='rn14-'+hashlib.sha256((json.dumps(files,ensure_ascii=False,indent=2)+'\n').encode()).hexdigest()[:16]
+lock['localModifications']=[f for f,h in files.items() if lock['sourceFiles'].get(f)!=h]
+lock['completedTrials']=['a0','a1','a2','b0','b1','b2'];lock['humanGate']='awaiting_human'
+assert not any(f.startswith('packages/') for f in lock['localModifications'])
+(source/'source-lock.json').write_text(json.dumps(lock,ensure_ascii=False,indent=2)+'\n')
+shutil.copy(source/'source-lock.json',evidence/'final-source-lock.json')
+archive=evidence/'starter-final.tar.gz'
+with tarfile.open(archive,'w:gz') as tar:
+ for name in [*files,'source-lock.json']:tar.add(source/name,arcname=name,recursive=False)
+consumer.mkdir()
+with tarfile.open(archive) as tar:
+ for member in tar.getmembers():
+  assert not member.issym() and not member.islnk() and not Path(member.name).is_absolute() and '..' not in Path(member.name).parts
+ tar.extractall(consumer)
+(evidence/'final-archive.json').write_text(json.dumps({'snapshotId':lock['snapshotId'],'archive':'starter-final.tar.gz','sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'consumerDirectory':str(consumer),'files':len(files),'sourcePackageChanges':[]},indent=2)+'\n')
+print(lock['snapshotId'],consumer)

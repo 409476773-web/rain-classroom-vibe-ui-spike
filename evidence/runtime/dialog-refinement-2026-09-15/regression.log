@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/dialog-v2.test.ts (3 tests | 1 failed) 71ms
+   × retains independently obtained upstream contents and the protected pre-batch UI 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/dialog-v2.test.ts > retains independently obtained upstream contents and the protected pre-batch UI
+AssertionError: packages/foundations/src/index.ts: expected '5742db7b3d674c3dfc4c8729fe0ba5bcea49b…' to be 'e1db91ad90cc57e074b182b1552ff029e687a…' // Object.is equality
+
+Expected: "e1db91ad90cc57e074b182b1552ff029e687aa667336fd5ba511d0d534ece9af"
+Received: "5742db7b3d674c3dfc4c8729fe0ba5bcea49b9e22dd1d1fd2a4532dd009ab835"
+
+ ❯ scripts/dialog-v2.test.ts:51:130
+     49|   const baseline = JSON.parse(read("evidence/runtime/dialog-v2/baselin…
+     50|   for (const [path, checksum] of Object.entries(baseline.protectedSha2…
+     51|     expect(createHash("sha256").update(readFileSync(fileURLToPath(new …
+       |                                                                                                                                  ^
+     52|   }
+     53| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 13 passed (14)
+   Start at  10:35:15
+   Duration  2.35s (transform 1.01s, setup 381ms, import 1.78s, tests 1.35s, environment 1.35s)
+

@@ -1,0 +1,93 @@
+
+Running 6 tests using 1 worker
+
+(node:24000) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/inside-labels.spec.ts:8:49 › inside labels retain geometry, native naming and actions in light (3.1s)
+  ✓  2 [chromium] › tests/e2e/inside-labels.spec.ts:8:49 › inside labels retain geometry, native naming and actions in dark (2.9s)
+(node:24385) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [firefox] › tests/e2e/inside-labels.spec.ts:8:49 › inside labels retain geometry, native naming and actions in light (4.8s)
+  ✓  4 [firefox] › tests/e2e/inside-labels.spec.ts:8:49 › inside labels retain geometry, native naming and actions in dark (3.6s)
+(node:24769) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 [webkit] › tests/e2e/inside-labels.spec.ts:8:49 › inside labels retain geometry, native naming and actions in light (8.3s)
+(node:25404) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  6 [webkit] › tests/e2e/inside-labels.spec.ts:8:49 › inside labels retain geometry, native naming and actions in dark (8.2s)
+
+
+  1) [webkit] › tests/e2e/inside-labels.spec.ts:8:49 › inside labels retain geometry, native naming and actions in light 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  locator('#inside-label-fixture').locator('[data-cell="outlined-32"]').locator('[data-field="input"]').getByRole('button', { name: '清除资料名称', exact: true })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for locator('#inside-label-fixture').locator('[data-cell="outlined-32"]').locator('[data-field="input"]').getByRole('button', { name: '清除资料名称', exact: true })
+        14 × locator resolved to <button type="button" aria-label="清除资料名称" data-focus="control" data-slot="clear-action" class="rain-input__clear inline-flex size-full items-center justify-center rounded-rain-4 border-none bg-transparent p-rain-0 cursor-pointer text-rain-category-icon-neutral-3 hover:text-rain-category-icon-neutral-2 active:text-rain-category-icon-neutral-1">…</button>
+           - unexpected value "inactive"
+
+
+      81 |   await page.keyboard.type("补充");
+      82 |   await page.keyboard.press("Tab");
+    > 83 |   await expect(input.getByRole("button", { name: "清除资料名称", exact: true })).toBeFocused();
+         |                                                                            ^
+      84 |   await page.keyboard.press("Enter");
+      85 |   await expect(input.getByRole("textbox")).toHaveValue("");
+      86 |   await expect(input.getByRole("textbox")).toBeFocused();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/inside-labels.spec.ts:83:76
+
+    Error Context: test-results/inside-labels/inside-labels-inside-label-406b3-naming-and-actions-in-light-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/inside-labels/inside-labels-inside-label-406b3-naming-and-actions-in-light-webkit/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/inside-labels/inside-labels-inside-label-406b3-naming-and-actions-in-light-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [webkit] › tests/e2e/inside-labels.spec.ts:8:49 › inside labels retain geometry, native naming and actions in dark 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  locator('#inside-label-fixture').locator('[data-cell="outlined-32"]').locator('[data-field="input"]').getByRole('button', { name: '清除资料名称', exact: true })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for locator('#inside-label-fixture').locator('[data-cell="outlined-32"]').locator('[data-field="input"]').getByRole('button', { name: '清除资料名称', exact: true })
+        14 × locator resolved to <button type="button" aria-label="清除资料名称" data-focus="control" data-slot="clear-action" class="rain-input__clear inline-flex size-full items-center justify-center rounded-rain-4 border-none bg-transparent p-rain-0 cursor-pointer text-rain-category-icon-neutral-3 hover:text-rain-category-icon-neutral-2 active:text-rain-category-icon-neutral-1">…</button>
+           - unexpected value "inactive"
+
+
+      81 |   await page.keyboard.type("补充");
+      82 |   await page.keyboard.press("Tab");
+    > 83 |   await expect(input.getByRole("button", { name: "清除资料名称", exact: true })).toBeFocused();
+         |                                                                            ^
+      84 |   await page.keyboard.press("Enter");
+      85 |   await expect(input.getByRole("textbox")).toHaveValue("");
+      86 |   await expect(input.getByRole("textbox")).toBeFocused();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/inside-labels.spec.ts:83:76
+
+    Error Context: test-results/inside-labels/inside-labels-inside-label-e6710--naming-and-actions-in-dark-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/inside-labels/inside-labels-inside-label-e6710--naming-and-actions-in-dark-webkit/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/inside-labels/inside-labels-inside-label-e6710--naming-and-actions-in-dark-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [webkit] › tests/e2e/inside-labels.spec.ts:8:49 › inside labels retain geometry, native naming and actions in light 
+    [webkit] › tests/e2e/inside-labels.spec.ts:8:49 › inside labels retain geometry, native naming and actions in dark 
+  4 passed (33.4s)

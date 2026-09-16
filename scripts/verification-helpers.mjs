@@ -1,5 +1,20 @@
 import { createHash } from "node:crypto";
 
+// Preserve RN-06/RN-08 historical hashes while accepting only the exact upstream
+// width implementation approved on 2026-09-14. See the table-card-parity plan.
+export function restoreDropdownWidthBaseline(file, source) {
+  const hash = createHash("sha256").update(source).digest("hex");
+  if (file === "packages/ui/src/dropdown-menu/dropdown-menu.tsx" && hash === "b79118bdc3401d3aeab5cf38b794028771fbbe0c6f5d1a1e625b5c054c70f4cc") {
+    return source.toString().replace('width?: number | "auto";', 'width?: number;')
+      .replace('width = "auto"', 'width = 280')
+      .replace('style={width === "auto" ? undefined : popupWidthStyle(width)}', 'style={popupWidthStyle(width)}');
+  }
+  if (file === "packages/ui/src/dropdown-menu/dropdown-menu.css" && hash === "c0b31c91a2ea6cc500324141397b0aa66a7664c8c7b3d0b098e18a5c138cea29") {
+    return source.toString().replace(/\.rain-menu \{\n[\s\S]*?\n\}\n/, "");
+  }
+  return source;
+}
+
 function yamlError(line, message) {
   const location = line ? ` at line ${line.number}` : "";
   return new Error(`Invalid YAML subset${location}: ${message}`);
@@ -1527,6 +1542,618 @@ export function hasCheckboxSc01Authorization(status) {
     });
 }
 
+export const tablePaginationFiles = {
+  ui: ["pagination.utils.ts", "pagination.styles.ts", "pagination.css", "pagination.css.d.ts", "pagination.test.tsx"].map(name => `packages/ui/src/pagination/${name}`),
+  workspace: ["scripts/pagination-color-consumers.mjs"],
+};
+export function hasTablePaginationReplacementAuthorization(status) {
+  const entry = status?.componentRefinements?.tableRn08?.paginationReplacement;
+  return Boolean(entry && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-14", decisionSource: "explicit-user-replace-table-pagination",
+      scope: "existing-table-consumers-use-confirmed-pagination", plan: "../docs/plans/2026-09-14-table-pagination-replacement.md",
+      evidence: "../evidence/runtime/table-pagination-replacement/verification.md",
+      sourceLock: "../evidence/runtime/table-pagination-replacement/source-lock.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "not-authorized",
+    }));
+}
+
+export function hasTableVisualRefinementAuthorization(status) {
+  const entry = status?.componentRefinements?.tableRn08?.visualRefinement;
+  return Boolean(entry && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-14", decisionSource: "explicit-user-table-visual-four-points",
+      scope: "table-hover-header-row-heights-and-local-toolbar-sizes",
+      plan: "../docs/plans/2026-09-14-table-visual-refinement.md", evidence: "../evidence/runtime/table-visual-refinement/verification.md",
+      hover: "Fill/Neutral/Alpha/5", headerTypography: "13/18/400-Text/Neutral/4",
+      heights: { defaultHeader: 44, defaultBody: 50, compactHeader: 32, compactBody: 44 },
+      toolbarHeights: { default: 32, compact: 28 },
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "not-authorized",
+    }));
+}
+
+export const insideFieldLabelBrowserFiles = ["tests/e2e/inside-labels.spec.ts", "tests/e2e/inside-labels.config.ts"];
+export const insideFieldLabelFiles = [
+  "packages/ui/src/input/form-item.tsx", "packages/ui/src/input/input.tsx", "packages/ui/src/select/select.tsx", "packages/ui/src/styles.css",
+  "packages/ui/src/input/input-field.test.tsx", "packages/ui/src/select/select.test.tsx",
+];
+export function hasInsideFieldLabelsAuthorization(status) {
+  const entry = status?.componentRefinements?.tableRn08?.insideFieldLabels;
+  const accepted = entry?.humanGate === "accepted";
+  return Boolean(entry && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && ["awaiting_human", "accepted"].includes(entry.humanGate)
+    && (!accepted || (entry.implementation === "completed" && entry.automatedVerification === "passed" && exactRecord(entry.humanGateDecision, {
+      acceptedAt: "2026-09-14", decisionSource: "explicit-user-confirmation", userStatement: "确定，没问题。",
+      scope: "input-search-input-select-inside-labels-runtime-visual-only", evidence: "../evidence/runtime/inside-field-labels/visual-acceptance.md",
+    })))
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-14", decisionSource: "explicit-user-start-confirmed-inside-field-labels",
+      scope: "optional-fixed-inside-labels-for-input-search-input-select-and-local-toolbar",
+      plan: "../docs/plans/2026-09-14-inside-field-labels.md", evidence: "../evidence/runtime/inside-field-labels/verification.md",
+      baseline: "../evidence/runtime/inside-field-labels/before/source-lock.json",
+      labelPosition: { default: "top", optional: "inside" }, labelColor: "Text/Neutral/4", labelColorDecisionSource: "explicit-user-lighter-inside-labels",
+      toolbarHeights: { default: 32, compact: 28 }, multipleDisplay: "existing-single-line-summary-or-count",
+      sharedFiles: insideFieldLabelFiles,
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: entry.humanGate, ...(accepted ? { humanGateDecision: entry.humanGateDecision } : {}), contrastAcceptance: "not-granted", publication: "not-authorized",
+      doesNotAuthorize: ["in-frame-search-or-multiline-labels", "global-size-token-changes", "figma-publication-business-migration-or-git"],
+    }));
+}
+
+export const avatarFamilyFiles = {
+  application: ["apps/playground/src/docs/components/avatar-page.tsx", "apps/playground/src/docs/components/avatar-page.css"],
+  ui: [
+    ...["avatar.tsx", "avatar-assets.ts", "avatar.css", "avatar.css.d.ts", "avatar.test.tsx", "avatar-group.tsx", "avatar-grid.tsx", "avatar-group.test.tsx",
+      ...["default", ...["student", "teacher"].flatMap(role => Array.from({ length: 25 }, (_, i) => `${role}-${String(i + 1).padStart(2, "0")}`))].map(id => `assets/${id}.png`),
+    ].map(file => `packages/ui/src/avatar/${file}`),
+    ...["status-indicator.tsx", "status-indicator.css", "status-indicator.css.d.ts", "status-indicator.test.tsx"].map(file => `packages/ui/src/status-indicator/${file}`),
+  ],
+  documents: [...["avatar", "avatar-group", "avatar-grid", "status-indicator", "status-indicator-group", "activity-overlay"].map(name => `manifests/ui/${name}.yaml`), "registry/avatar.json", "registry/status-indicator.json"],
+  workspace: ["tests/e2e/avatar.spec.ts", "scripts/avatar-family.mjs", "scripts/avatar-family.test.ts"],
+};
+export function hasAvatarFamilyAuthorization(status) {
+  const entry = status?.componentRefinements?.avatarFamily;
+  const accepted = entry?.humanGate === "accepted";
+  return Boolean(entry && ["awaiting_human", "accepted"].includes(entry.humanGate)
+    && (!accepted || (entry.implementation === "completed" && entry.automatedVerification === "passed" && entry.independentReview === "passed"
+      && exactRecord(entry.humanGateDecision, {
+        acceptedAt: "2026-09-16", decisionSource: "explicit-user-confirmation", userStatement: "确定。完成视觉检验",
+        scope: "avatar-current-runtime-visual-only", evidence: "../evidence/runtime/avatar/refinement-2026-09-16.md",
+        doesNotAuthorize: ["contrast-or-accessibility-acceptance", "other-component-human-gates", "figma-publication-business-migration-or-git"],
+      }))) && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-16", decisionSource: "explicit-user-start-avatar-family",
+      userStatement: "开始实施建设", scope: "avatar-assets-gallery-group-grid-and-passive-status-decorations",
+      plan: "../docs/plans/2026-09-16-avatar-family-design-and-construction.md", evidence: "../evidence/runtime/avatar/verification.md",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: entry.humanGate, ...(accepted ? { humanGateDecision: entry.humanGateDecision } : {}), contrastAcceptance: "not-granted", publication: "not-authorized",
+    }));
+}
+export function isAvatarFamilyImport(status, filePath, specifier) {
+  return hasAvatarFamilyAuthorization(status) && ["avatar", "avatar-group", "avatar-grid"].some(name => filePath === `packages/ui/src/avatar/${name}.tsx`) && specifier === "@base-ui/react/use-render";
+}
+
+export const emptyRefinementFiles = {
+  ui: ["empty-illustrations.ts", "empty.css", "empty.css.d.ts", "empty.test.tsx",
+    ...["empty-box", "empty-search", "empty-paper", "no-one", "outer-space", "empty-sofa", "simple"].flatMap(name => ["light", "dark"].map(theme => `assets/${name}-${theme}.svg`)),
+  ].map(name => `packages/ui/src/empty/${name}`),
+};
+export function hasEmptyRefinementAuthorization(status) {
+  const entry = status?.componentRefinements?.tableRn08?.emptyRefinement;
+  const accepted = entry?.humanGate === "accepted";
+  return Boolean(entry && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && ["awaiting_human", "accepted"].includes(entry.humanGate)
+    && (!accepted || (entry.implementation === "completed" && entry.automatedVerification === "passed" && exactRecord(entry.humanGateDecision, {
+      acceptedAt: "2026-09-14", decisionSource: "explicit-user-confirmation", userStatement: "确定，没问题",
+      scope: "empty-presentations-typography-and-actions-runtime-visual-only", evidence: "../evidence/runtime/empty-refinement/visual-acceptance.md",
+    })))
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-14", decisionSource: "explicit-user-start-confirmed-empty-refinement",
+      scope: "empty-media-presentations-and-typography-without-business-scenarios",
+      plan: "../docs/plans/2026-09-14-empty-refinement.md", evidence: "../evidence/runtime/empty-refinement/verification.md",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: entry.humanGate, ...(accepted ? { humanGateDecision: entry.humanGateDecision } : {}), contrastAcceptance: "not-granted", publication: "not-authorized",
+    }));
+}
+
+export const tableRn08Files = {
+  application: ["apps/playground/src/docs/components/table-page.tsx", "apps/prototype/src/data-table-recipe.tsx", "apps/prototype/src/data-table-recipe.css", "apps/prototype/src/data-table-recipe.test.tsx"],
+  ui: ["packages/ui/src/table/table.tsx", "packages/ui/src/table/table.styles.ts", "packages/ui/src/table/table.css", "packages/ui/src/table/table.css.d.ts", "packages/ui/src/table/table.test.tsx", "packages/ui/src/pagination/pagination.tsx", "packages/ui/src/empty/empty.tsx"],
+  documents: ["manifests/ui/table.yaml", "manifests/ui/pagination.yaml", "manifests/ui/empty.yaml", "registry/table.json"],
+  workspace: ["scripts/table-rn08.test.ts", "tests/e2e/table.spec.ts", "tests/e2e/table.config.ts"],
+};
+export function hasTableRn08Authorization(status) {
+  const entry = status?.componentRefinements?.tableRn08;
+  if (entry?.paginationReplacement !== undefined && !hasTablePaginationReplacementAuthorization(status)) return false;
+  if (entry?.visualRefinement !== undefined && !hasTableVisualRefinementAuthorization(status)) return false;
+  if (entry?.insideFieldLabels !== undefined && !hasInsideFieldLabelsAuthorization(status)) return false;
+  if (entry?.emptyRefinement !== undefined && !hasEmptyRefinementAuthorization(status)) return false;
+  return Boolean(entry && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-14", decisionSource: "explicit-user-start-next-v2-rn08", userStatement: "开始建设",
+      scope: "rn08-table-pagination-empty-and-local-data-recipe", plan: "../docs/plans/2026-09-14-table-rn08.md",
+      evidence: "../evidence/runtime/table-rn08/verification.md", implementation: entry.implementation,
+      automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", packageOrRegistryPublication: "not-authorized", businessMigration: "not-authorized",
+      dependencies: { reactTable: "8.21.3", tableCore: "8.21.3" },
+      ...(entry.paginationReplacement ? { paginationReplacement: entry.paginationReplacement } : {}),
+      ...(entry.visualRefinement ? { visualRefinement: entry.visualRefinement } : {}),
+      ...(entry.insideFieldLabels ? { insideFieldLabels: entry.insideFieldLabels } : {}),
+      ...(entry.emptyRefinement ? { emptyRefinement: entry.emptyRefinement } : {}),
+    }));
+}
+
+export const layoutsV1Files = {
+  application: ["apps/playground/src/docs/components/layouts-page.tsx", "apps/playground/src/docs/components/layouts-page.css", "apps/prototype/src/layout-recipes.tsx", "apps/prototype/src/layout-recipes.css"],
+  layouts: ["packages/layouts/package.json", "packages/layouts/tsconfig.json", ...["index.ts", "layout.tsx", "layout.css", "layout.css.d.ts", "layout.test.tsx"].map(name => `packages/layouts/src/${name}`)],
+  documents: ["docs/adr/0009-minimal-layouts.md", ...["stack", "inline", "grid", "split"].map(name => `manifests/layouts/${name}.yaml`), "registry/layouts.json"],
+  workspace: ["tests/e2e/layouts.spec.ts", "scripts/layouts-v1.test.ts"],
+};
+
+export function hasLayoutsV1Authorization(status) {
+  const entry = status?.componentRefinements?.layoutsV1;
+  const spacing = entry?.spacingHierarchy;
+  const spacingAccepted = spacing?.humanGate === "accepted";
+  if (spacing !== undefined && (!exactRecord(spacing, {
+    authorization: "authorized", authorizedAt: "2026-09-13", decisionSource: "explicit-user-continue-confirmed-spacing-hierarchy",
+    scope: "layout-spacing-contract-and-existing-local-consumers", plan: "../docs/plans/2026-09-13-spacing-hierarchy-design.md",
+    evidence: "../evidence/runtime/spacing-hierarchy/verification.md", implementation: spacing.implementation,
+    automatedVerification: spacing.automatedVerification, independentReview: spacing.independentReview,
+    humanGate: spacing.humanGate, contrastAcceptance: "not-granted",
+    ...(spacingAccepted ? { humanGateDecision: spacing.humanGateDecision } : {}),
+  }) || !["in-progress", "completed"].includes(spacing.implementation)
+    || !["not-run", "failed", "passed"].includes(spacing.automatedVerification)
+    || !["not-run", "findings", "passed"].includes(spacing.independentReview)
+    || !["awaiting_human", "accepted"].includes(spacing.humanGate)
+    || (spacingAccepted && (spacing.implementation !== "completed" || spacing.automatedVerification !== "passed" || spacing.independentReview !== "passed"
+      || !exactRecord(spacing.humanGateDecision, {
+        acceptedAt: "2026-09-13", decisionSource: "explicit-user-confirmation", userStatement: "确定。没问题",
+        scope: "layouts-spacing-runtime-visual-only", evidence: "../evidence/runtime/spacing-hierarchy/outer-cards/visual-acceptance.md",
+      }))))) return false;
+  return Boolean(entry && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-13", decisionSource: "explicit-user-continue-v2-after-dialog-refinement",
+      userStatement: "继续", scope: "rn-06-stack-inline-grid-split-and-local-consumers",
+      plan: "../docs/plans/2026-09-13-layouts-v1-implementation.md", evidence: "../evidence/runtime/layouts-v1/verification.md",
+      ...(spacing === undefined ? {} : { spacingHierarchy: spacing }),
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted",
+      doesNotAuthorize: ["rn-07-and-later-or-complete-benchmarks", "existing-ui-or-foundation-values-migration", "drag-resize-persistence-navigation-sidebar-or-new-third-party-dependencies", "human-gate-or-contrast-acceptance", "new-commit-remote-writes-figma-publication-or-business-migration"],
+    }));
+}
+
+export function hasDialogRefinementAuthorization(status) {
+  const entry = status?.componentRefinements?.dialogRefinement;
+  const accepted = entry?.humanGate === "accepted";
+  return Boolean(entry && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && ["awaiting_human", "accepted"].includes(entry.humanGate)
+    && (!accepted || entry.implementation === "completed" && entry.automatedVerification === "passed" && entry.independentReview === "passed")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-15", decisionSource: "explicit-user-start-dialog-refinement",
+      userStatement: "开始实施", scope: "dialog-alert-dialog-overlay-tokens-course-and-bm-b",
+      plan: "../docs/plans/2026-09-15-dialog-refinement-implementation.md",
+      evidence: "../evidence/runtime/dialog-refinement-2026-09-15/verification.md",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification,
+      independentReview: entry.independentReview, humanGate: entry.humanGate, contrastAcceptance: "not-granted",
+      ...(accepted ? { humanGateDecision: {
+        acceptedAt: "2026-09-15", decisionSource: "explicit-user-request-rule-based-visual-acceptance",
+        userStatement: "根据已经建设的dialog设计规则，完成 Dialog 和 BM-B 大表单的整体视觉验收",
+        scope: "dialog-alert-dialog-runtime-visual-only", evidence: "../evidence/runtime/dialog-bm-b-visual-2026-09-15/verification.md",
+      } } : {}),
+    }));
+}
+
+export const dialogV2Files = {
+  application: ["apps/playground/src/docs/components/dialog-page.tsx", "apps/playground/src/docs/components/dialog-page.css", "apps/prototype/src/course-dialog.tsx", "apps/prototype/src/course-dialog.css"],
+  ui: ["packages/ui/src/dialog/dialog.tsx", "packages/ui/src/dialog/dialog.css", "packages/ui/src/dialog/dialog.css.d.ts", "packages/ui/src/dialog/dialog.test.tsx", "packages/ui/src/separator/separator.tsx", "packages/ui/src/separator/separator.css", "packages/ui/src/separator/separator.css.d.ts"],
+  documents: ["manifests/ui/dialog.yaml", "manifests/ui/separator.yaml", "registry/dialog.json"],
+  workspace: ["tests/e2e/dialog.spec.ts", "scripts/dialog-v2.test.ts"],
+};
+
+export function hasDialogV2Authorization(status) {
+  const entry = status?.componentRefinements?.dialogV2;
+  const revision = entry?.visualRefinement;
+  if (revision !== undefined && (
+    !["in-progress", "completed"].includes(revision?.implementation)
+    || !["not-run", "failed", "passed"].includes(revision.automatedVerification)
+    || !["not-run", "findings", "passed"].includes(revision.independentReview)
+    || !exactRecord(revision, {
+      authorization: "authorized", authorizedAt: "2026-09-13", decisionSource: "explicit-user-refine-dialog-and-composition-rules",
+      scope: "dialog-parts-course-example-review-and-composition-rules",
+      plan: "../docs/plans/2026-09-13-dialog-visual-refinement-plan.md",
+      evidence: "../evidence/runtime/dialog-visual-2026-09-13/verification.md",
+      implementation: revision.implementation, automatedVerification: revision.automatedVerification,
+      independentReview: revision.independentReview, humanGate: "awaiting_human", contrastAcceptance: "not-granted",
+    })
+  )) return false;
+  return Boolean(entry && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-13", decisionSource: "explicit-user-continue-v2-after-card",
+      scope: "rn-05-dialog-separator-and-course-edit-consumer", plan: "../docs/plans/2026-09-13-dialog-v2-implementation.md",
+      ...(revision === undefined ? {} : { visualRefinement: revision }),
+      evidence: "../evidence/runtime/dialog-v2/verification.md", implementation: entry.implementation,
+      automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted",
+      doesNotAuthorize: ["rn-06-and-later-or-complete-benchmarks", "card-or-existing-component-visual-migration", "foundation-values-or-dependency-upgrades", "human-gate-or-contrast-acceptance", "new-commit-remote-writes-figma-publication-or-business-migration"],
+    }));
+}
+
+export function isDialogV2Import(file, specifier) {
+  return (file === "packages/ui/src/dialog/dialog.tsx" && specifier === "@base-ui/react/dialog")
+    || (file === "packages/ui/src/separator/separator.tsx" && specifier === "@base-ui/react/separator");
+}
+
+export const cardV2Files = {
+  application: [
+    "apps/playground/src/docs/components/card-page.tsx", "apps/playground/src/docs/components/card-page.css",
+    "apps/prototype/package.json", "apps/prototype/tsconfig.json", "apps/prototype/vite.config.ts", "apps/prototype/index.html",
+    "apps/prototype/src/main.tsx", "apps/prototype/src/styles.css", "apps/prototype/src/card-recipes.tsx", "apps/prototype/src/card-recipes.css",
+  ],
+  ui: ["packages/ui/src/card/card.styles.ts", "packages/ui/src/card/card.css", "packages/ui/src/card/card.css.d.ts", "packages/ui/src/card/card.test.tsx"],
+  documents: ["manifests/ui/card.yaml", "registry/card.json"],
+  workspace: ["tests/e2e/card.spec.ts"],
+};
+
+export function hasCardV2Authorization(status) {
+  const entry = status?.componentRefinements?.cardV2;
+  const revision = entry?.visualRefinement;
+  if (revision !== undefined && (
+    !["in-progress", "completed"].includes(revision.implementation)
+    || !["not-run", "failed", "passed"].includes(revision.automatedVerification)
+    || !["not-run", "findings", "passed"].includes(revision.independentReview)
+    || !exactRecord(revision, {
+      authorization: "authorized", authorizedAt: "2026-09-13",
+      decisionSource: "explicit-user-start-card-visual-plan", userStatement: "开始按计划实施",
+      scope: "card-typography-header-four-recipes-and-review-presentation",
+      plan: "../docs/plans/2026-09-13-card-visual-refinement-plan.md",
+      evidence: "../evidence/runtime/card-visual-2026-09-13/verification.md",
+      implementation: revision.implementation, automatedVerification: revision.automatedVerification,
+      independentReview: revision.independentReview, humanGate: "awaiting_human", contrastAcceptance: "not-granted",
+    })
+  )) return false;
+  if (!entry || !["in-progress", "completed"].includes(entry.implementation)
+    || !["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    || !["not-run", "findings", "passed"].includes(entry.independentReview)
+    || !["not-evaluated", "awaiting_human"].includes(entry.humanGate)) return false;
+  return exactRecord(entry, {
+    authorization: "authorized", authorizedAt: "2026-09-12",
+    decisionSource: "explicit-user-start-v2-card-batch", userStatement: "开始工作",
+    scope: "card-replacement-recipes-and-minimal-prototype",
+    plan: "../docs/plans/2026-09-12-card-v2-implementation.md",
+    ...(revision !== undefined ? { visualRefinement: revision } : {}),
+    implementation: entry.implementation, automatedVerification: entry.automatedVerification,
+    independentReview: entry.independentReview, humanGate: entry.humanGate, contrastAcceptance: "not-granted",
+    sourceControl: {
+      baselineCommit: "321e1a0c1b5f9284e0fcb5167fa059d6174b1752", existingRemote: "origin",
+      existingRemoteUrl: "https://github.com/409476773-web/rain-classroom-vibe-ui-spike.git",
+      priorAuthorization: "../docs/plans/2026-09-12-existing-assets-closure.md",
+      localIsolation: "codex/card-v2", newCommit: "not-created", remoteWrite: "not-authorized",
+    },
+    doesNotAuthorize: [
+      "dialog-or-other-component-batches", "global-brand-font-focus-or-existing-accepted-visual-changes",
+      "new-headless-or-dependency-upgrades", "human-gate-or-contrast-acceptance",
+      "new-commit-remote-writes-figma-publication-or-business-migration",
+    ],
+  });
+}
+
+export function hasGenerationQualityAuthorization(status) {
+  const entry = status?.componentRefinements?.generationQuality;
+  return Boolean(entry) && hasM2Authorization(status)
+    && ["asset-entry", "bm-c-layout", "bm-d-layout", "bm-d-chart", "transfer", "complete"].includes(entry.progress)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.progress === "complete" && entry.automatedVerification === "passed" && entry.independentReview === "passed")
+    && (entry.progress !== "complete" || entry.implementation === "completed")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-15", decisionSource: "explicit-user-start-generation-quality-plan",
+      userStatement: "开始按计划实施", scope: "rain-generation-quality-entry-report-chart-and-transfer",
+      plan: "../docs/plans/2026-09-15-rain-generation-quality-improvement.md", evidence: "../evidence/runtime/generation-quality/review.md",
+      ...(entry.designKnowledgeDelivery ? { designKnowledgeDelivery: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-continue-design-knowledge", userStatement: "继续",
+        scope: "ai-design-guides-starter-and-isolated-form-trial", plan: "../docs/plans/2026-09-16-design-knowledge-delivery.md",
+        evidence: "../evidence/runtime/design-knowledge/review.md",
+      } } : {}),
+      ...(entry.regressionRepair ? { regressionRepair: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-continue-after-select-regressions", userStatement: "继续推进",
+        scope: "select-popup-width-and-preview-overflow", evidence: "../evidence/runtime/generation-quality/select-repair.md",
+      } } : {}),
+      ...(entry.visualRefinement ? { visualRefinement: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-bm-d-browser-comments",
+        scope: "bm-d-thirteen-visual-comments", evidence: "../evidence/runtime/generation-quality/bm-d-feedback/review.md",
+      } } : {}),
+      ...(entry.bmCVisualRefinement ? { bmCVisualRefinement: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-bm-c-browser-comments",
+        scope: "bm-c-fourteen-visual-comments", evidence: "../evidence/runtime/generation-quality/bm-c-feedback/review.md",
+      } } : {}),
+      ...(entry.compositionRefinement ? { compositionRefinement: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-self-repair-after-composition-audit",
+        scope: "bm-d-composition-convergence", evidence: "../evidence/runtime/generation-quality/composition-refinement/review.md",
+      } } : {}),
+      ...(entry.listCompositionPilot ? { listCompositionPilot: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-start-after-composition-discussion", userStatement: "开始",
+        scope: "local-list-composition-reference-and-guided-transfer", plan: "../docs/plans/2026-09-16-list-composition-pilot.md",
+        evidence: "../evidence/runtime/list-composition/review.md",
+        implementation: "completed", automatedVerification: "passed", independentReview: "not-run", humanGate: "awaiting_human",
+      } } : {}),
+      ...(entry.bmCCompositionRefinement ? { bmCCompositionRefinement: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-bm-c-second-browser-comments",
+        scope: "bm-c-thirteen-comments-and-composition", evidence: "../evidence/runtime/generation-quality/bm-c-composition/review.md",
+      } } : {}),
+      ...(entry.bmCPrimaryWorkflowRefinement ? { bmCPrimaryWorkflowRefinement: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-bm-c-primary-workflow-comments",
+        scope: "bm-c-input-status-alignment-grouping-and-duplicate-removal", evidence: "../evidence/runtime/generation-quality/bm-c-primary-workflow/review.md",
+      } } : {}),
+      ...(entry.bmCDirectoryRefinement ? { bmCDirectoryRefinement: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-bm-c-directory-score-avatar-comments",
+        scope: "bm-c-score-color-groups-short-input-and-student-avatars", evidence: "../evidence/runtime/generation-quality/bm-c-directory-detail/review.md",
+      } } : {}),
+      ...(entry.bmCQuestionSwitchRefinement ? { bmCQuestionSwitchRefinement: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-bm-c-student-question-number-switch",
+        scope: "bm-c-student-question-number-navigation", evidence: "../evidence/runtime/generation-quality/bm-c-question-switch/review.md",
+      } } : {}),
+      progress: entry.progress, implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized",
+    });
+}
+
+export function hasSelectRegressionRepairAuthorization(status) {
+  return hasGenerationQualityAuthorization(status) && Boolean(status.componentRefinements.generationQuality.regressionRepair);
+}
+
+export const rn13AssetIndexFiles = {
+  documents: ["manifests/ui/badge.yaml", "manifests/ui/surface.yaml", "manifests/ui/link.yaml", "registry/core-ui.json", "docs/ai/README.md", "docs/ai/asset-index.md", "docs/plans/2026-09-15-rn13-asset-index.md"],
+  workspace: ["scripts/asset-index.mjs", "scripts/asset-index.test.ts"],
+};
+export const rn14EditabilityFiles = {
+  documents: ["docs/plans/2026-09-15-rn14-editability.md"],
+  workspace: ["scripts/rn14-starter.mjs", "scripts/rn14-starter.test.ts", "scripts/rn14-browser.mjs"],
+};
+export const rn15DeliveryFiles = {
+  documents: ["docs/plans/2026-09-15-rn15-delivery.md", "docs/ai/trial-guide.md"],
+  workspace: ["scripts/rn15-delivery.test.ts", "tests/e2e/rn15.config.ts"],
+};
+export const m2DeliveryFiles = {
+  application: ["bm-c", "bm-d"].flatMap(scene => ["page.tsx", "page.css", "state.ts", "state.test.tsx", "state-contract.md"].map(file => `apps/prototype/src/scenarios/${scene}/${file}`)),
+  documents: ["docs/plans/2026-09-15-m2-workbench-report.md", "docs/ai/m2-trial-guide.md"],
+  workspace: ["scripts/m2.test.ts", "tests/e2e/m2.config.ts", "tests/e2e/m2.spec.ts"],
+};
+export function hasM2Authorization(status) {
+  const entry = status?.componentRefinements?.m2Delivery;
+  const lifecycle = record => Boolean(record)
+    && ["in-progress", "completed"].includes(record.implementation)
+    && ["not-run", "failed", "passed"].includes(record.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(record.independentReview)
+    && (record.implementation !== "completed" || record.automatedVerification === "passed" && record.independentReview === "passed");
+  const benchmark = record => lifecycle(record) && exactRecord(record, {
+    implementation: record.implementation, automatedVerification: record.automatedVerification,
+    independentReview: record.independentReview, humanGate: "awaiting_human",
+  });
+  return Boolean(entry) && hasRn15Authorization(status) && hasLayoutsV1Authorization(status) && hasTableRn08Authorization(status)
+    && lifecycle(entry) && benchmark(entry.benchmarks?.bmC) && benchmark(entry.benchmarks?.bmD)
+    && (entry.implementation !== "completed" || [entry.benchmarks.bmC, entry.benchmarks.bmD].every(record => record.implementation === "completed"))
+    && exactRecord(entry.benchmarks, { bmC: entry.benchmarks.bmC, bmD: entry.benchmarks.bmD })
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-15", decisionSource: "explicit-user-continue-m2", userStatement: "继续m2",
+      scope: "m2-bm-c-d-local-scenarios-editability-and-scoped-delivery",
+      plan: "../docs/plans/2026-09-15-m2-workbench-report.md", evidence: "../evidence/runtime/m2/verification.md",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      benchmarks: entry.benchmarks, humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized",
+    });
+}
+
+export function prepareM2NavigationSource(file, source, status) {
+  const directory = '<nav aria-label="分层批改目录">';
+  return file === "apps/prototype/src/scenarios/bm-c/page.tsx" && hasM2Authorization(status) && source.split(directory).length === 2
+    ? source.replace(directory, "") : source;
+}
+
+// Literal authorized additions only: arbitrary code inside or outside a marker stays protected.
+function restoreM2PrototypeEntry(file, source, status) {
+  if (file !== "apps/prototype/src/main.tsx" || !hasM2Authorization(status)) return source;
+  if (hasGenerationQualityAuthorization(status) && status.componentRefinements.generationQuality.listCompositionPilot) {
+    for (const addition of [
+      'import { ListCompositionPreview } from "./scenarios/list-composition/page";\n',
+      '  if (route === "#list-composition") return <DensityProvider density="default"><ListCompositionPreview /></DensityProvider>;\n',
+    ]) if (source.toString().split(addition).length === 2) source = source.toString().replace(addition, "");
+  }
+  const additions = [
+    '// m2-entry:start\nimport { useEffect } from "react";\nimport { GradingWorkbenchScenario } from "./scenarios/bm-c/page";\nimport { LearningReportScenario } from "./scenarios/bm-d/page";\n// m2-entry:end\n',
+    '  // m2-routes:start\n  const [route, setRoute] = useState(window.location.hash);\n  useEffect(() => { const change = () => setRoute(window.location.hash); window.addEventListener("hashchange", change); return () => window.removeEventListener("hashchange", change); }, []);\n  if (route === "#bm-c") return <DensityProvider density="default"><GradingWorkbenchScenario /></DensityProvider>;\n  if (route === "#bm-d") return <DensityProvider density="default"><LearningReportScenario /></DensityProvider>;\n  // m2-routes:end\n',
+  ];
+  const text = source.toString();
+  const contexts = [
+    `import { TextbookFormScenario } from "./scenarios/bm-b/page";\n${additions[0]}import "@rain-next/foundations/tokens.css";`,
+    `  const [compact, setCompact] = useState(true);\n${additions[1]}  if (window.location.hash === "#bm-b")`,
+  ];
+  return additions.every(addition => text.split(addition).length === 2) && contexts.every(context => text.includes(context))
+    ? additions.reduce((current, addition) => current.replace(addition, ""), text) : source;
+}
+
+export function hasRn15Authorization(status) {
+  const entry = status?.componentRefinements?.rn15Delivery;
+  return Boolean(entry) && hasRn14Authorization(status) && status.componentRefinements.rn14Editability.humanGate === "accepted"
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed" && entry.independentReview === "passed")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-15", decisionSource: "explicit-user-continue-rn15", userStatement: "继续 RN-15",
+      scope: "rn15-m1-scoped-local-trial-validation-docs-and-test-maintenance", snapshotId: "rn14-90fc74205a764fb1",
+      plan: "../docs/plans/2026-09-15-rn15-delivery.md", evidence: "../evidence/runtime/rn15-delivery/verification.md",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "not-evaluated", contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized",
+    });
+}
+
+// Compare current bytes with a named, authorized successor without rewriting the old checksum.
+export function matchesRn15ProtectedSource(file, source, expected, status, transitions) {
+  if (file === "packages/ui/src/input/form-item.tsx" && hasInputNumberAuthorization(status)
+    && createHash("sha256").update(source).digest("hex") === "384e95d4804d3e75514df87646c90bf7cfd9f31e8a3aa9861803eef94432fe8a") {
+    source = source.toString()
+      .replace("import { Children, createContext, useContext, useId, useState, type MouseEventHandler, type ReactElement, type ReactNode } from \"react\";\n", "import { Children, createContext, useContext, useId, type MouseEventHandler, type ReactElement, type ReactNode } from \"react\";\n")
+      .replace("  /** Child-owned numeric validation is presentation-only here; the child owns its value. */\n  setControlMessage: (message: string) => void;\n", "")
+      .replace("  /** One Input, InputNumber, SearchInput, Select or Textarea (top label); owns label and validation presentation. */\n", "  /** One Input, SearchInput, Select or Textarea (top label); owns label and validation presentation. */\n")
+      .replace("  /** Fixed inside label for Input, InputNumber, SearchInput and single-line Select compositions. */\n", "  /** Fixed inside label for Input, SearchInput and single-line Select compositions. */\n")
+      .replace("  const [controlMessage, setControlMessage] = useState(\"\");\n", "")
+      .replace("  const displayedStatus = controlMessage && !disabled ? \"error\" : status;\n", "")
+      .replace("    descriptionIds: [hasHelp && `${controlId}-help`, hasMessage && `${controlId}-message`, controlMessage && !disabled && `${controlId}-control-message`].filter(Boolean).join(\" \"),\n    status: displayedStatus, disabled, required, setControlMessage }}>\n    <div className={rainCn(\"rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default\", formItemColors.root, className)} data-rain-id=\"ui-form-item\" data-slot=\"root\" data-status={displayedStatus} data-label-position={labelPosition}>\n", "    descriptionIds: [hasHelp && `${controlId}-help`, hasMessage && `${controlId}-message`].filter(Boolean).join(\" \"),\n    status, disabled, required }}>\n    <div className={rainCn(\"rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default\", formItemColors.root, className)} data-rain-id=\"ui-form-item\" data-slot=\"root\" data-status={status} data-label-position={labelPosition}>\n")
+      .replace("      {controlMessage && !disabled ? <span id={`${controlId}-control-message`} data-slot=\"control-message\" className={formItemColors.error}>{controlMessage}</span> : null}\n", "");
+  }
+
+  if (file === "packages/ui/src/index.ts" && hasInputNumberAuthorization(status)) {
+    const addition = 'export { InputNumber, type InputNumberProps, type InputNumberValidity } from "./input-number/input-number";\n';
+    if (source.toString().endsWith(addition)) source = source.toString().slice(0, -addition.length);
+  }
+  if (file === "packages/ui/src/index.ts" && hasAvatarFamilyAuthorization(status)) {
+    const additions = [
+    "export { Avatar, type AvatarProps, type AvatarSize, type AvatarShape } from \"./avatar/avatar\";\n",
+    "export { AvatarGroup, type AvatarGroupProps, type AvatarMember } from \"./avatar/avatar-group\";\n",
+    "export { AvatarGrid, type AvatarGridProps } from \"./avatar/avatar-grid\";\n",
+    "export { avatarAssets, assignAvatarAssets, type AvatarAssetId, type AvatarAssetRole } from \"./avatar/avatar-assets\";\n",
+    "export { StatusIndicator, StatusIndicatorGroup, ActivityOverlay } from \"./status-indicator/status-indicator\";\n",
+    "export type { StatusIndicatorProps, StatusIndicatorGroupProps, ActivityOverlayProps, StatusTone } from \"./status-indicator/status-indicator\";\n"
+    ].join("");
+    if (source.toString().endsWith(additions)) source = source.toString().slice(0, -additions.length);
+  }
+  if (file === "packages/ui/src/styles.css" && hasSelectRegressionRepairAuthorization(status)) {
+    source = source.toString().replace('.rain-select__popup { --rain-popup-width: var(--anchor-width); width: 100%; }', '.rain-select__popup { width: 100%; }');
+  }
+  source = restoreM2PrototypeEntry(file, source, status);
+  const checksum = createHash("sha256").update(source).digest("hex");
+  if (checksum === expected) return true;
+  if (!hasRn15Authorization(status)) return false;
+  if (hasTableRn08Authorization(status) && createHash("sha256").update(restoreDropdownWidthBaseline(file, source)).digest("hex") === expected) return true;
+  const entry = transitions.find(item => item.file === file && item.beforeSha256 === expected && item.afterSha256 === checksum);
+  if (!entry) return false;
+  return ({
+    "dialog-refinement": hasDialogRefinementAuthorization(status),
+    "inside-field-labels": hasInsideFieldLabelsAuthorization(status),
+    "bm-b-rn10": hasBmBRn10Authorization(status),
+    "inside-labels-and-bm-b": hasInsideFieldLabelsAuthorization(status) && hasBmBRn10Authorization(status),
+    "table-and-bm-b-and-dialog": hasTableRn08Authorization(status) && hasBmBRn10Authorization(status) && hasDialogRefinementAuthorization(status),
+  })[entry.authorization] === true;
+}
+export function hasRn14Authorization(status) {
+  const entry = status?.componentRefinements?.rn14Editability;
+  const accepted = entry?.humanGate === "accepted";
+  return Boolean(entry) && hasRn13Authorization(status) && hasBmARn09Authorization(status) && hasBmBRn10Authorization(status)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed" && entry.independentReview === "passed")
+    && (!accepted || entry.implementation === "completed")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-15", decisionSource: "explicit-user-continue-after-rn13",
+      userStatement: "继续下一步", scope: "rn14-bm-a-b-local-edit-trials-and-fixed-starter-consumption-only",
+      plan: "../docs/plans/2026-09-15-rn14-editability.md", evidence: "../evidence/runtime/rn14-editability/verification.md",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: accepted ? "accepted" : "awaiting_human",
+      ...(accepted ? { humanGateDecision: {
+        acceptedAt: "2026-09-15", decisionSource: "explicit-user-rn14-final-sample-visual-confirmation", userStatement: "确认",
+        scope: "rn14-bm-a-b-final-snapshot-runtime-visual-only", snapshotId: "rn14-90fc74205a764fb1",
+        evidence: "../evidence/runtime/rn14-editability/human-gate.md",
+      } } : {}),
+      contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized",
+    });
+}
+export function hasRn13Authorization(status) {
+  const entry = status?.componentRefinements?.rn13AssetIndex;
+  return Boolean(entry) && hasCardV2Authorization(status) && hasDialogV2Authorization(status)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed" && entry.independentReview === "passed")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-15", decisionSource: "explicit-user-continue-after-rn10",
+      userStatement: "RN10已经完成建设了。继续推进下一步", scope: "rn13-local-asset-index-manifests-registry-and-docs-only",
+      plan: "../docs/plans/2026-09-15-rn13-asset-index.md", evidence: "../evidence/runtime/rn13-asset-index/verification.md",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "not-evaluated", contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized",
+    });
+}
+
+export const bmBRn10Files = {
+  application: ["apps/prototype/src/scenarios/bm-b/page.tsx", "apps/prototype/src/scenarios/bm-b/page.css", "apps/prototype/src/scenarios/bm-b/state.ts", "apps/prototype/src/scenarios/bm-b/state-contract.md", "apps/prototype/src/scenarios/bm-b/state.test.tsx"],
+  ui: ["packages/ui/src/textarea/textarea.tsx", "packages/ui/src/textarea/textarea.test.tsx"],
+  documents: ["docs/plans/2026-09-15-bm-b-rn10.md", "evidence/runtime/bm-b-rn10/verification.md", "evidence/runtime/bm-b-rn10/textarea-source.json", "manifests/ui/textarea.yaml", "registry/textarea.json"],
+  workspace: ["tests/e2e/bm-b.spec.ts", "tests/e2e/bm-b.config.ts"],
+};
+export function hasBmBRn10Authorization(status) {
+  const entry = status?.componentRefinements?.bmBRn10;
+  const accepted = entry?.humanGate === "accepted";
+  return Boolean(entry) && hasLayoutsV1Authorization(status) && hasDialogV2Authorization(status)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed")
+    && ["awaiting_human", "accepted"].includes(entry.humanGate)
+    && (!accepted || entry.implementation === "completed" && entry.automatedVerification === "passed" && entry.independentReview === "passed")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-15", decisionSource: "explicit-user-start-rn10",
+      userStatement: "开始按计划建设 RN-10", scope: "rn10-bm-b-local-large-form-and-rn07-textarea-integration",
+      plan: "../docs/plans/2026-09-15-bm-b-rn10.md", evidence: "../evidence/runtime/bm-b-rn10/verification.md",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: entry.humanGate, contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized",
+      ...(accepted ? { humanGateDecision: {
+        acceptedAt: "2026-09-15", decisionSource: "explicit-user-request-rule-based-visual-acceptance",
+        userStatement: "根据已经建设的dialog设计规则，完成 Dialog 和 BM-B 大表单的整体视觉验收",
+        scope: "bm-b-dialog-form-runtime-visual-only", evidence: "../evidence/runtime/dialog-bm-b-visual-2026-09-15/verification.md",
+      } } : {}),
+    });
+}
+
+export const bmARn09Files = {
+  application: ["apps/prototype/src/scenarios/bm-a/page.tsx", "apps/prototype/src/scenarios/bm-a/state-contract.md", "apps/prototype/src/scenarios/bm-a/state.test.tsx"],
+  documents: ["docs/plans/2026-09-15-bm-a-rn09.md", "evidence/runtime/bm-a-rn09/verification.md"],
+  workspace: ["tests/e2e/bm-a.spec.ts", "tests/e2e/bm-a.config.ts"],
+};
+export function hasBmARn09Authorization(status) {
+  const entry = status?.componentRefinements?.bmARn09;
+  const accepted = entry?.humanGate === "accepted";
+  return Boolean(entry) && hasTableRn08Authorization(status) && hasLayoutsV1Authorization(status) && hasCardV2Authorization(status)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed")
+    && ["awaiting_human", "accepted"].includes(entry.humanGate)
+    && (!accepted || entry.implementation === "completed" && entry.automatedVerification === "passed" && entry.independentReview === "passed")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-15", decisionSource: "explicit-user-continue-v2-after-table-page",
+      userStatement: "继续按计划建设", scope: "rn09-bm-a-local-data-management-and-state-contract",
+      plan: "../docs/plans/2026-09-15-bm-a-rn09.md", evidence: "../evidence/runtime/bm-a-rn09/verification.md",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: entry.humanGate,
+      ...(accepted ? { humanGateDecision: {
+        acceptedAt: "2026-09-15", decisionSource: "explicit-user-confirmation-after-density-repair",
+        userStatement: "确认。", scope: "bm-a-page-and-density-switching-only",
+        evidence: "../evidence/runtime/bm-a-rn09/verification.md",
+      } } : {}),
+      contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized",
+    });
+}
+
 export function getValidatedTailwindB2History(status) {
   const fail = () => { throw new Error("Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged"); };
   const history = status?.phaseHistory?.tailwindB2;
@@ -1536,7 +2163,21 @@ export function getValidatedTailwindB2History(status) {
   for (const key of ["schemaVersion", "kind", "preparationOutputs", "preparationChecks", "componentRefinements", "componentHumanGates", "independentAuditCheckpoints", "pendingGitActions"]) {
     const current = key === "componentRefinements"
       ? Object.fromEntries(Object.entries(status[key]).filter(([name]) =>
-        !(name === "dropdownFamily" && hasDropdownFamilyAuthorization(status))
+        !(name === "inputNumber" && hasInputNumberAuthorization(status))
+        && !(name === "generationQuality" && hasGenerationQualityAuthorization(status))
+        && !(name === "avatarFamily" && hasAvatarFamilyAuthorization(status))
+        && !(name === "m2Delivery" && hasM2Authorization(status))
+        && !(name === "rn15Delivery" && hasRn15Authorization(status))
+        && !(name === "rn14Editability" && hasRn14Authorization(status))
+        && !(name === "rn13AssetIndex" && hasRn13Authorization(status))
+        && !(name === "bmBRn10" && hasBmBRn10Authorization(status))
+        && !(name === "dialogRefinement" && hasDialogRefinementAuthorization(status))
+        && !(name === "bmARn09" && hasBmARn09Authorization(status))
+        && !(name === "tableRn08" && hasTableRn08Authorization(status))
+        && !(name === "layoutsV1" && hasLayoutsV1Authorization(status))
+        && !(name === "dialogV2" && hasDialogV2Authorization(status))
+        && !(name === "cardV2" && hasCardV2Authorization(status))
+        && !(name === "dropdownFamily" && hasDropdownFamilyAuthorization(status))
         && !(name === "tabs" && hasTabsRefinementAuthorization(status))
         && !(name === "selectionPlaygroundSc04" && hasSelectionPlaygroundSc04Authorization(status))
         && !(name === "selectionPatternsSc03" && hasSelectionPatternsSc03Authorization(status))
@@ -2242,4 +2883,45 @@ export function parsePnpmLockfileImporters(source) {
     throw new Error("pnpm lockfile importers section must not be empty");
   }
   return importers;
+}
+
+export const inputNumberFiles = {
+  application: ["input-number-page.tsx", "input-number-page.css"].map(name => `apps/playground/src/docs/components/${name}`),
+  ui: [".tsx", ".utils.ts", ".css", ".css.d.ts", ".test.tsx"].map(ext => `packages/ui/src/input-number/input-number${ext}`),
+  documents: ["manifests/ui/input-number.yaml", "registry/input-number.json", "docs/adr/0010-input-number-native-editing.md"],
+  workspace: ["tests/e2e/input-number.spec.ts", "scripts/input-number.test.ts", "scripts/input-number.mjs", "evidence/runtime/input-number/playwright.config.ts"],
+};
+export function hasInputNumberAuthorization(status) {
+  const entry = status?.componentRefinements?.inputNumber;
+  return Boolean(entry && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && ["awaiting_human", "accepted"].includes(entry.humanGate)
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-16", decisionSource: "explicit-user-start-input-number", userStatement: "开始实施",
+      scope: "input-number-native-editing-three-appearances-and-stepper", plan: "../docs/plans/2026-09-16-input-number.md", evidence: "../evidence/runtime/input-number/verification.md",
+      ...(entry.compactControls ? { compactControls: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-retain-legacy-input-number",
+        userStatement: "除了 + - 的这一版以外，我还是希望保留原组件库的数组输入框。（方便嵌入到各个场景）",
+        scope: "classic-stacked-controls-and-embedded-examples",
+      } } : {}),
+      ...(entry.keyDataTypography ? { keyDataTypography: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-important-input-numbers",
+        userStatement: "补充一点。有时数字输入框中输入的数字属于关键、重要数字。此时，数字应用字体token中用于强调的特殊数字字体，并始终粗字重。（字号不变）",
+        scope: "input-number-key-data-font-bold-at-existing-size",
+      } } : {}),
+      ...(entry.compactSizing ? { compactSizing: {
+        authorizedAt: "2026-09-16", decisionSource: "explicit-user-five-digit-width-and-32px-embedding",
+        userStatement: "修正一下，默认为32",
+        scope: "five-character-intrinsic-width-and-32px-embedding",
+      } } : {}),
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: entry.humanGate,
+      ...(entry.humanGate === "accepted" ? { humanGateDecision: {
+        acceptedAt: "2026-09-16", decisionSource: "explicit-user-confirmation", userStatement: "视觉确认",
+        scope: "input-number-current-runtime-visual-only", evidence: "../evidence/runtime/input-number/verification.md",
+        doesNotAuthorize: ["contrast-or-accessibility-acceptance", "other-component-human-gates", "figma-publication-business-migration-or-git"],
+      } } : {}),
+      contrastAcceptance: "not-granted", publication: "not-authorized",
+    }));
 }

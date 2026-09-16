@@ -1,0 +1,46 @@
+
+> @rain-next/workspace@0.0.0 test /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> vitest run
+
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-tailwind-b2.test.ts (178 tests | 1 failed) 118610ms
+     × emits only Rain utilities or the current explicit structural allowlist from real sources 926ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > emits only Rain utilities or the current explicit structural allowlist from real sources
+AssertionError: expected { container: { …(2) }, …(3) } to deeply equal { container: { …(2) }, …(3) }
+
+- Expected
++ Received
+
+@@ -26,8 +26,8 @@
+      "packages/ui/src/empty/assets/empty-sofa-light.svg": "8c2ca4da8f8f923c16240007a718a5d1a87cb5a08cd98511f40f79b27115ae12",
+      "packages/ui/src/empty/assets/no-one-dark.svg": "b13af9bd0f321cd1791dae3c36e037ba28717d8f70f263f9712fed41c9946ab3",
+      "packages/ui/src/empty/assets/no-one-light.svg": "2e7d54fa587e21343e4a26ef9a9d5ffbe448137ada302a7a38f642eceb3ffb35",
+      "packages/ui/src/empty/assets/outer-space-dark.svg": "070763a34166a40acf8f269d6ab2e710abba4a6f6a7e477f6e1567dbe2531774",
+      "packages/ui/src/empty/assets/outer-space-light.svg": "244bd74884098f4f2e126a172d507d8e64b5624ac955d22ac56d494677dd93b4",
+-     "packages/ui/src/styles.css": "02846c7b3c9ba381195ee7378a896c4f2410f919b1eae223b20a4efbba3116d5",
++     "packages/ui/src/styles.css": "cb17cf9b6ec6f04d0ea4cc7ffb4704680b80ee93fd3a4a6bdb0b98935874d446",
+    },
+  }
+
+ ❯ scripts/verify-tailwind-b2.test.ts:3241:39
+    3239|         return origins;
+    3240|       };
+    3241|       expect(collectOrigins(sources)).toEqual(expectedSources);
+       |                                       ^
+    3242|       const existingSource = "apps/playground/src/app.tsx";
+    3243|       for (const word of unusedScannerOutput) for (const file of [exis…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 104 passed (105)
+      Tests  1 failed | 1390 passed (1391)
+   Start at  01:09:03
+   Duration  135.56s (transform 2.80s, setup 9.22s, import 17.26s, tests 199.03s, environment 36.73s)
+
+ ELIFECYCLE  Test failed. See above for more details.

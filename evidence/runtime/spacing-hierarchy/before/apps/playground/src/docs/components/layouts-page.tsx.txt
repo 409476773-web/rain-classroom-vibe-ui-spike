@@ -1,0 +1,26 @@
+import { useState } from "react";
+import { DensityProvider } from "@rain-next/foundations";
+import { Inline, Stack } from "@rain-next/layouts";
+import { Checkbox, Link, Tag } from "@rain-next/ui";
+import { LayoutRecipes } from "../../../../prototype/src/layout-recipes";
+import "./layouts-page.css";
+
+export function LayoutsPage() {
+  const [dark, setDark] = useState(false), [compact, setCompact] = useState(false), [narrow, setNarrow] = useState(false);
+  return <DensityProvider density={compact ? "compact" : "default"}><main className="layouts-review" data-rain-theme={dark ? "dark" : "light"} data-rain-id="layouts-page" data-asset-identity="local-experiment">
+    <Stack gap={32} className="layouts-review-content">
+      <Stack gap={16}><Link href="#components">返回组件</Link><h1 id="layouts-title" tabIndex={-1}>布局与组合</h1><p>用稳定的间距、对齐与分区，让组件组成清楚、连贯的任务界面。</p><Inline><Tag size={20} color="neutral">待评审候选</Tag></Inline></Stack>
+      <Inline gap={20} aria-label="预览设置"><Checkbox label="深色主题" checked={dark} onCheckedChange={setDark} /><Checkbox label="紧凑控件" checked={compact} onCheckedChange={setCompact} /><Checkbox label="窄容器" checked={narrow} onCheckedChange={setNarrow} /></Inline>
+      <div className="layouts-review-preview" data-narrow={narrow}><LayoutRecipes /></div>
+      <details><summary>组合规则与使用边界</summary><Stack gap={16} className="layouts-review-notes">
+        <p>Stack 管理纵向节奏；Inline 管理横向排列和换行；Grid 管理有限列数；Split 管理主从区域和收起。布局不自带卡片外观，也不改变控件尺寸。</p>
+        <p>相关动作保持成组。字段内部由 FormItem 管理，组间距离由父布局管理。主区与详情分别滚动，详情收起时保留草稿；浮层开关由示例统一关闭。</p>
+        <p>当前使用虚构数据验证组合，所有保存仅在本页生效。技术检查、人工视觉接受、对比度、完整业务样本和发布各自独立。</p>
+        <pre>{`<Stack gap={24}>
+  <Grid columns={2} minColumnWidth={260} gap={20}>…</Grid>
+  <Inline gap={8} wrap={false}>…</Inline>
+</Stack>`}</pre>
+      </Stack></details>
+    </Stack>
+  </main></DensityProvider>;
+}

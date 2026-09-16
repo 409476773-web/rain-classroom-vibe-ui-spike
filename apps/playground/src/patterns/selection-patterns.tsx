@@ -1,7 +1,8 @@
 import { useRef, type ReactNode, type RefObject } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import { useDensity } from "@rain-next/foundations";
-import { Button, Checkbox } from "@rain-next/ui";
+import { Button, Checkbox, IconButton } from "@rain-next/ui";
+import { CloseBoldIcon } from "@rain-next/ui/icons/close-bold";
 import "./selection-patterns.css";
 
 export interface IndependentPreviewProps {
@@ -27,12 +28,12 @@ export function IndependentPreview({ open, onClose, title, description, children
           return trigger?.isConnected && !trigger.matches(':disabled, [aria-disabled="true"]') && trigger.getClientRects().length
             ? trigger : fallbackFocusRef.current;
         }}>
-        <header data-slot="header">
-          <Dialog.Title ref={heading} tabIndex={-1} data-slot="title">{title}</Dialog.Title>
-          <Dialog.Description data-slot="description">{description}</Dialog.Description>
+        <header data-slot="header" className="relative">
+          <Dialog.Close className="absolute right-rain-20 top-rain-20" render={<IconButton icon={<CloseBoldIcon />} size="28/20" aria-label="关闭预览" />} />
+          <Dialog.Title ref={heading} tabIndex={-1} data-slot="title" className="pr-rain-40">{title}</Dialog.Title>
+          <Dialog.Description data-slot="description" className="pr-rain-40">{description}</Dialog.Description>
         </header>
         <div className="rain-selection-preview__body" data-slot="body">{children}</div>
-        <footer data-slot="actions"><Dialog.Close render={<Button type="button" variant="secondary">关闭预览</Button>} /></footer>
       </Dialog.Popup>
     </Dialog.Portal>
   </Dialog.Root>;

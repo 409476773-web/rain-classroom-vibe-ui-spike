@@ -1,0 +1,84 @@
+
+Running 3 tests using 2 workers
+
+(node:70526) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:70527) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/dialog-refinement.spec.ts:113:1 › footer shares the popup surface with dividers only on long forms (30.1s)
+(node:71384) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [firefox] › tests/e2e/dialog-refinement.spec.ts:113:1 › footer shares the popup surface with dividers only on long forms (30.3s)
+  ✓  3 [webkit] › tests/e2e/dialog-refinement.spec.ts:113:1 › footer shares the popup surface with dividers only on long forms (9.3s)
+
+
+  1) [chromium] › tests/e2e/dialog-refinement.spec.ts:113:1 › footer shares the popup surface with dividers only on long forms 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.focus: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('checkbox', { name: '长内容', exact: true })
+
+
+       8 |   await expect.poll(() => popup.evaluate(el => el.getAnimations().length)).toBe(0);
+       9 | }
+    > 10 | async function toggle(page: Page, name: string) { await page.getByRole("checkbox", { name, exact: true }).focus(); await page.keyboard.press("Space"); }
+         |                                                                                                           ^
+      11 | async function visibleMasks(page: Page) { return page.locator('.rain-dialog-backdrop').evaluateAll(elements => elements.filter(el => getComputedStyle(el).visibility === "visible" && Number(getComputedStyle(el).opacity) > 0).length); }
+      12 |
+      13 | test("confirmed mask paints, one effective layer and weak-mask dismissal in both themes", async ({ page }, info) => {
+        at toggle (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/dialog-refinement.spec.ts:10:107)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/dialog-refinement.spec.ts:127:28
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/dialog-refinement-2026-09-15/footer-surface/browser-results/dialog-refinement-footer-s-8b837-dividers-only-on-long-forms-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/dialog-refinement-2026-09-15/footer-surface/browser-results/dialog-refinement-footer-s-8b837-dividers-only-on-long-forms-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/dialog-refinement-2026-09-15/footer-surface/browser-results/dialog-refinement-footer-s-8b837-dividers-only-on-long-forms-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/dialog-refinement-2026-09-15/footer-surface/browser-results/dialog-refinement-footer-s-8b837-dividers-only-on-long-forms-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [firefox] › tests/e2e/dialog-refinement.spec.ts:113:1 › footer shares the popup surface with dividers only on long forms 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.focus: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('checkbox', { name: '长内容', exact: true })
+
+
+       8 |   await expect.poll(() => popup.evaluate(el => el.getAnimations().length)).toBe(0);
+       9 | }
+    > 10 | async function toggle(page: Page, name: string) { await page.getByRole("checkbox", { name, exact: true }).focus(); await page.keyboard.press("Space"); }
+         |                                                                                                           ^
+      11 | async function visibleMasks(page: Page) { return page.locator('.rain-dialog-backdrop').evaluateAll(elements => elements.filter(el => getComputedStyle(el).visibility === "visible" && Number(getComputedStyle(el).opacity) > 0).length); }
+      12 |
+      13 | test("confirmed mask paints, one effective layer and weak-mask dismissal in both themes", async ({ page }, info) => {
+        at toggle (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/dialog-refinement.spec.ts:10:107)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/dialog-refinement.spec.ts:127:28
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/dialog-refinement-2026-09-15/footer-surface/browser-results/dialog-refinement-footer-s-8b837-dividers-only-on-long-forms-firefox/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/dialog-refinement-2026-09-15/footer-surface/browser-results/dialog-refinement-footer-s-8b837-dividers-only-on-long-forms-firefox/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/dialog-refinement-2026-09-15/footer-surface/browser-results/dialog-refinement-footer-s-8b837-dividers-only-on-long-forms-firefox/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/dialog-refinement-2026-09-15/footer-surface/browser-results/dialog-refinement-footer-s-8b837-dividers-only-on-long-forms-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium] › tests/e2e/dialog-refinement.spec.ts:113:1 › footer shares the popup surface with dividers only on long forms 
+    [firefox] › tests/e2e/dialog-refinement.spec.ts:113:1 › footer shares the popup surface with dividers only on long forms 
+  1 passed (40.7s)

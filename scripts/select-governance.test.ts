@@ -5,6 +5,22 @@ import * as b2 from "./verify-tailwind-b2.mjs";
 import { rainCn } from "../packages/ui/src/utils/rain-class-names";
 import { validateTokenConsumerSource } from "./verify-token-foundations.mjs";
 
+it("allows only the authorized Select width repair when comparing protected sources", () => {
+  const file = "packages/ui/src/styles.css", source = readFileSync(file, "utf8");
+  const checksum = JSON.parse(readFileSync("evidence/runtime/generation-quality/select-repair/before.json", "utf8"))[file];
+  const status = helpers.parseYamlSubset(readFileSync("status/current-phase.yaml", "utf8")) as any;
+  expect(helpers.matchesRn15ProtectedSource(file, source, checksum, status, [])).toBe(true);
+  expect(helpers.matchesRn15ProtectedSource(file, source + "\n.rain-select { color: red; }", checksum, status, [])).toBe(false);
+  expect(helpers.matchesRn15ProtectedSource("packages/ui/src/other.css", source, checksum, status, [])).toBe(false);
+  for (const repair of [undefined, { ...status.componentRefinements.generationQuality.regressionRepair, scope: "all-shared-css" }]) {
+    const changed = structuredClone(status);
+    if (repair) changed.componentRefinements.generationQuality.regressionRepair = repair;
+    else delete changed.componentRefinements.generationQuality.regressionRepair;
+    expect(helpers.hasSelectRegressionRepairAuthorization(changed)).toBe(false);
+    expect(helpers.matchesRn15ProtectedSource(file, source, checksum, changed, [])).toBe(false);
+  }
+});
+
 it("records formal dependency integration separately from the initial Select and Human Gate", () => {
   expect(helpers.hasSelectFormalDependenciesAuthorization).toBeTypeOf("function");
   const status = helpers.parseYamlSubset(readFileSync("status/current-phase.yaml", "utf8")) as any;

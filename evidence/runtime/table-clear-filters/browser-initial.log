@@ -1,0 +1,119 @@
+[WebServer] (node:2673) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:2675) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 15 tests using 1 worker
+
+(node:2719) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [chromium] › tests/e2e/table.spec.ts:21:1 › query, pages, sorting, selection and column visibility share one host model (1.4s)
+(node:2744) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › tests/e2e/table.spec.ts:84:1 › refresh disables actions, failure preserves selection, retry and both empty states work (3.6s)
+  ✓   3 [chromium] › tests/e2e/table.spec.ts:123:1 › theme, density, keyboard focus and narrow scrolling render using Rain geometry (1.6s)
+  ✓   4 [chromium] › tests/e2e/table.spec.ts:209:1 › the independent prototype consumes the same public components and recipe (1.0s)
+  ✓   5 [chromium] › tests/e2e/table.spec.ts:219:1 › the confirmed pager owns capacity, jump and filtered totals in both table views (1.9s)
+(node:3129) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 [firefox] › tests/e2e/table.spec.ts:21:1 › query, pages, sorting, selection and column visibility share one host model (2.6s)
+(node:3139) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [firefox] › tests/e2e/table.spec.ts:84:1 › refresh disables actions, failure preserves selection, retry and both empty states work (4.4s)
+  ✓   8 [firefox] › tests/e2e/table.spec.ts:123:1 › theme, density, keyboard focus and narrow scrolling render using Rain geometry (1.7s)
+  ✓   9 [firefox] › tests/e2e/table.spec.ts:209:1 › the independent prototype consumes the same public components and recipe (953ms)
+  ✓  10 [firefox] › tests/e2e/table.spec.ts:219:1 › the confirmed pager owns capacity, jump and filtered totals in both table views (2.2s)
+(node:3898) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  11 [webkit] › tests/e2e/table.spec.ts:21:1 › query, pages, sorting, selection and column visibility share one host model (2.0s)
+(node:3914) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 [webkit] › tests/e2e/table.spec.ts:84:1 › refresh disables actions, failure preserves selection, retry and both empty states work (4.0s)
+  ✓  13 [webkit] › tests/e2e/table.spec.ts:123:1 › theme, density, keyboard focus and narrow scrolling render using Rain geometry (2.0s)
+  ✓  14 [webkit] › tests/e2e/table.spec.ts:209:1 › the independent prototype consumes the same public components and recipe (976ms)
+  ✓  15 [webkit] › tests/e2e/table.spec.ts:219:1 › the confirmed pager owns capacity, jump and filtered totals in both table views (2.2s)
+
+
+  1) [chromium] › tests/e2e/table.spec.ts:21:1 › query, pages, sorting, selection and column visibility share one host model 
+
+    Error: expect(received).toContain(expected) // indexOf
+
+    Expected substring: "circle-close-filled.svg"
+    Received string:    "url(\"data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_63_88'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='1'%20y='1'%20width='22'%20height='22'%3e%3cpath%20d='M12%201.5C17.799%201.5%2022.5%206.20101%2022.5%2012C22.5%2017.799%2017.799%2022.5%2012%2022.5C6.20101%2022.5%201.5%2017.799%201.5%2012C1.5%206.20101%206.20101%201.5%2012%201.5ZM15.707%208.29297C15.3165%207.90244%2014.6835%207.90244%2014.293%208.29297L12%2010.5859L9.70703%208.29297C9.31651%207.90244%208.68349%207.90244%208.29297%208.29297C7.90245%208.68349%207.90244%209.31651%208.29297%209.70703L10.5859%2012L8.29297%2014.293C7.90245%2014.6835%207.90244%2015.3165%208.29297%2015.707C8.68349%2016.0976%209.31651%2016.0976%209.70703%2015.707L12%2013.4141L14.293%2015.707C14.6835%2016.0976%2015.3165%2016.0976%2015.707%2015.707C16.0976%2015.3165%2016.0976%2014.6835%2015.707%2014.293L13.4141%2012L15.707%209.70703C16.0976%209.31651%2016.0976%208.68349%2015.707%208.29297Z'%20fill='%231D2129'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_63_88)'%3e%3crect%20width='24'%20height='24'%20fill='%231D2129'/%3e%3c/g%3e%3c/svg%3e\")"
+
+      52 |   await expect(icon).toBeVisible();
+      53 |   await expect(icon).toHaveAttribute("aria-hidden", "true");
+    > 54 |   expect(await icon.evaluate(el => getComputedStyle(el).maskImage)).toContain("circle-close-filled.svg");
+         |                                                                     ^
+      55 |   const directory = resolve(process.env.RAIN_TABLE_EVIDENCE_DIR ?? "/tmp/rain-table-clear-filters", info.project.name);
+      56 |   mkdirSync(directory, { recursive: true });
+      57 |   const toolbarMeasurements = [];
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/table.spec.ts:54:69
+
+    Error Context: test-results/table-rn08/table-query-pages-sorting--54204-bility-share-one-host-model-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/table-rn08/table-query-pages-sorting--54204-bility-share-one-host-model-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/table-rn08/table-query-pages-sorting--54204-bility-share-one-host-model-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [firefox] › tests/e2e/table.spec.ts:21:1 › query, pages, sorting, selection and column visibility share one host model 
+
+    Error: expect(received).toContain(expected) // indexOf
+
+    Expected substring: "circle-close-filled.svg"
+    Received string:    "url(\"data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_63_88'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='1'%20y='1'%20width='22'%20height='22'%3e%3cpath%20d='M12%201.5C17.799%201.5%2022.5%206.20101%2022.5%2012C22.5%2017.799%2017.799%2022.5%2012%2022.5C6.20101%2022.5%201.5%2017.799%201.5%2012C1.5%206.20101%206.20101%201.5%2012%201.5ZM15.707%208.29297C15.3165%207.90244%2014.6835%207.90244%2014.293%208.29297L12%2010.5859L9.70703%208.29297C9.31651%207.90244%208.68349%207.90244%208.29297%208.29297C7.90245%208.68349%207.90244%209.31651%208.29297%209.70703L10.5859%2012L8.29297%2014.293C7.90245%2014.6835%207.90244%2015.3165%208.29297%2015.707C8.68349%2016.0976%209.31651%2016.0976%209.70703%2015.707L12%2013.4141L14.293%2015.707C14.6835%2016.0976%2015.3165%2016.0976%2015.707%2015.707C16.0976%2015.3165%2016.0976%2014.6835%2015.707%2014.293L13.4141%2012L15.707%209.70703C16.0976%209.31651%2016.0976%208.68349%2015.707%208.29297Z'%20fill='%231D2129'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_63_88)'%3e%3crect%20width='24'%20height='24'%20fill='%231D2129'/%3e%3c/g%3e%3c/svg%3e\")"
+
+      52 |   await expect(icon).toBeVisible();
+      53 |   await expect(icon).toHaveAttribute("aria-hidden", "true");
+    > 54 |   expect(await icon.evaluate(el => getComputedStyle(el).maskImage)).toContain("circle-close-filled.svg");
+         |                                                                     ^
+      55 |   const directory = resolve(process.env.RAIN_TABLE_EVIDENCE_DIR ?? "/tmp/rain-table-clear-filters", info.project.name);
+      56 |   mkdirSync(directory, { recursive: true });
+      57 |   const toolbarMeasurements = [];
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/table.spec.ts:54:69
+
+    Error Context: test-results/table-rn08/table-query-pages-sorting--54204-bility-share-one-host-model-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/table-rn08/table-query-pages-sorting--54204-bility-share-one-host-model-firefox/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/table-rn08/table-query-pages-sorting--54204-bility-share-one-host-model-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [webkit] › tests/e2e/table.spec.ts:21:1 › query, pages, sorting, selection and column visibility share one host model 
+
+    Error: expect(received).toContain(expected) // indexOf
+
+    Expected substring: "circle-close-filled.svg"
+    Received string:    "url(\"data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_63_88'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='1'%20y='1'%20width='22'%20height='22'%3e%3cpath%20d='M12%201.5C17.799%201.5%2022.5%206.20101%2022.5%2012C22.5%2017.799%2017.799%2022.5%2012%2022.5C6.20101%2022.5%201.5%2017.799%201.5%2012C1.5%206.20101%206.20101%201.5%2012%201.5ZM15.707%208.29297C15.3165%207.90244%2014.6835%207.90244%2014.293%208.29297L12%2010.5859L9.70703%208.29297C9.31651%207.90244%208.68349%207.90244%208.29297%208.29297C7.90245%208.68349%207.90244%209.31651%208.29297%209.70703L10.5859%2012L8.29297%2014.293C7.90245%2014.6835%207.90244%2015.3165%208.29297%2015.707C8.68349%2016.0976%209.31651%2016.0976%209.70703%2015.707L12%2013.4141L14.293%2015.707C14.6835%2016.0976%2015.3165%2016.0976%2015.707%2015.707C16.0976%2015.3165%2016.0976%2014.6835%2015.707%2014.293L13.4141%2012L15.707%209.70703C16.0976%209.31651%2016.0976%208.68349%2015.707%208.29297Z'%20fill='%231D2129'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_63_88)'%3e%3crect%20width='24'%20height='24'%20fill='%231D2129'/%3e%3c/g%3e%3c/svg%3e\")"
+
+      52 |   await expect(icon).toBeVisible();
+      53 |   await expect(icon).toHaveAttribute("aria-hidden", "true");
+    > 54 |   expect(await icon.evaluate(el => getComputedStyle(el).maskImage)).toContain("circle-close-filled.svg");
+         |                                                                     ^
+      55 |   const directory = resolve(process.env.RAIN_TABLE_EVIDENCE_DIR ?? "/tmp/rain-table-clear-filters", info.project.name);
+      56 |   mkdirSync(directory, { recursive: true });
+      57 |   const toolbarMeasurements = [];
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/table.spec.ts:54:69
+
+    Error Context: test-results/table-rn08/table-query-pages-sorting--54204-bility-share-one-host-model-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/table-rn08/table-query-pages-sorting--54204-bility-share-one-host-model-webkit/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/table-rn08/table-query-pages-sorting--54204-bility-share-one-host-model-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [chromium] › tests/e2e/table.spec.ts:21:1 › query, pages, sorting, selection and column visibility share one host model 
+    [firefox] › tests/e2e/table.spec.ts:21:1 › query, pages, sorting, selection and column visibility share one host model 
+    [webkit] › tests/e2e/table.spec.ts:21:1 › query, pages, sorting, selection and column visibility share one host model 
+  12 passed (37.9s)

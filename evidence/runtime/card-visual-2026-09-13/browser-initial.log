@@ -1,0 +1,71 @@
+
+> @rain-next/workspace@0.0.0 test:e2e /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> playwright test tests/e2e/card.spec.ts tests/e2e/core-ui.spec.ts --workers=1
+
+[WebServer] (node:72280) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:72282) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:72289) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:72295) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:72309) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/card.spec.ts:8:1 › Card owns spacing and parts independently of nested cards and control density (819ms)
+  ✘  2 [chromium] › tests/e2e/card.spec.ts:43:1 › Card media reflows without clipping content, focus or independent operations (6.0s)
+(node:72349) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [chromium] › tests/e2e/card.spec.ts:122:1 › Card themes and preference emulation retain visible content (1.1s)
+  ✓  4 [chromium] › tests/e2e/card.spec.ts:146:1 › Card content layout utilities override the old visual declaration (485ms)
+  ✓  5 [chromium] › tests/e2e/card.spec.ts:154:1 › minimal prototype consumes Card without Playground CSS and retains native type hierarchy (639ms)
+  ✓  6 [chromium] › tests/e2e/core-ui.spec.ts:7:1 › Button Token recipes paint their real surfaces and preserve loading readability (5.7s)
+  ✓  7 [chromium] › tests/e2e/core-ui.spec.ts:117:1 › the Day 3 Core UI page exposes truthful families and real interaction (2.2s)
+  ✓  8 [chromium] › tests/e2e/core-ui.spec.ts:419:1 › Tag retains its global Tab ring in both themes and forced colors (550ms)
+  ✓  9 [chromium] › tests/e2e/core-ui.spec.ts:447:1 › Core UI keeps focus visible and motion optional in user preference modes (482ms)
+
+
+  1) [chromium] › tests/e2e/card.spec.ts:43:1 › Card media reflows without clipping content, focus or independent operations 
+
+    Error: expect(locator).toBeEmpty() failed
+
+    Locator: locator('[data-example="cr-04"]').getByRole('status')
+    Expected: empty
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeEmpty" with timeout 5000ms
+      - waiting for locator('[data-example="cr-04"]').getByRole('status')
+
+
+      72 |   await expect(page.getByRole("textbox", { name: "提醒标题" })).toHaveAttribute("aria-invalid", "true");
+      73 |   await expect(page.getByRole("textbox", { name: "提醒标题" })).toHaveAccessibleDescription("请填写提醒标题。");
+    > 74 |   await expect(reminderCard.getByRole("status")).toBeEmpty();
+         |                                                  ^
+      75 |   await page.getByRole("textbox", { name: "提醒标题" }).fill("复习第三单元");
+      76 |   await reminderCard.getByRole("button", { name: "清除选中内容" }).click();
+      77 |   await reminderCard.getByRole("button", { name: "保存提醒" }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/card.spec.ts:74:50
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/card-Card-media-reflows-wi-46765-s-or-independent-operations-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/card-Card-media-reflows-wi-46765-s-or-independent-operations-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/card-Card-media-reflows-wi-46765-s-or-independent-operations-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/card-Card-media-reflows-wi-46765-s-or-independent-operations-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/card.spec.ts:43:1 › Card media reflows without clipping content, focus or independent operations 
+  8 passed (20.7s)
+ ELIFECYCLE  Command failed with exit code 1.

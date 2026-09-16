@@ -1,0 +1,76 @@
+[WebServer] (node:91499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:91686) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 21 tests using 1 worker
+
+(node:91947) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/m2.spec.ts:10:1 › BM-C keeps paper, traversal, group position and unsaved drafts (832ms)
+  ✓   2 [chromium] › tests/e2e/m2.spec.ts:29:1 › BM-C failure stays on the same answer; zero saves and only success advances (2.2s)
+  ✓   3 [chromium] › tests/e2e/m2.spec.ts:44:1 › BM-C contains pane scrolling, restores collapse focus and survives narrow reflow (589ms)
+  ✓   4 [chromium] › tests/e2e/m2.spec.ts:67:1 › BM-C filters and clears an empty directory without losing a draft (362ms)
+  ✓   5 [chromium] › tests/e2e/m2.spec.ts:74:1 › BM-D full-range metrics survive pagination and chart selection with separate numeric fonts (501ms)
+  ✓   6 [chromium] › tests/e2e/m2.spec.ts:92:1 › BM-D filters the source, distinguishes chart state and recovers from failure and empty (2.2s)
+  ✓   7 [chromium] › tests/e2e/m2.spec.ts:103:1 › BM-D narrow dark report retains readable equivalent data and keyboard access (438ms)
+(node:92235) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [firefox] › tests/e2e/m2.spec.ts:10:1 › BM-C keeps paper, traversal, group position and unsaved drafts (3.3s)
+  ✓   9 [firefox] › tests/e2e/m2.spec.ts:29:1 › BM-C failure stays on the same answer; zero saves and only success advances (3.0s)
+  ✓  10 [firefox] › tests/e2e/m2.spec.ts:44:1 › BM-C contains pane scrolling, restores collapse focus and survives narrow reflow (1.3s)
+  ✓  11 [firefox] › tests/e2e/m2.spec.ts:67:1 › BM-C filters and clears an empty directory without losing a draft (754ms)
+  ✓  12 [firefox] › tests/e2e/m2.spec.ts:74:1 › BM-D full-range metrics survive pagination and chart selection with separate numeric fonts (1.2s)
+  ✓  13 [firefox] › tests/e2e/m2.spec.ts:92:1 › BM-D filters the source, distinguishes chart state and recovers from failure and empty (4.9s)
+  ✓  14 [firefox] › tests/e2e/m2.spec.ts:103:1 › BM-D narrow dark report retains readable equivalent data and keyboard access (846ms)
+(node:94646) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  15 [webkit] › tests/e2e/m2.spec.ts:10:1 › BM-C keeps paper, traversal, group position and unsaved drafts (1.8s)
+  ✓  16 [webkit] › tests/e2e/m2.spec.ts:29:1 › BM-C failure stays on the same answer; zero saves and only success advances (2.8s)
+  ✘  17 [webkit] › tests/e2e/m2.spec.ts:44:1 › BM-C contains pane scrolling, restores collapse focus and survives narrow reflow (5.6s)
+(node:94939) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  18 [webkit] › tests/e2e/m2.spec.ts:67:1 › BM-C filters and clears an empty directory without losing a draft (626ms)
+  ✓  19 [webkit] › tests/e2e/m2.spec.ts:74:1 › BM-D full-range metrics survive pagination and chart selection with separate numeric fonts (623ms)
+  ✓  20 [webkit] › tests/e2e/m2.spec.ts:92:1 › BM-D filters the source, distinguishes chart state and recovers from failure and empty (2.3s)
+  ✓  21 [webkit] › tests/e2e/m2.spec.ts:103:1 › BM-D narrow dark report retains readable equivalent data and keyboard access (463ms)
+
+
+  1) [webkit] › tests/e2e/m2.spec.ts:44:1 › BM-C contains pane scrolling, restores collapse focus and survives narrow reflow 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('button', { name: '展开评分', exact: true })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByRole('button', { name: '展开评分', exact: true })
+        14 × locator resolved to <button type="button" data-slot="root" data-size="medium" data-tone="default" data-focus="control" data-state="default" aria-expanded="false" data-density="default" data-variant="tertiary" data-rain-id="ui-button" aria-controls="bm-c-inspector" class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline tran…>…</button>
+           - unexpected value "inactive"
+
+
+      47 |   await score.fill("8"); await comment.fill("这是一条保留在作答对象中的草稿。".repeat(30));
+      48 |   await page.getByRole("region", { name: "评分面板", exact: true }).getByRole("button", { name: "收起评分", exact: true }).click();
+    > 49 |   await expect(page.getByRole("button", { name: "展开评分", exact: true })).toBeFocused();
+         |                                                                         ^
+      50 |   await page.getByText("加宽评分区", { exact: true }).click(); await page.getByRole("button", { name: "展开评分", exact: true }).click(); await expect(score).toHaveValue("8");
+      51 |   await page.getByRole("region", { name: "批改目录", exact: true }).getByRole("button", { name: "收起目录", exact: true }).click();
+      52 |   await expect(page.getByRole("button", { name: "展开目录", exact: true })).toBeFocused(); await page.getByRole("button", { name: "展开目录", exact: true }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/m2.spec.ts:49:73
+
+    Error Context: tests/e2e/evidence/runtime/m2/browser/results/m2-BM-C-contains-pane-scro-52561--and-survives-narrow-reflow-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/m2/browser/results/m2-BM-C-contains-pane-scro-52561--and-survives-narrow-reflow-webkit/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/m2/browser/results/m2-BM-C-contains-pane-scro-52561--and-survives-narrow-reflow-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [webkit] › tests/e2e/m2.spec.ts:44:1 › BM-C contains pane scrolling, restores collapse focus and survives narrow reflow 
+  20 passed (43.0s)

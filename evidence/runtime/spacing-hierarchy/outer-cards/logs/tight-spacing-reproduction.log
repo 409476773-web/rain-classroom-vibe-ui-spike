@@ -1,0 +1,45 @@
+
+> @rain-next/workspace@0.0.0 test:e2e /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> playwright test --config /tmp/rain-outer-card-spacing-production.config.mjs --grep 'outer cards:'
+
+
+Running 1 test using 1 worker
+
+(node:59992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/layouts.spec.ts:156:1 › outer cards: apply all three spacings independently from panels without losing drafts (1.2s)
+
+
+  1) [chromium] › tests/e2e/layouts.spec.ts:156:1 › outer cards: apply all three spacings independently from panels without losing drafts 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 0
+    Received:    4
+
+      189 |       parseFloat(getComputedStyle(el.querySelector('.layout-example-actions')!).gap),
+      190 |     ]));
+    > 191 |     for (const gap of smallGaps) expect(gap).toBeLessThanOrEqual(item);
+          |                                              ^
+      192 |     expect((await panelGeometry(page)).inset).toBe(16);
+      193 |     expect((await panelGeometry(page)).item).toBe(8);
+      194 |     expect(await course.evaluate((el, old) => el === old, originalCourse)).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/layouts.spec.ts:191:46
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-outer-card-spacing-production/layouts-outer-cards-apply--ea398-anels-without-losing-drafts-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../../tmp/rain-outer-card-spacing-production/layouts-outer-cards-apply--ea398-anels-without-losing-drafts-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-outer-card-spacing-production/layouts-outer-cards-apply--ea398-anels-without-losing-drafts-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-outer-card-spacing-production/layouts-outer-cards-apply--ea398-anels-without-losing-drafts-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/layouts.spec.ts:156:1 › outer cards: apply all three spacings independently from panels without losing drafts 
+ ELIFECYCLE  Command failed with exit code 1.

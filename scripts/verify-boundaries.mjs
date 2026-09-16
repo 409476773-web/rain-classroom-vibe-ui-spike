@@ -1,4 +1,10 @@
-import { getTabsRefinementFiles, isTabsImport, validateTabsPreflightInventory } from "./verification-helpers.mjs";
+import { inputNumberFiles, hasInputNumberAuthorization } from "./verification-helpers.mjs";
+import { avatarFamilyFiles, hasAvatarFamilyAuthorization, isAvatarFamilyImport } from "./verification-helpers.mjs";
+import { hasDialogRefinementAuthorization } from "./verification-helpers.mjs";
+import { hasGenerationQualityAuthorization, m2DeliveryFiles, hasM2Authorization, prepareM2NavigationSource, bmARn09Files, hasBmARn09Authorization, bmBRn10Files, hasBmBRn10Authorization, rn13AssetIndexFiles, hasRn13Authorization, rn14EditabilityFiles, hasRn14Authorization, rn15DeliveryFiles, hasRn15Authorization } from "./verification-helpers.mjs";
+import { emptyRefinementFiles, hasEmptyRefinementAuthorization, insideFieldLabelBrowserFiles, hasInsideFieldLabelsAuthorization, tablePaginationFiles, hasTablePaginationReplacementAuthorization, tableRn08Files, hasTableRn08Authorization } from "./verification-helpers.mjs";
+import { layoutsV1Files, hasLayoutsV1Authorization, dialogV2Files, hasDialogV2Authorization, isDialogV2Import } from "./verification-helpers.mjs";
+import { cardV2Files, hasCardV2Authorization, getTabsRefinementFiles, isTabsImport, validateTabsPreflightInventory } from "./verification-helpers.mjs";
 import { selectionPlaygroundSc04Files, hasSelectionPlaygroundSc04Authorization, selectionPatternsSc03Files, hasSelectionPatternsSc03Authorization, selectionCardsSc02Files, hasSelectionCardsSc02Authorization, radioSc01Files, hasRadioSc01Authorization, checkboxSc01Files, hasCheckboxSc01Authorization } from "./verification-helpers.mjs";
 import {
   existsSync,
@@ -70,6 +76,7 @@ function collectFiles(directory, { ignoreNamedNodeModules = true } = {}) {
       "playwright-report",
       "test-results",
       "apps/playground/dist",
+      "apps/prototype/dist",
       "apps/playground/node_modules",
     ].map((filePath) => join(workspaceRoot, filePath)),
   );
@@ -184,6 +191,34 @@ function loadPhaseStatus() {
 }
 
 const livePhaseStatus = loadPhaseStatus();
+const rn13Files = Object.fromEntries(Object.entries(rn13AssetIndexFiles).map(([kind, files]) => [kind, hasRn13Authorization(livePhaseStatus) ? files : []]));
+const rn14Files = Object.fromEntries(Object.entries(rn14EditabilityFiles).map(([kind, files]) => [kind, hasRn14Authorization(livePhaseStatus) ? files : []]));
+const m2Files = Object.fromEntries(Object.entries(m2DeliveryFiles).map(([kind, files]) => [kind, hasM2Authorization(livePhaseStatus) ? files : []]));
+const qualityAuthorized = hasGenerationQualityAuthorization(livePhaseStatus);
+const listPilotAuthorized = qualityAuthorized && Boolean(livePhaseStatus.componentRefinements.generationQuality.listCompositionPilot);
+const listPilotChecks = listPilotAuthorized ? ["evidence/runtime/list-composition/check-browser.mjs", "evidence/runtime/list-composition/verify-source.mjs"] : [];
+const qualityApplication = qualityAuthorized ? ["apps/prototype/src/scenarios/bm-d/trend-chart.tsx", ...(listPilotAuthorized ? ["page.tsx", "list.tsx", "list.css", "list.test.tsx"].map(file => `apps/prototype/src/scenarios/list-composition/${file}`) : [])] : [];
+const rn15Files = Object.fromEntries(Object.entries(rn15DeliveryFiles).map(([kind, files]) => [kind, hasRn15Authorization(livePhaseStatus) ? files : []]));
+for (const directory of ["apps", "packages"]) for (const path of collectFiles(join(workspaceRoot, directory))) {
+  if (!/\.[cm]?[jt]sx?$/.test(path) || path.includes("/node_modules/") || path.includes("/dist/") || /\.test\./.test(path)) continue;
+  const file = relative(workspaceRoot, path), source = readFileSync(path, "utf8");
+  for (const match of source.matchAll(/["']((?:recharts|react-is)(?:\/[^"']*)?)["']/g)) if (!qualityAuthorized || file !== "apps/prototype/src/scenarios/bm-d/trend-chart.tsx" || match[1] !== "recharts") failures.push(`Chart import outside generation-quality report: ${file}`);
+  for (const match of source.matchAll(/["'](@tanstack\/[^"']+)["']/g)) if (!hasTableRn08Authorization(livePhaseStatus) || !(file === "apps/prototype/src/data-table-recipe.tsx" || listPilotAuthorized && file === "apps/prototype/src/scenarios/list-composition/list.tsx") || match[1] !== "@tanstack/react-table") failures.push(`TanStack import outside RN-08 recipe: ${file}: ${match[1]}`);
+}
+const tableRn08Authorized = hasTableRn08Authorization(livePhaseStatus);
+const tableFiles = Object.fromEntries(Object.entries(tableRn08Files).map(([kind, files]) => [kind, tableRn08Authorized ? [...files, ...(hasBmARn09Authorization(livePhaseStatus) ? bmARn09Files[kind] ?? [] : []), ...(hasTablePaginationReplacementAuthorization(livePhaseStatus) ? tablePaginationFiles[kind] ?? [] : []), ...(hasEmptyRefinementAuthorization(livePhaseStatus) ? emptyRefinementFiles[kind] ?? [] : []), ...(kind === "workspace" && hasInsideFieldLabelsAuthorization(livePhaseStatus) ? insideFieldLabelBrowserFiles : [])] : []]));
+const formFiles = Object.fromEntries(Object.entries(bmBRn10Files).map(([kind, files]) => [kind, hasBmBRn10Authorization(livePhaseStatus) ? files : []]));
+const layoutsV1Authorized = hasLayoutsV1Authorization(livePhaseStatus);
+const layoutFiles = Object.fromEntries(Object.entries(layoutsV1Files).map(([kind, files]) => [kind, layoutsV1Authorized ? files : []]));
+const dialogFiles = Object.fromEntries(Object.entries(dialogV2Files).map(([kind, files]) => [kind, hasDialogV2Authorization(livePhaseStatus) ? files : []]));
+if (hasDialogRefinementAuthorization(livePhaseStatus)) {
+  dialogFiles.documents.push("manifests/ui/alert-dialog.yaml");
+  dialogFiles.workspace.push("evidence/runtime/dialog-refinement-2026-09-15/playwright.config.ts", "packages/foundations/src/overlay-token-contract.ts", "scripts/dialog-refinement.test.ts", "tests/e2e/dialog-refinement.spec.ts");
+}
+const numberFiles = Object.fromEntries(Object.entries(inputNumberFiles).map(([kind, files]) => [kind, hasInputNumberAuthorization(livePhaseStatus) ? files : []]));
+const avatarFiles = Object.fromEntries(Object.entries(avatarFamilyFiles).map(([kind, files]) => [kind, hasAvatarFamilyAuthorization(livePhaseStatus) ? files : []]));
+const cardV2Authorized = hasCardV2Authorization(livePhaseStatus);
+const cardFiles = Object.fromEntries(Object.entries(cardV2Files).map(([kind, files]) => [kind, cardV2Authorized ? files : []]));
 const isTokenFoundationsV1 = livePhaseStatus?.currentPhase?.id === "token-foundations-v1";
 const dropdownBatchOneAuthorized = hasDropdownBatchOneAuthorization(livePhaseStatus);
 const tagBatchThreeAuthorized = hasTagBatchThreeAuthorization(livePhaseStatus);
@@ -2059,6 +2094,8 @@ if (isDayThree || isTailwindB2) {
     "package.json",
     "packages/foundations/package.json",
     "packages/ui/package.json",
+    ...(cardV2Authorized ? ["apps/prototype/package.json"] : []),
+    ...(layoutsV1Authorized ? ["packages/layouts/package.json"] : []),
   ];
   for (const packageFile of packageFiles) {
     if (!allowedPackageFiles.includes(packageFile)) {
@@ -2071,7 +2108,7 @@ if (isDayThree || isTailwindB2) {
     }
   }
   if (isCompleted) {
-    assertExact("Day 3 package manifest set", packageFiles, allowedPackageFiles);
+    assertExact("Day 3 package manifest set", packageFiles, [...allowedPackageFiles].sort());
   }
 
   const expectedDependencySets = {
@@ -2233,6 +2270,27 @@ if (isDayThree || isTailwindB2) {
       "version",
     ],
   };
+  if (cardV2Authorized) {
+    expectedDependencySets["apps/prototype/package.json"] = {
+      ...expectedDependencySets["apps/playground/package.json"],
+      dependencies: { "@rain-next/foundations": "workspace:*", "@rain-next/ui": "workspace:*", react: "^19.2.8", "react-dom": "^19.2.8" },
+    };
+    expectedScripts["apps/prototype/package.json"] = expectedScripts["apps/playground/package.json"];
+    expectedManifestKeys["apps/prototype/package.json"] = expectedManifestKeys["apps/playground/package.json"];
+  }
+  if (layoutsV1Authorized) {
+    expectedDependencySets["packages/layouts/package.json"] = {
+      ...expectedDependencySets["packages/foundations/package.json"],
+      dependencies: { "@rain-next/foundations": "workspace:*", react: "^19.2.8" },
+    };
+    expectedScripts["packages/layouts/package.json"] = expectedScripts["packages/foundations/package.json"];
+    expectedManifestKeys["packages/layouts/package.json"] = expectedManifestKeys["packages/foundations/package.json"];
+    for (const app of ["playground", "prototype"]) expectedDependencySets[`apps/${app}/package.json`].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets[`apps/${app}/package.json`].dependencies, "@rain-next/layouts": "workspace:*" }).sort());
+    assertExact("RN-06 Layout package name", loadPackage("packages/layouts/package.json")?.name, "@rain-next/layouts");
+    assertExact("RN-06 Layout package exports", loadPackage("packages/layouts/package.json")?.exports, { ".": "./src/index.ts", "./styles.css": "./src/layout.css" });
+  }
+  if (tableRn08Authorized) expectedDependencySets["apps/prototype/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["apps/prototype/package.json"].dependencies, "@tanstack/react-table": "8.21.3" }).sort());
+  if (qualityAuthorized) expectedDependencySets["apps/prototype/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["apps/prototype/package.json"].dependencies, recharts: "3.10.1", "react-is": "19.2.8" }).sort());
   function normalizedDependencyMap(dependencies) {
     return Object.fromEntries(Object.entries(dependencies ?? {}).sort());
   }
@@ -2242,6 +2300,8 @@ if (isDayThree || isTailwindB2) {
       .filter(Boolean),
   );
   const allowedExternalDependencies = new Set([
+    ...(tableRn08Authorized ? ["@tanstack/react-table"] : []),
+    ...(qualityAuthorized ? ["recharts", "react-is"] : []),
     "@playwright/test",
     "@tailwindcss/vite",
     "@testing-library/jest-dom",
@@ -2397,6 +2457,7 @@ if (isDayThree || isTailwindB2) {
 
   const allowedDayThreeApplicationSources = new Set(
     [
+      ...qualityApplication, ...m2Files.application, ...numberFiles.application, ...avatarFiles.application, ...formFiles.application, ...tableFiles.application, ...layoutFiles.application, ...dialogFiles.application, ...cardFiles.application,
       ...dropdownFiles.application,
       ...sizeReviewFiles.application,
       ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application,
@@ -2428,7 +2489,7 @@ if (isDayThree || isTailwindB2) {
     const navigationSource = questionNumberAuthorized && relative(workspaceRoot, filePath) === "apps/playground/src/docs/components/question-number-page.tsx"
       ? source.replace('<nav aria-label={`${title}反馈示例`}>', "").replace('<nav aria-label="第 8 题材料与小题">', "")
       : source;
-    if (/<(?:nav|aside)\b/i.test(navigationSource)) {
+    if (/<(?:nav|aside)\b/i.test(prepareM2NavigationSource(relative(workspaceRoot, filePath), navigationSource, livePhaseStatus))) {
       failures.push(
         `persistent navigation or platform sidebar found in ${relative(workspaceRoot, filePath)}`,
       );
@@ -2436,6 +2497,9 @@ if (isDayThree || isTailwindB2) {
     const headlessImports = [...source.matchAll(/(?:\bfrom\s*|\bimport\s*(?:\(\s*)?|\brequire\s*\(\s*)["']([^"']+)["']/g)]
       .map((match) => match[1]).filter((specifier) => /^(?:@base-ui\/|@radix-ui\/|radix-ui|shadcn|@shadcn\/)/.test(specifier));
     if (headlessImports.some((specifier) => !(dropdownBatchOneAuthorized && isDropdownExperimentImport(relative(workspaceRoot, filePath), specifier))
+      && !isAvatarFamilyImport(livePhaseStatus, relative(workspaceRoot, filePath), specifier)
+      && !(hasDialogV2Authorization(livePhaseStatus) && isDialogV2Import(relative(workspaceRoot, filePath), specifier))
+      && !(hasDialogRefinementAuthorization(livePhaseStatus) && relative(workspaceRoot, filePath) === "packages/ui/src/dialog/dialog.tsx" && specifier === "@base-ui/react/alert-dialog")
       && !(hasDropdownFamilyAuthorization(livePhaseStatus) && isDropdownFamilyImport(relative(workspaceRoot, filePath), specifier))
       && !(hasSelectFormalDependenciesAuthorization(livePhaseStatus) && isSelectFormalImport(relative(workspaceRoot, filePath), specifier))
       && !isTabsImport(livePhaseStatus, relative(workspaceRoot, filePath), specifier)
@@ -2448,6 +2512,7 @@ if (isDayThree || isTailwindB2) {
   }
 
   const expectedAppFiles = [
+    ...qualityApplication, ...m2Files.application, ...numberFiles.application, ...avatarFiles.application, ...formFiles.application, ...tableFiles.application, ...layoutFiles.application, ...dialogFiles.application, ...cardFiles.application,
     ...dropdownFiles.application.filter((file) => existsSync(join(workspaceRoot, file))),
     ...sizeReviewFiles.application,
     ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application,
@@ -2492,6 +2557,7 @@ if (isDayThree || isTailwindB2) {
   }
 
   const expectedUiFiles = [
+    ...numberFiles.ui, ...avatarFiles.ui, ...formFiles.ui, ...tableFiles.ui, ...dialogFiles.ui, ...cardFiles.ui,
     ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)),
     ...textButtonFiles.ui,
     ...iconFiles.ui,
@@ -2563,6 +2629,7 @@ if (isDayThree || isTailwindB2) {
     const directoryFiles = collectFiles(directoryPath);
     const placeholderPath = join(directoryPath, ".gitkeep");
     const authorizedDocuments = [
+      ...m2Files.documents, ...rn15Files.documents, ...rn14Files.documents, ...rn13Files.documents, ...numberFiles.documents, ...avatarFiles.documents, ...formFiles.documents, ...tableFiles.documents, ...layoutFiles.layouts, ...layoutFiles.documents, ...dialogFiles.documents, ...cardFiles.documents,
       ...dropdownFiles.documents, ...dropdownFiles.application,
       ...optionButtonFiles.documents, ...questionNumberFiles.documents, ...iconButtonFiles.documents, ...inputFiles.documents, ...selectFiles.documents, ...dropdownPublicFiles.documents, ...checkboxFiles.documents, ...selectionCardFiles.documents, ...selectionPatternFiles.documents, ...selectionPlaygroundFiles.documents, ...radioFiles.documents, ...tabsFiles.documents, ...tagFiles.documents,
       ...(isTokenFoundationsV1 ? tokenFoundationsV1Files.documents : []),
@@ -2690,6 +2757,9 @@ if (isDayThree || isTailwindB2) {
       .map((match) => match[1]).filter((specifier) => /^(?:@base-ui\/|@radix-ui\/|radix-ui|shadcn|@shadcn\/)/.test(specifier));
     if (headlessImports.some((specifier) => !isTabsImport(livePhaseStatus, relative(workspaceRoot, filePath), specifier)
       && !(tagBatchThreeAuthorized && isTagBatchThreeImport(relative(workspaceRoot, filePath), specifier))
+      && !isAvatarFamilyImport(livePhaseStatus, relative(workspaceRoot, filePath), specifier)
+      && !(hasDialogV2Authorization(livePhaseStatus) && isDialogV2Import(relative(workspaceRoot, filePath), specifier))
+      && !(hasDialogRefinementAuthorization(livePhaseStatus) && relative(workspaceRoot, filePath) === "packages/ui/src/dialog/dialog.tsx" && specifier === "@base-ui/react/alert-dialog")
       && !(hasDropdownFamilyAuthorization(livePhaseStatus) && isDropdownFamilyImport(relative(workspaceRoot, filePath), specifier))
       && !(hasSelectFormalDependenciesAuthorization(livePhaseStatus) && isSelectFormalImport(relative(workspaceRoot, filePath), specifier)))) {
       failures.push(
@@ -2708,6 +2778,7 @@ if (isDayThree || isTailwindB2) {
 
   const allowedDayThreeWorkspaceSources = new Set(
     [
+      ...listPilotChecks, ...qualityApplication, ...m2Files.application, ...m2Files.workspace, ...rn15Files.workspace, ...rn14Files.workspace, ...rn13Files.workspace, ...numberFiles.application, ...avatarFiles.application, ...formFiles.application, ...tableFiles.application, ...layoutFiles.application, ...dialogFiles.application, ...cardFiles.application, ...numberFiles.ui, ...avatarFiles.ui, ...formFiles.ui, ...tableFiles.ui, ...dialogFiles.ui, ...cardFiles.ui, ...layoutFiles.layouts, ...numberFiles.workspace, ...avatarFiles.workspace, ...formFiles.workspace, ...tableFiles.workspace, ...layoutFiles.workspace, ...dialogFiles.workspace, ...cardFiles.workspace,
       ...dropdownFiles.application, ...dropdownFiles.workspace,
       ...sizeReviewFiles.application, ...sizeReviewFiles.workspace,
       ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application, ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)), ...optionButtonFiles.foundations, ...questionNumberFiles.foundations, ...iconButtonFiles.foundations, ...inputFiles.foundations, ...selectFiles.foundations, ...checkboxFiles.foundations, ...selectionCardFiles.foundations, ...selectionPatternFiles.foundations, ...selectionPlaygroundFiles.foundations, ...radioFiles.foundations, ...tabsFiles.foundations, ...tagFiles.foundations, ...optionButtonFiles.workspace, ...questionNumberFiles.workspace, ...iconButtonFiles.workspace, ...inputFiles.workspace, ...selectFiles.workspace, ...dropdownPublicFiles.workspace, ...checkboxFiles.workspace, ...selectionCardFiles.workspace, ...selectionPatternFiles.workspace, ...selectionPlaygroundFiles.workspace, ...radioFiles.workspace, ...tabsFiles.workspace, ...tagFiles.workspace,
@@ -2827,6 +2898,17 @@ if (isDayThree || isTailwindB2) {
   } catch (error) {
     failures.push(`Git workspace cannot be audited: ${error.message}`);
   }
+  if (cardV2Authorized) {
+    const baseline = livePhaseStatus.componentRefinements.cardV2.sourceControl;
+    try {
+      const git = (...args) => execFileSync("git", args, { cwd: workspaceRoot, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
+      if (git("rev-parse", "HEAD") !== baseline.baselineCommit) failures.push("Card V2 Git HEAD must retain the authorized pre-existing baseline; new commits are not authorized");
+      if (git("remote") !== baseline.existingRemote || git("remote", "get-url", "--all", baseline.existingRemote) !== baseline.existingRemoteUrl
+        || git("remote", "get-url", "--push", "--all", baseline.existingRemote) !== baseline.existingRemoteUrl) failures.push("Card V2 Git remote must retain the exact pre-existing origin");
+      const prior = readRegularNonSymbolicFile(join(workspaceRoot, "status", baseline.priorAuthorization), "prior Git authorization").toString("utf8");
+      if (!prior.includes("GitHub 私有送审续步") || !prior.includes("继续下一步")) failures.push("Card V2 pre-existing Git state requires its recorded authorization");
+    } catch (error) { failures.push("Card V2 Git baseline cannot be audited: " + error.message); }
+  } else {
   try {
     execFileSync("git", ["rev-parse", "--verify", "HEAD"], {
       cwd: workspaceRoot,
@@ -2854,6 +2936,7 @@ if (isDayThree || isTailwindB2) {
     }
   } catch (error) {
     failures.push(`Git remotes cannot be audited: ${error.message}`);
+  }
   }
 }
 

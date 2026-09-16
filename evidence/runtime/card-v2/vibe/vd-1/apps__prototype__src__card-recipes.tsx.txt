@@ -1,0 +1,91 @@
+import { useState } from "react";
+import {
+  Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,
+  DropdownMenu, Input, Select, Tag, defineRainLocalRecipe, type CardLocalRecipe, type CardSize,
+} from "@rain-next/ui";
+import "./card-recipes.css";
+
+export const courseCardDefaultLayout: "stacked" | "side" = "side";
+export const courseCardDefaultSize: CardSize = "default";
+const courseCardRecipe: CardLocalRecipe = defineRainLocalRecipe({
+  id: "card-course-media", scope: "feature", origin: "ui-card",
+  classes: { root: "py-rain-0 gap-rain-0" }, modifiedParts: ["root"],
+  candidateTokens: [], promotionStatus: "not-proposed",
+});
+const reportRecipe: CardLocalRecipe = defineRainLocalRecipe({
+  id: "card-report-fragment", scope: "feature", origin: "ui-card",
+  classes: { content: "flex flex-wrap items-baseline gap-rain-8" }, modifiedParts: ["content"],
+  candidateTokens: [], promotionStatus: "not-proposed",
+});
+export const courseData = {
+  id: "demo-statistics", title: "统计学基础",
+  description: "从课堂案例出发，理解数据背后的规律。", files: 24, units: 8,
+} as const;
+
+export interface CardGalleryProps {
+  size?: CardSize;
+  courseLayout?: "stacked" | "side";
+  longContent?: boolean;
+  showHeader?: boolean;
+  showFooter?: boolean;
+  narrow?: boolean;
+}
+
+export function CardGallery({
+  size = "default", courseLayout = courseCardDefaultLayout,
+  longContent = false, showHeader = true, showFooter = true, narrow = false,
+}: CardGalleryProps) {
+  const [action, setAction] = useState("尚未操作");
+  const [audience, setAudience] = useState<string | number | null>("all");
+  const [draftTitle, setDraftTitle] = useState("本周学习提醒");
+  return <div className="card-gallery" data-narrow={narrow} data-asset-identity="local-experiment">
+    <section className="card-example" aria-label="简单信息卡">
+      <p className="card-example-label">01 · 简单信息</p>
+      <Card size={size} aria-label="课程公告" data-example="cr-01">
+        {showHeader && <CardHeader><CardTitle as="h2">课程公告</CardTitle><CardDescription>今天 09:30 · 教学团队</CardDescription></CardHeader>}
+        <CardContent>{longContent ? "请在周五前完成第三单元学习，复习课堂案例并记录你对数据解读的疑问。".repeat(5) : "请在周五前完成第三单元学习。遇到问题时，可以先回看课堂案例，再整理到讨论区。"}</CardContent>
+      </Card>
+    </section>
+    <section className="card-example" aria-label="课程媒体卡">
+      <p className="card-example-label">02 · 课程媒体</p>
+      <Card size={courseCardDefaultSize} localRecipe={courseCardRecipe} aria-label="统计学基础课程" data-example="cr-02" data-course-id={courseData.id}>
+        <div className="course-card-layout" data-media-layout={courseLayout}>
+          <div className="course-card-cover" role="img" aria-label="统计学课程文字封面">
+            <div aria-hidden="true"><span>认识数据 · 理解世界</span><strong>统计学基础</strong><span>STATISTICS</span></div>
+          </div>
+          <div className="course-card-body">
+            {showHeader && <CardHeader><CardTitle as="h2">{longContent ? courseData.title + "：从真实课堂案例到完整数据分析方法与应用" : courseData.title}</CardTitle><CardDescription>{courseData.description}</CardDescription></CardHeader>}
+            <CardContent className="flex flex-wrap items-center gap-rain-8"><Tag color="brand" size={20}>专业基础</Tag><span>{courseData.units} 个单元 · {courseData.files} 份资料</span></CardContent>
+            {showFooter && <CardFooter><Button size="small" variant="secondary" onClick={() => setAction("已查看统计学基础课程（演示）")}>查看课程</Button><span>本学期教学资料</span></CardFooter>}
+          </div>
+        </div>
+      </Card>
+    </section>
+    <section className="card-example" aria-label="报表片段卡">
+      <p className="card-example-label">03 · 报表片段</p>
+      <Card size={size} localRecipe={reportRecipe} aria-label="学习完成率" data-example="cr-03">
+        {showHeader && <CardHeader><CardTitle as="h2">学习完成率</CardTitle><CardDescription>第三单元 · 演示数据</CardDescription></CardHeader>}
+        <CardContent><span data-slot="value" className="font-rain-data text-rain-size-40 leading-rain-48 font-rain-bold">83</span><span data-slot="unit" className="font-rain-data text-rain-size-20 leading-rain-28">%</span></CardContent>
+        {showFooter && <CardFooter><span data-slot="label">按全部学习任务统计</span></CardFooter>}
+      </Card>
+    </section>
+    <section className="card-example" aria-label="含操作卡">
+      <p className="card-example-label">04 · 含操作</p>
+      <Card size={size} aria-label="学习提醒" data-example="cr-04">
+        {showHeader && <CardHeader>
+          <CardTitle as="h2">{longContent ? "第三单元学习提醒与后续课堂安排、材料准备和学习任务说明" : "学习提醒"}</CardTitle>
+          <CardDescription>为学生准备一条清晰的学习提示。</CardDescription>
+          <CardAction><DropdownMenu.Root><DropdownMenu.Trigger render={<Button size="mini" variant="tertiary">更多操作</Button>} />
+            <DropdownMenu.Content><DropdownMenu.Item label="复制提醒" onClick={() => setAction("已复制提醒（演示）")} /><DropdownMenu.Item label="稍后处理" onClick={() => setAction("已标记稍后处理（演示）")} /></DropdownMenu.Content>
+          </DropdownMenu.Root></CardAction>
+        </CardHeader>}
+        <CardContent className="flex flex-col gap-rain-12">
+          <label className="flex flex-col gap-rain-6">提醒标题<Input aria-label="提醒标题" value={draftTitle} onChange={event => setDraftTitle(event.target.value)} /></label>
+          <div className="flex flex-col gap-rain-6"><span id="card-audience-label">提醒对象</span><Select aria-labelledby="card-audience-label" value={audience} onValueChange={setAudience} options={[{ value: "all", label: "全部学生" }, { value: "unfinished", label: "尚未完成的学生" }]} /></div>
+        </CardContent>
+        {showFooter && <CardFooter><Button size="small" variant="primary" onClick={() => setAction("已保存“" + draftTitle + "”（演示）")}>保存提醒</Button><Tag color="neutral" size={20}>仅当前页面</Tag></CardFooter>}
+      </Card>
+    </section>
+    <p role="status" className="card-action-status">{action}</p>
+  </div>;
+}

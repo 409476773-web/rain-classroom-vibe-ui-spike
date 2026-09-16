@@ -10,8 +10,9 @@ sourcePath: "packages/ui/src/dropdown-menu/dropdown-menu.tsx"
 styleSourcePath: "packages/ui/src/dropdown-menu/dropdown-menu.css"
 sourceVersion: "local-2026-09-10"
 publication: "unpublished"
-description: "Rain action, link, choice and nested menus with a complete default visual recipe."
+description: "更多操作与显示设置菜单；支持动作、链接、单选、多选和嵌套菜单，按真实行为选择菜单项。"
 useWhen:
+  - "组织低频的更多操作或显示设置；高频主操作继续在任务区域直接呈现。"
   - "Start with the complete course-more or view-settings recipe; adapt declared parts when required."
 doNotUseWhen:
   - "Independent controls inside a row belong in Popover; use Select for selecting a field value."
@@ -29,7 +30,7 @@ parts:
   - "confirmation"
 props:
   - "Root preserves Base UI controlled/default open, reasons, cancellation, trigger IDs and modal=false default."
-  - "Content width is a finite positive number: soft default 280px for menu / 320px for panel; Base UI available width and height constrain it."
+  - "Content width defaults to auto: intrinsic complete-item width, 140px minimum for all menus when the viewport permits, 320px auto cap with existing wrapping. A finite positive number overrides the cap; Base UI available width and height still constrain it. Popover keeps its 320px default."
   - "Content exposes Base UI popup props except inline style; positionerProps exposes placement and string className, excluding inline style."
   - "String className changes layout; named Local Recipe changes declared visual parts. Trigger render composes Button/IconButton and forwards its own ref."
   - "Root closeOnAction defaults true. Item, LinkItem, CheckboxItem and RadioItem can override closeOnClick independently of their behavior type."

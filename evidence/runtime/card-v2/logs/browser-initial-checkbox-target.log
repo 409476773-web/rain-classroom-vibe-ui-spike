@@ -1,0 +1,175 @@
+
+Running 4 tests using 1 worker
+
+(node:90466) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/card.spec.ts:8:1 › Card owns spacing and parts independently of nested cards and control density (30.1s)
+(node:91987) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/e2e/card.spec.ts:39:1 › Card media reflows without clipping content, focus or independent operations (30.1s)
+(node:94377) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [chromium] › tests/e2e/card.spec.ts:74:1 › Card themes and preference emulation retain visible content (30.1s)
+(node:96009) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [chromium] › tests/e2e/card.spec.ts:95:1 › Card content layout utilities override the old visual declaration (467ms)
+
+
+  1) [chromium] › tests/e2e/card.spec.ts:8:1 › Card owns spacing and parts independently of nested cards and control density 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('checkbox', { name: '紧凑控件' })
+        - locator resolved to <input value="on" class="sr-only" type="checkbox" data-slot="input" aria-checked="false" data-focus="control" aria-labelledby="_r_d_-label"/>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        56 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      26 |   await expect(card("cr-01")).toHaveCSS("padding-top", "16px");
+      27 |   expect(await input.evaluate(el => el.getBoundingClientRect().height)).toBe(height);
+    > 28 |   await page.getByRole("checkbox", { name: "紧凑控件" }).check();
+         |                                                      ^
+      29 |   expect(await input.evaluate(el => el.getBoundingClientRect().height)).toBeLessThan(height);
+      30 |   await expect(card("cr-01")).toHaveCSS("padding-top", "16px");
+      31 |   await page.getByRole("checkbox", { name: "显示 Header" }).uncheck();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/card.spec.ts:28:54
+
+    Error Context: ../../../../../../tmp/rain-card-v2-browser/card-Card-owns-spacing-and-34f07-d-cards-and-control-density-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-card-v2-browser/card-Card-owns-spacing-and-34f07-d-cards-and-control-density-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-card-v2-browser/card-Card-owns-spacing-and-34f07-d-cards-and-control-density-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/e2e/card.spec.ts:39:1 › Card media reflows without clipping content, focus or independent operations 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('checkbox', { name: '长内容' })
+        - locator resolved to <input value="on" class="sr-only" type="checkbox" data-slot="input" aria-checked="false" data-focus="control" aria-labelledby="_r_e_-label"/>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        56 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      62 |   await page.getByRole("menuitem", { name: "复制提醒", exact: true }).click();
+      63 |   await expect(page.getByRole("status")).toHaveText("已复制提醒（演示）");
+    > 64 |   await page.getByRole("checkbox", { name: "长内容" }).check();
+         |                                                     ^
+      65 |   await page.getByRole("checkbox", { name: "窄容器" }).check();
+      66 |   await expect(page.locator('[data-example="cr-04"] [data-slot="action"]')).toHaveCSS("grid-column-start", "1");
+      67 |   expect((await body.boundingBox())!.y).toBeGreaterThan((await media.boundingBox())!.y + (await media.boundingBox())!.height - 1);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/card.spec.ts:64:53
+
+    Error Context: ../../../../../../tmp/rain-card-v2-browser/card-Card-media-reflows-wi-46765-s-or-independent-operations-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-card-v2-browser/card-Card-media-reflows-wi-46765-s-or-independent-operations-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-card-v2-browser/card-Card-media-reflows-wi-46765-s-or-independent-operations-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › tests/e2e/card.spec.ts:74:1 › Card themes and preference emulation retain visible content 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('checkbox', { name: '长内容' })
+        - locator resolved to <input value="on" class="sr-only" type="checkbox" data-slot="input" aria-checked="false" data-focus="control" aria-labelledby="_r_e_-label"/>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        56 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      88 |   await expect(page.getByRole("status")).toContainText("已保存");
+      89 |   await page.setViewportSize({ width: 360, height: 900 });
+    > 90 |   await page.getByRole("checkbox", { name: "长内容" }).check();
+         |                                                     ^
+      91 |   expect(await page.locator("body").evaluate(el => el.scrollWidth <= innerWidth)).toBe(true);
+      92 |   await page.screenshot({ path: testInfo.outputPath("card-narrow-forced-colors.png"), fullPage: true });
+      93 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/card.spec.ts:90:53
+
+    Error Context: ../../../../../../tmp/rain-card-v2-browser/card-Card-themes-and-prefe-02e81-tion-retain-visible-content-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-card-v2-browser/card-Card-themes-and-prefe-02e81-tion-retain-visible-content-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-card-v2-browser/card-Card-themes-and-prefe-02e81-tion-retain-visible-content-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [chromium] › tests/e2e/card.spec.ts:8:1 › Card owns spacing and parts independently of nested cards and control density 
+    [chromium] › tests/e2e/card.spec.ts:39:1 › Card media reflows without clipping content, focus or independent operations 
+    [chromium] › tests/e2e/card.spec.ts:74:1 › Card themes and preference emulation retain visible content 
+  1 passed (1.5m)

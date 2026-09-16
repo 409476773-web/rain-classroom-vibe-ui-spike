@@ -1,0 +1,90 @@
+--- c2/apps/prototype/src/scenarios/bm-c/page.tsx
++++ final/apps/prototype/src/scenarios/bm-c/page.tsx
+@@ -17,7 +17,7 @@
+   const [dark, setDark] = useState(false), [failSave, setFailSave] = useState(false);
+   const leftToggle = useRef<HTMLButtonElement>(null), rightToggle = useRef<HTMLButtonElement>(null);
+   const scoreRef = useRef<HTMLInputElement>(null), headingRef = useRef<HTMLHeadingElement>(null), errorRef = useRef<HTMLParagraphElement>(null);
+-  const requestRef = useRef<AbortController | null>(null), previousSelection = useRef(selected);
++  const requestRef = useRef<AbortController | null>(null), previousSelection = useRef(selected), selectionFocus = useRef(false);
+   const visible = filterAnswers(paper, filter, query, grades);
+   const current = answers.find(answer => answer.id === selected && answer.paper === paper);
+   const draft = current ? drafts[current.id] ?? { score: grades[current.id]?.score.toString() ?? "", comment: grades[current.id]?.comment ?? "" } : { score: "", comment: "" };
+@@ -34,19 +34,20 @@
+   useEffect(() => { if (current) positions.current[groupId(current)] = current.id; }, [selected, order]);
+   useEffect(() => { if (error) errorRef.current?.focus(); }, [error]);
+   useEffect(() => {
+-    if (previousSelection.current !== selected) headingRef.current?.focus({ preventScroll: true });
+-    previousSelection.current = selected;
++    if (previousSelection.current !== selected && selectionFocus.current) headingRef.current?.focus();
++    previousSelection.current = selected; selectionFocus.current = false;
+   }, [selected]);
+-  function choose(answer: Answer | undefined) {
++  function choose(answer: Answer | undefined, focus = true) {
+     if (requestRef.current) return;
++    selectionFocus.current = focus;
+     if (answer) setExpandedGroup(groupId(answer));
+     setSelected(answer?.id ?? null); setError(""); setInvalidScore(""); setNotice("");
+   }
+-  function changeScope(nextPaper: Paper, nextFilter: AnswerFilter, nextQuery: string) {
++  function changeScope(nextPaper: Paper, nextFilter: AnswerFilter, nextQuery: string, focus = false) {
+     if (requestRef.current) return;
+     const matches = filterAnswers(nextPaper, nextFilter, nextQuery, grades);
+     setPaper(nextPaper); setFilter(nextFilter); setQuery(nextQuery);
+-    choose(matches.find(answer => answer.id === selected) ?? matches[0]);
++    choose(matches.find(answer => answer.id === selected) ?? matches[0], focus);
+   }
+   function changeDraft(change: Partial<Draft>) {
+     if (!current || requestRef.current) return;
+@@ -64,7 +65,7 @@
+       if (request.signal.aborted || requestRef.current !== request) return;
+       setGrades(value => ({ ...value, [id]: submitted }));
+       setDrafts(value => ({ ...value, [id]: { score: String(submitted.score), comment: submitted.comment } }));
+-      if (destination) setSelected(destination.id);
++      if (destination) { selectionFocus.current = true; setSelected(destination.id); }
+       setNotice(destination ? "评分已保存，已进入下一对象。" : advance ? "评分已保存，当前分组已到末尾。" : "本题评分已保存。");
+     } catch {
+       if (request.signal.aborted || requestRef.current !== request) return;
+@@ -77,7 +78,7 @@
+   return <main className="bm-c" data-rain-id="scenario-bm-c" data-asset-identity="local-experiment" data-rain-theme={dark ? "dark" : "light"}>
+     <header className="bm-c-taskbar" data-slot="taskbar">
+       <Inline gap={16}><a href="#bm-d" data-focus="item">返回课程报告</a><span aria-hidden="true">/</span><div><h1>大学物理 · 单元作业批改</h1><p>运动、能量与实验 · 手动批改</p></div></Inline>
+-      <Inline gap={12}><span>{paper} 卷已批改 {gradedCount} / 18</span><progress aria-label={`${paper} 卷批改进度`} value={gradedCount} max={18} /><Button variant="tertiary" onClick={() => setDark(!dark)}>{dark ? "切换浅色" : "切换深色"}</Button></Inline>
++      <Inline gap={12}><span>{paper} 卷已批改 {gradedCount} / 18</span><Button variant="tertiary" onClick={() => setDark(!dark)}>{dark ? "切换浅色" : "切换深色"}</Button></Inline>
+     </header>
+     <div className="bm-c-toolbar" data-slot="toolbar">
+       <Inline gap={16}>
+@@ -85,8 +86,8 @@
+         <Inline gap={4} aria-label="批改顺序">{(["question", "student"] as const).map(value => <Button key={value} variant={order === value ? "secondary" : "tertiary"} aria-pressed={order === value} disabled={saving} onClick={() => { setOrder(value); if (current) setExpandedGroup(groupId(current, value)); }}>{value === "question" ? "按题批改" : "按人批改"}</Button>)}</Inline>
+       </Inline>
+       <Inline gap={8}>
+-        <Button ref={leftToggle} variant="tertiary" aria-controls="bm-c-context" aria-expanded={!leftClosed} onClick={() => setLeftClosed(!leftClosed)}>{leftClosed ? "展开目录" : "收起目录"}</Button>
+-        <Button ref={rightToggle} variant="tertiary" aria-controls="bm-c-inspector" aria-expanded={!rightClosed} onClick={() => setRightClosed(!rightClosed)}>{rightClosed ? "展开评分" : "收起评分"}</Button>
++        <Button ref={leftToggle} variant="tertiary" aria-controls="bm-c-context" aria-expanded={!leftClosed} onClick={event => { event.currentTarget.focus({ preventScroll: true }); setLeftClosed(!leftClosed); }}>{leftClosed ? "展开目录" : "收起目录"}</Button>
++        <Button ref={rightToggle} variant="tertiary" aria-controls="bm-c-inspector" aria-expanded={!rightClosed} onClick={event => { event.currentTarget.focus({ preventScroll: true }); setRightClosed(!rightClosed); }}>{rightClosed ? "展开评分" : "收起评分"}</Button>
+         <Checkbox label="加宽评分区" checked={wide} onCheckedChange={setWide} />
+       </Inline>
+     </div>
+@@ -94,7 +95,7 @@
+       <Split.Sidebar className="bm-c-context" role="region" aria-label="批改目录">
+         <DensityProvider density="compact" className="flex min-h-0 flex-1 flex-col"><Stack gap={16} className="bm-c-directory-layout">
+           <Stack gap={16}>
+-          <Inline justify="between"><h2>批改目录</h2><Button variant="tertiary" onClick={() => setLeftClosed(true)}>收起目录</Button></Inline>
++          <Inline justify="between"><h2>批改目录</h2><Button variant="tertiary" onClick={() => { leftToggle.current?.focus({ preventScroll: true }); setLeftClosed(true); }}>收起目录</Button></Inline>
+           <FormItem label="查找批改对象" disabled={saving}><Input value={query} onValueChange={value => changeScope(paper, filter, value)} placeholder="学生或题目" /></FormItem>
+           <FormItem label="目录状态" disabled={saving}><Select value={filter} onValueChange={value => { if (["all", "pending", "graded", "unanswered"].includes(String(value))) changeScope(paper, value as AnswerFilter, query); }} options={[{ value: "all", label: "全部作答" }, { value: "pending", label: "待批改" }, { value: "graded", label: "已批改" }, { value: "unanswered", label: "未作答" }]} /></FormItem>
+           <p className="bm-c-muted">当前目录 {visible.length} 份作答</p>
+@@ -122,12 +123,12 @@
+               <section className="bm-c-answer-text" data-slot="answer-text"><Inline justify="between"><h3>学生作答</h3><span className="bm-c-muted">{current.text ? "文字作答" : "未作答"}</span></Inline>
+                 {current.text ? current.text.split("\n\n").map((paragraph, index) => <p key={index} className="rain-type-reading">{paragraph}</p>) : <p>该题尚未提交作答，仍可按教学要求给分。</p>}
+               </section>
+-            </Stack> : <Empty><EmptyTitle>没有匹配的批改对象</EmptyTitle><EmptyDescription>调整目录筛选后继续批改，原有草稿仍然保留。</EmptyDescription><EmptyActions><Button onClick={() => changeScope(paper, "all", "")}>清空筛选</Button></EmptyActions></Empty>}
++            </Stack> : <Empty><EmptyTitle>没有匹配的批改对象</EmptyTitle><EmptyDescription>调整目录筛选后继续批改，原有草稿仍然保留。</EmptyDescription><EmptyActions><Button onClick={() => changeScope(paper, "all", "", true)}>清空筛选</Button></EmptyActions></Empty>}
+           </Split.Main>
+           <Split.Sidebar className="bm-c-inspector" role="region" aria-label="评分面板">
+             <form onSubmit={event => void save(false, event)} className="bm-c-grade-form" aria-label="评分表单" aria-busy={saving}>
+               <div className="bm-c-grade-body" data-slot="grading-body"><Stack gap={24}>
+-                <Inline justify="between"><h2>评分与评语</h2><Button variant="tertiary" onClick={() => setRightClosed(true)}>收起评分</Button></Inline>
++                <Inline justify="between"><h2>评分与评语</h2><Button variant="tertiary" onClick={() => { rightToggle.current?.focus({ preventScroll: true }); setRightClosed(true); }}>收起评分</Button></Inline>
+                 <p className="bm-c-muted">{current ? `${current.student} · 第 ${current.question} 题` : "请先选择批改对象"}</p>
+                 <details className="bm-c-reference"><summary data-focus="item">查看评分参考</summary><p className="rain-type-reading">概念准确占 40%，分析过程占 40%，条件与表达占 20%。请结合本题满分独立判断；此参考不会自动写入评分。</p></details>
+                 <FormItem label="本题得分" required disabled={!current || saving} status={invalidScore ? "error" : "default"} message={invalidScore || `满分 ${current?.maxScore ?? "—"} 分，支持 0.5 分`}>

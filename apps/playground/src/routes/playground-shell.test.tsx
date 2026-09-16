@@ -86,10 +86,13 @@ describe("playground-shell", () => {
     expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
   });
 
-  it("marks every registered benchmark as not implemented", () => {
+  it("shows each implemented benchmark without promoting its separate human review", () => {
     render(<App />);
-
-    expect(screen.getAllByText("尚未实现")).toHaveLength(4);
+    for (const title of ["Compact Data Management", "Default Large Form"])
+      expect(screen.getByText(title).closest("article")).toHaveAttribute("data-state", "completed");
+    for (const title of ["Complex Workbench", "Report / Key Data"])
+      expect(screen.getByText(title).closest("article")).not.toHaveAttribute("data-state", "not-started");
+    expect(screen.queryByText("尚未实现")).not.toBeInTheDocument();
   });
 
   it("separates the current B2 entry from the completed historical baseline", () => {

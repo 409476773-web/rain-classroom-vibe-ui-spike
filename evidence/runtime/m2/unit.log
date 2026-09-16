@@ -1,0 +1,244 @@
+
+> @rain-next/workspace@0.0.0 test /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> vitest run
+
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-token-foundations.test.ts (20 tests | 1 failed) 8416ms
+     × reports actual user-accepted danger Primary text shortfalls instead of claiming readability passed 6549ms
+ ❯ scripts/icon-button-color-consumers.test.ts (15 tests | 2 failed) 14145ms
+   × retains the exact 93 and 9 measured contrast exceptions after the user's component acceptance 6250ms
+     × checks source and roles while reporting real text and icon contrast findings separately 6916ms
+ ❯ scripts/verification-helpers.test.ts (239 tests | 2 failed) 37539ms
+     × passes the complete unmodified fixture before testing any mutation 709ms
+     × leaves the fixture valid after all mutation checks 646ms
+ ❯ scripts/verify-tailwind-b2.test.ts (178 tests | 5 failed) 114580ms
+     × fails closed instead of blocking when the evidence README is a FIFO 1221ms
+     × requires completed trials to carry verifiable diff, screenshot and test evidence 1040ms
+     × keeps the Task 2 files while Task 5 promotes its verifier into governance 925ms
+     × fails closed instead of blocking when a referenced state manifest is a FIFO 1023ms
+     × accepts only the recorded QuestionNumber 32 px visual Gate without accepting contrast findings 2950ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/icon-button-color-consumers.test.ts > retains the exact 93 and 9 measured contrast exceptions after the user's component acceptance
+AssertionError: expected [ …(3) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "M2 color registration cannot be checked: The URL must be of scheme file",
++   "Category/local colors require registered Token consumer metadata: apps/prototype/src/scenarios/bm-c/page.css",
++   "Category/local colors require registered Token consumer metadata: apps/prototype/src/scenarios/bm-d/page.css",
++ ]
+
+ ❯ scripts/icon-button-color-consumers.test.ts:15:27
+     13| it("retains the exact 93 and 9 measured contrast exceptions after the …
+     14|   const result = verification.verifyTokenFoundations() as any;
+     15|   expect(result.failures).toEqual([]);
+       |                           ^
+     16|   expect(result.acceptedComponentContrastExceptions).toHaveLength(102);
+     17|   expect(result.acceptedComponentContrastExceptions.filter((entry: any…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  scripts/icon-button-color-consumers.test.ts > QuestionNumber registered Category consumers > checks source and roles while reporting real text and icon contrast findings separately
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/icon-button-color-consumers.test.ts:77:3
+     75|   const questionCss = "apps/playground/src/docs/components/question-nu…
+     76|
+     77|   it("checks source and roles while reporting real text and icon contr…
+       |   ^
+     78|     const findings: any[] = [];
+     79|     const source = readFileSync(questionStyles, "utf8");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > passes the complete unmodified fixture before testing any mutation
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /verification passed/
+
+- Expected:
+/verification passed/
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: tests/e2e/evidence/runtime/m2/browser/results/.playwright-artifacts-0/traces/resources/6eb7e6b424f6d0ab26d5cff36fff6234ce4c8fc2.css
+- source file outside the complete Day 3 allowlist: tests/e2e/evidence/runtime/m2/browser/results/.playwright-artifacts-0/traces/resources/f96736988258949970b9a9f47d3ecf125d0bd4a8.html
+"
+
+ ❯ scripts/verification-helpers.test.ts:885:50
+    883|       const result = run(script);
+    884|       expect(result.error).toBeUndefined();
+    885|       expect(`${result.stdout}${result.stderr}`).toMatch(/verification…
+       |                                                  ^
+    886|       expect(result.status).toBe(0);
+    887|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > leaves the fixture valid after all mutation checks
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ scripts/verification-helpers.test.ts:974:49
+    972|
+    973|   it("leaves the fixture valid after all mutation checks", () => {
+    974|     expect(run("verify-boundaries.mjs").status).toBe(0);
+       |                                                 ^
+    975|     expect(run("verify-workspace.mjs").status).toBe(0);
+    976|     expect(run("verify-evidence.mjs").status).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 results validator > fails closed instead of blocking when the evidence README is a FIFO
+AssertionError: expected Error: spawnSync /Users/wenchengkai/.nvm/… { …(5) } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+Error {
+  "message": "spawnSync /Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node ETIMEDOUT",
+  "errno": -60,
+  "code": "ETIMEDOUT",
+  "syscall": "spawnSync /Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+  "path": "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+  "spawnargs": [
+    "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/scripts/verify-tailwind-b2.mjs",
+  ],
+}
+
+ ❯ scripts/verify-tailwind-b2.test.ts:535:28
+    533|       expect(spawnSync("mkfifo", [readmePath]).status).toBe(0);
+    534|       const result = runScript(verifierPath, fixtureRoot, 1_000);
+    535|       expect(result.error).toBeUndefined();
+       |                            ^
+    536|       expect(outputOf(result)).toMatch(/README.*regular non-symbolic f…
+    537|       expect(result.status).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 results validator > requires completed trials to carry verifiable diff, screenshot and test evidence
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /Boundary verification passed/
+
+- Expected:
+/Boundary verification passed/
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: tests/e2e/evidence/runtime/m2/browser/results/.playwright-artifacts-0/traces/resources/6eb7e6b424f6d0ab26d5cff36fff6234ce4c8fc2.css
+- source file outside the complete Day 3 allowlist: tests/e2e/evidence/runtime/m2/browser/results/.playwright-artifacts-0/traces/resources/f96736988258949970b9a9f47d3ecf125d0bd4a8.html
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:894:40
+    892|       fixtureRoot,
+    893|     );
+    894|     expect(outputOf(governedEvidence)).toMatch(/Boundary verification …
+       |                                        ^
+    895|     expect(governedEvidence.status).toBe(0);
+    896|     const document = readYaml(baselinePath, fixtureRoot);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 2 governance > keeps the Task 2 files while Task 5 promotes its verifier into governance
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /verification passed/
+
+- Expected:
+/verification passed/
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: tests/e2e/evidence/runtime/m2/browser/results/.playwright-artifacts-2/traces/resources/6eb7e6b424f6d0ab26d5cff36fff6234ce4c8fc2.css
+- source file outside the complete Day 3 allowlist: tests/e2e/evidence/runtime/m2/browser/results/.playwright-artifacts-2/traces/resources/f96736988258949970b9a9f47d3ecf125d0bd4a8.html
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:1926:32
+    1924|     for (const script of ["verify-boundaries.mjs", "verify-workspace.m…
+    1925|       const result = runScript(join(workspaceRoot, "scripts", script),…
+    1926|       expect(outputOf(result)).toMatch(/verification passed/);
+       |                                ^
+    1927|       expect(result.status).toBe(0);
+    1928|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 2 governance > fails closed instead of blocking when a referenced state manifest is a FIFO
+AssertionError: expected Error: spawnSync /Users/wenchengkai/.nvm/… { …(5) } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+Error {
+  "message": "spawnSync /Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node ETIMEDOUT",
+  "errno": -60,
+  "code": "ETIMEDOUT",
+  "syscall": "spawnSync /Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+  "path": "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+  "spawnargs": [
+    "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/scripts/verify-boundaries.mjs",
+  ],
+}
+
+ ❯ scripts/verify-tailwind-b2.test.ts:1955:28
+    1953|       expect(spawnSync("mkfifo", [manifestPath]).status).toBe(0);
+    1954|       const result = runScript(boundaryVerifierPath, fixtureRoot, 1_00…
+    1955|       expect(result.error).toBeUndefined();
+       |                            ^
+    1956|       expect(outputOf(result)).toMatch(/state manifest.*regular non-sy…
+    1957|       expect(result.status).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > accepts only the recorded QuestionNumber 32 px visual Gate without accepting contrast findings
+AssertionError: expected [ …(3) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "M2 color registration cannot be checked: The URL must be of scheme file",
++   "Category/local colors require registered Token consumer metadata: apps/prototype/src/scenarios/bm-c/page.css",
++   "Category/local colors require registered Token consumer metadata: apps/prototype/src/scenarios/bm-d/page.css",
++ ]
+
+ ❯ scripts/verify-tailwind-b2.test.ts:2397:31
+    2395|       expect(validateTailwindB2SystemContract({ root: fixtureRoot })).…
+    2396|       const tokens = verifyTokenFoundations({ root: fixtureRoot });
+    2397|       expect(tokens.failures).toEqual([]);
+       |                               ^
+    2398|       expect(tokens.pendingContrastFindings.length).toBeGreaterThan(0);
+    2399|       expect(tokens.acceptedTextContrastExceptions.some((entry: any) =…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯
+
+ FAIL  scripts/verify-token-foundations.test.ts > Token Foundations consumption verification > reports actual user-accepted danger Primary text shortfalls instead of claiming readability passed
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/verify-token-foundations.test.ts:33:3
+     31|     expect(validateTokenConsumerSource({ ...options, outputs: { ...out…
+     32|   });
+     33|   it("reports actual user-accepted danger Primary text shortfalls inst…
+       |   ^
+     34|     const result = verifyTokenFoundations() as any;
+     35|     expect(result.acceptedTextContrastExceptions).toHaveLength(8);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/10]⎯
+
+
+ Test Files  4 failed | 101 passed (105)
+      Tests  10 failed | 1375 passed (1385)
+   Start at  22:30:04
+   Duration  118.10s (transform 14.53s, setup 27.42s, import 56.73s, tests 293.04s, environment 105.14s)
+
+ ELIFECYCLE  Test failed. See above for more details.

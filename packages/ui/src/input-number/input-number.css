@@ -1,0 +1,61 @@
+/* @rain-css-exception input-number-parts: shared field frame with symmetric controls and intrinsic value width. */
+.rain-input-number-field { inline-size: max-content; max-inline-size: 100%; vertical-align: middle; }
+.rain-input-number-field > [data-slot="message"] { contain: inline-size; }
+.rain-input-number-field[data-full-width="true"] { inline-size: 100%; }
+.rain-input-number { inline-size: 100%; padding-inline: 0; gap: 0; }
+.rain-input-number__value { display: flex; flex: 1; min-inline-size: 0; align-items: center; justify-content: center; gap: var(--rain-space-4); padding-inline: var(--rain-space-8); }
+.rain-input-number__value > [data-slot="control"] { flex: 0 1 auto; inline-size: 5ch; max-inline-size: 100%; min-inline-size: 0; text-align: center; font: inherit; }
+.rain-input-number [data-slot="control"][data-key-data="true"] { font-family: var(--rain-font-data); font-weight: var(--rain-font-weight-bold); font-variant-numeric: var(--rain-font-numeric-data); }
+.rain-input-number [data-slot="control"][data-key-data="true"]::placeholder { font-family: var(--rain-font-ui); font-weight: var(--rain-font-weight-regular); font-variant-numeric: var(--rain-font-numeric-normal); }
+.rain-input-number:is([data-controls="false"], [data-controls-layout="stacked"]) .rain-input-number__value { justify-content: flex-start; }
+.rain-input-number:is([data-controls="false"], [data-controls-layout="stacked"]) [data-slot="control"] { flex: 1; text-align: start; }
+.rain-input-number__step {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; align-self: stretch; flex: none;
+  inline-size: var(--rain-input-height-32); padding: 0; border: 0; background: transparent;
+  color: var(--rain-category-icon-neutral-2); cursor: pointer;
+}
+.rain-input-number__step::before { content: ""; position: absolute; inset: calc(-1 * var(--rain-line-thickness-1)) 0; }
+.rain-input-number[data-size="24"] .rain-input-number__step { inline-size: var(--rain-input-height-24); }
+.rain-input-number[data-size="28"] .rain-input-number__step { inline-size: var(--rain-input-height-28); }
+.rain-input-number[data-size="36"] .rain-input-number__step { inline-size: var(--rain-input-height-36); }
+.rain-input-number__step > .rain-icon { inline-size: var(--rain-icon-size-16); block-size: var(--rain-icon-size-16); }
+.rain-input-number__step[data-slot="decrease"] { border-inline-end: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); border-start-start-radius: inherit; border-end-start-radius: inherit; }
+.rain-input-number__step[data-slot="increase"] { border-inline-start: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); border-start-end-radius: inherit; border-end-end-radius: inherit; }
+.rain-input-number[data-appearance="underlined"] .rain-input-number__step { border-inline: 0; border-radius: 0; }
+.rain-input-number__step:not(:disabled):hover, .rain-input-number__clear:hover { background: var(--rain-category-fill-neutral-alpha-3); }
+.rain-input-number__step:not(:disabled):active, .rain-input-number__clear:active { background: var(--rain-category-fill-neutral-alpha-2); }
+.rain-input-number__step:disabled { color: var(--rain-category-icon-neutral-5); cursor: not-allowed; }
+.rain-input-number[data-permission="disabled"] [data-slot="prefix-text"], .rain-input-number[data-permission="disabled"] [data-slot="suffix-text"] { color: var(--rain-category-text-neutral-6); }
+.rain-input-number__clear-slot { display: inline-flex; inline-size: var(--rain-input-clear-size); block-size: var(--rain-input-clear-size); flex: none; opacity: 0; pointer-events: none; }
+.rain-input-number:is(:hover, :focus-within) .rain-input-number__clear-slot { opacity: 1; pointer-events: auto; }
+.rain-input-number__clear { display: inline-flex; align-items: center; justify-content: center; inline-size: 100%; block-size: 100%; border: 0; padding: 0; border-radius: var(--rain-radius-4); background: transparent; color: var(--rain-category-icon-neutral-3); cursor: pointer; }
+.rain-input-number__clear > .rain-icon { inline-size: var(--rain-icon-size-14); block-size: var(--rain-icon-size-14); }
+/* @rain-css-exception input-number-focus: nested value region uses the same accepted field focus tokens. */
+.rain-input-number[data-permission="editable"]:not([data-appearance="underlined"]):has([data-slot="control"]:focus-visible) { outline: var(--rain-line-thickness-1) solid var(--rain-field-focus-line); outline-offset: 0; border-color: transparent; box-shadow: 0 0 0 3px var(--rain-field-focus-halo); }
+.rain-input-number[data-permission="readonly"]:not([data-pointer-focus]):has([data-slot="control"]:focus-visible) { outline: var(--rain-line-thickness-1) solid var(--rain-field-readonly-line); outline-offset: 0; box-shadow: none; }
+.rain-input-number[data-appearance="underlined"][data-permission="readonly"]:has([data-slot="control"]:focus-visible):not([data-pointer-focus]) { outline: none; border-bottom-color: var(--rain-field-readonly-line); background-image: linear-gradient(var(--rain-field-readonly-line), var(--rain-field-readonly-line)); background-size: 100% var(--rain-line-thickness-1); background-position: bottom; background-repeat: no-repeat; }
+.rain-input-number__step:focus-visible, .rain-input-number__clear:focus-visible { outline: var(--rain-line-thickness-2) solid var(--rain-field-focus-line); outline-offset: calc(-1 * var(--rain-space-4)); }
+@media (forced-colors: active) {
+  .rain-input-number { border-color: ButtonText; }
+  .rain-input-number__step { border-color: ButtonText; color: ButtonText; }
+  .rain-input-number__step:disabled { color: GrayText; }
+  .rain-input-number__step:focus-visible, .rain-input-number__clear:focus-visible { outline-color: Highlight; }
+  .rain-input-number[data-permission]:has([data-slot="control"]:focus-visible):not([data-pointer-focus]) { outline: 2px solid Highlight; outline-offset: 2px; box-shadow: none; }
+  .rain-input-number[data-appearance="underlined"][data-permission]:has([data-slot="control"]:focus-visible):not([data-pointer-focus]) { outline: none; border-bottom: 2px solid Highlight; background-image: none; }
+}
+
+/* Classic dense-field controls keep their space when hidden; focus always reveals them. */
+.rain-input-number__controls {
+  display: grid; grid-template-rows: repeat(2, minmax(0, 1fr)); flex: none; align-self: stretch;
+  inline-size: var(--rain-space-24); overflow: hidden; opacity: 0; pointer-events: none;
+  border-inline-start: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3);
+  border-start-end-radius: inherit; border-end-end-radius: inherit;
+}
+.rain-input-number:is(:hover, :focus-within) .rain-input-number__controls { opacity: 1; pointer-events: auto; }
+.rain-input-number[data-controls-layout="stacked"] .rain-input-number__step { inline-size: 100%; min-block-size: 0; border: 0; border-radius: 0; }
+.rain-input-number[data-controls-layout="stacked"] .rain-input-number__step::before { content: none; }
+.rain-input-number[data-controls-layout="stacked"] .rain-input-number__step > .rain-icon { inline-size: var(--rain-icon-size-12); block-size: var(--rain-icon-size-12); }
+.rain-input-number[data-controls-layout="stacked"] .rain-input-number__step:focus-visible { outline-offset: calc(-1 * var(--rain-space-2)); }
+.rain-input-number[data-appearance="underlined"] .rain-input-number__controls { border-inline-start: 0; border-radius: 0; }
+@media (hover: none) { .rain-input-number__controls { opacity: 1; pointer-events: auto; } }
+@media (forced-colors: active) { .rain-input-number__controls { border-color: ButtonText; } }

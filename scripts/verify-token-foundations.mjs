@@ -1,3 +1,18 @@
+import { getInputNumberColorConsumers, prepareInputNumberSource } from "./input-number.mjs";
+import { hasInputNumberAuthorization } from "./verification-helpers.mjs";
+import { hasGenerationQualityAuthorization, hasM2Authorization, hasDialogRefinementAuthorization } from "./verification-helpers.mjs";
+import { hasAvatarFamilyAuthorization } from "./verification-helpers.mjs";
+import { getAvatarColorConsumers, prepareAvatarSource } from "./avatar-family.mjs";
+import { overlayColors } from "../packages/foundations/src/overlay-token-contract.ts";
+import { hasBmBRn10Authorization } from "./verification-helpers.mjs";
+import { getBmBColorConsumers } from "./token-foundation-outputs.mjs";
+import { getPaginationColorConsumers, paginationColorSourcePaths } from "./pagination-color-consumers.mjs";
+import { hasEmptyRefinementAuthorization, hasInsideFieldLabelsAuthorization, hasTableVisualRefinementAuthorization, hasTablePaginationReplacementAuthorization, hasTableRn08Authorization } from "./verification-helpers.mjs";
+import { getEmptyColorConsumers, getTableRn08ColorConsumers } from "./token-foundation-outputs.mjs";
+import { hasLayoutsV1Authorization, hasDialogV2Authorization } from "./verification-helpers.mjs";
+import { getLayoutsColorConsumers, getDialogColorConsumers } from "./token-foundation-outputs.mjs";
+import { hasCardV2Authorization } from "./verification-helpers.mjs";
+import { getCardColorConsumers } from "./token-foundation-outputs.mjs";
 import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join, relative, resolve } from "node:path";
@@ -5,6 +20,7 @@ import { fileURLToPath } from "node:url";
 import { parseSync } from "vite";
 import { colorRegistry, colorCategoryProfiles, colorTokenOutputs, colorToCss, validateColorUse, resolveColor, resolveColorSurface, measureColorContrast } from "../packages/foundations/src/color-registry.ts";
 import { semanticColorTokens } from "../packages/foundations/src/token-contract.ts";
+import { compositionSpaceTokens } from "../packages/foundations/src/composition-contract.ts";
 import { validateButtonColorRecipe } from "../packages/foundations/src/button-token-contract.ts";
 import { generateTokenFoundations } from "./generate-token-foundations.mjs";
 import { getTokenFoundationOutputs, getInputColorConsumers, getTagColorConsumers, getTagDomainColorConsumers, measureTagDomainColorRecipe, measureTagColorRecipe, getSelectColorConsumers, measureSelectColorRecipe } from "./token-foundation-outputs.mjs";
@@ -20,6 +36,63 @@ const consumerDirectory = "apps/playground/src/docs/token-foundations/";
 const strings = (value) => typeof value === "string" ? [value] : value && typeof value === "object" ? Object.values(value).flatMap(strings) : [];
 const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const categorySource = /\b(?:bg|text|border|outline|ring)-rain-(?:category|local)-|--rain-(?:category|local)-[a-z0-9]|token-classes\.generated|\b(?:colorTokenOutputs|localColorRecipeOutput)\b/;
+
+// This snapshot locks only two local CSS consumers, including real text/data-graphic roles.
+export function getM2ColorConsumers(root = process.cwd()) {
+  const source = readFileSync(join(root, "evidence/runtime/m2/color-consumers.json"), "utf8");
+  if (createHash("sha256").update(source).digest("hex") !== "cf356b144ead2ba8d5fd69a9b70c66cdcedfe27c55af8d06f348f247b991e160") throw new Error("M2 color metadata differs from its reviewed scope, roles or thresholds");
+  const records = JSON.parse(source);
+  const phasePath = join(root, "status/current-phase.yaml");
+  const phase = existsSync(phasePath) ? parseYamlSubset(readFileSync(phasePath, "utf8")) : {};
+  if (phase.componentRefinements?.generationQuality) {
+    if (!hasGenerationQualityAuthorization(phase)) throw new Error("Generation quality colors require exact authorization");
+    const updated = readFileSync(join(root, "evidence/runtime/generation-quality/color-consumers.json"), "utf8");
+    const expected = phase.componentRefinements.generationQuality.visualRefinement ? "0677768f8e6aab8ca6a97589f37c7d70be5d1e2e314addd81bf6a49c9f682fd2" : "485262dde798d4b1b16c1bccc1399fbcfa03f64347676aeacc664514b4562a08";
+    if (createHash("sha256").update(updated).digest("hex") !== expected) throw new Error("Generation quality color metadata differs from its reviewed scope, roles or thresholds");
+    records[1] = JSON.parse(updated);
+    if (phase.componentRefinements.generationQuality.bmCVisualRefinement) {
+      const workbench = readFileSync(join(root, "evidence/runtime/generation-quality/bm-c-feedback/color-consumers.json"), "utf8");
+      if (createHash("sha256").update(workbench).digest("hex") !== "513eb3a2788ab70fb98ddabf67222d928411ba00bc231bd8e89782b696ba6661") throw new Error("BM-C feedback color metadata differs from its reviewed scope, roles or thresholds");
+      records[0] = JSON.parse(workbench);
+    }
+    if (phase.componentRefinements.generationQuality.compositionRefinement) {
+      const report = readFileSync(join(root, "evidence/runtime/generation-quality/composition-refinement/color-consumers.json"), "utf8");
+      if (createHash("sha256").update(report).digest("hex") !== "2dcc2bb1ed1d3e462e330a6a1f671038ee9f161e7b349392eefff378681d3191") throw new Error("BM-D composition color metadata differs from its reviewed scope, roles or thresholds");
+      records[1] = JSON.parse(report);
+    }
+    if (phase.componentRefinements.generationQuality.bmCCompositionRefinement) {
+      const workbench = readFileSync(join(root, "evidence/runtime/generation-quality/bm-c-composition/color-consumers.json"), "utf8");
+      if (createHash("sha256").update(workbench).digest("hex") !== "7ad8d88b9576006c2e1028893bb71dca790ec283ccb2ff84d625cec315c17ffd") throw new Error("BM-C composition color metadata differs from its reviewed scope, roles or thresholds");
+      records[0] = JSON.parse(workbench);
+    }
+    if (phase.componentRefinements.generationQuality.bmCPrimaryWorkflowRefinement) {
+      const workbench = readFileSync(join(root, "evidence/runtime/generation-quality/bm-c-primary-workflow/color-consumers.json"), "utf8");
+      if (createHash("sha256").update(workbench).digest("hex") !== "7fa3c5afad2a23b534eb2b4533bebfc3b5a9eb27205c1e8ecf1be48b562e7d37") throw new Error("BM-C primary workflow color metadata differs from its reviewed scope, roles or thresholds");
+      records[0] = JSON.parse(workbench);
+    }
+    if (phase.componentRefinements.generationQuality.bmCDirectoryRefinement) {
+      const workbench = readFileSync(join(root, "evidence/runtime/generation-quality/bm-c-directory-detail/color-consumers.json"), "utf8");
+      if (createHash("sha256").update(workbench).digest("hex") !== "d7b3612859299fea7b6314e321222f52bfef071bfe00c80d2be86ca924792619") throw new Error("BM-C directory color metadata differs from its reviewed scope, roles or thresholds");
+      records[0] = JSON.parse(workbench);
+    }
+    if (phase.componentRefinements.generationQuality.bmCQuestionSwitchRefinement) {
+      const workbench = readFileSync(join(root, "evidence/runtime/generation-quality/bm-c-question-switch/color-consumers.json"), "utf8");
+      if (createHash("sha256").update(workbench).digest("hex") !== "79a988a183e133f15f80b03d91eff9ba5a092a2122f876cf5fe3dd9da49d4e06") throw new Error("BM-C question navigation color metadata differs from its reviewed scope, roles or thresholds");
+      records[0] = JSON.parse(workbench);
+    }
+  }
+  return records.flatMap(({ filePath, scope, recipeId, paints }) => paints.map(({ tokenId, content, interaction, critical, brandIntent, minimumContrast, ...paint }) => ({
+    filePath, scope, ...paint, minimumContrast,
+    value: `${paint.property.startsWith("border") ? "var(--rain-line-thickness-1) solid " : ""}var(${colorTokenOutputs.find(entry => entry.id === tokenId).variable})`,
+    // This finite local SVG mapping keeps Icon at meaningful-icon/3:1 and auxiliary Border at decorative.
+    // It does not add SVG properties to the public Category API.
+    use: { tokenId, role: tokenId.split("/")[0].toLowerCase(), content,
+      property: paint.property === "background" ? "background-color" : paint.property.startsWith("border") || (paint.property === "stroke" && tokenId.startsWith("Border/")) ? "border-color" : ["stroke", "fill"].includes(paint.property) ? "color" : paint.property,
+      context: "local-recipe", recipeId, evidenceRef: phase.componentRefinements?.generationQuality && filePath.includes("/bm-d/") ? "docs/plans/2026-09-15-rain-generation-quality-improvement.md" : "docs/plans/2026-09-15-m2-workbench-report.md", interaction, critical,
+      ...(brandIntent ? { brandIntent } : {}),
+    },
+  })));
+}
 
 export function validateTabsPaintRouting(source) {
   try {
@@ -45,12 +118,121 @@ export function validateTabsPaintRouting(source) {
 }
 
 /** Exact reviewed definitions; this does not grant their files a Category-color exemption. */
+/** The RN-05 gap is layout, not a color. Only its exact declared source is excluded from paint inspection. */
+export function prepareDialogLayoutSource(filePath, source, status) {
+  if (!hasDialogV2Authorization(status)) return source;
+  if (filePath === "apps/prototype/src/course-dialog.css") return source.replace("gap: var(--rain-local-course-dialog-gap);", "");
+  if (filePath === "apps/prototype/src/course-dialog.tsx") return source
+    .replace('candidateTokens: ["--rain-local-course-dialog-gap"]', "candidateTokens: []")
+    .replace(status.componentRefinements.dialogV2.visualRefinement
+      ? '"--rain-local-course-dialog-gap": "var(--rain-space-24)"'
+      : '"--rain-local-course-dialog-gap": "var(--rain-space-16)"', "");
+  return source;
+}
+
+/** RN-06 runtime variables describe geometry only; no general custom-property or paint exemption. */
+export function validateLayoutsRuntimeGeometry({ filePath, source, status }) {
+  const ownsGeometry = ["packages/layouts/src/layout.tsx", "packages/layouts/src/layout.css"].includes(filePath);
+  if (!ownsGeometry) return source.includes("--rain-layout-") ? [`RN-06 runtime geometry cannot escape its two owned sources: ${filePath}`] : [];
+  if (!hasLayoutsV1Authorization(status)) return ["RN-06 runtime geometry requires its exact authorization"];
+  const failures = [];
+  const values = {
+    "--rain-layout-gap": "compositionSpaceTokens[gap]", "--rain-layout-columns": "columns",
+    "--rain-layout-column-min-width": 'positiveWidth("minColumnWidth", minColumnWidth)',
+    "--rain-layout-sidebar-width": "sidebarWidthCss", "--rain-layout-main-min-width": "mainWidthCss",
+  };
+  if (filePath.endsWith(".tsx")) {
+    const found = [], spaceMap = [];
+    const walk = node => {
+      if (!node || typeof node !== "object") return;
+      if (Array.isArray(node)) { node.forEach(walk); return; }
+      if (node.type === "Property" && typeof node.key.value === "string" && node.key.value.startsWith("--rain-layout-")) {
+        const name = node.key.value;
+        if (node.computed || source.slice(node.value.start, node.value.end).replace(/\s+/g, " ") !== values[name]) failures.push(`RN-06 undeclared runtime geometry source: ${name}`);
+        found.push(name);
+      }
+      if (node.type === "Property" && /^(?:color|background(?:Color|Image)?|border(?:Color|Width|Style|Radius)?|boxShadow|font(?:Family|Size|Weight)?|lineHeight|padding(?:Top|Bottom|Left|Right|Inline|Block)?)$/.test(node.key.name ?? node.key.value ?? "")) failures.push("Layout cannot author inline paint, typography or component padding");
+      if (node.type === "VariableDeclarator" && node.id?.name === "gapClasses") {
+        for (const property of node.init?.properties ?? []) spaceMap.push([String(property.key.value), property.value?.value]);
+      }
+      if (node.type === "ImportDeclaration" && node.source.value.startsWith("@rain-next/") && node.source.value !== "@rain-next/foundations") failures.push("Layout cannot depend on UI or higher layers");
+      for (const value of Object.values(node)) if (value && typeof value === "object") walk(value);
+    };
+    try { walk(parseSync(filePath, source).program); }
+    catch { failures.push("RN-06 geometry must remain statically parseable"); }
+    if (JSON.stringify(found.sort()) !== JSON.stringify([...Object.keys(values), "--rain-layout-gap"].sort())) failures.push("RN-06 runtime geometry definitions must remain the exact five variables on Grid and Split");
+    if (JSON.stringify(spaceMap.sort()) !== JSON.stringify(Object.keys(compositionSpaceTokens).map(key => [key, `gap-rain-${key}`]).sort())) failures.push("Layout gap classes must reuse every existing Rain Space mapping without additions");
+  } else {
+    const walk = css => {
+      for (const { header, body } of parseTopLevelCssBlocks(css, "RN-06 layout CSS", failures)) {
+        if (header === "@layer components") { walk(body); continue; }
+        if (header.startsWith("@") || header.split(",").some(selector => !selector.trim().startsWith(".rain-grid") && !selector.trim().startsWith(".rain-split"))) failures.push("RN-06 CSS must stay inside its Grid/Split parts");
+        for (const [, property, value] of body.matchAll(/([a-z-]+)\s*:\s*([^;{}]+)(?:;|$)/g)) {
+          if (!["grid-template-columns", "min-width", "width", "flex", "flex-direction", "display"].includes(property)) failures.push(`Layout CSS cannot own paint, typography or component padding: ${property}`);
+          for (const [, variable] of value.matchAll(/var\((--[a-z0-9-]+)\)/g)) {
+            const expected = variable === "--rain-layout-sidebar-width" ? "width" : variable === "--rain-layout-main-min-width" ? "min-width" : "grid-template-columns";
+            if (!(variable in values) || property !== expected) failures.push(`RN-06 geometry variable is not allowed for ${property}: ${variable}`);
+          }
+        }
+      }
+    };
+    walk(source);
+  }
+  return [...new Set(failures)];
+}
+
 /** @param {{filePath: string, source: string, outputs?: ReturnType<typeof getTokenFoundationOutputs>, root?: string, pendingContrastFindings?: any[], pendingEligibilityFindings?: any[], scopedEligibilityDecisions?: any[]}} options */
 export function validateRegisteredRecipeColors({ filePath, source, outputs = getTokenFoundationOutputs(), root = process.cwd(), pendingContrastFindings = [], pendingEligibilityFindings = [], scopedEligibilityDecisions = [] }) {
+  source = prepareDialogLayoutSource(filePath, source, existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {});
   const failures = [], ranges = [];
+  source = prepareInputNumberSource(filePath, source, existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {}, failures);
+  source = prepareAvatarSource(filePath, source, existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {}, failures);
+  if (filePath === "packages/ui/src/dialog/dialog.css") {
+    const phase = existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {};
+    if (!hasDialogRefinementAuthorization(phase)) failures.push("Dedicated Dialog masks require the exact refinement authorization");
+    for (const name of Object.keys(overlayColors)) {
+      const rule = `.rain-dialog-backdrop[data-mask="${name}"] { background-color: var(--rain-overlay-${name}); }`;
+      if (source.split(rule).length !== 2) failures.push(`Missing or duplicated dedicated mask consumer: ${name}`);
+      else source = source.replace(rule, " ".repeat(rule.length));
+    }
+  }
+
   if (filePath === 'packages/ui/src/tabs/tabs.tsx') failures.push(...validateTabsPaintRouting(source));
   const recipes = outputs.colorRecipeConsumers.filter((entry) => entry.filePath === filePath);
   const cssConsumers = outputs.colorCssConsumers.filter((entry) => entry.filePath === filePath);
+  const expectedNumber = getInputNumberColorConsumers().filter(entry => entry.filePath === filePath);
+  if (expectedNumber.length && (recipes.length || JSON.stringify(cssConsumers) !== JSON.stringify(expectedNumber))) failures.push("InputNumber colors must retain exact roles and surfaces");
+  const expectedAvatar = getAvatarColorConsumers().filter(entry => entry.filePath === filePath);
+  if (expectedAvatar.length && (recipes.length || JSON.stringify(cssConsumers) !== JSON.stringify(expectedAvatar))) failures.push("Avatar colors must retain their exact registered roles and parent surfaces");
+  if (["apps/prototype/src/scenarios/bm-c/page.css", "apps/prototype/src/scenarios/bm-d/page.css"].includes(filePath)) {
+    try {
+      const phase = existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {};
+      if (!hasM2Authorization(phase) || recipes.length
+        || JSON.stringify(cssConsumers) !== JSON.stringify(getM2ColorConsumers(root).filter(entry => entry.filePath === filePath))) {
+        return ["M2 colors require exact authorization, selectors, Tokens, content roles, parent surfaces and thresholds"];
+      }
+    } catch (error) { return [error.message]; }
+  }
+  const paginationScope = paginationColorSourcePaths.includes(filePath);
+  const paginationMetadata = paginationScope ? getPaginationColorConsumers() : null;
+  const paginationAuthorized = paginationScope && existsSync(join(root, "status/current-phase.yaml"))
+    && hasTablePaginationReplacementAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")));
+  const paginationMetadataMatches = paginationScope
+    && JSON.stringify(recipes) === JSON.stringify(paginationMetadata.colorRecipeConsumers.filter(entry => entry.filePath === filePath))
+    && JSON.stringify(cssConsumers) === JSON.stringify(paginationMetadata.colorCssConsumers.filter(entry => entry.filePath === filePath));
+  if (paginationScope && (!paginationAuthorized || !paginationMetadataMatches)) return ["Pagination colors require exact RN-08 authorization, source definitions and content roles"];
+  const maskPaginationSource = (entry) => {
+    if (source.split(entry.source).length !== 2) { failures.push(`Pagination registered source must occur exactly once: ${filePath} ${entry.source}`); return; }
+    source = source.replace(entry.source, " ".repeat(entry.source.length));
+  };
+  if (paginationAuthorized) {
+    // These exact geometry declarations are not paints. Every other local variable remains subject to the color check.
+    [...paginationMetadata.geometryConsumers, ...paginationMetadata.nativeCssConsumers]
+      .filter(entry => entry.filePath === filePath).forEach(maskPaginationSource);
+  }
+  const paginationUse = use => paginationAuthorized && use.recipeId?.startsWith("pagination-")
+    && use.evidenceRef === "docs/plans/2026-09-14-table-pagination-replacement.md";
+
   if (filePath === "apps/playground/src/docs/components/tabs-page.css") {
     const phase = existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {};
     const authorized = hasTabsRefinementAuthorization(phase) && ["component", "documentation"].includes(phase.componentRefinements.tabs.stage);
@@ -99,10 +281,34 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
     && hasOptionButtonRefinementAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")));
   const optionButtonContentAuthorized = optionButtonAuthorized
     && hasOptionButtonContentRefinementAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")));
+  if (filePath === "apps/prototype/src/scenarios/bm-b/page.css" && (!existsSync(join(root, "status/current-phase.yaml"))
+    || !hasBmBRn10Authorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")))
+    || JSON.stringify(cssConsumers) !== JSON.stringify(getBmBColorConsumers()))) failures.push("BM-B colors require exact RN-10 authorization and actual content roles/surfaces");
+  const expectedDialog = getDialogColorConsumers().filter(entry => entry.filePath === filePath);
+  const expectedLayouts = getLayoutsColorConsumers().filter(entry => entry.filePath === filePath);
+  if (expectedLayouts.length && (!existsSync(join(root, "status/current-phase.yaml"))
+    || !hasLayoutsV1Authorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")))
+    || JSON.stringify(cssConsumers) !== JSON.stringify(expectedLayouts))) failures.push("RN-06 example colors require exact authorization, content roles and parent surfaces");
+  if (expectedDialog.length && (!hasDialogV2Authorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")))
+    || JSON.stringify(cssConsumers) !== JSON.stringify(expectedDialog))) failures.push("Dialog V2 colors require exact authorization and declared content roles");
+  const expectedTable = getTableRn08ColorConsumers().filter(entry => entry.filePath === filePath);
+  const expectedEmpty = getEmptyColorConsumers().filter(entry => entry.filePath === filePath);
+  const emptyAuthorized = expectedEmpty.length > 0 && existsSync(join(root, "status/current-phase.yaml")) && hasEmptyRefinementAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")));
+  if (expectedEmpty.length && (!emptyAuthorized || JSON.stringify(recipes) !== JSON.stringify(expectedEmpty) || cssConsumers.length)) failures.push("Empty colors require exact component scope, source definitions and text contrast roles");
+  const tableAuthorized = expectedTable.length > 0 && existsSync(join(root, "status/current-phase.yaml")) && hasTableRn08Authorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")));
+  const tableVisualAuthorized = tableAuthorized && hasTableVisualRefinementAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")));
+  if (expectedTable.length && (!tableVisualAuthorized || JSON.stringify(recipes) !== JSON.stringify(expectedTable) || cssConsumers.length)) failures.push("RN-08 colors require exact authorization, source definitions and text contrast roles");
+  const expectedCard = getCardColorConsumers();
+  const cardScope = [...expectedCard.colorRecipeConsumers, ...expectedCard.colorCssConsumers].some(entry => entry.filePath === filePath);
+  const cardAuthorized = cardScope && existsSync(join(root, "status/current-phase.yaml"))
+    && hasCardV2Authorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")));
+  if (cardScope && (!cardAuthorized || JSON.stringify(recipes) !== JSON.stringify(expectedCard.colorRecipeConsumers.filter(entry => entry.filePath === filePath))
+    || JSON.stringify(cssConsumers) !== JSON.stringify(expectedCard.colorCssConsumers.filter(entry => entry.filePath === filePath)))) failures.push("Card V2 colors require exact scoped authorization, source definitions and text contrast roles");
   const inputPhase = ["packages/ui/src/input/input.styles.ts", "packages/ui/src/input/form-item.tsx"].includes(filePath) && existsSync(join(root, "status/current-phase.yaml"))
     ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : null;
   const inputAuthorized = hasInputRefinementAuthorization(inputPhase);
   const expectedInput = getInputColorConsumers();
+  if (filePath === "packages/ui/src/input/form-item.tsx" && !hasInsideFieldLabelsAuthorization(inputPhase)) failures.push("Fixed inside label colors require their exact independent authorization");
   if (inputPhase && (!inputAuthorized || JSON.stringify(recipes) !== JSON.stringify(expectedInput.colorRecipeConsumers.filter((entry) => entry.filePath === filePath)))) failures.push("Input color metadata must retain the exact declared content roles and eligibility");
   const dropdownAuthorized = filePath === "apps/playground/src/experiments/headless/review.css"
     && existsSync(join(root, "status/current-phase.yaml"))
@@ -152,6 +358,37 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
       || (use.recipeId === "input-clear-0-underlined-error" && use.tokenId === "Icon/Neutral/3" && use.content === "meaningful-icon"));
   const optionContentSymbols = ["optionFeedbackControlColors"];
   const checkColor = (use, label, pendingReview = false) => {
+    const bmBHint = pendingReview && filePath === "apps/prototype/src/scenarios/bm-b/page.css"
+      && label === `.bm-b-hint color ${use.theme} Background/Neutral/1` && use.recipeId === "bm-b-textbook-dialog"
+      && use.tokenId === "Text/Neutral/5" && use.content === "text" && use.interaction === "non-interactive" && use.critical === false
+      && use.parentSurfaceId === "Background/Neutral/1" && use.evidenceRef === "docs/plans/2026-09-15-bm-b-rn10.md";
+    // Fixed field titles retain their critical interactive role even when the requested weak token needs review.
+    const insideLabel = pendingReview && filePath === "packages/ui/src/input/form-item.tsx"
+      && hasInsideFieldLabelsAuthorization(inputPhase) && inputPhase.componentRefinements.tableRn08.insideFieldLabels.labelColor === "Text/Neutral/4"
+      && /^input-inside-label-(?:outlined|filled|underlined)-(?:default|hover|editing|readonly|readonly-focus|warning|error)$/.test(use.recipeId ?? "")
+      && use.tokenId === "Text/Neutral/4" && use.content === "text" && use.interaction === "interactive" && use.critical === true
+      && use.evidenceRef === "docs/plans/2026-09-14-inside-field-labels.md";
+    if (insideLabel) {
+      const actual = measureColorContrast(resolveColor(use.tokenId, use.theme), resolveColorSurface(use.parentSurfaceId, use.theme, use.parentBackgroundId));
+      const finding = { status: "pending-review", acceptedException: false, filePath, recipeId: use.recipeId,
+        tokenId: use.tokenId, content: use.content, interaction: use.interaction, critical: use.critical, theme: use.theme,
+        parentSurfaceId: use.parentSurfaceId, parentBackgroundId: use.parentBackgroundId ?? null, actual, minimum: 4.5,
+        evidenceRef: use.evidenceRef };
+      pendingEligibilityFindings.push({ ...finding, reason: "Weak Neutral needs non-critical, non-interactive content" });
+      if (actual < 4.5) pendingContrastFindings.push(finding);
+    }
+    // Header includes the sorting button: retain interactive, critical text and its full text contrast threshold.
+    const tableHeader = pendingReview && tableVisualAuthorized && ["table-header", "table-header-hover"].includes(use.recipeId) && use.tokenId === "Text/Neutral/4"
+      && use.content === "text" && use.interaction === "interactive" && use.critical === true
+      && use.evidenceRef === "docs/plans/2026-09-14-table-visual-refinement.md";
+    if (tableHeader) {
+      const actual = measureColorContrast(resolveColor(use.tokenId, use.theme), resolveColorSurface(use.parentSurfaceId, use.theme, use.parentBackgroundId));
+      if (actual < 4.5) failures.push(`${label}: Table header text contrast ${actual} is below 4.5`);
+      pendingEligibilityFindings.push({ status: "pending-review", acceptedException: false, filePath, recipeId: use.recipeId,
+        tokenId: use.tokenId, content: use.content, interaction: use.interaction, critical: use.critical, theme: use.theme,
+        parentSurfaceId: use.parentSurfaceId, parentBackgroundId: use.parentBackgroundId ?? null, actual, minimum: 4.5,
+        evidenceRef: use.evidenceRef, reason: "Weak Neutral needs non-critical, non-interactive content" });
+    }
     const inputPlaceholder = pendingReview && inputAuthorized && /^input-placeholder-/.test(use.recipeId ?? "") && use.tokenId === "Text/Neutral/5" && use.content === "text";
     const dropdownDescription = pendingReview && ((dropdownUse(use) && use.recipeId === "dropdown-interactive-description")
       || (dropdownFamilyUse(use) && use.recipeId === "menu-public-description"))
@@ -163,7 +400,17 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
     try { validateColorUse(use); }
     catch (error) {
       const insufficient = error.message.match(/^Insufficient contrast: ([0-9.]+) < ([0-9.]+)$/);
-      if (pendingReview && insufficient && (questionNumberAuthorized || (optionButtonContentAuthorized && use.recipeId.startsWith("option-button-content-")) || inputContrastUse(use) || dropdownUse(use) || dropdownFamilyUse(use) || selectFocusUse(use) || sharedInputContrastUse(use))) pendingContrastFindings.push({
+      if (insideLabel && (insufficient || error.message === "Weak Neutral needs non-critical, non-interactive content")) { /* Both findings are measured and recorded above without rounding. */ }
+      else if (pendingReview && insufficient && filePath === "packages/ui/src/status-indicator/status-indicator.css"
+        && use.recipeId === "avatar-family" && use.tokenId === "OnColor/1" && use.content === "meaningful-icon"
+        && use.evidenceRef === "docs/plans/2026-09-16-avatar-family-design-and-construction.md"
+        && use.theme === "light" && ["Fill/TagSlate/Solid/1", "Fill/TagCourseware/Solid/1"].includes(use.parentSurfaceId)) pendingContrastFindings.push({
+          status: "pending-review", acceptedException: false, filePath, recipeId: use.recipeId,
+          tokenId: use.tokenId, content: use.content, theme: use.theme, parentSurfaceId: use.parentSurfaceId,
+          actual: measureColorContrast(resolveColor(use.tokenId, use.theme), resolveColorSurface(use.parentSurfaceId, use.theme)),
+          minimum: 3, evidenceRef: use.evidenceRef,
+        });
+      else if (pendingReview && insufficient && (bmBHint || paginationUse(use) || questionNumberAuthorized || (optionButtonContentAuthorized && use.recipeId.startsWith("option-button-content-")) || inputContrastUse(use) || dropdownUse(use) || dropdownFamilyUse(use) || selectFocusUse(use) || sharedInputContrastUse(use))) pendingContrastFindings.push({
         status: "pending-review", acceptedException: false, filePath, recipeId: use.recipeId,
         tokenId: use.tokenId, content: use.content, theme: use.theme,
         parentSurfaceId: use.parentSurfaceId, parentBackgroundId: use.parentBackgroundId ?? null,
@@ -189,7 +436,7 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
           parentBackgroundId: use.parentBackgroundId ?? null, evidenceRef: use.evidenceRef };
         pendingEligibilityFindings.push({ ...finding, reason: error.message, actual, minimum: 4.5 });
         if (actual < 4.5) pendingContrastFindings.push({ ...finding, actual, minimum: 4.5, measurementOnly: true });
-      } else if (!((inputPlaceholder || dropdownDescription) && error.message === "Weak Neutral needs non-critical, non-interactive content")) failures.push(`${label}: ${error.message}`);
+      } else if (!((inputPlaceholder || dropdownDescription || tableHeader) && error.message === "Weak Neutral needs non-critical, non-interactive content")) failures.push(`${label}: ${error.message}`);
     }
   };
   const checkUse = (use, parents, label, pendingReview = false, parentBackgrounds = [use.parentBackgroundId]) => {
@@ -198,6 +445,10 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
       checkColor({ ...use, theme, parentSurfaceId: parent, ...(parentBackgroundId ? { parentBackgroundId } : {}) }, `${label} ${theme} ${parent}`, pendingReview);
     }
   };
+  if (paginationAuthorized) for (const consumer of paginationMetadata.inlineConsumers.filter(entry => entry.filePath === filePath)) {
+    checkUse(consumer.use, consumer.parentSurfaces, consumer.scope, true);
+    maskPaginationSource(consumer);
+  }
   if (recipes.length) {
     const parsed = parseSync(filePath, source);
     if (parsed.errors.length) return [`Cannot parse registered recipe: ${filePath}`];
@@ -238,7 +489,7 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
         const from = consumer.kind === "cva" ? "class-variance-authority" : "@rain-next/ui";
         if (consumer.kind !== "static" && (init?.type !== "CallExpression" || init.callee?.name !== callee
           || !imports.some((entry) => entry.source.value === from && entry.specifiers.some((part) => part.imported?.name === callee && part.local.name === callee)))) throw new Error("Registered recipe must use its declared recipe factory");
-        if (consumer.kind === "static" && !questionNumberAuthorized && !optionButtonAuthorized && !(inputAuthorized && Object.hasOwn(inputConsumerContent, consumer.symbol))
+        if (consumer.kind === "static" && !paginationAuthorized && !(emptyAuthorized && consumer.symbol === "emptyPaints") && !(tableAuthorized && consumer.symbol === "tablePaints") && !(cardAuthorized && consumer.symbol === "cardPaints") && !questionNumberAuthorized && !optionButtonAuthorized && !(inputAuthorized && Object.hasOwn(inputConsumerContent, consumer.symbol))
           && !(tabsAuthorized && consumer.symbol === "tabsPaints") && !selectAuthorized && !(tagThreeAuthorized && consumer.symbol === "tagSelectPaints") && !(tagDomainAuthorized && ["tagStatusPaints", "tagDomainPaints"].includes(consumer.symbol)) && !(tagAuthorized && ["tagColorPaints", "tagSolidPaints"].includes(consumer.symbol))) throw new Error("Static color recipe requires its exact component authorization");
         if (optionContentSymbols.includes(consumer.symbol) && (!optionButtonContentAuthorized || consumer.refinement !== "option-button-content")) throw new Error("OptionButton content color recipe requires its separate exact authorization");
         if (consumer.refinement === "option-button-content" && !optionContentSymbols.includes(consumer.symbol)) throw new Error("OptionButton content authorization cannot expand the accepted selection recipes");
@@ -346,11 +597,12 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
       }
       if (optionReview && JSON.stringify(consumer.recipes.map(({ state, presentation }) => `${state}:${presentation}`)) !== JSON.stringify(["correct:label", "correct:symbol", "wrong:label", "wrong:symbol"])) failures.push("OptionButton review must retain both text and meaningful-icon presentations for each result");
       for (const recipe of consumer.recipes) {
-        const foregroundContent = inputReview ? inputConsumerContent[consumer.symbol] : optionReview ? (recipe.presentation === "symbol" ? "meaningful-icon" : "text") : consumer.kind === "static" && consumer.symbol !== "questionNumberMarkerColors" ? "text" : "meaningful-icon";
+        const paginationIconReview = paginationAuthorized && paginationMetadataMatches && consumer.symbol === "paginationIconClassName";
+        const foregroundContent = paginationIconReview ? "meaningful-icon" : inputReview ? inputConsumerContent[consumer.symbol] : optionReview ? (recipe.presentation === "symbol" ? "meaningful-icon" : "text") : consumer.kind === "static" && consumer.symbol !== "questionNumberMarkerColors" ? "text" : "meaningful-icon";
         if (consumer.kind === "static" && consumer.foregroundContent !== (optionReview ? "text-and-meaningful-icon" : foregroundContent)) failures.push(`Static color recipe must preserve its declared text or meaningful-icon role: ${consumer.symbol}`);
         if (recipe.foreground.content !== (recipe.state === "disabled" ? "disabled" : foregroundContent)) failures.push(`Registered foreground must keep its real content contrast: ${recipe.id}`);
-        const pendingReview = ["pending-review", "declared-review"].includes(consumer.contrastReview) && (inputReview || questionNumberAuthorized || (optionButtonContentAuthorized && optionReview));
-        for (const theme of ["light", "dark"]) for (const parent of consumer.parentSurfaces) {
+        const pendingReview = ["pending-review", "declared-review"].includes(consumer.contrastReview) && (tableVisualAuthorized || paginationAuthorized || inputReview || questionNumberAuthorized || (optionButtonContentAuthorized && optionReview));
+        for (const theme of ["light", "dark"]) for (const parent of tableVisualAuthorized && recipe.parentSurfaces ? recipe.parentSurfaces : consumer.parentSurfaces) {
           const label = `${recipe.id} ${theme} ${parent}`;
           if (recipe.background) checkColor({ ...recipe.background, theme, parentSurfaceId: parent }, label);
           if (inputReview && consumer.symbol === "inputRootRecipe" && recipe.boundary?.content !== (recipe.state === "disabled" ? "disabled" : "essential-boundary")) failures.push(`Input boundaries must keep their essential-boundary role: ${recipe.id}`);
@@ -401,18 +653,24 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
   if (categorySource.test(unregistered)) failures.push(`Category/local colors require registered Token consumer metadata: ${filePath}`);
   // UI native rules have an exact B2 exception validator; this pass verifies every Category paint in that file.
   if (filePath.endsWith(".css") && !(filePath === "packages/ui/src/styles.css" && selectAuthorized)) {
-    if (dropdownFamilyAuthorized) unregistered = prepareDropdownFamilyNativeCss(filePath, unregistered, failures);
+    if (dropdownFamilyAuthorized || expectedDialog.length) unregistered = prepareOverlayNativeCss(filePath, unregistered, failures);
     failures.push(...validateTokenConsumerCss({ filePath, source: unregistered }));
   }
   return [...new Set(failures)];
 }
 
 // Only native system paints and the existing Dialog shadow; every Category paint is checked above.
-function prepareDropdownFamilyNativeCss(filePath, source, failures) {
+function prepareOverlayNativeCss(filePath, source, failures) {
   const walk = (css, media = "") => parseTopLevelCssBlocks(css, "Dropdown native CSS", failures).map(({ header, body }) => {
     if (header.startsWith("@media")) return `${header} {${walk(body, header)}}`;
     const masked = body.replace(/([a-z-]+)\s*:\s*([^;{}]+);/g, (declaration, property, raw) => {
       const value = raw.trim();
+      if (media === "@media (forced-colors: active)" && (
+        (filePath === "packages/ui/src/dialog/dialog.css" && ((header === ".rain-dialog" && ["background-color:Canvas", "color:CanvasText", "border-color:ButtonText", "box-shadow:none"].includes(`${property}:${value}`))
+          || (header === ".rain-dialog-title, .rain-dialog-description" && property === "color" && value === "CanvasText")
+          || (header === ".rain-dialog-footer" && ["background-color:Canvas", "border-color:CanvasText"].includes(`${property}:${value}`))))
+        || (filePath === "packages/ui/src/separator/separator.css" && header === ".rain-separator" && property === "background-color" && value === "CanvasText")
+      )) return "";
       if (filePath === "apps/playground/src/docs/components/dropdown-page.css" && !media && header === ".dropdown-example-dialog"
         && property === "box-shadow" && value === "var(--rain-shadow-dialog)") return "";
       if (filePath === "packages/ui/src/dropdown-menu/dropdown-menu.css" && media === "@media (forced-colors: active)"
@@ -839,11 +1097,17 @@ export function verifyTokenFoundations({ root = process.cwd() } = {}) {
       outputs.colorCssConsumers.push(...dropdownReview.consumers);
     }
   } catch (error) { failures.push(`Dropdown color comparison cannot be checked: ${error.message}`); }
-  const registeredRecipePaths = new Set([...outputs.colorRecipeConsumers, ...outputs.colorCssConsumers].map((entry) => entry.filePath));
+  try {
+    if (hasM2Authorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")))) outputs.colorCssConsumers.push(...getM2ColorConsumers(root));
+  } catch (error) { failures.push(`M2 color registration cannot be checked: ${error.message}`); }
+  if (existsSync(join(root, "status/current-phase.yaml")) && hasAvatarFamilyAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")))) outputs.colorCssConsumers.push(...getAvatarColorConsumers());
+  if (existsSync(join(root, "status/current-phase.yaml")) && hasInputNumberAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")))) outputs.colorCssConsumers.push(...getInputNumberColorConsumers());
+  const registeredRecipePaths = new Set([...outputs.colorRecipeConsumers, ...outputs.colorCssConsumers].map((entry) => entry.filePath).concat(paginationColorSourcePaths));
   for (const filePath of registeredRecipePaths) if (!existsSync(join(root, filePath))) failures.push(`Missing consumer source: ${filePath}`);
-  for (const filePath of [...sourceFiles(root, "apps"), ...sourceFiles(root, "packages/ui/src")]) {
+  for (const filePath of [...sourceFiles(root, "apps"), ...sourceFiles(root, "packages/ui/src"), ...sourceFiles(root, "packages/layouts/src")]) {
     if (filePath.startsWith(consumerDirectory)) continue;
-    const source = readFileSync(join(root, filePath), "utf8");
+    const source = prepareDialogLayoutSource(filePath, readFileSync(join(root, filePath), "utf8"), existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {});
+    failures.push(...validateLayoutsRuntimeGeometry({ filePath, source, status: existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {} }));
     failures.push(...validateButtonAliasSource(source, buttonBridge, outputs).map((failure) => `${filePath}: ${failure}`));
     if (registeredRecipePaths.has(filePath) || filePath === "packages/ui/src/tabs/tabs.tsx") failures.push(...validateRegisteredRecipeColors({ filePath, source: filePath === dropdownCssPath && dropdownReview ? dropdownReview.source : source, outputs, root, pendingContrastFindings, pendingEligibilityFindings, scopedEligibilityDecisions }));
     else if (categorySource.test(source)) failures.push(`Category/local colors require registered Token consumer metadata: ${filePath}`);
@@ -883,7 +1147,11 @@ export function verifyTokenFoundations({ root = process.cwd() } = {}) {
       if (review?.independentReview !== "findings" || review?.implementation === "completed") failures.push("OptionButton content contrast findings remain pending: its separate independentReview must stay findings and implementation must not claim completed");
     }
   }
-  if (pendingContrastFindings.some((entry) => entry.recipeId.startsWith("input-")) || pendingEligibilityFindings.some((entry) => entry.recipeId.startsWith("input-"))) {
+  if ([...pendingContrastFindings, ...pendingEligibilityFindings].some(entry => entry.recipeId.startsWith("input-inside-label-"))) {
+    const review = phase.componentRefinements?.tableRn08?.insideFieldLabels;
+    if (!hasInsideFieldLabelsAuthorization(phase) || review?.independentReview !== "findings" || review?.contrastAcceptance !== "not-granted") failures.push("Inside field label color findings remain pending in their separate review; no clean review or accepted exception may be claimed");
+  }
+  if ([...pendingContrastFindings, ...pendingEligibilityFindings].some(entry => entry.recipeId.startsWith("input-") && !entry.recipeId.startsWith("input-inside-label-"))) {
     const review = phase.componentRefinements?.input;
     if (review?.independentReview !== "findings" || review?.implementation === "completed") failures.push("Input color findings remain pending: independentReview must stay findings and implementation must not claim completed");
   }
@@ -913,12 +1181,13 @@ export function verifyTokenFoundations({ root = process.cwd() } = {}) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const result = verifyTokenFoundations();
-  for (const [label, prefix] of [["QuestionNumber", "question-number-"], ["OptionButton content", "option-button-content-"], ["Input", "input-"], ["Tag", "tag-"], ["Select", "select-"], ["Shared field", "field-"], ["Dropdown comparison", "dropdown-"], ["Dropdown public", "menu-public-"]]) {
-    const count = result.pendingContrastFindings.filter((entry) => entry.recipeId.startsWith(prefix)).length;
+  for (const [label, prefix] of [["BM-B hint", "bm-b-textbook-dialog"], ["QuestionNumber", "question-number-"], ["OptionButton content", "option-button-content-"], ["Input", "input-"], ["Inside field label", "input-inside-label-"], ["Tag", "tag-"], ["Select", "select-"], ["Shared field", "field-"], ["Dropdown comparison", "dropdown-"], ["Dropdown public", "menu-public-"], ["Pagination", "pagination-"], ["Table", "table-"]]) {
+    const matches = entry => entry.recipeId.startsWith(prefix) && (prefix !== "input-" || !entry.recipeId.startsWith("input-inside-label-"));
+    const count = result.pendingContrastFindings.filter(matches).length;
     if (count) console.log(`${label} contrast review remains pending: ${count} declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.`);
-    const accepted = result.acceptedComponentContrastExceptions.filter((entry) => entry.recipeId.startsWith(prefix)).length;
+    const accepted = result.acceptedComponentContrastExceptions.filter(matches).length;
     if (accepted) console.log(`${label}: ${accepted} user-accepted contrast exceptions retain their measured ratios and original thresholds; these are not readability passes.`);
-    const eligibility = result.pendingEligibilityFindings.filter((entry) => entry.recipeId.startsWith(prefix)).length;
+    const eligibility = result.pendingEligibilityFindings.filter(matches).length;
     if (eligibility) console.log(`${label} color-family eligibility remains pending: ${eligibility} declared pairings; contrast measurements do not establish eligibility and no exception was accepted.`);
   }
   for (const exception of result.acceptedTextContrastExceptions) {

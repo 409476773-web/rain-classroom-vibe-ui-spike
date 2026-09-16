@@ -1,0 +1,128 @@
+import { expect, test } from "@playwright/test";
+import { mkdirSync, writeFileSync } from "node:fs";
+
+const evidence = process.env.RAIN_BM_B_EVIDENCE ?? "/tmp/rain-bm-b-rn10";
+test.beforeEach(async ({ page }) => {
+  await page.goto((process.env.RAIN_DIALOG_PROTOTYPE_URL ?? "http://127.0.0.1:4174") + "/#bm-b");
+  await expect(page.getByRole("heading", { level: 1, name: "教材资料" })).toBeVisible();
+});
+
+test("validates, retries, commits, discards and restores focus", async ({ page }) => {
+  const errors: string[] = []; page.on("pageerror", error => errors.push(error.message));
+  await page.getByText("演示选项", { exact: true }).click();
+  await page.getByText("模拟下次保存失败", { exact: true }).click();
+  const trigger = page.getByRole("button", { name: "编辑教材", exact: true });
+  await trigger.click();
+  const title = page.getByRole("textbox", { name: "教材标题", exact: true });
+  await expect(title).toBeFocused();
+  await title.fill(""); await page.getByRole("button", { name: "保存教材" }).click();
+  await expect(title).toBeFocused(); await expect(title).toHaveAttribute("aria-invalid", "true");
+  await title.fill("新教材 · 课堂实践");
+  await page.getByRole("textbox", { name: "内容简介", exact: true }).fill("第一段：学习目标\n第二段：实践与反思");
+  await page.getByRole("combobox", { name: "所属学科" }).click();
+  await page.getByRole("option", { name: "教育学", exact: true }).click();
+  await page.getByRole("button", { name: "保存教材" }).click();
+  await expect(title).toBeDisabled(); await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByRole("alert")).toHaveText("保存失败，填写内容已保留。请重试。");
+  await expect(page.getByRole("alert")).toBeFocused(); await expect(title).toHaveValue("新教材 · 课堂实践");
+  await page.getByRole("button", { name: "重试保存" }).click();
+  await expect(page.getByRole("dialog")).toBeHidden(); await expect(trigger).toBeFocused();
+  await expect(page.getByRole("heading", { name: "新教材 · 课堂实践" })).toBeVisible();
+  await expect(page.locator('[data-slot="saved-description"]')).toHaveText("第一段：学习目标\n第二段：实践与反思");
+  await trigger.click(); await title.fill("应该丢弃"); await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "放弃修改" }).click();
+  await expect(trigger).toBeFocused(); await trigger.click(); await expect(title).toHaveValue("新教材 · 课堂实践");
+  await page.getByRole("button", { name: "关闭教材编辑" }).click();
+  await expect(trigger).toBeFocused(); await trigger.click();
+  await page.mouse.click(2, 2); await expect(page.getByRole("dialog")).toBeVisible();
+  await page.keyboard.press("Escape");
+  expect(errors).toEqual([]);
+});
+
+test("handles file validation, upload failure, retry, removal and commit", async ({ page }) => {
+  await page.getByText("演示选项", { exact: true }).click();
+  await page.getByText("模拟下次上传失败", { exact: true }).click();
+  await page.getByRole("button", { name: "编辑教材", exact: true }).click();
+  const upload = page.getByLabel("添加教材附件", { exact: true });
+  const chooserReady = page.waitForEvent("filechooser");
+  await page.getByRole("button", { name: "添加教材附件", exact: true }).click();
+  const chooser = await chooserReady;
+  await chooser.setFiles({ name: "bad.exe", mimeType: "application/octet-stream", buffer: Buffer.from("invalid") });
+  await expect(page.getByRole("alert")).toContainText("请选择 PDF");
+  await upload.setInputFiles({ name: "课堂实践.pdf", mimeType: "application/pdf", buffer: Buffer.from("%PDF-1.7 mock") });
+  await page.getByRole("button", { name: "保存教材" }).click();
+  await expect(page.getByRole("button", { name: "添加教材附件", exact: true })).toBeFocused();
+  await expect(page.getByText(/上传失败，请重试/)).toBeVisible();
+  await page.getByRole("button", { name: "重试上传 课堂实践.pdf" }).click();
+  await expect(page.getByText(/模拟上传成功/)).toBeVisible();
+  await upload.setInputFiles({ name: "remove.png", mimeType: "image/png", buffer: Buffer.from("mock") });
+  await page.getByRole("button", { name: "移除附件 remove.png" }).click();
+  await expect(page.getByText("remove.png", { exact: true })).toBeHidden();
+  await page.getByRole("button", { name: "保存教材" }).click();
+  await expect(page.getByRole("dialog")).toBeHidden();
+  await expect(page.locator('[data-slot="saved-attachments"]')).toHaveText("已保存附件：课堂实践.pdf");
+});
+
+test("keeps the draft and fixed actions across layouts, themes and narrow viewports", async ({ page }, testInfo) => {
+  const consoleErrors: string[] = [];
+  page.on("pageerror", error => consoleErrors.push(error.message));
+  page.on("console", message => { if (message.type() === "error") consoleErrors.push(message.text()); });
+  await page.reload();
+  await expect(page.getByRole("heading", { level: 1, name: "教材资料" })).toBeVisible();
+  const measurements = [];
+  for (const theme of ["light", "dark"]) {
+    if (theme === "dark") await page.getByRole("button", { name: "切换深色" }).click();
+    await page.getByRole("button", { name: "编辑教材", exact: true }).click();
+    const dialog = page.getByRole("dialog");
+    await expect.poll(() => dialog.evaluate(el => el.getAnimations().length)).toBe(0);
+    const description = page.getByRole("textbox", { name: "内容简介", exact: true });
+    await description.fill("布局变化保留这段长文本。\n多行内容正常阅读与编辑。");
+    for (const width of [1440, 768, 390, 320]) {
+      await page.setViewportSize({ width, height: width <= 390 ? 740 : 900 });
+      await expect(dialog).toHaveAttribute("data-rain-theme", theme);
+      await expect(dialog).toHaveAttribute("data-density", "default");
+      await expect.poll(() => dialog.evaluate(el => getComputedStyle(el).getPropertyValue("--rain-dialog-viewport-width").trim())).toBe(`${width}px`);
+      const geometry = await dialog.evaluate(element => {
+        const body = element.querySelector<HTMLElement>('[data-slot="body"]')!;
+        const footer = element.querySelector<HTMLElement>('[data-slot="footer"]')!;
+        const grid = element.querySelector<HTMLElement>('[data-rain-id="layout-grid"]')!;
+        const rect = element.getBoundingClientRect(), before = footer.getBoundingClientRect();
+        body.scrollTop = body.scrollHeight;
+        const after = footer.getBoundingClientRect();
+        return { left: rect.left, right: rect.right, bottom: rect.bottom, footerBefore: before.top, footerAfter: after.top,
+          scrollable: body.scrollHeight > body.clientHeight, scrolled: body.scrollTop, bodyBottom: body.getBoundingClientRect().bottom,
+          overflow: element.scrollWidth > element.clientWidth, columns: getComputedStyle(grid).gridTemplateColumns.split(" ").length,
+          actions: [...footer.querySelectorAll('button')].map(button => { const box = button.getBoundingClientRect(); return { left: box.left, right: box.right, bottom: box.bottom }; }) };
+      });
+      expect(geometry.left).toBeGreaterThanOrEqual(15); expect(geometry.right).toBeLessThanOrEqual(width - 15);
+      expect(geometry.bottom).toBeLessThanOrEqual(width <= 390 ? 725 : 885); expect(geometry.overflow).toBe(false);
+      expect(geometry.scrollable).toBe(true); expect(geometry.scrolled).toBeGreaterThan(0);
+      expect(geometry.footerAfter).toBe(geometry.footerBefore); expect(geometry.bodyBottom).toBeLessThanOrEqual(geometry.footerAfter + 1);
+      for (const action of geometry.actions) { expect(action.left - geometry.left).toBeGreaterThanOrEqual(20); expect(geometry.right - action.right).toBeGreaterThanOrEqual(20); expect(action.bottom).toBeLessThan(geometry.bottom); }
+      expect(geometry.columns).toBe(width <= 390 ? 1 : 2);
+      await expect(description).toHaveValue("布局变化保留这段长文本。\n多行内容正常阅读与编辑。");
+      measurements.push({ theme, width, ...geometry });
+      if (testInfo.project.name === "chromium" && [1440, 390].includes(width)) {
+        mkdirSync(evidence, { recursive: true });
+        await page.screenshot({ path: `${evidence}/${theme}-${width}-footer.png` });
+        await dialog.locator('[data-slot="body"]').evaluate(element => { element.scrollTop = 0; });
+        await page.screenshot({ path: `${evidence}/${theme}-${width}-top.png` });
+      }
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.getByText("双列布局", { exact: true }).click();
+    await expect(dialog.locator('[data-rain-id="layout-grid"]').first()).toHaveAttribute("data-columns", "1");
+    await page.getByText("宽版容器", { exact: true }).click();
+    await expect(description).toHaveValue("布局变化保留这段长文本。\n多行内容正常阅读与编辑。");
+    await page.getByText("宽版容器", { exact: true }).click(); await page.getByText("双列布局", { exact: true }).click();
+    const tabKey = testInfo.project.name === "webkit" ? "Alt+Tab" : "Tab";
+    await page.getByRole("button", { name: "取消", exact: true }).focus();
+    await page.keyboard.press(tabKey); await expect(page.getByRole("button", { name: "保存教材" })).toBeFocused();
+    await page.keyboard.press(tabKey); await expect(dialog.getByRole("button", { name: "关闭教材编辑" })).toBeFocused();
+    await page.getByRole("button", { name: "取消", exact: true }).click();
+    await page.getByRole("button", { name: "放弃修改" }).click();
+  }
+  expect(consoleErrors).toEqual([]);
+  writeFileSync(`${evidence}/${testInfo.project.name}-geometry.json`, JSON.stringify(measurements, null, 2));
+});

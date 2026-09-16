@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/prototype/src/data-table-recipe.test.tsx (4 tests | 1 failed | 3 skipped) 282ms
+   × shows clear only for applied filters and resets query, status, page and selection together 282ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/prototype/src/data-table-recipe.test.tsx > shows clear only for applied filters and resets query, status, page and selection together
+Error: expect(received).toBeInTheDocument()
+
+received value must be an HTMLElement or an SVGElement.
+Received has type:  Null
+Received has value: null
+ ❯ apps/prototype/src/data-table-recipe.test.tsx:72:19
+     70|   expect(clear()).not.toBeInTheDocument();
+     71|   await user.click(screen.getByRole("button", { name: "搜索" }));
+     72|   expect(clear()).toBeInTheDocument();
+       |                   ^
+     73|   await user.click(screen.getByRole("combobox", { name: "发布状态" }));
+     74|   await user.click(screen.getByRole("option", { name: "草稿", exact: tru…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  21:21:46
+   Duration  1.50s (transform 342ms, setup 96ms, import 660ms, tests 282ms, environment 372ms)
+

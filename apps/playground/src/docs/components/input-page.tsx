@@ -56,6 +56,17 @@ export function InputPage() {
         </div>
         <p>切换后，下方全部示例共用所选外观，已输入的内容会保留。</p>
       </section>
+      <section aria-labelledby="input-inside-label-title" className="input-page__stack">
+        <h2 id="input-inside-label-title" className="rain-type-heading-section">框内固定标题</h2>
+        <p>适合与按钮同排的筛选栏。标题在填写和清空后始终保留；常规32px、紧凑28px。普通表单继续使用上方标题。</p>
+        <div className="input-page__grid">
+          <FormItem label="资料名称" labelPosition="inside"><Input size={32} appearance={appearance} placeholder="输入名称" /></FormItem>
+          <FormItem label="查找资料" labelPosition="inside"><SearchInput size={32} appearance={appearance} placeholder="输入名称" /></FormItem>
+        </div>
+        <pre>{`<FormItem label="资料名称" labelPosition="inside">
+  <Input size={32} placeholder="输入名称" />
+</FormItem>`}</pre>
+      </section>
       <section aria-labelledby="input-sizes-title">
         <h2 id="input-sizes-title" className="rain-type-heading-section">尺寸与状态</h2>
         <p>24 用于紧凑区域；28、32 用于普通表单和查询；36 用于更宽松的界面。</p>

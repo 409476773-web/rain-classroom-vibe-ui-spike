@@ -11,10 +11,12 @@ styleSourcePath: "packages/ui/src/select/select.styles.ts"
 sharedFrameSource: "packages/ui/src/field/field.styles.ts"
 sourceVersion: "local-2026-09-10"
 publication: "unpublished"
-description: "One complete Select combines single or multiple choice with optional candidate search, independently of its field appearance."
+description: "从候选集中单选或多选的字段；可组合候选搜索、清空与完整键盘行为，适合筛选和表单条件。"
 useWhen:
+  - "候选较多、标签较长或需要搜索时，使用 Select 选择筛选条件或字段值；由宿主拥有查询和生效范围。"
   - "Choose identities from a finite candidate set with complete value, search, clear and keyboard behavior."
 doNotUseWhen:
+  - "少量且需要持续可见的选项先比较 RadioGroup 或 CheckableTagGroup；独立操作列表使用 DropdownMenu。"
   - "Free creation, a tree/cascade, numeric editing, a form state store or a production overlay system is required."
 anatomy:
   - "Root"
@@ -92,6 +94,9 @@ layoutConstraints:
   - "Summary fits at most two names, then fewer names, then total count; full selected labels remain in the accessible description."
   - "Portal popup aligns with the complete field at a four-pixel gap, inherits theme and density, and stays within the viewport; virtualization remains deferred."
 compositionRules:
+  - "FormItem labelPosition=inside places its fixed visible label within the field; top remains the default and label identity/description ownership is unchanged."
+  - "For a one-line toolbar, compose explicit size32 in default density and size28 in compact density with matching Buttons; global component defaults remain unchanged."
+  - "Inside-label toolbar composition uses existing single-line summary or count for multiple choice; in-frame search and wrapping-label behavior are not added."
   - "Use the complete Select by default; multiple and searchable do not create parallel components."
   - "Current options override selectedOptions metadata; unknown selected identities remain visible and never disappear when results refresh."
   - "Value, query and open are independently controlled; same-value selection does not emit a value callback."
@@ -159,3 +164,15 @@ verification:
   visualBaseline: "accepted-preview-visual-only"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/select/verification.md"
+
+insideFieldLabels:
+  implementation: "completed"
+  automated: "passed"
+  independentReview: "findings"
+  plan: "docs/plans/2026-09-14-inside-field-labels.md"
+  evidence: "evidence/runtime/inside-field-labels/verification.md"
+  labelPosition: "optional-inside-default-top"
+  humanGate: "accepted"
+  humanGateScope: "input-search-input-select-inside-labels-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  publication: "not-authorized"

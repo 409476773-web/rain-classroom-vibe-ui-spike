@@ -1,0 +1,220 @@
+import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable,
+  type ColumnDef, type ColumnFiltersState, type PaginationState, type RowSelectionState, type SortingState, type VisibilityState } from "@tanstack/react-table";
+import { tagSystemProfiles, useDensity } from "@rain-next/foundations";
+import { Grid, Inline, Stack } from "@rain-next/layouts";
+import { Button, Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle, Checkbox, DropdownMenu, Empty, EmptyActions, EmptyDescription, EmptyMedia, EmptyTitle, IconButton,
+  FormItem, Pagination, Popover, SearchInput, defineRainLocalRecipe, Select, Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, TableScrollArea, Tag } from "@rain-next/ui";
+import { CircleCloseFilledIcon } from "@rain-next/ui/icons/circle-close-filled";
+import { MoreHorizontalIcon } from "@rain-next/ui/icons/more-horizontal";
+import { RefreshIcon } from "@rain-next/ui/icons/refresh";
+import { InfoIcon } from "@rain-next/ui/icons/info";
+import { ArrowDownIcon } from "@rain-next/ui/icons/arrow-down";
+import { ListViewIcon } from "@rain-next/ui/icons/list-view";
+import { CardViewIcon } from "@rain-next/ui/icons/card-view";
+import { Settings3Icon } from "@rain-next/ui/icons/settings-3";
+import { SortAscendingIcon } from "@rain-next/ui/icons/sort-ascending";
+import { SortDescendingIcon } from "@rain-next/ui/icons/sort-descending";
+import "./data-table-recipe.css";
+
+type Material = { id: string; name: string; kind: string; status: "ready" | "draft"; updated: string; locked: boolean };
+const examples: Material[] = ["设计方法导论", "课堂观察记录", "教学案例研读", "小组讨论任务", "课程阅读清单", "访谈提纲", "学习作品评价", "实践项目说明", "同伴反馈指南", "阶段复习任务", "课堂活动设计", "结课作品要求", "从真实课堂问题出发的观察、记录与教学改进：课程资料使用说明"].map((name, index) => ({
+  id: `material-${String(index + 1).padStart(2, "0")}`, name, kind: index % 2 ? "课堂任务" : "阅读材料", status: index % 3 ? "draft" : "ready", updated: `2026-09-${String(13 - index).padStart(2, "0")}`, locked: index === 1,
+}));
+const headerSortRecipe = defineRainLocalRecipe<"root" | "label", "ui-button">({
+  id: "table-header-sort", scope: "feature", origin: "ui-button", classes: { root: "enabled:text-inherit", label: "text-inherit" },
+  modifiedParts: ["root", "label"], candidateTokens: [], promotionStatus: "not-proposed",
+});
+const viewStartRecipe = defineRainLocalRecipe<"root", "ui-button">({
+  id: "material-view-start", scope: "feature", origin: "ui-button", classes: { root: "material-view-start" },
+  modifiedParts: ["root"], candidateTokens: [], promotionStatus: "not-proposed",
+});
+const viewEndRecipe = defineRainLocalRecipe<"root", "ui-button">({
+  id: "material-view-end", scope: "feature", origin: "ui-button", classes: { root: "material-view-end" },
+  modifiedParts: ["root"], candidateTokens: [], promotionStatus: "not-proposed",
+});
+const statusName = (status: Material["status"]) => status === "ready" ? "已发布" : "草稿";
+const materialCardRecipe = defineRainLocalRecipe<"root" | "header", "ui-card">({
+  id: "material-card-selection", scope: "feature", origin: "ui-card",
+  classes: { root: "material-card", header: "flex items-start gap-rain-8" },
+  modifiedParts: ["root", "header"], candidateTokens: [], promotionStatus: "not-proposed",
+});
+
+function MaterialKind({ kind }: { kind: string }) {
+  return <Tag size={20} color="neutral" appearance="outlined">{kind}</Tag>;
+}
+function MaterialStatus({ status }: { status: Material["status"] }) {
+  return <Tag size={20} color={status === "ready" ? tagSystemProfiles.success : "neutral"} appearance="filled">{statusName(status)}</Tag>;
+}
+function MaterialActions({ material, loading, card = false, onNotice }: {
+  material: Material; loading: boolean; card?: boolean; onNotice: (notice: string) => void;
+}) {
+  const label = `更多操作 ${material.name}`;
+  return <DropdownMenu.Root><DropdownMenu.Trigger disabled={loading} render={card
+    ? <IconButton size="24/16" tone="default" highlight="none" aria-label={label} icon={<MoreHorizontalIcon />} />
+    : <Button variant="text" tone="brand" aria-label={label}>更多</Button>} />
+    <DropdownMenu.Content><DropdownMenu.Item label="查看资料" onClick={() => onNotice(`正在查看《${material.name}》；此处为本地演示。`)} />
+      <DropdownMenu.Item label="记录稍后处理" disabled={material.locked} description={material.locked ? "只读资料不可修改" : undefined} critical={material.locked}
+        onClick={() => onNotice(`已记录《${material.name}》，仅在本页演示。`)} /></DropdownMenu.Content></DropdownMenu.Root>;
+}
+
+/** Local client-side recipe: one table model, host-owned state, fictional records only. */
+export function DataTableRecipe() {
+  const compact = useDensity() === "compact", controlSize = compact ? 28 : 32, actionSize = compact ? "mini" : "small";
+  const [refreshHintDismissed, setRefreshHintDismissed] = useState(false);
+  const [records, setRecords] = useState(examples), [searchDraft, setSearchDraft] = useState("");
+  const [filters, setFilters] = useState<ColumnFiltersState>([]), [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 5 });
+  const [selection, setSelection] = useState<RowSelectionState>({}), [visibility, setVisibility] = useState<VisibilityState>({});
+  const [view, setView] = useState<"table" | "cards">("table"), [notice, setNotice] = useState("");
+  const [loading, setLoading] = useState(false), [failed, setFailed] = useState(false), [failNext, setFailNext] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null), searchRef = useRef<HTMLInputElement>(null);
+  const titleId = useId(), selectionHelpId = `${titleId}-selection-help`;
+  useEffect(() => () => { if (timer.current !== null) clearTimeout(timer.current); }, []);
+  useEffect(() => {
+    if (!notice) return;
+    const timeout = setTimeout(() => setNotice(""), 5000);
+    return () => clearTimeout(timeout);
+  }, [notice]);
+  const columns = useMemo<ColumnDef<Material>[]>(() => [
+    { id: "selection", enableHiding: false, enableSorting: false,
+      header: ({ table }) => <Checkbox title="选择当前页可操作资料" aria-describedby={selectionHelpId} aria-label="选择当前页可操作资料" checked={table.getIsAllPageRowsSelected()} indeterminate={table.getIsSomePageRowsSelected()}
+        disabled={loading || !table.getRowModel().rows.some(row => row.getCanSelect())} onCheckedChange={checked => table.toggleAllPageRowsSelected(checked)} />,
+      cell: ({ row }) => <Checkbox aria-label={`选择 ${row.original.name}`} aria-describedby={row.original.locked ? `${titleId}-${row.id}-locked` : undefined}
+        checked={row.getIsSelected()} disabled={loading || !row.getCanSelect()} onCheckedChange={row.toggleSelected} /> },
+    { accessorKey: "name", header: ({ column }) => <Button variant="text" tone="default" size="compact" localRecipe={headerSortRecipe} aria-label="按资料名称排序" disabled={loading} onClick={column.getToggleSortingHandler()}>
+      资料名称{column.getIsSorted() === "asc" ? " · 升序" : column.getIsSorted() === "desc" ? " · 降序" : ""}</Button>,
+      sortingFn: (a, b) => a.original.name.localeCompare(b.original.name, "zh-CN"),
+      cell: ({ row }) => <Stack gap={4}><strong>{row.original.name}</strong>{row.original.locked && <span id={`${titleId}-${row.id}-locked`} className="data-table-note data-table-metadata">只读资料，不参与批量操作</span>}</Stack> },
+    { accessorKey: "kind", enableSorting: false, header: "资料类型", cell: ({ row }) => <MaterialKind kind={row.original.kind} /> },
+    { accessorKey: "status", enableSorting: false, header: "状态", filterFn: "equalsString", cell: ({ row }) => <MaterialStatus status={row.original.status} /> },
+    { accessorKey: "updated", enableSorting: false, header: "更新时间", cell: ({ row }) => <time dateTime={row.original.updated} className="data-table-note data-table-metadata">{row.original.updated}</time> },
+    { id: "actions", enableHiding: false, cell: ({ row }) => <MaterialActions material={row.original} loading={loading} onNotice={setNotice} />, header: "操作" },
+  ], [loading, titleId, selectionHelpId]);
+  const table = useReactTable({ data: records, columns, getRowId: record => record.id,
+    state: { columnFilters: filters, sorting, pagination, rowSelection: selection, columnVisibility: visibility },
+    onColumnFiltersChange: setFilters, onSortingChange: updater => { setSorting(updater); setPagination(value => ({ ...value, pageIndex: 0 })); },
+    onPaginationChange: setPagination, onRowSelectionChange: setSelection, onColumnVisibilityChange: setVisibility,
+    enableRowSelection: row => !row.original.locked, autoResetPageIndex: false,
+    getCoreRowModel: getCoreRowModel(), getFilteredRowModel: getFilteredRowModel(), getSortedRowModel: getSortedRowModel(), getPaginationRowModel: getPaginationRowModel(),
+  });
+  const rows = table.getRowModel().rows, total = table.getFilteredRowModel().rows.length;
+  const selected = Object.values(selection).filter(Boolean).length;
+  const otherPageSelected = selected - rows.filter(row => row.getIsSelected()).length;
+  const sortValue = sorting[0] ? sorting[0].desc ? "desc" : "asc" : "default";
+  const statusFilter = String(filters.find(filter => filter.id === "status")?.value ?? "all");
+  function changeFilter(id: string, value: string) {
+    setFilters(previous => [...previous.filter(filter => filter.id !== id), ...(value ? [{ id, value }] : [])]);
+    setSelection({}); setPagination(previous => ({ ...previous, pageIndex: 0 })); setNotice("");
+  }
+  function clearQuery() { setSearchDraft(""); setFilters([]); setSelection({}); setPagination(previous => ({ ...previous, pageIndex: 0 })); setNotice(""); searchRef.current?.focus(); }
+  function refresh() {
+    if (timer.current !== null) return;
+    setLoading(true); setFailed(false); setNotice("");
+    timer.current = setTimeout(() => { timer.current = null; setLoading(false); setFailed(failNext); setFailNext(false);
+      if (!failNext) setNotice("资料已刷新，当前查询和选择保持不变。"); }, 450);
+  }
+  function publishSelected() {
+    setRecords(previous => previous.map(record => selection[record.id] && !record.locked ? { ...record, status: "ready" } : record));
+    setSelection({}); setPagination(previous => ({ ...previous, pageIndex: 0 })); setNotice(`已将 ${selected} 份资料标为已发布，仅在本页生效。`);
+  }
+  function showDataset(empty: boolean) {
+    setRecords(empty ? [] : examples); setSearchDraft(""); setFilters([]); setSelection({}); setPagination(previous => ({ ...previous, pageIndex: 0 })); setFailed(false); setNotice("");
+  }
+  const empty = <Empty presentation="illustration" className="py-rain-24">
+    <EmptyMedia illustration={records.length === 0 ? "empty-box" : "empty-search"} />
+    <EmptyTitle>{records.length === 0 ? "还没有课程资料" : "没有找到相关资料"}</EmptyTitle>
+    <EmptyDescription>{records.length === 0 ? "添加第一份资料后，就可以在这里管理。" : "试试其他关键词，或清空当前筛选条件。"}</EmptyDescription>
+    {records.length === 0 && <EmptyActions><Button size="mini" variant="secondary" disabled={loading} onClick={() => showDataset(false)}>添加示例资料</Button></EmptyActions>}</Empty>;
+
+  return <Card className="data-table-recipe" data-rain-id="recipe-course-materials" data-asset-identity="local-experiment" data-processing-mode="client" aria-labelledby={titleId}>
+    <CardHeader><CardTitle as="h2" id={titleId}>课程资料库</CardTitle><CardDescription>查找教学资料，查看发布状态，并对选中的资料批量操作。</CardDescription></CardHeader>
+    <CardContent><Stack gap={16}>
+      <Stack gap={12} className="data-table-toolbar">
+        <fieldset disabled={loading} className="data-table-controls"><Inline gap={24} align="center" wrap={false} className="data-table-query-row">
+          <Inline gap={0} wrap={false} className="data-table-view" role="group" aria-label="资料视图">
+            <Button size={actionSize} localRecipe={viewStartRecipe} variant={view === "table" ? "secondary" : "tertiary"} aria-label="表格视图" aria-pressed={view === "table"} leadingIcon={<ListViewIcon />} onClick={() => setView("table")}>表格</Button>
+            <Button size={actionSize} localRecipe={viewEndRecipe} variant={view === "cards" ? "secondary" : "tertiary"} aria-label="卡片视图" aria-pressed={view === "cards"} leadingIcon={<CardViewIcon />} onClick={() => setView("cards")}>卡片</Button>
+          </Inline>
+          <Inline gap={12} wrap={false} className="data-table-query">
+            <div className="data-table-search"><FormItem label="查找资料" labelPosition="inside"><SearchInput size={controlSize} ref={searchRef} value={searchDraft} onValueChange={setSearchDraft} onSearch={value => changeFilter("name", value.trim())} placeholder="输入资料名称" /></FormItem></div>
+            <div className="data-table-filter"><FormItem label="发布状态" labelPosition="inside"><Select size={controlSize} clearable={false} disabled={loading} value={statusFilter}
+              options={[{ value: "all", label: "全部状态" }, { value: "ready", label: "已发布" }, { value: "draft", label: "草稿" }]}
+              onValueChange={value => { if (["all", "ready", "draft"].includes(String(value))) changeFilter("status", value === "all" ? "" : String(value)); }} /></FormItem></div>
+            {filters.length > 0 && <Button variant="text" size={compact ? "compact" : "regular"} disabled={loading} leadingIcon={<CircleCloseFilledIcon />} onClick={clearQuery}>清空筛选</Button>}
+          </Inline>
+        </Inline></fieldset>
+        <Inline gap={12} justify="between" align="center" wrap={false} className="data-table-actions-row" role="group" aria-label="资料操作">
+          <Inline gap={12} wrap={false} className="data-table-result-tools">
+            <Inline gap={8} wrap={false} className="data-table-result-info">
+              {view === "cards" && <Checkbox label="选择当前页" aria-label="选择当前页可操作资料" aria-describedby={selectionHelpId}
+                checked={table.getIsAllPageRowsSelected()} indeterminate={table.getIsSomePageRowsSelected()}
+                disabled={loading || !rows.some(row => row.getCanSelect())} onCheckedChange={checked => table.toggleAllPageRowsSelected(checked)} />}
+              <span className="data-table-note data-table-metadata" data-slot="result-count">{filters.length > 0 ? `筛选结果 ${total} 份` : `共 ${total} 份资料`}</span>
+              <Popover.Root><Popover.Trigger render={<IconButton size="24/16" aria-label="选择规则说明" icon={<InfoIcon />} />} />
+                <Popover.Content width={280}><Popover.Title>选择规则</Popover.Title><Popover.Description>全选仅作用于当前页可操作资料。翻页或切换视图后，已选资料仍会保留；取消选择会清空所有页的选择。</Popover.Description></Popover.Content>
+              </Popover.Root>
+            </Inline>
+            <Inline gap={8} wrap={false} className="data-table-display-tools">
+              <div className="data-table-refresh" onMouseEnter={() => setRefreshHintDismissed(false)} onFocus={() => setRefreshHintDismissed(false)}
+                onKeyDown={event => { if (event.key === "Escape") setRefreshHintDismissed(true); }}>
+                <IconButton size={compact ? "28/16" : "32/16"} aria-label="刷新资料" loading={loading} icon={<RefreshIcon />} onClick={() => { setRefreshHintDismissed(true); refresh(); }} />
+                {!refreshHintDismissed && !loading && <Card size="sm" role="tooltip" className="data-table-refresh-hint"><CardContent>刷新资料</CardContent></Card>}
+              </div>
+              {view === "table" ? <DropdownMenu.Root><DropdownMenu.Trigger disabled={loading} render={<Button variant="text" size={compact ? "compact" : "regular"} leadingIcon={<Settings3Icon />} trailingIcon={<ArrowDownIcon />}>显示列</Button>} />
+                <DropdownMenu.Content>{["kind", "status", "updated"].map((id, index) => <DropdownMenu.CheckboxItem key={id} label={["资料类型", "状态", "更新时间"][index]!}
+                  checked={table.getColumn(id)!.getIsVisible()} onCheckedChange={table.getColumn(id)!.toggleVisibility} />)}</DropdownMenu.Content></DropdownMenu.Root>
+                : <DropdownMenu.Root><DropdownMenu.Trigger disabled={loading || total === 0} render={<Button variant="text" size={compact ? "compact" : "regular"} aria-label="按资料名称排序"
+                    leadingIcon={sortValue === "desc" ? <SortDescendingIcon /> : <SortAscendingIcon />} trailingIcon={<ArrowDownIcon />}>{sortValue === "default" ? "默认顺序" : `资料名称 · ${sortValue === "asc" ? "升序" : "降序"}`}</Button>} />
+                  <DropdownMenu.Content><DropdownMenu.RadioGroup value={sortValue} onValueChange={value => { table.setSorting(value === "default" ? [] : [{ id: "name", desc: value === "desc" }]); }}>
+                    <DropdownMenu.RadioItem value="default" label="默认顺序" />
+                    <DropdownMenu.RadioItem value="asc" label="资料名称 · 升序" />
+                    <DropdownMenu.RadioItem value="desc" label="资料名称 · 降序" />
+                  </DropdownMenu.RadioGroup></DropdownMenu.Content></DropdownMenu.Root>}
+            </Inline>
+          </Inline>
+          <Inline gap={8} align="center" justify="end" wrap={false} className="data-table-batch-actions">
+            {selected > 0 && <><span className="data-table-note data-table-metadata" data-slot="selected-count"><span>已选 {selected} 份资料</span>{otherPageSelected > 0 && <span className="block">含其他页 {otherPageSelected} 份</span>}</span>
+              <Button variant="tertiary" size={actionSize} disabled={loading} onClick={() => setSelection({})}>取消选择</Button></>}
+            <Button size={actionSize} variant="primary" disabled={selected === 0 || loading} onClick={publishSelected}>标为已发布</Button>
+          </Inline>
+        </Inline>
+      </Stack>
+      <span id={selectionHelpId} className="sr-only">全选仅作用于当前页可操作资料。翻页或切换视图后，已选资料仍会保留。</span>
+      <div role="status" aria-atomic="true" className={notice ? "data-table-notice" : "sr-only"}>{loading ? "正在刷新资料，当前内容会保留。" : notice && <Card size="sm"><CardContent>{notice}</CardContent></Card>}</div>
+      {failed && <Inline gap={12} align="center"><p role="alert">刷新失败，当前资料和选择已保留。</p><Button size={actionSize} variant="secondary" onClick={refresh}>重试</Button></Inline>}
+      <div aria-busy={loading}>
+        {rows.length === 0 ? empty : view === "table" ? <TableScrollArea aria-label="课程资料表滚动区"><Table className="data-table-grid">
+          <TableCaption>课程资料</TableCaption>
+          <TableHeader>{table.getHeaderGroups().map(group => <TableRow key={group.id}>{group.headers.map(header => <TableHead key={header.id}
+            aria-sort={header.column.getCanSort() ? header.column.getIsSorted() === "asc" ? "ascending" : header.column.getIsSorted() === "desc" ? "descending" : "none" : undefined}>
+            {flexRender(header.column.columnDef.header, header.getContext())}</TableHead>)}</TableRow>)}</TableHeader>
+          <TableBody>{rows.map(row => <TableRow key={row.id} selected={row.getIsSelected()} data-record-id={row.id}>
+            {row.getVisibleCells().map(cell => <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>)}
+          </TableRow>)}</TableBody>
+        </Table></TableScrollArea> : <Grid columns={3} minColumnWidth={240} gap={12} aria-label="课程资料卡片">
+          {rows.map(row => <Card key={row.id} size="sm" localRecipe={materialCardRecipe} data-record-id={row.id} data-selected={row.getIsSelected()} aria-labelledby={`${titleId}-${row.id}`}>
+            <CardHeader>
+              <Checkbox className="flex-none" aria-label={`选择 ${row.original.name}`} aria-describedby={row.original.locked ? `${titleId}-${row.id}-locked` : undefined}
+                disabled={loading || !row.getCanSelect()} checked={row.getIsSelected()} onCheckedChange={row.toggleSelected} />
+              <CardTitle as="h3" id={`${titleId}-${row.id}`} className="flex-1">{row.original.name}</CardTitle>
+              <CardAction className="flex-none"><MaterialActions material={row.original} loading={loading} card onNotice={setNotice} /></CardAction>
+            </CardHeader>
+            <CardContent><Stack gap={8} className="pl-rain-32">
+              <Inline gap={8}><MaterialKind kind={row.original.kind} /><MaterialStatus status={row.original.status} /></Inline>
+              <time dateTime={row.original.updated} className="data-table-note data-table-metadata">更新于 {row.original.updated}</time>
+              {row.original.locked && <p id={`${titleId}-${row.id}-locked`} className="data-table-note data-table-metadata">只读资料，不参与批量操作</p>}
+            </Stack></CardContent>
+          </Card>)}</Grid>}
+      </div>
+      <Pagination variant="data" total={total} page={pagination.pageIndex + 1} pageSize={pagination.pageSize}
+        pageSizeOptions={[5, 10, 20]} pageSizePlacement="inline" loading={loading}
+        onChange={({ page, pageSize }) => setPagination({ pageIndex: page - 1, pageSize })} />
+      <details><summary>试用加载与空数据状态</summary><Inline gap={12} align="center" className="pt-rain-12">
+        <Checkbox label="下次刷新模拟失败" disabled={loading} checked={failNext} onCheckedChange={setFailNext} />
+        <Button size={actionSize} variant="tertiary" disabled={loading} onClick={() => showDataset(true)}>预览空数据</Button><Button size={actionSize} variant="tertiary" disabled={loading} onClick={() => showDataset(false)}>恢复示例资料</Button>
+      </Inline></details>
+      <p className="data-table-note">数据均为虚构；批量操作只在本页生效，刷新页面后恢复。</p>
+    </Stack></CardContent>
+  </Card>;
+}

@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/dialog-v2.test.ts (3 tests | 1 failed) 69ms
+   × retains independently obtained upstream contents and the protected pre-batch UI 10ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/dialog-v2.test.ts > retains independently obtained upstream contents and the protected pre-batch UI
+AssertionError: packages/ui/src/dropdown-menu/dropdown-menu.css: expected 'c0b31c91a2ea6cc500324141397b0aa66a766…' to be 'ef547ee3f92e6f5579fab418f79a967fdb844…' // Object.is equality
+
+Expected: "ef547ee3f92e6f5579fab418f79a967fdb844bf6ad75383ab239c56467297baa"
+Received: "c0b31c91a2ea6cc500324141397b0aa66a7664c8c7b3d0b098e18a5c138cea29"
+
+ ❯ scripts/dialog-v2.test.ts:51:130
+     49|   const baseline = JSON.parse(read("evidence/runtime/dialog-v2/baselin…
+     50|   for (const [path, checksum] of Object.entries(baseline.protectedSha2…
+     51|     expect(createHash("sha256").update(readFileSync(fileURLToPath(new …
+       |                                                                                                                                  ^
+     52|   }
+     53| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 5 passed (6)
+   Start at  10:27:04
+   Duration  1.96s (transform 655ms, setup 360ms, import 1.15s, tests 296ms, environment 1.33s)
+

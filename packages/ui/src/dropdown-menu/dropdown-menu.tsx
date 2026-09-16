@@ -29,15 +29,15 @@ const Trigger = forwardRef<HTMLElement, Menu.Trigger.Props>(function Trigger(pro
 });
 export type DropdownMenuContentProps = Omit<Menu.Popup.Props, "className" | "style"> & {
   className?: string;
-  width?: number;
+  width?: number | "auto";
   positionerProps?: Omit<Menu.Positioner.Props, "className" | "style"> & { className?: string };
 };
-const Content = forwardRef<HTMLDivElement, DropdownMenuContentProps>(function Content({ className, width = 280, positionerProps, ...props }, ref) {
+const Content = forwardRef<HTMLDivElement, DropdownMenuContentProps>(function Content({ className, width = "auto", positionerProps, ...props }, ref) {
   const { theme, density, densityStyle } = usePopupScope(), { localRecipe } = useContext(RecipeContext);
   return <Menu.Portal><Menu.Positioner align="start" sideOffset={6} collisionPadding={8} {...positionerProps}
     data-rain-theme={theme} data-density={density} style={densityStyle} className={rainCn("rain-popup-positioner", positionerProps?.className)}>
     <Menu.Popup {...props} ref={ref} data-rain-id="ui-dropdown-menu" data-slot="content" data-local-recipe={localRecipe?.id}
-      style={popupWidthStyle(width)} className={rainCn(popupSurfaceClassName, "rain-menu p-rain-8", className, getRainLocalRecipePart(localRecipe, "content"))} />
+      style={width === "auto" ? undefined : popupWidthStyle(width)} className={rainCn(popupSurfaceClassName, "rain-menu p-rain-8", className, getRainLocalRecipePart(localRecipe, "content"))} />
   </Menu.Positioner></Menu.Portal>;
 });
 

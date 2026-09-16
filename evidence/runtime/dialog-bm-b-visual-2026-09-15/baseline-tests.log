@@ -1,0 +1,102 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verification-helpers.test.ts (239 tests | 3 failed) 18309ms
+     × passes the complete unmodified fixture before testing any mutation 298ms
+     × leaves the fixture valid after all mutation checks 288ms
+   × admits only RN-09 local BM-A without widening any prior phase 20ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > passes the complete unmodified fixture before testing any mutation
+AssertionError: expected 'Boundary verification failed:\n- docu…' to match /verification passed/
+
+- Expected:
+/verification passed/
+
++ Received:
+"Boundary verification failed:
+- document outside the Icon library authorization: manifests/ui/alert-dialog.yaml
+- source file outside the complete Day 3 allowlist: evidence/runtime/dialog-refinement-2026-09-15/playwright.config.ts
+- source file outside the complete Day 3 allowlist: packages/foundations/src/overlay-token-contract.ts
+- source file outside the complete Day 3 allowlist: scripts/dialog-refinement.test.ts
+- source file outside the complete Day 3 allowlist: tests/e2e/dialog-refinement.spec.ts
+"
+
+ ❯ scripts/verification-helpers.test.ts:872:50
+    870|       const result = run(script);
+    871|       expect(result.error).toBeUndefined();
+    872|       expect(`${result.stdout}${result.stderr}`).toMatch(/verification…
+       |                                                  ^
+    873|       expect(result.status).toBe(0);
+    874|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > leaves the fixture valid after all mutation checks
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ scripts/verification-helpers.test.ts:961:49
+    959|
+    960|   it("leaves the fixture valid after all mutation checks", () => {
+    961|     expect(run("verify-boundaries.mjs").status).toBe(0);
+       |                                                 ^
+    962|     expect(run("verify-workspace.mjs").status).toBe(0);
+    963|     expect(run("verify-evidence.mjs").status).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  scripts/verification-helpers.test.ts > admits only RN-09 local BM-A without widening any prior phase
+AssertionError: expected { schemaVersion: '1.0', …(16) } to deeply equal { schemaVersion: '1.0', …(16) }
+
+- Expected
++ Received
+
+@@ -216,10 +216,24 @@
+        "plan": "../docs/plans/2026-09-09-checkbox-sc01-implementation.md",
+        "scope": "checkbox-checkboxgroup-standard-description-and-native-form",
+        "selectedCardBorderDecision": "Border/Brand/1-current-theme-for-later-card-slice",
+        "userStatement": "选中卡片描边使用当前主题色系 border；所有 icon 使用现有 icon 库；继续推进下一步",
+      },
++     "dialogRefinement": {
++       "authorization": "authorized",
++       "authorizedAt": "2026-09-15",
++       "automatedVerification": "passed",
++       "contrastAcceptance": "not-granted",
++       "decisionSource": "explicit-user-start-dialog-refinement",
++       "evidence": "../evidence/runtime/dialog-refinement-2026-09-15/verification.md",
++       "humanGate": "awaiting_human",
++       "implementation": "completed",
++       "independentReview": "passed",
++       "plan": "../docs/plans/2026-09-15-dialog-refinement-implementation.md",
++       "scope": "dialog-alert-dialog-overlay-tokens-course-and-bm-b",
++       "userStatement": "开始实施",
++     },
+      "dialogV2": {
+        "authorization": "authorized",
+        "authorizedAt": "2026-09-13",
+        "automatedVerification": "passed",
+        "contrastAcceptance": "not-granted",
+
+ ❯ scripts/verification-helpers.test.ts:2231:56
+    2229|   const { bmARn09, ...earlier } = status.componentRefinements;
+    2230|   if (verificationHelpers.hasBmBRn10Authorization(status)) delete earl…
+    2231|   expect({ ...status, componentRefinements: earlier }).toEqual(parseYa…
+       |                                                        ^
+    2232| });
+    2233|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  3 failed | 238 passed (241)
+   Start at  13:38:45
+   Duration  19.52s (transform 507ms, setup 373ms, import 640ms, tests 18.38s, environment 1.55s)
+

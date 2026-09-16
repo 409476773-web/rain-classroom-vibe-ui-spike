@@ -1,0 +1,131 @@
+
+> @rain-next/workspace@0.0.0 test /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> vitest run --maxWorkers=2
+
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verification-helpers.test.ts (234 tests | 2 failed) 11545ms
+     × passes the complete unmodified fixture before testing any mutation 243ms
+     × leaves the fixture valid after all mutation checks 240ms
+ ❯ scripts/verify-tailwind-b2.test.ts (177 tests | 3 failed) 76893ms
+     × requires completed trials to carry verifiable diff, screenshot and test evidence 363ms
+     × keeps the Task 2 files while Task 5 promotes its verifier into governance 396ms
+     × passes both the Task 4 bridge verifier and the fail-closed phase boundary 938ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > passes the complete unmodified fixture before testing any mutation
+AssertionError: expected 'Boundary verification failed:\n- Git …' to match /verification passed/
+
+- Expected:
+/verification passed/
+
++ Received:
+"Boundary verification failed:
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+"
+
+ ❯ scripts/verification-helpers.test.ts:833:50
+    831|       const result = run(script);
+    832|       expect(result.error).toBeUndefined();
+    833|       expect(`${result.stdout}${result.stderr}`).toMatch(/verification…
+       |                                                  ^
+    834|       expect(result.status).toBe(0);
+    835|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > leaves the fixture valid after all mutation checks
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ scripts/verification-helpers.test.ts:922:49
+    920|
+    921|   it("leaves the fixture valid after all mutation checks", () => {
+    922|     expect(run("verify-boundaries.mjs").status).toBe(0);
+       |                                                 ^
+    923|     expect(run("verify-workspace.mjs").status).toBe(0);
+    924|     expect(run("verify-evidence.mjs").status).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 results validator > requires completed trials to carry verifiable diff, screenshot and test evidence
+AssertionError: expected 'Boundary verification failed:\n- Git …' to match /Boundary verification passed/
+
+- Expected:
+/Boundary verification passed/
+
++ Received:
+"Boundary verification failed:
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:879:40
+    877|       fixtureRoot,
+    878|     );
+    879|     expect(outputOf(governedEvidence)).toMatch(/Boundary verification …
+       |                                        ^
+    880|     expect(governedEvidence.status).toBe(0);
+    881|     const document = readYaml(baselinePath, fixtureRoot);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 2 governance > keeps the Task 2 files while Task 5 promotes its verifier into governance
+AssertionError: expected 'Boundary verification failed:\n- Git …' to match /verification passed/
+
+- Expected:
+/verification passed/
+
++ Received:
+"Boundary verification failed:
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:1911:32
+    1909|     for (const script of ["verify-boundaries.mjs", "verify-workspace.m…
+    1910|       const result = runScript(join(workspaceRoot, "scripts", script),…
+    1911|       expect(outputOf(result)).toMatch(/verification passed/);
+       |                                ^
+    1912|       expect(result.status).toBe(0);
+    1913|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > passes both the Task 4 bridge verifier and the fail-closed phase boundary
+AssertionError: expected 'Boundary verification failed:\n- Git …' to match /verification passed/i
+
+- Expected:
+/verification passed/i
+
++ Received:
+"Boundary verification failed:
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:3227:32
+    3225|     for (const script of [verifierPath, boundaryVerifierPath]) {
+    3226|       const result = runScript(script, workspaceRoot);
+    3227|       expect(outputOf(result)).toMatch(/verification passed/i);
+       |                                ^
+    3228|       expect(result.status).toBe(0);
+    3229|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  2 failed | 83 passed (85)
+      Tests  5 failed | 1261 passed (1266)
+   Start at  17:27:56
+   Duration  92.81s (transform 2.24s, setup 7.96s, import 12.64s, tests 125.30s, environment 32.40s)
+
+ ELIFECYCLE  Test failed. See above for more details.

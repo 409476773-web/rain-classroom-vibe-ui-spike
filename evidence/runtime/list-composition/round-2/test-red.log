@@ -1,0 +1,81 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/prototype/src/scenarios/list-composition/list.test.tsx (2 tests | 2 failed) 312ms
+   × combines committed search and case type, clearing selection when the query changes 175ms
+   × publishes the selection and returns focus when contextual actions disappear 136ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/prototype/src/scenarios/list-composition/list.test.tsx > combines committed search and case type, clearing selection when the query changes
+Error: expect(element).not.toBeInTheDocument()
+
+expected document not to contain element, found <button
+  class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-not-allowed focus-visible:shadow-rain-button-focus-primary h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-on-color-foreground bg-rain-button-primary border-rain-action-ghost opacity-rain-button-disabled-primary"
+  data-density="default"
+  data-focus="control"
+  data-rain-id="ui-button"
+  data-size="medium"
+  data-slot="root"
+  data-state="disabled"
+  data-tone="default"
+  data-variant="primary"
+  disabled=""
+  type="button"
+>
+  <span
+    class="flex-initial min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-rain-button-on-color-foreground"
+    data-slot="label"
+  >
+    标为已发布
+  </span>
+</button> instead
+ ❯ apps/prototype/src/scenarios/list-composition/list.test.tsx:16:63
+     14|   const user = userEvent.setup();
+     15|   render(<ListComposition initialRecords={records} transfer title="教学案…
+     16|   expect(screen.queryByRole("button", { name: "标为已发布" })).not.toBeInTh…
+       |                                                               ^
+     17|   await user.click(screen.getByRole("checkbox", { name: "选择 课堂讨论量表" })…
+     18|   expect(screen.getByRole("button", { name: "标为已发布" })).toBeEnabled();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/prototype/src/scenarios/list-composition/list.test.tsx > publishes the selection and returns focus when contextual actions disappear
+Error: expect(element).not.toBeInTheDocument()
+
+expected document not to contain element, found <button
+  class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-not-allowed focus-visible:shadow-rain-button-focus-primary h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-on-color-foreground bg-rain-button-primary border-rain-action-ghost opacity-rain-button-disabled-primary"
+  data-density="default"
+  data-focus="control"
+  data-rain-id="ui-button"
+  data-size="medium"
+  data-slot="root"
+  data-state="disabled"
+  data-tone="default"
+  data-variant="primary"
+  disabled=""
+  type="button"
+>
+  <span
+    class="flex-initial min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-rain-button-on-color-foreground"
+    data-slot="label"
+  >
+    标为已发布
+  </span>
+</button> instead
+ ❯ apps/prototype/src/scenarios/list-composition/list.test.tsx:39:63
+     37|   await user.click(screen.getByRole("button", { name: "标为已发布" }));
+     38|   expect(within(screen.getByRole("row", { name: /课堂讨论案例/ })).getByText…
+     39|   expect(screen.queryByRole("button", { name: "标为已发布" })).not.toBeInTh…
+       |                                                               ^
+     40|   expect(screen.getByRole("checkbox", { name: "选择当前页可操作资料" })).toHaveF…
+     41| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  13:35:42
+   Duration  2.09s (transform 426ms, setup 158ms, import 915ms, tests 312ms, environment 601ms)
+

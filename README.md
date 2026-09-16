@@ -1,8 +1,12 @@
 # Rain Next
 
+**2026-09-16 完整项目审阅：** 请先读 [GitHub 审阅入口](GITHUB_REVIEW.md)，其中列出最新版本、另外两份工作区分支、上传范围与核验边界。
+
 用于雨课堂高保真交互原型的 React 源码组件体系。Rain Token 决定视觉，Tailwind 负责受约束组合；Rain Classic 保持独立，仅作为来源参考。
 
-**当前是可运行的本地候选库，尚未发布。** 部分组件已完成限定范围的人工视觉验收，仍有颜色、真实设备和正式业务场景验证未完成。本说明核对于 2026-09-12，不把某个批次的通过记录当作全库当前通过。
+**当前是可运行的本地候选库，尚未发布。** 部分组件已完成限定范围的人工视觉验收，仍有颜色、真实设备和正式业务场景验证未完成。本说明更新至 2026-09-15，不把某个批次的通过记录当作全库当前通过。
+
+日常使用从 [Rain按需使用入口](docs/ai/README.md) 开始；[资产索引](docs/ai/asset-index.md)直接从现有Manifest/Registry生成，按命中项读取合同、源码和验证边界。
 
 ## 开始审核
 
@@ -41,9 +45,9 @@ pnpm test:e2e
 
 本地 Registry 是 `RainLocalSourceRegistry / current-workspace` 的源码与依赖记录，不是 npm 包、在线安装器或已发布的 shadcn Registry。安装整个工作区即可审查现有实现；消费入口为 [UI 源码出口](packages/ui/src/index.ts)、[Foundations](packages/foundations/src/index.ts)，样式接入见 [应用入口](apps/playground/src/main.tsx)。
 
-## 当前资产与证据
+## 历史批次与证据入口
 
-下表中的验收都限定于原记录的范围；“已视觉验收”不自动关闭颜色、辅助技术、发布或生产接入。自动检查的时间与范围以各证据原文为准。
+下表保留各批次的阅读线索；最新可检索资产以[生成索引](docs/ai/asset-index.md)和具体Manifest为准，不手工回填此表作为第二份状态源。验收都限定于原记录的范围；“已视觉验收”不自动关闭颜色、辅助技术、发布或生产接入。
 
 | 资产 / 入口 | 当前状态与最新阅读入口 |
 | --- | --- |
@@ -60,15 +64,21 @@ pnpm test:e2e
 | 选择卡 / 组合 `#selection-cards`、`#selection-patterns` | SC-02 视觉、SC-03 视觉/交互已接受，保留各自颜色与设备边界。[卡片](evidence/runtime/selection-cards/verification.md) · [组合](evidence/runtime/selection-patterns/verification.md) |
 | 选择综合页 `#selection-playground` | 2026-09-12 编辑/分类/预览/关闭的视觉与交互已接受；38 项完整验收仍为 30 项有范围内证据、8 项未关闭。[具体验收范围](evidence/runtime/selection-playground/verification.md) |
 | Tabs `#tabs` | 2026-09-12 当前运行视觉已接受；最新限定矩阵 findings=0，不能复用旧 108 项作为当前结论。[最新记录](evidence/runtime/tabs-visual-refinement/verification.md) |
-| Badge / Surface / Card `#components`、Link `#text-button` | 已有公共源码和示例，独立 Manifest / Registry 尚缺；保留早期实现和各自验收边界。[当前合同与债务](docs/audits/2026-09-12-core-ui-contracts.md) |
+| Card `#card` | 2026-09-13 本轮间距方案已确认，默认内边距20px；保留五档预览、区块间距≤内边距、默认同色无分割线。整体组件仍为候选，其他验收范围独立保留。[最新计划](docs/plans/2026-09-13-card-visual-refinement-plan.md) · [默认值确认](evidence/runtime/card-visual-2026-09-13/spacing-feedback/default-confirmation.md) · [间距验证](evidence/runtime/card-visual-2026-09-13/spacing-feedback/verification.md) |
+| Dialog / AlertDialog / Separator `#dialog` | 2026-09-15补充规格已实施：专用浅深色蒙层、416–1116宽度与视口扩展、正文滚动、180ms过渡、单层有效蒙层和未保存确认。课程示例516/616，教材示例616/916。Dialog/AlertDialog当前运行视觉已按用户委托验收；Separator与对比度验收保持独立。[整体验收](evidence/runtime/dialog-bm-b-visual-2026-09-15/verification.md)。[确认稿](docs/plans/2026-09-15-dialog-refinement-design.md) · [实施与验证](evidence/runtime/dialog-refinement-2026-09-15/verification.md) |
+| Stack / Inline / Grid / Split `#layouts` | RN-06公共布局候选；边缘留白≥分区间距≥信息间距，数值自由且允许相等。外层Card与内部资料面板有独立调整入口；当前布局示例及两组间距试排已获限定视觉接受，其他验收与发布独立。[用法](docs/audits/2026-09-13-layouts-usage.md) · [验证](evidence/runtime/spacing-hierarchy/outer-cards/verification.md) · [视觉接受](evidence/runtime/spacing-hierarchy/outer-cards/visual-acceptance.md) |
+| BM-A 数据管理 `#bm-a`（独立原型） | RN-09本地原型建设与独立复核完成，当前页面及密度切换确认通过；包含异步刷新、过期结果保护、查询范围内选择与状态合同，发布另行管理。[计划与入口](docs/plans/2026-09-15-bm-a-rn09.md) · [验证](evidence/runtime/bm-a-rn09/verification.md) |
+| Badge / Surface `#components`、Link `#text-button` | RN-13已补精确Manifest和本地源码关系，保持本地实验身份与原验收边界，排除默认候选检索。[合同与债务](docs/audits/2026-09-12-core-ui-contracts.md) |
 
-Button / Input 虽有现有 Manifest，但也没有各自独立的 Registry 条目；不能声称整个公共出口已经具备完整安装关系。TextButton 通过 `Button variant="text"` 提供，导航使用 Link，不另建同义组件。
+RN-13已补[基础组件本地源码关系](registry/core-ui.json)，包含Button、Input、SearchInput、FormItem及上述早期资产。它仍是工作区源码记录；独立干净消费属于RN-14。TextButton通过 `Button variant="text"` 提供，导航使用Link，不另建同义组件。
 
 ## 尚未建设与验证边界
 
-- 首批规划中的公共 Dialog、Table Primitives、Statistic；实验或页面使用 Base UI Dialog 不等于公共 Dialog 已交付。
-- Stack、Inline、Grid、Split / Sidebar 四类公共 Layout。
-- [四个正式业务 Benchmark](benchmarks/benchmark-registry.yaml)仍为登记状态；已有组件说明页、局部 Recipe 和实验不代替它们。
+- 本工作树仍缺少部分后续公共组件；Table Primitives与资料配方已由RN-08建设，不能从局部示例推导其他完整业务Benchmark已交付。
+- 布局拖动调宽、尺寸持久化与导航 Sidebar；现有 Split.Sidebar 仅为主从布局中的侧区。
+- [四个业务 Benchmark](benchmarks/benchmark-registry.yaml)中，BM-A由RN-09建立独立场景，BM-B由RN-10建设教材大表单；M2已完成C/D限定技术实现，见[体验入口](docs/ai/m2-trial-guide.md)。用户已指出C/D的页面设计问题，当前画面不作为推荐视觉模板；后续按[生成质量改进计划](docs/plans/2026-09-15-rain-generation-quality-improvement.md)推进，各自验收独立。
+
+RN-10 教材大表单：在独立 prototype 打开 `#bm-b`，点击“编辑教材”。覆盖分组、单/双列、宽/窄容器、长文本、校验、固定底栏和模拟附件上传；“演示选项”可触发下次保存/上传失败。运行 `pnpm --filter @rain-next/prototype dev --port 5201 --strictPort` 后访问 `http://127.0.0.1:5201/#bm-b`。本地原型与技术验证见[实施记录](docs/plans/2026-09-15-bm-b-rn10.md)和[本批证据](evidence/runtime/bm-b-rn10/verification.md)；当前BM-B运行视觉已完成[整体验收](evidence/runtime/dialog-bm-b-visual-2026-09-15/verification.md)，不代表真实上传或持久化。
 - 完整分发服务、正式 Figma 组件、生产硬化与业务接入均不属于当前已完成范围。
 
 2026-09-12 最新页面反馈：Input / Select 非禁用空值提示统一为更浅的 `Text/Neutral/5`；普通可用菜单说明保持 `/3`，危险红字保留。Popover 内容默认紧凑，模板分类复用 28px Tabs。颜色发现独立保留；本轮运行视觉已获人工验收。[颜色清单](docs/audits/2026-09-12-color-closure-review.md)区分实施结果、已否决候选与后续问题。

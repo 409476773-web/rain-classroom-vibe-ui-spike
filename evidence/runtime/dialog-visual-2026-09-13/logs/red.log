@@ -1,0 +1,49 @@
+
+Running 1 test using 1 worker
+
+(node:80081) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/dialog.spec.ts:123:1 › composition: short Dialog keeps one content edge and intentional group intervals (5.6s)
+
+
+  1) [chromium] › tests/e2e/dialog.spec.ts:123:1 › composition: short Dialog keeps one content edge and intentional group intervals 
+
+    Error: expect(locator).toHaveCSS(expected) failed
+
+    Locator:  getByRole('dialog', { name: '编辑课程资料', exact: true })
+    Expected: "480px"
+    Received: "560px"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCSS" with timeout 5000ms
+      - waiting for getByRole('dialog', { name: '编辑课程资料', exact: true })
+        14 × locator resolved to <div id="_r_5_" data-open="" role="dialog" tabindex="-1" aria-busy="false" data-slot="content" data-density="default" data-rain-theme="light" data-rain-id="ui-dialog" data-base-ui-focusable="" aria-labelledby="base-ui-_r_a_" aria-describedby="base-ui-_r_b_" data-local-recipe="course-edit-dialog" class="rain-dialog box-border flex flex-col min-w-rain-0 rounded-rain-10 border-solid border-rain-line-1 shadow-rain-dialog font-rain-ui text-rain-size-14 leading-rain-24 font-rain-regular">…</div>
+           - unexpected value "560px"
+
+
+      127 |     if (compact) await check(page, "紧凑控件");
+      128 |     await openEditor(page);
+    > 129 |     const popup = editor(page); await expect(popup).toHaveCSS("width", "480px");
+          |                                                     ^
+      130 |     const facts = await popup.evaluate(el => {
+      131 |       const box = (selector: string) => { const r = el.querySelector(selector)!.getBoundingClientRect(); return { x: r.x, y: r.y, right: r.right, bottom: r.bottom, width: r.width, height: r.height }; };
+      132 |       return { title: box('[data-slot="title"]'), description: box('[data-slot="description"]'),
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/dialog.spec.ts:129:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-dialog-visual-red/dialog-composition-short-D-3f332-intentional-group-intervals-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../../tmp/rain-dialog-visual-red/dialog-composition-short-D-3f332-intentional-group-intervals-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-dialog-visual-red/dialog-composition-short-D-3f332-intentional-group-intervals-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-dialog-visual-red/dialog-composition-short-D-3f332-intentional-group-intervals-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/dialog.spec.ts:123:1 › composition: short Dialog keeps one content edge and intentional group intervals 

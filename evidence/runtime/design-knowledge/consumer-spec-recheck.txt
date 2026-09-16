@@ -1,0 +1,21 @@
+# 历史导航草稿保护：需求复核
+
+**结论：原 P2 已关闭。本地原型 Chromium 范围的需求审阅通过。**
+
+只复核此前未通过的同文档历史退出保护，原 [失败报告](report.md) 和 [失败复现](history-navigation.json) 保留。其他已通过项沿用前次独立需求审阅，本轮未重复运行其余流程或整库检查。
+
+已实际阅读当前 `consumer/apps/prototype/src/scenarios/activity/page.tsx` 的差异：第 25 行保存待导航目标；第 35–47 行监听同文档 Navigation API，在脏草稿或保存中阻止退出；第 53–64 行在明确放弃后按历史 key 恢复跳转；第 175 行在继续编辑/关闭确认时清除待导航目标。复用原放弃确认，没有新增路由框架。
+
+实际执行实施者定向脚本的副本，仅将输出目录改到本审阅目录；**5 组通过，退出码 0，运行及控制台错误为空**：
+
+| 原缺项相关路径 | 本轮实际结果 |
+| --- | --- |
+| `#bm-a` → 活动 → 修改名称 → 浏览器返回 | 出现放弃确认，仍停留 `#activity`，草稿完整保留。 |
+| 继续编辑 / Escape 关闭确认 | 留在活动页，名称仍为“历史返回不得丢失”。 |
+| 明确放弃 | 到达 `#bm-a`；前进历史仍可用，返回活动后重开为已保存初值。未改动草稿可直接离开。 |
+| 浏览器前进 | 使用相同确认；继续保留草稿，明确放弃到达目标 `#bm-b` 历史项。 |
+| 保存中返回 / 前进 | 留在 `#activity`，不出现放弃确认；保存完成后摘要更新为本次提交值。 |
+
+证据：[执行日志](navigation-recheck.log)、[结果](navigation-recheck/navigation-results.json)、[返回确认截图](navigation-recheck/navigation-back-confirm.png)、[保存完成截图](navigation-recheck/navigation-save-retained.png)。复核副本为 [navigation-recheck.mjs](navigation-recheck.mjs)，从 consumer 目录执行即可。
+
+结论仅限本地原型 Chromium；未验证其他浏览器或生产兼容性。代码质量审阅另行进行，用户视觉接受仍待确认，没有对照质量提升结论。本轮未修改 consumer 实现或实施者证据。

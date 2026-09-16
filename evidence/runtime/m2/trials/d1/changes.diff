@@ -1,0 +1,81 @@
+--- d0/state-contract.md
++++ d1/state-contract.md
+@@ -0,0 +1,18 @@
++# BM-D 教学报告（RN-12）
++
++身份：`local-experiment`。VE-007 为 AI 分析/摘要分层参考，VE-010 仅使用已登记的脱敏结构审计，不转录教师档案。数据全为新建虚构教学汇总：两班、6 周、每班每周应交 26 份，每条记录包含应交份数、提交份数和总分；每份作业满分 100。
++
++| 指标 | 统计定义 |
++| --- | --- |
++| 应交作业（份） | 完整筛选集 expected 之和，跨周为作业份数，非去重学生数。 |
++| 实际提交（份） | 完整筛选集 submitted 之和，同一学生跨周提交分别计份。 |
++| 平均分（分） | scoreTotal 总和 ÷ submitted 总和；按提交份数加权，不对周均分直接求均值。没有提交时显示破折号。 |
++| 提交率（%） | submitted 总和 ÷ expected 总和 × 100；分母为零显示破折号。 |
++
++页面拥有数据源、班级/周期筛选和请求状态，先筛选完整数据再聚合。明细最后分页，每页 4 条，不能把分页切片交给 KPI 统计。Loading/Error 时不显示旧指标；失败有聚焦提示及重试，空集有恢复入口。复用可取消模拟任务，同步锁阻止重复请求，卸载取消并忽略迟到结果。
++
++图表只拥有展示指标（平均分/提交率）和选中周，不修改数据源、统计范围或 KPI。周度系列按同一公式独立计算，纵轴固定 0–100。一班实线圆点、二班虚线方点，并提供命名的周按钮、读数区域和分页等价数据表，不依赖颜色区分。数值为坐标而非 CSS 视觉配置。样例不支持缺周数据、不建立通用图表引擎；接入真实数据前应定义缺测断线与服务端验证。
++
++局部配方 `bm-d-learning-report`（`.bm-d`）复用 Grid/Stack/Inline；页面内 Statistic 分离 dt 标签、dd 数值与单位。只有四个 KPI 的关键数字和紧邻百分号使用 Data role，单位和表格/坐标元数据用 UI role。字体只引用本机，不分发文件。系列色为 Icon/Second/1 与 Icon/Green/1，表示两个班级的图形标记，统计公式不依赖色号。AI 区域是明确标记的固定示例，不调用模型也不生成因果结论。
++
++精确颜色用途与 Light/Dark 实测见 M2 颜色证据；新视觉 Human Gate 为 awaiting_human，未授权发布、迁移或字体分发。运行记录见 [M2 验证](../../../../../evidence/runtime/m2/verification.md)。
+--- d0/page.css
++++ d1/page.css
+@@ -22,18 +22,16 @@
+ .bm-d-gridline, .bm-d-marker { stroke: var(--rain-category-border-neutral-3); stroke-width: var(--rain-line-thickness-1); }
+ .bm-d-marker { stroke-dasharray: 4 4; }
+ .bm-d-series { fill: none; stroke-width: var(--rain-line-thickness-3); }
+-.bm-d [data-series="one"] { color: var(--rain-category-fill-second-solid-1); }
+-.bm-d [data-series="two"] { color: var(--rain-category-fill-green-solid-1); }
+-.bm-d-series { stroke: currentColor; }
+-.bm-d-point { fill: currentColor; }
++.bm-d [data-series="one"] { stroke: var(--rain-category-icon-second-1); fill: var(--rain-category-icon-second-1); }
++.bm-d [data-series="two"] { stroke: var(--rain-category-icon-green-1); fill: var(--rain-category-icon-green-1); }
+ .bm-d [data-series="two"] .bm-d-series { stroke-dasharray: 8 6; }
+ .bm-d figcaption { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--rain-space-20); color: var(--rain-category-text-neutral-3); }
+ .bm-d-readout { padding: var(--rain-space-12) var(--rain-space-16); border-radius: var(--rain-radius-6); background: var(--rain-category-background-neutral-2); }
+-.bm-d-summary { padding: var(--rain-space-24) 0; }
++.bm-d-summary { padding: var(--rain-space-8) 0; }
+ .bm-d-summary p, .bm-d-insight p, .bm-d-insight a { margin-top: var(--rain-space-12); }
+-.bm-d-insight { padding: var(--rain-space-24); border-radius: var(--rain-radius-8); background: var(--rain-color-intelligence-surface); }
+-.bm-d-ai-label { color: var(--rain-color-intelligence-foreground); font-weight: var(--rain-font-weight-semibold); }
+-.bm-d-insight a { display: inline-block; }
++.bm-d-insight { padding: var(--rain-space-24); border-radius: var(--rain-radius-8); background: var(--rain-category-fill-second-solid-3); }
++.bm-d-ai-label { color: var(--rain-category-text-second-1); font-weight: var(--rain-font-weight-semibold); }
++.bm-d-insight a { display: inline-block; color: var(--rain-category-text-second-1); }
+ .bm-d-details { padding-block: var(--rain-space-8); }
+ .bm-d-details > div:first-child { margin-bottom: var(--rain-space-16); }
+ .bm-d-details [data-rain-id="ui-pagination"] { margin-top: var(--rain-space-16); }
+--- d0/page.tsx
++++ d1/page.tsx
+@@ -42,7 +42,7 @@
+ 
+   return <main className="bm-d" data-rain-id="scenario-bm-d" data-asset-identity="local-experiment" data-rain-theme={dark ? "dark" : "light"}>
+     <div className="bm-d-content"><Stack gap={24}>
+-      <header className="bm-d-header"><div><a href="#bm-c" data-focus="item">进入作业批改</a><p className="bm-d-eyebrow">大学物理 · 教学报告</p><h1>让每一次练习，都有回响</h1><p>从作业参与和学习表现，了解课堂的变化。</p></div>
++      <header className="bm-d-header"><div><a href="#bm-c" data-focus="item">进入作业批改</a><p className="bm-d-eyebrow">大学物理 · 教学报告</p><h1>大学物理 · 学习报告</h1><p>从作业参与和学习表现，了解课堂的变化。</p></div>
+         <Inline gap={8}><Button variant="secondary" disabled={loadState === "loading"} onClick={() => void reload()}>刷新报告</Button><Button variant="tertiary" onClick={() => setDark(!dark)}>{dark ? "切换浅色" : "切换深色"}</Button></Inline>
+       </header>
+       <div className="bm-d-filter"><Inline gap={8} aria-label="报告班级">{["全部班级", "一班", "二班"].map(value => <Button key={value} variant={group === value ? "secondary" : "tertiary"} aria-pressed={group === value} disabled={loadState === "loading"} onClick={() => changeGroup(value)}>{value}</Button>)}</Inline>
+@@ -58,6 +58,7 @@
+             <Statistic label="平均分" value={format(totals.average)} unit="分" detail="按提交份数加权 · 满分 100" />
+             <Statistic label="提交率" value={`${format(totals.completion)}%`} unit="" detail="实际提交 ÷ 应交作业" />
+           </Grid></dl></section>
++          <section className="bm-d-summary"><h2>本期摘要</h2><p className="rain-type-reading">{group}在第 {firstWeek}–6 周共提交 {totals.submissions} 份作业，平均分为 {format(totals.average)} 分。第 {firstWeek} 周与第 6 周平均分分别为 {format(first.average)} 分、{format(last.average)} 分。</p><p className="rain-type-reading">这些数值描述当前教学样例，不用于推断教学因果。周度汇总没有学生身份，不能据此计算去重人数。</p></section>
+           <section className="bm-d-trend" aria-labelledby="bm-d-trend-title"><Stack gap={20}>
+             <Inline justify="between" gap={16}><div><h2 id="bm-d-trend-title">每周学习趋势</h2><p>查看各班的{metricLabel}，或选择一周读取具体数值。</p></div><Inline gap={4} aria-label="趋势指标"><Button variant={metric === "average" ? "secondary" : "tertiary"} aria-pressed={metric === "average"} onClick={() => setMetric("average")}>平均分</Button><Button variant={metric === "completion" ? "secondary" : "tertiary"} aria-pressed={metric === "completion"} onClick={() => setMetric("completion")}>提交率</Button></Inline></Inline>
+             <figure><svg className="bm-d-chart" viewBox="0 0 720 256" role="img" aria-labelledby="bm-d-chart-title bm-d-chart-desc">
+@@ -73,10 +74,10 @@
+             <Inline gap={8} aria-label="选择趋势周">{weeks.map(value => <Button key={value} variant={week === value ? "secondary" : "tertiary"} aria-pressed={week === value} onClick={() => setSelectedWeek(value)}>第 {value} 周</Button>)}</Inline>
+             <p className="bm-d-readout" role="status" aria-label="趋势读数">第 {week} 周{metricLabel}：{groups.map(label => `${label} ${format(pointValue(label, week))}${unit}`).join("；")}。</p>
+           </Stack></section>
+-          <Grid columns={2} minColumnWidth={320} gap={24} className="bm-d-findings">
+-            <section className="bm-d-summary"><h2>本期摘要</h2><p className="rain-type-reading">{group}在第 {firstWeek}–6 周共提交 {totals.submissions} 份作业，平均分为 {format(totals.average)} 分。第 {firstWeek} 周与第 6 周平均分分别为 {format(first.average)} 分、{format(last.average)} 分。</p><p className="rain-type-reading">这些数值描述当前教学样例，不用于推断教学因果。周度汇总没有学生身份，不能据此计算去重人数。</p></section>
++          <div className="bm-d-findings">
++
+             <section className="bm-d-insight" aria-labelledby="bm-d-insight-title"><p className="bm-d-ai-label">AI 洞察 · 示例</p><h2 id="bm-d-insight-title">把关注点带回下一次课堂</h2><p className="rain-type-reading">平均分与提交情况可作为回看作业的线索。建议先查看未提交的原因，再从典型作答中选择需要讨论的概念。</p><a href="#bm-c" data-focus="item">查看作答与评分 →</a><p className="bm-d-scope">示例解读，未调用 AI 服务。</p></section>
+-          </Grid>
++          </div>
+           <section className="bm-d-details" aria-labelledby="bm-d-details-title"><Inline justify="between"><h2 id="bm-d-details-title">数据明细</h2><span className="bm-d-scope">每页 4 条 · 分页只改变明细</span></Inline>
+             <DensityProvider density="compact"><TableScrollArea aria-label="报告明细滚动区"><Table><TableCaption>当前筛选范围的周度汇总，分页不改变关键指标。</TableCaption><TableHeader><TableRow><TableHead>周次</TableHead><TableHead>班级</TableHead><TableHead>应交</TableHead><TableHead>已交</TableHead><TableHead>平均分</TableHead><TableHead>提交率</TableHead></TableRow></TableHeader><TableBody>{rows.slice((page - 1) * 4, page * 4).map(row => <TableRow key={`${row.group}-${row.week}`}><TableCell>第 {row.week} 周</TableCell><TableCell>{row.group}</TableCell><TableCell>{row.expected}</TableCell><TableCell>{row.submitted}</TableCell><TableCell>{format(summarize([row]).average)}</TableCell><TableCell>{format(summarize([row]).completion)}%</TableCell></TableRow>)}</TableBody></Table></TableScrollArea>
+             <Pagination total={rows.length} page={page} pageSize={4} showJumper={false} onChange={change => setPage(change.page)} aria-label="报告明细分页" /></DensityProvider>

@@ -1,0 +1,102 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/asset-index.test.ts (3 tests | 2 failed) 469ms
+   × limits generation-quality authorization without changing previous decisions 7ms
+   × keeps the asset index traceable, current and separate from local experiments and acceptance 191ms
+ ❯ scripts/m2.test.ts (5 tests | 4 failed) 52ms
+   × accepts only M2 local delivery, preserves prior decisions, and keeps both benchmarks independent 14ms
+   × projects only the reviewed M2 prototype entrance without changing the frozen source transitions 5ms
+   × checks each local color on its real surfaces and rejects weakened SVG, text, scope or source metadata 20ms
+   × reads frozen M2 color metadata from the requested repository root without falling back 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/asset-index.test.ts > limits generation-quality authorization without changing previous decisions
+AssertionError: expected [Function] to not throw an error but 'Error: Invalid Token Foundations V1 h…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged"
+
+ ❯ scripts/asset-index.test.ts:25:66
+     23| it("limits generation-quality authorization without changing previous …
+     24|   const phase = helpers.parseYamlSubset(readFileSync(resolve(root, "st…
+     25|   expect(() => helpers.getValidatedTailwindB2History(phase)).not.toThr…
+       |                                                                  ^
+     26|   for (const change of [
+     27|     { scope: "all-components" }, { humanGate: "accepted" },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  scripts/asset-index.test.ts > keeps the asset index traceable, current and separate from local experiments and acceptance
+Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged
+ ❯ fail scripts/verification-helpers.mjs:2078:30
+    2076|
+    2077| export function getValidatedTailwindB2History(status) {
+    2078|   const fail = () => { throw new Error("Invalid Token Foundations V1 h…
+       |                              ^
+    2079|   const history = status?.phaseHistory?.tailwindB2;
+    2080|   if (status?.currentPhase?.id !== "token-foundations-v1" || !history
+ ❯ Module.getValidatedTailwindB2History scripts/verification-helpers.mjs:2118:67
+ ❯ scripts/asset-index.test.ts:90:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  scripts/m2.test.ts > accepts only M2 local delivery, preserves prior decisions, and keeps both benchmarks independent
+Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged
+ ❯ fail scripts/verification-helpers.mjs:2078:30
+    2076|
+    2077| export function getValidatedTailwindB2History(status) {
+    2078|   const fail = () => { throw new Error("Invalid Token Foundations V1 h…
+       |                              ^
+    2079|   const history = status?.phaseHistory?.tailwindB2;
+    2080|   if (status?.currentPhase?.id !== "token-foundations-v1" || !history
+ ❯ Module.getValidatedTailwindB2History scripts/verification-helpers.mjs:2118:67
+ ❯ scripts/m2.test.ts:18:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  scripts/m2.test.ts > projects only the reviewed M2 prototype entrance without changing the frozen source transitions
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ scripts/m2.test.ts:50:94
+     48|   const expected = createHash("sha256").update(before).digest("hex");
+     49|   const transitions = JSON.parse(read("evidence/runtime/rn15-delivery/…
+     50|   expect(governance.matchesRn15ProtectedSource(file, source, expected,…
+       |                                                                                              ^
+     51|   const movedEntry = source.match(/\/\/ m2-entry:start[\s\S]*?\/\/ m2-…
+     52|   for (const changed of [source.replace(movedEntry, "") + movedEntry, …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  scripts/m2.test.ts > checks each local color on its real surfaces and rejects weakened SVG, text, scope or source metadata
+Error: Generation quality colors require exact authorization
+ ❯ getM2ColorConsumers scripts/verify-token-foundations.mjs:44:58
+
+ ❯ scripts/m2.test.ts:75:37
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  scripts/m2.test.ts > reads frozen M2 color metadata from the requested repository root without falling back
+Error: Generation quality colors require exact authorization
+ ❯ getM2ColorConsumers scripts/verify-token-foundations.mjs:44:58
+
+ ❯ scripts/m2.test.ts:110:84
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  2 failed | 2 passed (4)
+      Tests  6 failed | 11 passed (17)
+   Start at  13:43:30
+   Duration  5.87s (transform 738ms, setup 415ms, import 1.98s, tests 2.10s, environment 1.01s)
+

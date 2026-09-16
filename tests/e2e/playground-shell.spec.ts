@@ -34,11 +34,11 @@ test("the Playground shell exposes a flat, inspectable overview", async ({ page 
     await expect(benchmarkTitle.locator("xpath=ancestor::a")).toHaveCount(0);
     await expect(benchmarkTitle.locator("xpath=ancestor::article")).toHaveAttribute(
       "data-state",
-      "not-started",
+      "completed",
     );
   }
 
-  await expect(page.getByText("尚未实现")).toHaveCount(4);
+  await expect(page.getByText("尚未实现")).toHaveCount(0);
   await expect(page.getByLabel("当前阶段")).toContainText(
     "第 0/1 批 · 基础能力建设 · 视觉验收待确认",
   );

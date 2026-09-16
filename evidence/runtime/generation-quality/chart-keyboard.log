@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:26246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/m2.spec.ts:114:1 › BM-D chart supports keyboard readings, honest axes and container resizing (5.7s)
+
+
+  1) [chromium] › tests/e2e/m2.spec.ts:114:1 › BM-D chart supports keyboard readings, honest axes and container resizing 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('application', { name: '平均分趋势图' }).locator('.recharts-yAxis')
+    Expected substring: "100"
+    Received string:    ""
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for getByRole('application', { name: '平均分趋势图' }).locator('.recharts-yAxis')
+        14 × locator resolved to <g class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis">…</g>
+           - unexpected value ""
+
+
+      122 |   await expect(tooltip).toContainText("一班"); await expect(tooltip).toContainText("二班");
+      123 |   await expect(page.getByRole("region", { name: "关键指标" }).locator('[data-slot="value"]')).toHaveText(["312", "252", "80.9", "80.8%"]);
+    > 124 |   await expect(chart.locator('.recharts-yAxis')).toContainText("100");
+          |                                                  ^
+      125 |   await expect(chart.locator('.recharts-yAxis')).toContainText("0");
+      126 |   for (const width of [390, 768, 1440]) {
+      127 |     await page.setViewportSize({ width, height: 900 });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/m2.spec.ts:124:50
+
+    Error Context: ../../../../../../tmp/rain-quality-chart-keyboard/results/m2-BM-D-chart-supports-key-9d0a4-axes-and-container-resizing-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/rain-quality-chart-keyboard/results/m2-BM-D-chart-supports-key-9d0a4-axes-and-container-resizing-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../../../../tmp/rain-quality-chart-keyboard/results/m2-BM-D-chart-supports-key-9d0a4-axes-and-container-resizing-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/m2.spec.ts:114:1 › BM-D chart supports keyboard readings, honest axes and container resizing 

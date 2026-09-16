@@ -1,0 +1,58 @@
+--- c1/state-contract.md
++++ c2/state-contract.md
+@@ -0,0 +1,19 @@
++# BM-C 批改工作台（RN-11）
++
++身份：`local-experiment`。来源 VE-003/012/009 的区域组织；使用虚构 A/B 卷各 6 人、3 道主观题。仅文字作答与手动评分，不实现附件批注、AI 或申诉。
++
++| 状态 | 唯一拥有者与规则 |
++| --- | --- |
++| 卷别 / 当前作答 | 页面；作答 ID 包含卷、学生、题。上一/下一不能跨卷或当前父级。 |
++| 批改顺序 | 页面；按题的父级为题、子级为学生，按人的父级为学生、子级为题。切换顺序保留当前元组。 |
++| 目录查询 / 状态 | 页面；过滤作答记录，父级只显示匹配子项，不推断学生级状态。主动筛选保留匹配的当前项，否则选择首项；空结果显示恢复入口。 |
++| 目录位置 | 页面；默认仅当前父级展开，首次打开定位待批子项，无待批则首项；再次打开优先恢复仍在筛选集内的上次位置。 |
++| 正式评分 / 草稿 | 页面；按作答 ID 保存，只有成功写入的分数算已批改，0 分有效，评语可选。空/非数字/非有限/负值/越界/非 0.5 步长拒绝。 |
++| 保存请求 | 页面；复用可取消模拟任务。同步锁防重复，保存中禁用对象/卷别/顺序/筛选切换；失败留在原对象，保留输入并聚焦错误。成功才按提交前列表前进，不因已批状态变化跳项。卸载取消并忽略迟到结果。 |
++| 筛选后的已保存对象 | 保存本题可留在当前作答，即使它已离开“待批”目录；主动选择或筛选再定位，不默默转到其他组。 |
++| 宽度 / 收起 | 页面选择几何，Split 只负责布局、折叠和焦点返回。两 Pane 仍挂载，草稿不变。当前作答变化聚焦主区标题。 |
++| 密度 / 主题 | 单一 DensityProvider；外壳 default、目录 compact。原有控件方案直接消费，未新增尺寸体系。 |
++
++局部配方 `bm-c-grading-workbench`，作用域 `.bm-c`，Parts 为 taskbar/toolbar/context/answer/inspector/grading-body/grading-footer。固定筛选区、目录与作答独立滚动、评分区内部滚动而操作区固定。所有色值逐项登记至 M2 颜色证据，间距、字号、线宽、圆角只消费既有 Rain Token。晋升 `not-proposed`。
++
++刷新或离开场景后恢复虚构初值，未连接真实保存服务；真实中文 IME、读屏、物理触屏和新视觉 Human Gate 分别待验证。运行记录见 [M2 验证](../../../../../evidence/runtime/m2/verification.md)。
+--- c1/page.tsx
++++ c2/page.tsx
+@@ -92,7 +92,7 @@
+     </div>
+     <Split.Root className="bm-c-workspace" collapsed={leftClosed} sidebarWidth={240} minMainWidth={680} sidebarId="bm-c-context" collapseFocusRef={leftToggle} gap={12}>
+       <Split.Sidebar className="bm-c-context" role="region" aria-label="批改目录">
+-        <DensityProvider density="compact"><Stack gap={16} className="bm-c-directory-layout">
++        <DensityProvider density="compact" className="flex min-h-0 flex-1 flex-col"><Stack gap={16} className="bm-c-directory-layout">
+           <Stack gap={16}>
+           <Inline justify="between"><h2>批改目录</h2><Button variant="tertiary" onClick={() => setLeftClosed(true)}>收起目录</Button></Inline>
+           <FormItem label="查找批改对象" disabled={saving}><Input value={query} onValueChange={value => changeScope(paper, filter, value)} placeholder="学生或题目" /></FormItem>
+@@ -122,7 +122,6 @@
+               <section className="bm-c-answer-text" data-slot="answer-text"><Inline justify="between"><h3>学生作答</h3><span className="bm-c-muted">{current.text ? "文字作答" : "未作答"}</span></Inline>
+                 {current.text ? current.text.split("\n\n").map((paragraph, index) => <p key={index} className="rain-type-reading">{paragraph}</p>) : <p>该题尚未提交作答，仍可按教学要求给分。</p>}
+               </section>
+-              <details className="bm-c-reference"><summary data-focus="item">查看评分参考</summary><p className="rain-type-reading">概念准确占 40%，分析过程占 40%，条件与表达占 20%。请结合本题满分独立判断；此参考不会自动写入评分。</p></details>
+             </Stack> : <Empty><EmptyTitle>没有匹配的批改对象</EmptyTitle><EmptyDescription>调整目录筛选后继续批改，原有草稿仍然保留。</EmptyDescription><EmptyActions><Button onClick={() => changeScope(paper, "all", "")}>清空筛选</Button></EmptyActions></Empty>}
+           </Split.Main>
+           <Split.Sidebar className="bm-c-inspector" role="region" aria-label="评分面板">
+@@ -130,6 +129,7 @@
+               <div className="bm-c-grade-body" data-slot="grading-body"><Stack gap={24}>
+                 <Inline justify="between"><h2>评分与评语</h2><Button variant="tertiary" onClick={() => setRightClosed(true)}>收起评分</Button></Inline>
+                 <p className="bm-c-muted">{current ? `${current.student} · 第 ${current.question} 题` : "请先选择批改对象"}</p>
++                <details className="bm-c-reference"><summary data-focus="item">查看评分参考</summary><p className="rain-type-reading">概念准确占 40%，分析过程占 40%，条件与表达占 20%。请结合本题满分独立判断；此参考不会自动写入评分。</p></details>
+                 <FormItem label="本题得分" required disabled={!current || saving} status={invalidScore ? "error" : "default"} message={invalidScore || `满分 ${current?.maxScore ?? "—"} 分，支持 0.5 分`}>
+                   <Input ref={scoreRef} inputMode="decimal" value={draft.score} onValueChange={score => changeDraft({ score })} placeholder="请输入分数" />
+                 </FormItem>
+@@ -140,7 +140,7 @@
+               <footer className="bm-c-grade-footer" data-slot="grading-footer"><Stack gap={12}>
+                 {error && <p role="alert" ref={errorRef} tabIndex={-1} className="bm-c-error">{error}</p>}
+                 <p role="status">{notice || (saving ? "正在保存评分…" : dirty ? "草稿待保存" : current && grades[current.id] ? "本题评分已保存" : "尚未评分")}</p>
+-                <Inline gap={8} wrap={false}><Button type="submit" variant="secondary" disabled={!current || saving}>保存</Button><Button className="flex-1" variant="primary" disabled={!current || saving} loading={saving} onClick={() => void save(true)}>{error ? `重试并下一${unit}` : `保存并下一${unit}`}</Button></Inline>
++                <Inline gap={8} wrap={false}><Button type="submit" variant="secondary" disabled={!current || saving}>保存</Button><Button className="flex-1" variant="primary" disabled={!current || saving} loading={saving} onClick={() => void save(true)}>{next ? error ? `重试并下一${unit}` : `保存并下一${unit}` : error ? "重试保存" : "保存本题"}</Button></Inline>
+                 <Inline justify="between"><Button variant="tertiary" disabled={!previous || saving} onClick={() => choose(previous)}>上一{unit}</Button><span className="bm-c-muted">{position < 0 ? "—" : position + 1} / {sequence.length}</span><Button variant="tertiary" disabled={!next || saving} onClick={() => choose(next)}>下一{unit}</Button></Inline>
+               </Stack></footer>
+             </form>

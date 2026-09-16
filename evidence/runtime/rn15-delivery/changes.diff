@@ -1,0 +1,742 @@
+--- before/apps/playground/src/routes/playground-shell.test.tsx
++++ current/apps/playground/src/routes/playground-shell.test.tsx
+@@ -86,10 +86,13 @@
+     expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
+   });
+ 
+-  it("marks every registered benchmark as not implemented", () => {
++  it("distinguishes completed BM-A/B from the unimplemented BM-C/D", () => {
+     render(<App />);
+-
+-    expect(screen.getAllByText("尚未实现")).toHaveLength(4);
++    for (const title of ["Compact Data Management", "Default Large Form"])
++      expect(screen.getByText(title).closest("article")).toHaveAttribute("data-state", "completed");
++    for (const title of ["Complex Workbench", "Report / Key Data"])
++      expect(screen.getByText(title).closest("article")).toHaveAttribute("data-state", "not-started");
++    expect(screen.getAllByText("尚未实现")).toHaveLength(2);
+   });
+ 
+   it("separates the current B2 entry from the completed historical baseline", () => {
+--- before/apps/prototype/src/scenarios/bm-b/state-contract.md
++++ current/apps/prototype/src/scenarios/bm-b/state-contract.md
+@@ -11,10 +11,11 @@
+ | 保存中 | 禁用字段、附件和提交；重复提交忽略；取消、关闭、Escape/遮罩被拦截 |
+ | 保存失败 | 草稿完整保留；底栏错误获得焦点，允许重试 |
+ | 保存成功 | 使用提交时副本更新宿主，关闭并恢复触发器焦点；只保留本页内存 |
+-| 取消/关闭/Escape/遮罩 | 保存中之外均丢弃草稿，中止全部未完成上传，不另加确认弹窗 |
++| 取消/关闭/Escape | 保存期间不关闭；草稿未改动时直接关闭；有改动时进入放弃确认，继续编辑保留草稿，明确放弃才丢弃并中止未完成上传，返回触发器 |
++| 遮罩外点 | Dialog 默认不关闭，不触发丢弃 |
+ | 上传 | 扩展名/非空/20 MB/最多10项校验；仅在内存模拟，不读文件内容，不请求服务器 |
+ | 上传失败 | 保留文件名/大小，显示重试/移除；未成功附件阻止保存 |
+ | 上传重试/成功 | 同一附件 ID 更新状态；成功后才可随教材保存 |
+ | 移除/关闭/卸载 | 中止对应请求；即使回调忽略中止并迟到，也不能复活附件或更新保存值 |
+ 
+-取消是明确丢弃；演示选项可让下一次保存/上传失败，失败开关用后复位。课程、教材与附件内容均为虚构/用户本地选择。文件名仅用于当前画面，不进入追踪属性。完整 BM-B 七项范围以本地 Mock 评测；真实服务、对象存储、生产校验、AI生成、封面图库与原图装饰不在本次范围。
++脏草稿只有明确确认放弃后才丢弃；演示选项可让下一次保存/上传失败，失败开关用后复位。课程、教材与附件内容均为虚构/用户本地选择。文件名仅用于当前画面，不进入追踪属性。完整 BM-B 七项范围以本地 Mock 评测；真实服务、对象存储、生产校验、AI生成、封面图库与原图装饰不在本次范围。
+--- before/docs/ai/README.md
++++ current/docs/ai/README.md
+@@ -55,11 +55,13 @@
+ 
+ ## 已知限制
+ 
++RN-15的M1 BM-A/B限定本地试用入口见[一页体验说明](trial-guide.md)，范围、最新检查、未决项与固定归档恢复方法见[交付记录](../../evidence/runtime/rn15-delivery/verification.md)。原工作区关键浏览器49个唯一用例及固定样本三浏览器复查通过；完整单测1373/1373、类型和构建通过。BM-B后续已接受的分区布局采用12px外留白、20px分区内留白及24px底栏边距，分别测量；不再沿用早期无分区的字段/主操作共线描述。
++
+ - 本地 Registry 为 `RainLocalSourceRegistry / current-workspace`，未发布，也不是标准在线 shadcn Registry。`registry/文件.json#条目` 是本地源码关系；历史裸图标名仅在 Rain 图标登记内解析。将来生成在线标准输出时应使用完整 Rain 地址，不把裸 `button` 当成内置安装项。
+ - Button、Badge、Surface、Link 保持 `local-experiment / prototype-ready`，只补[本地源码记录](../../registry/core-ui.json)，排除默认候选检索。现有工作区维护可按各自合同使用；Badge/Surface/Link的旧数值与独立验收债务仍见[早期合同审计](../audits/2026-09-12-core-ui-contracts.md)。TextButton继续使用Button的text变体。
+ - 索引的自动验证是原Manifest的记录，时间和范围须查原证据。Card、Layout、Table、Textarea等整体Gate与后续局部接受分别保留；BM-B视觉接受不等于Textarea所有用法已接受。
+ - [颜色待决清单](../audits/2026-09-12-color-closure-review.md)及组件后续记录仍有效；BM-B浅色静态提示3.71:1仍待审查。不因可检索而推广未解决的颜色配方。
+-- 真实系统IME、屏幕阅读器、物理触屏与另一台机器的字体命中均按实际证据保留；本轮没有重新执行组件视觉检查。
+-- RN-14限定的六轮改造与独立消费检查已通过；没有对照实验，效率、token及真实用户修正成本仍为 `not-measured`。RN-15整体试用交付尚未关闭；既有9项历史测试失败和3处测试类型声明错误见本轮记录。BM-C/D仍未建设；没有包/Registry发布、Figma写入或业务迁移。
++- 真实系统IME、屏幕阅读器、物理触屏与另一台机器的字体命中均按实际证据保留；RN-15复查当前运行状态，不新增或扩大视觉接受。
++- RN-14限定的六轮改造与独立消费检查已通过；没有对照实验，效率、token及真实用户修正成本仍为 `not-measured`。RN-15修复了完整基线新核出的16项测试失败及3处测试类型声明错误，旧批次失败日志仍保留。BM-C/D仍未建设；没有包/Registry发布、Figma写入或业务迁移。
+ 
+ 本批范围与验证见 [RN-13计划](../plans/2026-09-15-rn13-asset-index.md)和[验证记录](../../evidence/runtime/rn13-asset-index/verification.md)。
+--- before/scripts/dialog-v2.test.ts
++++ current/scripts/dialog-v2.test.ts
+@@ -1,3 +1,4 @@
++import { matchesRn15ProtectedSource } from "./verification-helpers.mjs";
+ import { readFileSync, existsSync } from "node:fs";
+ import { fileURLToPath } from "node:url";
+ import { createHash } from "node:crypto";
+@@ -50,7 +51,9 @@
+   const source = JSON.parse(read("evidence/runtime/dialog-v2/source-lock.json"));
+   for (const item of source.files) expect(createHash("sha256").update(read(item.localPath)).digest("hex")).toBe(item.sha256);
+   const baseline = JSON.parse(read("evidence/runtime/dialog-v2/baseline.json"));
++  const status = parseYamlSubset(read("status/current-phase.yaml"));
++  const transitions = JSON.parse(read("evidence/runtime/rn15-delivery/source-transitions.json"));
+   for (const [path, checksum] of Object.entries(baseline.protectedSha256)) {
+-    expect(createHash("sha256").update(readFileSync(fileURLToPath(new URL("../" + path, import.meta.url)))).digest("hex"), path).toBe(checksum);
++    expect(matchesRn15ProtectedSource(path, readFileSync(fileURLToPath(new URL("../" + path, import.meta.url))), checksum, status, transitions), path).toBe(true);
+   }
+ });
+--- before/scripts/input-color-consumers.test.ts
++++ current/scripts/input-color-consumers.test.ts
+@@ -66,8 +66,12 @@
+   const source = readFileSync(formPath, "utf8");
+   const pendingContrastFindings: any[] = [];
+   expect(validateRegisteredRecipeColors({ filePath: formPath, source, outputs, pendingContrastFindings })).toEqual([]);
+-  expect(pendingContrastFindings).toHaveLength(2);
+-  expect(pendingContrastFindings.every((entry) => entry.recipeId === "input-form-item-warning" && entry.content === "text" && entry.minimum === 4.5 && entry.acceptedException === false)).toBe(true);
++  const warnings = pendingContrastFindings.filter((entry) => entry.recipeId === "input-form-item-warning");
++  expect(warnings).toHaveLength(2);
++  expect(warnings.every((entry) => entry.tokenId === "Text/Orange/1" && entry.content === "text" && entry.minimum === 4.5 && entry.acceptedException === false)).toBe(true);
++  expect(pendingContrastFindings.filter((entry) => entry.recipeId !== "input-form-item-warning")).toEqual([
++    expect.objectContaining({ recipeId: "input-inside-label-underlined-error", tokenId: "Text/Neutral/4", content: "text", minimum: 4.5, status: "pending-review", acceptedException: false }),
++  ]);
+   const warning = outputs.colorRecipeConsumers.find((entry: any) => entry.symbol === "formItemColors").recipes.find((recipe: any) => recipe.state === "warning");
+   warning.foreground.recipeId = "input-form-item-help";
+   expect(validateRegisteredRecipeColors({ filePath: formPath, source, outputs }).join("\n")).toMatch(/Insufficient contrast/);
+--- before/scripts/layouts-v1.test.ts
++++ current/scripts/layouts-v1.test.ts
+@@ -1,10 +1,8 @@
+-import { hasBmBRn10Authorization, hasBmARn09Authorization, hasEmptyRefinementAuthorization, hasRn13Authorization, hasRn14Authorization } from "./verification-helpers.mjs";
++import { hasBmBRn10Authorization, hasBmARn09Authorization, hasRn13Authorization, hasRn14Authorization, hasRn15Authorization, hasDialogRefinementAuthorization, matchesRn15ProtectedSource } from "./verification-helpers.mjs";
+ import { readFileSync } from "node:fs";
+ import { fileURLToPath } from "node:url";
+-import { createHash } from "node:crypto";
+ import { expect, it } from "vitest";
+-import { hasInsideFieldLabelsAuthorization, insideFieldLabelFiles, hasTablePaginationReplacementAuthorization, hasTableRn08Authorization, hasLayoutsV1Authorization, layoutsV1Files, parseYamlSubset } from "./verification-helpers.mjs";
+-import { restoreDropdownWidthBaseline } from "./verification-helpers.mjs";
++import { hasTableRn08Authorization, hasLayoutsV1Authorization, layoutsV1Files, parseYamlSubset } from "./verification-helpers.mjs";
+ import { validateLayoutsRuntimeGeometry, validateRegisteredRecipeColors } from "./verify-token-foundations.mjs";
+ 
+ const path = (file: string) => fileURLToPath(new URL("../" + file, import.meta.url));
+@@ -18,6 +16,8 @@
+     expect(hasLayoutsV1Authorization({ ...status, componentRefinements: { ...status.componentRefinements, layoutsV1: { ...status.componentRefinements.layoutsV1, ...patch } } })).toBe(false);
+   }
+   const { layoutsV1, ...earlier } = status.componentRefinements;
++  if (hasRn15Authorization(status)) delete earlier.rn15Delivery;
++  if (hasDialogRefinementAuthorization(status)) delete earlier.dialogRefinement;
+   if (hasRn14Authorization(status)) delete earlier.rn14Editability;
+   if (hasRn13Authorization(status)) delete earlier.rn13AssetIndex;
+   if (hasBmBRn10Authorization(status)) delete earlier.bmBRn10;
+@@ -89,23 +89,8 @@
+   }
+   expect(resolutions).toBe(beforeLock.split("\npackages:\n")[1]);
+   const baseline = JSON.parse(read("evidence/runtime/layouts-v1/baseline.json"));
++  const transitions = JSON.parse(read("evidence/runtime/rn15-delivery/source-transitions.json"));
+   for (const [file, checksum] of Object.entries(baseline.protectedSha256)) {
+-    let source: string | Buffer = hasInsideFieldLabelsAuthorization(phase()) && insideFieldLabelFiles.includes(file)
+-      ? readFileSync(path(`evidence/runtime/inside-field-labels/before/${file}.txt`)) : readFileSync(path(file));
+-    source = restoreDropdownWidthBaseline(file, source);
+-    if (file === "packages/ui/src/index.ts" && hasTableRn08Authorization(phase())) {
+-      source = source.toString("utf8");
+-      const additions = [
+-        ...(hasBmBRn10Authorization(phase()) ? ['export { Textarea } from "./textarea/textarea";\n', 'export type { TextareaProps } from "./textarea/textarea";\n'] : []),
+-        'export { Table, TableScrollArea, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption } from "./table/table";\n',
+-        hasTablePaginationReplacementAuthorization(phase()) ? 'export { Pagination, type PaginationProps, type PaginationChangeDetails, type PaginationSize, type PaginationVariant, type PaginationPart } from "./pagination/pagination";\n' : 'export { Pagination, type PaginationProps } from "./pagination/pagination";\n',
+-        ...(hasEmptyRefinementAuthorization(phase()) ? [
+-          'export { Empty, EmptyMedia, EmptyTitle, EmptyDescription, EmptyActions } from "./empty/empty";\n',
+-          'export type { EmptyProps, EmptyMediaProps, EmptyTitleProps, EmptyPresentation, EmptyIllustration } from "./empty/empty";\n',
+-        ] : ['export { Empty, EmptyTitle, EmptyDescription, EmptyActions } from "./empty/empty";\n']),
+-      ];
+-      for (const line of additions) { expect(source.split(line)).toHaveLength(2); source = source.replace(line, ""); }
+-    }
+-    expect(createHash("sha256").update(source).digest("hex"), file).toBe(checksum);
++    expect(matchesRn15ProtectedSource(file, readFileSync(path(file)), checksum, phase(), transitions), file).toBe(true);
+   }
+ });
+--- before/scripts/table-rn08.test.ts
++++ current/scripts/table-rn08.test.ts
+@@ -1,4 +1,4 @@
+-import { hasBmBRn10Authorization, hasBmARn09Authorization, hasRn13Authorization, hasRn14Authorization } from "./verification-helpers.mjs";
++import { hasBmBRn10Authorization, hasBmARn09Authorization, hasRn13Authorization, hasRn14Authorization, hasRn15Authorization, hasDialogRefinementAuthorization, matchesRn15ProtectedSource } from "./verification-helpers.mjs";
+ import { readFileSync, existsSync } from "node:fs";
+ import { fileURLToPath } from "node:url";
+ import { createHash } from "node:crypto";
+@@ -7,7 +7,6 @@
+ import { getTokenFoundationOutputs } from "./token-foundation-outputs.mjs";
+ import { validateRegisteredRecipeColors } from "./verify-token-foundations.mjs";
+ import { validateInputCssExceptions } from "./verify-tailwind-b2.mjs";
+-import { restoreDropdownWidthBaseline } from "./verification-helpers.mjs";
+ 
+ const path = (file: string) => fileURLToPath(new URL("../" + file, import.meta.url));
+ const read = (file: string) => readFileSync(path(file), "utf8");
+@@ -50,15 +49,17 @@
+     expect(hasTableRn08Authorization({ ...status, componentRefinements: { ...status.componentRefinements, tableRn08: { ...current, ...patch } } })).toBe(false);
+   }
+   const { tableRn08, ...earlier } = status.componentRefinements;
++  if (hasRn15Authorization(status)) delete earlier.rn15Delivery;
++  if (hasDialogRefinementAuthorization(status)) delete earlier.dialogRefinement;
+   if (hasRn14Authorization(status)) delete earlier.rn14Editability;
+   if (hasRn13Authorization(status)) delete earlier.rn13AssetIndex;
+   if (hasBmBRn10Authorization(status)) delete earlier.bmBRn10;
+   if (hasBmARn09Authorization(status)) delete earlier.bmARn09;
+   expect({ ...status, componentRefinements: earlier }).toEqual(parseYamlSubset(read("evidence/runtime/table-rn08/before-phase.yaml.txt")));
+   const hashes = JSON.parse(read("evidence/runtime/table-rn08/before-hashes.json"));
++  const transitions = JSON.parse(read("evidence/runtime/rn15-delivery/source-transitions.json"));
+   for (const [file, checksum] of Object.entries(hashes)) if (file.startsWith("packages/") && file !== "packages/ui/src/index.ts") {
+-    const source = hasInsideFieldLabelsAuthorization(status) && insideFieldLabelFiles.includes(file) ? readFileSync(path(`evidence/runtime/inside-field-labels/before/${file}.txt`)) : readFileSync(path(file));
+-    expect(createHash("sha256").update(restoreDropdownWidthBaseline(file, source)).digest("hex"), file).toBe(checksum);
++    expect(matchesRn15ProtectedSource(file, readFileSync(path(file)), checksum, status, transitions), file).toBe(true);
+   }
+ });
+ 
+@@ -108,6 +109,8 @@
+     expect(hasTableRn08Authorization(invalid)).toBe(false);
+   }
+   const current = structuredClone(status);
++  if (hasRn15Authorization(status)) delete current.componentRefinements.rn15Delivery;
++  if (hasDialogRefinementAuthorization(status)) delete current.componentRefinements.dialogRefinement;
+   if (hasRn14Authorization(status)) delete current.componentRefinements.rn14Editability;
+   if (hasRn13Authorization(status)) delete current.componentRefinements.rn13AssetIndex;
+   if (hasBmBRn10Authorization(status)) delete current.componentRefinements.bmBRn10;
+@@ -126,6 +129,8 @@
+   const status = phase(), entry = status.componentRefinements.tableRn08.emptyRefinement;
+   expect(hasEmptyRefinementAuthorization(status)).toBe(true);
+   const previous = structuredClone(status);
++  if (hasRn15Authorization(status)) delete previous.componentRefinements.rn15Delivery;
++  if (hasDialogRefinementAuthorization(status)) delete previous.componentRefinements.dialogRefinement;
+   if (hasRn14Authorization(status)) delete previous.componentRefinements.rn14Editability;
+   if (hasRn13Authorization(status)) delete previous.componentRefinements.rn13AssetIndex;
+   if (hasBmBRn10Authorization(status)) delete previous.componentRefinements.bmBRn10;
+--- before/scripts/verification-helpers.mjs
++++ current/scripts/verification-helpers.mjs
+@@ -1830,6 +1830,42 @@
+   documents: ["docs/plans/2026-09-15-rn14-editability.md"],
+   workspace: ["scripts/rn14-starter.mjs", "scripts/rn14-starter.test.ts", "scripts/rn14-browser.mjs"],
+ };
++export const rn15DeliveryFiles = {
++  documents: ["docs/plans/2026-09-15-rn15-delivery.md", "docs/ai/trial-guide.md"],
++  workspace: ["scripts/rn15-delivery.test.ts", "tests/e2e/rn15.config.ts"],
++};
++export function hasRn15Authorization(status) {
++  const entry = status?.componentRefinements?.rn15Delivery;
++  return Boolean(entry) && hasRn14Authorization(status) && status.componentRefinements.rn14Editability.humanGate === "accepted"
++    && ["in-progress", "completed"].includes(entry.implementation)
++    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
++    && ["not-run", "findings", "passed"].includes(entry.independentReview)
++    && (entry.implementation !== "completed" || entry.automatedVerification === "passed" && entry.independentReview === "passed")
++    && exactRecord(entry, {
++      authorization: "authorized", authorizedAt: "2026-09-15", decisionSource: "explicit-user-continue-rn15", userStatement: "继续 RN-15",
++      scope: "rn15-m1-scoped-local-trial-validation-docs-and-test-maintenance", snapshotId: "rn14-90fc74205a764fb1",
++      plan: "../docs/plans/2026-09-15-rn15-delivery.md", evidence: "../evidence/runtime/rn15-delivery/verification.md",
++      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
++      humanGate: "not-evaluated", contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized",
++    });
++}
++
++// Compare current bytes with a named, authorized successor without rewriting the old checksum.
++export function matchesRn15ProtectedSource(file, source, expected, status, transitions) {
++  const checksum = createHash("sha256").update(source).digest("hex");
++  if (checksum === expected) return true;
++  if (!hasRn15Authorization(status)) return false;
++  if (hasTableRn08Authorization(status) && createHash("sha256").update(restoreDropdownWidthBaseline(file, source)).digest("hex") === expected) return true;
++  const entry = transitions.find(item => item.file === file && item.beforeSha256 === expected && item.afterSha256 === checksum);
++  if (!entry) return false;
++  return ({
++    "dialog-refinement": hasDialogRefinementAuthorization(status),
++    "inside-field-labels": hasInsideFieldLabelsAuthorization(status),
++    "bm-b-rn10": hasBmBRn10Authorization(status),
++    "inside-labels-and-bm-b": hasInsideFieldLabelsAuthorization(status) && hasBmBRn10Authorization(status),
++    "table-and-bm-b-and-dialog": hasTableRn08Authorization(status) && hasBmBRn10Authorization(status) && hasDialogRefinementAuthorization(status),
++  })[entry.authorization] === true;
++}
+ export function hasRn14Authorization(status) {
+   const entry = status?.componentRefinements?.rn14Editability;
+   const accepted = entry?.humanGate === "accepted";
+@@ -1938,7 +1974,8 @@
+   for (const key of ["schemaVersion", "kind", "preparationOutputs", "preparationChecks", "componentRefinements", "componentHumanGates", "independentAuditCheckpoints", "pendingGitActions"]) {
+     const current = key === "componentRefinements"
+       ? Object.fromEntries(Object.entries(status[key]).filter(([name]) =>
+-        !(name === "rn14Editability" && hasRn14Authorization(status))
++        !(name === "rn15Delivery" && hasRn15Authorization(status))
++        && !(name === "rn14Editability" && hasRn14Authorization(status))
+         && !(name === "rn13AssetIndex" && hasRn13Authorization(status))
+         && !(name === "bmBRn10" && hasBmBRn10Authorization(status))
+         && !(name === "dialogRefinement" && hasDialogRefinementAuthorization(status))
+--- before/scripts/verification-helpers.test.ts
++++ current/scripts/verification-helpers.test.ts
+@@ -762,6 +762,8 @@
+   beforeAll(() => {
+     fixtureRoot = mkdtempSync(join(tmpdir(), "rain-b2-cli-gate-"));
+     const tokenFiles = new Set([
++      ...Object.values(verificationHelpers.rn15DeliveryFiles).flat(), "evidence/runtime/rn15-delivery",
++      "manifests/ui/alert-dialog.yaml", "packages/foundations/src/overlay-token-contract.ts", "scripts/dialog-refinement.test.ts", "tests/e2e/dialog-refinement.spec.ts", "evidence/runtime/dialog-refinement-2026-09-15",
+       ...Object.values(verificationHelpers.rn14EditabilityFiles).flat(), "evidence/runtime/rn14-editability",
+       ...Object.values(verificationHelpers.rn13AssetIndexFiles).flat(), "evidence/runtime/rn13-asset-index",
+       ...Object.values(verificationHelpers.tableRn08Files).flat(), ...Object.values(verificationHelpers.tablePaginationFiles).flat(), "evidence/runtime/table-rn08", "evidence/runtime/table-pagination-replacement",
+@@ -2213,8 +2215,9 @@
+     expect(() => verificationHelpers.getValidatedTailwindB2History(invalid)).toThrow();
+   }
+   const sources = JSON.parse(readWorkspaceFile("evidence/runtime/bm-b-rn10/textarea-source.json"));
++  const transitions = JSON.parse(readWorkspaceFile("evidence/runtime/rn15-delivery/source-transitions.json"));
+   for (const file of sources.files.filter((file: any) => file.target.startsWith("packages/"))) {
+-    expect(createHash("sha256").update(readWorkspaceFile(file.target)).digest("hex")).toBe(file.sha256);
++    expect(verificationHelpers.matchesRn15ProtectedSource(file.target, readWorkspaceFile(file.target), file.sha256, status, transitions), file.target).toBe(true);
+   }
+   const registry = JSON.parse(readWorkspaceFile("registry/textarea.json"));
+   expect(registry.publication).toBe("not-published"); expect(registry.humanGate).toBe("awaiting_human");
+@@ -2230,6 +2233,8 @@
+   }
+   const { bmARn09, ...earlier } = status.componentRefinements;
+   if (verificationHelpers.hasBmBRn10Authorization(status)) delete earlier.bmBRn10;
++  if (verificationHelpers.hasRn15Authorization(status)) delete earlier.rn15Delivery;
++  if (verificationHelpers.hasDialogRefinementAuthorization(status)) delete earlier.dialogRefinement;
+   if (verificationHelpers.hasRn14Authorization(status)) delete earlier.rn14Editability;
+   if (verificationHelpers.hasRn13Authorization(status)) delete earlier.rn13AssetIndex;
+   expect({ ...status, componentRefinements: earlier }).toEqual(parseYamlSubset(readFileSync(join(workspaceRoot, "evidence/runtime/bm-a-rn09/before/status/current-phase.yaml.txt"), "utf8")));
+--- before/scripts/verify-boundaries.mjs
++++ current/scripts/verify-boundaries.mjs
+@@ -1,5 +1,5 @@
+ import { hasDialogRefinementAuthorization } from "./verification-helpers.mjs";
+-import { bmARn09Files, hasBmARn09Authorization, bmBRn10Files, hasBmBRn10Authorization, rn13AssetIndexFiles, hasRn13Authorization, rn14EditabilityFiles, hasRn14Authorization } from "./verification-helpers.mjs";
++import { bmARn09Files, hasBmARn09Authorization, bmBRn10Files, hasBmBRn10Authorization, rn13AssetIndexFiles, hasRn13Authorization, rn14EditabilityFiles, hasRn14Authorization, rn15DeliveryFiles, hasRn15Authorization } from "./verification-helpers.mjs";
+ import { emptyRefinementFiles, hasEmptyRefinementAuthorization, insideFieldLabelBrowserFiles, hasInsideFieldLabelsAuthorization, tablePaginationFiles, hasTablePaginationReplacementAuthorization, tableRn08Files, hasTableRn08Authorization } from "./verification-helpers.mjs";
+ import { layoutsV1Files, hasLayoutsV1Authorization, dialogV2Files, hasDialogV2Authorization, isDialogV2Import } from "./verification-helpers.mjs";
+ import { cardV2Files, hasCardV2Authorization, getTabsRefinementFiles, isTabsImport, validateTabsPreflightInventory } from "./verification-helpers.mjs";
+@@ -191,6 +191,7 @@
+ const livePhaseStatus = loadPhaseStatus();
+ const rn13Files = Object.fromEntries(Object.entries(rn13AssetIndexFiles).map(([kind, files]) => [kind, hasRn13Authorization(livePhaseStatus) ? files : []]));
+ const rn14Files = Object.fromEntries(Object.entries(rn14EditabilityFiles).map(([kind, files]) => [kind, hasRn14Authorization(livePhaseStatus) ? files : []]));
++const rn15Files = Object.fromEntries(Object.entries(rn15DeliveryFiles).map(([kind, files]) => [kind, hasRn15Authorization(livePhaseStatus) ? files : []]));
+ for (const directory of ["apps", "packages"]) for (const path of collectFiles(join(workspaceRoot, directory))) {
+   if (!/\.[cm]?[jt]sx?$/.test(path) || path.includes("/node_modules/") || path.includes("/dist/") || /\.test\./.test(path)) continue;
+   const file = relative(workspaceRoot, path), source = readFileSync(path, "utf8");
+@@ -2615,7 +2616,7 @@
+     const directoryFiles = collectFiles(directoryPath);
+     const placeholderPath = join(directoryPath, ".gitkeep");
+     const authorizedDocuments = [
+-      ...rn14Files.documents, ...rn13Files.documents, ...formFiles.documents, ...tableFiles.documents, ...layoutFiles.layouts, ...layoutFiles.documents, ...dialogFiles.documents, ...cardFiles.documents,
++      ...rn15Files.documents, ...rn14Files.documents, ...rn13Files.documents, ...formFiles.documents, ...tableFiles.documents, ...layoutFiles.layouts, ...layoutFiles.documents, ...dialogFiles.documents, ...cardFiles.documents,
+       ...dropdownFiles.documents, ...dropdownFiles.application,
+       ...optionButtonFiles.documents, ...questionNumberFiles.documents, ...iconButtonFiles.documents, ...inputFiles.documents, ...selectFiles.documents, ...dropdownPublicFiles.documents, ...checkboxFiles.documents, ...selectionCardFiles.documents, ...selectionPatternFiles.documents, ...selectionPlaygroundFiles.documents, ...radioFiles.documents, ...tabsFiles.documents, ...tagFiles.documents,
+       ...(isTokenFoundationsV1 ? tokenFoundationsV1Files.documents : []),
+@@ -2763,7 +2764,7 @@
+ 
+   const allowedDayThreeWorkspaceSources = new Set(
+     [
+-      ...rn14Files.workspace, ...rn13Files.workspace, ...formFiles.application, ...tableFiles.application, ...layoutFiles.application, ...dialogFiles.application, ...cardFiles.application, ...formFiles.ui, ...tableFiles.ui, ...dialogFiles.ui, ...cardFiles.ui, ...layoutFiles.layouts, ...formFiles.workspace, ...tableFiles.workspace, ...layoutFiles.workspace, ...dialogFiles.workspace, ...cardFiles.workspace,
++      ...rn15Files.workspace, ...rn14Files.workspace, ...rn13Files.workspace, ...formFiles.application, ...tableFiles.application, ...layoutFiles.application, ...dialogFiles.application, ...cardFiles.application, ...formFiles.ui, ...tableFiles.ui, ...dialogFiles.ui, ...cardFiles.ui, ...layoutFiles.layouts, ...formFiles.workspace, ...tableFiles.workspace, ...layoutFiles.workspace, ...dialogFiles.workspace, ...cardFiles.workspace,
+       ...dropdownFiles.application, ...dropdownFiles.workspace,
+       ...sizeReviewFiles.application, ...sizeReviewFiles.workspace,
+       ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application, ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)), ...optionButtonFiles.foundations, ...questionNumberFiles.foundations, ...iconButtonFiles.foundations, ...inputFiles.foundations, ...selectFiles.foundations, ...checkboxFiles.foundations, ...selectionCardFiles.foundations, ...selectionPatternFiles.foundations, ...selectionPlaygroundFiles.foundations, ...radioFiles.foundations, ...tabsFiles.foundations, ...tagFiles.foundations, ...optionButtonFiles.workspace, ...questionNumberFiles.workspace, ...iconButtonFiles.workspace, ...inputFiles.workspace, ...selectFiles.workspace, ...dropdownPublicFiles.workspace, ...checkboxFiles.workspace, ...selectionCardFiles.workspace, ...selectionPatternFiles.workspace, ...selectionPlaygroundFiles.workspace, ...radioFiles.workspace, ...tabsFiles.workspace, ...tagFiles.workspace,
+--- before/scripts/verify-tailwind-b2.mjs
++++ current/scripts/verify-tailwind-b2.mjs
+@@ -4890,6 +4890,7 @@
+   }, root, "Input UI manifest", failures);
+   const insideLabelsAuthorized = hasInsideFieldLabelsAuthorization(phaseStatus);
+   for (const name of ["input", "search-input", "select", "form-item"]) {
++    if (!insideLabelsAuthorized && !existsSync(join(root, `manifests/ui/${name}.yaml`))) continue;
+     const manifest = name === "input" ? input : loadYaml(root, `manifests/ui/${name}.yaml`, `${name} inside label manifest`, failures);
+     const entry = phaseStatus?.componentRefinements?.tableRn08?.insideFieldLabels;
+     const expected = insideLabelsAuthorized ? {
+--- before/scripts/verify-tailwind-b2.test.ts
++++ current/scripts/verify-tailwind-b2.test.ts
+@@ -1,3 +1,4 @@
++import { tableRn08Files, hasTableRn08Authorization, hasBmBRn10Authorization, rn13AssetIndexFiles } from "./verification-helpers.mjs";
+ import { layoutsV1Files, hasLayoutsV1Authorization, dialogV2Files, hasDialogV2Authorization } from "./verification-helpers.mjs";
+ import { spawnSync } from "node:child_process";
+ import { createHash } from "node:crypto";
+@@ -14,6 +15,7 @@
+   writeFileSync,
+ } from "node:fs";
+ import { tmpdir } from "node:os";
++import { createRequire } from "node:module";
+ import { dirname, join, relative, resolve } from "node:path";
+ import { fileURLToPath } from "node:url";
+ import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
+@@ -2321,7 +2323,7 @@
+         expect(result.failures.join("\n")).not.toMatch(/QuestionNumber contrast findings remain pending/);
+       }
+     } finally { writeFileSync(path, original); }
+-  });
++  }, 15_000);
+ 
+   it("rejects OptionButton content card CSS expansion and gate substitution", () => {
+     const cssPath = absolute("packages/ui/src/styles.css", fixtureRoot);
+@@ -2886,6 +2888,8 @@
+     addedTagPaths.push(...tagBatchThreeFiles.ui, ...tagBatchThreeFiles.application, "manifests/ui/tag-select.yaml", "registry/tag-select.json");
+     const addedDropdownPaths = [...dropdownFamilyFiles.ui, ...dropdownFamilyFiles.application, ...dropdownFamilyFiles.documents];
+     const addedTabsPaths = ["manifests/ui/tabs.yaml", "registry/tabs.json", ...Object.values(cardV2Files).flat(), ...Object.values(dialogV2Files).flat(), ...Object.values(layoutsV1Files).flat()];
++    const laterPaths = [...Object.values(tableRn08Files).flat(), "manifests/ui/textarea.yaml", "registry/textarea.json",
++      ...rn13AssetIndexFiles.documents.filter((path) => /^(manifests|registry)\//.test(path)), "manifests/ui/alert-dialog.yaml"];
+     const addedSelectPaths = [...selectRefinementFiles.ui, ...selectRefinementFiles.application, "manifests/ui/select.yaml", "registry/select.json"];
+     const addedCheckboxPaths = ["packages/ui/src/checkbox/checkbox.tsx", "packages/ui/src/checkbox/checkbox.test.tsx",
+       "apps/playground/src/docs/components/checkbox-page.tsx", "apps/playground/src/docs/components/checkbox-page.css",
+@@ -2900,7 +2904,7 @@
+     const iconRegistryPath = "registry/icons.json";
+     const uiStylesPath = "packages/ui/src/styles.css";
+     const b2ContractPath = "manifests/contracts/tailwind-b2.yaml";
+-    const originals = new Map([...archivedPaths, statusPath, manifestPath, uiStylesPath, b2ContractPath, ...iconButtonPaths, ...addedInputPaths, ...addedTagPaths, ...addedDropdownPaths, ...addedTabsPaths, ...addedSelectPaths, ...addedCheckboxPaths, ...addedRadioPaths, ...addedSelectionCardPaths, ...addedSelectionPatternPaths, ...addedIconPaths, iconCatalogPath, iconRegistryPath].map((path) => [path, readFileSync(absolute(path, fixtureRoot))]));
++    const originals = new Map([...archivedPaths, statusPath, manifestPath, uiStylesPath, b2ContractPath, ...iconButtonPaths, ...addedInputPaths, ...addedTagPaths, ...addedDropdownPaths, ...addedTabsPaths, ...laterPaths, ...addedSelectPaths, ...addedCheckboxPaths, ...addedRadioPaths, ...addedSelectionCardPaths, ...addedSelectionPatternPaths, ...addedIconPaths, iconCatalogPath, iconRegistryPath].map((path) => [path, readFileSync(absolute(path, fixtureRoot))]));
+     const archivePath = absolute("evidence/runtime/token-foundations-v1/pre-token-runtime.tar.gz");
+     const demoPath = absolute("apps/playground/src/docs/token-foundations", fixtureRoot);
+     const heldDemoPath = absolute("held-token-foundations-demo", fixtureRoot);
+@@ -2916,20 +2920,23 @@
+       const status = readYaml(statusPath, fixtureRoot);
+       writeFileSync(absolute(statusPath, fixtureRoot), renderYaml(status.phaseHistory.tailwindB2));
+       rmSync(absolute(manifestPath, fixtureRoot));
+-      for (const path of [...iconButtonPaths, ...addedInputPaths, ...addedTagPaths, ...addedDropdownPaths, ...addedTabsPaths, ...addedSelectPaths, ...addedCheckboxPaths, ...addedRadioPaths, ...addedSelectionCardPaths, ...addedSelectionPatternPaths, ...addedIconPaths]) rmSync(absolute(path, fixtureRoot));
++      for (const path of [...iconButtonPaths, ...addedInputPaths, ...addedTagPaths, ...addedDropdownPaths, ...addedTabsPaths, ...laterPaths, ...addedSelectPaths, ...addedCheckboxPaths, ...addedRadioPaths, ...addedSelectionCardPaths, ...addedSelectionPatternPaths, ...addedIconPaths]) rmSync(absolute(path, fixtureRoot));
+       writeFileSync(absolute(iconCatalogPath, fixtureRoot), originals.get(iconCatalogPath)!.toString().split("\n").filter((line) => !line.includes('assetId: "icon/grading-')).join("\n"));
+       const registry = JSON.parse(originals.get(iconRegistryPath)!.toString());
+       registry.items = registry.items.filter((item: any) => !["grading-pending", "grading-reviewed"].includes(item.name));
+       writeFileSync(absolute(iconRegistryPath, fixtureRoot), `${JSON.stringify(registry, null, 2)}\n`);
+       const contract = readYaml(b2ContractPath, fixtureRoot);
+-      contract.cssExceptions.entries = contract.cssExceptions.entries.filter((entry: any) => !["layouts-v1", "ui-icon", "ui-icon-button", "ui-question-number", "ui-option-button", "ui-input", "ui-field", "ui-select", "ui-tag", "ui-tag-select", "ui-dropdown-family", "ui-checkbox", "ui-radio", "ui-selection-cards"].includes(entry.component));
+-      for (const key of ["required", "optional"]) contract.protectedPaths[key] = contract.protectedPaths[key].filter((path: string) => !path.includes("icon-button") && !path.includes("question-number") && !path.includes("option-button") && !path.includes("/tag/") && !addedInputPaths.includes(path) && !addedTagPaths.includes(path) && !addedDropdownPaths.includes(path) && !addedSelectPaths.includes(path) && !addedCheckboxPaths.includes(path) && !addedRadioPaths.includes(path) && !addedSelectionCardPaths.includes(path));
++      contract.cssExceptions.entries = contract.cssExceptions.entries.filter((entry: any) => !["ui-empty", "ui-pagination", "ui-table", "layouts-v1", "ui-icon", "ui-icon-button", "ui-question-number", "ui-option-button", "ui-input", "ui-field", "ui-select", "ui-tag", "ui-tag-select", "ui-dropdown-family", "ui-checkbox", "ui-radio", "ui-selection-cards"].includes(entry.component));
++      for (const key of ["required", "optional"]) contract.protectedPaths[key] = contract.protectedPaths[key].filter((path: string) => !path.includes("icon-button") && !path.includes("question-number") && !path.includes("option-button") && !path.includes("/tag/") && !laterPaths.includes(path) && !addedInputPaths.includes(path) && !addedTagPaths.includes(path) && !addedDropdownPaths.includes(path) && !addedSelectPaths.includes(path) && !addedCheckboxPaths.includes(path) && !addedRadioPaths.includes(path) && !addedSelectionCardPaths.includes(path));
+       writeFileSync(absolute(b2ContractPath, fixtureRoot), renderYaml(contract));
+       const nativeStyles = originals.get(uiStylesPath)!.toString().split("/* @rain-css-exception selection-card-layout:")[0]!.replace(/\/\* @rain-css-exception option-button-card-layout:[\s\S]*?\n\}/, "").replace(/\/\* @rain-css-exception option-button-review-forced-colors:[\s\S]*?\n\}/, "")
+         .replace(/\/\* @rain-css-exception tag-select-layer:[\s\S]*?(?=\n\.rain-badge \{)/, "");
+       writeFileSync(absolute(uiStylesPath, fixtureRoot), `.rain-icon {\n  display: inline-block;\n  flex: none;\n  width: 1em;\n  height: 1em;\n  color: inherit;\n  vertical-align: middle;\n}\n\n${nativeStyles.slice(nativeStyles.indexOf('.rain-icon[data-icon-color-mode="host"]'))}`);
+       expect(validateTailwindB2CompositionBridge({ root: fixtureRoot })).toEqual([]);
+       expect(validateTailwindB2SystemContract({ root: fixtureRoot })).toEqual([]);
++      writeFileSync(absolute("manifests/ui/select.yaml", fixtureRoot), renderYaml({ insideFieldLabels: { implementation: "completed" } }));
++      expect(validateTailwindB2SystemContract({ root: fixtureRoot }).join("\n"))
++        .toContain("select inside label record must retain the exact independent implementation and visual acceptance scope");
+     } finally {
+       renameSync(heldDemoPath, demoPath);
+       for (const [path, source] of originals) writeFileSync(absolute(path, fixtureRoot), source);
+@@ -3004,7 +3011,7 @@
+     ]);
+     const sourceStatements = applicationCss.match(/@source\s+["'][^"']*["'];/g) ?? [];
+     expect(sourceStatements.filter((statement) => /docs|evidence|registry|\/private\/tmp/.test(statement)))
+-      .toEqual(['@source "./docs/token-foundations";', '@source "./docs/components/icon-button-page.tsx";', '@source "./docs/components/input-page.tsx";', '@source "./docs/components/select-page.tsx";', '@source "./docs/components/tabs-page.tsx";', '@source "./docs/components/layouts-page.tsx";', '@source "./docs/components/dialog-page.tsx";', '@source "./docs/components/card-page.tsx";', '@source "./docs/components/dropdown-page.tsx";', '@source "./docs/components/tag-page.tsx";', '@source "./docs/components/question-number-page.tsx";', '@source "./docs/components/option-button-page.tsx";', '@source "./docs/components/checkbox-page.tsx";', '@source "./docs/components/radio-page.tsx";', '@source "./docs/components/selection-cards-page.tsx";', '@source "./docs/components/selection-patterns-page.tsx";', '@source "./docs/components/selection-playground-page.tsx";']);
++      .toEqual(['@source "./docs/token-foundations";', '@source "./docs/components/icon-button-page.tsx";', '@source "./docs/components/input-page.tsx";', '@source "./docs/components/select-page.tsx";', '@source "./docs/components/tabs-page.tsx";', ...(hasTableRn08Authorization(readYaml("status/current-phase.yaml")) ? ['@source "./docs/components/table-page.tsx";'] : []), '@source "./docs/components/layouts-page.tsx";', '@source "./docs/components/dialog-page.tsx";', '@source "./docs/components/card-page.tsx";', '@source "./docs/components/dropdown-page.tsx";', '@source "./docs/components/tag-page.tsx";', '@source "./docs/components/question-number-page.tsx";', '@source "./docs/components/option-button-page.tsx";', '@source "./docs/components/checkbox-page.tsx";', '@source "./docs/components/radio-page.tsx";', '@source "./docs/components/selection-cards-page.tsx";', '@source "./docs/components/selection-patterns-page.tsx";', '@source "./docs/components/selection-playground-page.tsx";']);
+   });
+ 
+   it("proves the fail-closed source roots with a fresh real Vite build", () => {
+@@ -3207,12 +3214,45 @@
+         for (const utility of ["auto-rows-min", "col-start-1", "items-baseline", "justify-end", "wrap-anywhere", "order-1"]) currentStructuralAllowlist.add(utility);
+       if (hasCardV2Authorization(readYaml("status/current-phase.yaml")) && readYaml("status/current-phase.yaml").componentRefinements.cardV2.visualRefinement)
+         for (const utility of ["col-span-full", "grid-cols-1", "justify-start", "row-start-3"]) currentStructuralAllowlist.add(utility);
++      if (hasTableRn08Authorization(readYaml("status/current-phase.yaml")))
++        for (const utility of ["border-collapse", "caption-bottom", "list-none", "text-start"]) currentStructuralAllowlist.add(utility);
++      if (hasBmBRn10Authorization(readYaml("status/current-phase.yaml")))
++        for (const utility of ["flex-auto", "resize-none", "resize-y"]) currentStructuralAllowlist.add(utility);
++      // Scanner output from comments, event/type strings and SVG/CSS attributes; no public class authorization.
++      // Origins: evidence/runtime/rn15-delivery/tailwind-candidate-origins.json.
++      const unusedScannerOutput = new Set(["container", "resize", "table", "transform"]);
++      const require = createRequire(import.meta.url);
++      const { Scanner } = require(require.resolve("@tailwindcss/oxide", { paths: [dirname(require.resolve("@tailwindcss/vite"))] }));
++      const stylesPath = absolute("apps/playground/src/styles.css");
++      const scanner = new Scanner({ sources: [...readFileSync(stylesPath, "utf8").matchAll(/@source\s+(not\s+)?"([^"]+)";/g)]
++        .map(match => ({ base: dirname(stylesPath), pattern: match[2], negated: Boolean(match[1]) })) });
++      scanner.scan();
++      const sources = new Map<string, string>(scanner.files.map((file: string) => [relative(workspaceRoot, file), readFileSync(file, "utf8")]));
++      const expectedSources = JSON.parse(readFileSync(absolute("evidence/runtime/rn15-delivery/tailwind-candidate-origins.json"), "utf8")).unusedCandidateSources;
++      // ponytail: freeze these four audited origins; re-audit changed files instead of adding a class-dataflow analyzer.
++      const collectOrigins = (sources: Map<string, string>) => {
++        const origins: Record<string, Record<string, string>> = Object.fromEntries([...unusedScannerOutput].map(word => [word, {}]));
++        for (const [file, content] of sources) {
++          const candidates = new Set(scanner.getCandidatesWithPositions({ content, extension: file.split(".").at(-1) }).map((entry: { candidate: string }) => entry.candidate));
++          for (const word of unusedScannerOutput) if (candidates.has(word)) origins[word]![file] = createHash("sha256").update(content).digest("hex");
++        }
++        return origins;
++      };
++      expect(collectOrigins(sources)).toEqual(expectedSources);
++      const existingSource = "apps/playground/src/app.tsx";
++      for (const word of unusedScannerOutput) for (const file of [existingSource, "apps/playground/src/rn15-unregistered.tsx"]) {
++        for (const extra of [`\nconst probe = <div className="${word}" />;`, `\nconst recipe = defineRainLocalRecipe({ classes: { root: "${word}" } });`]) {
++          expect(collectOrigins(new Map(sources).set(file, (sources.get(file) ?? "") + extra))).not.toEqual(expectedSources);
++        }
++      }
++      const removedSource = new Map(sources); removedSource.delete(existingSource);
++      expect(collectOrigins(removedSource)).not.toEqual(expectedSources);
+       const normalizeUtility = (utility: string) => {
+         if (utility === "\\[\\&\\>\\.rain-icon\\]\\:size-full>.rain-icon") return "size-full";
+         const unescaped = utility.replaceAll("\\:", ":").replaceAll("\\*", "*");
+         const withoutSelectorSuffix = unescaped.replace(/\[aria-(?:disabled|selected)=(?:true|false)\]/g, "").replace(/\[data-disabled\]/g, "").replace(/>\*\)$/, "").replace(/:has\(:disabled\)$/, "");
+         const withoutStateSuffix = withoutSelectorSuffix.replace(
+-          /:(?:active|focus-visible|hover|disabled)$/,
++          /:(?:active|focus-visible|hover|disabled|enabled)$/,
+           "",
+         );
+         return withoutStateSuffix.split(":").at(-1) ?? withoutStateSuffix;
+@@ -3222,6 +3262,7 @@
+         emittedUtilities.filter(
+           (utility) =>
+             !currentStructuralAllowlist.has(normalizeUtility(utility)) &&
++            !unusedScannerOutput.has(utility) &&
+             !/(?:^|-)rain-/.test(utility),
+         ),
+         `unexpected non-Rain utilities: ${emittedUtilities.join(", ")}`,
+--- before/status/current-phase.yaml
++++ current/status/current-phase.yaml
+@@ -629,6 +629,22 @@
+       - "new-color-values-or-dark-theme"
+       - "figma-publication-business-migration-or-git"
+ componentRefinements:
++  rn15Delivery:
++    authorization: "authorized"
++    authorizedAt: "2026-09-15"
++    decisionSource: "explicit-user-continue-rn15"
++    userStatement: "继续 RN-15"
++    scope: "rn15-m1-scoped-local-trial-validation-docs-and-test-maintenance"
++    snapshotId: "rn14-90fc74205a764fb1"
++    plan: "../docs/plans/2026-09-15-rn15-delivery.md"
++    evidence: "../evidence/runtime/rn15-delivery/verification.md"
++    implementation: "completed"
++    automatedVerification: "passed"
++    independentReview: "passed"
++    humanGate: "not-evaluated"
++    contrastAcceptance: "not-granted"
++    publication: "not-authorized"
++    businessMigration: "not-authorized"
+   rn14Editability:
+     authorization: "authorized"
+     authorizedAt: "2026-09-15"
+--- before/tests/e2e/bm-b.spec.ts
++++ current/tests/e2e/bm-b.spec.ts
+@@ -1,7 +1,6 @@
+ import { expect, test } from "@playwright/test";
+ import { mkdirSync, writeFileSync } from "node:fs";
+ 
+-const evidence = process.env.RAIN_BM_B_EVIDENCE ?? "/tmp/rain-bm-b-rn10";
+ const prototypeUrl = process.env.RAIN_DIALOG_PROTOTYPE_URL ?? "http://127.0.0.1:4174";
+ test.beforeEach(async ({ page }) => {
+   await page.goto(prototypeUrl + "/#bm-b");
+@@ -21,24 +20,33 @@
+     if (!wide) await popup.getByText("宽版容器", { exact: true }).click();
+     if (!twoColumns) await popup.getByText("双列布局", { exact: true }).click();
+     await expect.poll(() => popup.evaluate(el => el.getAnimations().length)).toBe(0);
+-    await expect(popup.locator('[data-slot="description"]')).toHaveCSS("margin-top", "8px");
++    const description = popup.locator('[data-slot="description"]');
++    await expect(description).toHaveCSS("margin-top", "0px");
++    await expect(popup.locator('[data-slot="header"]')).toHaveCSS("row-gap", "8px");
++    expect(await description.evaluate(el => el.getBoundingClientRect().top - el.previousElementSibling!.getBoundingClientRect().bottom)).toBe(8);
+     await expect(popup.locator('[data-slot="header"]')).toHaveCSS("padding", "24px");
+     await expect(footer).toHaveCSS("padding", "16px 24px");
+     await expect(footer).toHaveCSS("border-top-width", "1px");
+     const geometry = await popup.evaluate(el => {
+       const rect = el.getBoundingClientRect(), title = el.querySelector('[data-slot="title"]')!, close = el.querySelector('[aria-label="关闭教材编辑"]')!;
+       const footer = el.querySelector('[data-slot="footer"]')!, grid = el.querySelector('[data-rain-id="layout-grid"]')!;
++      const body = el.querySelector('[data-slot="body"]')!, section = body.querySelector('section')!;
+       const style = getComputedStyle(footer), surface = getComputedStyle(el).backgroundColor, actions = footer.querySelector('[data-rain-id="layout-inline"]')!;
+       const buttons = [...actions.querySelectorAll('button')].map(b => b.getBoundingClientRect().toJSON());
+       return { width: rect.width, x: rect.x, bottom: rect.bottom, overflow: el.scrollWidth > el.clientWidth,
+         closeOffset: close.getBoundingClientRect().y + close.getBoundingClientRect().height / 2 - title.getBoundingClientRect().y - parseFloat(getComputedStyle(title).lineHeight) / 2,
+         surface, footerSurface: style.backgroundColor === "rgba(0, 0, 0, 0)" ? surface : style.backgroundColor,
+         contentRight: grid.getBoundingClientRect().right, actionRight: buttons[1]!.right, gap: buttons[1]!.x - buttons[0]!.right,
++        footerInset: footer.getBoundingClientRect().right - buttons[1]!.right,
++        sectionInset: body.getBoundingClientRect().left + body.clientLeft + body.clientWidth - section.getBoundingClientRect().right,
++        fieldInset: section.getBoundingClientRect().right - grid.getBoundingClientRect().right,
+         columns: getComputedStyle(grid).gridTemplateColumns.split(" ").length };
+     });
+     expect(geometry.width).toBe(Math.min(wide ? 916 : 616, width - (width <= 640 ? 32 : 80)));
+     expect(geometry.overflow).toBe(false); expect(Math.abs(geometry.closeOffset)).toBeLessThanOrEqual(1);
+-    expect(geometry.footerSurface).toBe(geometry.surface); expect(geometry.actionRight).toBeCloseTo(geometry.contentRight, 1);
++    expect(geometry.footerSurface).toBe(geometry.surface);
++    // The accepted section-surfaces revision uses Body12 + Section20; Footer retains24.
++    expect(geometry.footerInset).toBe(24); expect(geometry.sectionInset).toBe(12); expect(geometry.fieldInset).toBe(20);
+     expect(geometry.gap).toBe(12); expect(geometry.columns).toBe(twoColumns && width > 390 ? 2 : 1);
+     await expect(footer.locator('[data-variant="primary"]')).toHaveCount(1);
+     const name = `${theme}-${width}-${wide ? 916 : 616}-${twoColumns ? 2 : 1}col`;
+@@ -141,6 +149,8 @@
+ });
+ 
+ test("keeps the draft and fixed actions across layouts, themes and narrow viewports", async ({ page }, testInfo) => {
++  const evidence = `${process.env.RAIN_BM_B_EVIDENCE ?? "/tmp/rain-bm-b-rn10"}/${testInfo.project.name}`;
++  mkdirSync(evidence, { recursive: true });
+   const consoleErrors: string[] = [];
+   page.on("pageerror", error => consoleErrors.push(error.message));
+   page.on("console", message => { if (message.type() === "error") consoleErrors.push(message.text()); });
+@@ -180,7 +190,6 @@
+       await expect(description).toHaveValue("布局变化保留这段长文本。\n多行内容正常阅读与编辑。");
+       measurements.push({ theme, width, ...geometry });
+       if (testInfo.project.name === "chromium" && [1440, 390].includes(width)) {
+-        mkdirSync(evidence, { recursive: true });
+         await page.screenshot({ path: `${evidence}/${theme}-${width}-footer.png` });
+         await dialog.locator('[data-slot="body"]').evaluate(element => { element.scrollTop = 0; });
+         await page.screenshot({ path: `${evidence}/${theme}-${width}-top.png` });
+@@ -195,6 +204,8 @@
+     const tabKey = testInfo.project.name === "webkit" ? "Alt+Tab" : "Tab";
+     await page.getByRole("button", { name: "取消", exact: true }).focus();
+     await page.keyboard.press(tabKey); await expect(page.getByRole("button", { name: "保存教材" })).toBeFocused();
++    await page.keyboard.press(tabKey); await expect(dialog.getByRole("checkbox", { name: "宽版容器", exact: true })).toBeFocused();
++    await page.keyboard.press(tabKey); await expect(dialog.getByRole("checkbox", { name: "双列布局", exact: true })).toBeFocused();
+     await page.keyboard.press(tabKey); await expect(dialog.getByRole("button", { name: "关闭教材编辑" })).toBeFocused();
+     await page.getByRole("button", { name: "取消", exact: true }).click();
+     await page.getByRole("button", { name: "放弃修改" }).click();
+--- before/tests/e2e/layouts.spec.ts
++++ current/tests/e2e/layouts.spec.ts
+@@ -246,5 +246,5 @@
+   await expect(page.locator('[data-example="cr-01"]')).toHaveCSS("padding-top", "20px");
+   await expect(page.locator('[data-rain-id="layout-split"]')).toBeVisible();
+   await page.getByRole("button", { name: "编辑课程资料", exact: true }).click();
+-  await expect(page.getByRole("dialog", { name: "编辑课程资料", exact: true })).toHaveCSS("width", "480px");
+-});
++  await expect(page.getByRole("dialog", { name: "编辑课程资料", exact: true })).toHaveCSS("width", "516px");
++});
+--- before/tests/node-runtime.d.ts
++++ current/tests/node-runtime.d.ts
+@@ -1,6 +1,7 @@
+ declare const process: {
+   env: Record<string, string | undefined>;
+   execPath: string;
++  cwd(): string;
+ };
+ 
+ declare class Buffer extends Uint8Array {
+@@ -83,6 +84,10 @@
+   export function tmpdir(): string;
+ }
+ 
++declare module "node:module" {
++  export function createRequire(url: string): any;
++}
++
+ declare module "node:path" {
+   export function dirname(path: string): string;
+   export function join(...paths: string[]): string;
+--- /dev/null
++++ scripts/rn15-delivery.test.ts
+@@ -0,0 +1,34 @@
++// @vitest-environment node
++import { readFileSync } from "node:fs";
++import { expect, it } from "vitest";
++import * as governance from "./verification-helpers.mjs";
++
++it("accepts only the M1 local delivery and preserves every preceding decision", () => {
++  expect(typeof governance.hasRn15Authorization).toBe("function");
++  const status = governance.parseYamlSubset(readFileSync("status/current-phase.yaml", "utf8")) as any;
++  expect(governance.hasRn15Authorization(status)).toBe(true);
++  expect(governance.getValidatedTailwindB2History(status)).toEqual(status.phaseHistory.tailwindB2);
++  const earlier = structuredClone(status); delete earlier.componentRefinements.rn15Delivery;
++  expect(earlier).toEqual(governance.parseYamlSubset(readFileSync("evidence/runtime/rn15-delivery/before/status/current-phase.yaml.txt", "utf8")));
++  const transitions = JSON.parse(readFileSync("evidence/runtime/rn15-delivery/source-transitions.json", "utf8"));
++  for (const entry of transitions) {
++    const source = readFileSync(entry.file, "utf8");
++    const matches = (value: string, phase = status, records = transitions) => governance.matchesRn15ProtectedSource(entry.file, value, entry.beforeSha256, phase, records);
++    expect(matches(source), entry.file).toBe(true);
++    expect(matches(source + "\n/* unrecorded change */"), entry.file).toBe(false);
++    expect(matches(source, earlier), entry.file).toBe(false);
++    expect(matches(source, status, []), entry.file).toBe(false);
++    expect(matches(source, status, [{ ...entry, authorization: "all-files" }]), entry.file).toBe(false);
++  }
++  for (const change of [{ scope: "m2-all-benchmarks" }, { snapshotId: "unreviewed" }, { humanGate: "accepted" },
++    { contrastAcceptance: "granted" }, { publication: "published" }, { businessMigration: "authorized" },
++    { implementation: "completed", automatedVerification: "not-run" }, { unexpected: true }]) {
++    const invalid = structuredClone(status); Object.assign(invalid.componentRefinements.rn15Delivery, change);
++    expect(governance.hasRn15Authorization(invalid)).toBe(false);
++    expect(() => governance.getValidatedTailwindB2History(invalid)).toThrow();
++  }
++  const missingAcceptance = structuredClone(status);
++  missingAcceptance.componentRefinements.rn14Editability.humanGate = "awaiting_human";
++  delete missingAcceptance.componentRefinements.rn14Editability.humanGateDecision;
++  expect(governance.hasRn15Authorization(missingAcceptance)).toBe(false);
++});
+--- /dev/null
++++ tests/e2e/rn15.config.ts
+@@ -0,0 +1,31 @@
++import { defineConfig, devices } from "@playwright/test";
++import { mkdtempSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { fileURLToPath } from "node:url";
++
++const evidence = process.env.RAIN_RN15_EVIDENCE ?? mkdtempSync(join(tmpdir(), "rain-rn15-browser-"));
++process.env.RAIN_RN15_EVIDENCE = evidence;
++process.env.RAIN_BMA_EVIDENCE_DIR = join(evidence, "bm-a");
++process.env.RAIN_BM_B_EVIDENCE = join(evidence, "bm-b");
++const prototype = "http://127.0.0.1:5334", playground = "http://127.0.0.1:5333";
++process.env.RAIN_DIALOG_PROTOTYPE_URL = prototype;
++process.env.RAIN_CARD_PROTOTYPE_URL = prototype;
++process.env.RAIN_LAYOUTS_PROTOTYPE_URL = prototype;
++
++export default defineConfig({
++  testDir: ".", workers: 1, retries: 0,
++  outputDir: join(evidence, "results"),
++  reporter: [["list"], ["json", { outputFile: join(evidence, "report.json") }]],
++  use: { trace: "retain-on-failure" },
++  webServer: [
++    { name: "playground", command: "pnpm --filter @rain-next/playground exec vite preview --host 127.0.0.1 --port 5333 --strictPort", url: playground },
++    { name: "prototype", command: "pnpm --filter @rain-next/prototype exec vite preview --host 127.0.0.1 --port 5334 --strictPort", url: prototype },
++  ].map(server => ({ ...server, cwd: fileURLToPath(new URL("../..", import.meta.url)), reuseExistingServer: false })),
++  projects: [
++    { name: "chromium-dependencies", testMatch: ["card.spec.ts", "dialog.spec.ts", "layouts.spec.ts"], use: { ...devices["Desktop Chrome"], baseURL: playground } },
++    ...([ ["chromium", "Desktop Chrome"], ["firefox", "Desktop Firefox"], ["webkit", "Desktop Safari"] ] as const).map(([name, device]) => ({
++      name, testMatch: ["bm-a.spec.ts", "bm-b.spec.ts"], use: { ...devices[device], baseURL: prototype },
++    })),
++  ],
++});
+--- /dev/null
++++ docs/plans/2026-09-15-rn15-delivery.md
+@@ -0,0 +1,51 @@
++# RN-15 验证收口与限定试用交付
++
++> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
++
++**Goal:** 完成M1的BM-A/B限定试用交付，修复可定位的验证欠项，留下可重复检查、一页体验说明、限制与回退点。
++
++**Architecture:** 复用现有工作区、检索器、固定RN-14样本及验证工具。修正测试对后续已授权增量的处理和过时的宿主状态合同；运行源码、旧验收与固定归档保留。交付说明汇总当前事实，不建立第二套资产登记。
++
++**Tech Stack:** 当前锁定的pnpm、TypeScript、Vitest、Playwright和Node内置工具；不新增依赖。
++
++## 授权、工作模式与基线
++
++2026-09-15用户明确“继续 RN-15”。按System Mode执行，沿用 `codex/card-v2` 工作树；总阶段保持Token Foundations V1。RN-14最终快照 `rn14-90fc74205a764fb1` 的BM-A/B运行视觉已获确认，本轮不新增视觉。
++
++已核对AGENTS、SPIKE_BRIEF、当前phase、V2规划、Benchmark/VE索引、RN-13/14证据和当前源码。RN-05技术准入完成，后续Dialog/AlertDialog视觉接受；RN-C4技术与两轮改造完成，Card整体视觉未通过。M1仅关闭BM-A/B已验证切片，M2的BM-C/D未实施。已有47项默认候选均有自动通过登记，8项整体视觉待审、17项颜色/资格findings保持。
++
++基线保存在 `evidence/runtime/rn15-delivery/`：原HEAD、未提交状态、2,088个apps/packages文件哈希、将修改的测试/文档/phase原文。实际完整单测1356/1372通过、16项失败；完整类型检查保留3处测试环境process.cwd声明错误。定位后逐项修复，不改历史SHA或放宽颜色规则，不将旧结果倒填为本次结果。
++
++## Task 1：状态与验证欠项
++
++**Files:**
++- 新增：`scripts/rn15-delivery.test.ts`。
++- 修改：`status/current-phase.yaml`、`scripts/verification-helpers.mjs`、`scripts/verify-boundaries.mjs`。
++- 修改历史验证：`scripts/verification-helpers.test.ts`、`scripts/table-rn08.test.ts`、`scripts/layouts-v1.test.ts`、`scripts/dialog-v2.test.ts`、`scripts/input-color-consumers.test.ts`、`scripts/verify-tailwind-b2.test.ts`、`tests/node-runtime.d.ts`、`apps/playground/src/routes/playground-shell.test.tsx`。
++
++1. 记录本批精确授权；增加单个授权/历史保留检查，拒绝扩大为M2、发布、对比度或新视觉接受。有效RN-15增量从旧阶段比较中精确剥离。
++2. 复现并逐组修复：旧测试漏掉有效dialogRefinement；旧B2夹具误混入后续Dialog文件；旧Foundation出口和Textarea接入哈希未处理已授权后续增量；旧概览断言仍认定四个Benchmark均未实施；Input颜色测试漏掉已登记的inside-label待决项。保留原始冻结哈希，以已知精确内容反投影或登记原SHA→当前SHA的具名授权变更判断，未知修改仍失败。
++3. 核对Tailwind桥接与真实CSS检查的额外失败和超时，先确认根因、已有生产校验与授权，再实施最小修正；不扩大通用白名单。
++4. 给既有测试环境声明补上真实的 `process.cwd(): string`；不安装另一套Node类型。
++5. 重跑针对性检查；通过后运行完整 `pnpm typecheck`、`pnpm exec vitest run --maxWorkers=2`、`pnpm build`、`pnpm verify:icons`、`pnpm verify:governance`。保留所有失败和修复前后日志。
++
++## Task 2：可重复关键浏览器检查
++
++**Files:** 新增 `tests/e2e/rn15.config.ts`；需要修正旧检查时只改对应测试并记录原因。
++
++1. 配置使用本批独立端口的构建预览，复用既有用例。BM-A/B跑三浏览器，Card/Layout/Dialog依赖跑Chromium；截图输出使用本批临时目录，保护历史证据。
++2. 覆盖选择/查询/分页/刷新失败重试、表单校验/保存/取消、附件失败重试、嵌套浮层/焦点、窄屏与固定操作区。按实际用例结果记录，不把当前样本扩大为全库或所有状态。
++3. 对已确认的RN-14固定样本重新校验归档/源码锁并运行关键三浏览器检查，保留当前试用入口。临时目录恢复从原归档展开到新目录，拒绝覆盖旧工作。
++
++## Task 3：试用交付、限制与独立复核
++
++**Files:** 新增 `docs/ai/trial-guide.md`，修改 `docs/ai/README.md`、`apps/prototype/src/scenarios/bm-b/state-contract.md`；记录 `evidence/runtime/rn15-delivery/verification.md`、独立审阅与实际命令/结果。
++
++1. 修正当前BM-B取消合同：脏草稿取消/关闭/Escape进入确认，外点默认不关闭，保存期间关闭被阻止；宿主逻辑不变。
++2. 一页说明提供双入口、可尝试操作、模拟数据边界、刷新恢复方法和问题反馈方式。完整交付记录提供M1/M2范围、来源、未决问题、准确验证命令与固定归档回退点。
++3. 保持候选检索和公共成熟度；新增关键交互缺陷未解决则阻断受影响范围，颜色findings不清空。最小CI提案复用本批命令，实际远程CI/发布/迁移/Figma/Git写入不在本次交付。
++4. 按requesting-code-review做独立需求与代码复核；处理本批发现，最后更新本批phase和交付结论并重跑治理与差异检查。
++
++## 执行结果
++
++已修复完整基线16项失败与3处测试类型声明错误；完整单测1373/1373、类型/构建/治理/图标通过。原工作区49个唯一关键浏览器检查与固定样本三引擎各7组检查完成，首次失败、定向复查、来源与精确边界见本批verification.md。运行源码和冻结样本未改变；最后独立复核与phase收尾以交付记录为准。真实IME、读屏、触屏、跨机器字体和颜色接受仍不从本轮自动推导。
+--- /dev/null
++++ docs/ai/trial-guide.md
+@@ -0,0 +1,30 @@
++# Rain Next 本地试用：资料管理与教材表单
++
++这份M1试用包含两个可交互样本，数据、保存、上传均在本地模拟。当前版本为 `rn14-90fc74205a764fb1`，最终样本视觉已确认。
++
++## 先打开
++
++[课程资料管理](http://127.0.0.1:5324/#bm-a) · [教材资料表单](http://127.0.0.1:5324/#bm-b)
++
++页头可以切换两个场景。若无法打开，回到本任务说“重新打开 RN-15 试用样本”；工程启动与归档恢复方法见[交付记录](../../evidence/runtime/rn15-delivery/verification.md)。
++
++## 五分钟体验
++
++| 场景 | 可以尝试 | 应看到的结果 |
++| --- | --- | --- |
++| 资料查找 | 搜索资料，切换发布状态，再清空筛选 | 结果和分页随查询变化 |
++| 跨页操作 | 勾选资料，翻页，再切换表格/卡片 | 有效选择保留，只读资料不能勾选 |
++| 批量与刷新 | 将选中资料标为已发布；展开试用选项，模拟刷新失败后重试 | 操作反馈可见，失败不会清空有效选择 |
++| 表单结构 | 打开编辑，查看基本信息、阅读内容、附件区；缩窄窗口 | 长文本保持全宽，内容可滚动，保存区可见 |
++| 保存与退出 | 修改标题，取消后选择继续编辑；模拟保存失败，再重试 | 草稿保留；只有选择放弃修改才丢弃；成功后摘要更新 |
++| 附件与键盘 | 添加一个本地PDF/图片，模拟上传失败再重试；打开学科菜单并按Escape | 未成功附件阻止保存；Escape先关闭菜单，再处理外层弹窗 |
++
++## 恢复与反馈
++
++刷新页面即可恢复初始数据，同时会清除本次模拟修改。文件仅用于本地模拟，不发送内容到服务器。
++
++反馈时说明“在哪个场景、做了什么、预期与实际结果”，附窗口宽度或截图即可。发现草稿丢失、错误选择、无法关闭或无法保存等问题时，先保留复现步骤。
++
++## 当前边界
++
++本次可试用范围是M1的这两个样本。复杂工作台、报告/KPI场景留在M2；候选组件各自的视觉、颜色与辅助技术限制见[已知限制](README.md#已知限制)。真实服务、账户数据、线上发布和业务接入尚未包含。

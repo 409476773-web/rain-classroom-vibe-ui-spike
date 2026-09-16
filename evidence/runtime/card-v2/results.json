@@ -1,0 +1,626 @@
+{
+  "kind": "RainCardV2BatchEvidence",
+  "date": "2026-09-12",
+  "baselineCommit": "321e1a0c1b5f9284e0fcb5167fa059d6174b1752",
+  "implementation": "completed",
+  "automatedChecks": "passed",
+  "independentReview": "passed-after-two-fixes",
+  "humanGate": "awaiting_human",
+  "contrastAcceptance": "not-granted",
+  "milestoneM0C": "open",
+  "unit": {
+    "files": 86,
+    "passed": 1273,
+    "failed": 0
+  },
+  "productionBrowser": {
+    "passed": 9,
+    "failed": 0,
+    "browser": "Chromium 151.0.7922.34",
+    "scope": [
+      "Card",
+      "minimal prototype",
+      "Core UI"
+    ]
+  },
+  "batchTasks": [
+    {
+      "id": "RN-00",
+      "title": "冻结基线与运行前核对",
+      "status": "completed-in-scope"
+    },
+    {
+      "id": "RN-01",
+      "title": "定义新接入阶段与不变量",
+      "status": "completed-in-scope"
+    },
+    {
+      "id": "RN-02",
+      "title": "建立全品类与上游来源处置表",
+      "status": "completed-in-scope"
+    },
+    {
+      "id": "RN-03",
+      "title": "完成首批样式与行为接口转译规则",
+      "status": "completed-in-scope"
+    },
+    {
+      "id": "RN-04",
+      "title": "建立真实原型消费入口",
+      "status": "completed-in-scope"
+    },
+    {
+      "id": "RN-C1",
+      "title": "Card 来源、消费者与目标合同",
+      "status": "completed-in-scope"
+    },
+    {
+      "id": "RN-C2",
+      "title": "Card 替换候选与样式治理",
+      "status": "completed-in-scope"
+    },
+    {
+      "id": "RN-C3",
+      "title": "Card 消费迁移、四 Recipe 与登记",
+      "status": "completed-in-scope"
+    },
+    {
+      "id": "RN-C4",
+      "title": "Card 回归、两轮改造与集中评审",
+      "status": "awaiting_human_and_focus_followup"
+    }
+  ],
+  "acceptanceTests": [
+    {
+      "id": "RC-01",
+      "scope": "Card",
+      "method": "单元／类型",
+      "title": "导出与原调用",
+      "expected": "七个原公共导出、类型和已有调用能继续编译，新增接口明确。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-02",
+      "scope": "Card",
+      "method": "单元",
+      "title": "语义与原生透传",
+      "expected": "默认 article，Title.as 有效，aria/id/事件/ref 保留。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-03",
+      "scope": "Card",
+      "method": "单元／浏览器",
+      "title": "非交互根",
+      "expected": "普通 Card 没有自动 button 角色、Tab 停点或业务状态。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-04",
+      "scope": "Card",
+      "method": "单元／浏览器",
+      "title": "部件可选",
+      "expected": "仅 Content、无 Description／Action／Footer 均可用，不强制伪内容。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-05",
+      "scope": "Card",
+      "method": "单元／浏览器",
+      "title": "variant 兼容",
+      "expected": "panel/raised 用法有效，raised 不自动制造阴影或操作态。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-06",
+      "scope": "Card",
+      "method": "浏览器",
+      "title": "default／sm",
+      "expected": "Card 留白按候选映射生效；省略 size 为 default。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-07",
+      "scope": "Card",
+      "method": "浏览器",
+      "title": "尺寸与密度独立",
+      "expected": "Card size 不创建新的 DensityProvider；内部既有控件保持父级密度。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-08",
+      "scope": "Card",
+      "method": "浏览器",
+      "title": "统一间距",
+      "expected": "主要区块使用同一 spacing 来源；细间距不被强行放大。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-09",
+      "scope": "Card",
+      "method": "构建／浏览器",
+      "title": "真实 CSS",
+      "expected": "所有必要类与状态规则确实生成，不只检查源码字符串。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-10",
+      "scope": "Card",
+      "method": "浏览器",
+      "title": "旧 CSS 优先级",
+      "expected": "目标修改不被旧 Card 声明压制，无 important 或全局 layer 换序。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-11",
+      "scope": "Card",
+      "method": "单元／浏览器",
+      "title": "rainCn 合并",
+      "expected": "特定 Rain 工具类合并正确；非目标 Button/Input 等不回归。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-12",
+      "scope": "Card",
+      "method": "单元／浏览器",
+      "title": "slot 转译",
+      "expected": "保留 Rain 标记，上游布局条件一并转译，禁止双值 slot。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-13",
+      "scope": "Card",
+      "method": "浏览器",
+      "title": "嵌套 Footer",
+      "expected": "内层 Footer 不触发外 Card 的错误留白、底色或边界。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-14",
+      "scope": "Card",
+      "method": "浏览器",
+      "title": "嵌套 Action",
+      "expected": "内层 Action/Description 或其他控件同名部件不改变外 Header 布局。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-15",
+      "scope": "Card",
+      "method": "单元／浏览器",
+      "title": "Recipe 归属",
+      "expected": "根 Recipe 正确传到本 Card 部件，内层 Card 独立，默认内容不受污染。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-16",
+      "scope": "Card",
+      "method": "浏览器",
+      "title": "变量归属",
+      "expected": "每个根有自身 spacing 默认，父级局部覆盖不意外渗入内层。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-17",
+      "scope": "Card",
+      "method": "浏览器／视觉",
+      "title": "媒体上下与左右",
+      "expected": "CR-02 同内容重排，普通正文和操作不被媒体裁切。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-18",
+      "scope": "Card",
+      "method": "浏览器／视觉",
+      "title": "通栏内容",
+      "expected": "媒体或内容贴边时内侧对齐和上下间隙一致，无一次性裸值。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-19",
+      "scope": "Card",
+      "method": "浏览器",
+      "title": "长标题与窄容器",
+      "expected": "长中文、英文串、标签与操作不压住正文；不凭字符串长度换排版。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-20",
+      "scope": "Card",
+      "method": "浏览器／人工",
+      "title": "焦点裁切",
+      "expected": "内部操作接近边缘仍有可见焦点，不靠删除 Focus 解决。",
+      "executionStatus": "partial",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "production/color-font-focus.json",
+        "logs/production-browser.log"
+      ],
+      "detail": "Focus-visible ring rendered and root overflow visible; human edge review pending. Dark contrast remains RC-23 finding."
+    },
+    {
+      "id": "RC-21",
+      "scope": "Card",
+      "method": "浏览器",
+      "title": "事件独立",
+      "expected": "Card 内 Button、菜单、选择器各自只触发应有动作，不嵌套非法交互。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-22",
+      "scope": "Card",
+      "method": "浏览器／视觉",
+      "title": "主题矩阵",
+      "expected": "声明支持的 Light/Dark 与局部主题实际可读，不由单张图推出全库通过。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-23",
+      "scope": "Card",
+      "method": "浏览器／人工",
+      "title": "色彩与字体边界",
+      "expected": "记录必要文字/焦点的真实配对和字体环境，未合规或回退不伪装通过。",
+      "executionStatus": "partial",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "production/color-font-focus.json"
+      ],
+      "detail": "24 inspected text pairs pass 4.5; dark course Button global focus 2.5727933611 < 3, unaccepted. CDP actual PingFang SC / LINE Seed JP App_OTF."
+    },
+    {
+      "id": "RC-24",
+      "scope": "Card",
+      "method": "浏览器／人工",
+      "title": "偏好与可达性",
+      "expected": "声明范围内 forced colors/reduced motion/文本放大可用；模拟不等于真实设备。",
+      "executionStatus": "partial",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "logs/production-browser.log",
+        "production/zoom-200-dark.png"
+      ],
+      "detail": "Chromium forced colors / reduced motion pass; CSS zoom 200 screenshot only. Real text-only zoom, AT and physical devices not run."
+    },
+    {
+      "id": "RC-25",
+      "scope": "Card",
+      "method": "定向回归",
+      "title": "原消费者",
+      "expected": "Core UI 两处已知用法和本地发现的其他真实消费者完成迁移。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-26",
+      "scope": "Card",
+      "method": "定向回归",
+      "title": "非目标保护",
+      "expected": "Surface、Badge、Link、Button、Input 等未被 Card 的共享改动改变。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-27",
+      "scope": "Card",
+      "method": "静态／检索",
+      "title": "来源与登记",
+      "expected": "Card Manifest、本地 Registry、用途、限制、来源、版本和修改差异一致。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-28",
+      "scope": "Card",
+      "method": "构建／浏览器",
+      "title": "干净消费",
+      "expected": "最小原型/Starter 不依赖组件说明页私有 CSS 或原机器绝对路径。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RC-29",
+      "scope": "Card",
+      "method": "代理任务／人工",
+      "title": "VD-1 重排",
+      "expected": "同数据上图下文转左图右文，未复制基础控件且非目标不变。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "vibe/results.json"
+      ]
+    },
+    {
+      "id": "RC-30",
+      "scope": "Card",
+      "method": "代理任务／人工",
+      "title": "VD-2 连续编辑",
+      "expected": "从 VD-1 结果继续调整疏密与操作，不反复改公共 Master。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "vibe/results.json"
+      ]
+    },
+    {
+      "id": "RC-31",
+      "scope": "Card",
+      "method": "视觉 Gate",
+      "title": "四 Recipe 集中评审",
+      "expected": "记录真实用户反馈的具体接受范围，未反馈不能自动通过。",
+      "executionStatus": "awaiting_human",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "production/production-playground/gallery.png",
+        "production/production-prototype/gallery.png"
+      ],
+      "detail": "Four Recipes visible; no user visual feedback in this implementation turn."
+    },
+    {
+      "id": "RC-32",
+      "scope": "Card",
+      "method": "证据审计",
+      "title": "记录与回滚",
+      "expected": "不覆盖历史结果，本批差异可撤回，失败与未运行项保留。",
+      "executionStatus": "passed-technical",
+      "humanAcceptance": "not-inferred",
+      "evidence": [
+        "verification.md",
+        "logs/unit.log",
+        "logs/production-browser.log"
+      ]
+    },
+    {
+      "id": "RO-01",
+      "scope": "Dialog",
+      "method": "浏览器",
+      "title": "触发与关闭",
+      "expected": "Rain Button触发Dialog，无嵌套按钮；有效关闭方式与焦点恢复成立。",
+      "executionStatus": "not-run",
+      "reason": "outside-authorized-card-batch",
+      "evidence": []
+    },
+    {
+      "id": "RO-02",
+      "scope": "Dialog",
+      "method": "浏览器",
+      "title": "嵌套选择器",
+      "expected": "Dialog内Select关闭按内外层顺序处理，Tab和外部点击保持合理焦点。",
+      "executionStatus": "not-run",
+      "reason": "outside-authorized-card-batch",
+      "evidence": []
+    },
+    {
+      "id": "RO-03",
+      "scope": "Dialog",
+      "method": "浏览器",
+      "title": "Portal上下文",
+      "expected": "主题/密度/局部明确变量按使用范围有效，不假设所有CSS变量自动继承。",
+      "executionStatus": "not-run",
+      "reason": "outside-authorized-card-batch",
+      "evidence": []
+    },
+    {
+      "id": "RO-04",
+      "scope": "Dialog",
+      "method": "浏览器",
+      "title": "任务草稿",
+      "expected": "保存中防重复、失败保留草稿、取消不污染已提交值。",
+      "executionStatus": "not-run",
+      "reason": "outside-authorized-card-batch",
+      "evidence": []
+    },
+    {
+      "id": "RO-05",
+      "scope": "Dialog",
+      "method": "浏览器",
+      "title": "字段衔接",
+      "expected": "标签、错误、禁用等实际关联；不依赖Select未提供的原生提交桥接。",
+      "executionStatus": "not-run",
+      "reason": "outside-authorized-card-batch",
+      "evidence": []
+    },
+    {
+      "id": "RO-06",
+      "scope": "Dialog",
+      "method": "浏览器／人工",
+      "title": "长内容与操作",
+      "expected": "内容滚动、操作可达、键盘主流程和辅助技术范围明确。",
+      "executionStatus": "not-run",
+      "reason": "outside-authorized-card-batch",
+      "evidence": []
+    },
+    {
+      "id": "RP-01",
+      "scope": "Prototype",
+      "method": "场景回归",
+      "title": "BM-A",
+      "expected": "查询/分页/选择/表格卡片切换契约成立，拒绝过期结果。",
+      "executionStatus": "not-run",
+      "reason": "outside-authorized-card-batch",
+      "evidence": []
+    },
+    {
+      "id": "RP-02",
+      "scope": "Prototype",
+      "method": "场景回归",
+      "title": "BM-B",
+      "expected": "表单布局/长文本/校验/任务状态闭环；上传未做则只验收切片。",
+      "executionStatus": "not-run",
+      "reason": "outside-authorized-card-batch",
+      "evidence": []
+    },
+    {
+      "id": "RP-03",
+      "scope": "Prototype",
+      "method": "场景回归",
+      "title": "BM-C／D",
+      "expected": "工作台区域与状态、报告数值单位与层级按原登记范围验证。",
+      "executionStatus": "not-run",
+      "reason": "outside-authorized-card-batch",
+      "evidence": []
+    },
+    {
+      "id": "RP-04",
+      "scope": "Prototype",
+      "method": "构建／交接",
+      "title": "限定试用交付",
+      "expected": "真实Starter、来源、未决项和使用说明成立；不虚标全64项已成熟。",
+      "executionStatus": "not-run",
+      "reason": "outside-authorized-card-batch",
+      "evidence": []
+    }
+  ],
+  "remainingRoadmap": "../../../docs/plans/2026-09-12-rain-next-v2-roadmap.json",
+  "writes": {
+    "newCommit": false,
+    "remote": false,
+    "figma": false,
+    "publication": false,
+    "businessMigration": false
+  }
+}

@@ -1,4 +1,10 @@
+import { inputNumberFiles, hasInputNumberAuthorization } from "./verification-helpers.mjs";
+import { hasDialogRefinementAuthorization, hasSelectRegressionRepairAuthorization } from "./verification-helpers.mjs";
+import { avatarFamilyFiles, hasAvatarFamilyAuthorization } from "./verification-helpers.mjs";
+import { hasBmBRn10Authorization, hasInsideFieldLabelsAuthorization, tableRn08Files, hasTableRn08Authorization, hasRn13Authorization, rn13AssetIndexFiles } from "./verification-helpers.mjs";
+import { layoutsV1Files, hasLayoutsV1Authorization, hasDialogV2Authorization } from "./verification-helpers.mjs";
 import { createHash } from "node:crypto";
+import { hasCardV2Authorization } from "./verification-helpers.mjs";
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
@@ -2494,7 +2500,7 @@ function parseFoundationsPublicIndex(source, failures, allowTokenFoundations = f
     offset += whitespace.length;
     if (offset === source.length) break;
 
-    const wildcard = source.slice(offset).match(/^export\s+\*\s+from\s+(["'])(\.\/(?:color-registry|typography-contract|tag-token-contract|select-token-contract|tabs-token-contract))\1\s*;/);
+    const wildcard = source.slice(offset).match(/^export\s+\*\s+from\s+(["'])(\.\/(?:color-registry|typography-contract|tag-token-contract|select-token-contract|tabs-token-contract|overlay-token-contract))\1\s*;/);
     if (allowTokenFoundations && wildcard) {
       declarations.push({
         elements: [{ exportedName: "*", localName: "*", isTypeOnly: false }],
@@ -3165,6 +3171,9 @@ export function validateTailwindB2CompositionBridge({ root = process.cwd() } = {
     failures,
   );
 
+  const dialogRefinementAuthorized = hasDialogRefinementAuthorization(status);
+  if (dialogRefinementAuthorized) expectedPublicIndex.push({ moduleSpecifier: "./overlay-token-contract", isTypeOnly: false, elements: ["*"] });
+
   const parsedTokens = tokens
     ? collectDirectScopedCssDeclarations(
         tokens,
@@ -3179,6 +3188,7 @@ export function validateTailwindB2CompositionBridge({ root = process.cwd() } = {
               ...(buttonMigrationAuthorized ? getButtonColorVariables(theme) : {}),
               ...(colorAlignmentAuthorized ? { "--rain-link-color": "var(--rain-color-action-primary-text)" } : {}),
               ...(tagBatchTwoAuthorized ? pick(values, /^--rain-tag-score-badge-fill$/) : {}),
+              ...(dialogRefinementAuthorized ? pick(values, /^--rain-overlay-(?:separation|focus|modal|immersive)$/) : {}),
             },
           ])) : {},
         },
@@ -3633,12 +3643,18 @@ export function validateTailwindB2CompositionBridge({ root = process.cwd() } = {
       '@source not "./**/*.test.{ts,tsx}";',
       '@source not "../../../packages/ui/src/icons";',
       '@source not "../../../packages/ui/src/**/*.test.{ts,tsx}";',
-      '@source not inline("border outline filter underline");',
+      hasAvatarFamilyAuthorization(status) ? '@source not inline("border outline filter underline ring");' : '@source not inline("border outline filter underline");',
       ...(tokenFoundationsAuthorized ? ['@source "./docs/token-foundations";'] : []),
       ...(iconButtonAuthorized ? ['@source "./docs/components/icon-button-page.tsx";'] : []),
+      ...(hasInputNumberAuthorization(status) ? ['@source "./docs/components/input-number-page.tsx";'] : []),
       ...(inputAuthorized ? ['@source "./docs/components/input-page.tsx";'] : []),
       ...(selectAuthorized ? ['@source "./docs/components/select-page.tsx";'] : []),
       ...(hasTabsRefinementAuthorization(status) && ["component", "documentation"].includes(status.componentRefinements.tabs.stage) ? ['@source "./docs/components/tabs-page.tsx";'] : []),
+      ...(hasTableRn08Authorization(status) ? ['@source "./docs/components/table-page.tsx";', '@source "../../prototype/src/data-table-recipe.tsx";'] : []),
+      ...(hasAvatarFamilyAuthorization(status) ? ['@source "./docs/components/avatar-page.tsx";'] : []),
+      ...(hasLayoutsV1Authorization(status) ? ['@source "../../../packages/layouts/src/layout.tsx";', '@source "./docs/components/layouts-page.tsx";', '@source "../../prototype/src/layout-recipes.tsx";'] : []),
+      ...(hasDialogV2Authorization(status) ? ['@source "./docs/components/dialog-page.tsx";', '@source "../../prototype/src/course-dialog.tsx";'] : []),
+      ...(hasCardV2Authorization(status) ? ['@source "./docs/components/card-page.tsx";', '@source "../../prototype/src/card-recipes.tsx";'] : []),
       ...(hasDropdownFamilyAuthorization(status) ? ['@source "./docs/components/dropdown-page.tsx";'] : []),
       ...(tagAuthorized ? ['@source "./docs/components/tag-page.tsx";'] : []),
       ...(questionNumberAuthorized ? ['@source "./docs/components/question-number-page.tsx";'] : []),
@@ -4297,14 +4313,16 @@ export function validateSelectRegistry(item, { humanGate = "awaiting_human" } = 
   return same(item, expected) ? [] : ["Select Registry must remain the exact unpublished current-workspace candidate with its existing dependencies and independent gate"];
 }
 
-export function validateInputCssExceptions({ contract, source }) {
+export function validateInputCssExceptions({ contract, source, root = process.cwd() }) {
   const failures = [], label = "Authorized Input native CSS";
-  const ids = ["input-native-control-reset", "field-focus-and-underline", "select-value-layout", "select-clear-visibility", "select-touch-targets", "select-formal-dependencies", "input-clear-visibility", "input-forced-colors"];
+  const phase = loadYaml(root, "status/current-phase.yaml", "Inside field label authorization", failures);
+  const insideLabelsAuthorized = hasInsideFieldLabelsAuthorization(phase);
+  const ids = ["input-native-control-reset", "field-focus-and-underline", "select-value-layout", "select-clear-visibility", "select-touch-targets", "select-formal-dependencies", "input-clear-visibility", "input-forced-colors", ...(insideLabelsAuthorized ? ["field-inside-label-width"] : [])];
   const entries = (contract?.cssExceptions?.entries ?? []).filter(({ id, component }) => ["ui-input", "ui-field", "ui-select"].includes(component) || ids.includes(id));
   if (!same(entries.map(({ id }) => id).sort(), [...ids].sort()) || ids.some((id) => !source.includes(`@rain-css-exception ${id}`))) failures.push(`${label} must retain the exact exception inventory and source markers`);
   const expected = [
     {"scope": [], "selector": ".rain-select__positioner", "declarations": "width: var(--anchor-width);"},
-    {"scope": [], "selector": ".rain-select__popup", "declarations": "width: 100%;"},
+    {"scope": [], "selector": ".rain-select__popup", "declarations": hasSelectRegressionRepairAuthorization(phase) ? "--rain-popup-width: var(--anchor-width); width: 100%;" : "width: 100%;"},
     {"scope": [], "selector": ".rain-select [data-slot=\"tag\"] [data-rain-id=\"ui-tag\"]", "declarations": "margin-block: 0;"},
     {"scope": [], "selector": ".rain-select [data-slot=\"tag\"] .rain-tag__remove", "declarations": "margin: 0;"},
     {"scope": [], "selector": ".rain-select [data-slot=\"tag\"] .rain-tag__remove::after", "declarations": "inset: 0;"},
@@ -4339,11 +4357,20 @@ export function validateInputCssExceptions({ contract, source }) {
     {"scope":["@media (prefers-reduced-motion: reduce)"],"selector":".rain-input","declarations":"transition: none;"}
   ];
   const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures).flatMap(({ header, body }) => {
-    if (!/\.rain-(?:input|select|field-frame)(?:\b|__)/.test(`${header} ${body}`)) return [];
+    if (!/\.rain-(?:input|select|field-frame|field-label)(?:\b|__)/.test(`${header} ${body}`)) return [];
     if (header.startsWith("@")) return collect(body, [...ancestry, header]);
     return [{ scope: ancestry, selector: header.replace(/\s+/g, " "), declarations: stripCssComments(body).replace(/\s+/g, " ").trim() }];
   });
-  if (!same(collect(source), expected)) failures.push(`${label} must preserve only the exact native control, shared Focus, clear visibility and system-color rules`);
+  const nativeRules = collect(source);
+  const labelRules = nativeRules.filter(({ selector }) => /\.rain-field-label\b/.test(selector));
+  const labelException = entries.filter(entry => entry.id === "field-inside-label-width");
+  if (!same(labelException, insideLabelsAuthorized ? [{
+    id: "field-inside-label-width", component: "ui-field", selector: ".rain-field-label",
+    reason: "Keep optional fixed inside labels within half of the field and reserve remaining width for editable or selected content; no new global geometry Token.",
+    tokens: ["--rain-space-4"], tests: ["packages/ui/src/input/input-field.test.tsx", "packages/ui/src/select/select.test.tsx", "tests/e2e/inside-labels.spec.ts"], status: "implemented-inside-field-labels-candidate",
+  }] : []) || labelRules.length !== (insideLabelsAuthorized ? 1 : 0)
+    || !same(labelRules, insideLabelsAuthorized ? [{ scope: [], selector: ".rain-field-label", declarations: "max-width: 50%;" }] : [])) failures.push(`${label} must retain the exact authorized inside label width rule`);
+  if (!same(nativeRules.filter(rule => !labelRules.includes(rule)), expected)) failures.push(`${label} must preserve only the exact native control, shared Focus, clear visibility and system-color rules`);
   return failures;
 }
 
@@ -4719,7 +4746,7 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
   }
 
 
-  for (const directory of ["apps/playground/src", "packages/ui/src"]) {
+  for (const directory of ["apps/playground/src", "packages/ui/src", ...(hasLayoutsV1Authorization(phaseStatus) ? ["packages/layouts/src"] : [])]) {
     for (const filePath of collectTaskFiveFiles(root, directory, failures)) {
       if (!/\.[cm]?[jt]sx?$/.test(filePath) || /\.test\.[^.]+$/.test(filePath)
         || filePath.startsWith("packages/ui/src/icons/")
@@ -4727,6 +4754,10 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
       if (tokenFoundationsAuthorized && filePath.startsWith("apps/playground/src/docs/token-foundations/")) continue;
       const source = readFileSync(join(root, filePath), "utf8");
       for (const [, utility] of source.matchAll(/(?<![a-z0-9-])(?:[a-z-]+:)*(border-dashed|flex-wrap|overflow-x-auto)(?![a-z0-9-])/g)) {
+        if (hasTableRn08Authorization(phaseStatus) && ["packages/ui/src/pagination/pagination.tsx", "packages/ui/src/empty/empty.tsx"].includes(filePath) && utility === "flex-wrap") continue;
+        if (hasLayoutsV1Authorization(phaseStatus) && filePath === "packages/layouts/src/layout.tsx" && utility === "flex-wrap") continue;
+        if (hasDialogV2Authorization(phaseStatus) && filePath === "packages/ui/src/dialog/dialog.tsx" && utility === "flex-wrap") continue;
+        if (hasCardV2Authorization(phaseStatus) && filePath === "packages/ui/src/card/card.styles.ts" && utility === "flex-wrap") continue;
         if (selectionCardsAuthorized && filePath === "packages/ui/src/recipes/selection-card-recipes.tsx" && utility === "flex-wrap") continue;
         if (optionButtonAuthorized && filePath === "packages/ui/src/option-button/option-button.tsx" && utility === "flex-wrap") continue;
         if (hasCheckboxSc01Authorization(phaseStatus) && filePath === "packages/ui/src/checkbox/checkbox.tsx" && utility === "flex-wrap") continue;
@@ -4861,6 +4892,20 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
     id: "ui-input", sourcePath: "packages/ui/src/input/input.tsx",
     parts: ["root", "control", "prefix", "suffix", "trailing-action", "clear-action", "count"],
   }, root, "Input UI manifest", failures);
+  const insideLabelsAuthorized = hasInsideFieldLabelsAuthorization(phaseStatus);
+  for (const name of ["input", "search-input", "select", "form-item"]) {
+    if (!insideLabelsAuthorized && !existsSync(join(root, `manifests/ui/${name}.yaml`))) continue;
+    const manifest = name === "input" ? input : loadYaml(root, `manifests/ui/${name}.yaml`, `${name} inside label manifest`, failures);
+    const entry = phaseStatus?.componentRefinements?.tableRn08?.insideFieldLabels;
+    const expected = insideLabelsAuthorized ? {
+      implementation: entry.implementation, automated: entry.automatedVerification, independentReview: entry.independentReview,
+      plan: "docs/plans/2026-09-14-inside-field-labels.md", evidence: "evidence/runtime/inside-field-labels/verification.md",
+      labelPosition: "optional-inside-default-top", humanGate: entry.humanGate,
+      ...(entry.humanGate === "accepted" ? { humanGateScope: "input-search-input-select-inside-labels-runtime-visual-only" } : {}),
+      contrastAcceptance: "not-granted", publication: "not-authorized",
+    } : undefined;
+    if (!same(manifest?.insideFieldLabels, expected)) failures.push(`${name} inside label record must retain the exact independent implementation and visual acceptance scope`);
+  }
   validateTaskSevenButtonMigration(contract, button, root, failures, phaseStatus);
   if (tagAuthorized) {
     for (const name of Object.keys(activeTagManifests)) failures.push(...validateTagFamilyManifest({ manifest: loadYaml(root, `manifests/ui/${name}.yaml`, `${name} UI manifest`, failures), name, root, humanGate: tagHumanGate }));
@@ -4879,7 +4924,7 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
       if (!same(item, expected)) failures.push("Tag Registry must retain exactly the authorized workspace-only unpublished candidates and the recorded Gates");
     } catch (error) { failures.push(`Tag Registry item cannot be read: ${error.message}`); }
   }
-  if (inputAuthorized) failures.push(...validateInputCssExceptions({ contract, source: readTaskFourFile(root, "packages/ui/src/styles.css", "Input CSS", failures) ?? "" }));
+  if (inputAuthorized) failures.push(...validateInputCssExceptions({ contract, root, source: readTaskFourFile(root, "packages/ui/src/styles.css", "Input CSS", failures) ?? "" }));
   failures.push(...validateTagSelectCssExceptions({ contract, source: readTaskFourFile(root, "packages/ui/src/styles.css", "TagSelect CSS", failures) ?? "", authorized: tagBatchThreeAuthorized }));
   if (tagBatchThreeAuthorized) {
     const humanGate = phaseStatus.componentRefinements.tagBatchThree.humanGate;
@@ -5060,7 +5105,80 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
     } catch (error) { failures.push(`Select Registry item cannot be read: ${error.message}`); }
   }
 
+  if (hasLayoutsV1Authorization(phaseStatus)) {
+    try {
+      const registry = JSON.parse(readFileSync(join(root, "registry/layouts.json"), "utf8"));
+      const names = ["stack", "inline", "grid", "split"];
+      const spacingAcceptance = phaseStatus.componentRefinements.layoutsV1.spacingHierarchy?.humanGate === "accepted"
+        ? { humanGate: "accepted", humanGateScope: "layouts-spacing-runtime-visual-only", evidence: "evidence/runtime/spacing-hierarchy/outer-cards/visual-acceptance.md" }
+        : undefined;
+      const sharedFiles = ["layout.tsx", "layout.css", "layout.css.d.ts", "index.ts"].map(name => `packages/layouts/src/${name}`);
+      if (!same((contract?.cssExceptions?.entries ?? []).filter(entry => entry.component === "layouts-v1" || entry.id === "layouts-v1-runtime-geometry"), [{
+        id: "layouts-v1-runtime-geometry", component: "layouts-v1", selector: ".rain-grid, .rain-split and their declared parts",
+        reason: "Container-based Grid calculations and controlled Split regions; these five node-local variables are geometry, not public Tokens or color aliases.",
+        tokens: ["--rain-layout-gap", "--rain-layout-columns", "--rain-layout-column-min-width", "--rain-layout-sidebar-width", "--rain-layout-main-min-width"],
+        tests: ["scripts/layouts-v1.test.ts", "packages/layouts/src/layout.test.tsx", "tests/e2e/layouts.spec.ts"], status: "implemented-rn-06-candidate",
+      }])) failures.push("RN-06 native CSS must keep its exact geometry exception and verification paths");
+      if (registry.kind !== "RainLocalSourceRegistry" || registry.scope !== "current-workspace" || registry.publication !== "not-published"
+        || registry.humanGate !== "awaiting_human" || registry.contrastAcceptance !== "not-granted"
+        || !same(registry.spacingHierarchy, spacingAcceptance)
+        || !same(registry.shared?.files, sharedFiles) || !same(registry.shared?.peerDependencies, ["react", "@rain-next/foundations"])
+        || !same(registry.items?.map(item => item.name), names)) failures.push("RN-06 Registry must retain its exact four unpublished Layout candidates");
+      for (const name of names) {
+        const manifest = loadYaml(root, `manifests/layouts/${name}.yaml`, "RN-06 Manifest", failures);
+        const item = registry.items?.find(item => item.name === name);
+        if (manifest?.id !== `layout-${name}` || manifest?.sourcePath !== "packages/layouts/src/layout.tsx" || manifest?.styleSourcePath !== "packages/layouts/src/layout.css"
+          || manifest?.kind !== "RainLayoutManifest" || manifest?.category !== "layout" || manifest?.migrationLabel !== "react-only"
+          || manifest?.maturity !== "registry-candidate" || manifest?.assetIdentity !== "registry-candidate" || manifest?.publication !== "unpublished"
+          || manifest?.verification?.humanGate !== "awaiting_human" || manifest?.verification?.contrastAcceptance !== "not-granted"
+          || !same(manifest?.verification?.spacingHierarchy, spacingAcceptance)
+          || item?.importPath !== "@rain-next/layouts" || item?.manifest !== `manifests/layouts/${name}.yaml`
+          || !same(item?.files, sharedFiles) || !same(manifest?.dependencies, ["react", "@rain-next/foundations"])
+          || item?.exportName !== name[0].toUpperCase() + name.slice(1)) failures.push(`RN-06 ${name} requires its exact source and unaccepted candidate boundaries`);
+      }
+      for (const file of layoutsV1Files.layouts) if (!existsSync(join(root, file)) || !lstatSync(join(root, file)).isFile() || lstatSync(join(root, file)).isSymbolicLink()) failures.push(`RN-06 missing regular source: ${file}`);
+      for (const file of [...layoutsV1Files.application, "packages/layouts/src/layout.tsx", "packages/layouts/src/layout.css"]) if (!contract?.protectedPaths?.optional?.includes(file)) failures.push(`RN-06 missing protected source: ${file}`);
+    } catch (error) { failures.push(`RN-06 metadata cannot be read: ${error.message}`); }
+  }
+  if (hasDialogV2Authorization(phaseStatus)) {
+    try {
+      const registry = JSON.parse(readFileSync(join(root, "registry/dialog.json"), "utf8"));
+      const visualAcceptance = hasDialogRefinementAuthorization(phaseStatus) && phaseStatus.componentRefinements.dialogRefinement.humanGate === "accepted"
+        ? { humanGate: "accepted", humanGateScope: "dialog-alert-dialog-runtime-visual-only", evidence: "evidence/runtime/dialog-bm-b-visual-2026-09-15/verification.md" }
+        : undefined;
+      if (registry.kind !== "RainLocalSourceRegistry" || registry.scope !== "current-workspace" || registry.publication !== "not-published"
+        || registry.humanGate !== "awaiting_human" || registry.contrastAcceptance !== "not-granted" || registry.dependencies?.["@base-ui/react"] !== "1.8.0"
+        || !same(registry.dialogVisualAcceptance, visualAcceptance)
+        || JSON.stringify(registry.items?.map(item => item.name)) !== JSON.stringify(hasDialogRefinementAuthorization(phaseStatus) ? ["dialog", "alert-dialog", "separator"] : ["dialog", "separator"])) failures.push("RN-05 Registry must retain its exact unpublished candidate scope");
+      for (const name of (hasDialogRefinementAuthorization(phaseStatus) ? ["dialog", "alert-dialog", "separator"] : ["dialog", "separator"])) {
+        const manifest = loadYaml(root, `manifests/ui/${name}.yaml`, "RN-05 Manifest", failures);
+        const accepted = name !== "separator" ? visualAcceptance : undefined;
+        const component = name === "alert-dialog" ? "dialog" : name;
+        const files = ["tsx", "css", "css.d.ts"].map(extension => `packages/ui/src/${component}/${component}.${extension}`);
+        if (manifest?.id !== `ui-${name}` || manifest?.sourcePath !== files[0] || manifest?.maturity !== "registry-candidate"
+          || manifest?.assetIdentity !== "registry-candidate" || manifest?.publication !== "unpublished"
+          || manifest?.verification?.humanGate !== (accepted ? "accepted" : "awaiting_human") || manifest?.verification?.contrastAcceptance !== "not-granted"
+          || manifest?.verification?.humanGateScope !== accepted?.humanGateScope || manifest?.verification?.visualEvidence !== accepted?.evidence
+          || manifest?.source?.commit !== "3ba91b1cc83e1bbe4ab35a422ff2a694849c5048"
+          || JSON.stringify(registry.items?.find(item => item.name === name)?.files) !== JSON.stringify(files)) failures.push(`RN-05 ${name} source inventory and unaccepted candidate boundaries are required`);
+        for (const file of files) if (!existsSync(join(root, file)) || !lstatSync(join(root, file)).isFile() || lstatSync(join(root, file)).isSymbolicLink()) failures.push(`RN-05 missing regular source: ${file}`);
+        for (const file of files.slice(0, 2)) if (!contract.protectedPaths?.optional?.includes(file)) failures.push(`RN-05 missing protected source: ${file}`);
+      }
+    } catch (error) { failures.push(`RN-05 metadata cannot be read: ${error.message}`); }
+  }
   const tabsComponentAuthorized = hasTabsRefinementAuthorization(phaseStatus) && ["component", "documentation"].includes(phaseStatus.componentRefinements.tabs.stage);
+  if (hasCardV2Authorization(phaseStatus)) {
+    try {
+      const manifest = loadYaml(root, "manifests/ui/card.yaml", "Card Manifest", failures);
+      const registry = JSON.parse(readFileSync(join(root, "registry/card.json"), "utf8"));
+      failures.push(...validateCardV2Metadata({ manifest, registry }));
+      const item = registry.items?.[0];
+      for (const path of [...(registry.shared?.files ?? []), ...(item?.files ?? []), item?.sourceLock, item?.license]) {
+        if (typeof path !== "string" || isAbsolute(path) || path.split("/").includes("..") || !existsSync(join(root, path))
+          || !lstatSync(join(root, path)).isFile() || lstatSync(join(root, path)).isSymbolicLink()) failures.push("Card Registry requires available regular workspace sources: " + path);
+      }
+    } catch (error) { failures.push("Card V2 metadata cannot be read: " + error.message); }
+  }
   if (tabsComponentAuthorized) {
     try { failures.push(...validateTabsMetadata({ manifest: loadYaml(root, "manifests/ui/tabs.yaml", "Tabs Manifest", failures), registry: JSON.parse(readFileSync(join(root, "registry/tabs.json"), "utf8")), root, review: phaseStatus.componentRefinements.tabs })); }
     catch (error) { failures.push(`Tabs metadata cannot be read: ${error.message}`); }
@@ -5080,6 +5198,15 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
     } catch (error) { failures.push(`Dropdown family Registry cannot be read: ${error.message}`); }
   }
   const expectedManifestFiles = [
+    ...(hasInputNumberAuthorization(phaseStatus) ? ["manifests/ui/input-number.yaml"] : []),
+    ...(hasAvatarFamilyAuthorization(phaseStatus) ? avatarFamilyFiles.documents.filter(path => path.startsWith("manifests/")) : []),
+    ...(hasRn13Authorization(phaseStatus) ? rn13AssetIndexFiles.documents.filter(path => path.startsWith("manifests/")) : []),
+    ...(hasBmBRn10Authorization(phaseStatus) ? ["manifests/ui/textarea.yaml"] : []),
+    ...(hasTableRn08Authorization(phaseStatus) ? tableRn08Files.documents.filter(path => path.startsWith("manifests/")) : []),
+    ...(hasLayoutsV1Authorization(phaseStatus) ? layoutsV1Files.documents.filter(path => path.startsWith("manifests/")) : []),
+    ...(hasDialogV2Authorization(phaseStatus) ? ["manifests/ui/dialog.yaml", "manifests/ui/separator.yaml"] : []),
+    ...(hasDialogRefinementAuthorization(phaseStatus) ? ["manifests/ui/alert-dialog.yaml"] : []),
+    ...(hasCardV2Authorization(phaseStatus) ? ["manifests/ui/card.yaml"] : []),
     ...(tabsComponentAuthorized ? ["manifests/ui/tabs.yaml"] : []),
     "manifests/.gitkeep",
     "manifests/icons.json",
@@ -5103,7 +5230,8 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
     failures.push(`Task 5 manifest inventory must be exact: ${JSON.stringify(manifestFiles)}`);
   }
   const registryFiles = collectTaskFiveFiles(root, "registry", failures).sort();
-  const expectedRegistryFiles = [...(tabsComponentAuthorized ? ["registry/tabs.json"] : []),...(dropdownFamilyAuthorized ? ["registry/dropdown-family.json"] : []),...(selectionPatternsAuthorized ? ["registry/selection-patterns.json"] : []),...(selectionCardsAuthorized ? ["registry/selection-cards.json"] : []),...(radioAuthorized ? ["registry/radio.json"] : []),...(tagBatchThreeAuthorized ? ["registry/tag-select.json"] : []), ...(checkboxAuthorized ? ["registry/checkbox.json"] : []), ...(selectAuthorized ? ["registry/select.json"] : []), ...(tagAuthorized ? ["registry/tag.json"] : []), "registry/.gitkeep", "registry/icons.json", ...(iconButtonAuthorized ? ["registry/icon-button.json"] : []), ...(questionNumberAuthorized ? ["registry/question-number.json"] : []), ...(optionButtonAuthorized ? ["registry/option-button.json"] : [])].sort();
+const expectedRegistryFiles = [ ...(hasInputNumberAuthorization(phaseStatus) ? ["registry/input-number.json"] : []), ...(hasAvatarFamilyAuthorization(phaseStatus) ? avatarFamilyFiles.documents.filter(path => path.startsWith("registry/")) : []), ...(hasRn13Authorization(phaseStatus) ? rn13AssetIndexFiles.documents.filter(path => path.startsWith("registry/")) : []), ...(hasBmBRn10Authorization(phaseStatus) ? ["registry/textarea.json"] : []),...(hasTableRn08Authorization(phaseStatus) ? ["registry/table.json"] : []),
+    ...(hasLayoutsV1Authorization(phaseStatus) ? ["registry/layouts.json"] : []),...(hasDialogV2Authorization(phaseStatus) ? ["registry/dialog.json"] : []),...(hasCardV2Authorization(phaseStatus) ? ["registry/card.json"] : []),...(tabsComponentAuthorized ? ["registry/tabs.json"] : []),...(dropdownFamilyAuthorized ? ["registry/dropdown-family.json"] : []),...(selectionPatternsAuthorized ? ["registry/selection-patterns.json"] : []),...(selectionCardsAuthorized ? ["registry/selection-cards.json"] : []),...(radioAuthorized ? ["registry/radio.json"] : []),...(tagBatchThreeAuthorized ? ["registry/tag-select.json"] : []), ...(checkboxAuthorized ? ["registry/checkbox.json"] : []), ...(selectAuthorized ? ["registry/select.json"] : []), ...(tagAuthorized ? ["registry/tag.json"] : []), "registry/.gitkeep", "registry/icons.json", ...(iconButtonAuthorized ? ["registry/icon-button.json"] : []), ...(questionNumberAuthorized ? ["registry/question-number.json"] : []), ...(optionButtonAuthorized ? ["registry/option-button.json"] : [])].sort();
   if (!same(registryFiles, expectedRegistryFiles)) {
     failures.push(`Task 5 Registry must remain unpublished with only the exact authorized local candidates: ${JSON.stringify(registryFiles)}`);
   }
@@ -5210,6 +5338,28 @@ export function validateTabsMetadata({ manifest, registry, root, review = { impl
 }
 
 // Fingerprint only parsed Tabs rules: unrelated CSS and formatting remain editable.
+export function validateCardV2Metadata({ manifest, registry }) {
+  const failures = [], exports = ["Card", "CardHeader", "CardTitle", "CardDescription", "CardAction", "CardContent", "CardFooter"];
+  const files = ["packages/ui/src/card/card.tsx", "packages/ui/src/card/card.styles.ts", "packages/ui/src/card/card.css", "packages/ui/src/card/card.css.d.ts"];
+  if (manifest?.id !== "ui-card" || manifest?.publication !== "unpublished" || manifest?.maturity !== "registry-candidate"
+    || manifest?.humanGate !== "awaiting_human" || manifest?.contrastAcceptance !== "not-granted"
+    || !same(manifest?.exports, exports) || !same(manifest?.parts, ["root", "header", "title", "description", "action", "content", "footer"])
+    || manifest?.source?.commit !== "3ba91b1cc83e1bbe4ab35a422ff2a694849c5048" || manifest?.source?.license !== "MIT") failures.push("Card V2 Manifest must retain its source, seven parts and unaccepted candidate boundaries");
+  if (registry?.kind !== "RainLocalSourceRegistry" || registry?.publication !== "not-published" || registry?.scope !== "current-workspace"
+    || registry?.humanGate !== "awaiting_human" || registry?.contrastAcceptance !== "not-granted"
+    || !same(registry?.shared, {
+      files: ["packages/ui/src/recipes/local-recipe.ts", "packages/ui/src/utils/rain-class-names.ts"],
+      peerDependencies: ["react", "@rain-next/foundations", "tailwind-merge"],
+      styleDependencies: ["@rain-next/foundations/tokens.css", "@rain-next/foundations/typography.css", "@rain-next/foundations/focus.css", "@rain-next/foundations/tailwind-theme.css", "@rain-next/ui/styles.css"],
+      registryDependencies: [],
+    })
+    || !same(registry?.items, [{
+      name: "card", exportNames: exports, importPath: "@rain-next/ui", manifest: "manifests/ui/card.yaml",
+      sourceLock: "evidence/runtime/card-v2/source-lock.json", license: "evidence/runtime/card-v2/upstream/LICENSE.md", files,
+    }])) failures.push("Card V2 Registry must retain its exact local source inventory and unaccepted candidate boundaries");
+  return failures;
+}
+
 export function validateTabsCssExceptions({ source, contract, authorized }) {
   const failures = [], ids = ["tabs-geometry", "tabs-touch-targets", "tabs-forced-colors"];
   const entries = (contract?.cssExceptions?.entries ?? []).filter(entry => entry.component === "ui-tabs" || ids.includes(entry.id));

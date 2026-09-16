@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/dialog/dialog.test.tsx (3 tests | 1 failed) 228ms
+   × allows triggerless explicit theme and separates decorative from meaningful separators 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/dialog/dialog.test.tsx > allows triggerless explicit theme and separates decorative from meaningful separators
+Error: expect(element).toHaveAttribute("data-rain-theme", "dark") // element.getAttribute("data-rain-theme") === "dark"
+
+Expected the element to have attribute:
+  data-rain-theme="dark"
+Received:
+  data-rain-theme="light"
+ ❯ packages/ui/src/dialog/dialog.test.tsx:65:17
+     63|   </Dialog.Content></Dialog.Root>);
+     64|   const popup = await screen.findByRole("dialog", { name: "主动打开" });
+     65|   expect(popup).toHaveAttribute("data-rain-theme", "dark");
+       |                 ^
+     66|   expect(screen.getAllByRole("separator")).toHaveLength(1);
+     67|   expect(screen.getByRole("separator")).toHaveAttribute("aria-orientat…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  02:50:27
+   Duration  1.58s (transform 287ms, setup 136ms, import 584ms, tests 228ms, environment 531ms)
+

@@ -1,7 +1,9 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { Popover } from "@base-ui/react/popover";
 import { tagColorProfileNames, tagColorProfiles, tagColorSearchTerms, type ColorTheme, type TagColorProfile } from "@rain-next/foundations";
-import { Button, CheckableTag, CheckableTagGroup, Input, Tag } from "@rain-next/ui";
+import { Button, IconButton, CheckableTag, CheckableTagGroup, Input, Tag } from "@rain-next/ui";
+
+import { CloseIcon } from "@rain-next/ui/icons/close";
 
 export interface TagDraft { name: string; color: TagColorProfile }
 export interface TagDefinition extends TagDraft { id: string }
@@ -99,7 +101,7 @@ export function TagManagementRecipe(props: TagManagementRecipeProps) {
             initialFocus={() => view === "select" ? searchRef.current : view === "manage" ? headingRef.current : nameRef.current}>
             <header className="tag-management__header">
               <Popover.Title render={<h3 ref={headingRef} tabIndex={-1} className="rain-type-ui-default font-rain-semibold" />}>{title}</Popover.Title>
-              <Popover.Close render={<Button variant="text" size="small">关闭</Button>} aria-label="关闭标签面板" />
+              <Popover.Close render={<IconButton icon={<CloseIcon />} size="24/16" aria-label="关闭标签面板" />} aria-label="关闭标签面板" />
             </header>
             <Popover.Description className="tag-management__help">{view === "select" ? "勾选后立即应用；标签上的 × 只解除当前资料的关联。" : view === "manage" || editing ? "修改名称或颜色会同步到使用这个标签的其他资料。" : "从当前 20 种颜色中选择，创建后自动应用到这份资料。"}</Popover.Description>
             {view === "select" ? <>

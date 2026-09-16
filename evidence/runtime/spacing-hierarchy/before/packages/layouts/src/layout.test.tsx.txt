@@ -1,0 +1,97 @@
+import { createRef } from "react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, expect, it, vi } from "vitest";
+import { DensityProvider, useDensity } from "@rain-next/foundations";
+import { Grid, Inline, Split, Stack } from "./index";
+
+afterEach(() => vi.unstubAllGlobals());
+
+it("keeps layout defaults neutral and preserves native props, refs and density inheritance", () => {
+  const root = createRef<HTMLDivElement>();
+  function Child() { return <span>{useDensity()}</span>; }
+  render(<DensityProvider density="compact"><Stack ref={root} role="group" aria-label="表单区" gap={20}>
+    <Inline data-testid="actions"><button type="button" style={{ height: 32 }}>保存</button><Child /></Inline>
+    <Grid data-testid="fields" columns={2} gap={24} minColumnWidth={240}>字段</Grid>
+  </Stack></DensityProvider>);
+  expect(root.current).toBe(screen.getByRole("group", { name: "表单区" }));
+  expect(root.current).toHaveClass("gap-rain-20");
+  expect(root.current).not.toHaveAttribute("data-density");
+  expect(screen.getByText("compact")).toBeInTheDocument();
+  expect(screen.getByRole("button")).toHaveStyle({ height: "32px" });
+  expect(screen.getByTestId("actions")).toHaveAttribute("data-wrap", "true");
+  expect(screen.getByTestId("actions")).toHaveClass("gap-rain-0");
+  expect(screen.getByTestId("fields")).toHaveAttribute("data-columns", "2");
+  expect(screen.getByTestId("fields")).toHaveAttribute("data-adaptive", "true");
+});
+
+it("rejects invalid spaces, unsupported column counts and non-positive or non-finite widths", () => {
+  const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+  try {
+    expect(() => render(<Stack gap={3 as never} />)).toThrow(/gap/);
+    expect(() => render(<Grid columns={5 as never} />)).toThrow(/columns/);
+    for (const width of [0, -1, NaN, Infinity]) {
+      expect(() => render(<Grid minColumnWidth={width} />)).toThrow(/minColumnWidth/);
+      expect(() => render(<Split.Root collapsed={false} sidebarId="aside" sidebarWidth={width} minMainWidth={360}
+        collapseFocusRef={createRef<HTMLButtonElement>()} />)).toThrow(/sidebarWidth/);
+      expect(() => render(<Split.Root collapsed={false} sidebarId="aside" sidebarWidth={240} minMainWidth={width}
+        collapseFocusRef={createRef<HTMLButtonElement>()} />)).toThrow(/minMainWidth/);
+    }
+  } finally { error.mockRestore(); }
+});
+
+it("preserves sidebar drafts when collapsed and only restores focus from the sidebar", () => {
+  const toggle = createRef<HTMLButtonElement>(), sidebar = createRef<HTMLDivElement>();
+  function Example({ collapsed }: { collapsed: boolean }) {
+    return <><button ref={toggle} type="button" aria-controls="course-sidebar" aria-expanded={!collapsed}>侧栏</button>
+      <button type="button">无关操作</button>
+      <Split.Root collapsed={collapsed} sidebarId="course-sidebar" sidebarWidth={240} minMainWidth={360} collapseFocusRef={toggle}>
+        <Split.Main scroll="auto">资料列表</Split.Main>
+        <Split.Sidebar ref={sidebar}><input aria-label="课程名称" defaultValue="原课程" /></Split.Sidebar>
+      </Split.Root></>;
+  }
+  const view = render(<Example collapsed={false} />), input = screen.getByRole("textbox", { name: "课程名称" });
+  fireEvent.change(input, { target: { value: "尚未保存的修改" } });
+  act(() => input.focus());
+  view.rerender(<Example collapsed />);
+  expect(sidebar.current).toHaveAttribute("id", "course-sidebar");
+  expect(sidebar.current).toHaveAttribute("hidden");
+  expect(sidebar.current).toHaveAttribute("inert");
+  expect(toggle.current).toHaveFocus();
+  expect(screen.queryByRole("textbox")).toBeNull();
+  view.rerender(<Example collapsed={false} />);
+  expect(screen.getByRole("textbox")).toBe(input);
+  expect(input).toHaveValue("尚未保存的修改");
+  const unrelated = screen.getByRole("button", { name: "无关操作" });
+  act(() => unrelated.focus());
+  view.rerender(<Example collapsed />);
+  expect(unrelated).toHaveFocus();
+  view.rerender(<Example collapsed={false} />);
+  act(() => { input.focus(); input.blur(); });
+  view.rerender(<Example collapsed />);
+  expect(toggle.current).not.toHaveFocus();
+});
+
+it("stacks Split from its actual container width at the combined minimum and leaves scroll opt-in", () => {
+  let resize: ResizeObserverCallback | undefined;
+  const disconnect = vi.fn();
+  vi.stubGlobal("ResizeObserver", class {
+    constructor(callback: ResizeObserverCallback) { resize = callback; }
+    observe() {}
+    disconnect = disconnect;
+  });
+  const root = createRef<HTMLDivElement>(), toggle = createRef<HTMLButtonElement>();
+  const view = render(<><button ref={toggle}>侧栏</button><Split.Root ref={root} collapsed={false} gap={24}
+    sidebarId="geometry-sidebar" sidebarWidth={240} minMainWidth={360} collapseFocusRef={toggle}>
+    <Split.Sidebar data-testid="sidebar">侧栏</Split.Sidebar><Split.Main scroll="auto" data-testid="main">正文</Split.Main>
+  </Split.Root></>);
+  function width(value: number) {
+    act(() => resize!([{ target: root.current!, contentRect: new DOMRect(0, 0, value, 0), borderBoxSize: [], contentBoxSize: [], devicePixelContentBoxSize: [] }], {} as ResizeObserver));
+  }
+  width(624); expect(root.current).toHaveAttribute("data-stacked", "false");
+  width(623.5); expect(root.current).toHaveAttribute("data-stacked", "true");
+  width(624.5); expect(root.current).toHaveAttribute("data-stacked", "false");
+  expect(screen.getByTestId("sidebar")).toHaveAttribute("data-scroll", "none");
+  expect(screen.getByTestId("main")).toHaveAttribute("data-scroll", "auto");
+  expect(root.current?.firstElementChild).toBe(screen.getByTestId("sidebar"));
+  view.unmount(); expect(disconnect).toHaveBeenCalledOnce();
+});

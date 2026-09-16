@@ -1,0 +1,19 @@
+--- first/activity/page.css
++++ final/apps/prototype/src/scenarios/activity/page.css
+@@ -1,4 +1,5 @@
+ .activity-scenario { max-width: 1000px; margin-inline: auto; }
++.rain-prototype[data-rain-id="prototype-activity"] .rain-prototype-heading { max-width: 1000px; }
+ .activity-scenario, .activity-dialog { font-family: var(--rain-font-ui); font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-24); }
+ .activity-scenario p, .activity-dialog p { margin: 0; }
+ .activity-scenario .activity-course { margin-bottom: var(--rain-space-12); color: var(--rain-category-text-neutral-3); }
+--- first/activity/page.tsx
++++ final/apps/prototype/src/scenarios/activity/page.tsx
+@@ -73,7 +73,7 @@
+       }
+       setDraft(toDraft(saved)); setErrors({}); setSaveError(""); setNotice(""); setOpen(true);
+     }}>
+-      <Card data-slot="saved-activity">
++      <Card>
+         <CardHeader><Inline justify="between" gap={16}>
+           <CardTitle as="h2">{saved.name}</CardTitle>
+           <Dialog.Trigger render={<Button variant="primary">编辑活动</Button>} />

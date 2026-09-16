@@ -1,0 +1,40 @@
+[
+  {
+    "browser": "chromium",
+    "passed": true,
+    "checks": [
+      "selection survives paging and batch excludes read-only rows",
+      "failed refresh retains selection, retries and does not duplicate request",
+      "view switches preserve selection; hidden columns retain identity",
+      "committed search combines with type filter and resets selection",
+      "no results recovery and explicit local detail with focus return",
+      "narrow view keeps controls readable and scroll confined to table",
+      "no browser console/runtime errors"
+    ]
+  },
+  {
+    "browser": "firefox",
+    "passed": true,
+    "checks": [
+      "selection survives paging and batch excludes read-only rows",
+      "failed refresh retains selection, retries and does not duplicate request",
+      "view switches preserve selection; hidden columns retain identity",
+      "committed search combines with type filter and resets selection",
+      "no results recovery and explicit local detail with focus return",
+      "narrow view keeps controls readable and scroll confined to table",
+      "no browser console/runtime errors"
+    ]
+  },
+  {
+    "browser": "webkit",
+    "passed": false,
+    "checks": [
+      "selection survives paging and batch excludes read-only rows",
+      "failed refresh retains selection, retries and does not duplicate request",
+      "view switches preserve selection; hidden columns retain identity",
+      "committed search combines with type filter and resets selection"
+    ],
+    "error": "Error: expect(locator).toBeFocused() failed\n\nLocator:  getByRole('button', { name: '同伴互评怎样给出具体反馈', exact: true })\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.be.focused\" with timeout 5000ms\n  - waiting for getByRole('button', { name: '同伴互评怎样给出具体反馈', exact: true })\n    14 × locator resolved to <button type=\"button\" class=\"lc-name\" data-focus=\"item\">同伴互评怎样给出具体反馈</button>\n       - unexpected value \"inactive\"\n",
+    "errors": []
+  }
+]
