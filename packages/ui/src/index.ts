@@ -23,6 +23,8 @@ export { Link } from "./link/link";
 export type { LinkAppearance, LinkProps } from "./link/link";
 
 export { Input } from "./input/input";
+export { Textarea } from "./textarea/textarea";
+export type { TextareaProps } from "./textarea/textarea";
 export type {
   InputCountMode,
   InputProps,
@@ -119,4 +121,6 @@ export { RadioPreviewCard, CheckboxObjectCard, RadioComparisonCard, RadioCardWit
 export type { RadioPreviewCardProps, CheckboxObjectCardProps, RadioComparisonCardProps, RadioCardWithPreviewProps } from "./recipes/selection-card-recipes";
 
 export { Tabs } from "./tabs/tabs";
+export { Pagination } from "./pagination/pagination";
+export type { PaginationProps, PaginationChangeDetails, PaginationSize, PaginationVariant, PaginationPart } from "./pagination/pagination";
 export type { TabsProps, TabsRootProps, TabsNavProps, TabsItem, TabsValue, TabsChangeDetails, TabsSize, TabsAppearance, TabsPanelMount, TabsPart, TabsLocalRecipe } from "./tabs/tabs";

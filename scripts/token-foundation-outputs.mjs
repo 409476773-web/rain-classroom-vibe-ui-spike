@@ -7,6 +7,7 @@ import { iconSizeTokenEntries, iconSizeClassNames, iconButtonControlSizeTokenEnt
 import { getButtonColorVariables, buttonColorThemeMappings, buttonColorRecipes, legacyComponentTokenAliases, legacyPaintAliases, semanticColorAliases, semanticColorRoleAliases, lineThicknessTokens, radiusTokens } from "../packages/foundations/src/token-contract.ts";
 import { colorTokenOutputs, localColorRecipe, localColorRecipeOutput, resolveColor, resolveColorSurface, measureColorContrast, validateColorUse, colorToCss } from "../packages/foundations/src/color-registry.ts";
 import { getTypographyCssVariables, getTypographyThemeVariables, getTypographyPresetDeclarations, typographyUtilityClassNames } from "../packages/foundations/src/typography-contract.ts";
+import { getPaginationColorConsumers } from "./pagination-color-consumers.mjs";
 
 /** @typedef {{filePath: string, selector: string, scope: string, className: string, use: import("../packages/foundations/src/color-registry.ts").ColorUse}} ColorConsumer */
 /** @typedef {{filePath: string, selector: string, scope: string, displayOnly: boolean, kind: string, className?: string, themeMapping?: string, consumerScope?: string}} DisplayConsumer */
@@ -256,9 +257,10 @@ function getIconButtonColorConsumers() {
 function getComponentColorConsumers() {
   const inputs = getInputColorConsumers(), icons = getIconButtonColorConsumers(), questions = getQuestionNumberColorConsumers(), options = getOptionButtonColorConsumers(), optionContent = getOptionButtonContentColorConsumers();
   const tags = getTagColorConsumers(), tagThree = getTagBatchThreeColorConsumers(), selects = getSelectColorConsumers();
+  const pagination = getPaginationColorConsumers();
   return {
-    colorRecipeConsumers: [...inputs.colorRecipeConsumers, ...icons.colorRecipeConsumers, ...questions.colorRecipeConsumers, ...options.colorRecipeConsumers, ...optionContent, ...tags.colorRecipeConsumers, ...getTagDomainColorConsumers(), ...tagThree.colorRecipeConsumers, ...selects.colorRecipeConsumers, ...getTabsColorConsumers()],
-    colorCssConsumers: [...inputs.colorCssConsumers, ...icons.colorCssConsumers, ...questions.colorCssConsumers, ...options.colorCssConsumers, ...getQuestionOptionSizeReviewColorConsumers(), ...tags.colorCssConsumers, ...tagThree.colorCssConsumers, ...selects.colorCssConsumers, ...getCheckboxColorConsumers(), ...getRadioColorConsumers(), ...getSelectionCardColorConsumers(), ...getSelectionPatternColorConsumers(), ...getDropdownFamilyColorConsumers(), ...getTabsPageColorConsumers()],
+    colorRecipeConsumers: [...inputs.colorRecipeConsumers, ...icons.colorRecipeConsumers, ...questions.colorRecipeConsumers, ...options.colorRecipeConsumers, ...optionContent, ...tags.colorRecipeConsumers, ...getTagDomainColorConsumers(), ...tagThree.colorRecipeConsumers, ...selects.colorRecipeConsumers, ...getTabsColorConsumers(), ...pagination.colorRecipeConsumers],
+    colorCssConsumers: [...inputs.colorCssConsumers, ...icons.colorCssConsumers, ...questions.colorCssConsumers, ...options.colorCssConsumers, ...getQuestionOptionSizeReviewColorConsumers(), ...tags.colorCssConsumers, ...tagThree.colorCssConsumers, ...selects.colorCssConsumers, ...getCheckboxColorConsumers(), ...getRadioColorConsumers(), ...getSelectionCardColorConsumers(), ...getSelectionPatternColorConsumers(), ...getDropdownFamilyColorConsumers(), ...getTabsPageColorConsumers(), ...pagination.colorCssConsumers],
   };
 }
 

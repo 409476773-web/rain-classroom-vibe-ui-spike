@@ -289,6 +289,12 @@ export function CoreUiPage() {
         </div>
       </section>
 
+      <section className="core-family" data-rain-id="core-ui-textarea" data-slot="component-family">
+        <div className="core-family__intro"><h2>Textarea 多行输入</h2><p>复用字段标签与反馈，提供课程说明表单及保存、失败重试和取消样例。</p><Link href="#textarea">查看 Textarea 与长文本表单</Link></div>
+      </section>
+      <section className="core-family" data-rain-id="core-ui-pagination" data-slot="component-family">
+        <div className="core-family__intro"><h2>Pagination 分页</h2><p>轻量页码、条数选择与跳页，支持数据列表和窄容器的精简呈现。</p><Link href="#pagination">查看 Pagination 全部用法</Link></div>
+      </section>
       <section className="core-family" data-rain-id="core-ui-tabs" data-slot="component-family">
         <div className="core-family__intro"><h2>Tabs 分区切换</h2><p>完整的导航与面板，三种外观、连续更多菜单，以及本页内容保留。</p><Link href="#tabs">查看 Tabs 全部用法</Link></div>
       </section>

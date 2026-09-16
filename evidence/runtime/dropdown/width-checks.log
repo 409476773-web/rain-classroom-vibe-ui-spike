@@ -1,0 +1,568 @@
+Dropdown content width refinement, 2026-09-14.
+Final scope: content sizing, 140px minimum, 320px auto cap, viewport constraints.
+Browser config: /tmp/rain-dropdown-width-playwright.config.mjs; Chromium, 5190, retries=0.
+Unit final command: pnpm exec vitest run --maxWorkers=2.
+
+=== Focused unit final (25 passed) ===
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+
+
+ Test Files  3 passed (3)
+      Tests  25 passed (25)
+   Start at  22:56:21
+   Duration  2.60s (transform 781ms, setup 306ms, import 1.51s, tests 1.40s, environment 1.33s)
+
+
+=== Dropdown final (17 passed) ===
+
+Running 17 tests using 1 worker
+
+(node:74848) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/dropdown.spec.ts:8:1 › template composition supports search, native selection, favorite, failure and retry (2.2s)
+  ✓   2 [chromium] › tests/e2e/dropdown.spec.ts:48:1 › menu keyboard navigation, submenu Escape and Tab preserve focus ownership (405ms)
+  ✓   3 [chromium] › tests/e2e/dropdown.spec.ts:64:1 › recipe and item close policies work for mouse, keyboard and native settings (678ms)
+  ✓   4 [chromium] › tests/e2e/dropdown.spec.ts:84:1 › menu hands focus to Dialog and template panel, then returns to the originating trigger (588ms)
+  ✓   5 [chromium] › tests/e2e/dropdown.spec.ts:96:1 › pointer submenu works and pressed paints take priority over hover (953ms)
+  ✓   6 [chromium] › tests/e2e/dropdown.spec.ts:113:49 › light retains selected disabled hierarchy and real compact density (598ms)
+  ✓   7 [chromium] › tests/e2e/dropdown.spec.ts:113:49 › dark retains selected disabled hierarchy and real compact density (612ms)
+  ✓   8 [chromium] › tests/e2e/dropdown.spec.ts:157:1 › narrow template panel keeps its action visible and supports empty categories (479ms)
+  ✓   9 [chromium] › tests/e2e/dropdown.spec.ts:173:1 › compact template keeps coarse pointer targets inside a narrow panel (679ms)
+  ✓  10 [chromium] › tests/e2e/dropdown.spec.ts:192:1 › forced colors preserve a visible selected marker and focus (328ms)
+  ✓  11 [chromium] › tests/e2e/dropdown.spec.ts:228:49 › menu reuses native choice geometry and state paints in light (1.2s)
+  ✓  12 [chromium] › tests/e2e/dropdown.spec.ts:228:49 › menu reuses native choice geometry and state paints in dark (1.3s)
+  ✓  13 [chromium] › tests/e2e/dropdown.spec.ts:281:49 › light menu description closure preserves protected state priorities (2.3s)
+  ✓  14 [chromium] › tests/e2e/dropdown.spec.ts:281:49 › dark menu description closure preserves protected state priorities (2.4s)
+  ✓  15 [chromium] › tests/e2e/dropdown.spec.ts:381:35 › content width fits short labels and preserves explicit widths in 浅色 (807ms)
+  ✓  16 [chromium] › tests/e2e/dropdown.spec.ts:381:35 › content width fits short labels and preserves explicit widths in 深色 (819ms)
+  ✓  17 [chromium] › tests/e2e/dropdown.spec.ts:434:1 › auto submenus fit complete rows without inheriting a fixed parent width (486ms)
+
+  17 passed (17.5s)
+
+=== Tabs More final (12 passed) ===
+
+Running 12 tests using 1 worker
+
+(node:78371) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/tabs.spec.ts:9:1 › public More follows the complete order, waits for activation, preserves input and resolves every ARIA target (1.4s)
+  ✓   2 [chromium] › tests/e2e/tabs.spec.ts:31:1 › public width measurement grows and shrinks the interval, freezes an open menu and uses scroll only when necessary (1.2s)
+  ✓   3 [chromium] › tests/e2e/tabs.spec.ts:85:1 › More boundaries reveal the original next tab and preserve panel associations (977ms)
+  ✓   4 [chromium] › tests/e2e/tabs.spec.ts:107:1 › More browse is not activation; accepted selection focuses the revealed tab and Escape returns (1.3s)
+  ✓   5 [chromium] › tests/e2e/tabs.spec.ts:126:1 › controlled rejection and delayed acceptance do not mount early or steal external focus (1.1s)
+  ✓   6 [chromium] › tests/e2e/tabs.spec.ts:200:1 › menu remains stable during viewport resize and outside dismissal preserves its target (1.0s)
+  ✓   7 [chromium] › tests/e2e/tabs.spec.ts:265:1 › a disabled More-window entry is repaired to a visible tab (1.1s)
+  ✓   8 [chromium] › tests/e2e/tabs.spec.ts:311:1 › a long selected label keeps More until even two characters cannot fit (1.1s)
+  ✓   9 [chromium] › tests/e2e/tabs.spec.ts:327:1 › deleting an opened menu collection closes it and recovers a valid focus target (1.1s)
+  ✓  10 [chromium] › tests/e2e/tabs.spec.ts:340:1 › a removed pending keyboard target cannot steal focus after restoration (1.0s)
+  ✓  11 [chromium] › tests/e2e/tabs.spec.ts:352:1 › a focused More button hands focus to its accepted tab when all items fit (944ms)
+  ✓  12 [chromium] › tests/e2e/tabs.spec.ts:360:1 › menu deletion after a frozen shrink restores a tab in the newly measured interval (1.1s)
+
+  12 passed (14.0s)
+
+=== Edge fixture after type guard (1 passed) ===
+
+Running 1 test using 1 worker
+
+(node:85279) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/dropdown.spec.ts:434:1 › auto submenus fit complete rows without inheriting a fixed parent width (577ms)
+
+  1 passed (1.1s)
+
+=== Typecheck final ===
+
+> @rain-next/workspace@0.0.0 typecheck /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> pnpm -r typecheck && tsc --noEmit --project tsconfig.tests.json
+
+Scope: 3 of 4 workspace projects
+packages/foundations typecheck$ tsc --noEmit --project tsconfig.json
+packages/foundations typecheck: Done
+packages/ui typecheck$ tsc --noEmit --project tsconfig.json
+packages/ui typecheck: Done
+apps/playground typecheck$ tsc --noEmit --project tsconfig.json
+apps/playground typecheck: Done
+
+=== Build final ===
+
+> @rain-next/workspace@0.0.0 build /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> pnpm -r build
+
+Scope: 3 of 4 workspace projects
+packages/foundations build$ tsc --noEmit --project tsconfig.json
+packages/foundations build: Done
+packages/ui build$ tsc --noEmit --project tsconfig.json
+packages/ui build: Done
+apps/playground build$ tsc --noEmit --project tsconfig.json && vite build
+apps/playground build: vite v8.2.2 building client environment for production...
+apps/playground build: transforming...
+apps/playground build: ✓ 658 modules transformed.
+apps/playground build: rendering chunks...
+apps/playground build: computing gzip size...
+apps/playground build: dist/question-option-sizes.html                           0.60 kB │ gzip:   0.37 kB
+apps/playground build: dist/dropdown-review.html                                 0.75 kB │ gzip:   0.38 kB
+apps/playground build: dist/index.html                                           0.76 kB │ gzip:   0.41 kB
+apps/playground build: dist/assets/graph-rotate-DasTGfsJ.svg                     4.14 kB │ gzip:   1.81 kB
+apps/playground build: dist/assets/content-exam-filled-CL7BQELD.svg              4.24 kB │ gzip:   1.85 kB
+apps/playground build: dist/assets/live-avatar-cutout-BOifZKKA.svg               4.34 kB │ gzip:   2.00 kB
+apps/playground build: dist/assets/click-mJ6AXNCz.svg                            4.36 kB │ gzip:   1.95 kB
+apps/playground build: dist/assets/unclear-D7_U7urA.svg                          4.43 kB │ gzip:   2.03 kB
+apps/playground build: dist/assets/like-alt-lbD1WkE9.svg                         5.17 kB │ gzip:   2.47 kB
+apps/playground build: dist/assets/bullet-screen-DqOS2B4l.svg                    5.30 kB │ gzip:   2.40 kB
+apps/playground build: dist/assets/progress-color-65-BW6V_IEL.svg                5.68 kB │ gzip:   2.58 kB
+apps/playground build: dist/assets/in-class-bullet-screen-DESNhir3.svg           5.93 kB │ gzip:   2.70 kB
+apps/playground build: dist/assets/progress-65-thin-Cm2KCCJH.svg                 6.08 kB │ gzip:   2.79 kB
+apps/playground build: dist/assets/question-graph-Cf7nrbOU.svg                   6.76 kB │ gzip:   2.42 kB
+apps/playground build: dist/assets/members-multiple-filled-aINWxI8d.svg          6.79 kB │ gzip:   2.97 kB
+apps/playground build: dist/assets/progress-color-85-BjKuJF1e.svg                7.35 kB │ gzip:   3.38 kB
+apps/playground build: dist/assets/progress-85-thin-DMUEWHsx.svg                 7.37 kB │ gzip:   3.40 kB
+apps/playground build: dist/assets/performance-excellent-badge-DYH7tL0a.svg     10.09 kB │ gzip:   4.41 kB
+apps/playground build: dist/assets/like-alt-2-luymiNAk.svg                      13.16 kB │ gzip:   3.28 kB
+apps/playground build: dist/assets/question-option-sizes-BhxVrYBI.css            5.39 kB │ gzip:   1.12 kB
+apps/playground build: dist/assets/icons-page-C9cxnVed.css                       6.59 kB │ gzip:   1.43 kB
+apps/playground build: dist/assets/dropdown-review-Cm1ciLXi.css                 16.83 kB │ gzip:   2.93 kB
+apps/playground build: dist/assets/index-DI6slWu4.css                           90.05 kB │ gzip:   9.43 kB
+apps/playground build: dist/assets/styles-t3h8L8gP.css                         256.43 kB │ gzip:  34.45 kB
+apps/playground build: dist/assets/share-alt-B-MGPCPG.js                         1.67 kB │ gzip:   0.84 kB
+apps/playground build: dist/assets/question-option-sizes-zYEvstHS.js             8.86 kB │ gzip:   3.06 kB
+apps/playground build: dist/assets/favorite-filled-mlGhCgki.js                  10.68 kB │ gzip:   3.88 kB
+apps/playground build: dist/assets/dropdown-review-DWpIWnkw.js                 119.95 kB │ gzip:  37.01 kB
+apps/playground build: dist/assets/index-CMYN4GVV.js                           389.67 kB │ gzip: 100.39 kB
+apps/playground build: dist/assets/styles-D48p2lud.js                          710.41 kB │ gzip: 220.37 kB
+apps/playground build: dist/assets/icons-page-659zcbqS.js                    2,043.88 kB │ gzip: 419.89 kB
+apps/playground build: ✓ built in 527ms
+apps/playground build: [plugin builtin:vite-reporter] 
+apps/playground build: (!) Some chunks are larger than 500 kB after minification. Consider:
+apps/playground build: - Using dynamic import() to code-split the application
+apps/playground build: - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+apps/playground build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+apps/playground build: Done
+
+=== Tailwind B2 final ===
+
+> @rain-next/workspace@0.0.0 verify:tailwind-b2 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> node scripts/verify-tailwind-b2.mjs
+
+Tailwind B2 verification passed: controlled Rain Token theme bridge and machine-readable system contract; baseline trials completed; 3 fixed prompt records; unmeasured values require reasons; elapsed time remains secondary.
+
+=== Token verification ===
+
+> @rain-next/workspace@0.0.0 verify:tokens /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> node scripts/verify-token-foundations.mjs
+
+QuestionNumber: 93 user-accepted contrast exceptions retain their measured ratios and original thresholds; these are not readability passes.
+OptionButton content: 9 user-accepted contrast exceptions retain their measured ratios and original thresholds; these are not readability passes.
+Input contrast review remains pending: 150 declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.
+Input color-family eligibility remains pending: 96 declared pairings; contrast measurements do not establish eligibility and no exception was accepted.
+Tag contrast review remains pending: 2535 declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.
+Select contrast review remains pending: 89 declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.
+Select color-family eligibility remains pending: 168 declared pairings; contrast measurements do not establish eligibility and no exception was accepted.
+Shared field contrast review remains pending: 266 declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.
+Dropdown comparison contrast review remains pending: 22 declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.
+Dropdown comparison color-family eligibility remains pending: 22 declared pairings; contrast measurements do not establish eligibility and no exception was accepted.
+Dropdown public contrast review remains pending: 9 declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.
+Dropdown public color-family eligibility remains pending: 22 declared pairings; contrast measurements do not establish eligibility and no exception was accepted.
+User-accepted text contrast exception: button-primary-danger-default light Background/Neutral/1 label: 3.601 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-default light Background/Neutral/3 label: 3.601 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-hover light Background/Neutral/1 label: 4.331 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-hover light Background/Neutral/3 label: 4.331 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-pressed light Background/Neutral/1 label: 4.331 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-pressed light Background/Neutral/3 label: 4.331 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-loading light Background/Neutral/1 label: 3.448 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+User-accepted text contrast exception: button-primary-danger-loading light Background/Neutral/3 label: 3.532 < 4.5 (explicit-user-acceptance-danger-primary-text-contrast).
+Token Foundations verified: generated facts and 39 consumer files; 8 user-accepted text contrast exceptions remain below 4.5:1 (not readability passes).
+
+=== Whole governance with existing boundary failures ===
+
+> @rain-next/workspace@0.0.0 verify:governance /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> pnpm verify:lockfile && pnpm verify:workspace && pnpm verify:evidence && pnpm verify:boundaries && pnpm verify:tailwind-b2 && pnpm verify:tokens
+
+
+> @rain-next/workspace@0.0.0 verify:lockfile /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> pnpm install --lockfile-only --frozen-lockfile --offline --ignore-scripts
+
+Scope: all 4 workspace projects
+Done in 188ms using pnpm v10.28.1
+
+> @rain-next/workspace@0.0.0 verify:workspace /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> node scripts/verify-workspace.mjs
+
+Workspace verification passed: 25 directories, 118 files, 4 discovered unique packages, and canonical governance scripts.
+
+> @rain-next/workspace@0.0.0 verify:evidence /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> node scripts/verify-evidence.mjs
+
+Evidence verification passed: 14 exact Visual Evidence entries (12 retained PNGs with audited dimensions/SHA-256, 2 privacy-withheld), a clean screenshot directory, and 4 exact Benchmarks symmetric across YAML and TypeScript indexes.
+
+> @rain-next/workspace@0.0.0 verify:boundaries /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> node scripts/verify-boundaries.mjs
+
+Boundary verification failed:
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/css-cascade-reproduction.html
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/selector-scope-reproduction.html
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+ ELIFECYCLE  Command failed with exit code 1.
+ ELIFECYCLE  Command failed with exit code 1.
+
+=== Whole unit first run with additional concurrency timeouts ===
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+
+ ❯ apps/playground/src/docs/components/tabs-page.test.tsx (2 tests | 2 failed) 11785ms
+   × provides a complete first recipe with operational panels and retained drafts 5465ms
+   × keeps the candidate, lifecycle, controlled and color limits visible in the documentation 6319ms
+ ❯ apps/playground/src/docs/icons-page.test.tsx (9 tests | 1 failed) 11515ms
+     × provides a direct, focused route from the overview without rendering the full library at once 6181ms
+ ❯ scripts/verification-helpers.test.ts (234 tests | 2 failed) 33338ms
+     × passes the complete unmodified fixture before testing any mutation 927ms
+     × leaves the fixture valid after all mutation checks 527ms
+ ❯ scripts/verify-tailwind-b2.test.ts (177 tests | 4 failed) 102723ms
+     × fails closed instead of blocking when the evidence README is a FIFO 2298ms
+     × requires completed trials to carry verifiable diff, screenshot and test evidence 813ms
+     × keeps the Task 2 files while Task 5 promotes its verifier into governance 436ms
+     × passes both the Task 4 bridge verifier and the fail-closed phase boundary 987ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > passes the complete unmodified fixture before testing any mutation
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /verification passed/
+
+- Expected:
+/verification passed/
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/css-cascade-reproduction.html
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/selector-scope-reproduction.html
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+"
+
+ ❯ scripts/verification-helpers.test.ts:835:50
+    833|       const result = run(script);
+    834|       expect(result.error).toBeUndefined();
+    835|       expect(`${result.stdout}${result.stderr}`).toMatch(/verification…
+       |                                                  ^
+    836|       expect(result.status).toBe(0);
+    837|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > leaves the fixture valid after all mutation checks
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ scripts/verification-helpers.test.ts:924:49
+    922|
+    923|   it("leaves the fixture valid after all mutation checks", () => {
+    924|     expect(run("verify-boundaries.mjs").status).toBe(0);
+       |                                                 ^
+    925|     expect(run("verify-workspace.mjs").status).toBe(0);
+    926|     expect(run("verify-evidence.mjs").status).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 results validator > fails closed instead of blocking when the evidence README is a FIFO
+AssertionError: expected Error: spawnSync /Users/wenchengkai/.nvm/… { …(5) } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+Error {
+  "message": "spawnSync /Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node ETIMEDOUT",
+  "errno": -60,
+  "code": "ETIMEDOUT",
+  "syscall": "spawnSync /Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+  "path": "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+  "spawnargs": [
+    "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/scripts/verify-tailwind-b2.mjs",
+  ],
+}
+
+ ❯ scripts/verify-tailwind-b2.test.ts:520:28
+    518|       expect(spawnSync("mkfifo", [readmePath]).status).toBe(0);
+    519|       const result = runScript(verifierPath, fixtureRoot, 1_000);
+    520|       expect(result.error).toBeUndefined();
+       |                            ^
+    521|       expect(outputOf(result)).toMatch(/README.*regular non-symbolic f…
+    522|       expect(result.status).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 results validator > requires completed trials to carry verifiable diff, screenshot and test evidence
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /Boundary verification passed/
+
+- Expected:
+/Boundary verification passed/
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/css-cascade-reproduction.html
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/selector-scope-reproduction.html
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:879:40
+    877|       fixtureRoot,
+    878|     );
+    879|     expect(outputOf(governedEvidence)).toMatch(/Boundary verification …
+       |                                        ^
+    880|     expect(governedEvidence.status).toBe(0);
+    881|     const document = readYaml(baselinePath, fixtureRoot);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 2 governance > keeps the Task 2 files while Task 5 promotes its verifier into governance
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /verification passed/
+
+- Expected:
+/verification passed/
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/css-cascade-reproduction.html
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/selector-scope-reproduction.html
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:1911:32
+    1909|     for (const script of ["verify-boundaries.mjs", "verify-workspace.m…
+    1910|       const result = runScript(join(workspaceRoot, "scripts", script),…
+    1911|       expect(outputOf(result)).toMatch(/verification passed/);
+       |                                ^
+    1912|       expect(result.status).toBe(0);
+    1913|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > passes both the Task 4 bridge verifier and the fail-closed phase boundary
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /verification passed/i
+
+- Expected:
+/verification passed/i
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/css-cascade-reproduction.html
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/selector-scope-reproduction.html
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:3229:32
+    3227|     for (const script of [verifierPath, boundaryVerifierPath]) {
+    3228|       const result = runScript(script, workspaceRoot);
+    3229|       expect(outputOf(result)).toMatch(/verification passed/i);
+       |                                ^
+    3230|       expect(result.status).toBe(0);
+    3231|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  apps/playground/src/docs/icons-page.test.tsx > Icon directory > provides a direct, focused route from the overview without rendering the full library at once
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/playground/src/docs/icons-page.test.tsx:26:3
+     24|   });
+     25|
+     26|   it("provides a direct, focused route from the overview without rende…
+       |   ^
+     27|     window.history.replaceState(null, "", "#overview");
+     28|     render(<App />);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+ FAIL  apps/playground/src/docs/components/tabs-page.test.tsx > provides a complete first recipe with operational panels and retained drafts
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/playground/src/docs/components/tabs-page.test.tsx:5:1
+      3| import { TabsPage } from './tabs-page';
+      4|
+      5| it('provides a complete first recipe with operational panels and retai…
+       | ^
+      6|   render(<TabsPage />);
+      7|   expect(screen.getByRole('heading', { name: 'Tabs 分区切换' })).toHaveAtt…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+
+ FAIL  apps/playground/src/docs/components/tabs-page.test.tsx > keeps the candidate, lifecycle, controlled and color limits visible in the documentation
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/playground/src/docs/components/tabs-page.test.tsx:19:1
+     17| });
+     18|
+     19| it('keeps the candidate, lifecycle, controlled and color limits visibl…
+       | ^
+     20|   render(<TabsPage />);
+     21|   expect(screen.getByText(/独立页面导航使用链接/)).toBeVisible();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯
+
+
+ Test Files  4 failed | 88 passed (92)
+      Tests  9 failed | 1299 passed (1308)
+   Start at  22:49:36
+   Duration  105.45s (transform 13.86s, setup 26.69s, import 48.11s, tests 275.75s, environment 97.71s)
+
+
+=== Whole unit bounded concurrency final (1303 passed / 5 existing boundary failures) ===
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+
+ ❯ scripts/verification-helpers.test.ts (234 tests | 2 failed) 17034ms
+     × passes the complete unmodified fixture before testing any mutation 248ms
+     × leaves the fixture valid after all mutation checks 279ms
+ ❯ scripts/verify-tailwind-b2.test.ts (177 tests | 3 failed) 84504ms
+     × requires completed trials to carry verifiable diff, screenshot and test evidence 403ms
+     × keeps the Task 2 files while Task 5 promotes its verifier into governance 384ms
+     × passes both the Task 4 bridge verifier and the fail-closed phase boundary 897ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > passes the complete unmodified fixture before testing any mutation
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /verification passed/
+
+- Expected:
+/verification passed/
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/css-cascade-reproduction.html
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/selector-scope-reproduction.html
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+"
+
+ ❯ scripts/verification-helpers.test.ts:835:50
+    833|       const result = run(script);
+    834|       expect(result.error).toBeUndefined();
+    835|       expect(`${result.stdout}${result.stderr}`).toMatch(/verification…
+       |                                                  ^
+    836|       expect(result.status).toBe(0);
+    837|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > leaves the fixture valid after all mutation checks
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ scripts/verification-helpers.test.ts:924:49
+    922|
+    923|   it("leaves the fixture valid after all mutation checks", () => {
+    924|     expect(run("verify-boundaries.mjs").status).toBe(0);
+       |                                                 ^
+    925|     expect(run("verify-workspace.mjs").status).toBe(0);
+    926|     expect(run("verify-evidence.mjs").status).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 results validator > requires completed trials to carry verifiable diff, screenshot and test evidence
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /Boundary verification passed/
+
+- Expected:
+/Boundary verification passed/
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/css-cascade-reproduction.html
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/selector-scope-reproduction.html
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:879:40
+    877|       fixtureRoot,
+    878|     );
+    879|     expect(outputOf(governedEvidence)).toMatch(/Boundary verification …
+       |                                        ^
+    880|     expect(governedEvidence.status).toBe(0);
+    881|     const document = readYaml(baselinePath, fixtureRoot);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 2 governance > keeps the Task 2 files while Task 5 promotes its verifier into governance
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /verification passed/
+
+- Expected:
+/verification passed/
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/css-cascade-reproduction.html
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/selector-scope-reproduction.html
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:1911:32
+    1909|     for (const script of ["verify-boundaries.mjs", "verify-workspace.m…
+    1910|       const result = runScript(join(workspaceRoot, "scripts", script),…
+    1911|       expect(outputOf(result)).toMatch(/verification passed/);
+       |                                ^
+    1912|       expect(result.status).toBe(0);
+    1913|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > passes both the Task 4 bridge verifier and the fail-closed phase boundary
+AssertionError: expected 'Boundary verification failed:\n- sour…' to match /verification passed/i
+
+- Expected:
+/verification passed/i
+
++ Received:
+"Boundary verification failed:
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/css-cascade-reproduction.html
+- source file outside the complete Day 3 allowlist: docs/Rain-Next-Codex-工作包V2/证据/selector-scope-reproduction.html
+- Git has a local HEAD commit while Day 3 localGitCommit is not-created
+- Git has configured remotes while Day 3 remoteGit is not-configured: origin
+"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:3229:32
+    3227|     for (const script of [verifierPath, boundaryVerifierPath]) {
+    3228|       const result = runScript(script, workspaceRoot);
+    3229|       expect(outputOf(result)).toMatch(/verification passed/i);
+       |                                ^
+    3230|       expect(result.status).toBe(0);
+    3231|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  2 failed | 90 passed (92)
+      Tests  5 failed | 1303 passed (1308)
+   Start at  22:53:21
+   Duration  102.65s (transform 2.20s, setup 8.05s, import 13.58s, tests 141.60s, environment 33.86s)
+
+
+Independent review: /root/dropdown_contract_review reported no reproducible P1/P2 and independently reran 25 unit checks and B2. Independent CUA preview unavailable (request-header policy load failure); not a manual Human Gate.
+
+Touched baseline files and final SHA-256:
+packages/ui/src/dropdown-menu/dropdown-menu.tsx: b79118bdc3401d3aeab5cf38b794028771fbbe0c6f5d1a1e625b5c054c70f4cc
+packages/ui/src/dropdown-menu/dropdown-menu.css: c0b31c91a2ea6cc500324141397b0aa66a7664c8c7b3d0b098e18a5c138cea29
+apps/playground/src/docs/components/dropdown-page.tsx: 56278df29552d95e4ebd4b91a7373d2cf7478275fc4a58bba45b4fdf071209a9
+tests/e2e/dropdown.spec.ts: 85b4278aeb39572321087f70d7cbc391d9ed7c772485c8c8721d90b780172d7e
+status/current-phase.yaml: 4526526d59de7e25472bf8fe00d2b2030cdcdae655bcaa7f4b526d851f72850f
+manifests/ui/dropdown-menu.yaml: 6852eac838c42883422aa04c9a2fd84b58841e9c1166f562f3e4b563cf61b859
+manifests/contracts/tailwind-b2.yaml: 958ec593f01605bca753cf24e70bfbe3babbe12502fa21b52ceec736718423e4
+scripts/verification-helpers.mjs: 8d13df0c1420bf5838ddab0513a40915bb8d02a24e5d082886a3297727d77669
+scripts/verify-tailwind-b2.mjs: e81ea97ca736c112ab462f1eac3ad30d6b17ff3d6444d6ea7cc6a13eeafe9d60
+scripts/dropdown-family.test.ts: 585c3e387036fae42b5f335f58be3a0bdc1f1895fdedd55dfac390a14568bf2a
+docs/plans/2026-09-09-dropdown-family-construction-plan.md: f231107652a73702567c053f0667a954e84dfc2f48f4590a0a510d461229ba49
+../HANDOFF.md: f4cfa664ca0e9d52f4bfeae9a3a79c934dd9da06f1c8b714e3dd0c6bd729a05e

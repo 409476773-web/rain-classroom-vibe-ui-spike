@@ -2,6 +2,8 @@ import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 
 import { CoreUiPage } from "./docs/components/core-ui-page";
 import { InputPage } from "./docs/components/input-page";
+import { TextareaPage } from "./docs/components/textarea-page";
+import { PaginationPage } from "./docs/components/pagination-page";
 import { SelectPage } from "./docs/components/select-page";
 import { DropdownPage } from "./docs/components/dropdown-page";
 import { TagPage } from "./docs/components/tag-page";
@@ -24,10 +26,12 @@ const IconsPage = lazy(() => import("./docs/icons-page").then((module) => ({ def
 
 type AppRoute = {
   focusTargetId: string;
-  view: "tabs" | "components" | "foundations" | "token-foundations" | "icons" | "overview" | "text-button" | "text-button-help" | "button-tokens" | "icon-button" | "question-number" | "option-button" | "input" | "select" | "dropdown" | "tag" | "checkbox" | "radio" | "selection-cards" | "selection-patterns" | "selection-playground";
+  view: "pagination" | "textarea" | "tabs" | "components" | "foundations" | "token-foundations" | "icons" | "overview" | "text-button" | "text-button-help" | "button-tokens" | "icon-button" | "question-number" | "option-button" | "input" | "select" | "dropdown" | "tag" | "checkbox" | "radio" | "selection-cards" | "selection-patterns" | "selection-playground";
 };
 
 function resolveRoute(hash: string): AppRoute {
+  if (hash === "#pagination") return { focusTargetId: "pagination-title", view: "pagination" };
+  if (hash === "#textarea") return { focusTargetId: "textarea-title", view: "textarea" };
   if (hash === "#tabs") return { focusTargetId: "tabs-title", view: "tabs" };
   if (hash === "#dropdown") return { focusTargetId: "dropdown-title", view: "dropdown" };
   if (hash === "#selection-playground") return { focusTargetId: "selection-playground-title", view: "selection-playground" };
@@ -101,7 +105,9 @@ export function App() {
   }, []);
 
   let page: ReactNode;
-  if (route.view === "tabs") {
+  if (route.view === "pagination") {
+    page = <PaginationPage />;
+  } else if (route.view === "tabs") {
     page = <TabsPage />;
 
   } else if (route.view === "selection-playground") {
@@ -116,6 +122,8 @@ export function App() {
     page = <CheckboxPage />;
   } else if (route.view === "tag") {
     page = <TagPage />;
+  } else if (route.view === "textarea") {
+    page = <TextareaPage />;
   } else if (route.view === "input") {
     page = <InputPage />;
   } else if (route.view === "dropdown") {

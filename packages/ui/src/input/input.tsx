@@ -8,7 +8,7 @@ import { CircleCloseFilledIcon } from "@rain-next/ui/icons/circle-close-filled";
 import { Button, type ButtonProps } from "../button/button";
 import { IconButton } from "../icon-button/icon-button";
 import { rainCn } from "../utils/rain-class-names";
-import { useFormItem } from "./form-item";
+import { mergeFieldIds as mergeIds, useFormItem } from "./form-item";
 import type { FieldAppearance, FieldStatus } from "../field/field.styles";
 import { countGraphemes, limitGraphemeEdit } from "./input.utils";
 import {
@@ -77,10 +77,6 @@ function Addon({ children, slot, blocked, decorative = false }: { children: Reac
     onKeyUpCapture={(event) => { if (blocked && ["Enter", " ", "ArrowDown", "ArrowUp"].includes(event.key)) stopActivation(event); }}>
     {content}
   </span>;
-}
-
-function mergeIds(...ids: Array<string | undefined>) {
-  return [...new Set(ids.filter(Boolean).join(" ").split(/\s+/).filter(Boolean))].join(" ") || undefined;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input({

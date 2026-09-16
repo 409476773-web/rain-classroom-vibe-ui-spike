@@ -12,6 +12,8 @@ import { parseTopLevelCssBlocks, validateProtectedTailwindSource } from "./verif
 import { hasDropdownBatchOneAuthorization, hasSelectRefinementAuthorization, hasCheckboxSc01Authorization, hasRadioSc01Authorization, hasSelectionPatternsSc03Authorization, hasSelectionCardsSc02Authorization, hasTagBatchThreeAuthorization } from "./verification-helpers.mjs";
 import { getTagBatchThreeColorConsumers } from "./token-foundation-outputs.mjs";
 import { getDropdownFamilyColorConsumers, getTabsPageColorConsumers, getTabsColorConsumers } from "./token-foundation-outputs.mjs";
+import { getPaginationColorConsumers, paginationColorSourcePaths } from "./pagination-color-consumers.mjs";
+import { hasPaginationRn08Authorization } from "./verification-helpers.mjs";
 import { hasDropdownFamilyAuthorization, hasDropdownSelectionVisualReuseAuthorization, hasTabsRefinementAuthorization } from "./verification-helpers.mjs";
 import { getCheckboxColorConsumers, getRadioColorConsumers, getSelectionCardColorConsumers, getSelectionPatternColorConsumers } from "./token-foundation-outputs.mjs";
 import { hasTagBatchTwoRefinementAuthorization, hasTagRefinementAuthorization, hasInputRefinementAuthorization, buttonTextContrastException, hasOptionButtonContentRefinementAuthorization, hasOptionButtonRefinementAuthorization, hasQuestionNumberRefinementAuthorization, parseYamlSubset, validateTokenFoundationsV1Phase } from "./verification-helpers.mjs";
@@ -51,6 +53,25 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
   if (filePath === 'packages/ui/src/tabs/tabs.tsx') failures.push(...validateTabsPaintRouting(source));
   const recipes = outputs.colorRecipeConsumers.filter((entry) => entry.filePath === filePath);
   const cssConsumers = outputs.colorCssConsumers.filter((entry) => entry.filePath === filePath);
+  const paginationScope = paginationColorSourcePaths.includes(filePath);
+  const paginationMetadata = paginationScope ? getPaginationColorConsumers() : null;
+  const paginationAuthorized = paginationScope && existsSync(join(root, "status/current-phase.yaml"))
+    && hasPaginationRn08Authorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")));
+  const paginationMetadataMatches = paginationScope
+    && JSON.stringify(recipes) === JSON.stringify(paginationMetadata.colorRecipeConsumers.filter(entry => entry.filePath === filePath))
+    && JSON.stringify(cssConsumers) === JSON.stringify(paginationMetadata.colorCssConsumers.filter(entry => entry.filePath === filePath));
+  if (paginationScope && (!paginationAuthorized || !paginationMetadataMatches)) return ["Pagination colors require exact RN-08 authorization, source definitions and content roles"];
+  const maskPaginationSource = (entry) => {
+    if (source.split(entry.source).length !== 2) { failures.push(`Pagination registered source must occur exactly once: ${filePath} ${entry.source}`); return; }
+    source = source.replace(entry.source, " ".repeat(entry.source.length));
+  };
+  if (paginationAuthorized) {
+    // These exact geometry declarations are not paints. Every other local variable remains subject to the color check.
+    [...paginationMetadata.geometryConsumers, ...paginationMetadata.nativeCssConsumers]
+      .filter(entry => entry.filePath === filePath).forEach(maskPaginationSource);
+  }
+  const paginationUse = use => paginationAuthorized && use.recipeId?.startsWith("pagination-")
+    && use.evidenceRef === "docs/plans/2026-09-14-pagination-rn08.md";
   if (filePath === "apps/playground/src/docs/components/tabs-page.css") {
     const phase = existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {};
     const authorized = hasTabsRefinementAuthorization(phase) && ["component", "documentation"].includes(phase.componentRefinements.tabs.stage);
@@ -163,7 +184,7 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
     try { validateColorUse(use); }
     catch (error) {
       const insufficient = error.message.match(/^Insufficient contrast: ([0-9.]+) < ([0-9.]+)$/);
-      if (pendingReview && insufficient && (questionNumberAuthorized || (optionButtonContentAuthorized && use.recipeId.startsWith("option-button-content-")) || inputContrastUse(use) || dropdownUse(use) || dropdownFamilyUse(use) || selectFocusUse(use) || sharedInputContrastUse(use))) pendingContrastFindings.push({
+      if (pendingReview && insufficient && (paginationUse(use) || questionNumberAuthorized || (optionButtonContentAuthorized && use.recipeId.startsWith("option-button-content-")) || inputContrastUse(use) || dropdownUse(use) || dropdownFamilyUse(use) || selectFocusUse(use) || sharedInputContrastUse(use))) pendingContrastFindings.push({
         status: "pending-review", acceptedException: false, filePath, recipeId: use.recipeId,
         tokenId: use.tokenId, content: use.content, theme: use.theme,
         parentSurfaceId: use.parentSurfaceId, parentBackgroundId: use.parentBackgroundId ?? null,
@@ -198,6 +219,10 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
       checkColor({ ...use, theme, parentSurfaceId: parent, ...(parentBackgroundId ? { parentBackgroundId } : {}) }, `${label} ${theme} ${parent}`, pendingReview);
     }
   };
+  if (paginationAuthorized) for (const consumer of paginationMetadata.inlineConsumers.filter(entry => entry.filePath === filePath)) {
+    checkUse(consumer.use, consumer.parentSurfaces, consumer.scope, true);
+    maskPaginationSource(consumer);
+  }
   if (recipes.length) {
     const parsed = parseSync(filePath, source);
     if (parsed.errors.length) return [`Cannot parse registered recipe: ${filePath}`];
@@ -238,7 +263,7 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
         const from = consumer.kind === "cva" ? "class-variance-authority" : "@rain-next/ui";
         if (consumer.kind !== "static" && (init?.type !== "CallExpression" || init.callee?.name !== callee
           || !imports.some((entry) => entry.source.value === from && entry.specifiers.some((part) => part.imported?.name === callee && part.local.name === callee)))) throw new Error("Registered recipe must use its declared recipe factory");
-        if (consumer.kind === "static" && !questionNumberAuthorized && !optionButtonAuthorized && !(inputAuthorized && Object.hasOwn(inputConsumerContent, consumer.symbol))
+        if (consumer.kind === "static" && !paginationAuthorized && !questionNumberAuthorized && !optionButtonAuthorized && !(inputAuthorized && Object.hasOwn(inputConsumerContent, consumer.symbol))
           && !(tabsAuthorized && consumer.symbol === "tabsPaints") && !selectAuthorized && !(tagThreeAuthorized && consumer.symbol === "tagSelectPaints") && !(tagDomainAuthorized && ["tagStatusPaints", "tagDomainPaints"].includes(consumer.symbol)) && !(tagAuthorized && ["tagColorPaints", "tagSolidPaints"].includes(consumer.symbol))) throw new Error("Static color recipe requires its exact component authorization");
         if (optionContentSymbols.includes(consumer.symbol) && (!optionButtonContentAuthorized || consumer.refinement !== "option-button-content")) throw new Error("OptionButton content color recipe requires its separate exact authorization");
         if (consumer.refinement === "option-button-content" && !optionContentSymbols.includes(consumer.symbol)) throw new Error("OptionButton content authorization cannot expand the accepted selection recipes");
@@ -346,10 +371,11 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
       }
       if (optionReview && JSON.stringify(consumer.recipes.map(({ state, presentation }) => `${state}:${presentation}`)) !== JSON.stringify(["correct:label", "correct:symbol", "wrong:label", "wrong:symbol"])) failures.push("OptionButton review must retain both text and meaningful-icon presentations for each result");
       for (const recipe of consumer.recipes) {
-        const foregroundContent = inputReview ? inputConsumerContent[consumer.symbol] : optionReview ? (recipe.presentation === "symbol" ? "meaningful-icon" : "text") : consumer.kind === "static" && consumer.symbol !== "questionNumberMarkerColors" ? "text" : "meaningful-icon";
+        const paginationIconReview = paginationAuthorized && paginationMetadataMatches && consumer.symbol === "paginationIconClassName";
+        const foregroundContent = paginationIconReview ? "meaningful-icon" : inputReview ? inputConsumerContent[consumer.symbol] : optionReview ? (recipe.presentation === "symbol" ? "meaningful-icon" : "text") : consumer.kind === "static" && consumer.symbol !== "questionNumberMarkerColors" ? "text" : "meaningful-icon";
         if (consumer.kind === "static" && consumer.foregroundContent !== (optionReview ? "text-and-meaningful-icon" : foregroundContent)) failures.push(`Static color recipe must preserve its declared text or meaningful-icon role: ${consumer.symbol}`);
         if (recipe.foreground.content !== (recipe.state === "disabled" ? "disabled" : foregroundContent)) failures.push(`Registered foreground must keep its real content contrast: ${recipe.id}`);
-        const pendingReview = ["pending-review", "declared-review"].includes(consumer.contrastReview) && (inputReview || questionNumberAuthorized || (optionButtonContentAuthorized && optionReview));
+        const pendingReview = ["pending-review", "declared-review"].includes(consumer.contrastReview) && (paginationAuthorized || inputReview || questionNumberAuthorized || (optionButtonContentAuthorized && optionReview));
         for (const theme of ["light", "dark"]) for (const parent of consumer.parentSurfaces) {
           const label = `${recipe.id} ${theme} ${parent}`;
           if (recipe.background) checkColor({ ...recipe.background, theme, parentSurfaceId: parent }, label);
@@ -839,7 +865,7 @@ export function verifyTokenFoundations({ root = process.cwd() } = {}) {
       outputs.colorCssConsumers.push(...dropdownReview.consumers);
     }
   } catch (error) { failures.push(`Dropdown color comparison cannot be checked: ${error.message}`); }
-  const registeredRecipePaths = new Set([...outputs.colorRecipeConsumers, ...outputs.colorCssConsumers].map((entry) => entry.filePath));
+  const registeredRecipePaths = new Set([...outputs.colorRecipeConsumers, ...outputs.colorCssConsumers].map((entry) => entry.filePath).concat(paginationColorSourcePaths));
   for (const filePath of registeredRecipePaths) if (!existsSync(join(root, filePath))) failures.push(`Missing consumer source: ${filePath}`);
   for (const filePath of [...sourceFiles(root, "apps"), ...sourceFiles(root, "packages/ui/src")]) {
     if (filePath.startsWith(consumerDirectory)) continue;
@@ -913,7 +939,7 @@ export function verifyTokenFoundations({ root = process.cwd() } = {}) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const result = verifyTokenFoundations();
-  for (const [label, prefix] of [["QuestionNumber", "question-number-"], ["OptionButton content", "option-button-content-"], ["Input", "input-"], ["Tag", "tag-"], ["Select", "select-"], ["Shared field", "field-"], ["Dropdown comparison", "dropdown-"], ["Dropdown public", "menu-public-"]]) {
+  for (const [label, prefix] of [["QuestionNumber", "question-number-"], ["OptionButton content", "option-button-content-"], ["Input", "input-"], ["Tag", "tag-"], ["Select", "select-"], ["Shared field", "field-"], ["Dropdown comparison", "dropdown-"], ["Dropdown public", "menu-public-"], ["Pagination", "pagination-"]]) {
     const count = result.pendingContrastFindings.filter((entry) => entry.recipeId.startsWith(prefix)).length;
     if (count) console.log(`${label} contrast review remains pending: ${count} declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.`);
     const accepted = result.acceptedComponentContrastExceptions.filter((entry) => entry.recipeId.startsWith(prefix)).length;

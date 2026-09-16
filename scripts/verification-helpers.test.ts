@@ -739,6 +739,8 @@ describe("Tailwind B2 real CLI boundaries", () => {
       ...Object.values(verificationHelpers.tabsVisualRefinementFiles).flat(),
       ...Object.values(verificationHelpers.iconButtonRefinementFiles).flat(),
       ...Object.values(verificationHelpers.inputRefinementFiles).flat(),
+      ...Object.values(verificationHelpers.textareaRn07Files).flat(),
+      ...Object.values(verificationHelpers.paginationRn08Files).flat(),
       ...Object.values(verificationHelpers.selectRefinementFiles).flat(),
       ...Object.values(verificationHelpers.dropdownBatchOneFiles).flat(),
       ...Object.values(verificationHelpers.dropdownFamilyFiles).flat(),

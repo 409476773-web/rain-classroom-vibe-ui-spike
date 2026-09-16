@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { CoreUiPage } from "./core-ui-page";
 
 describe("CoreUiPage", () => {
-  it("documents six families with field previews and a Tabs detail entry", () => {
+  it("documents eight families with field previews, Tabs, Textarea and Pagination detail entries", () => {
     const { container } = render(<CoreUiPage />);
     expect(screen.getByRole("heading", { level: 1, name: "Core UI，把高频动作先做准" })).toHaveAttribute(
       "id",
@@ -14,7 +14,9 @@ describe("CoreUiPage", () => {
     const page = container.querySelector('[data-rain-id="core-ui-page"]');
     expect(page).toHaveAttribute("data-asset-identity", "local-experiment");
     expect(page).toHaveAttribute("data-maturity", "prototype-ready");
-    expect(container.querySelectorAll('[data-slot="component-family"]')).toHaveLength(6);
+    expect(container.querySelectorAll('[data-slot="component-family"]')).toHaveLength(8);
+    expect(screen.getByRole('link', { name: '查看 Pagination 全部用法' })).toHaveAttribute('href', '#pagination');
+    expect(screen.getByRole('link', { name: '查看 Textarea 与长文本表单' })).toHaveAttribute('href', '#textarea');
     expect(screen.getByRole('link', { name: '查看 Tabs 全部用法' })).toHaveAttribute('href', '#tabs');
     expect(container.querySelectorAll('[data-slot="family-contract"]')).toHaveLength(3);
     expect(screen.getAllByText("prototype-ready")).toHaveLength(4);

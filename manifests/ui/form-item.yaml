@@ -10,7 +10,7 @@ sourcePath: "packages/ui/src/input/form-item.tsx"
 styleSourcePath: "packages/ui/src/input/form-item.tsx"
 sourceVersion: "local-2026-09-08"
 publication: "unpublished"
-description: "Complete external label, help and validation presentation for one Input, SearchInput or Select."
+description: "Complete external label, help and validation presentation for one Input, SearchInput, Textarea or Select."
 useWhen:
   - "A single field control needs a visible label and associated feedback."
 doNotUseWhen:
@@ -28,7 +28,7 @@ parts:
   - "help"
   - "message"
 props:
-  - "children: one Input, SearchInput or Select"
+  - "children: one Input, SearchInput, Textarea or Select"
   - "label"
   - "id"
   - "help"
@@ -53,8 +53,9 @@ tokens:
 compositionRules:
   - "Own one shared validation presentation; the host owns rules and timing."
   - "Resolve id from FormItem, direct child or useId; associate the same label and description IDs."
-  - "Field status controls the Input or Select frame and message consistently."
+  - "Field status controls the Input, Textarea or Select frame and message consistently."
   - "Required and disabled inherit additively; no value state or validation execution."
+  - "Textarea linkage is verified under RN-07; the historical Input/SearchInput/FormItem visual Gate does not accept Textarea."
 allowedModifications:
   - "Provide field labels and help/message content."
 restrictedModifications:
@@ -77,6 +78,7 @@ visualLineage:
 examples:
   - "#input"
   - "#select"
+  - "#textarea"
 verification:
   automated: "passed"
   independentReview: "findings"

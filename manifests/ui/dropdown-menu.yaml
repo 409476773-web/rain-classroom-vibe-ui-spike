@@ -29,7 +29,7 @@ parts:
   - "confirmation"
 props:
   - "Root preserves Base UI controlled/default open, reasons, cancellation, trigger IDs and modal=false default."
-  - "Content width is a finite positive number: soft default 280px for menu / 320px for panel; Base UI available width and height constrain it."
+  - "Content width defaults to auto: intrinsic complete-item width, 140px minimum for all menus when the viewport permits, 320px auto cap with existing wrapping. A finite positive number overrides the cap; Base UI available width and height still constrain it. Popover keeps its 320px default."
   - "Content exposes Base UI popup props except inline style; positionerProps exposes placement and string className, excluding inline style."
   - "String className changes layout; named Local Recipe changes declared visual parts. Trigger render composes Button/IconButton and forwards its own ref."
   - "Root closeOnAction defaults true. Item, LinkItem, CheckboxItem and RadioItem can override closeOnClick independently of their behavior type."
@@ -82,6 +82,7 @@ compositionRules:
 allowedModifications:
   - "Labels, leading visuals, short meta, trigger composition, panel width/placement, local classes and feature-owned content."
   - "Existing fields, compact Tabs categories, thumbnails and independent actions inside Popover with normal semantics."
+  - "A completion action may use Item.render with nativeButton=true to render a single small public Button in a separate footer; replace row classes while forwarding Menu props/ref and closeOnClick. Keep its menuitem semantics and do not nest controls. Footer buttons use only:w-full: one fills the row, two keep natural width with Space/8 gap and end alignment."
 restrictedModifications:
   - "No extra overlay controller, business mode switches, new color values or nested controls in a menu row."
   - "Do not weaken critical text roles or interpret pending contrast findings as accepted exceptions."

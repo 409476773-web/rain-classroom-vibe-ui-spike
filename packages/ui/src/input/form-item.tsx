@@ -15,13 +15,17 @@ interface FieldContext {
 export const FormItemContext = createContext<FieldContext | null>(null);
 export function useFormItem() { return useContext(FormItemContext); }
 
+export function mergeFieldIds(...ids: Array<string | undefined>) {
+  return [...new Set(ids.filter(Boolean).join(" ").split(/\s+/).filter(Boolean))].join(" ") || undefined;
+}
+
 export const formItemColors = {
   root: "text-rain-category-text-neutral-1", required: "text-rain-category-text-red-1",
   help: "text-rain-category-text-neutral-3", error: "text-rain-category-text-red-1", warning: "text-rain-category-text-orange-1", message: "text-rain-category-text-neutral-3",
 };
 
 export interface FormItemProps {
-  /** One Input, SearchInput or Select; this recipe owns the label and validation presentation. */
+  /** One Input, SearchInput, Textarea or Select; this recipe owns label and validation presentation. */
   children: ReactElement<{ id?: string }>;
   label: ReactNode;
   id?: string;

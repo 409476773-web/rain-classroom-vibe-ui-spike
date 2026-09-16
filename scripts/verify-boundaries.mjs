@@ -1,4 +1,5 @@
 import { getTabsRefinementFiles, isTabsImport, validateTabsPreflightInventory } from "./verification-helpers.mjs";
+import { hasPaginationRn08Authorization, paginationRn08Files, hasTextareaRn07Authorization, textareaRn07Files } from "./verification-helpers.mjs";
 import { selectionPlaygroundSc04Files, hasSelectionPlaygroundSc04Authorization, selectionPatternsSc03Files, hasSelectionPatternsSc03Authorization, selectionCardsSc02Files, hasSelectionCardsSc02Authorization, radioSc01Files, hasRadioSc01Authorization, checkboxSc01Files, hasCheckboxSc01Authorization } from "./verification-helpers.mjs";
 import {
   existsSync,
@@ -248,6 +249,8 @@ const selectionPlaygroundFiles = Object.fromEntries(Object.entries(selectionPlay
 const selectionPatternFiles = Object.fromEntries(Object.entries(selectionPatternsSc03Files).map(([kind, files]) => [kind, hasSelectionPatternsSc03Authorization(livePhaseStatus) ? files : []]));
 const selectionCardFiles = Object.fromEntries(Object.entries(selectionCardsSc02Files).map(([kind, files]) => [kind, hasSelectionCardsSc02Authorization(livePhaseStatus) ? files : []]));
 const radioFiles = Object.fromEntries(Object.entries(radioSc01Files).map(([kind, files]) => [kind, hasRadioSc01Authorization(livePhaseStatus) ? files : []]));
+const paginationFiles = Object.fromEntries(Object.entries(paginationRn08Files).map(([kind, files]) => [kind, hasPaginationRn08Authorization(livePhaseStatus) ? files : []]));
+const textareaFiles = Object.fromEntries(Object.entries(textareaRn07Files).map(([kind, files]) => [kind, hasTextareaRn07Authorization(livePhaseStatus) ? files : []]));
 const inputFiles = Object.fromEntries(Object.entries(inputRefinementFiles).map(([kind, files]) => [kind, inputAuthorized ? files : []]));
 const selectFiles = Object.fromEntries(Object.entries(selectRefinementFiles).map(([kind, files]) => [kind, selectAuthorized ? files : []]));
 const tagFiles = Object.fromEntries(Object.entries(tagRefinementFiles).map(([kind, files]) => [kind, [
@@ -256,7 +259,7 @@ const tagFiles = Object.fromEntries(Object.entries(tagRefinementFiles).map(([kin
 ]]));
 const iconButtonFiles = Object.fromEntries(Object.entries(iconButtonRefinementFiles).map(([kind, files]) => [kind, iconButtonAuthorized ? files : []]));
 const sizeReviewFiles = Object.fromEntries(Object.entries(questionOptionSizeReviewFiles).map(([kind, files]) => [kind, questionOptionSizeReviewAuthorized ? files : []]));
-for (const name of [...Object.values(tabsFiles).flat(), ...Object.values(iconButtonFiles).flat(), ...Object.values(inputFiles).flat(), ...Object.values(selectFiles).flat(), ...Object.values(tagFiles).flat(), ...Object.values(dropdownPublicFiles).flat(), ...Object.values(checkboxFiles).flat(), ...Object.values(selectionCardFiles).flat(), ...Object.values(selectionPatternFiles).flat(), ...Object.values(selectionPlaygroundFiles).flat(), ...Object.values(radioFiles).flat()]) {
+for (const name of [...Object.values(tabsFiles).flat(), ...Object.values(iconButtonFiles).flat(), ...Object.values(paginationFiles).flat(), ...Object.values(textareaFiles).flat(), ...Object.values(inputFiles).flat(), ...Object.values(selectFiles).flat(), ...Object.values(tagFiles).flat(), ...Object.values(dropdownPublicFiles).flat(), ...Object.values(checkboxFiles).flat(), ...Object.values(selectionCardFiles).flat(), ...Object.values(selectionPatternFiles).flat(), ...Object.values(selectionPlaygroundFiles).flat(), ...Object.values(radioFiles).flat()]) {
   const path = join(workspaceRoot, name);
   if (!existsSync(path)) continue;
   requireRealDirectoryChain(dirname(name), "IconButton artifact parent");
@@ -2399,7 +2402,7 @@ if (isDayThree || isTailwindB2) {
     [
       ...dropdownFiles.application,
       ...sizeReviewFiles.application,
-      ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application,
+      ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...paginationFiles.application, ...textareaFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application,
       ...buttonMigrationApplicationFiles,
       ...(isTokenFoundationsV1 ? tokenFoundationsV1Files.application : []),
       ...textButtonFiles.application,
@@ -2450,7 +2453,7 @@ if (isDayThree || isTailwindB2) {
   const expectedAppFiles = [
     ...dropdownFiles.application.filter((file) => existsSync(join(workspaceRoot, file))),
     ...sizeReviewFiles.application,
-    ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application,
+    ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...paginationFiles.application, ...textareaFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application,
     ...buttonMigrationApplicationFiles,
     ...(isTokenFoundationsV1 ? tokenFoundationsV1Files.application : []),
     ...textButtonFiles.application,
@@ -2492,7 +2495,7 @@ if (isDayThree || isTailwindB2) {
   }
 
   const expectedUiFiles = [
-    ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)),
+    ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...paginationFiles.ui, ...textareaFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)),
     ...textButtonFiles.ui,
     ...iconFiles.ui,
     "packages/ui/package.json",
@@ -2564,7 +2567,7 @@ if (isDayThree || isTailwindB2) {
     const placeholderPath = join(directoryPath, ".gitkeep");
     const authorizedDocuments = [
       ...dropdownFiles.documents, ...dropdownFiles.application,
-      ...optionButtonFiles.documents, ...questionNumberFiles.documents, ...iconButtonFiles.documents, ...inputFiles.documents, ...selectFiles.documents, ...dropdownPublicFiles.documents, ...checkboxFiles.documents, ...selectionCardFiles.documents, ...selectionPatternFiles.documents, ...selectionPlaygroundFiles.documents, ...radioFiles.documents, ...tabsFiles.documents, ...tagFiles.documents,
+      ...optionButtonFiles.documents, ...questionNumberFiles.documents, ...iconButtonFiles.documents, ...paginationFiles.documents, ...textareaFiles.documents, ...inputFiles.documents, ...selectFiles.documents, ...dropdownPublicFiles.documents, ...checkboxFiles.documents, ...selectionCardFiles.documents, ...selectionPatternFiles.documents, ...selectionPlaygroundFiles.documents, ...radioFiles.documents, ...tabsFiles.documents, ...tagFiles.documents,
       ...(isTokenFoundationsV1 ? tokenFoundationsV1Files.documents : []),
       ...iconFiles.documents,
       ...(isTailwindB2 ? ["docs/adr/0002-tailwind-b2-local-fork.md"] : []),
@@ -2710,7 +2713,7 @@ if (isDayThree || isTailwindB2) {
     [
       ...dropdownFiles.application, ...dropdownFiles.workspace,
       ...sizeReviewFiles.application, ...sizeReviewFiles.workspace,
-      ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application, ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)), ...optionButtonFiles.foundations, ...questionNumberFiles.foundations, ...iconButtonFiles.foundations, ...inputFiles.foundations, ...selectFiles.foundations, ...checkboxFiles.foundations, ...selectionCardFiles.foundations, ...selectionPatternFiles.foundations, ...selectionPlaygroundFiles.foundations, ...radioFiles.foundations, ...tabsFiles.foundations, ...tagFiles.foundations, ...optionButtonFiles.workspace, ...questionNumberFiles.workspace, ...iconButtonFiles.workspace, ...inputFiles.workspace, ...selectFiles.workspace, ...dropdownPublicFiles.workspace, ...checkboxFiles.workspace, ...selectionCardFiles.workspace, ...selectionPatternFiles.workspace, ...selectionPlaygroundFiles.workspace, ...radioFiles.workspace, ...tabsFiles.workspace, ...tagFiles.workspace,
+      ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...paginationFiles.application, ...textareaFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application, ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...paginationFiles.ui, ...textareaFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)), ...optionButtonFiles.foundations, ...questionNumberFiles.foundations, ...iconButtonFiles.foundations, ...paginationFiles.foundations, ...textareaFiles.foundations, ...inputFiles.foundations, ...selectFiles.foundations, ...checkboxFiles.foundations, ...selectionCardFiles.foundations, ...selectionPatternFiles.foundations, ...selectionPlaygroundFiles.foundations, ...radioFiles.foundations, ...tabsFiles.foundations, ...tagFiles.foundations, ...optionButtonFiles.workspace, ...questionNumberFiles.workspace, ...iconButtonFiles.workspace, ...paginationFiles.workspace, ...textareaFiles.workspace, ...inputFiles.workspace, ...selectFiles.workspace, ...dropdownPublicFiles.workspace, ...checkboxFiles.workspace, ...selectionCardFiles.workspace, ...selectionPatternFiles.workspace, ...selectionPlaygroundFiles.workspace, ...radioFiles.workspace, ...tabsFiles.workspace, ...tagFiles.workspace,
       ...buttonMigrationApplicationFiles,
       ...buttonMigrationFoundationFiles,
       ...(isTokenFoundationsV1 ? [...tokenFoundationsV1Files.application, ...tokenFoundationsV1Files.foundations, ...tokenFoundationsV1Files.workspace] : []),

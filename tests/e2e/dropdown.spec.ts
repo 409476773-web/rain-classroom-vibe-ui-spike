@@ -377,3 +377,150 @@ for (const theme of ["light", "dark"] as const) test(`${theme} menu description 
   }
   if (evidenceDir) writeFileSync(join(evidenceDir, `implemented-dropdown-${theme}.json`), JSON.stringify(facts, null, 2) + "\n");
 });
+
+for (const theme of ["浅色", "深色"]) test(`content width fits short labels and preserves explicit widths in ${theme}`, async ({ page }) => {
+  await page.getByRole("button", { name: theme, exact: true }).click();
+  for (const [trigger, expected] of [["内容自适应", null], ["固定 240px", 240], ["固定 400px", 400]] as const) {
+    await page.getByRole("button", { name: trigger, exact: true }).click();
+    const menu = page.getByRole("menu");
+    await expect(menu).toBeVisible();
+    const geometry = await menu.evaluate(node => {
+      const labels = [...node.querySelectorAll('[data-slot="label"]')];
+      return { width: node.getBoundingClientRect().width, labelWidths: labels.map(label => { const range = document.createRange(); range.selectNodeContents(label); return range.getBoundingClientRect().width; }), rows: [...node.querySelectorAll('[role="menuitem"]')].map(row => row.getBoundingClientRect().width), overflow: node.scrollWidth - node.clientWidth };
+    });
+    if (expected) expect(geometry.width).toBeCloseTo(expected, 0);
+    else {
+      expect(geometry.width).toBe(140);
+      await menu.getByRole("menuitem").first().locator('[data-slot="label"]').evaluate(node => { node.textContent = "看"; });
+      await menu.getByRole("menuitem").last().locator('[data-slot="label"]').evaluate(node => { node.textContent = "记"; });
+      await expect(menu).toHaveCSS("width", "140px");
+      await menu.getByRole("menuitem").first().locator('[data-slot="label"]').evaluate(node => { node.textContent = "查看资料"; });
+      await menu.getByRole("menuitem").last().locator('[data-slot="label"]').evaluate(node => { node.textContent = "记录稍后处理"; });
+      if (process.env.RAIN_UPDATE_DROPDOWN_WIDTH_EVIDENCE === "1") {
+        const name = theme === "浅色" ? "light" : "dark";
+        await page.screenshot({ path: `evidence/runtime/dropdown/width-${name}.png` });
+        writeFileSync(`evidence/runtime/dropdown/width-${name}.json`, JSON.stringify({ theme, viewport: page.viewportSize(), ...geometry }, null, 2) + "\n");
+      }
+    }
+    expect(new Set(geometry.rows).size).toBe(1);
+    expect(geometry.overflow).toBeLessThanOrEqual(1);
+    await page.keyboard.press("Escape");
+  }
+  await page.getByRole("button", { name: "视图设置", exact: true }).click();
+  const settings = page.getByRole("menu");
+  expect((await settings.boundingBox())!.width).toBeLessThanOrEqual(320);
+  const reason = settings.locator('[data-slot="description"][data-critical="true"]');
+  await reason.evaluate(node => { node.textContent = "管理员已锁定此项，当前设置仍然生效。".repeat(8); });
+  await expect(settings).toHaveCSS("width", "320px");
+  expect(await reason.evaluate(node => node.scrollHeight - node.clientHeight)).toBeLessThanOrEqual(1);
+  await expect(page.getByRole("menuitemcheckbox", { name: "保留教师资料", exact: true })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "视图设置面板版", exact: true }).click();
+  await expect(page.getByRole("dialog", { name: "视图设置面板", exact: true })).toHaveCSS("width", "320px");
+  await page.keyboard.press("Escape");
+  await page.setViewportSize({ width: 320, height: 480 });
+  for (const trigger of ["内容自适应", "固定 400px", "视图设置"]) {
+    await page.getByRole("button", { name: trigger, exact: true }).click();
+    const menu = page.getByRole("menu");
+    await expect(menu).toBeVisible();
+    const box = await menu.boundingBox();
+    expect(box!.x).toBeGreaterThanOrEqual(8);
+    expect(box!.x + box!.width).toBeLessThanOrEqual(312);
+    expect(await menu.evaluate(node => node.scrollWidth - node.clientWidth)).toBeLessThanOrEqual(1);
+    await page.keyboard.press("Escape");
+  }
+});
+
+test("auto submenus fit complete rows without inheriting a fixed parent width", async ({ page }) => {
+  await page.evaluate(async () => {
+    const main = await fetch("/src/main.tsx").then(response => response.text());
+    const reactUrl = main.match(/from "([^"]+\/react\.js[^"]*)"/)![1];
+    const domUrl = main.match(/from "([^"]+\/react-dom_client\.js[^"]*)"/)![1];
+    const uiSource = main.match(/"([^"]+\/packages\/ui\/src\/)styles\.css[^"]*"/)![1];
+    if (!reactUrl || !domUrl || !uiSource) throw new Error("Cannot resolve the playground React and UI modules.");
+    const [{ default: React }, { default: ReactDOM }, { DropdownMenu: Menu }, { CopyIcon }] = await Promise.all([
+      import(reactUrl), import(domUrl), import(`${uiSource}index.ts`), import(`${uiSource}icons/copy.tsx`),
+    ]);
+    const host = document.createElement("div"); host.style.cssText = "position:fixed;top:24px;left:24px"; document.body.append(host);
+    const h = React.createElement;
+    ReactDOM.createRoot(host).render(h(Menu.Root, null, h(Menu.Trigger, null, "Width fixture"), h(Menu.Content, { width: 400 },
+      h(Menu.SubmenuRoot, null, h(Menu.SubmenuTrigger, { label: "短菜单" }), h(Menu.Content, { width: "auto" },
+        h(Menu.Item, { label: "复制", leading: h(CopyIcon), shortcut: "⌘⇧C" }),
+        h(Menu.CheckboxItem, { label: "已选", checked: true, meta: "Excel" }))),
+      h(Menu.SubmenuRoot, null, h(Menu.SubmenuTrigger, { label: "极短" }), h(Menu.Content, { width: 100 }, h(Menu.Item, { label: "看" }))),
+      h(Menu.SubmenuRoot, null, h(Menu.SubmenuTrigger, { label: "长说明" }), h(Menu.Content, null,
+        h(Menu.Item, { label: "导出", description: "完整原因必须始终展示，".repeat(16), critical: true }))),
+    )));
+  });
+  await page.getByRole("button", { name: "Width fixture" }).click();
+  const openSubmenu = async (label: string) => {
+    await page.getByRole("menuitem", { name: label, exact: true }).focus(); await page.keyboard.press("ArrowRight");
+    const menu = page.getByRole("menu").last(); await expect(menu).toBeVisible(); return menu;
+  };
+  const short = await openSubmenu("短菜单");
+  expect((await short.boundingBox())!.width).toBeGreaterThanOrEqual(140);
+  expect((await short.boundingBox())!.width).toBeLessThan(240);
+  expect(await short.evaluate(node => [...node.querySelectorAll('[data-slot="leading"], [data-slot="label"], [data-slot="shortcut"], [data-slot="indicator"], [data-slot="meta"]')].every(part => {
+    const box = part.getBoundingClientRect(), parent = node.getBoundingClientRect();
+    return box.width > 0 && box.left >= parent.left && box.right <= parent.right && part.scrollWidth <= part.clientWidth + 1;
+  }))).toBe(true);
+  await page.keyboard.press("Escape");
+  await expect(await openSubmenu("极短")).toHaveCSS("width", "140px");
+  await page.keyboard.press("Escape");
+  const long = await openSubmenu("长说明");
+  await expect(long).toHaveCSS("width", "320px");
+  expect(await long.locator('[data-slot="description"]').evaluate(node => node.scrollHeight - node.clientHeight)).toBeLessThanOrEqual(1);
+  await page.keyboard.press("End"); await expect(long.getByRole("menuitem")).toBeFocused();
+  await page.keyboard.press("Escape"); await page.keyboard.press("Escape");
+  await page.setViewportSize({ width: 120, height: 480 });
+  await page.getByRole("button", { name: "内容自适应", exact: true }).click();
+  const narrow = await page.getByRole("menu").boundingBox();
+  expect(narrow!.width).toBeLessThanOrEqual(104);
+  expect(narrow!.x).toBeGreaterThanOrEqual(8);
+  expect(narrow!.x + narrow!.width).toBeLessThanOrEqual(112);
+  expect(await page.pageErrors()).toEqual([]);
+});
+
+for (const theme of ["浅色", "深色"]) test(`completion action adapts its width to sibling count and preserves menu focus behavior in ${theme}`, async ({ page }) => {
+  await page.getByRole("button", { name: theme, exact: true }).click();
+  const trigger = page.getByRole("button", { name: "视图设置", exact: true });
+  await trigger.focus(); await page.keyboard.press("ArrowDown");
+  const menu = page.getByRole("menu");
+  const finish = menu.getByRole("menuitem", { name: "完成设置", exact: true });
+  await expect(finish).toHaveAttribute("data-rain-id", "ui-button");
+  await expect(finish).toHaveAttribute("data-size", "small");
+  await expect(finish).toHaveAttribute("data-variant", "secondary");
+  expect(await finish.evaluate(node => node.tagName)).toBe("BUTTON");
+  expect(await finish.locator("button").count()).toBe(0);
+  const footerLayout = await finish.evaluate(node => {
+    const parent = node.parentElement!, style = getComputedStyle(parent);
+    const available = parent.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    const single = node.getBoundingClientRect().width;
+    // Layout-only sibling probe; never activate a cloned control or alter Menu state.
+    const sibling = node.cloneNode(true) as HTMLElement; sibling.removeAttribute("id");
+    node.before(sibling);
+    const paired = node.getBoundingClientRect().width, other = sibling.getBoundingClientRect().width;
+    const gap = node.getBoundingClientRect().left - sibling.getBoundingClientRect().right;
+    sibling.remove(); return { available, single, paired, other, gap };
+  });
+  expect(footerLayout.single).toBeCloseTo(footerLayout.available, 0);
+  expect(footerLayout.paired).toBeLessThan(footerLayout.available / 2);
+  expect(footerLayout.other).toBeLessThan(footerLayout.available / 2);
+  expect(footerLayout.gap).toBe(8);
+  await page.keyboard.press("End"); await expect(finish).toBeFocused();
+  if (process.env.RAIN_UPDATE_DROPDOWN_FOOTER_EVIDENCE === "1") await page.screenshot({ path: `evidence/runtime/dropdown/footer-${theme === "浅色" ? "light" : "dark"}.png` });
+  await page.keyboard.press("Enter"); await expect(menu).toBeHidden(); await expect(trigger).toBeFocused();
+  await page.keyboard.press("ArrowDown"); await page.keyboard.press("End"); await expect(finish).toBeFocused();
+  await page.keyboard.press("Space"); await expect(menu).toBeHidden(); await expect(trigger).toBeFocused();
+  await trigger.focus(); await page.keyboard.press("ArrowDown"); await expect(menu).toBeVisible(); await page.keyboard.press("End"); await page.keyboard.press("Escape"); await expect(trigger).toBeFocused();
+  await page.setViewportSize({ width: 320, height: 480 });
+  await trigger.focus(); await page.keyboard.press("ArrowDown"); await expect(menu).toBeVisible(); await page.keyboard.press("End"); await expect(finish).toBeFocused();
+  const box = await finish.boundingBox(); expect(box!.x).toBeGreaterThanOrEqual(8); expect(box!.x + box!.width).toBeLessThanOrEqual(312);
+  await finish.click(); await expect(menu).toBeHidden();
+  await page.getByRole("button", { name: "视图设置面板版", exact: true }).click();
+  const panel = page.getByRole("dialog", { name: "视图设置面板", exact: true });
+  const panelFinish = panel.getByRole("button", { name: "完成设置", exact: true });
+  await expect(panelFinish).toHaveAttribute("data-size", "small");
+  await panelFinish.click(); await expect(panel).toBeHidden();
+  expect(await page.pageErrors()).toEqual([]);
+});

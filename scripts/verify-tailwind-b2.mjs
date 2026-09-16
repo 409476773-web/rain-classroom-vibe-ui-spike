@@ -22,6 +22,7 @@ import { dropdownFamilyFiles, hasDropdownFamilyAuthorization, hasDropdownSelecti
 import { hasSelectionPlaygroundSc04Authorization, hasSelectionPatternsSc03Authorization, selectionPatternsSc03Files, hasCheckboxSc01Authorization, hasRadioSc01Authorization, hasSelectionCardsSc02Authorization, selectionCardsSc02Files } from "./verification-helpers.mjs";
 import { hasTagBatchThreeAuthorization, tagBatchThreeFiles } from "./verification-helpers.mjs";
 import { hasTabsRefinementAuthorization, tabsPreflightFiles, validateTabsPreflightInventory } from "./verification-helpers.mjs";
+import { hasPaginationRn08Authorization, hasTextareaRn07Authorization } from "./verification-helpers.mjs";
 import { buttonColorThemeMappings, getButtonColorVariables, legacyComponentTokenAliases } from "../packages/foundations/src/token-contract.ts";
 import { tagShapeRecipes, tagDetailTokens } from "../packages/foundations/src/tag-token-contract.ts";
 import { getLegacyTypographyAliases } from "../packages/foundations/src/typography-contract.ts";
@@ -3637,6 +3638,8 @@ export function validateTailwindB2CompositionBridge({ root = process.cwd() } = {
       ...(tokenFoundationsAuthorized ? ['@source "./docs/token-foundations";'] : []),
       ...(iconButtonAuthorized ? ['@source "./docs/components/icon-button-page.tsx";'] : []),
       ...(inputAuthorized ? ['@source "./docs/components/input-page.tsx";'] : []),
+      ...(hasPaginationRn08Authorization(status) ? ['@source "./docs/components/pagination-page.tsx";'] : []),
+      ...(hasTextareaRn07Authorization(status) ? ['@source "./docs/components/textarea-page.tsx";'] : []),
       ...(selectAuthorized ? ['@source "./docs/components/select-page.tsx";'] : []),
       ...(hasTabsRefinementAuthorization(status) && ["component", "documentation"].includes(status.componentRefinements.tabs.stage) ? ['@source "./docs/components/tabs-page.tsx";'] : []),
       ...(hasDropdownFamilyAuthorization(status) ? ['@source "./docs/components/dropdown-page.tsx";'] : []),
@@ -4733,6 +4736,7 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
         if (hasRadioSc01Authorization(phaseStatus) && filePath === "packages/ui/src/radio/radio.tsx" && utility === "flex-wrap") continue;
         if (tagAuthorized && filePath === "packages/ui/src/tag/checkable-tag.tsx" && utility === "flex-wrap") continue;
         if (selectAuthorized && filePath === "packages/ui/src/select/select.tsx" && utility === "flex-wrap") continue;
+        if (hasPaginationRn08Authorization(phaseStatus) && ["packages/ui/src/pagination/pagination.tsx", "packages/ui/src/pagination/pagination.styles.ts"].includes(filePath) && utility === "flex-wrap") continue;
         failures.push(`Token Foundations V1 structural utility ${utility} is outside its authorized demo scope: ${filePath}`);
       }
     }
@@ -4795,11 +4799,13 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
     const dropdownProtected = [...dropdownFamilyFiles.ui, ...dropdownFamilyFiles.application].filter(path => !path.endsWith(".test.tsx"));
     if (dropdownFamilyAuthorized && !dropdownProtected.every(path => contract.protectedPaths?.optional?.includes(path))) failures.push("Dropdown family must protect its exact public and example sources");
     if (!dropdownFamilyAuthorized && dropdownProtected.some(path => existsSync(join(root, path)))) failures.push("Dropdown family requires its own exact implementation authorization");
+    const dropdownWidthAuthorized = dropdownFamilyAuthorized && Boolean(phaseStatus.componentRefinements.dropdownFamily.widthRefinement);
+    if (!dropdownWidthAuthorized && existsSync(join(root, "packages/ui/src/dropdown-menu/dropdown-menu.tsx")) && readFileSync(join(root, "packages/ui/src/dropdown-menu/dropdown-menu.tsx"), "utf8").includes('width = "auto"')) failures.push("Dropdown content width requires its exact refinement authorization");
     const dropdownExceptions = (contract.cssExceptions?.entries ?? []).filter(entry => entry.component === "ui-dropdown-family" || entry.id === "dropdown-family-parts");
     if (!same(dropdownExceptions, dropdownFamilyAuthorized ? [{
-      id: "dropdown-family-parts", component: "ui-dropdown-family", selector: ".rain-popup, .rain-menu-item, .rain-menu-separator, .rain-popup-positioner",
-      reason: "Base UI viewport constraints, linked item parts, two-line text and native system colors; no additional overlay controller.",
-      tokens: ["--rain-space-8", "--rain-icon-size-16", "--rain-icon-size-10", "--rain-category-text-brand-1", "--rain-category-text-brand-2", "--rain-category-icon-brand-1"],
+      id: "dropdown-family-parts", component: "ui-dropdown-family", selector: `.rain-popup, ${dropdownWidthAuthorized ? ".rain-menu, " : ""}.rain-menu-item, .rain-menu-separator, .rain-popup-positioner`,
+      reason: `${dropdownWidthAuthorized ? "Intrinsic menu width with a viewport-bounded 140px minimum and 320px overridable auto cap, " : ""}Base UI viewport constraints, linked item parts, two-line text and native system colors; no additional overlay controller.`,
+      tokens: ["--rain-space-8", ...(dropdownWidthAuthorized ? ["--rain-space-20", "--rain-space-32"] : []), "--rain-icon-size-16", "--rain-icon-size-10", "--rain-category-text-brand-1", "--rain-category-text-brand-2", "--rain-category-icon-brand-1"],
       tests: ["scripts/dropdown-family.test.ts", "tests/e2e/dropdown.spec.ts"], status: "implemented-dropdown-family-candidate",
     }] : [])) failures.push("Dropdown family CSS exception must retain its exact scope, Token roles and checks");
     const thirdTagProtected = [...tagBatchThreeFiles.ui, ...tagBatchThreeFiles.application].filter((path) => !path.endsWith(".test.tsx"));
@@ -5080,6 +5086,8 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
     } catch (error) { failures.push(`Dropdown family Registry cannot be read: ${error.message}`); }
   }
   const expectedManifestFiles = [
+    ...(hasPaginationRn08Authorization(phaseStatus) ? ["manifests/ui/pagination.yaml"] : []),
+    ...(hasTextareaRn07Authorization(phaseStatus) ? ["manifests/ui/textarea.yaml"] : []),
     ...(tabsComponentAuthorized ? ["manifests/ui/tabs.yaml"] : []),
     "manifests/.gitkeep",
     "manifests/icons.json",
@@ -5103,7 +5111,7 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
     failures.push(`Task 5 manifest inventory must be exact: ${JSON.stringify(manifestFiles)}`);
   }
   const registryFiles = collectTaskFiveFiles(root, "registry", failures).sort();
-  const expectedRegistryFiles = [...(tabsComponentAuthorized ? ["registry/tabs.json"] : []),...(dropdownFamilyAuthorized ? ["registry/dropdown-family.json"] : []),...(selectionPatternsAuthorized ? ["registry/selection-patterns.json"] : []),...(selectionCardsAuthorized ? ["registry/selection-cards.json"] : []),...(radioAuthorized ? ["registry/radio.json"] : []),...(tagBatchThreeAuthorized ? ["registry/tag-select.json"] : []), ...(checkboxAuthorized ? ["registry/checkbox.json"] : []), ...(selectAuthorized ? ["registry/select.json"] : []), ...(tagAuthorized ? ["registry/tag.json"] : []), "registry/.gitkeep", "registry/icons.json", ...(iconButtonAuthorized ? ["registry/icon-button.json"] : []), ...(questionNumberAuthorized ? ["registry/question-number.json"] : []), ...(optionButtonAuthorized ? ["registry/option-button.json"] : [])].sort();
+  const expectedRegistryFiles = [...(hasPaginationRn08Authorization(phaseStatus) ? ["registry/pagination.json"] : []),...(hasTextareaRn07Authorization(phaseStatus) ? ["registry/textarea.json"] : []),...(tabsComponentAuthorized ? ["registry/tabs.json"] : []),...(dropdownFamilyAuthorized ? ["registry/dropdown-family.json"] : []),...(selectionPatternsAuthorized ? ["registry/selection-patterns.json"] : []),...(selectionCardsAuthorized ? ["registry/selection-cards.json"] : []),...(radioAuthorized ? ["registry/radio.json"] : []),...(tagBatchThreeAuthorized ? ["registry/tag-select.json"] : []), ...(checkboxAuthorized ? ["registry/checkbox.json"] : []), ...(selectAuthorized ? ["registry/select.json"] : []), ...(tagAuthorized ? ["registry/tag.json"] : []), "registry/.gitkeep", "registry/icons.json", ...(iconButtonAuthorized ? ["registry/icon-button.json"] : []), ...(questionNumberAuthorized ? ["registry/question-number.json"] : []), ...(optionButtonAuthorized ? ["registry/option-button.json"] : [])].sort();
   if (!same(registryFiles, expectedRegistryFiles)) {
     failures.push(`Task 5 Registry must remain unpublished with only the exact authorized local candidates: ${JSON.stringify(registryFiles)}`);
   }

@@ -10,6 +10,16 @@ const publicCssPath = "packages/ui/src/dropdown-menu/dropdown-menu.css";
 const publicCss = readFileSync(publicCssPath, "utf8");
 
 describe("Dropdown family candidate governance", () => {
+  it("keeps content-width acceptance scoped to the explicit user decision", () => {
+    for (const change of [{ scope: "all-overlays" }, { humanGateDecision: undefined }, { contrastAcceptance: "accepted" }, { humanGateDecision: { ...phase().componentRefinements.dropdownFamily.widthRefinement.humanGateDecision, scope: "all-overlays" } }]) {
+      const status = phase(); Object.assign(status.componentRefinements.dropdownFamily.widthRefinement, change);
+      expect(hasDropdownFamilyAuthorization(status)).toBe(false);
+      expect(() => getValidatedTailwindB2History(status)).toThrow();
+    }
+    const status = phase(); delete status.componentRefinements.dropdownFamily.widthRefinement;
+    expect(hasDropdownFamilyAuthorization(status)).toBe(true);
+  });
+
   it("requires the exact new visual-reuse scope without extending existing Human Gates", () => {
     const status = phase();
     expect(hasDropdownSelectionVisualReuseAuthorization(status)).toBe(true);

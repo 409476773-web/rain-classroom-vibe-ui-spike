@@ -24,7 +24,7 @@ import {
   validateTailwindB2CompositionBridge,
   validateTailwindB2SystemContract,
 } from "./verify-tailwind-b2.mjs";
-import { dropdownFamilyFiles, hasQuestionNumberRefinementAuthorization, hasTagBatchThreeAuthorization, inspectPngMetadata, parseYamlSubset, selectionPatternsSc03Files, selectionCardsSc02Files, selectRefinementFiles, tagRefinementFiles, tagBatchTwoRefinementFiles, tagBatchTwoNames, tagBatchThreeFiles, validateTokenFoundationsV1Phase } from "./verification-helpers.mjs";
+import { paginationRn08Files, textareaRn07Files, hasPaginationRn08Authorization, dropdownFamilyFiles, hasQuestionNumberRefinementAuthorization, hasTagBatchThreeAuthorization, inspectPngMetadata, parseYamlSubset, selectionPatternsSc03Files, selectionCardsSc02Files, selectRefinementFiles, tagRefinementFiles, tagBatchTwoRefinementFiles, tagBatchTwoNames, tagBatchThreeFiles, validateTokenFoundationsV1Phase } from "./verification-helpers.mjs";
 
 const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const benchmarkPath = "benchmarks/tailwind-b2-ai-editability.yaml";
@@ -2872,6 +2872,7 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
     const addedTagPaths = [...tagBatchTwoRefinementFiles.ui, ...tagBatchTwoNames.map((name) => `manifests/ui/${name}.yaml`), ...tagRefinementFiles.ui, ...tagRefinementFiles.application, "registry/tag.json", ...["tag", "link-tag", "checkable-tag", "checkable-tag-group"].map((name) => `manifests/ui/${name}.yaml`)];
     addedTagPaths.push(...tagBatchThreeFiles.ui, ...tagBatchThreeFiles.application, "manifests/ui/tag-select.yaml", "registry/tag-select.json");
     const addedDropdownPaths = [...dropdownFamilyFiles.ui, ...dropdownFamilyFiles.application, ...dropdownFamilyFiles.documents];
+    const addedRecentPaths = [textareaRn07Files, paginationRn08Files].flatMap(files => [...files.ui, ...files.application, ...files.documents.filter((path: string) => /^(manifests|registry)\//.test(path))]);
     const addedTabsPaths = ["manifests/ui/tabs.yaml", "registry/tabs.json"];
     const addedSelectPaths = [...selectRefinementFiles.ui, ...selectRefinementFiles.application, "manifests/ui/select.yaml", "registry/select.json"];
     const addedCheckboxPaths = ["packages/ui/src/checkbox/checkbox.tsx", "packages/ui/src/checkbox/checkbox.test.tsx",
@@ -2887,7 +2888,7 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
     const iconRegistryPath = "registry/icons.json";
     const uiStylesPath = "packages/ui/src/styles.css";
     const b2ContractPath = "manifests/contracts/tailwind-b2.yaml";
-    const originals = new Map([...archivedPaths, statusPath, manifestPath, uiStylesPath, b2ContractPath, ...iconButtonPaths, ...addedInputPaths, ...addedTagPaths, ...addedDropdownPaths, ...addedTabsPaths, ...addedSelectPaths, ...addedCheckboxPaths, ...addedRadioPaths, ...addedSelectionCardPaths, ...addedSelectionPatternPaths, ...addedIconPaths, iconCatalogPath, iconRegistryPath].map((path) => [path, readFileSync(absolute(path, fixtureRoot))]));
+    const originals = new Map([...archivedPaths, statusPath, manifestPath, uiStylesPath, b2ContractPath, ...iconButtonPaths, ...addedInputPaths, ...addedTagPaths, ...addedDropdownPaths, ...addedTabsPaths, ...addedRecentPaths, ...addedSelectPaths, ...addedCheckboxPaths, ...addedRadioPaths, ...addedSelectionCardPaths, ...addedSelectionPatternPaths, ...addedIconPaths, iconCatalogPath, iconRegistryPath].map((path) => [path, readFileSync(absolute(path, fixtureRoot))]));
     const archivePath = absolute("evidence/runtime/token-foundations-v1/pre-token-runtime.tar.gz");
     const demoPath = absolute("apps/playground/src/docs/token-foundations", fixtureRoot);
     const heldDemoPath = absolute("held-token-foundations-demo", fixtureRoot);
@@ -2903,14 +2904,14 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
       const status = readYaml(statusPath, fixtureRoot);
       writeFileSync(absolute(statusPath, fixtureRoot), renderYaml(status.phaseHistory.tailwindB2));
       rmSync(absolute(manifestPath, fixtureRoot));
-      for (const path of [...iconButtonPaths, ...addedInputPaths, ...addedTagPaths, ...addedDropdownPaths, ...addedTabsPaths, ...addedSelectPaths, ...addedCheckboxPaths, ...addedRadioPaths, ...addedSelectionCardPaths, ...addedSelectionPatternPaths, ...addedIconPaths]) rmSync(absolute(path, fixtureRoot));
+      for (const path of [...iconButtonPaths, ...addedInputPaths, ...addedTagPaths, ...addedDropdownPaths, ...addedTabsPaths, ...addedRecentPaths, ...addedSelectPaths, ...addedCheckboxPaths, ...addedRadioPaths, ...addedSelectionCardPaths, ...addedSelectionPatternPaths, ...addedIconPaths]) rmSync(absolute(path, fixtureRoot));
       writeFileSync(absolute(iconCatalogPath, fixtureRoot), originals.get(iconCatalogPath)!.toString().split("\n").filter((line) => !line.includes('assetId: "icon/grading-')).join("\n"));
       const registry = JSON.parse(originals.get(iconRegistryPath)!.toString());
       registry.items = registry.items.filter((item: any) => !["grading-pending", "grading-reviewed"].includes(item.name));
       writeFileSync(absolute(iconRegistryPath, fixtureRoot), `${JSON.stringify(registry, null, 2)}\n`);
       const contract = readYaml(b2ContractPath, fixtureRoot);
-      contract.cssExceptions.entries = contract.cssExceptions.entries.filter((entry: any) => !["ui-icon", "ui-icon-button", "ui-question-number", "ui-option-button", "ui-input", "ui-field", "ui-select", "ui-tag", "ui-tag-select", "ui-dropdown-family", "ui-checkbox", "ui-radio", "ui-selection-cards"].includes(entry.component));
-      for (const key of ["required", "optional"]) contract.protectedPaths[key] = contract.protectedPaths[key].filter((path: string) => !path.includes("icon-button") && !path.includes("question-number") && !path.includes("option-button") && !path.includes("/tag/") && !addedInputPaths.includes(path) && !addedTagPaths.includes(path) && !addedDropdownPaths.includes(path) && !addedSelectPaths.includes(path) && !addedCheckboxPaths.includes(path) && !addedRadioPaths.includes(path) && !addedSelectionCardPaths.includes(path));
+      contract.cssExceptions.entries = contract.cssExceptions.entries.filter((entry: any) => !["ui-icon", "ui-icon-button", "ui-question-number", "ui-option-button", "ui-input", "ui-field", "ui-select", "ui-tag", "ui-tag-select", "ui-dropdown-family", "ui-checkbox", "ui-radio", "ui-selection-cards", "ui-pagination", "pagination-page"].includes(entry.component));
+      for (const key of ["required", "optional"]) contract.protectedPaths[key] = contract.protectedPaths[key].filter((path: string) => !path.includes("icon-button") && !path.includes("question-number") && !path.includes("option-button") && !path.includes("/tag/") && !addedInputPaths.includes(path) && !addedTagPaths.includes(path) && !addedDropdownPaths.includes(path) && !addedRecentPaths.includes(path) && !addedSelectPaths.includes(path) && !addedCheckboxPaths.includes(path) && !addedRadioPaths.includes(path) && !addedSelectionCardPaths.includes(path));
       writeFileSync(absolute(b2ContractPath, fixtureRoot), renderYaml(contract));
       const nativeStyles = originals.get(uiStylesPath)!.toString().split("/* @rain-css-exception selection-card-layout:")[0]!.replace(/\/\* @rain-css-exception option-button-card-layout:[\s\S]*?\n\}/, "").replace(/\/\* @rain-css-exception option-button-review-forced-colors:[\s\S]*?\n\}/, "")
         .replace(/\/\* @rain-css-exception tag-select-layer:[\s\S]*?(?=\n\.rain-badge \{)/, "");
@@ -2991,7 +2992,7 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
     ]);
     const sourceStatements = applicationCss.match(/@source\s+["'][^"']*["'];/g) ?? [];
     expect(sourceStatements.filter((statement) => /docs|evidence|registry|\/private\/tmp/.test(statement)))
-      .toEqual(['@source "./docs/token-foundations";', '@source "./docs/components/icon-button-page.tsx";', '@source "./docs/components/input-page.tsx";', '@source "./docs/components/select-page.tsx";', '@source "./docs/components/tabs-page.tsx";', '@source "./docs/components/dropdown-page.tsx";', '@source "./docs/components/tag-page.tsx";', '@source "./docs/components/question-number-page.tsx";', '@source "./docs/components/option-button-page.tsx";', '@source "./docs/components/checkbox-page.tsx";', '@source "./docs/components/radio-page.tsx";', '@source "./docs/components/selection-cards-page.tsx";', '@source "./docs/components/selection-patterns-page.tsx";', '@source "./docs/components/selection-playground-page.tsx";']);
+      .toEqual(['@source "./docs/token-foundations";', '@source "./docs/components/icon-button-page.tsx";', '@source "./docs/components/input-page.tsx";', '@source "./docs/components/pagination-page.tsx";', '@source "./docs/components/textarea-page.tsx";', '@source "./docs/components/select-page.tsx";', '@source "./docs/components/tabs-page.tsx";', '@source "./docs/components/dropdown-page.tsx";', '@source "./docs/components/tag-page.tsx";', '@source "./docs/components/question-number-page.tsx";', '@source "./docs/components/option-button-page.tsx";', '@source "./docs/components/checkbox-page.tsx";', '@source "./docs/components/radio-page.tsx";', '@source "./docs/components/selection-cards-page.tsx";', '@source "./docs/components/selection-patterns-page.tsx";', '@source "./docs/components/selection-playground-page.tsx";']);
   });
 
   it("proves the fail-closed source roots with a fresh real Vite build", () => {
@@ -3186,6 +3187,7 @@ describe("Tailwind B2 Task 4 controlled theme bridge", () => {
       for (const utility of ["border-dashed", "flex-wrap", "overflow-x-auto"]) currentStructuralAllowlist.add(utility);
       if (hasTagBatchThreeAuthorization(readYaml("status/current-phase.yaml")))
         for (const utility of ["justify-between", "whitespace-normal"]) currentStructuralAllowlist.add(utility);
+      if (hasPaginationRn08Authorization(readYaml("status/current-phase.yaml"))) currentStructuralAllowlist.add("list-none");
       const normalizeUtility = (utility: string) => {
         if (utility === "\\[\\&\\>\\.rain-icon\\]\\:size-full>.rain-icon") return "size-full";
         const unescaped = utility.replaceAll("\\:", ":").replaceAll("\\*", "*");

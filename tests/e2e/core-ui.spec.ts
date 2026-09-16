@@ -130,7 +130,8 @@ test("the Day 3 Core UI page exposes truthful families and real interaction", as
     "data-maturity",
     "prototype-ready",
   );
-  await expect(page.locator('[data-slot="component-family"]')).toHaveCount(6);
+  await expect(page.locator('[data-slot="component-family"]')).toHaveCount(8);
+  await expect(page.getByRole('link', { name: '查看 Pagination 全部用法' })).toHaveAttribute('href', '#pagination');
   await expect(page.getByRole('link', { name: '查看 Tabs 全部用法' })).toHaveAttribute('href', '#tabs');
   await expect(page.getByText("prototype-ready")).toHaveCount(4);
   await expect(page.getByText("分批验收")).toBeVisible();

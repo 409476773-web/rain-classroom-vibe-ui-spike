@@ -1,0 +1,264 @@
+Footer action refinement 2026-09-14
+Scope: single full width / paired natural width; public Button small secondary; retain Menu semantics.
+
+=== Original row failure ===
+
+Running 2 tests using 1 worker
+
+(node:88646) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action is a small secondary button with menu focus behavior in 浅色 (5.7s)
+(node:88660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action is a small secondary button with menu focus behavior in 深色 (5.4s)
+
+
+  1) [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action is a small secondary button with menu focus behavior in 浅色 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByRole('menu').getByRole('menuitem', { name: '完成设置', exact: true })
+    Expected: "ui-button"
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for getByRole('menu').getByRole('menuitem', { name: '完成设置', exact: true })
+        14 × locator resolved to <div tabindex="-1" role="menuitem" data-slot="item" data-focus="item" aria-label="完成设置" id="base-ui-_r_1i_" data-tone="default" class="rain-menu-item relative flex w-full min-w-rain-0 items-center gap-rain-10 rounded-rain-6 border-none px-rain-12 py-rain-6 text-left font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular no-underline cursor-pointer select-none outline-none">…</div>
+           - unexpected value "null"
+
+
+      488 |   const menu = page.getByRole("menu");
+      489 |   const finish = menu.getByRole("menuitem", { name: "完成设置", exact: true });
+    > 490 |   await expect(finish).toHaveAttribute("data-rain-id", "ui-button");
+          |                        ^
+      491 |   await expect(finish).toHaveAttribute("data-size", "small");
+      492 |   await expect(finish).toHaveAttribute("data-variant", "secondary");
+      493 |   expect(await finish.evaluate(node => node.tagName)).toBe("BUTTON");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/dropdown.spec.ts:490:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../tmp/rain-dropdown-width-results/dropdown-completion-action-54c6b-h-menu-focus-behavior-in-浅色-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../tmp/rain-dropdown-width-results/dropdown-completion-action-54c6b-h-menu-focus-behavior-in-浅色-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action is a small secondary button with menu focus behavior in 深色 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByRole('menu').getByRole('menuitem', { name: '完成设置', exact: true })
+    Expected: "ui-button"
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for getByRole('menu').getByRole('menuitem', { name: '完成设置', exact: true })
+        14 × locator resolved to <div tabindex="-1" role="menuitem" data-slot="item" data-focus="item" aria-label="完成设置" id="base-ui-_r_1i_" data-tone="default" class="rain-menu-item relative flex w-full min-w-rain-0 items-center gap-rain-10 rounded-rain-6 border-none px-rain-12 py-rain-6 text-left font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular no-underline cursor-pointer select-none outline-none">…</div>
+           - unexpected value "null"
+
+
+      488 |   const menu = page.getByRole("menu");
+      489 |   const finish = menu.getByRole("menuitem", { name: "完成设置", exact: true });
+    > 490 |   await expect(finish).toHaveAttribute("data-rain-id", "ui-button");
+          |                        ^
+      491 |   await expect(finish).toHaveAttribute("data-size", "small");
+      492 |   await expect(finish).toHaveAttribute("data-variant", "secondary");
+      493 |   expect(await finish.evaluate(node => node.tagName)).toBe("BUTTON");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/dropdown.spec.ts:490:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../tmp/rain-dropdown-width-results/dropdown-completion-action-e60fc-h-menu-focus-behavior-in-深色-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../tmp/rain-dropdown-width-results/dropdown-completion-action-e60fc-h-menu-focus-behavior-in-深色-chromium/error-context.md
+
+  2 failed
+    [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action is a small secondary button with menu focus behavior in 浅色 
+    [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action is a small secondary button with menu focus behavior in 深色 
+
+=== Small-width failure after user requested full row ===
+
+Running 2 tests using 1 worker
+
+(node:98746) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action adapts its width to sibling count and preserves menu focus behavior in 浅色 (586ms)
+(node:98821) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action adapts its width to sibling count and preserves menu focus behavior in 深色 (488ms)
+
+
+  1) [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action adapts its width to sibling count and preserves menu focus behavior in 浅色 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 284
+    Received: 98
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   186
+
+      504 |     sibling.remove(); return { available, single, paired, other, gap };
+      505 |   });
+    > 506 |   expect(footerLayout.single).toBeCloseTo(footerLayout.available, 0);
+          |                               ^
+      507 |   expect(footerLayout.paired).toBeLessThan(footerLayout.available / 2);
+      508 |   expect(footerLayout.other).toBeLessThan(footerLayout.available / 2);
+      509 |   expect(footerLayout.gap).toBe(8);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/dropdown.spec.ts:506:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../tmp/rain-dropdown-width-results/dropdown-completion-action-86c19-s-menu-focus-behavior-in-浅色-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../tmp/rain-dropdown-width-results/dropdown-completion-action-86c19-s-menu-focus-behavior-in-浅色-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action adapts its width to sibling count and preserves menu focus behavior in 深色 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 284
+    Received: 98
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   186
+
+      504 |     sibling.remove(); return { available, single, paired, other, gap };
+      505 |   });
+    > 506 |   expect(footerLayout.single).toBeCloseTo(footerLayout.available, 0);
+          |                               ^
+      507 |   expect(footerLayout.paired).toBeLessThan(footerLayout.available / 2);
+      508 |   expect(footerLayout.other).toBeLessThan(footerLayout.available / 2);
+      509 |   expect(footerLayout.gap).toBe(8);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/tests/e2e/dropdown.spec.ts:506:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../tmp/rain-dropdown-width-results/dropdown-completion-action-e0466-s-menu-focus-behavior-in-深色-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../tmp/rain-dropdown-width-results/dropdown-completion-action-e0466-s-menu-focus-behavior-in-深色-chromium/error-context.md
+
+  2 failed
+    [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action adapts its width to sibling count and preserves menu focus behavior in 浅色 
+    [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action adapts its width to sibling count and preserves menu focus behavior in 深色 
+
+=== Final menu Chromium, retries=0 ===
+
+Running 19 tests using 1 worker
+
+(node:5374) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/dropdown.spec.ts:8:1 › template composition supports search, native selection, favorite, failure and retry (2.4s)
+  ✓   2 [chromium] › tests/e2e/dropdown.spec.ts:48:1 › menu keyboard navigation, submenu Escape and Tab preserve focus ownership (422ms)
+  ✓   3 [chromium] › tests/e2e/dropdown.spec.ts:64:1 › recipe and item close policies work for mouse, keyboard and native settings (732ms)
+  ✓   4 [chromium] › tests/e2e/dropdown.spec.ts:84:1 › menu hands focus to Dialog and template panel, then returns to the originating trigger (656ms)
+  ✓   5 [chromium] › tests/e2e/dropdown.spec.ts:96:1 › pointer submenu works and pressed paints take priority over hover (984ms)
+  ✓   6 [chromium] › tests/e2e/dropdown.spec.ts:113:49 › light retains selected disabled hierarchy and real compact density (670ms)
+  ✓   7 [chromium] › tests/e2e/dropdown.spec.ts:113:49 › dark retains selected disabled hierarchy and real compact density (617ms)
+  ✓   8 [chromium] › tests/e2e/dropdown.spec.ts:157:1 › narrow template panel keeps its action visible and supports empty categories (487ms)
+  ✓   9 [chromium] › tests/e2e/dropdown.spec.ts:173:1 › compact template keeps coarse pointer targets inside a narrow panel (721ms)
+  ✓  10 [chromium] › tests/e2e/dropdown.spec.ts:192:1 › forced colors preserve a visible selected marker and focus (344ms)
+  ✓  11 [chromium] › tests/e2e/dropdown.spec.ts:228:49 › menu reuses native choice geometry and state paints in light (1.3s)
+  ✓  12 [chromium] › tests/e2e/dropdown.spec.ts:228:49 › menu reuses native choice geometry and state paints in dark (1.4s)
+  ✓  13 [chromium] › tests/e2e/dropdown.spec.ts:281:49 › light menu description closure preserves protected state priorities (2.2s)
+  ✓  14 [chromium] › tests/e2e/dropdown.spec.ts:281:49 › dark menu description closure preserves protected state priorities (2.3s)
+  ✓  15 [chromium] › tests/e2e/dropdown.spec.ts:381:35 › content width fits short labels and preserves explicit widths in 浅色 (791ms)
+  ✓  16 [chromium] › tests/e2e/dropdown.spec.ts:381:35 › content width fits short labels and preserves explicit widths in 深色 (836ms)
+  ✓  17 [chromium] › tests/e2e/dropdown.spec.ts:434:1 › auto submenus fit complete rows without inheriting a fixed parent width (600ms)
+  ✓  18 [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action adapts its width to sibling count and preserves menu focus behavior in 浅色 (622ms)
+  ✓  19 [chromium] › tests/e2e/dropdown.spec.ts:484:35 › completion action adapts its width to sibling count and preserves menu focus behavior in 深色 (660ms)
+
+  19 passed (19.5s)
+
+=== Focused unit ===
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+
+
+ Test Files  3 passed (3)
+      Tests  25 passed (25)
+   Start at  23:12:12
+   Duration  3.07s (transform 878ms, setup 495ms, import 1.80s, tests 1.33s, environment 1.86s)
+
+
+=== Typecheck ===
+
+> @rain-next/workspace@0.0.0 typecheck /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> pnpm -r typecheck && tsc --noEmit --project tsconfig.tests.json
+
+Scope: 3 of 4 workspace projects
+packages/foundations typecheck$ tsc --noEmit --project tsconfig.json
+packages/foundations typecheck: Done
+packages/ui typecheck$ tsc --noEmit --project tsconfig.json
+packages/ui typecheck: Done
+apps/playground typecheck$ tsc --noEmit --project tsconfig.json
+apps/playground typecheck: Done
+
+=== Tailwind B2 ===
+
+> @rain-next/workspace@0.0.0 verify:tailwind-b2 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> node scripts/verify-tailwind-b2.mjs
+
+Tailwind B2 verification passed: controlled Rain Token theme bridge and machine-readable system contract; baseline trials completed; 3 fixed prompt records; unmeasured values require reasons; elapsed time remains secondary.
+
+=== Build ===
+
+> @rain-next/workspace@0.0.0 build /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike
+> pnpm -r build
+
+Scope: 3 of 4 workspace projects
+packages/foundations build$ tsc --noEmit --project tsconfig.json
+packages/foundations build: Done
+packages/ui build$ tsc --noEmit --project tsconfig.json
+packages/ui build: Done
+apps/playground build$ tsc --noEmit --project tsconfig.json && vite build
+apps/playground build: vite v8.2.2 building client environment for production...
+apps/playground build: transforming...
+apps/playground build: ✓ 658 modules transformed.
+apps/playground build: rendering chunks...
+apps/playground build: computing gzip size...
+apps/playground build: dist/question-option-sizes.html                           0.60 kB │ gzip:   0.37 kB
+apps/playground build: dist/dropdown-review.html                                 0.75 kB │ gzip:   0.39 kB
+apps/playground build: dist/index.html                                           0.76 kB │ gzip:   0.41 kB
+apps/playground build: dist/assets/graph-rotate-DasTGfsJ.svg                     4.14 kB │ gzip:   1.81 kB
+apps/playground build: dist/assets/content-exam-filled-CL7BQELD.svg              4.24 kB │ gzip:   1.85 kB
+apps/playground build: dist/assets/live-avatar-cutout-BOifZKKA.svg               4.34 kB │ gzip:   2.00 kB
+apps/playground build: dist/assets/click-mJ6AXNCz.svg                            4.36 kB │ gzip:   1.95 kB
+apps/playground build: dist/assets/unclear-D7_U7urA.svg                          4.43 kB │ gzip:   2.03 kB
+apps/playground build: dist/assets/like-alt-lbD1WkE9.svg                         5.17 kB │ gzip:   2.47 kB
+apps/playground build: dist/assets/bullet-screen-DqOS2B4l.svg                    5.30 kB │ gzip:   2.40 kB
+apps/playground build: dist/assets/progress-color-65-BW6V_IEL.svg                5.68 kB │ gzip:   2.58 kB
+apps/playground build: dist/assets/in-class-bullet-screen-DESNhir3.svg           5.93 kB │ gzip:   2.70 kB
+apps/playground build: dist/assets/progress-65-thin-Cm2KCCJH.svg                 6.08 kB │ gzip:   2.79 kB
+apps/playground build: dist/assets/question-graph-Cf7nrbOU.svg                   6.76 kB │ gzip:   2.42 kB
+apps/playground build: dist/assets/members-multiple-filled-aINWxI8d.svg          6.79 kB │ gzip:   2.97 kB
+apps/playground build: dist/assets/progress-color-85-BjKuJF1e.svg                7.35 kB │ gzip:   3.38 kB
+apps/playground build: dist/assets/progress-85-thin-DMUEWHsx.svg                 7.37 kB │ gzip:   3.40 kB
+apps/playground build: dist/assets/performance-excellent-badge-DYH7tL0a.svg     10.09 kB │ gzip:   4.41 kB
+apps/playground build: dist/assets/like-alt-2-luymiNAk.svg                      13.16 kB │ gzip:   3.28 kB
+apps/playground build: dist/assets/question-option-sizes-BhxVrYBI.css            5.39 kB │ gzip:   1.12 kB
+apps/playground build: dist/assets/icons-page-C9cxnVed.css                       6.59 kB │ gzip:   1.43 kB
+apps/playground build: dist/assets/dropdown-review-Cm1ciLXi.css                 16.83 kB │ gzip:   2.93 kB
+apps/playground build: dist/assets/index-DI6slWu4.css                           90.05 kB │ gzip:   9.43 kB
+apps/playground build: dist/assets/styles-B7DQQ81l.css                         256.50 kB │ gzip:  34.47 kB
+apps/playground build: dist/assets/share-alt-BLgW6GCY.js                         1.67 kB │ gzip:   0.84 kB
+apps/playground build: dist/assets/question-option-sizes-6eEMHb_D.js             8.86 kB │ gzip:   3.06 kB
+apps/playground build: dist/assets/favorite-filled-db-zhCfl.js                  10.68 kB │ gzip:   3.89 kB
+apps/playground build: dist/assets/dropdown-review-CixajeEm.js                 119.95 kB │ gzip:  37.01 kB
+apps/playground build: dist/assets/index-BbuqOHBC.js                           390.11 kB │ gzip: 100.52 kB
+apps/playground build: dist/assets/styles-WIqJ42by.js                          710.41 kB │ gzip: 220.37 kB
+apps/playground build: dist/assets/icons-page-_EZRTHQM.js                    2,043.88 kB │ gzip: 419.90 kB
+apps/playground build: ✓ built in 545ms
+apps/playground build: [plugin builtin:vite-reporter] 
+apps/playground build: (!) Some chunks are larger than 500 kB after minification. Consider:
+apps/playground build: - Using dynamic import() to code-split the application
+apps/playground build: - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+apps/playground build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+apps/playground build: Done
+
+Independent reviewer /root/dropdown_contract_review: no reproducible P1/P2; independently reran 25/25 and B2; reviewed 19/19 final browser output. Width acceptance remains scoped; footer Human Gate pending.

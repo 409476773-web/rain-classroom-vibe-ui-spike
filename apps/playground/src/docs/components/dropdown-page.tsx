@@ -89,6 +89,20 @@ export function DropdownPage() {
         </div>
       </header>
 
+      <section className="core-family" aria-labelledby="menu-width-title">
+        <h2 id="menu-width-title">短菜单 · 按内容定宽</h2>
+        <p>默认宽度随最长条目和必要留白收缩，最小 140px。需要固定布局时，也可指定宽度。</p>
+        <div className="flex flex-wrap gap-rain-12">
+          {([undefined, 240, 400] as const).map(width => <DropdownMenu.Root key={width ?? "auto"}>
+            <DropdownMenu.Trigger render={<Button>{width ? `固定 ${width}px` : "内容自适应"}</Button>} />
+            <DropdownMenu.Content width={width}>
+              <DropdownMenu.Item label="查看资料" onClick={() => setEvent("已打开资料预览")} />
+              <DropdownMenu.Item label="记录稍后处理" onClick={() => setEvent("已记录稍后处理")} />
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>)}
+        </div>
+      </section>
+
       <section className="core-family" aria-labelledby="course-menu-title">
         <h2 id="course-menu-title">课程卡片 · 更多操作</h2>
         <div className="flex flex-wrap items-center justify-between gap-rain-16">
@@ -115,7 +129,7 @@ export function DropdownPage() {
 
       <section className="core-family" aria-labelledby="view-menu-title">
         <h2 id="view-menu-title">表格 · 视图设置</h2>
-        <p>连续调整时保持打开；“完成设置”单独关闭。</p>
+        <p>连续调整时保持打开；底部“完成设置”结束操作。单个按钮铺满一行，两个按钮时各自按内容定宽。</p>
         <div className="flex flex-wrap gap-rain-12">
           <DropdownMenu.Root closeOnAction={false}>
             <DropdownMenu.Trigger render={<Button>视图设置<ArrowDownIcon /></Button>} />
@@ -130,7 +144,11 @@ export function DropdownPage() {
                 <DropdownMenu.RadioItem label="按时间排序" value="date" />
                 <DropdownMenu.RadioItem label="按名称排序" value="name" />
               </DropdownMenu.RadioGroup>
-              <DropdownMenu.Separator /><DropdownMenu.Item label="完成设置" closeOnClick />
+              <DropdownMenu.Separator />
+              <div className="flex justify-end gap-rain-8 px-rain-4 py-rain-6">
+                <DropdownMenu.Item label="完成设置" closeOnClick nativeButton render={props =>
+                  <Button {...props} className="only:w-full" size="small" variant="secondary">完成设置</Button>} />
+              </div>
             </DropdownMenu.Content>
           </DropdownMenu.Root>
           <Popover.Root><Popover.Trigger render={<Button>视图设置面板版</Button>} />
@@ -138,7 +156,7 @@ export function DropdownPage() {
               <Popover.Title>视图设置面板</Popover.Title>
               <Checkbox label="显示已归档" checked={archived} onCheckedChange={setArchived} />
               <RadioGroup legend="排序方式" options={[{ value: "date", label: "按时间排序" }, { value: "name", label: "按名称排序" }]} value={sort} onValueChange={setSort} />
-              <Popover.Close render={<Button>完成设置</Button>} />
+              <div className="flex justify-end gap-rain-8"><Popover.Close render={<Button className="only:w-full" size="small" variant="secondary">完成设置</Button>} /></div>
             </Popover.Content>
           </Popover.Root>
         </div>
@@ -169,8 +187,8 @@ export function DropdownPage() {
       <section className="core-family" aria-labelledby="dropdown-usage-title">
         <h2 id="dropdown-usage-title">使用与改造边界</h2>
         <p>操作、链接和单选/复选设置使用 DropdownMenu；有搜索、预览或独立按钮的内容使用 Popover。默认使用完整示例，需要时替换触发器、条目内容或面板区域。</p>
-        <p>菜单建议从 200/280px 开始，内容面板从 320/360px 开始；宽度可按内容调整。Escape、Tab 与外部点击各自保留退出规则。</p>
-        <p>当前为未发布候选，运行视觉已完成人工验收。颜色用途问题独立保留；演示首次创建会失败，重试后成功。</p>
+        <p>菜单默认随内容定宽，最小 140px，较长内容在 320px 内换行；可显式指定更宽的尺寸。内容面板从 320/360px 开始，均随可用视口适配。Escape、Tab 与外部点击各自保留退出规则。</p>
+        <p>当前为未发布候选，已有运行视觉已完成人工验收；菜单宽度调整已确认，底部结束按钮待视觉确认。颜色用途问题独立保留；演示首次创建会失败，重试后成功。</p>
       </section>
       <Dialog.Root open={confirm} onOpenChange={setConfirm}><Dialog.Portal>
         <Dialog.Backdrop data-rain-theme={theme} className="dropdown-example-backdrop" />

@@ -40,6 +40,7 @@
     "packages/ui/src/field/field.styles.ts",
     "packages/ui/src/select/select.styles.ts",
     "packages/ui/src/tabs/tabs.styles.ts",
+    "packages/ui/src/pagination/pagination.styles.ts",
     "apps/playground/src/docs/components/input-page.css",
     "apps/playground/src/docs/components/icon-button-page.css",
     "apps/playground/src/docs/components/question-number-page.css",
@@ -54,7 +55,9 @@
     "apps/playground/src/patterns/selection-patterns.css",
     "packages/ui/src/dropdown-menu/dropdown-menu.css",
     "apps/playground/src/docs/components/dropdown-page.css",
-    "apps/playground/src/docs/components/tabs-page.css"
+    "apps/playground/src/docs/components/tabs-page.css",
+    "apps/playground/src/docs/components/pagination-page.css",
+    "packages/ui/src/pagination/pagination.css"
   ],
   "defaultConsumption": "complete-recipe-first",
   "utilities": [
@@ -38734,6 +38737,358 @@
           "parentBackgroundId": "Background/Neutral/1"
         }
       ]
+    },
+    {
+      "filePath": "packages/ui/src/pagination/pagination.styles.ts",
+      "symbol": "paginationIconClassName",
+      "definition": "rain-pagination__navigation-icon text-rain-category-icon-neutral-3 aria-disabled:text-rain-category-icon-neutral-5",
+      "recipes": [
+        {
+          "id": "pagination-navigation-icon",
+          "state": "default",
+          "foreground": {
+            "tokenId": "Icon/Neutral/3",
+            "content": "meaningful-icon",
+            "recipeId": "pagination-navigation-icon",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "icon",
+            "property": "color",
+            "interaction": "interactive",
+            "critical": true
+          }
+        },
+        {
+          "id": "pagination-navigation-icon-disabled",
+          "state": "disabled",
+          "foreground": {
+            "tokenId": "Icon/Neutral/5",
+            "content": "disabled",
+            "recipeId": "pagination-navigation-icon-disabled",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "icon",
+            "property": "color",
+            "interaction": "non-interactive",
+            "critical": false
+          }
+        }
+      ],
+      "kind": "static",
+      "scope": "[data-rain-id=\"ui-pagination\"]",
+      "foregroundContent": "meaningful-icon",
+      "parentSurfaces": [
+        "Background/Neutral/1",
+        "Background/Neutral/3"
+      ],
+      "contrastReview": "pending-review"
+    },
+    {
+      "filePath": "packages/ui/src/pagination/pagination.styles.ts",
+      "symbol": "paginationRootClassName",
+      "definition": "rain-pagination relative flex min-w-0 w-full items-center gap-rain-12 text-rain-category-text-neutral-3",
+      "recipes": [
+        {
+          "id": "pagination-ordinary-text",
+          "state": "default",
+          "foreground": {
+            "tokenId": "Text/Neutral/3",
+            "content": "text",
+            "recipeId": "pagination-ordinary-text",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "text",
+            "property": "color",
+            "interaction": "interactive",
+            "critical": true
+          }
+        }
+      ],
+      "kind": "static",
+      "scope": "[data-rain-id=\"ui-pagination\"]",
+      "foregroundContent": "text",
+      "parentSurfaces": [
+        "Background/Neutral/1",
+        "Background/Neutral/3"
+      ],
+      "contrastReview": "pending-review"
+    },
+    {
+      "filePath": "packages/ui/src/pagination/pagination.styles.ts",
+      "symbol": "paginationPageClassName",
+      "definition": "rain-pagination__page box-border inline-flex flex-none items-center justify-center rounded-rain-6 border-none bg-transparent px-rain-4 text-inherit no-underline cursor-pointer select-none data-[current=true]:bg-rain-category-fill-brand-alpha-4 data-[current=true]:text-rain-category-text-brand-1 enabled:hover:bg-rain-category-fill-brand-alpha-4 enabled:active:bg-rain-category-fill-brand-alpha-3 disabled:cursor-not-allowed disabled:text-rain-category-text-neutral-6",
+      "recipes": [
+        {
+          "id": "pagination-page",
+          "state": "default",
+          "foreground": {
+            "tokenId": "Text/Neutral/3",
+            "content": "text",
+            "recipeId": "pagination-page",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "text",
+            "property": "color",
+            "interaction": "interactive",
+            "critical": true
+          }
+        },
+        {
+          "id": "pagination-page-hover",
+          "state": "hover",
+          "foreground": {
+            "tokenId": "Text/Neutral/3",
+            "content": "text",
+            "recipeId": "pagination-page-hover",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "text",
+            "property": "color",
+            "interaction": "interactive",
+            "critical": true
+          },
+          "background": {
+            "tokenId": "Fill/Brand/Alpha/4",
+            "content": "surface",
+            "recipeId": "pagination-page-hover",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "fill",
+            "property": "background-color",
+            "interaction": "non-interactive",
+            "critical": false
+          }
+        },
+        {
+          "id": "pagination-page-pressed",
+          "state": "pressed",
+          "foreground": {
+            "tokenId": "Text/Neutral/3",
+            "content": "text",
+            "recipeId": "pagination-page-pressed",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "text",
+            "property": "color",
+            "interaction": "interactive",
+            "critical": true
+          },
+          "background": {
+            "tokenId": "Fill/Brand/Alpha/3",
+            "content": "surface",
+            "recipeId": "pagination-page-pressed",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "fill",
+            "property": "background-color",
+            "interaction": "non-interactive",
+            "critical": false
+          }
+        },
+        {
+          "id": "pagination-current",
+          "state": "selected",
+          "foreground": {
+            "tokenId": "Text/Brand/1",
+            "content": "text",
+            "recipeId": "pagination-current",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "text",
+            "property": "color",
+            "interaction": "interactive",
+            "critical": true
+          },
+          "background": {
+            "tokenId": "Fill/Brand/Alpha/4",
+            "content": "surface",
+            "recipeId": "pagination-current",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "fill",
+            "property": "background-color",
+            "interaction": "non-interactive",
+            "critical": false
+          }
+        },
+        {
+          "id": "pagination-current-hover",
+          "state": "hover",
+          "foreground": {
+            "tokenId": "Text/Brand/1",
+            "content": "text",
+            "recipeId": "pagination-current-hover",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "text",
+            "property": "color",
+            "interaction": "interactive",
+            "critical": true
+          },
+          "background": {
+            "tokenId": "Fill/Brand/Alpha/4",
+            "content": "surface",
+            "recipeId": "pagination-current-hover",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "fill",
+            "property": "background-color",
+            "interaction": "non-interactive",
+            "critical": false
+          }
+        },
+        {
+          "id": "pagination-current-pressed",
+          "state": "pressed",
+          "foreground": {
+            "tokenId": "Text/Brand/1",
+            "content": "text",
+            "recipeId": "pagination-current-pressed",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "text",
+            "property": "color",
+            "interaction": "interactive",
+            "critical": true
+          },
+          "background": {
+            "tokenId": "Fill/Brand/Alpha/3",
+            "content": "surface",
+            "recipeId": "pagination-current-pressed",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "fill",
+            "property": "background-color",
+            "interaction": "non-interactive",
+            "critical": false
+          }
+        },
+        {
+          "id": "pagination-page-disabled",
+          "state": "disabled",
+          "foreground": {
+            "tokenId": "Text/Neutral/6",
+            "content": "disabled",
+            "recipeId": "pagination-page-disabled",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "text",
+            "property": "color",
+            "interaction": "non-interactive",
+            "critical": false
+          }
+        },
+        {
+          "id": "pagination-current-disabled",
+          "state": "disabled",
+          "foreground": {
+            "tokenId": "Text/Neutral/6",
+            "content": "disabled",
+            "recipeId": "pagination-current-disabled",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "text",
+            "property": "color",
+            "interaction": "non-interactive",
+            "critical": false
+          },
+          "background": {
+            "tokenId": "Fill/Brand/Alpha/4",
+            "content": "surface",
+            "recipeId": "pagination-current-disabled",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "fill",
+            "property": "background-color",
+            "interaction": "non-interactive",
+            "critical": false
+          }
+        }
+      ],
+      "kind": "static",
+      "scope": "[data-rain-id=\"ui-pagination\"]",
+      "foregroundContent": "text",
+      "parentSurfaces": [
+        "Background/Neutral/1",
+        "Background/Neutral/3"
+      ],
+      "contrastReview": "pending-review"
+    },
+    {
+      "filePath": "packages/ui/src/pagination/pagination.styles.ts",
+      "symbol": "paginationLinkClassName",
+      "definition": "aria-disabled:cursor-not-allowed aria-disabled:text-rain-category-text-neutral-6",
+      "recipes": [
+        {
+          "id": "pagination-link-disabled",
+          "state": "disabled",
+          "foreground": {
+            "tokenId": "Text/Neutral/6",
+            "content": "disabled",
+            "recipeId": "pagination-link-disabled",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "text",
+            "property": "color",
+            "interaction": "non-interactive",
+            "critical": false
+          }
+        },
+        {
+          "id": "pagination-current-link-disabled",
+          "state": "disabled",
+          "foreground": {
+            "tokenId": "Text/Neutral/6",
+            "content": "disabled",
+            "recipeId": "pagination-current-link-disabled",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "text",
+            "property": "color",
+            "interaction": "non-interactive",
+            "critical": false
+          },
+          "background": {
+            "tokenId": "Fill/Brand/Alpha/4",
+            "content": "surface",
+            "recipeId": "pagination-current-link-disabled",
+            "context": "component-recipe",
+            "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+            "brandIntent": "active",
+            "role": "fill",
+            "property": "background-color",
+            "interaction": "non-interactive",
+            "critical": false
+          }
+        }
+      ],
+      "kind": "static",
+      "scope": "[data-rain-id=\"ui-pagination\"]",
+      "foregroundContent": "text",
+      "parentSurfaces": [
+        "Background/Neutral/1",
+        "Background/Neutral/3"
+      ],
+      "contrastReview": "pending-review"
     }
   ],
   "colorCssConsumers": [
@@ -45421,6 +45776,360 @@
         "interaction": "non-interactive",
         "critical": false
       }
+    },
+    {
+      "filePath": "apps/playground/src/docs/components/pagination-page.css",
+      "selector": ".pagination-page__width-control input",
+      "property": "accent-color",
+      "value": "var(--rain-category-fill-brand-solid-1)",
+      "scope": ".pagination-page",
+      "parentSurfaces": [
+        "Background/Neutral/3"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Fill/Brand/Solid/1",
+        "content": "surface",
+        "recipeId": "pagination-parts",
+        "context": "local-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "fill",
+        "property": "background-color",
+        "interaction": "non-interactive",
+        "critical": false
+      }
+    },
+    {
+      "filePath": "apps/playground/src/docs/components/pagination-page.css",
+      "selector": ".pagination-page__width-control output",
+      "property": "color",
+      "value": "var(--rain-category-text-neutral-3)",
+      "scope": ".pagination-page",
+      "parentSurfaces": [
+        "Background/Neutral/3"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Text/Neutral/3",
+        "content": "text",
+        "recipeId": "pagination-parts",
+        "context": "local-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "text",
+        "property": "color",
+        "interaction": "non-interactive",
+        "critical": true
+      }
+    },
+    {
+      "filePath": "apps/playground/src/docs/components/pagination-page.css",
+      "selector": ".pagination-page__preview",
+      "property": "background",
+      "value": "var(--rain-category-background-neutral-1)",
+      "scope": ".pagination-page",
+      "parentSurfaces": [
+        "Background/Neutral/3"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Background/Neutral/1",
+        "content": "surface",
+        "recipeId": "pagination-parts",
+        "context": "local-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "background",
+        "property": "background-color",
+        "interaction": "non-interactive",
+        "critical": false
+      }
+    },
+    {
+      "filePath": "apps/playground/src/docs/components/pagination-page.css",
+      "selector": ".pagination-page__records li",
+      "property": "border-bottom",
+      "value": "var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3)",
+      "scope": ".pagination-page",
+      "parentSurfaces": [
+        "Background/Neutral/1"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Border/Neutral/3",
+        "content": "decorative",
+        "recipeId": "pagination-parts",
+        "context": "local-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "border",
+        "property": "border-color",
+        "interaction": "non-interactive",
+        "critical": false
+      }
+    },
+    {
+      "filePath": "apps/playground/src/docs/components/pagination-page.css",
+      "selector": ".pagination-page__records li > :first-child",
+      "property": "color",
+      "value": "var(--rain-category-text-neutral-3)",
+      "scope": ".pagination-page",
+      "parentSurfaces": [
+        "Background/Neutral/1"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Text/Neutral/3",
+        "content": "text",
+        "recipeId": "pagination-parts",
+        "context": "local-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "text",
+        "property": "color",
+        "interaction": "non-interactive",
+        "critical": true
+      }
+    },
+    {
+      "filePath": "apps/playground/src/docs/components/pagination-page.css",
+      "selector": ".pagination-page__state",
+      "property": "background",
+      "value": "var(--rain-category-background-neutral-1)",
+      "scope": ".pagination-page",
+      "parentSurfaces": [
+        "Background/Neutral/3"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Background/Neutral/1",
+        "content": "surface",
+        "recipeId": "pagination-parts",
+        "context": "local-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "background",
+        "property": "background-color",
+        "interaction": "non-interactive",
+        "critical": false
+      }
+    },
+    {
+      "filePath": "apps/playground/src/docs/components/pagination-page.css",
+      "selector": ".pagination-page__api dd",
+      "property": "color",
+      "value": "var(--rain-category-text-neutral-3)",
+      "scope": ".pagination-page",
+      "parentSurfaces": [
+        "Background/Neutral/3"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Text/Neutral/3",
+        "content": "text",
+        "recipeId": "pagination-parts",
+        "context": "local-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "text",
+        "property": "color",
+        "interaction": "non-interactive",
+        "critical": true
+      }
+    },
+    {
+      "filePath": "packages/ui/src/pagination/pagination.css",
+      "selector": ".rain-pagination__page:is(a):not([aria-disabled=\"true\"]):hover",
+      "property": "background",
+      "value": "var(--rain-category-fill-brand-alpha-4)",
+      "scope": ".rain-pagination",
+      "parentSurfaces": [
+        "Background/Neutral/1",
+        "Background/Neutral/3"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Fill/Brand/Alpha/4",
+        "content": "surface",
+        "recipeId": "pagination-parts",
+        "context": "component-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "fill",
+        "property": "background-color",
+        "interaction": "non-interactive",
+        "critical": false
+      }
+    },
+    {
+      "filePath": "packages/ui/src/pagination/pagination.css",
+      "selector": ".rain-pagination__page:is(a):not([aria-disabled=\"true\"]):active",
+      "property": "background",
+      "value": "var(--rain-category-fill-brand-alpha-3)",
+      "scope": ".rain-pagination",
+      "parentSurfaces": [
+        "Background/Neutral/1",
+        "Background/Neutral/3"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Fill/Brand/Alpha/3",
+        "content": "surface",
+        "recipeId": "pagination-parts",
+        "context": "component-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "fill",
+        "property": "background-color",
+        "interaction": "non-interactive",
+        "critical": false
+      }
+    },
+    {
+      "filePath": "packages/ui/src/pagination/pagination.css",
+      "selector": ".rain-pagination__page:where(a)[data-current=\"true\"]",
+      "property": "color",
+      "value": "var(--rain-category-text-brand-1)",
+      "scope": ".rain-pagination",
+      "parentSurfaces": [
+        "Fill/Brand/Alpha/4",
+        "Fill/Brand/Alpha/3"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Text/Brand/1",
+        "content": "text",
+        "recipeId": "pagination-parts",
+        "context": "component-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "text",
+        "property": "color",
+        "interaction": "interactive",
+        "critical": true
+      },
+      "parentBackgrounds": [
+        "Background/Neutral/1",
+        "Background/Neutral/3"
+      ]
+    },
+    {
+      "filePath": "packages/ui/src/pagination/pagination.css",
+      "selector": ".rain-pagination__page:where(a)[aria-disabled=\"true\"]",
+      "property": "color",
+      "value": "var(--rain-category-text-neutral-6)",
+      "scope": ".rain-pagination",
+      "parentSurfaces": [
+        "Background/Neutral/1",
+        "Background/Neutral/3",
+        "Fill/Brand/Alpha/4"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Text/Neutral/6",
+        "content": "disabled",
+        "recipeId": "pagination-parts",
+        "context": "component-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "text",
+        "property": "color",
+        "interaction": "non-interactive",
+        "critical": false
+      },
+      "parentBackgrounds": [
+        "Background/Neutral/1",
+        "Background/Neutral/3"
+      ]
+    },
+    {
+      "filePath": "packages/ui/src/pagination/pagination.css",
+      "selector": ".rain-pagination__page:where(a):not([data-slot=\"page\"]):not([aria-disabled=\"true\"])",
+      "property": "color",
+      "value": "var(--rain-category-icon-neutral-3)",
+      "scope": ".rain-pagination",
+      "parentSurfaces": [
+        "Background/Neutral/1",
+        "Background/Neutral/3"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Icon/Neutral/3",
+        "content": "meaningful-icon",
+        "recipeId": "pagination-parts",
+        "context": "component-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "icon",
+        "property": "color",
+        "interaction": "interactive",
+        "critical": true
+      }
+    },
+    {
+      "filePath": "packages/ui/src/pagination/pagination.css",
+      "selector": ".rain-pagination__navigation-icon:not([aria-disabled=\"true\"]):is(:hover, :active)",
+      "property": "color",
+      "value": "var(--rain-category-icon-neutral-2)",
+      "scope": ".rain-pagination",
+      "parentSurfaces": [
+        "Background/Neutral/1",
+        "Background/Neutral/3",
+        "Fill/Neutral/Alpha/3",
+        "Fill/Neutral/Alpha/2",
+        "Fill/Brand/Alpha/4",
+        "Fill/Brand/Alpha/3"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Icon/Neutral/2",
+        "content": "meaningful-icon",
+        "recipeId": "pagination-parts",
+        "context": "component-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "icon",
+        "property": "color",
+        "interaction": "interactive",
+        "critical": true
+      },
+      "parentBackgrounds": [
+        "Background/Neutral/1",
+        "Background/Neutral/3"
+      ]
+    },
+    {
+      "filePath": "packages/ui/src/pagination/pagination.css",
+      "selector": ".rain-pagination__size-trigger:not(:disabled):not([aria-disabled=\"true\"]):is(:hover, :active) .rain-pagination__navigation-icon",
+      "property": "color",
+      "value": "var(--rain-category-icon-neutral-2)",
+      "scope": ".rain-pagination",
+      "parentSurfaces": [
+        "Background/Neutral/1",
+        "Background/Neutral/3",
+        "Fill/Neutral/Alpha/3",
+        "Fill/Neutral/Alpha/2",
+        "Fill/Brand/Alpha/4",
+        "Fill/Brand/Alpha/3"
+      ],
+      "contrastReview": "pending-review",
+      "use": {
+        "tokenId": "Icon/Neutral/2",
+        "content": "meaningful-icon",
+        "recipeId": "pagination-parts",
+        "context": "component-recipe",
+        "evidenceRef": "docs/plans/2026-09-14-pagination-rn08.md",
+        "brandIntent": "active",
+        "role": "icon",
+        "property": "color",
+        "interaction": "interactive",
+        "critical": true
+      },
+      "parentBackgrounds": [
+        "Background/Neutral/1",
+        "Background/Neutral/3"
+      ]
     }
   ],
   "color": {

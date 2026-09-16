@@ -655,6 +655,95 @@ export function getExpectedTokenFoundationsV1Lifecycle(progress, automatedVerifi
   };
 }
 
+export const paginationRn08Files = {
+  foundations: [],
+  ui: ["pagination.tsx", "pagination.utils.ts", "pagination.styles.ts", "pagination.css", "pagination.css.d.ts", "pagination.test.tsx"].map(name => `packages/ui/src/pagination/${name}`),
+  application: ["pagination-page.tsx", "pagination-page.css", "pagination-page.css.d.ts", "pagination-page.test.tsx"].map(name => `apps/playground/src/docs/components/${name}`),
+  workspace: ["scripts/pagination-rn08.test.ts", "scripts/pagination-color-consumers.mjs", "scripts/pagination-color-consumers.test.ts", "tests/e2e/pagination.spec.ts", "tests/e2e/pagination.config.ts"],
+  documents: ["docs/plans/2026-09-14-pagination-rn08.md", "manifests/ui/pagination.yaml", "registry/pagination.json"],
+  evidence: ["verification.md", "independent-review.md", "light-data.png", "dark-narrow.png", "settings-light.png", "settings-dark.png", "inline-50.png", "paint.json"].map(name => `evidence/runtime/pagination/${name}`),
+};
+
+export function hasPaginationRn08Authorization(status) {
+  const entry = status?.componentRefinements?.paginationRn08;
+  const compact = entry?.compactRefinement;
+  const accepted = entry?.humanGate === "accepted";
+  return Boolean(status?.currentPhase?.id === "token-foundations-v1" && entry
+    && ["awaiting_human", "accepted"].includes(entry.humanGate)
+    && (!accepted || entry.implementation === "completed" && entry.independentReview === "passed" && compact?.implementation === "completed"
+      && exactRecord(entry.humanGateDecision, {
+        acceptedAt: "2026-09-14", decisionSource: "explicit-user-visual-confirmation", userStatement: "没问题。视觉确认",
+        scope: "pagination-current-runtime-visual-only", evidence: "../evidence/runtime/pagination/verification.md",
+      }))
+    && (!compact || ["in-progress", "completed"].includes(compact.implementation)
+      && ["not-run", "failed", "passed"].includes(compact.automatedVerification)
+      && ["not-run", "findings", "passed"].includes(compact.independentReview)
+      && (compact.implementation !== "completed" || compact.automatedVerification === "passed" && compact.independentReview === "passed")
+      && exactRecord(compact, {
+        authorization: "authorized", decisionSource: "explicit-user-implementation-after-compact-confirmation", userStatement: "开始实施",
+        scope: "single-line-progressive-disclosure", implementation: compact.implementation, automatedVerification: compact.automatedVerification,
+        independentReview: compact.independentReview, humanGate: entry.humanGate, contrastAcceptance: "not-granted",
+      }))
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-14",
+      decisionSource: "explicit-user-continue-after-pagination-design-confirmation", userStatement: "继续",
+      scope: "pagination-component-and-three-compositions", plan: "../docs/plans/2026-09-14-pagination-rn08.md",
+      ...(compact ? { compactRefinement: compact } : {}),
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification,
+      independentReview: entry.independentReview, humanGate: entry.humanGate,
+      ...(accepted ? { humanGateDecision: entry.humanGateDecision } : {}), contrastAcceptance: "not-granted",
+      packageOrRegistryPublication: "not-authorized", businessMigration: "not-authorized",
+    }));
+}
+
+export const textareaRn07Files = {
+  foundations: [],
+  ui: ["packages/ui/src/textarea/textarea.tsx", "packages/ui/src/textarea/textarea.test.tsx"],
+  application: ["apps/playground/src/docs/components/textarea-page.tsx", "apps/playground/src/docs/components/textarea-page.test.tsx"],
+  workspace: ["scripts/textarea-rn07.test.ts", "tests/e2e/textarea.spec.ts", "tests/e2e/textarea.config.ts"],
+  documents: ["docs/plans/2026-09-13-textarea-rn07.md", "manifests/ui/textarea.yaml", "registry/textarea.json"],
+  evidence: ["evidence/runtime/textarea/verification.md", "evidence/runtime/textarea/independent-review.md"],
+};
+
+export function hasTextareaRn07Authorization(status) {
+  const entry = status?.componentRefinements?.textareaRn07;
+  const accepted = entry?.humanGate === "accepted";
+  const reviewed = entry?.independentReview === "passed";
+  return Boolean(status?.currentPhase?.id === "token-foundations-v1" && !!entry
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed")
+    && ["not-run", "passed"].includes(entry.independentReview)
+    && (!reviewed || exactRecord(entry.independentReviewDecision, {
+      reviewedAt: "2026-09-14", reviewer: "independent-code-review-agent",
+      scope: "rn07-textarea-field-and-long-text-form", evidence: "../evidence/runtime/textarea/independent-review.md",
+    }))
+    && ["awaiting_human", "accepted"].includes(entry.humanGate)
+    && (!accepted || entry.implementation === "completed" && exactRecord(entry.humanGateDecision, {
+      acceptedAt: "2026-09-13", decisionSource: "explicit-user-confirmation", userStatement: "视觉验确认",
+      scope: "textarea-resize-handle-and-text-padding-runtime-visual-only",
+      evidence: "../evidence/runtime/textarea/verification.md",
+    }))
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-13",
+      decisionSource: "explicit-user-rn07-textarea-long-text-form",
+      userStatement: "下一轮明确以 Textarea＋一个长文本表单样例 为目标",
+      scope: "textarea-form-item-and-one-local-long-text-form",
+      plan: "../docs/plans/2026-09-13-textarea-rn07.md",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification,
+      automatedVerificationScope: "rn07-component-form-and-targeted-regression",
+      repositoryGovernance: "blocked-by-pre-existing-boundary-findings",
+      independentReview: entry.independentReview,
+      ...(reviewed ? { independentReviewDecision: entry.independentReviewDecision } : {}), humanGate: entry.humanGate,
+      ...(accepted ? { humanGateDecision: entry.humanGateDecision } : {}), contrastAcceptance: "not-granted",
+      packageOrRegistryPublication: "not-authorized", businessMigration: "not-authorized",
+    }));
+}
+
 export const inputRefinementFiles = {
   foundations: ["packages/foundations/src/input-token-contract.ts", "packages/foundations/src/input-token-contract.test.ts"],
   ui: [
@@ -1065,7 +1154,7 @@ export const dropdownFamilyFiles = {
   application: ["dropdown-page.tsx", "dropdown-page.css"].map(name => `apps/playground/src/docs/components/${name}`),
   workspace: ["scripts/dropdown-family.test.ts", "tests/e2e/dropdown.spec.ts"],
   documents: ["manifests/ui/dropdown-menu.yaml", "manifests/ui/popover.yaml", "registry/dropdown-family.json"],
-  evidence: ["verification.md", "composition.md", "checks.log", "initial-checks.log", "browser.json", "color-review.json", "menu-light.png", "menu-dark.png", "template.png", "narrow.png", "selection-visual-reuse.md", "selection-checks.log", "selection-light.png", "selection-dark.png", "selection-light.json", "selection-dark.json", "selection-color-review.json"].map(name => `evidence/runtime/dropdown/${name}`),
+  evidence: ["verification.md", "composition.md", "checks.log", "initial-checks.log", "browser.json", "color-review.json", "menu-light.png", "menu-dark.png", "template.png", "narrow.png", "selection-visual-reuse.md", "selection-checks.log", "selection-light.png", "selection-dark.png", "selection-light.json", "selection-dark.json", "selection-color-review.json", "width-refinement.md", "width-checks.log", "width-light.png", "width-dark.png", "width-light.json", "width-dark.json", "footer-action.md", "footer-checks.log", "footer-light.png", "footer-dark.png"].map(name => `evidence/runtime/dropdown/${name}`),
 };
 
 function validDropdownSelectionVisualReuse(entry) {
@@ -1087,6 +1176,26 @@ export function hasDropdownSelectionVisualReuseAuthorization(status) {
   return hasDropdownFamilyAuthorization(status) && validDropdownSelectionVisualReuse(status.componentRefinements.dropdownFamily.selectionVisualReuse);
 }
 
+function validDropdownWidthRefinement(entry) {
+  return Boolean(entry)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || (entry.automatedVerification === "passed" && entry.independentReview === "passed"))
+    && Boolean(entry.humanGate === "awaiting_human" ? entry.humanGateDecision === undefined : entry.humanGate === "accepted"
+      && entry.automatedVerification === "passed" && entry.independentReview === "passed"
+      && exactRecord(entry.humanGateDecision, {
+        acceptedAt: "2026-09-14", decisionSource: "explicit-user-confirmation", userStatement: "确定没问题。",
+        scope: "dropdown-menu-content-width-140-minimum-runtime-visual-only", evidence: "../evidence/runtime/dropdown/width-refinement.md",
+      }))
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-14", decisionSource: "explicit-user-content-width-with-140px-minimum",
+      userStatement: "我觉得它可以随着比较短的文字自适应宽度，但是还是要给一个最小宽度。比如说，无论内容多短，最小宽度也只能是 140", scope: "content-sized-dropdown-menu-default-with-explicit-width-override",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: entry.humanGate, ...(entry.humanGate === "accepted" ? { humanGateDecision: entry.humanGateDecision } : {}), contrastAcceptance: "not-granted",
+    });
+}
+
 export function hasDropdownFamilyAuthorization(status) {
   const entry = status?.componentRefinements?.dropdownFamily;
   return Boolean(entry) && status?.currentPhase?.id === "token-foundations-v1"
@@ -1095,6 +1204,7 @@ export function hasDropdownFamilyAuthorization(status) {
     && ["not-run", "findings", "passed"].includes(entry.independentReview)
     && (entry.implementation !== "completed" || (entry.automatedVerification === "passed" && entry.independentReview === "passed"))
     && (entry.selectionVisualReuse === undefined || validDropdownSelectionVisualReuse(entry.selectionVisualReuse))
+    && (entry.widthRefinement === undefined || validDropdownWidthRefinement(entry.widthRefinement))
     && validAssetClosureVisualGate(entry, "dropdown-menu-popover-runtime-visual-only")
     && exactRecord(entry, {
       authorization: "authorized", authorizedAt: "2026-09-10",
@@ -1105,6 +1215,7 @@ export function hasDropdownFamilyAuthorization(status) {
       implementation: entry.implementation, automatedVerification: entry.automatedVerification,
       independentReview: entry.independentReview, humanGate: entry.humanGate, ...(entry.humanGate === "accepted" ? { humanGateDecision: entry.humanGateDecision } : {}), contrastAcceptance: "not-granted",
       ...(entry.selectionVisualReuse ? { selectionVisualReuse: entry.selectionVisualReuse } : {}),
+      ...(entry.widthRefinement ? { widthRefinement: entry.widthRefinement } : {}),
       doesNotAuthorize: ["existing-select-dialog-or-choice-control-migration", "global-token-value-changes-or-new-dependencies", "figma-publication-business-migration-or-git"],
     });
 }
@@ -1538,6 +1649,8 @@ export function getValidatedTailwindB2History(status) {
       ? Object.fromEntries(Object.entries(status[key]).filter(([name]) =>
         !(name === "dropdownFamily" && hasDropdownFamilyAuthorization(status))
         && !(name === "tabs" && hasTabsRefinementAuthorization(status))
+        && !(name === "textareaRn07" && hasTextareaRn07Authorization(status))
+        && !(name === "paginationRn08" && hasPaginationRn08Authorization(status))
         && !(name === "selectionPlaygroundSc04" && hasSelectionPlaygroundSc04Authorization(status))
         && !(name === "selectionPatternsSc03" && hasSelectionPatternsSc03Authorization(status))
         && !(name === "selectionCardsSc02" && hasSelectionCardsSc02Authorization(status))
