@@ -17,8 +17,6 @@ describe("FoundationsPage", () => {
     expect(title).toHaveAttribute("tabindex", "-1");
     expect(returnLink).toHaveAttribute("href", "#overview");
     expect(returnLink.textContent?.trim()).toBe("返回 Playground");
-    expect(screen.getByRole("link", { name: "查看 Token 目录与完整排版方案" }))
-      .toHaveAttribute("href", "#token-foundations");
   });
 
   it("keeps the key Data value and its Chinese unit in different font-role nodes", () => {
@@ -48,31 +46,17 @@ describe("FoundationsPage", () => {
     }
   });
 
-  it("distinguishes public categories and semantic aliases from private color sources", () => {
+  it("explains the three-layer color model without exposing reference tokens as app APIs", () => {
     const { container } = render(createElement(FoundationsPage));
     const layers = [...container.querySelectorAll('[data-slot="color-layer"]')];
 
     expect(layers).toHaveLength(3);
     expect(layers.map((layer) => layer.textContent)).toEqual([
       expect.stringContaining("Reference Palette"),
-      expect.stringContaining("Public Category"),
-      expect.stringContaining("Semantic / Component"),
+      expect.stringContaining("Semantic Roles"),
+      expect.stringContaining("Component Tokens"),
     ]);
     expect(container.innerHTML).not.toContain("--rain-ref-");
-  });
-
-  it("shows confirmed color sources and separates primary action text from fill", () => {
-    const { container } = render(createElement(FoundationsPage));
-
-    expect(container.querySelectorAll('[data-slot="semantic-token-source"]')).toHaveLength(17);
-    for (const role of ["control", "item", "danger"]) {
-      expect(container.querySelector(`[data-rain-id="foundation-token-focus-${role}"]`)).toHaveTextContent("Border/Brand/1");
-    }
-    expect(container.querySelector('[data-rain-id="foundation-token-action-primary"]'))
-      .toHaveTextContent("填充：Fill/Brand/Solid/2 · 文字：Text/Brand/1");
-    expect(screen.getByText("主要操作文字")).toHaveClass("text-rain-action-primary");
-    expect(container.querySelector('[data-rain-id="foundation-token-text-primary"]'))
-      .toHaveTextContent("保留原定义");
   });
 
   it("marks native Input and Button examples as fixture-only", () => {
@@ -98,12 +82,12 @@ describe("FoundationsPage", () => {
     }
     expect(
       screen.getByText(
-        "原生示例用于比较 Density 与 Focus；实际 Input / Button 的外观见组件目录。",
+        "原生夹具，仅验证 Density 与 Focus；不代表 Day 3 Input / Button 最终外观。",
       ),
     ).toBeVisible();
     expect(
       screen.getByText(
-        "Input Focus 已接入统一品牌细环与浅色外圈，保留浅蓝表面；其他状态的完整 Token 迁移另行推进。",
+        "Input Focus 候选延续原稿的 1px 品牌边框、浅蓝表面和轻量外环。",
       ),
     ).toBeVisible();
   });

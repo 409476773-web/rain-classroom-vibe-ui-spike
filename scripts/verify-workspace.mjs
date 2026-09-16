@@ -8,68 +8,30 @@ import { execFileSync } from "node:child_process";
 import { join, relative } from "node:path";
 
 import {
-  getIconLibraryRefinementFiles,
-  getValidatedDayThreeHistory,
-  getCurrentB2Status,
-  tokenFoundationsV1Files,
-  validateTokenFoundationsV1Phase,
   parsePnpmLockfileImporters,
   parseYamlSubset,
 } from "./verification-helpers.mjs";
 
 const workspaceRoot = process.cwd();
 const failures = [];
-let workspacePhaseId = null;
-let isTokenFoundationsV1 = false;
-
-try {
-  const phasePath = join(workspaceRoot, "status/current-phase.yaml");
-  if (existsSync(phasePath)) {
-    const status = parseYamlSubset(readFileSync(phasePath, "utf8"));
-    isTokenFoundationsV1 = status?.currentPhase?.id === "token-foundations-v1";
-    if (isTokenFoundationsV1) validateTokenFoundationsV1Phase(status);
-    workspacePhaseId = getCurrentB2Status(status)?.currentPhase?.id ?? null;
-  }
-} catch (error) {
-  failures.push(`status/current-phase.yaml cannot be parsed: ${error.message}`);
-}
-
-const hasTailwindB2Surface = [
-  "benchmarks/tailwind-b2-ai-editability.yaml",
-  "evidence/runtime/tailwind-b2/baseline-results.yaml",
-  "scripts/verify-tailwind-b2.mjs",
-].some((filePath) => existsSync(join(workspaceRoot, filePath)));
-const isTailwindB2Workspace = workspacePhaseId === "tailwind-b2-composition-contract"
-  && (existsSync(join(workspaceRoot, ".git")) || hasTailwindB2Surface);
 
 const requiredDirectories = [
   "apps/playground/src/docs",
-  "apps/playground/src/docs/components",
   "apps/playground/src/benchmarks",
   "apps/playground/src/experiments/headless",
   "apps/playground/src/routes",
   "packages/foundations",
   "packages/ui",
-  "packages/ui/src/button",
-  "packages/ui/src/input",
-  "packages/ui/src/tag",
-  "packages/ui/src/badge",
-  "packages/ui/src/surface",
-  "packages/ui/src/card",
-  ...(isTailwindB2Workspace ? ["packages/ui/src/utils", "packages/ui/src/recipes"] : []),
   "packages/layouts",
   "manifests",
-  ...(isTailwindB2Workspace ? ["manifests/contracts", "manifests/ui"] : []),
   "registry",
   "tests/e2e",
   "evidence/runtime",
-  ...(isTailwindB2Workspace ? ["evidence/runtime/tailwind-b2"] : []),
   "docs/adr",
   "docs/reports",
 ];
 
 const requiredFiles = [
-  ...(isTokenFoundationsV1 ? [...tokenFoundationsV1Files.foundations, ...tokenFoundationsV1Files.application, ...tokenFoundationsV1Files.workspace, ...tokenFoundationsV1Files.documents] : []),
   ".gitignore",
   "package.json",
   "pnpm-lock.yaml",
@@ -87,8 +49,6 @@ const requiredFiles = [
   "apps/playground/src/docs/benchmark-index.ts",
   "apps/playground/src/docs/foundations-page.tsx",
   "apps/playground/src/docs/foundations-page.test.tsx",
-  "apps/playground/src/docs/components/core-ui-page.tsx",
-  "apps/playground/src/docs/components/core-ui-page.test.tsx",
   "apps/playground/src/routes/route-registry.ts",
   "apps/playground/src/routes/overview-page.tsx",
   "apps/playground/src/routes/playground-shell.test.tsx",
@@ -100,7 +60,6 @@ const requiredFiles = [
   "tests/e2e/color-contrast.ts",
   "tests/e2e/playground-shell.spec.ts",
   "tests/e2e/foundations.spec.ts",
-  "tests/e2e/core-ui.spec.ts",
   "packages/foundations/package.json",
   "packages/foundations/tsconfig.json",
   "packages/foundations/src/index.ts",
@@ -112,64 +71,11 @@ const requiredFiles = [
   "packages/foundations/src/density.test.tsx",
   "packages/foundations/src/motion.css",
   "packages/foundations/src/focus.css",
-  "packages/ui/package.json",
-  "packages/ui/tsconfig.json",
-  "packages/ui/src/index.ts",
-  "packages/ui/src/styles.css",
-  "packages/ui/src/button/assets/button-loading.png",
-  "packages/ui/src/button/button.tsx",
-  "packages/ui/src/button/button.test.tsx",
-  ...(isTailwindB2Workspace
-    ? [
-        "packages/ui/src/button/button.styles.ts",
-        "packages/ui/src/button/button.styles.test.ts",
-      ]
-    : []),
-  "packages/ui/src/input/input.tsx",
-  "packages/ui/src/input/input.test.tsx",
-  "packages/ui/src/input/input.utils.ts",
-  "packages/ui/src/input/input.utils.test.ts",
-  "packages/ui/src/tag/tag.tsx",
-  "packages/ui/src/tag/tag-badge.test.tsx",
-  "packages/ui/src/badge/badge.tsx",
-  "packages/ui/src/surface/surface.tsx",
-  "packages/ui/src/surface/surface-card.test.tsx",
-  "packages/ui/src/card/card.tsx",
-  ...(isTailwindB2Workspace
-    ? [
-        "packages/ui/src/utils/rain-class-names.ts",
-        "packages/ui/src/utils/rain-class-names.test.ts",
-        "packages/ui/src/recipes/local-recipe.ts",
-        "packages/ui/src/recipes/local-recipe.test.ts",
-      ]
-    : []),
-  "status/current-phase.yaml",
-  "docs/plans/2026-09-01-foundation-spike-implementation.md",
-  "docs/plans/2026-09-01-rain-classic-to-rain-next-reuse-audit.md",
-  "docs/plans/2026-09-02-day-3-core-ui-design.md",
-  "docs/plans/2026-09-02-day-3-core-ui-implementation.md",
-  "docs/audits/2026-09-01-rain-classic-reuse-audit.md",
-  "evidence/rain-classic/source-lock.yaml",
-  "evidence/rain-classic/reuse-matrix.yaml",
   "scripts/verification-helpers.mjs",
   "scripts/verification-helpers.test.ts",
   "scripts/verify-workspace.mjs",
   "scripts/verify-evidence.mjs",
   "scripts/verify-boundaries.mjs",
-  "scripts/verify-rain-classic-reuse-audit.mjs",
-  "scripts/verify-rain-classic-reuse-audit.test.ts",
-  "scripts/collect-rain-classic-inventory.mjs",
-  "scripts/collect-rain-classic-inventory.test.ts",
-  ...(isTailwindB2Workspace ? [
-    "scripts/verify-tailwind-b2.mjs",
-    "scripts/verify-tailwind-b2.test.ts",
-    "benchmarks/tailwind-b2-ai-editability.yaml",
-    "evidence/runtime/tailwind-b2/README.md",
-    "evidence/runtime/tailwind-b2/baseline-results.yaml",
-    "manifests/contracts/tailwind-b2.yaml",
-    "manifests/ui/button.yaml",
-    "manifests/ui/input.yaml",
-  ] : []),
 ];
 
 const expectedScripts = {
@@ -183,13 +89,8 @@ const expectedScripts = {
   "verify:workspace": "node scripts/verify-workspace.mjs",
   "verify:evidence": "node scripts/verify-evidence.mjs",
   "verify:boundaries": "node scripts/verify-boundaries.mjs",
-  ...(workspacePhaseId === "tailwind-b2-composition-contract" ? {
-    "verify:tailwind-b2": "node scripts/verify-tailwind-b2.mjs",
-  } : {}),
-  ...(isTokenFoundationsV1 ? { "generate:tokens": "node scripts/generate-token-foundations.mjs", "verify:tokens": "node scripts/verify-token-foundations.mjs" } : {}),
-  "verify:reuse-audit": "node scripts/verify-rain-classic-reuse-audit.mjs",
   "verify:governance":
-    "pnpm verify:lockfile && pnpm verify:workspace && pnpm verify:evidence && pnpm verify:boundaries && pnpm verify:tailwind-b2" + (isTokenFoundationsV1 ? " && pnpm verify:tokens" : ""),
+    "pnpm verify:lockfile && pnpm verify:workspace && pnpm verify:evidence && pnpm verify:boundaries",
   verify:
     "pnpm verify:governance && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e",
 };
@@ -268,9 +169,6 @@ const playgroundPackage = packageDocuments.find(
 const foundationsPackage = packageDocuments.find(
   ([filePath]) => filePath === "packages/foundations/package.json",
 )?.[1];
-const uiPackage = packageDocuments.find(
-  ([filePath]) => filePath === "packages/ui/package.json",
-)?.[1];
 const testsTypeConfig = loadJson("tsconfig.tests.json");
 
 const packageNames = new Map();
@@ -302,24 +200,6 @@ for (const [filePath, document] of packageDocuments) {
 }
 
 if (rootPackage) {
-  try {
-    const phase = getCurrentB2Status(parseYamlSubset(readFileSync(absolute("status/current-phase.yaml"), "utf8")));
-    const parentPhase = phase.currentPhase?.id === "tailwind-b2-composition-contract"
-      ? getValidatedDayThreeHistory(phase).currentPhase : phase.currentPhase;
-    const iconFiles = getIconLibraryRefinementFiles(phase.componentRefinements, parentPhase?.progress);
-    if (iconFiles.authorized) {
-      for (const [name, command] of Object.entries({
-        "generate:icons": "node scripts/generate-icons.mjs",
-        "verify:icons": "node scripts/verify-icons.mjs",
-      })) {
-        if (iconFiles.requireComplete || Object.hasOwn(rootPackage.scripts ?? {}, name)) expectedScripts[name] = command;
-      }
-      const iconVerification = "pnpm verify:governance && pnpm verify:icons && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e";
-      if (iconFiles.requireComplete || rootPackage.scripts?.verify === iconVerification) expectedScripts.verify = iconVerification;
-    }
-  } catch (error) {
-    failures.push(`Icon workspace authorization cannot be audited: ${error.message}`);
-  }
   for (const [scriptName, expectedCommand] of Object.entries(expectedScripts)) {
     if (rootPackage.scripts?.[scriptName] !== expectedCommand) {
       failures.push(
@@ -327,8 +207,7 @@ if (rootPackage) {
       );
     }
   }
-  if (JSON.stringify(Object.fromEntries(Object.entries(rootPackage.scripts ?? {}).sort()))
-    !== JSON.stringify(Object.fromEntries(Object.entries(expectedScripts).sort()))) {
+  if (JSON.stringify(rootPackage.scripts) !== JSON.stringify(expectedScripts)) {
     failures.push("package.json scripts must match the exact workspace command set");
   }
 
@@ -367,7 +246,7 @@ if (testsTypeConfig) {
   };
   if (JSON.stringify(testsTypeConfig) !== JSON.stringify(expectedTestsTypeConfig)) {
     failures.push(
-      "tsconfig.tests.json must exactly cover workspace tests and test configs",
+      "tsconfig.tests.json must exactly cover Day 2 tests and test configs",
     );
   }
 }
@@ -427,27 +306,11 @@ if (foundationsPackage?.name !== "@rain-next/foundations") {
   );
 }
 
-if (uiPackage?.name !== "@rain-next/ui") {
-  failures.push("packages/ui/package.json must use the unique name @rain-next/ui");
-}
-
 if (
   playgroundPackage?.dependencies?.["@rain-next/foundations"] !== "workspace:*"
 ) {
   failures.push(
     "apps/playground/package.json must consume @rain-next/foundations through workspace:*",
-  );
-}
-
-if (playgroundPackage?.dependencies?.["@rain-next/ui"] !== "workspace:*") {
-  failures.push(
-    "apps/playground/package.json must consume @rain-next/ui through workspace:*",
-  );
-}
-
-if (uiPackage?.dependencies?.["@rain-next/foundations"] !== "workspace:*") {
-  failures.push(
-    "packages/ui/package.json must consume @rain-next/foundations through workspace:*",
   );
 }
 

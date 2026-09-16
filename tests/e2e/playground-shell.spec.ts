@@ -40,10 +40,8 @@ test("the Playground shell exposes a flat, inspectable overview", async ({ page 
 
   await expect(page.getByText("尚未实现")).toHaveCount(4);
   await expect(page.getByLabel("当前阶段")).toContainText(
-    "第 0/1 批 · 基础能力建设 · 视觉验收待确认",
+    "Day 3 Core UI 已完成 · 自动验证通过 · Human Gate 未评估",
   );
-  await expect(page.getByLabel("当前阶段")).toContainText("token-foundations-v1");
-  await expect(page.getByLabel("历史基线")).toContainText("Day 3 Core UI 已完成本地实现和自动检查");
   await expect(page.locator("nav, aside")).toHaveCount(0);
 
   const foundationsEntry = page.getByRole("link", { name: /Foundations/i });
@@ -59,14 +57,12 @@ test("the Playground shell exposes a flat, inspectable overview", async ({ page 
       outlineColor: styles.outlineColor,
       outlineOffset: Number.parseFloat(styles.outlineOffset),
       outlineWidth: Number.parseFloat(styles.outlineWidth),
-      boxShadow: styles.boxShadow,
     };
   });
   expect(focusStyles).toEqual({
-    outlineColor: "rgb(61, 123, 255)",
-    outlineOffset: 0,
-    outlineWidth: 1,
-    boxShadow: "rgba(61, 123, 255, 0.2) 0px 0px 0px 3px",
+    outlineColor: "rgb(21, 97, 248)",
+    outlineOffset: 1,
+    outlineWidth: 2,
   });
   const pageSurface = await page.locator("html").evaluate(
     (element) => getComputedStyle(element).backgroundColor,

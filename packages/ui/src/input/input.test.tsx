@@ -1,291 +1,325 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { DensityProvider } from "../../../foundations/src/density";
 import { Input } from "./input";
-import { Button } from "../button/button";
 
-function inputRoot(control: HTMLElement) {
-  const root = control.closest('[data-rain-id="ui-input"]');
-  expect(root).not.toBeNull();
-  return root as HTMLElement;
+function getFieldRoot(control: HTMLElement) {
+  const field = control.closest('[data-rain-id="ui-input"]');
+  expect(field).not.toBeNull();
+  return field as HTMLElement;
+}
+
+function describedByIds(control: HTMLElement) {
+  return new Set(
+    (control.getAttribute("aria-describedby") ?? "")
+      .split(/\s+/)
+      .filter(Boolean),
+  );
 }
 
 describe("Input", () => {
-  it.each(["outlined", "filled", "underlined"] as const)("preserves editing and validation when using the %s field appearance", (appearance) => {
-    const changed = vi.fn();
-    const { rerender } = render(<Input aria-label="外观切换" appearance="outlined" defaultValue="原名称" onValueChange={changed} status="warning" />);
-    rerender(<Input aria-label="外观切换" appearance={appearance} defaultValue="原名称" onValueChange={changed} status="warning" />);
-    const control = screen.getByRole("textbox", { name: "外观切换" });
-    expect(inputRoot(control)).toHaveAttribute("data-appearance", appearance);
-    expect(inputRoot(control)).toHaveAttribute("data-permission", "editable");
-    expect(control).toHaveValue("原名称");
-    fireEvent.change(control, { target: { value: "新名称" } });
-    expect(changed).toHaveBeenCalledExactlyOnceWith("新名称");
-    fireEvent.click(screen.getByRole("button", { name: "清除外观切换" }));
-    expect(control).toHaveValue("");
-    expect(inputRoot(control)).toHaveAttribute("data-status", "warning");
-  });
-
-  it("lets an external field owner provide label and feedback associations", () => {
+  it("associates the Field label and description with the native control", () => {
     render(
-      <div>
-        <label htmlFor="course-name">课程名称</label>
-        <Input
-          aria-describedby="course-name-help course-name-error"
-          id="course-name"
-          status="error"
-        />
-        <p id="course-name-help">最多 30 个字</p>
-        <p id="course-name-error">名称已存在</p>
-      </div>,
+      <Input
+        description="最多输入 30 个字"
+        label="课程名称"
+        name="course-name"
+        placeholder="请输入课程名称"
+        required
+      />,
     );
 
     const control = screen.getByRole("textbox", { name: "课程名称" });
-    expect(control).toHaveAttribute(
-      "aria-describedby",
-      "course-name-help course-name-error",
-    );
-    expect(control).toHaveAttribute("aria-invalid", "true");
-    expect(inputRoot(control)).toHaveAttribute("data-status", "error");
-    expect(inputRoot(control)).toHaveAttribute("data-slot", "root");
+    const field = getFieldRoot(control);
+    const label = screen.getByText("课程名称");
+    const description = screen.getByText("最多输入 30 个字");
+
+    expect(field).toHaveAttribute("data-slot", "field");
+    expect(field).toHaveAttribute("data-state", "default");
+    expect(field).toHaveAttribute("data-density", "default");
+    expect(label).toHaveAttribute("data-slot", "label");
+    expect(label).toHaveAttribute("for", control.id);
+    expect(description).toHaveAttribute("data-slot", "description");
+    expect(description.id).not.toBe("");
+    expect(describedByIds(control)).toContain(description.id);
+    expect(control).toHaveAttribute("data-slot", "control");
+    expect(control).toHaveAttribute("data-focus", "control");
+    expect(control).toHaveAttribute("name", "course-name");
+    expect(control).toBeRequired();
   });
 
-  it.each(["default", "warning", "error"] as const)(
-    "exposes the %s visual status without owning a message",
-    (status) => {
-      const { container } = render(<Input aria-label="编号" status={status} />);
-      const control = screen.getByRole("textbox", { name: "编号" });
-      expect(inputRoot(control)).toHaveAttribute("data-status", status);
-      expect(container.querySelector('[data-slot="message"]')).toBeNull();
-      expect(container.querySelector('[data-slot="feedback"]')).toBeNull();
-    },
-  );
-
-  it("keeps controlled and uncontrolled values on standard React paths", async () => {
-    const user = userEvent.setup();
-    function ControlledFixture() {
-      const [value, setValue] = useState("旧名称");
-      return (
-        <Input
-          aria-label="受控名称"
-          onChange={(event) => setValue(event.currentTarget.value)}
-          value={value}
-        />
-      );
-    }
-
+  it("inherits Compact density from the nearest DensityProvider", () => {
     render(
-      <>
-        <Input aria-label="非受控名称" defaultValue="草稿" />
-        <ControlledFixture />
-      </>,
+      <DensityProvider density="compact">
+        <Input label="紧凑课程名称" />
+      </DensityProvider>,
     );
-    await user.type(screen.getByRole("textbox", { name: "非受控名称" }), "一");
-    await user.type(screen.getByRole("textbox", { name: "受控名称" }), "一");
-    expect(screen.getByRole("textbox", { name: "非受控名称" })).toHaveValue(
-      "草稿一",
-    );
-    expect(screen.getByRole("textbox", { name: "受控名称" })).toHaveValue(
-      "旧名称一",
+
+    const control = screen.getByRole("textbox", {
+      name: "紧凑课程名称",
+    });
+    expect(getFieldRoot(control)).toHaveAttribute(
+      "data-density",
+      "compact",
     );
   });
 
-  it("clears an editable default-status value and returns focus", async () => {
-    const user = userEvent.setup();
-    const onValueChange = vi.fn();
-    const onClear = vi.fn();
+  it("lets an explicit density override the surrounding context", () => {
+    render(
+      <DensityProvider density="compact">
+        <Input density="default" label="默认密度课程名称" />
+      </DensityProvider>,
+    );
+
+    const control = screen.getByRole("textbox", {
+      name: "默认密度课程名称",
+    });
+    const field = getFieldRoot(control);
+    expect(field).toHaveAttribute(
+      "data-density",
+      "default",
+    );
+    expect(
+      field.style.getPropertyValue("--rain-density-control-height"),
+    ).toBe("36px");
+    expect(
+      field.style.getPropertyValue("--rain-density-control-padding-inline"),
+    ).toBe("14px");
+  });
+
+  it("applies a standalone Compact override to the actual geometry variables", () => {
+    render(<Input density="compact" label="紧凑课程名称" />);
+
+    const field = getFieldRoot(
+      screen.getByRole("textbox", { name: "紧凑课程名称" }),
+    );
+    expect(field).toHaveAttribute("data-density", "compact");
+    expect(
+      field.style.getPropertyValue("--rain-density-control-height"),
+    ).toBe("30px");
+    expect(
+      field.style.getPropertyValue("--rain-density-control-padding-inline"),
+    ).toBe("10px");
+  });
+
+  it("connects an error message without dropping the description", () => {
     render(
       <Input
-        aria-label="课程名称"
+        defaultValue="重复课程"
+        description="课程名称需要保持唯一"
+        errorMessage="该课程名称已存在"
+        label="课程名称"
+      />,
+    );
+
+    const control = screen.getByRole("textbox", { name: "课程名称" });
+    const field = getFieldRoot(control);
+    const description = screen.getByText("课程名称需要保持唯一");
+    const message = screen.getByRole("alert");
+    const ids = describedByIds(control);
+
+    expect(field).toHaveAttribute("data-state", "error");
+    expect(control).toHaveAttribute("aria-invalid", "true");
+    expect(message).toHaveAttribute("data-slot", "message");
+    expect(message).toHaveTextContent("该课程名称已存在");
+    expect(description.id).not.toBe("");
+    expect(message.id).not.toBe("");
+    expect(ids).toContain(description.id);
+    expect(ids).toContain(message.id);
+  });
+
+  it("renders semantic start and end adornment parts", () => {
+    render(
+      <Input
+        endAdornment={<span>字</span>}
+        label="课程简称"
+        startAdornment={<span>课程</span>}
+      />,
+    );
+
+    expect(screen.getByText("课程")).toHaveAttribute(
+      "data-slot",
+      "start-adornment",
+    );
+    expect(screen.getByText("字")).toHaveAttribute(
+      "data-slot",
+      "end-adornment",
+    );
+  });
+
+  it("clears an uncontrolled value through an explicit text action", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(
+      <Input
         clearable
         defaultValue="人工智能导论"
-        onClear={onClear}
+        label="课程名称"
         onValueChange={onValueChange}
       />,
     );
 
     const control = screen.getByRole("textbox", { name: "课程名称" });
-    const clear = screen.getByRole("button", { name: "清除课程名称" });
-    expect(clear).toHaveAttribute("data-slot", "clear-action");
-    expect(clear.querySelector('[data-icon="icon/circle-close-filled"]')).not.toBeNull();
-    await user.click(clear);
+    const field = getFieldRoot(control);
+    const clearAction = screen.getByRole("button", {
+      name: "清除课程名称",
+    });
+
+    expect(field).toHaveAttribute("data-state", "value");
+    expect(clearAction).toHaveAttribute("data-slot", "clear-action");
+    expect(clearAction.textContent?.trim()).toBe("清除");
+    expect(clearAction.querySelector("svg")).toBeNull();
+
+    await user.click(clearAction);
+
     expect(control).toHaveValue("");
     expect(control).toHaveFocus();
     expect(onValueChange).toHaveBeenLastCalledWith("");
-    expect(onClear).toHaveBeenCalledTimes(1);
+    expect(field).toHaveAttribute("data-state", "default");
+    expect(
+      screen.queryByRole("button", { name: "清除课程名称" }),
+    ).not.toBeInTheDocument();
   });
 
-  it.each([
-    { props: { disabled: true }, name: "禁用" },
-    { props: { readOnly: true }, name: "只读" },
-  ])("hides clear for $name state", ({ props, name }) => {
-    render(
+  it("keeps a controlled value on the same onValueChange path", async () => {
+    const user = userEvent.setup();
+    const changes = vi.fn();
+    let currentValue = "旧课程名";
+    let rerenderControlled:
+      | ReturnType<typeof render>["rerender"]
+      | undefined;
+    const onValueChange = (nextValue: string) => {
+      changes(nextValue);
+      currentValue = nextValue;
+      rerenderControlled?.(
+        <Input
+          clearable
+          label="受控课程名称"
+          onValueChange={onValueChange}
+          value={currentValue}
+        />,
+      );
+    };
+    const view = render(
       <Input
-        {...props}
-        aria-label={`${name}输入`}
         clearable
-        defaultValue="已有内容"
+        label="受控课程名称"
+        onValueChange={onValueChange}
+        value={currentValue}
       />,
     );
-    expect(screen.queryByRole("button", { name: `清除${name}输入` })).toBeNull();
-  });
+    rerenderControlled = view.rerender;
 
-  it.each(["warning", "error"] as const)("clears %s by default without dismissing validation", async (status) => {
-    const user = userEvent.setup();
-    render(<Input aria-label="验证字段" defaultValue="旧值" status={status} />);
-    const control = screen.getByRole("textbox", { name: "验证字段" });
-    await user.click(screen.getByRole("button", { name: "清除验证字段" }));
+    const control = screen.getByRole("textbox", {
+      name: "受控课程名称",
+    });
+    await user.click(
+      screen.getByRole("button", { name: "清除受控课程名称" }),
+    );
     expect(control).toHaveValue("");
-    expect(control).toHaveFocus();
-    expect(inputRoot(control)).toHaveAttribute("data-status", status);
+    expect(changes).toHaveBeenLastCalledWith("");
+
+    await user.type(control, "新课程名");
+
+    expect(control).toHaveValue("新课程名");
+    expect(changes).toHaveBeenLastCalledWith("新课程名");
+    expect(getFieldRoot(control)).toHaveAttribute("data-state", "value");
   });
 
-  it("preserves overflow on initial load and max changes and describes hidden count overflow", () => {
-    const { rerender } = render(<Input aria-label="回填" defaultValue="abcdef" maxLength={4} showCount={false} />);
-    const control = screen.getByRole("textbox", { name: "回填" });
-    expect(control).toHaveValue("abcdef");
-    expect(control).toHaveAccessibleDescription("已超过 4 字上限");
-    fireEvent.change(control, { target: { value: "abcde" } });
-    expect(control).toHaveValue("abcde");
-    fireEvent.change(control, { target: { value: "abXcde" } });
-    expect(control).toHaveValue("abcde");
-    rerender(<Input aria-label="回填" defaultValue="abcdef" maxLength={2} showCount={false} />);
-    expect(control).toHaveValue("abcde");
-    expect(control).toHaveAccessibleDescription("已超过 2 字上限");
-  });
-
-  it("shows count automatically with a limit and explicit size wins over density", () => {
-    render(<DensityProvider density="compact"><Input aria-label="明确尺寸" size={28} maxLength={5} /></DensityProvider>);
-    expect(screen.getByText("0/5")).toBeInTheDocument();
-    expect(inputRoot(screen.getByRole("textbox"))).toHaveAttribute("data-size", "28");
-  });
-
-  it("blocks custom activation in disabled and read-only value-changing action slots", () => {
-    const activate = vi.fn();
-    const { rerender } = render(<Input aria-label="只读动作" readOnly trailingAction={<a href="#test" onClick={activate} onPointerDown={activate}>修改</a>} />);
-    fireEvent.click(screen.getByText("修改"));
-    fireEvent.pointerDown(screen.getByText("修改"));
-    expect(activate).not.toHaveBeenCalled();
-    rerender(<Input aria-label="只读动作" readOnly trailingActionChangesValue={false} trailingAction={<button onClick={activate}>复制</button>} />);
-    fireEvent.click(screen.getByText("复制"));
-    expect(activate).toHaveBeenCalledTimes(1);
-    rerender(<Input aria-label="只读动作" disabled trailingActionChangesValue={false} trailingAction={<button onClick={activate}>复制</button>} />);
-    fireEvent.click(screen.getByText("复制"));
-    expect(activate).toHaveBeenCalledTimes(1);
-  });
-
-  it("applies a hard grapheme limit without splitting emoji", () => {
-    render(
-      <Input
-        aria-label="课程简称"
-        countMode="hard"
-        defaultValue="A"
-        maxLength={2}
-        showCount
-      />,
-    );
-    const control = screen.getByRole("textbox", { name: "课程简称" });
-    fireEvent.change(control, { target: { value: "A👨‍👩‍👧‍👦B" } });
-    expect(control).toHaveValue("A👨‍👩‍👧‍👦");
-    expect(screen.getByText("2/2")).toHaveAttribute("data-slot", "count");
-  });
-
-  it("allows soft overflow while exposing a non-color cue", async () => {
+  it("clears a controlled value through the inherited native onChange path", async () => {
     const user = userEvent.setup();
-    render(
-      <Input
-        aria-label="课程简称"
-        countMode="soft"
-        maxLength={2}
-        showCount
-      />,
-    );
-    await user.type(screen.getByRole("textbox", { name: "课程简称" }), "课程名");
-    expect(screen.getByText("3/2")).toHaveAttribute("data-overflow", "true");
-  });
+    const onChange = vi.fn();
 
-  it("does not submit Enter during Chinese IME composition", () => {
-    const onPressEnter = vi.fn();
-    render(<Input aria-label="课程搜索词" onPressEnter={onPressEnter} />);
-    const control = screen.getByRole("textbox", { name: "课程搜索词" });
-
-    fireEvent.compositionStart(control);
-    fireEvent.keyDown(control, { key: "Enter", isComposing: true });
-    expect(onPressEnter).not.toHaveBeenCalled();
-    fireEvent.compositionEnd(control);
-    fireEvent.keyDown(control, { key: "Enter" });
-    expect(onPressEnter).toHaveBeenCalledTimes(1);
-  });
-
-  it("commits a hard grapheme limit to a controlled value after Chinese IME composition", () => {
-    function ControlledImeFixture() {
-      const [value, setValue] = useState("");
+    function NativeControlledInput() {
+      const [controlledValue, setControlledValue] = useState("旧课程名");
       return (
-        <>
-          <Input
-            aria-label="受控中文简称"
-            countMode="hard"
-            maxLength={2}
-            onChange={(event) => setValue(event.currentTarget.value)}
-            value={value}
-          />
-          <output data-testid="controlled-ime-value">{value}</output>
-        </>
+        <Input
+          clearable
+          label="原生受控课程名称"
+          onChange={(event) => {
+            onChange(event.currentTarget.value);
+            setControlledValue(event.currentTarget.value);
+          }}
+          value={controlledValue}
+        />
       );
     }
 
-    render(<ControlledImeFixture />);
-    const control = screen.getByRole("textbox", { name: "受控中文简称" });
-    fireEvent.compositionStart(control);
-    fireEvent.change(control, { target: { value: "课程名称" } });
-    expect(screen.getByTestId("controlled-ime-value")).toHaveTextContent(
-      "课程名称",
+    render(<NativeControlledInput />);
+    const control = screen.getByRole("textbox", {
+      name: "原生受控课程名称",
+    });
+
+    await user.click(
+      screen.getByRole("button", { name: "清除原生受控课程名称" }),
     );
 
-    fireEvent.compositionEnd(control);
-    expect(screen.getByTestId("controlled-ime-value")).toHaveTextContent("课程");
-    expect(control).toHaveValue("课程");
+    expect(onChange).toHaveBeenLastCalledWith("");
+    expect(control).toHaveValue("");
+    expect(control).toHaveFocus();
   });
 
-  it("renders prefix, suffix and one trailing action in a stable order", () => {
-    const { container } = render(
+  it("uses native disabled semantics and removes the clear action", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(
       <Input
-        aria-label="学分"
-        prefix={<span>建议</span>}
-        suffixText="学分"
-        suffix={<span>含实践</span>}
-        maxLength={3}
-        trailingAction={<button type="button">换算</button>}
+        clearable
+        defaultValue="不可编辑课程"
+        disabled
+        label="禁用课程名称"
+        onValueChange={onValueChange}
       />,
     );
+
+    const control = screen.getByRole("textbox", {
+      name: "禁用课程名称",
+    });
+    expect(control).toBeDisabled();
+    expect(getFieldRoot(control)).toHaveAttribute("data-state", "disabled");
     expect(
-      [...container.querySelectorAll('[data-rain-id="ui-input"] > [data-slot]')]
-        .map((node) => node.getAttribute("data-slot")),
-    ).toEqual(["prefix", "control", "clear-slot", "suffix-text", "suffix", "count", "trailing-action"]);
+      screen.queryByRole("button", { name: "清除禁用课程名称" }),
+    ).not.toBeInTheDocument();
+
+    await user.type(control, "测试");
+    expect(onValueChange).not.toHaveBeenCalled();
   });
 
-  it("defaults embedded TextButtons to brand while preserving explicit tone and disabled behavior", () => {
-    const { rerender } = render(<Input aria-label="学分" trailingAction={<Button variant="text">换算</Button>} />);
-    expect(screen.getByRole("button", { name: "换算" })).toHaveAttribute("data-tone", "brand");
-    rerender(<Input aria-label="学分" trailingAction={<Button variant="text" tone="danger">删除</Button>} />);
-    expect(screen.getByRole("button", { name: "删除" })).toHaveAttribute("data-tone", "danger");
-    rerender(<Input aria-label="学分" disabled trailingAction={<Button variant="text">换算</Button>} />);
-    expect(screen.getByRole("button", { name: "换算" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "换算" })).toHaveAttribute("data-tone", "brand");
-  });
-
-  it("inherits the shared compact density", () => {
+  it("uses native read-only semantics without presenting a clear action", () => {
     render(
-      <DensityProvider density="compact">
-        <Input aria-label="紧凑输入" />
-      </DensityProvider>,
+      <Input
+        clearable
+        defaultValue="只读课程"
+        label="只读课程名称"
+        readOnly
+      />,
     );
-    expect(inputRoot(screen.getByRole("textbox", { name: "紧凑输入" }))).toHaveAttribute(
-      "data-density",
-      "compact",
+
+    const control = screen.getByRole("textbox", {
+      name: "只读课程名称",
+    });
+    expect(control).toHaveAttribute("readonly");
+    expect(control).not.toBeDisabled();
+    expect(getFieldRoot(control)).toHaveAttribute(
+      "data-state",
+      "read-only",
     );
+    expect(
+      screen.queryByRole("button", { name: "清除只读课程名称" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("keeps error intent separate from the keyboard focus semantic", async () => {
+    const user = userEvent.setup();
+    render(<Input errorMessage="请输入课程名称" label="课程名称" />);
+
+    const control = screen.getByRole("textbox", { name: "课程名称" });
+    expect(control).toHaveAttribute("data-focus", "control");
+
+    await user.tab();
+    expect(control).toHaveFocus();
   });
 });

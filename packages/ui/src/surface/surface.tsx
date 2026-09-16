@@ -8,24 +8,27 @@ export interface SurfaceProps extends HTMLAttributes<HTMLElement> {
   variant?: SurfaceVariant;
 }
 
-function mergeClassNames(...names: Array<string | undefined>) {
-  return names.filter(Boolean).join(" ");
+function mergeClassName(baseClassName: string, className?: string) {
+  return className ? `${baseClassName} ${className}` : baseClassName;
 }
 
 export const Surface = forwardRef<HTMLElement, SurfaceProps>(function Surface(
-  { as: Component = "div", className, variant = "panel", ...nativeProps },
+  {
+    as: Component = "div",
+    className,
+    variant = "panel",
+    ...nativeProps
+  },
   ref,
 ) {
   return (
     <Component
       {...nativeProps}
       ref={ref as never}
-      className={mergeClassNames("rain-surface", className)}
+      className={mergeClassName("rain-surface", className)}
       data-rain-id="ui-surface"
-      data-slot="root"
+      data-slot="surface"
       data-variant={variant}
     />
   );
 });
-
-Surface.displayName = "Surface";

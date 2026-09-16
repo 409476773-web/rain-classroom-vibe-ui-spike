@@ -33,10 +33,7 @@ describe("playground-shell", () => {
       );
     }
     expect(screen.getByRole("link", { name: /Foundations/i })).toHaveTextContent(
-      "基础体系总入口",
-    );
-    expect(screen.getByRole("link", { name: /Components/i })).toHaveTextContent(
-      "组件与组合入口",
+      "42 个语义色角色",
     );
   });
 
@@ -92,14 +89,11 @@ describe("playground-shell", () => {
     expect(screen.getAllByText("尚未实现")).toHaveLength(4);
   });
 
-  it("separates the current B2 entry from the completed historical baseline", () => {
+  it("reports completed automation without claiming a Human Gate", () => {
     render(<App />);
 
     expect(screen.getByLabelText("当前阶段")).toHaveTextContent(
-      "第 0/1 批 · 基础能力建设 · 视觉验收待确认",
+      "Day 3 Core UI 已完成 · 自动验证通过 · Human Gate 未评估",
     );
-    expect(screen.getByLabelText("当前阶段")).toHaveTextContent("token-foundations-v1");
-    expect(screen.getByLabelText("历史基线")).toHaveTextContent("Day 3 Core UI 已完成本地实现和自动检查");
-    expect(screen.getByLabelText("历史基线")).toHaveTextContent("图标库继续复用");
   });
 });

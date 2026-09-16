@@ -1,13 +1,13 @@
-# Day 3 Core UI 运行证据
+# Day 3 Core UI runtime evidence
 
-本目录记录 `foundation-spike-day-3` / Task 4 的本地实现、自动检查与分组件人工验收证据。Button 已于 2026-09-03 完成真实页面视觉与交互验收；这不表示其余 Core UI Human Gate、Figma 写入、正式 Figma Component、包或 Registry 发布、业务迁移、Git commit 或远程 Git 已完成。
+本目录只记录 `foundation-spike-day-3` / Task 4 的本地运行证据。它证明 Button、Input、Tag/Badge 与 Surface/Card 四组 `local-experiment` 资产已在 Playground 中以真实代码和浏览器输出接受自动验证；它们尚未登记候选 Manifest，不表示 Human Gate、Figma 写入、正式 Figma Component、包/Registry 发布、业务迁移、local commit 或远程 Git 操作已完成。
 
-- `core-ui-page.png`：Chromium 在 1440px 视口渲染的 Core UI 全页截图；页面恢复到默认状态后让 Primary Button 保持键盘焦点，便于同时检查四个组件家族和焦点外框。
-  - IHDR 尺寸：`1440 × 3807`
-  - 文件大小：`692099 bytes`
-  - SHA-256：`6e3b80a99bb6ab78cff6e090231f315ff27b6227fc186f287d19f0e1c85280f7`
-- `red-green-summary.md`：测试先行、真实浏览器排错和独立代码复核摘要。
+- `core-ui-page.png`：Chromium 以 1440px 视口渲染 `#components` 的全页 canonical 截图，覆盖四组家族、Compact / Default 密度、关键状态、无障碍文案、Visual lineage 与 Modification boundary。
+  - IHDR 尺寸：`1440 × 2630`
+  - 文件大小：`383329 bytes`
+  - SHA-256：`0fa5022a3d31812ce400c28a154b8fd337c0255e98c29399bb95d192f47bee40`
+- `red-green-summary.md`：Task 4 的 TDD、类型检查、浏览器故障排查与最终验证摘要。
 
-常规浏览器检查把截图写入 Playwright 临时产物，不会覆盖本文件登记的正式截图。只有显式设置 `RAIN_UPDATE_DAY_3_EVIDENCE=1` 才会刷新正式截图；刷新后必须同步精确文件大小与 SHA-256，并重新运行边界检查。
+截图已人工查看：页面结构完整，无横向溢出；四个家族的层级、状态、密度与修改边界均可见；Input Focus 延续 VE-014 的浅蓝表面、1px 品牌边框与轻量 halo；Surface/Card 保持边框分层且不引入常态阴影；Tag 移除动作使用文字，不以 Unicode 或自绘图标替代正式图标资产。
 
-截图中的四组组件是 `local-experiment / prototype-ready` 候选。它们已完成本地实现和自动检查；其中 Button Human Gate 已通过，Input、Tag/Badge、Surface/Card 仍待设计师验收。不能据此推断已经发布或进入业务系统。
+`RAIN_UPDATE_DAY_3_EVIDENCE=1` 只在显式执行 Day 3 Chromium spec 时生成 Playwright 截图产物。刷新 canonical 文件后，必须同步上述尺寸、文件大小与 SHA-256，并重跑边界和完整质量门。

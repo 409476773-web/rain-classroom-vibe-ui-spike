@@ -1,28 +1,4 @@
-@import "tailwindcss" source(none);
-@import "@rain-next/foundations/tailwind-theme.css";
-@source "./";
-@source "../../../packages/ui/src";
-@source not "./docs/*.{ts,tsx,css}";
-@source not "./docs/components";
-@source not "./**/*.test.{ts,tsx}";
-@source not "../../../packages/ui/src/icons";
-@source not "../../../packages/ui/src/**/*.test.{ts,tsx}";
-@source not inline("border outline filter underline");
-@source "./docs/token-foundations";
-@source "./docs/components/icon-button-page.tsx";
-@source "./docs/components/input-page.tsx";
-@source "./docs/components/select-page.tsx";
-@source "./docs/components/tabs-page.tsx";
-@source "./docs/components/dropdown-page.tsx";
-@source "./docs/components/tag-page.tsx";
-@source "./docs/components/question-number-page.tsx";
-@source "./docs/components/option-button-page.tsx";
-@source "./docs/components/checkbox-page.tsx";
-@source "./docs/components/radio-page.tsx";
-@source "./docs/components/selection-cards-page.tsx";
-@source "./docs/components/selection-patterns-page.tsx";
-@source "./docs/components/selection-playground-page.tsx";
-@source inline("text-rain-action-primary");
+@import "tailwindcss";
 
 :root {
   font-family: var(--rain-font-ui);
@@ -506,8 +482,8 @@ h1 {
 
 .family-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(340px, 0.8fr);
-  min-height: 360px;
+  grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.75fr);
+  min-height: 340px;
 }
 
 .component-stage {
@@ -521,55 +497,7 @@ h1 {
 
 .component-stage--fields {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px 16px;
-}
-
-.button-stage {
-  gap: 22px;
-}
-
-.button-demo-group {
-  display: grid;
-  gap: 12px;
-  padding-bottom: 22px;
-  border-bottom: 1px solid var(--rain-color-border-subtle);
-}
-
-.button-demo-group:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
-}
-
-.component-row.component-row--baseline {
-  align-items: flex-end;
-}
-
-.button-width-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  align-items: end;
-}
-
-.button-width-example {
-  display: grid;
-  gap: 7px;
-  min-width: 0;
-  justify-items: start;
-}
-
-.button-width-example > small {
-  color: var(--rain-color-text-muted);
-  font-size: 11px;
-  line-height: 18px;
-}
-
-.button-demo-block-host {
-  width: min(100%, 260px);
-}
-
-.button-demo-constrained {
-  width: min(100%, 210px);
+  gap: 20px 16px;
 }
 
 .stage-caption {
@@ -595,84 +523,11 @@ h1 {
   background: var(--rain-color-border-subtle);
 }
 
-.stage-note,
-.interaction-output {
-  margin: 0;
-  color: var(--rain-color-text-muted);
-  font-size: 12px;
-  line-height: 20px;
-}
-
-.interaction-output {
-  width: fit-content;
-  padding: 5px 8px;
-  background: var(--rain-color-surface-panel);
-  border: 1px solid var(--rain-color-border-default);
-  border-radius: var(--rain-radius-4);
-}
-
-.component-row,
-.badge-demo-row {
+.component-row {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
-}
-
-.badge-demo-row {
-  gap: 28px;
-  min-height: 48px;
-}
-
-.badge-demo-host {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
-  color: var(--rain-color-text-inverse);
-  font-size: 13px;
-  font-weight: 600;
-  background: var(--rain-tag-neutral-fill);
-  border-radius: var(--rain-radius-full);
-}
-
-.badge-demo-resource {
-  display: inline-flex;
-  align-items: center;
-  min-height: 32px;
-  padding-inline: 10px;
-  color: var(--rain-color-text-secondary);
-  font-size: 12px;
-  background: var(--rain-color-surface-panel);
-  border: 1px solid var(--rain-color-border-default);
-  border-radius: var(--rain-radius-6);
-}
-
-.demo-field {
-  display: grid;
-  align-content: start;
-  gap: 6px;
-  min-width: 0;
-}
-
-.demo-field > label {
-  color: var(--rain-color-text-secondary);
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.demo-field > .rain-input {
-  width: 100%;
-}
-
-.demo-field > small {
-  color: var(--rain-color-text-muted);
-  font-size: 11px;
-  line-height: 18px;
-}
-
-.demo-field > .demo-field__message {
-  color: var(--rain-color-semantic-error);
 }
 
 .family-contract {
@@ -685,9 +540,9 @@ h1 {
 
 .family-contract__item {
   display: grid;
-  grid-template-columns: 98px 1fr;
+  grid-template-columns: 118px 1fr;
   gap: 14px;
-  padding: 13px 0;
+  padding: 15px 0;
   border-bottom: 1px solid var(--rain-color-border-subtle);
 }
 
@@ -717,18 +572,11 @@ h1 {
 
 .surface-strip .rain-surface {
   display: grid;
-  min-height: 78px;
-  padding: 10px;
+  min-height: 76px;
   place-items: center;
   color: var(--rain-color-text-muted);
   font-size: 12px;
   font-weight: 600;
-  text-align: center;
-}
-
-.surface-strip .rain-surface[data-variant="page"] {
-  outline: 1px dashed var(--rain-color-border-strong);
-  outline-offset: -1px;
 }
 
 .card-grid {
@@ -785,7 +633,6 @@ h1 {
 
   .core-ui-summary,
   .component-stage--fields,
-  .button-width-grid,
   .surface-strip,
   .card-grid {
     grid-template-columns: 1fr;
@@ -816,6 +663,14 @@ h1 {
 
   .core-ui-boundary {
     display: grid;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .core-ui-shell *,
+  .core-ui-shell *::before,
+  .core-ui-shell *::after {
+    scroll-behavior: auto;
   }
 }
 
@@ -1002,7 +857,7 @@ h1 {
 }
 
 .color-layer__index {
-  color: var(--rain-color-text-secondary);
+  color: var(--rain-color-text-placeholder);
   font-family: ui-monospace, "SFMono-Regular", monospace;
   font-size: 10px;
 }
@@ -1266,9 +1121,9 @@ h1 {
 
 .fixture-field input:focus-visible {
   background: var(--rain-color-brand-primary-subtle);
-  border-color: var(--rain-color-focus-control);
-  outline-color: var(--rain-color-focus-control);
-  box-shadow: 0 0 0 3px var(--rain-focus-control-halo);
+  border-color: var(--rain-color-brand-primary);
+  outline-color: transparent;
+  box-shadow: 0 0 0 var(--rain-focus-width) var(--rain-focus-control-halo);
 }
 
 .fixture-native-action {
@@ -1276,7 +1131,7 @@ h1 {
   font-size: 12px;
   font-weight: 600;
   background: var(--rain-color-action-primary);
-  border: 1px solid transparent;
+  border: 1px solid var(--rain-color-action-primary);
 }
 
 .fixture-boundary-note {
@@ -1383,7 +1238,7 @@ h1 {
 }
 
 .motion-card--reduced .motion-marker {
-  background: var(--rain-badge-neutral-fill);
+  background: var(--rain-color-text-muted);
   transform: none;
 }
 

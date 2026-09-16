@@ -47,8 +47,9 @@ function luminance(color: Rgba) {
   );
 }
 
-export function contrastRatio(foreground: string, background: string, parentBackground = "rgb(255, 255, 255)") {
-  const flattenedBackground = composite(parseColor(background), parseColor(parentBackground));
+export function contrastRatio(foreground: string, background: string) {
+  const white: Rgba = [255, 255, 255, 1];
+  const flattenedBackground = composite(parseColor(background), white);
   const flattenedForeground = composite(
     parseColor(foreground),
     flattenedBackground,

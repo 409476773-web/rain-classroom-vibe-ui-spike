@@ -15,7 +15,6 @@ import {
 } from "node:path";
 
 import {
-  getCurrentB2Status,
   parseStaticArrayExport,
   parseYamlSubset,
 } from "./verification-helpers.mjs";
@@ -118,9 +117,7 @@ function isInside(parentPath, candidatePath) {
 
 const evidenceRegistry = parseYamlDocument("evidence/visual-evidence.yaml");
 const benchmarkRegistry = parseYamlDocument("benchmarks/benchmark-registry.yaml");
-let phaseStatus = parseYamlDocument("status/current-phase.yaml");
-try { phaseStatus = getCurrentB2Status(phaseStatus); }
-catch (error) { failures.push(error.message); }
+const phaseStatus = parseYamlDocument("status/current-phase.yaml");
 const evidenceIndex = parseIndex(
   "apps/playground/src/docs/evidence-index.ts",
   "evidenceIndex",
@@ -179,7 +176,6 @@ const evidenceLifecycleLockedPhases = new Set([
   "foundation-spike-day-1",
   "foundation-spike-day-2",
   "foundation-spike-day-3",
-  "tailwind-b2-composition-contract",
 ]);
 const isEvidenceLifecycleLocked = evidenceLifecycleLockedPhases.has(
   phaseStatus?.currentPhase?.id,

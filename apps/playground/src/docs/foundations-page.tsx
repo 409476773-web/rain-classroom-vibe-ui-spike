@@ -3,7 +3,6 @@ import {
   densityMetrics,
   semanticColorGroups,
   semanticColorTokenEntries,
-  typographyPresets,
   type SemanticColorGroup,
 } from "@rain-next/foundations";
 
@@ -18,12 +17,6 @@ const groupOrder: readonly SemanticColorGroup[] = [
   "semantic",
   "intelligence",
 ];
-
-const {
-  "ui-default": uiPreset,
-  "reading-default": readingPreset,
-  "data-default": dataPreset,
-} = typographyPresets;
 
 function DensityFixture({ density }: { density: "compact" | "default" }) {
   const label = density === "compact" ? "Compact" : "Default";
@@ -74,34 +67,27 @@ export function FoundationsPage() {
         </a>
         <div className="foundation-hero__content">
           <div>
-            <p className="eyebrow">RAIN NEXT · FOUNDATIONS</p>
+            <p className="eyebrow">RAIN NEXT · SYSTEM MODE · DAY 2</p>
             <h1 id="foundations-title" tabIndex={-1}>
               Foundations，先让系统说同一种语言
             </h1>
             <p className="foundation-lead rain-type-reading">
-              Foundations 是基础体系总入口，包含 Token、完整排版方案和使用规则。
-              Token 定义基础值与用途，排版方案组合这些值，使用规则说明何时选用；Tailwind 提供它们的代码入口。
+              这组夹具只验证颜色角色、字体分工、密度上下文、键盘焦点和动效降级。
+              它不是 Day 3 UI 组件，也不代表已通过人工设计 Gate。
             </p>
-            <p>
-              <a className="back-link" data-focus="item" href="#token-foundations">
-                查看 Token 目录与完整排版方案
-              </a>
-            </p>
-            <p>下方查看现有组件兼容定义，以及字体、密度、键盘焦点与动效的使用规则。</p>
-            <p><a className="back-link" data-focus="item" href="#icon-sizes">查看公共图标尺寸 IconSize</a></p>
           </div>
           <dl className="foundation-summary" aria-label="Foundations 合同摘要">
             <div>
-              <dt>兼容语义色</dt>
+              <dt>Semantic colors</dt>
               <dd>{semanticColorTokenEntries.length}</dd>
             </div>
             <div>
-              <dt>完整排版方案</dt>
-              <dd>{Object.keys(typographyPresets).length}</dd>
+              <dt>Type roles</dt>
+              <dd>03</dd>
             </div>
             <div>
               <dt>Densities</dt>
-              <dd>{Object.keys(densityMetrics).length}</dd>
+              <dd>02</dd>
             </div>
             <div>
               <dt>Focus roles</dt>
@@ -120,11 +106,10 @@ export function FoundationsPage() {
         <div className="foundation-section__heading">
           <div>
             <p className="section-index">01 / COLOR CONTRACT</p>
-            <h2 id="colors-title">现有组件兼容区：语义色与使用边界</h2>
+            <h2 id="colors-title">语义色不是色板，是使用边界</h2>
           </div>
           <p>
-            {semanticColorTokenEntries.length} 个语义色保留原入口，其中 {semanticColorTokenEntries.filter((entry) => entry.categoryId).length} 项已按确认的用途共享新 Category 色源，下面显示 Light 数值与来源。
-            其余保留原定义；紫色、青色与 AI 色系待补充。
+            除锁定的 #1561F8 外，其他值只表达跨场景关系；未把旧页面裸色直接晋升为系统事实。
           </p>
         </div>
 
@@ -133,41 +118,31 @@ export function FoundationsPage() {
           data-rain-id="foundation-color-architecture"
           data-slot="color-architecture"
         >
-          <ol className="color-layer-list" aria-label="颜色 Token 来源与消费边界">
+          <ol className="color-layer-list" aria-label="颜色 Token 三层模型">
             <li data-slot="color-layer" data-variant="internal">
               <span className="color-layer__index">01</span>
               <div>
                 <strong>Reference Palette</strong>
-                <small>私有来源 · 不供页面或组件直接消费</small>
+                <small>Internal · neutral / blue / status 原子色阶</small>
               </div>
             </li>
             <li data-slot="color-layer" data-variant="stable">
               <span className="color-layer__index">02</span>
               <div>
-                <strong>Public Category</strong>
-                <small>公共用途分类 · 文字、图标、填充等按资格直接使用</small>
+                <strong>Semantic Roles</strong>
+                <small>Stable · 页面与组件可消费的 42 个角色</small>
               </div>
             </li>
             <li data-slot="color-layer" data-variant="on-demand">
               <span className="color-layer__index">03</span>
               <div>
-                <strong>Semantic / Component</strong>
-                <small>按需别名 · 稳定角色与组件状态需要时建立</small>
+                <strong>Component Tokens</strong>
+                <small>On demand · Day 3 起只为已验证状态建立</small>
               </div>
             </li>
           </ol>
           <p>
-            颜色相同不代表用途相同。公共 Category 可以直接使用，无需先增加 Semantic 别名；
-            旧 Semantic 与新 Category 的对应关系也不能只靠色值判断。
-          </p>
-          <p>
-            页面底默认 Background/Neutral/3，可按层级选择 /4；常规和轻分隔边界用 Border/Neutral/3，
-            轻强调与 strong 默认用 /2，极重要边界才用 /1。
-            成功、警告、错误、信息弱背景分别使用 Green、Orange、Red、Second 的 Alpha/2（10%）。
-          </p>
-          <p>
-            来源对应不代表所有组件的可读性与主题表现都已验收。
-            当前占位色 Text/Neutral/5 在白底约 3.708:1，尚未达到普通文字 4.5:1，需继续解决。
+            内部色阶提供扩展余量，语义角色保持稳定；业务页面不直接选色阶。
           </p>
         </div>
 
@@ -215,14 +190,6 @@ export function FoundationsPage() {
                       <span className="token-copy">
                         <code>{entry.name}</code>
                         <small>{entry.usage}</small>
-                        {entry.categoryId ? (
-                          <small data-slot="semantic-token-source">
-                            {entry.textCategoryId ? `填充：${entry.categoryId} · 文字：${entry.textCategoryId}` : `来源：${entry.categoryId}`}
-                          </small>
-                        ) : <small>保留原定义</small>}
-                        {entry.textCategoryId && (
-                          <span className="text-rain-action-primary" data-slot="semantic-token-text-sample">主要操作文字</span>
-                        )}
                       </span>
                       <span className="token-value">{entry.value}</span>
                     </li>
@@ -245,11 +212,7 @@ export function FoundationsPage() {
             <p className="section-index">02 / TYPOGRAPHY</p>
             <h2 id="type-title">一种界面，三种阅读任务</h2>
           </div>
-          <p>
-            默认选择完整方案，只有明确需求才调整单项 Token。
-            旧 UI、Reading、Data 入口的字号与行高已共享基础 Token；下列数值依次为字号 / 行高 / 字重。
-            旧类保留原有字距和数字属性的继承方式，完整方案会显式设置这些属性，替换时需一并检查。
-          </p>
+          <p>UI 保持紧凑，Reading 保持可读，Data 只承担少量关键数值锚点。</p>
         </div>
 
         <div className="type-grid">
@@ -258,20 +221,12 @@ export function FoundationsPage() {
             <p className="rain-type-ui">
               课程资源 · 已更新 12 项 · 操作和辅助信息保持紧凑清晰
             </p>
-            <p className="rain-type-ui-caption">
-              <code>rain-type-ui</code> → <code>rain-type-ui-default</code>
-              <br />{uiPreset.label} · {uiPreset.fontSize}px / {uiPreset.lineHeight}px / {uiPreset.fontWeight}
-            </p>
           </article>
           <article className="type-sample" data-rain-id="foundation-type-reading">
             <span className="type-role">Reading / PingFang SC</span>
             <p className="rain-type-reading">
               报告结论、课程介绍和答案解析使用稳定行高。角色由内容任务决定，
               不根据字符串长短临时改变排版。
-            </p>
-            <p className="rain-type-ui-caption">
-              <code>rain-type-reading</code> → <code>rain-type-reading-default</code>
-              <br />{readingPreset.label} · {readingPreset.fontSize}px / {readingPreset.lineHeight}px / {readingPreset.fontWeight}
             </p>
           </article>
           <article className="type-sample type-sample--data" data-rain-id="foundation-type-data">
@@ -287,15 +242,10 @@ export function FoundationsPage() {
                 平均成绩
               </span>
             </p>
-            <p className="rain-type-ui-caption">
-              <code>rain-type-data</code> → <code>rain-type-data-default</code>
-              <br />{dataPreset.label} · {dataPreset.fontSize}px / {dataPreset.lineHeight}px / {dataPreset.fontWeight}
-            </p>
           </article>
         </div>
         <p className="font-status" data-slot="font-status">
-          关键数据只让数值使用 LINE Seed，中文单位和标签保持 PingFang SC。
-          字体文件未随组件库分发，实际字体与回退效果仍需在使用环境中核对。
+          字体合同：仅声明目标与回退链；仓库不包含字体文件。文件授权与本机实际命中情况见 Day 2 字体环境证据。
         </p>
       </section>
 
@@ -310,7 +260,7 @@ export function FoundationsPage() {
             <p className="section-index">03 / DENSITY</p>
             <h2 id="density-title">同一控件，由场景上下文决定密度</h2>
           </div>
-          <p>密度由场景或父级上下文决定；同一局部控件组使用一致密度。下方以原生控件比较。</p>
+          <p>对照使用原生控件夹具，不提前实现 Day 3 Button 或 Input 公共组件。</p>
         </div>
         <div className="density-grid">
           <DensityFixture density="compact" />
@@ -322,10 +272,10 @@ export function FoundationsPage() {
           id="foundation-native-fixture-boundary"
         >
           <span>
-            原生示例用于比较 Density 与 Focus；实际 Input / Button 的外观见组件目录。
+            原生夹具，仅验证 Density 与 Focus；不代表 Day 3 Input / Button 最终外观。
           </span>
           <span>
-            Input Focus 已接入统一品牌细环与浅色外圈，保留浅蓝表面；其他状态的完整 Token 迁移另行推进。
+            Input Focus 候选延续原稿的 1px 品牌边框、浅蓝表面和轻量外环。
           </span>
         </p>
       </section>
@@ -341,7 +291,7 @@ export function FoundationsPage() {
             <p className="section-index">04 / FOCUS</p>
             <h2 id="focus-title">键盘焦点必须清楚表达对象与意图</h2>
           </div>
-          <p>依次按 Tab 可体验 control、item、danger；全局共用 Border/Brand/1 的贴边细环与 Fill/Brand/Alpha/3 的浅色外圈。Hover 不替代 Focus，危险意图仍由组件自身配色表达。</p>
+          <p>依次按 Tab 可体验 control、item、danger；Hover 不替代 Focus。</p>
         </div>
         <div className="focus-grid">
           <button

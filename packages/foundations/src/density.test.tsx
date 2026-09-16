@@ -45,9 +45,8 @@ describe("typography roles", () => {
       '--rain-font-data: "LINE Seed JP App_OTF",',
     );
     expect(typographySource).not.toContain('"LINE Seed JP App_OTF Bold"');
-    expect(typographySource).toContain("--rain-font-weight-bold: 700;");
     expect(typographySource).toMatch(
-      /\.rain-type-data\s*\{[^}]*font-weight:\s*var\(--rain-font-weight-bold\);/s,
+      /\.rain-type-data\s*\{[^}]*font-weight:\s*700;/s,
     );
   });
 });
@@ -58,10 +57,10 @@ describe("density context", () => {
   });
 
   it("exposes the Default metrics at :root for consumers outside a provider", () => {
-    const rootRules = [...tokensSource.matchAll(/(?:^|\n):root\s*\{([\s\S]*?)\n\}/g)]
-      .map((match) => match[1]).join("\n");
-    const variables = Object.fromEntries([...rootRules.matchAll(/(--rain-[a-z0-9-]+):\s*([^;]+);/g)]
-      .map((match) => [match[1], match[2]]));
+    const rootRule =
+      tokensSource.match(
+        /(?:^|\n):root\s*\{([\s\S]*?)\n\}/,
+      )?.[1] ?? "";
     const expectedVariables = {
       "--rain-density-control-height": lockedDensityMetrics.default.controlHeight,
       "--rain-density-control-padding-inline":
@@ -70,8 +69,7 @@ describe("density context", () => {
     };
 
     for (const [name, value] of Object.entries(expectedVariables)) {
-      const reference = variables[name]?.match(/^var\((--rain-space-\d+)\)$/)?.[1];
-      expect(reference ? variables[reference] : variables[name]).toBe(value);
+      expect(rootRule).toContain(`${name}: ${value};`);
     }
   });
 
@@ -161,17 +159,17 @@ describe("focus and motion contracts", () => {
     },
   );
 
-  it("shares a 1px close ring while retaining the system high-contrast outline", () => {
-    expect(focusSource).toContain("--rain-focus-width: 1px;");
-    expect(focusSource).toContain("--rain-focus-offset: 0px;");
-    expect(focusSource.split("@media (forced-colors")[0]).not.toMatch(/outline:\s*[0-9]+px/);
-    expect(focusSource).toContain("outline: 2px solid CanvasText;");
+  it("locks a light 2px ring with a 1px offset for every focus role", () => {
+    expect(focusSource).toContain("--rain-focus-width: 2px;");
+    expect(focusSource).toContain("--rain-focus-offset: 1px;");
+    expect(focusSource).not.toMatch(/outline:\s*[0-9]+px/);
     expect(focusSource.match(/outline-offset:\s*var\(--rain-focus-offset\)/g)).toHaveLength(3);
   });
 
-  it("provides the existing translucent Brand token for the shared halo", () => {
-    expect(focusSource).toContain("--rain-focus-control-halo: var(--rain-category-fill-brand-alpha-3);");
-    expect(focusSource).toContain("box-shadow: 0 0 0 3px var(--rain-focus-control-halo);");
+  it("provides a lightweight control halo for component-specific focus styling", () => {
+    expect(focusSource).toMatch(
+      /--rain-focus-control-halo:\s*color-mix\([\s\S]*?var\(--rain-focus-control\)\s+14%[\s\S]*?transparent[\s\S]*?\);/,
+    );
   });
 
   it("reduces non-essential motion when the user requests it", () => {

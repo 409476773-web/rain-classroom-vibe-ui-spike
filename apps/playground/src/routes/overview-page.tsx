@@ -29,14 +29,14 @@ export function OverviewPage({
         <h1 id="overview-title" tabIndex={-1}>
           Rain Next Playground
         </h1>
-        <p className="intro-copy" aria-label="历史基线">
-          Day 3 Core UI 已完成本地实现和自动检查，现作为 B2 对照基线。
-          图标库继续复用；各组件人工验收与发布状态独立记录。
+        <p className="intro-copy">
+          Day 3 正在把 Foundations 转化为四个高频 Core UI 家族。
+          Benchmark 切片仍未开始，自动验证与 Human Gate 继续独立记录。
         </p>
         <div className="phase-line" aria-label="当前阶段">
           <span className="phase-dot" aria-hidden="true" />
-          <span>token-foundations-v1</span>
-          <strong>第 0/1 批 · 基础能力建设 · 视觉验收待确认</strong>
+          <span>foundation-spike-day-3</span>
+          <strong>Day 3 Core UI 已完成 · 自动验证通过 · Human Gate 未评估</strong>
         </div>
       </section>
 
@@ -71,7 +71,6 @@ export function OverviewPage({
             </li>
           ))}
         </ul>
-        <p><a href="#token-foundations" data-focus="item">Token 基础建设：颜色、排版、线条、圆角与间距</a></p>
       </section>
 
       <section
@@ -87,7 +86,7 @@ export function OverviewPage({
               组件范围
             </h2>
           </div>
-          <p>四个基础家族已完成本地实现和自动检查；点击 Components 可查看待人工验收的候选。</p>
+          <p>Button、Input、Tag/Badge 与 Surface/Card 已进入状态矩阵验证。</p>
         </div>
       </section>
 

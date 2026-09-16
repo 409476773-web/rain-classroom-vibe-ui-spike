@@ -1,7 +1,4 @@
-import { colorToCss, colorTokenOutputs, resolveColor } from "./color-registry.ts";
-export { getButtonColorVariables, buttonColorThemeMappings, buttonColorRecipes, validateButtonColorRecipe } from "./button-token-contract.ts";
-
-/** @internal Remaining legacy atoms. New mappings read the Category registry. */
+/** @internal Foundations-only atoms. Consumers use semantic or component tokens. */
 export const referenceColorTokens = {
   "neutral-0": "#FFFFFF",
   "neutral-25": "#FAFCFF",
@@ -40,7 +37,7 @@ export const referenceColorTokens = {
 
 const reference = referenceColorTokens;
 
-const legacySemanticColorTokens = {
+export const semanticColorTokens = {
   "brand-primary": reference["blue-500"],
   "brand-primary-subtle": reference["blue-50"],
   "brand-primary-strong": reference["blue-700"],
@@ -85,103 +82,12 @@ const legacySemanticColorTokens = {
   "intelligence-gradient": `linear-gradient(110deg, ${reference["blue-500"]} 0%, ${reference["violet-500"]} 52%, ${reference["cyan-500"]} 100%)`,
 } as const;
 
-/** Confirmed directions, 2026-09-06; page /3, weak Alpha /2 and Info Second are implementation defaults. */
-export const semanticColorCategoryIds = {
-  "text-secondary": "Text/Neutral/3",
-  "text-muted": "Text/Neutral/4",
-  "text-placeholder": "Text/Neutral/5",
-  "text-disabled": "Text/Neutral/6",
-  "surface-page": "Background/Neutral/3",
-  "border-default": "Border/Neutral/3",
-  "border-subtle": "Border/Neutral/3",
-  "border-strong": "Border/Neutral/2",
-  "action-primary": "Fill/Brand/Solid/2",
-  "action-disabled": "Fill/Neutral/Solid/2",
-  "focus-control": "Border/Brand/1",
-  "focus-item": "Border/Brand/1",
-  "focus-danger": "Border/Brand/1",
-  "semantic-success-surface": "Fill/Green/Alpha/2",
-  "semantic-warning-surface": "Fill/Orange/Alpha/2",
-  "semantic-error-surface": "Fill/Red/Alpha/2",
-  "semantic-info-surface": "Fill/Second/Alpha/2",
-} as const satisfies Partial<Record<keyof typeof legacySemanticColorTokens, string>>;
-
-function categoryAlias(id: string) {
-  const output = colorTokenOutputs.find((token) => token.id === id);
-  if (!output) throw new Error(`Unknown semantic Category source: ${id}`);
-  return `var(${output.variable})`;
-}
-
-export const semanticColorAliases = Object.fromEntries(
-  Object.entries(semanticColorCategoryIds).map(([name, id]) => [`--rain-color-${name}`, categoryAlias(id)]),
-);
-export const semanticColorRoleAliases = {
-  "--rain-color-action-primary-text": categoryAlias("Text/Brand/1"),
-};
-
-/** These existing solid paints have not been approved for color migration. */
-export const legacyPaintAliases = {
-  "--rain-tag-neutral-fill": "var(--rain-ref-neutral-700)",
-  "--rain-badge-neutral-fill": "var(--rain-ref-neutral-600)",
-};
-
-export const semanticColorTokens = Object.fromEntries(
-  Object.entries(legacySemanticColorTokens).map(([name, legacyValue]) => {
-    const id = (semanticColorCategoryIds as Partial<Record<string, string>>)[name];
-    if (!id) return [name, legacyValue];
-    const value = resolveColor(id);
-    return [name, value.alpha === 1
-      ? `#${value.rgb.map((channel) => channel.toString(16).padStart(2, "0")).join("").toUpperCase()}`
-      : colorToCss(value)];
-  }),
-) as Record<keyof typeof legacySemanticColorTokens, string>;
-
 export const radiusTokens = {
   "4": "4px",
   "6": "6px",
   "8": "8px",
   "10": "10px",
-  "12": "12px",
-  "16": "16px",
   "full": "9999px",
-} as const;
-
-export const lineThicknessTokens = {
-  "1": "1px",
-  "2": "2px",
-  "3": "3px",
-  "4": "4px",
-  "5": "5px",
-  "6": "6px",
-} as const;
-
-export type LineThicknessTokenName = keyof typeof lineThicknessTokens;
-
-/** Internal compatibility references. Heights and icon sizes keep their own identities. */
-export const legacyComponentTokenAliases = {
-  "--rain-density-control-padding-inline": "var(--rain-space-14)",
-  "--rain-density-item-gap": "var(--rain-space-10)",
-  "--rain-button-border-width": "var(--rain-line-thickness-1)",
-  "--rain-button-mini-font-size": "var(--rain-font-size-13)",
-  "--rain-button-mini-line-height": "var(--rain-line-height-18)",
-  "--rain-button-small-font-size": "var(--rain-font-size-14)",
-  "--rain-button-small-line-height": "var(--rain-line-height-22)",
-  "--rain-button-medium-font-size": "var(--rain-font-size-14)",
-  "--rain-button-medium-line-height": "var(--rain-line-height-22)",
-  "--rain-button-large-font-size": "var(--rain-font-size-14)",
-  "--rain-button-large-line-height": "var(--rain-line-height-22)",
-  "--rain-button-xl-padding-inline": "var(--rain-space-28)",
-  "--rain-button-xl-font-size": "var(--rain-font-size-16)",
-  "--rain-button-xl-line-height": "var(--rain-line-height-24)",
-  "--rain-button-text-small-font-size": "var(--rain-font-size-12)",
-  "--rain-button-text-small-line-height": "var(--rain-line-height-14)",
-  "--rain-button-text-compact-font-size": "var(--rain-font-size-13)",
-  "--rain-button-text-compact-line-height": "var(--rain-line-height-18)",
-  "--rain-button-text-regular-font-size": "var(--rain-font-size-14)",
-  "--rain-button-text-regular-line-height": "var(--rain-line-height-20)",
-  "--rain-input-border-width": "var(--rain-line-thickness-1)",
-  "--rain-input-font-size": "var(--rain-font-size-13)",
-  "--rain-input-clear-font-size": "var(--rain-font-size-12)",
 } as const;
 
 export const shadowTokens = {
@@ -221,7 +127,7 @@ export const semanticColorGroups = {
   },
   focus: {
     label: "Focus",
-    description: "保留 control、item、danger 语义，共用 Border/Brand/1 细环与 Fill/Brand/Alpha/3 浅外圈。",
+    description: "保留 control、item、danger 语义，统一键盘可见信号。",
   },
   semantic: {
     label: "Semantic",
@@ -242,19 +148,19 @@ export const semanticColorTokenUsage: Record<SemanticColorTokenName, string> = {
   "text-primary": "页面标题、关键名称与主信息。",
   "text-secondary": "常规正文、表格与控件文字。",
   "text-muted": "辅助说明、时间与次要元数据。",
-  "text-placeholder": "弱占位提示；白底对比度 3.71，普通文字可读性仍待解决。",
+  "text-placeholder": "白色输入表面上的占位提示。",
   "text-inverse": "深色或品牌色表面上的文字。",
   "text-link": "可导航文本与明确链接操作。",
   "text-disabled": "不可操作或不可编辑的信息。",
-  "surface-page": "工作区默认 Background/Neutral/3，也可按层级选择 /4。",
+  "surface-page": "浅冷全局工作区背景。",
   "surface-panel": "主要任务面与普通面板。",
   "surface-raised": "轻抬升的局部任务区域。",
   "surface-overlay": "菜单、气泡与对话浮层底色。",
   "surface-subtle": "筛选、提示和分区的弱承载面。",
-  "border-default": "常规边界用 /3；少数轻强调元素用 /2。",
-  "border-subtle": "列表分隔与低强调结构线，统一用 /3。",
-  "border-strong": "强调边界通常用 /2；极少数重要边界才用 /1。",
-  "action-primary": "主要操作：文字 Text/Brand/1，填充 Fill/Brand/Solid/2。",
+  "border-default": "输入、卡片与区域的常规边界。",
+  "border-subtle": "列表分隔与低强调结构线。",
+  "border-strong": "当前区域或高优先层级边界。",
+  "action-primary": "普通业务的主要操作。",
   "action-primary-hover": "主要操作的指针悬停反馈。",
   "action-primary-pressed": "主要操作的按压反馈。",
   "action-secondary": "次要操作的浅色承载。",
@@ -287,6 +193,4 @@ export const semanticColorTokenEntries = (
   name,
   usage: semanticColorTokenUsage[name],
   value,
-  categoryId: (semanticColorCategoryIds as Partial<Record<SemanticColorTokenName, string>>)[name],
-  textCategoryId: name === "action-primary" ? "Text/Brand/1" : undefined,
 }));

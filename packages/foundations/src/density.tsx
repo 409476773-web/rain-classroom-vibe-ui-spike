@@ -5,20 +5,19 @@ import {
   type HTMLAttributes,
   type PropsWithChildren,
 } from "react";
-import { compositionSpaceTokens } from "./composition-contract";
 
 export type Density = "compact" | "default";
 
 export const densityMetrics = {
   compact: {
     controlHeight: "30px",
-    controlPaddingInline: compositionSpaceTokens[10],
-    itemGap: compositionSpaceTokens[6],
+    controlPaddingInline: "10px",
+    itemGap: "6px",
   },
   default: {
     controlHeight: "36px",
-    controlPaddingInline: compositionSpaceTokens[14],
-    itemGap: compositionSpaceTokens[10],
+    controlPaddingInline: "14px",
+    itemGap: "10px",
   },
 } as const;
 

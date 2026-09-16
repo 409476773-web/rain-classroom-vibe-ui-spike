@@ -4,14 +4,10 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import {
-  semanticColorCategoryIds,
   radiusTokens,
-  semanticColorAliases,
-  semanticColorRoleAliases,
   semanticColorTokens,
   shadowTokens,
 } from "./token-contract";
-import { colorTokenOutputs, validateColorUse } from "./color-registry";
 
 const sourceDirectory = dirname(fileURLToPath(import.meta.url));
 
@@ -63,17 +59,12 @@ function resolveReferenceVariables(
   references: Record<string, string>,
 ) {
   return normalizeTokenValue(
-    value.replace(/var\((--rain-(?:ref|category)-[a-z0-9-]+)\)/g, (_, name: string) => {
+    value.replace(/var\(--rain-ref-([a-z0-9-]+)\)/g, (_, name: string) => {
       const resolved = references[name];
       if (!resolved) throw new Error(`Unknown reference color ${name}`);
       return resolved;
     }),
   );
-}
-
-function normalizeColorCss(value: string) {
-  return normalizeTokenValue(value.replace(/#([0-9a-f]{6})/gi, (_, hex: string) =>
-    `rgb(${hex.match(/../g)!.map((channel) => Number.parseInt(channel, 16)).join(" ")})`));
 }
 
 function contrastRatio(foreground: string, background: string) {
@@ -113,21 +104,6 @@ describe("token-contract", () => {
     expect(semanticColorTokens["brand-primary"]).toBe("#1561F8");
   });
 
-  it("uses the user-selected Neutral levels and real Alpha weak surfaces", () => {
-    expect(semanticColorTokens["text-secondary"]).toBe("#495D87");
-    expect(semanticColorTokens["text-muted"]).toBe("#56688F");
-    expect(semanticColorTokens["text-placeholder"]).toBe("#7485A8");
-    expect(semanticColorTokens["text-disabled"]).toBe("#A0ACC5");
-    expect(semanticColorTokens["surface-page"]).toBe("#F2F4FF");
-    expect(semanticColorTokens["action-disabled"]).toBe("#D7DEF5");
-    expect(semanticColorTokens["border-default"]).toBe("rgb(16 63 183 / 16%)");
-    expect(semanticColorTokens["border-subtle"]).toBe("rgb(16 63 183 / 16%)");
-    expect(semanticColorTokens["border-strong"]).toBe("rgb(16 63 183 / 25%)");
-    for (const state of ["success", "warning", "error", "info"] as const) {
-      expect(semanticColorTokens[`semantic-${state}-surface`]).toContain("/ 10%)");
-    }
-  });
-
   it.each([
     ["text", ["text-primary", "text-secondary", "text-muted", "text-placeholder", "text-inverse", "text-link"]],
     ["surface", ["surface-page", "surface-panel", "surface-raised", "surface-overlay"]],
@@ -145,7 +121,7 @@ describe("token-contract", () => {
   });
 
   it("only exposes the locked radius and elevation-shadow scales", () => {
-    expect(Object.keys(radiusTokens)).toEqual(["4", "6", "8", "10", "12", "16", "full"]);
+    expect(Object.keys(radiusTokens)).toEqual(["4", "6", "8", "10", "full"]);
     expect(Object.keys(shadowTokens)).toEqual(["none", "overlay", "dialog"]);
   });
 
@@ -160,19 +136,13 @@ describe("token-contract", () => {
     );
   });
 
-  it("maps confirmed roles to Category references and keeps other legacy sources explicit", () => {
+  it("maps every semantic color through a private reference palette", () => {
     const references = cssReferenceValues();
     const rawSemanticValues = cssTokenValues("color");
-    const aliases: Record<string, string> = { ...semanticColorAliases, ...semanticColorRoleAliases };
 
     expect(Object.keys(references).length).toBeGreaterThanOrEqual(20);
     for (const [name, value] of Object.entries(rawSemanticValues)) {
       if (value === "transparent") continue;
-      const alias = aliases[`--rain-color-${name}`];
-      if (alias) {
-        expect(value).toBe(alias);
-        continue;
-      }
       expect(
         value,
         `${name} bypasses the internal reference palette`,
@@ -181,7 +151,6 @@ describe("token-contract", () => {
 
     const referenceColors = new Set(Object.values(references));
     for (const [name, value] of Object.entries(semanticColorTokens)) {
-      if (semanticColorAliases[`--rain-color-${name}`]) continue;
       for (const color of value.match(/#[0-9A-F]{6}/gi) ?? []) {
         expect(
           referenceColors,
@@ -217,6 +186,15 @@ describe("token-contract", () => {
       }
     }
 
+    for (const surfaceRole of ["surface-panel", "surface-overlay"] as const) {
+      expect(
+        contrastRatio(
+          semanticColorTokens["text-placeholder"],
+          semanticColorTokens[surfaceRole],
+        ),
+        `text-placeholder is not readable on ${surfaceRole}`,
+      ).toBeGreaterThanOrEqual(4.5);
+    }
     expect(
       contrastRatio(
         semanticColorTokens["text-inverse"],
@@ -225,40 +203,29 @@ describe("token-contract", () => {
     ).toBeGreaterThanOrEqual(4.5);
   });
 
-  it("keeps the selected placeholder contrast limitation open without weakening eligibility", () => {
-    expect(contrastRatio(semanticColorTokens["text-placeholder"], semanticColorTokens["surface-panel"]))
-      .toBeCloseTo(3.708, 3);
-    expect(() => validateColorUse({
-      tokenId: "Text/Neutral/5", role: "text", property: "color", context: "page",
-      content: "text", parentSurfaceId: "Background/Neutral/1",
-    })).toThrow(/Insufficient contrast/);
-  });
-
-  it("uses the shared Brand border source for every keyboard focus semantic", () => {
+  it("uses the locked brand blue for every keyboard focus semantic", () => {
     for (const role of ["focus-control", "focus-item", "focus-danger"] as const) {
-      expect(semanticColorTokens[role]).toBe("#3D7BFF");
-      expect(semanticColorCategoryIds[role]).toBe("Border/Brand/1");
+      expect(semanticColorTokens[role]).toBe(
+        semanticColorTokens["brand-primary"],
+      );
     }
   });
 
   it("exports the same names and values from TypeScript and CSS", () => {
-    const references = {
-      ...Object.fromEntries(Object.entries(cssReferenceValues()).map(([name, value]) => [`--rain-ref-${name}`, value])),
-      ...Object.fromEntries(colorTokenOutputs.map((output) => [output.variable, output.value])),
-    };
+    const references = cssReferenceValues();
     const resolvedCssColors = Object.fromEntries(
       Object.entries(cssTokenValues("color")).map(([name, value]) => [
         name,
-        normalizeColorCss(resolveReferenceVariables(value, references)),
+        resolveReferenceVariables(value, references),
       ]),
     );
     expect(resolvedCssColors, "CSS semantic colors drifted from TS").toEqual(
-      { ...Object.fromEntries(
+      Object.fromEntries(
         Object.entries(semanticColorTokens).map(([name, value]) => [
           name,
-          normalizeColorCss(value),
+          normalizeTokenValue(value),
         ]),
-      ), "action-primary-text": "rgb(15 85 223)" },
+      ),
     );
     expect(cssTokenValues("radius"), "CSS radii drifted from TS").toEqual(
       radiusTokens,

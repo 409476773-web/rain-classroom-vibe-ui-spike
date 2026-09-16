@@ -51,8 +51,6 @@ Rain Next 的核心目标是：
 
 不得为了节省上下文而跳过相关 Evidence、Benchmark、Manifest 或 ADR，也不得每次无差别加载全部资料。
 
-涉及图标时，先阅读 [图标选择规范](docs/ai/icon-selection.md)，再查询 `@rain-next/foundations/icons/catalog` 的身份、可用性与静态引用。按实际行为选择；唯一已确认规则直接使用。仅 `availability: available` 的资产可导入，未定义用途不等于不可用。使用 `@rain-next/ui/icons/<slug>` 单图标入口并加载已有 UI 样式；目录预览入口仅供完整图库页面使用。普通图标颜色由宿主提供，不在页面补写白色、重画 SVG 或用近似字符替代。来源与未解决项见 [图标来源记录](evidence/icons/README.md)。
-
 ### Bootstrap 规则
 
 如果 `status/current-phase.yaml` 尚不存在，则视为 `bootstrap` 状态：
@@ -666,32 +664,6 @@ danger
 - Layout 负责空间关系；Pattern 负责重复交互；Block 负责业务目标；不得用基础 UI 偷渡页面结构。
 - Headless Primitive 只抽取复杂、跨组件复用的行为，不默认将所有组件 Headless 化。
 - Foundation Spike 期间，Headless Base 必须通过 ADR 决定；未锁定前只允许受控对照实验，锁定后不得无理由混用多套 Base。
-
-### 10.1 Tailwind B2：组合速度与局部隔离
-
-按 [B2 ADR](docs/adr/0002-tailwind-b2-local-fork.md) 和当前阶段的精确范围执行，不以此条款授权全库迁移。
-
-- Global Master 为 `managed`：采用 Tailwind-first，不追求 Tailwind-only；页面任务默认只读 Master，只有明确授权的 System Mode 才能修改共享源码。
-- AI 默认静默使用最小改动层级：Existing Variant → 具名 Local Recipe → Local Fork。默认作用域是当前页面或功能，不是整个项目；仅高风险或真实意图不明时询问。
-- Local Recipe / Local Fork 均为 `local-experiment`；登记 ID、来源、作用域、修改 Parts、Token 和晋升状态。Fork 另记来源文件、checksum、创建时版本及更新状态；不能因源码可编辑就丢失来源。
-- Rain 公共语义 / 组件 / 组合 Token 是视觉唯一事实源，Tailwind 只映射。受 B2 合同保护的 Master 和 Local Fork 不消费 Tailwind 默认视觉体系、未登记任意视觉值、裸颜色、私有 `--rain-ref-*`、important 覆盖或动态拼接 utility；布局关系可以使用结构类。
-- 缺少合适 Token 时，只能创建已登记的 `--rain-local-<feature>-<role>` 候选，限制在功能根节点内；不得写全局 `:root` 或自动进入 Foundations。
-- CSS 例外按理由判断，不看 Tailwind 占比。必须有 Manifest ID、选择器、Token、作用域与测试；浏览器适配、复杂 Parts 联动和加载动画可构成理由，个人偏好不构成绕过合同的理由。
-- 图标复用既有单图标入口和来源资产。宿主组合受 Rain Token 控制，原始多色图形保留来源配色，不重绘、不复制全库、不扩大语义默认；图标自身的来源/生成验证仍独立执行。
-- Master 更新只报告差异，不自动覆盖 Local Fork；已登记的无障碍或核心行为修复标记 `required-review`，发布前必须处理。
-- 局部结果不能自动晋升全局 Variant、Recipe、Token 或 Master。至少三个独立场景后才有主动提示资格；只在收尾、发布前或用户询问时集中提示，同一候选提示一次，暂缓后无新证据不重提。严重缺陷和无障碍问题不受静默限制。
-- 小检查随局部修改执行；完整验证在批次或阶段节点执行。自动化通过不替代价值对照或独立 Human Gate，未实测指标必须写 `not-measured`。
-
-### 10.2 Token Foundations V1：第 0/1 批独立建设
-
-2026-09-05 用户在跨专题评估后授权开始第 0/1 批。以 [ADR 0004](docs/adr/0004-token-foundations-v1.md)、[实施计划](docs/plans/2026-09-05-token-foundations-v1-implementation.md)和当前阶段精确范围为准；旧 B2 完整状态保存在 `phaseHistory.tailwindB2`，不得把新阶段验证结果回填为旧 B2 完成。
-
-- 新公共入口允许已登记的 Public Category Color、Typography 基础、Line Thickness、Radius 与 Spacing；“只有 Semantic / Component / Composition 可公开”的旧条款在本批新能力范围内由此明确扩展。颜色用途、Alpha、主题及消费者资格仍按最新颜色治理验证，私有 Reference 继续禁止公开。
-- 公共 Radius 增量允许 `12 / 16`，其他值沿用既有档位；Spacing 和排版值以已确认合同为准。旧组件仍保留当前引用与验收，不能因增加公共值自动迁移。
-- 单源生成只接管已登记的输出区；旧颜色、组件值、Focus、Density、Motion 与图标来源几何保持冻结。新的 Line 不替换 Focus，新的 Typography 预设不自动覆盖旧 UI / Reading / Data 角色。
-- 默认使用完整 Typography / 组件方案；局部拆分需要检查关联几何、状态与可访问性。Size / Density 的来源和选择遵循 ADR 0003；公共控件高度表及组件映射未定稿，不在本批实现。
-- 新演示入口为 `local-experiment`。新增静态 utility、扫描路径、合并规则、生成来源及验证范围精确登记；不开放全仓扫描、默认视觉值、任意值或动态类名，也不建立第二套 bridge / 白名单。
-- 只开放第 0/1 批基础与独立演示验证；组件迁移、后续批次、Dark、Figma、发布、业务采用与 Git 保持各自未授权状态。自动检查、独立审阅与 Human Gate 分别记录。
 
 ---
 

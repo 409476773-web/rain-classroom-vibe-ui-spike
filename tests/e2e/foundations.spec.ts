@@ -8,100 +8,6 @@ const runtimeEnvironment = (
   }
 ).process?.env ?? {};
 
-test("confirmed semantic colors share Category sources with separate action paints and theme resets", async ({ page }) => {
-  await page.goto("/#foundations");
-  const action = page.locator('[data-rain-id="foundation-token-action-primary"]');
-  await expect(action.locator(".text-rain-action-primary")).toHaveCSS("color", "rgb(15, 85, 223)");
-  await expect(action.locator(".token-swatch")).toHaveCSS("background-color", "rgb(21, 97, 248)");
-  await expect(page.locator("html")).toHaveCSS("background-color", "rgb(242, 244, 255)");
-  const field = page.locator(".fixture-field input").first();
-  await expect(field).toHaveCSS("border-color", "rgba(16, 63, 183, 0.16)");
-  const placeholder = () => field.evaluate((node) => getComputedStyle(node, "::placeholder").color);
-  expect(await placeholder()).toBe("rgb(116, 133, 168)");
-  // The requested weak placeholder remains an explicit open contrast result.
-  expect(contrastRatio(await placeholder(), "rgb(255, 255, 255)")).toBeCloseTo(3.708, 3);
-
-  const themes = await page.evaluate(() => {
-    const outer = document.createElement("div");
-    outer.dataset.rainTheme = "dark";
-    const reset = document.createElement("div");
-    reset.dataset.rainTheme = "light";
-    const nested = document.createElement("div");
-    nested.dataset.rainTheme = "dark";
-    outer.append(reset); reset.append(nested); document.body.append(outer);
-    const values = [outer, reset, nested].map((node) => {
-      node.style.color = "var(--rain-color-text-secondary)";
-      node.style.backgroundColor = "var(--rain-color-surface-page)";
-      node.style.borderColor = "var(--rain-color-border-default)";
-      const style = getComputedStyle(node);
-      return { color: style.color, background: style.backgroundColor, border: style.borderColor };
-    });
-    outer.remove();
-    document.documentElement.style.setProperty("--rain-category-text-neutral-5", "rgb(1 2 3)");
-    return values;
-  });
-  expect(themes[0]).toMatchObject({ color: "rgb(183, 193, 224)", background: "rgb(21, 25, 43)" });
-  expect(themes[1]).toEqual({ color: "rgb(73, 93, 135)", background: "rgb(242, 244, 255)", border: "rgba(16, 63, 183, 0.16)" });
-  expect(themes[2]).toEqual(themes[0]);
-  expect(await placeholder()).toBe("rgb(1, 2, 3)");
-  await page.evaluate(() => document.documentElement.style.removeProperty("--rain-category-text-neutral-5"));
-
-  await page.goto("/#input");
-  const errorInput = page.locator('.rain-input[data-status="error"]').first();
-  await expect(errorInput).toHaveCSS("background-color", "rgb(252, 237, 237)");
-  await page.goto("/#components");
-  const neutralSolid = page.locator('.rain-tag[data-appearance="solid"][data-tone="neutral"]').first();
-  await expect(neutralSolid).toHaveCSS("background-color", "rgb(134, 153, 185)");
-  await expect(neutralSolid).toHaveCSS("color", "rgb(255, 255, 255)");
-  const link = page.locator("a.rain-link").first();
-  await expect(link).toHaveCSS("color", "rgb(15, 85, 223)");
-  await link.evaluate((node) => node.parentElement!.setAttribute("data-rain-theme", "dark"));
-  await expect(link).toHaveCSS("color", "rgb(124, 165, 255)");
-  await link.evaluate((node) => node.setAttribute("data-rain-theme", "light"));
-  await expect(link).toHaveCSS("color", "rgb(15, 85, 223)");
-});
-
-test("global Tab focus shares two rings across themes, nested Light and forced colors", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/#foundations");
-  const preceding = page.locator('[data-rain-id="foundation-density-default"]').getByRole("button", { name: "保存草稿" });
-  for (const scope of ["light", "dark", "nested-light"] as const) {
-    await page.evaluate((theme) => {
-      document.documentElement.dataset.rainTheme = theme === "light" ? "light" : "dark";
-      const main = document.querySelector("main")!;
-      if (theme === "nested-light") main.setAttribute("data-rain-theme", "light");
-      else main.removeAttribute("data-rain-theme");
-    }, scope);
-    await preceding.focus();
-    for (const id of ["focus-control", "focus-item", "focus-danger"]) {
-      await page.keyboard.press("Tab");
-      const target = page.getByTestId(id);
-      await expect(target).toBeFocused();
-      const ring = await target.evaluate((element) => {
-        const style = getComputedStyle(element);
-        return { visible: element.matches(":focus-visible"), color: style.outlineColor, width: style.outlineWidth, offset: style.outlineOffset, shadow: style.boxShadow };
-      });
-      expect(ring).toEqual({
-        visible: true,
-        color: scope === "dark" ? "rgb(42, 93, 203)" : "rgb(61, 123, 255)",
-        width: "1px", offset: "0px",
-        shadow: `${scope === "dark" ? "rgba(56, 96, 255, 0.3)" : "rgba(61, 123, 255, 0.2)"} 0px 0px 0px 3px`,
-      });
-    }
-  }
-  await page.emulateMedia({ forcedColors: "active" });
-  await preceding.focus();
-  for (const id of ["focus-control", "focus-item", "focus-danger"]) {
-    await page.keyboard.press("Tab");
-    const target = page.getByTestId(id);
-    await expect(target).toBeFocused();
-    await expect(target).toHaveCSS("outline-width", "2px");
-    await expect(target).toHaveCSS("outline-style", "solid");
-    await expect(target).toHaveCSS("box-shadow", "none");
-    await expect(target).not.toHaveCSS("outline-color", "rgba(0, 0, 0, 0)");
-  }
-});
-
 test("keyboard hash navigation focuses the active page title in both directions", async ({
   page,
 }) => {
@@ -119,17 +25,6 @@ test("keyboard hash navigation focuses the active page title in both directions"
   });
   await expect(foundationsTitle).toBeFocused();
   await expect(page.locator('h1[tabindex="-1"]')).toHaveCount(1);
-
-  await page.keyboard.press("Tab");
-  await expect(page.getByRole("link", { name: "查看 Token 目录与完整排版方案" })).toBeFocused();
-  await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/#token-foundations$/);
-  await expect(page.getByRole("heading", { level: 1, name: "Token 基础建设" })).toBeFocused();
-  await page.keyboard.press("Shift+Tab");
-  await expect(page.getByRole("link", { name: "返回 Foundations" })).toBeFocused();
-  await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/#foundations$/);
-  await expect(foundationsTitle).toBeFocused();
 
   await page.keyboard.press("Shift+Tab");
   const returnLink = page.getByRole("link", { name: "返回 Playground" });
@@ -152,6 +47,11 @@ for (const historyCase of [
     titleLevel: 1,
   },
   {
+    hash: "#components",
+    title: "Core UI，先把高频动作做准",
+    titleLevel: 1,
+  },
+  {
     hash: "#benchmarks",
     title: "Benchmark 入口",
     titleLevel: 2,
@@ -165,7 +65,9 @@ for (const historyCase of [
       await page.evaluate(() => document.activeElement === document.body),
     ).toBe(true);
 
-    await page.getByRole("link", { name: /Foundations/i }).click();
+    await page.evaluate(() => {
+      window.location.hash = "#foundations";
+    });
     await expect(page).toHaveURL(/#foundations$/);
     await expect(
       page.getByRole("heading", {
@@ -189,25 +91,6 @@ for (const historyCase of [
     await expect(target).toBeFocused();
   });
 }
-
-test("browser Back restores the Core UI page and its focus target", async ({
-  page,
-}) => {
-  await page.goto("/");
-  await page.getByRole("link", { name: /Components/i }).click();
-  await expect(page).toHaveURL(/#components$/);
-  const coreTitle = page.getByRole("heading", {
-    level: 1,
-    name: "Core UI，把高频动作先做准",
-  });
-  await expect(coreTitle).toBeFocused();
-
-  await page.getByRole("link", { name: "返回 Playground" }).click();
-  await expect(page).toHaveURL(/#overview$/);
-  await page.goBack();
-  await expect(page).toHaveURL(/#components$/);
-  await expect(coreTitle).toBeFocused();
-});
 
 test("the Day 2 Foundations contract is reachable and inspectable", async (
   { page },
@@ -240,7 +123,7 @@ test("the Day 2 Foundations contract is reachable and inspectable", async (
   await expect(page.locator('[data-slot="color-layer"]')).toHaveCount(3);
   await expect(
     page.locator('[data-rain-id="foundation-token-text-placeholder"]'),
-  ).toContainText("#7485A8");
+  ).toContainText("#69778D");
 
   const brandPrimary = page.locator(
     '[data-rain-id="foundation-token-brand-primary"]',
@@ -316,7 +199,7 @@ test("the Day 2 Foundations contract is reachable and inspectable", async (
   );
   await expect(
     page.getByText(
-      "原生示例用于比较 Density 与 Focus；实际 Input / Button 的外观见组件目录。",
+      "原生夹具，仅验证 Density 与 Focus；不代表 Day 3 Input / Button 最终外观。",
     ),
   ).toBeVisible();
   await compactInput.focus();
@@ -339,12 +222,12 @@ test("the Day 2 Foundations contract is reachable and inspectable", async (
   expect(inputFocusStyle).toEqual({
     adjacentSurface: "rgb(255, 255, 255)",
     backgroundColor: "rgb(234, 242, 255)",
-    borderColor: "rgb(61, 123, 255)",
-    boxShadow: "rgba(61, 123, 255, 0.2) 0px 0px 0px 3px",
-    outlineColor: "rgb(61, 123, 255)",
-    outlineOffset: 0,
+    borderColor: "rgb(21, 97, 248)",
+    boxShadow: expect.not.stringMatching(/^none$/),
+    outlineColor: "rgba(0, 0, 0, 0)",
+    outlineOffset: 1,
     outlineStyle: "solid",
-    outlineWidth: 1,
+    outlineWidth: 2,
   });
   expect(
     contrastRatio(
@@ -400,14 +283,12 @@ test("the Day 2 Foundations contract is reachable and inspectable", async (
         outlineOffset: Number.parseFloat(style.outlineOffset),
         outlineStyle: style.outlineStyle,
         outlineWidth: Number.parseFloat(style.outlineWidth),
-        boxShadow: style.boxShadow,
       };
     });
-    expect(focusStyle.outlineColor).toBe("rgb(61, 123, 255)");
+    expect(focusStyle.outlineColor).toBe("rgb(21, 97, 248)");
     expect(focusStyle.outlineStyle).toBe("solid");
-    expect(focusStyle.outlineWidth).toBe(1);
-    expect(focusStyle.outlineOffset).toBe(0);
-    expect(focusStyle.boxShadow).toBe("rgba(61, 123, 255, 0.2) 0px 0px 0px 3px");
+    expect(focusStyle.outlineWidth).toBe(2);
+    expect(focusStyle.outlineOffset).toBe(1);
     expect(
       contrastRatio(focusStyle.outlineColor, pageSurface),
     ).toBeGreaterThanOrEqual(3);

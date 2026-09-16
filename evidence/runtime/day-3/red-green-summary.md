@@ -1,84 +1,42 @@
 # Day 3 Core UI RED → GREEN 摘要
 
-## 范围
+## RED
 
-- Button
-- Input
-- Tag / Badge
-- Surface / Card
-- Core UI 说明页、真实浏览器交互、截图与阶段治理
+1. 四组公共 UI 合同先以真实导入运行；在实现模块缺失时测试明确失败。建立最小占位实现后，共 39 项行为断言继续失败，证明测试锁定的是组件语义、状态、Density、追踪属性和组合边界，而不是仅锁定文件存在。
+2. 新增 Card `panel / raised` 变体合同后，定向测试 1 项失败，精确指出根节点没有暴露 `data-variant`；实现显式变体后通过。
+3. Day 3 Evidence/Benchmark 生命周期的 7 项协调漂移测试先失败，证明旧 evidence 门无法拒绝阶段漂移；补齐独立 lifecycle 锁后通过。
+4. 首次根类型检查暴露 Tag/Badge 测试中可空 DOM 查询没有被 TypeScript 收窄；加入明确 guard 后，根与三个 workspace 类型检查全部通过。
+5. 首次 Chromium 交互检查把自动生成的错误消息 ID 写死为命名片段，第二次又在 140ms 边框过渡过程中读取到中间色。两处均修正为验证真实 ARIA 关联并等待最终计算样式，没有改变已经正确的组件行为或品牌色合同。
 
-本轮没有安装新依赖，没有实现 Select、Dialog、Table、Layout、Headless 实验、七种业务标签、BadgeStatus 或 StatusIndicator。
+## GREEN
 
-## 首轮 RED
+- Button、Input、Tag/Badge、Surface/Card、Core UI 页面与路由定向 Vitest：6 个文件、50 项通过。
+- 根 `pnpm typecheck`：Foundations、UI、Playground 与根测试类型检查全部通过。
+- Day 3 Chromium：2/2 通过；覆盖 hash 路由与标题焦点、四家族追踪属性、Compact / Default 高度、Loading/Disabled、Input 清除回焦与 Error ARIA 关联、品牌 Focus、可移除 Tag、Card 无常态阴影、Reduced Motion 和全页截图。
+- Canonical 截图经人工查看并归档为 `1440 × 2630`、`383329 bytes`、SHA-256 `0fa5022a3d31812ce400c28a154b8fd337c0255e98c29399bb95d192f47bee40`。
+- 最终 `pnpm verify`：exit 0；governance / lockfile / workspace / evidence / boundary、根与三个 workspace typecheck、21 个 Vitest 文件共 262 项、三个 workspace build 及 8 项 Chromium E2E 全部通过。
 
-1. Day 3 授权测试先失败：状态仍停在 Day 2，边界程序也会拒绝未知的 Day 3 阶段。
-2. Button、Input、Tag/Badge、Surface/Card 的行为测试先因公共实现不存在而失败。
-3. 页面与路由测试先因 Core UI 页面不存在、Overview 仍显示 Day 2 而失败。
-4. Input 的家庭 emoji 用逐键输入模拟时会被拆成多个键值；测试改为整段输入，匹配粘贴或 emoji 面板的真实输入方式后再验证字素限制。
+## 独立代码复审回归
 
-## 首轮 GREEN
+### RED
 
-- 四个组件家族完成最小公共 API、单元测试、说明页与浏览器检查。
-- Input 保持 label、帮助和报错在外部 Field；Badge 收口为 Dot / Count / Label；Surface Page 无边框圆角；Card 标题级别由页面决定。
-- Button 的层级与危险意图保持两个独立维度；Loading 可聚焦但阻止重复激活。
-- 旧库复用审核链和 CP3 保持完整，Human Gate、Figma、发布、迁移与 Git 未被扩大授权。
+1. 新增 Density 几何、标准 `onChange` 清除、公共类型入口、资产身份与 lineage 合同后，四个定向文件共 34 项中 7 项失败；失败分别指向只改 `data-density`、清除按钮绕过 `onChange`、`registry-candidate` 缺少 Manifest 以及 Tag/Badge 来源漂移。
+2. 根类型检查对 `@rain-next/ui` 公共入口报告 17 个 `TS2305/TS2724`，证明 Props、Variant、SurfaceElement 与 Card Parts Props 不能被消费者命名导入。
+3. 扩展 Chromium 合同后首先在 `data-asset-identity="registry-candidate"` 精确失败；后续断言锁定 Loading 保宽、Default/Compact Tag 高度、真实 Tab Focus、Enter 移除以及 Danger Hover/Pressed。
+4. Foundations 注入 `../../ui/src/index.ts` 的临时工作区证明旧字符串守卫可被相对路径绕过；新增测试把该反向依赖作为真实 boundary 失败条件。
 
-## 真实浏览器排错
+### GREEN
 
-1. Error Input 的焦点外框最初读到灰蓝中间色。根因是焦点颜色被设置了 140ms 动画；取消焦点颜色动画后，键盘焦点立即显示品牌蓝并通过对比度检查。
-2. Playwright 会把 `aria-disabled` 识别为不可用语义；Loading 检查改为同时确认没有原生 `disabled`、仍可聚焦，并验证 Enter 不重复触发。
-3. 清除按钮最初只有通用名称；改为“清除课程名称”，并验证清除后焦点返回输入框。
+- Button/Input 从 Foundation `densityMetrics` 注入真实 CSS 变量；Provider 内显式覆盖和 standalone Compact 均按 `36/14` 与 `30/10` 几何生效。
+- Input 清除通过原生 input event 统一进入 `onChange` / `onValueChange` 路径；受控与非受控测试均通过。
+- `@rain-next/ui` 根入口导出全部公共 Props/Variant 类型；Loading spinner 改为绝对定位且不改变宽度；可移除 Tag 保持 Default `24px`、Compact `20px`。
+- Core UI 现标记为 `local-experiment`，等待 Day 9 候选 Manifest 后再评估 `registry-candidate`；Tag/Badge lineage 与已批准的 VE-001 对齐。
+- Chromium 使用真实 Tab 与 Enter 验证 Focus/移除，并覆盖 Danger Hover/Pressed；反向依赖门解析包名与相对 import specifier，不再依赖可绕过的字符串片段。
 
-## 完整回归暴露的治理问题
+## 边界
 
-首轮 `pnpm verify` 有 8 条旧 Day 2 测试失败。根因不是组件错误，而是旧测试把“Day 2 已完成”错误写成“当前阶段永远必须是 Day 2”，且旧证据锁在进入 Day 3 后会自动失效。
+- 本轮仅完成 Task 4；Select、Dialog、Table、Statistic、Layout、Headless 对照和 Benchmark 页面均未启动。
+- 资产成熟度仍为 `prototype-ready`，Human Gate 为 `not-evaluated`。
+- 未安装新依赖，未写入 Figma，未发布包或 Registry，未迁移业务，未创建 local commit，也未配置 remote。
 
-- 历史 Day 2 结果改由 Day 3 启动证据和 Day 2 运行记录共同证明。
-- Visual Evidence 与 Benchmark 的历史状态在 Day 3 继续锁定，7 条防篡改测试重新通过。
-- Day 3 生命周期允许实现中的 `not-run / failed / passed`，完成态只允许 `passed`，避免把实现、自动检查和 Human Gate 混成一个状态。
-
-## 独立复核 RED → GREEN
-
-独立只读复核发现并关闭以下问题：
-
-1. Disabled Button 的低优先级样式会被蓝色或红色变体盖住；提高 Disabled 规则的精确度并使用专用禁用色后，浏览器计算值通过。
-2. Button 浏览器证据补齐 Enter、Space、Hover、Pressed、Disabled、Danger 和 Focus。
-3. 受控 Input 的清除与中文组合结束截断，统一通过真实 input 变更通知外部页面；受控单元测试和 Chromium 的 14→12 字符场景均通过。
-4. 演示页删除 24px、26px 的私有 Button 高度，嵌套按钮继续使用 Foundations 的 36px Default；Compact 仍为 30px。
-5. 附着式 Count Badge 的宿主名称补为“资源更新，3 条更新”，数量不再只对视觉用户可见。
-
-二次独立复核确认上一轮所有 Critical / Important 均已关闭；Human Gate 继续保持 `not-evaluated`。
-
-## 首次 Day 3 完成态（Button Gate 修订前）
-
-- `pnpm verify`：exit 0；25 个 Vitest 文件共 332 项、三个 workspace typecheck/build 及 8 项 Chromium E2E 全部通过。
-- `pnpm verify:reuse-audit`：exit 0；75 项旧资产、53 项公开资产和 12 个 Rain Next 目标继续通过复用审核门。
-- 正式截图：`1440 × 3371`、`550881 bytes`、SHA-256 `1d1b8211f5e8f5276e6c24851e2fcc36b58910e1e16026a1990b6d80d0378829`。
-
-本文件记录可复核的命令摘要，不替代命令原始输出，也不替代设计师 Human Gate。
-
-## 2026-09-03 Button 实现 Gate 修订
-
-### 新一轮 RED
-
-1. 五档 `size`、Compact / Default 默认映射、`block` 和显式 `loadingLabel` 测试先失败；旧实现还会把未知属性误传给原生按钮。
-2. Core UI 页面缺少三级层级、三级 Danger、五档尺寸、完整 Loading / Disabled / Focus、全宽和长文案分组。
-3. Chromium 首轮读取到旧的 2px 实线 Focus，未出现设计师确认的 20% 蓝色柔光。
-
-### GREEN 与排错
-
-- `ghost` 收口为 `tertiary`；Button 新增 28 / 32 / 36 / 40 / 48 五档，Compact 默认 32、Default 默认 36。
-- Secondary、Tertiary 与三级 Danger 恢复 Rain 视觉层级；普通删除使用低强调红，最终确认才使用实心红。当前柔化红仍是 Human Gate 候选。
-- Primary Disabled 使用 30%，其他层级使用 40%，且悬停与按下不会改变颜色、边框或位置。
-- 所有 Button 使用主题蓝 Focus；Primary 是 1px 白色分隔加外侧 3px、20% 蓝色柔光，其他层级是清晰边缘加 3px 柔光。
-- 移除 Pressed 位移、Hover 阴影和 Danger filter。浏览器曾读取到动画中间态，根因是 Focus 边缘被纳入 transition；移除 Focus 相关过渡后即时呈现正确计算值。
-- 复制 Rain Classic canonical 27×27 Loading PNG，SHA-256 为 `adbfc717706b3d90add735fcad30f480e86148a72d3a8d833ab3fa787d261704`；通过 `currentColor` mask 和 800ms 旋转复用，无白色蒙层。
-- 全宽只由 `block` 显式开启；自然长文案不截断，严格受限示例才省略并暂以 `title` 保留全文。
-
-### 当前自动结果
-
-- `pnpm verify`：exit 0；25 个 Vitest 文件共 361 项、三个 workspace typecheck/build 及 8 项 Chromium E2E 全部通过。
-- `pnpm verify:reuse-audit`：exit 0；75 项旧资产、53 项公开资产和 12 个 Rain Next 目标继续通过复用审核门。
-- Button Human Gate 登记后的正式截图：`1440 × 3807`、`692099 bytes`、SHA-256 `6e3b80a99bb6ab78cff6e090231f315ff27b6227fc186f287d19f0e1c85280f7`。
-- 2026-09-03，设计师在真实页面完成 Button 视觉与交互验收，接受 `#EF5353` Danger、20% Focus 柔光、40px 高度档位及其留白与 0.82 Loading 透明度。Button Human Gate 为 `accepted`；Input、Tag/Badge、Surface/Card 仍为 `not-evaluated`，Day 3 整体 Human Gate 尚未通过。
+本文件记录可复核的命令摘要，不替代命令原始输出。

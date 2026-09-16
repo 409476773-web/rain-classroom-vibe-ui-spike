@@ -74,7 +74,6 @@
 - **Compact**：表格、资源管理、题库、知识树等高信息密度场景。
 - **Default**：表单、报告、复杂工作台等需要更清晰层级或更长操作路径的场景。
 - 密度由容器上下文或明确属性传递；禁止靠页面内零散覆盖制造“更紧”或“更松”。
-- Button 经 2026-09-03 实现 Gate 明确保留 28 / 32 / 36 / 40 / 48 五档尺寸：Compact 默认映射 32，Default 默认映射 36，其余尺寸必须显式选择；该例外不授权其他组件复制尺寸轴。
 
 ### 4.4 Focus 与键盘可用性
 
@@ -152,7 +151,7 @@ token 数量限制用于避免过拟合。若确需突破上限，必须说明�
 
 | # | 组件族 | Spike 必验能力 |
 | --- | --- | --- |
-| 1 | Button | primary / secondary / tertiary × default / danger、禁用、加载、键盘焦点、五档尺寸及 Compact / Default 默认映射 |
+| 1 | Button | primary / secondary / ghost / danger、禁用、加载、键盘焦点、两种密度 |
 | 2 | Input | 标签关联、占位、清空/附加位、错误/禁用、两种密度 |
 | 3 | Select | 单选基础、键盘导航、弹层定位、选中/禁用、焦点返回 |
 | 4 | Dialog | 打开关闭、初始焦点、焦点约束与返回、长内容、固定操作区 |
@@ -246,25 +245,7 @@ Day 0 是进入条件，不计入以下 10 个工作日。
 
 进度按“可运行证据”统计，不按文件数量或组件声明数量统计。任何一天发现结构性失败，应立即记录并缩小后续工作，优先保护 Day 10 的决策完整性。
 
-### 9.1 Day 3 与 Day 4 之间的独立 B2 检查点
-
-2026-09-03，用户明确授权 `tailwind-b2-composition-contract`。该检查点不重编号、不自动推进上述十日计划，也不替代 Day 4 的 Headless 决策。
-
-范围只有 Rain Token → Tailwind 受约束映射、Button / Input 的 Tailwind-first 样式实现、一个搜索操作区的 Local Recipe / Local Fork 及对应验证。允许安装 `class-variance-authority@0.7.1` 与 `tailwind-merge@3.6.0` 两项直接依赖，正常传递依赖须审计锁定。不得迁移其他组件或引入另一套视觉体系。
-
-默认修改仅影响当前页面或功能；Global Master 只在获授权的 System Mode 中改变。CSS 例外按理由、Token 与测试判断，不以 Tailwind 占比判断。新加入的图标库、其静态入口、来源和独立验收保持不变；B2 只检查图标在宿主组件中的组合兼容性。
-
-旧架构与 B2 使用同一任务及可比较的前置夹具。扩大试点必须满足安全项全部通过、四项价值指标至少三项更优，再经独立 Human Gate；未测数据不能算更优。完整标准见 [B2 设计](docs/plans/2026-09-03-tailwind-b2-local-fork-design.md) 和 [ADR 0002](docs/adr/0002-tailwind-b2-local-fork.md)。该 Gate 不授权后续组件迁移、Figma 写入、发布、业务接入或 Git 操作。
-
 ## 10. 验证与 Gate 生命周期
-
-### Token Foundations V1 独立检查点补充
-
-2026-09-05 用户授权启动 `token-foundations-v1` 第 0/1 批，见 [ADR 0004](docs/adr/0004-token-foundations-v1.md)和[实施计划](docs/plans/2026-09-05-token-foundations-v1-implementation.md)。这是独立的 Foundations 建设，不重编号十日计划，不关闭或重开旧 B2、Day 3、Button、TextButton 或图标验收。
-
-本批增量登记 Light Public Category Color、Alpha 合同、Typography 基础与预设、1–6px Line Thickness、Radius 与 Spacing，并接入受控单源输出和独立演示。Public Category 可按用途资格直接消费；本批新能力不再受 Semantic-only 入口及原 30–45 个 Semantic 数量限制，但旧 Semantic 计数、运行数值与 B2 冻结比较保持独立。公共 Radius 增加 12 / 16；旧组件不自动换档。
-
-上述增量明确修订本 Brief 4.1、6.1 的相关新公共入口和档位边界，不改变品牌蓝、字体资格、Focus、无障碍、私有来源保护和公共修改方式。公共高度、Size/Density 实际组件方案、Layer、断点、全库迁移与 Dark 等后续建设仍需各自范围收口。当前授权不包含 Figma 写入、资产发布、业务迁移、依赖增加或 Git 操作。
 
 ### 10.1 证据链
 
