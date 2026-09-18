@@ -23,6 +23,7 @@ import "@rain-next/ui/styles.css";
 import "@rain-next/layouts/styles.css";
 import "./styles.css";
 import { TeacherGradingPage } from "./scenarios/teacher-grading/page";
+import { TeacherHomeworkSummaryPage } from "./scenarios/teacher-homework-summary/page";
 
 function Prototype() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -30,6 +31,7 @@ function Prototype() {
   // m2-routes:start
   const [route, setRoute] = useState(window.location.hash);
   useEffect(() => { const change = () => setRoute(window.location.hash); window.addEventListener("hashchange", change); return () => window.removeEventListener("hashchange", change); }, []);
+  if (route === "#teacher-homework-summary") return <DensityProvider density="default"><TeacherHomeworkSummaryPage /></DensityProvider>;
   if (route === "#teacher-grading") return <DensityProvider density="default"><TeacherGradingPage /></DensityProvider>;
   if (route === "#bm-c") return <DensityProvider density="default"><GradingWorkbenchScenario /></DensityProvider>;
   if (route === "#bm-d") return <DensityProvider density="default"><LearningReportScenario /></DensityProvider>;
