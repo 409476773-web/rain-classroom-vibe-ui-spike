@@ -1,0 +1,38 @@
+/* @rain-css-exception drawer-task-refinement: local viewport geometry and fixed header/body/footer composition. */
+@layer components {
+  .g6-task-example { width:100%; min-width:0; }
+  .g6-drawer-example-header { flex-direction:row; align-items:start; justify-content:space-between; gap:var(--rain-space-16); }
+  .g6-drawer-example-copy { display:flex; flex:1; min-width:0; flex-direction:column; gap:var(--rain-space-4); }
+  .g6-task-demo-options { display:flex; flex-wrap:wrap; gap:var(--rain-space-24); margin-bottom:var(--rain-space-12); }
+  .g6-task-demo-note { margin:0 0 var(--rain-space-16); color:var(--rain-category-text-neutral-3); font-size:var(--rain-font-size-13); line-height:var(--rain-line-height-20); }
+  .g6-task-layout { display:flex; flex-direction:column; flex:1; min-height:0; overflow:hidden; }
+  .g6-task-header { flex-direction:row; align-items:start; justify-content:space-between; gap:var(--rain-space-16); border-bottom:var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+  .g6-task-heading { min-width:0; display:flex; flex-direction:column; gap:var(--rain-space-4); }
+  .g6-task-heading .rain-drawer__title { overflow-wrap:anywhere; }
+  .g6-task-header-actions { display:flex; flex:none; align-items:center; gap:var(--rain-space-4); }
+  .g6-task-fields { display:flex; flex-direction:column; gap:var(--rain-space-24); }
+  .g6-task-body { padding-block:var(--rain-space-24); }
+  .g6-task-footer { border-top:var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+  .g6-task-footer-actions { display:flex; justify-content:flex-end; gap:var(--rain-space-8); }
+  .g6-task-reading { display:flex; flex-direction:column; gap:var(--rain-space-24); outline:none; overflow-wrap:anywhere; font-size:var(--rain-font-size-15); line-height:var(--rain-line-height-26); }
+  .g6-task-reading p { margin:0; }
+  .g6-task-instructions { white-space:pre-wrap; }
+  .g6-task-drawer[data-short-preview] .rain-drawer__body { flex:0 1 auto; }
+  .g6-task-discard-header { flex-direction:row; align-items:start; justify-content:space-between; }
+  @media (min-width:641px) {
+    .rain-drawer__popup.g6-task-drawer[data-swipe-axis="y"]:has(> .rain-drawer__swipe-handle) { --rain-drawer-handle-space:0px; }
+    .g6-task-drawer > .rain-drawer__swipe-handle { display:none; }
+  }
+  /* On very short screens, keep every action reachable through one scroll region. */
+  @media (max-height:400px) {
+    .g6-task-layout { overflow-y:auto; overscroll-behavior:contain; }
+    .g6-task-layout .g6-task-body { flex:none; overflow:visible; }
+    .g6-task-footer { margin-top:0; }
+  }
+  @media (max-width:640px) {
+    .g6-task-header { flex-wrap:wrap; gap:var(--rain-space-8); }
+    .g6-task-heading { flex:1; }
+    .g6-task-header-actions { margin-inline-start:auto; }
+    .g6-task-body { padding-block:var(--rain-space-16); }
+  }
+}

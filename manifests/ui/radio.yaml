@@ -39,6 +39,7 @@ states:
   - "invalid-group"
   - "empty-group"
 dependencies:
+  - "内部 SelectionControlSurface 共享 label、指示器与标准内容；原控件保留唯一原生 input、事件、ref、name 校验与 reset。"
   - "react"
   - "@rain-next/foundations"
   - "tailwind-merge"
@@ -127,3 +128,11 @@ parts:
   - "control"
   - "label"
   - "description"
+
+controlReuse:
+  scope: "questionnaire-control-reuse-2026-10-16"
+  statusPath: "componentRefinements.questionnaireControlReuse"
+  evidence: "evidence/runtime/questionnaire-reuse-2026-10-16/verification.md"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  publicContract: "既有 Props、回调、input ref、默认值与 reset 合同保留；内部共享层不从根入口导出。"

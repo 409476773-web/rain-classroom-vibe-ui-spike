@@ -1,0 +1,107 @@
+
+Running 14 tests using 1 worker
+
+(node:38823) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [desktop] › tests/e2e/attachment-intake-regression.spec.ts:3:1 › the detailed workflow uses the same entry and preserves read-only drop protection (7.1s)
+(node:38851) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [desktop] › tests/e2e/attachment-scenarios.spec.ts:6:1 › folding keeps full counts, failed-only retry and hidden uploads alive (10.5s)
+  ✓   3 [desktop] › tests/e2e/attachment-scenarios.spec.ts:29:1 › compact draft removes directly and sends a local reply with real added bytes (6.4s)
+  ✓   4 [desktop] › tests/e2e/attachment-scenarios.spec.ts:53:1 › modal body scrolls independently and closing preserves uploads and focus (6.8s)
+  ✓   5 [desktop] › tests/e2e/attachment-scenarios.spec.ts:76:1 › media fills grid tracks, has no format badges and plays actual video (3.7s)
+  ✓   6 [desktop] › tests/e2e/attachment-scenarios.spec.ts:106:1 › both themes retain narrow layout and broken thumbnail identity (3.2s)
+  ✓   7 [desktop] › tests/e2e/attachment-scenarios.spec.ts:121:1 › three and four draft attachments remain accessible after folding (2.4s)
+(node:38891) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 [narrow] › tests/e2e/attachment-intake-regression.spec.ts:3:1 › the detailed workflow uses the same entry and preserves read-only drop protection (7.0s)
+(node:38923) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [narrow] › tests/e2e/attachment-scenarios.spec.ts:6:1 › folding keeps full counts, failed-only retry and hidden uploads alive (10.6s)
+  ✓  10 [narrow] › tests/e2e/attachment-scenarios.spec.ts:29:1 › compact draft removes directly and sends a local reply with real added bytes (6.4s)
+  ✓  11 [narrow] › tests/e2e/attachment-scenarios.spec.ts:53:1 › modal body scrolls independently and closing preserves uploads and focus (6.7s)
+  ✓  12 [narrow] › tests/e2e/attachment-scenarios.spec.ts:76:1 › media fills grid tracks, has no format badges and plays actual video (3.0s)
+  ✓  13 [narrow] › tests/e2e/attachment-scenarios.spec.ts:106:1 › both themes retain narrow layout and broken thumbnail identity (3.1s)
+  ✓  14 [narrow] › tests/e2e/attachment-scenarios.spec.ts:121:1 › three and four draft attachments remain accessible after folding (2.5s)
+
+
+  1) [desktop] › tests/e2e/attachment-intake-regression.spec.ts:3:1 › the detailed workflow uses the same entry and preserves read-only drop protection 
+
+    Error: expect(locator).toBeEnabled() failed
+
+    Locator:  getByRole('form', { name: '课程附件', exact: true }).getByRole('button', { name: '下载 课程导读：从问题到证据.pdf', exact: true })
+    Expected: enabled
+    Received: disabled
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeEnabled" with timeout 5000ms
+      - waiting for getByRole('form', { name: '课程附件', exact: true }).getByRole('button', { name: '下载 课程导读：从问题到证据.pdf', exact: true })
+        14 × locator resolved to <button title="下载" type="button" data-slot="root" data-size="32/16" data-variant="fill" data-tone="default" data-state="default" data-focus="control" data-highlight="none" data-density="default" data-rain-state="default" data-feedback="interactive" data-rain-id="ui-icon-button" aria-label="下载 课程导读：从问题到证据.pdf" class="rain-icon-button box-border relative inline-flex flex-none items-center justify-center p-rain-0 border-none overflow-visible align-middle appearance-none select-none isolate transition-col…>…</button>
+           - unexpected value "disabled"
+
+
+      23 |   await expect(intake).toHaveAttribute("data-state", "idle");
+      24 |   await expect(form.locator("[data-attachment-id]")).toHaveCount(3);
+    > 25 |   await expect(form.getByRole("button", { name: "下载 课程导读：从问题到证据.pdf", exact: true })).toBeEnabled();
+         |                                                                                       ^
+      26 | });
+      27 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-intake-regression.spec.ts:25:87
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/attachment-intake-2026-10-16/regression/results/attachment-intake-regressi-973c5-s-read-only-drop-protection-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/attachment-intake-2026-10-16/regression/results/attachment-intake-regressi-973c5-s-read-only-drop-protection-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/attachment-intake-2026-10-16/regression/results/attachment-intake-regressi-973c5-s-read-only-drop-protection-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/attachment-intake-2026-10-16/regression/results/attachment-intake-regressi-973c5-s-read-only-drop-protection-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [narrow] › tests/e2e/attachment-intake-regression.spec.ts:3:1 › the detailed workflow uses the same entry and preserves read-only drop protection 
+
+    Error: expect(locator).toBeEnabled() failed
+
+    Locator:  getByRole('form', { name: '课程附件', exact: true }).getByRole('button', { name: '下载 课程导读：从问题到证据.pdf', exact: true })
+    Expected: enabled
+    Received: disabled
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeEnabled" with timeout 5000ms
+      - waiting for getByRole('form', { name: '课程附件', exact: true }).getByRole('button', { name: '下载 课程导读：从问题到证据.pdf', exact: true })
+        14 × locator resolved to <button title="下载" type="button" data-slot="root" data-size="32/16" data-variant="fill" data-tone="default" data-state="default" data-focus="control" data-highlight="none" data-density="default" data-rain-state="default" data-feedback="interactive" data-rain-id="ui-icon-button" aria-label="下载 课程导读：从问题到证据.pdf" class="rain-icon-button box-border relative inline-flex flex-none items-center justify-center p-rain-0 border-none overflow-visible align-middle appearance-none select-none isolate transition-col…>…</button>
+           - unexpected value "disabled"
+
+
+      23 |   await expect(intake).toHaveAttribute("data-state", "idle");
+      24 |   await expect(form.locator("[data-attachment-id]")).toHaveCount(3);
+    > 25 |   await expect(form.getByRole("button", { name: "下载 课程导读：从问题到证据.pdf", exact: true })).toBeEnabled();
+         |                                                                                       ^
+      26 | });
+      27 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-intake-regression.spec.ts:25:87
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/attachment-intake-2026-10-16/regression/results/attachment-intake-regressi-973c5-s-read-only-drop-protection-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/attachment-intake-2026-10-16/regression/results/attachment-intake-regressi-973c5-s-read-only-drop-protection-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/attachment-intake-2026-10-16/regression/results/attachment-intake-regressi-973c5-s-read-only-drop-protection-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/attachment-intake-2026-10-16/regression/results/attachment-intake-regressi-973c5-s-read-only-drop-protection-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/e2e/attachment-intake-regression.spec.ts:3:1 › the detailed workflow uses the same entry and preserves read-only drop protection 
+    [narrow] › tests/e2e/attachment-intake-regression.spec.ts:3:1 › the detailed workflow uses the same entry and preserves read-only drop protection 
+  12 passed (1.4m)

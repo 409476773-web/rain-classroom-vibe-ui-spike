@@ -1,0 +1,1603 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/g4-component-pages.test.tsx (5 tests | 5 failed) 2040ms
+     × makes typography discoverable through the existing catalog 4ms
+     × makes item discoverable through the existing catalog 0ms
+     × makes progress discoverable through the existing catalog 0ms
+     × keeps a content item action separate from navigation 1020ms
+     × updates progress only through a host action and leaves unknown progress without a percentage 1014ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/g4-component-pages.test.tsx > G4 component documentation > makes typography discoverable through the existing catalog
+ FAIL  apps/playground/src/docs/components/g4-component-pages.test.tsx > G4 component documentation > makes item discoverable through the existing catalog
+ FAIL  apps/playground/src/docs/components/g4-component-pages.test.tsx > G4 component documentation > makes progress discoverable through the existing catalog
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ apps/playground/src/docs/components/g4-component-pages.test.tsx:10:64
+      8| describe("G4 component documentation", () => {
+      9|   it.each(["typography", "item", "progress"])("makes %s discoverable t…
+     10|     expect(componentDocEntries.some(entry => entry.id === id)).toBe(tr…
+       |                                                                ^
+     11|   });
+     12|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  apps/playground/src/docs/components/g4-component-pages.test.tsx > G4 component documentation > keeps a content item action separate from navigation
+TestingLibraryElementError: Unable to find role="heading" and name "Item 内容条目"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"playground-shell"[39m
+      [33mdata-rain-id[39m=[32m"playground-shell"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"overview-title"[39m
+        [33mclass[39m=[32m"intro"[39m
+        [33mdata-slot[39m=[32m"overview-intro"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"eyebrow"[39m
+        [36m>[39m
+          [0mRain Classroom · Foundation Spike[0m
+        [36m</p>[39m
+        [36m<h1[39m
+          [33mid[39m=[32m"overview-title"[39m
+          [33mtabindex[39m=[32m"-1"[39m
+        [36m>[39m
+          [0mRain Next Playground[0m
+        [36m</h1>[39m
+        [36m<p[39m
+          [33maria-label[39m=[32m"历史基线"[39m
+          [33mclass[39m=[32m"intro-copy"[39m
+        [36m>[39m
+          [0mDay 3 Core UI 已完成本地实现和自动检查，现作为 B2 对照基线。 图标库继续复用；各组件人工验收与发布状态独立记录。[0m
+        [36m</p>[39m
+        [36m<div[39m
+          [33maria-label[39m=[32m"当前阶段"[39m
+          [33mclass[39m=[32m"phase-line"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"phase-dot"[39m
+          [36m/>[39m
+          [36m<span>[39m
+            [0mtoken-foundations-v1[0m
+          [36m</span>[39m
+          [36m<strong>[39m
+            [0m第 0/1 批 · 基础能力建设 · 视觉验收待确认[0m
+          [36m</strong>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"entry-title"[39m
+        [33mclass[39m=[32m"entry-section"[39m
+        [33mdata-slot[39m=[32m"overview-entry-list"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"section-index"[39m
+            [36m>[39m
+              [0mSTART HERE[0m
+            [36m</p>[39m
+            [36m<h2[39m
+              [33mid[39m=[32m"entry-title"[39m
+            [36m>[39m
+              [0m直接入口[0m
+            [36m</h2>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m使用普通链接进入当前可检查区域；本阶段不建立持久文档导航。[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"entry-grid"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Foundations：查看 Token 目录、完整排版方案，以及字体、密度、Focus 与 Motion 使用规则。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#foundations"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m基础体系总入口[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mFoundations[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m查看 Token 目录、完整排版方案，以及字体、密度、Focus 与 Motion 使用规则。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Components：检查 Button、Input、Select、Tabs、Dropdown/Popover、Tag/Badge 与 Surface/Card，查看完整组件用法。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#components"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m组件与组合入口[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mComponents[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m检查 Button、Input、Select、Tabs、Dropdown/Popover、Tag/Badge 与 Surface/Card，查看完整组件用法。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Benchmarks：四类真实业务切片已登记，目前仅提供验证入口。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#benchmarks"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m4 个已登记[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mBenchmarks[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m四类真实业务切片已登记，目前仅提供验证入口。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Icons：按用途查找图标，查看默认选择、配色与使用示例。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#icons"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m雨课堂完整图标目录[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mIcons[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m按用途查找图标，查看默认选择、配色与使用示例。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+        [36m<p>[39m
+          [36m<a[39m
+            [33mdata-focus[39m=[32m"item"[39m
+            [33mhref[39m=[32m"#token-foundations"[39m
+          [36m>[39m
+            [0mToken 基础建设：颜色、排版、线条、圆角与间距[0m
+          [36m</a>[39m
+        [36m</p>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"components-title"[39m
+        [33mclass[39m=[32m"components-section"[39m
+        [33mdata-slot[39m=[32m"components-index"[39m
+        [33mid[39m=[32m"components"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact-heading"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"section-index"[39m
+            [36m>[39m
+              [0mCOMPONENTS[0m
+            [36m</p>[39m
+            [36m<h2[39m
+              [33mid[39m=[32m"components-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0m组件范围[0m
+            [36m</h2>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m四个基础家族已完成本地实现和自动检查；点击 Components 可查看待人工验收的候选。[0m
+          [36m</p>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"benchmarks-title"[39m
+        [33mclass[39m=[32m"benchmark-section"[39m
+        [33mdata-slot[39m=[32m"benchmark-index"[39m
+        [33mid[39m=[32m"benchmarks"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"section-index"[39m
+            [36m>[39m
+              [0m01 / 04[0m
+            [36m</p>[39m
+            [36m<h2[39m
+              [33mid[39m=[32m"benchmarks-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0mBenchmark 入口[0m
+            [36m</h2>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m四类范围均已登记；实现、自动验证与 Human Gate 仍各自独立。[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"benchmark-grid"[39m
+        [36m>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-compact-data-management"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-a"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-A[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mCompact Data Management[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m2[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-default-large-form"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-b"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-B[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mDefault Large Form[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m1[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-complex-workbench"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-c"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-C[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mComplex Workbench[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m3[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-report-key-data"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-d"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-D[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mReport / Key Data[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m2[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+      [36m</section>[39m
+    [36m</main>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"playground-shell"[39m
+      [33mdata-rain-id[39m=[32m"playground-shell"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"overview-title"[39m
+        [33mclass[39m=[32m"intro"[39m
+        [33mdata-slot[39m=[32m"overview-intro"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"eyebrow"[39m
+        [36m>[39m
+          [0mRain Classroom · Foundation Spike[0m
+        [36m</p>[39m
+        [36m<h1[39m
+          [33mid[39m=[32m"overview-title"[39m
+          [33mtabindex[39m=[32m"-1"[39m
+        [36m>[39m
+          [0mRain Next Playground[0m
+        [36m</h1>[39m
+        [36m<p[39m
+          [33maria-label[39m=[32m"历史基线"[39m
+          [33mclass[39m=[32m"intro-copy"[39m
+        [36m>[39m
+          [0mDay 3 Core UI 已完成本地实现和自动检查，现作为 B2 对照基线。 图标库继续复用；各组件人工验收与发布状态独立记录。[0m
+        [36m</p>[39m
+        [36m<div[39m
+          [33maria-label[39m=[32m"当前阶段"[39m
+          [33mclass[39m=[32m"phase-line"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"phase-dot"[39m
+          [36m/>[39m
+          [36m<span>[39m
+            [0mtoken-foundations-v1[0m
+          [36m</span>[39m
+          [36m<strong>[39m
+            [0m第 0/1 批 · 基础能力建设 · 视觉验收待确认[0m
+          [36m</strong>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"entry-title"[39m
+        [33mclass[39m=[32m"entry-section"[39m
+        [33mdata-slot[39m=[32m"overview-entry-list"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"section-index"[39m
+            [36m>[39m
+              [0mSTART HERE[0m
+            [36m</p>[39m
+            [36m<h2[39m
+              [33mid[39m=[32m"entry-title"[39m
+            [36m>[39m
+              [0m直接入口[0m
+            [36m</h2>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m使用普通链接进入当前可检查区域；本阶段不建立持久文档导航。[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"entry-grid"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Foundations：查看 Token 目录、完整排版方案，以及字体、密度、Focus 与 Motion 使用规则。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#foundations"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m基础体系总入口[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mFoundations[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m查看 Token 目录、完整排版方案，以及字体、密度、Focus 与 Motion 使用规则。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Components：检查 Button、Input、Select、Tabs、Dropdown/Popover、Tag/Badge 与 Surface/Card，查看完整组件用法。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#components"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m组件与组合入口[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mComponents[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m检查 Button、Input、Select、Tabs、Dropdown/Popover、Tag/Badge 与 Surface/Card，查看完整组件用法。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Benchmarks：四类真实业务切片已登记，目前仅提供验证入口。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#benchmarks"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m4 个已登记[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mBenchmarks[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m四类真实业务切片已登记，目前仅提供验证入口。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Icons：按用途查找图标，查看默认选择、配色与使用示例。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#icons"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m雨课堂完整图标目录[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mIcons[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m按用途查找图标，查看默认选择、配色与使用示例。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+        [36m<p>[39m
+          [36m<a[39m
+            [33mdata-focus[39m=[32m"item"[39m
+            [33mhref[39m=[32m"#token-foundations"[39m
+          [36m>[39m
+            [0mToken 基础建设：颜色、排版、线条、圆角与间距[0m
+          [36m</a>[39m
+        [36m</p>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"components-title"[39m
+        [33mclass[39m=[32m"components-section"[39m
+        [33mdata-slot[39m=[32m"components-index"[39m
+        [33mid[39m=[32m"components"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact-heading"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"section-index"[39m
+            [36m>[39m
+              [0mCOMPONENTS[0m
+            [36m</p>[39m
+            [36m<h2[39m
+              [33mid[39m=[32m"components-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0m组件范围[0m
+            [36m</h2>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m四个基础家族已完成本地实现和自动检查；点击 Components 可查看待人工验收的候选。[0m
+          [36m</p>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"benchmarks-title"[39m
+        [33mclass[39m=[32m"benchmark-section"[39m
+        [33mdata-slot[39m=[32m"benchmark-index"[39m
+        [33mid[39m=[32m"benchmarks"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"section-index"[39m
+            [36m>[39m
+              [0m01 / 04[0m
+            [36m</p>[39m
+            [36m<h2[39m
+              [33mid[39m=[32m"benchmarks-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0mBenchmark 入口[0m
+            [36m</h2>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m四类范围均已登记；实现、自动验证与 Human Gate 仍各自独立。[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"benchmark-grid"[39m
+        [36m>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-compact-data-management"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-a"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-A[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mCompact Data Management[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m2[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-default-large-form"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-b"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-B[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mDefault Large Form[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m1[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-complex-workbench"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-c"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-C[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mComplex Workbench[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m3[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-report-key-data"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-d"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-D[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mReport / Key Data[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m2[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+      [36m</section>[39m
+    [36m</main>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ apps/playground/src/docs/components/g4-component-pages.test.tsx:16:18
+     14|     window.location.hash = "#item";
+     15|     render(<App />);
+     16|     await screen.findByRole("heading", { level: 1, name: "Item 内容条目" }…
+       |                  ^
+     17|     const button = screen.getByRole("button", { name: "设为重点", exact: t…
+     18|     fireEvent.click(button);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  apps/playground/src/docs/components/g4-component-pages.test.tsx > G4 component documentation > updates progress only through a host action and leaves unknown progress without a percentage
+TestingLibraryElementError: Unable to find role="heading" and name "Progress 任务进度"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"playground-shell"[39m
+      [33mdata-rain-id[39m=[32m"playground-shell"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"overview-title"[39m
+        [33mclass[39m=[32m"intro"[39m
+        [33mdata-slot[39m=[32m"overview-intro"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"eyebrow"[39m
+        [36m>[39m
+          [0mRain Classroom · Foundation Spike[0m
+        [36m</p>[39m
+        [36m<h1[39m
+          [33mid[39m=[32m"overview-title"[39m
+          [33mtabindex[39m=[32m"-1"[39m
+        [36m>[39m
+          [0mRain Next Playground[0m
+        [36m</h1>[39m
+        [36m<p[39m
+          [33maria-label[39m=[32m"历史基线"[39m
+          [33mclass[39m=[32m"intro-copy"[39m
+        [36m>[39m
+          [0mDay 3 Core UI 已完成本地实现和自动检查，现作为 B2 对照基线。 图标库继续复用；各组件人工验收与发布状态独立记录。[0m
+        [36m</p>[39m
+        [36m<div[39m
+          [33maria-label[39m=[32m"当前阶段"[39m
+          [33mclass[39m=[32m"phase-line"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"phase-dot"[39m
+          [36m/>[39m
+          [36m<span>[39m
+            [0mtoken-foundations-v1[0m
+          [36m</span>[39m
+          [36m<strong>[39m
+            [0m第 0/1 批 · 基础能力建设 · 视觉验收待确认[0m
+          [36m</strong>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"entry-title"[39m
+        [33mclass[39m=[32m"entry-section"[39m
+        [33mdata-slot[39m=[32m"overview-entry-list"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"section-index"[39m
+            [36m>[39m
+              [0mSTART HERE[0m
+            [36m</p>[39m
+            [36m<h2[39m
+              [33mid[39m=[32m"entry-title"[39m
+            [36m>[39m
+              [0m直接入口[0m
+            [36m</h2>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m使用普通链接进入当前可检查区域；本阶段不建立持久文档导航。[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"entry-grid"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Foundations：查看 Token 目录、完整排版方案，以及字体、密度、Focus 与 Motion 使用规则。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#foundations"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m基础体系总入口[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mFoundations[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m查看 Token 目录、完整排版方案，以及字体、密度、Focus 与 Motion 使用规则。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Components：检查 Button、Input、Select、Tabs、Dropdown/Popover、Tag/Badge 与 Surface/Card，查看完整组件用法。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#components"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m组件与组合入口[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mComponents[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m检查 Button、Input、Select、Tabs、Dropdown/Popover、Tag/Badge 与 Surface/Card，查看完整组件用法。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Benchmarks：四类真实业务切片已登记，目前仅提供验证入口。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#benchmarks"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m4 个已登记[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mBenchmarks[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m四类真实业务切片已登记，目前仅提供验证入口。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Icons：按用途查找图标，查看默认选择、配色与使用示例。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#icons"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m雨课堂完整图标目录[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mIcons[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m按用途查找图标，查看默认选择、配色与使用示例。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+        [36m<p>[39m
+          [36m<a[39m
+            [33mdata-focus[39m=[32m"item"[39m
+            [33mhref[39m=[32m"#token-foundations"[39m
+          [36m>[39m
+            [0mToken 基础建设：颜色、排版、线条、圆角与间距[0m
+          [36m</a>[39m
+        [36m</p>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"components-title"[39m
+        [33mclass[39m=[32m"components-section"[39m
+        [33mdata-slot[39m=[32m"components-index"[39m
+        [33mid[39m=[32m"components"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact-heading"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"section-index"[39m
+            [36m>[39m
+              [0mCOMPONENTS[0m
+            [36m</p>[39m
+            [36m<h2[39m
+              [33mid[39m=[32m"components-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0m组件范围[0m
+            [36m</h2>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m四个基础家族已完成本地实现和自动检查；点击 Components 可查看待人工验收的候选。[0m
+          [36m</p>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"benchmarks-title"[39m
+        [33mclass[39m=[32m"benchmark-section"[39m
+        [33mdata-slot[39m=[32m"benchmark-index"[39m
+        [33mid[39m=[32m"benchmarks"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"section-index"[39m
+            [36m>[39m
+              [0m01 / 04[0m
+            [36m</p>[39m
+            [36m<h2[39m
+              [33mid[39m=[32m"benchmarks-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0mBenchmark 入口[0m
+            [36m</h2>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m四类范围均已登记；实现、自动验证与 Human Gate 仍各自独立。[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"benchmark-grid"[39m
+        [36m>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-compact-data-management"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-a"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-A[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mCompact Data Management[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m2[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-default-large-form"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-b"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-B[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mDefault Large Form[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m1[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-complex-workbench"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-c"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-C[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mComplex Workbench[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m3[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-report-key-data"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-d"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-D[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mReport / Key Data[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m2[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+      [36m</section>[39m
+    [36m</main>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"playground-shell"[39m
+      [33mdata-rain-id[39m=[32m"playground-shell"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"overview-title"[39m
+        [33mclass[39m=[32m"intro"[39m
+        [33mdata-slot[39m=[32m"overview-intro"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"eyebrow"[39m
+        [36m>[39m
+          [0mRain Classroom · Foundation Spike[0m
+        [36m</p>[39m
+        [36m<h1[39m
+          [33mid[39m=[32m"overview-title"[39m
+          [33mtabindex[39m=[32m"-1"[39m
+        [36m>[39m
+          [0mRain Next Playground[0m
+        [36m</h1>[39m
+        [36m<p[39m
+          [33maria-label[39m=[32m"历史基线"[39m
+          [33mclass[39m=[32m"intro-copy"[39m
+        [36m>[39m
+          [0mDay 3 Core UI 已完成本地实现和自动检查，现作为 B2 对照基线。 图标库继续复用；各组件人工验收与发布状态独立记录。[0m
+        [36m</p>[39m
+        [36m<div[39m
+          [33maria-label[39m=[32m"当前阶段"[39m
+          [33mclass[39m=[32m"phase-line"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"phase-dot"[39m
+          [36m/>[39m
+          [36m<span>[39m
+            [0mtoken-foundations-v1[0m
+          [36m</span>[39m
+          [36m<strong>[39m
+            [0m第 0/1 批 · 基础能力建设 · 视觉验收待确认[0m
+          [36m</strong>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"entry-title"[39m
+        [33mclass[39m=[32m"entry-section"[39m
+        [33mdata-slot[39m=[32m"overview-entry-list"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"section-index"[39m
+            [36m>[39m
+              [0mSTART HERE[0m
+            [36m</p>[39m
+            [36m<h2[39m
+              [33mid[39m=[32m"entry-title"[39m
+            [36m>[39m
+              [0m直接入口[0m
+            [36m</h2>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m使用普通链接进入当前可检查区域；本阶段不建立持久文档导航。[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"entry-grid"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Foundations：查看 Token 目录、完整排版方案，以及字体、密度、Focus 与 Motion 使用规则。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#foundations"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m基础体系总入口[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mFoundations[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m查看 Token 目录、完整排版方案，以及字体、密度、Focus 与 Motion 使用规则。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Components：检查 Button、Input、Select、Tabs、Dropdown/Popover、Tag/Badge 与 Surface/Card，查看完整组件用法。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#components"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m组件与组合入口[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mComponents[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m检查 Button、Input、Select、Tabs、Dropdown/Popover、Tag/Badge 与 Surface/Card，查看完整组件用法。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Benchmarks：四类真实业务切片已登记，目前仅提供验证入口。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#benchmarks"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m4 个已登记[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mBenchmarks[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m四类真实业务切片已登记，目前仅提供验证入口。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Icons：按用途查找图标，查看默认选择、配色与使用示例。"[39m
+              [33mdata-focus[39m=[32m"item"[39m
+              [33mhref[39m=[32m"#icons"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-meta"[39m
+              [36m>[39m
+                [0m雨课堂完整图标目录[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-title"[39m
+              [36m>[39m
+                [0mIcons[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"entry-description"[39m
+              [36m>[39m
+                [0m按用途查找图标，查看默认选择、配色与使用示例。[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"entry-action"[39m
+              [36m>[39m
+                [0m查看范围[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+        [36m<p>[39m
+          [36m<a[39m
+            [33mdata-focus[39m=[32m"item"[39m
+            [33mhref[39m=[32m"#token-foundations"[39m
+          [36m>[39m
+            [0mToken 基础建设：颜色、排版、线条、圆角与间距[0m
+          [36m</a>[39m
+        [36m</p>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"components-title"[39m
+        [33mclass[39m=[32m"components-section"[39m
+        [33mdata-slot[39m=[32m"components-index"[39m
+        [33mid[39m=[32m"components"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact-heading"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"section-index"[39m
+            [36m>[39m
+              [0mCOMPONENTS[0m
+            [36m</p>[39m
+            [36m<h2[39m
+              [33mid[39m=[32m"components-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0m组件范围[0m
+            [36m</h2>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m四个基础家族已完成本地实现和自动检查；点击 Components 可查看待人工验收的候选。[0m
+          [36m</p>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"benchmarks-title"[39m
+        [33mclass[39m=[32m"benchmark-section"[39m
+        [33mdata-slot[39m=[32m"benchmark-index"[39m
+        [33mid[39m=[32m"benchmarks"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"section-index"[39m
+            [36m>[39m
+              [0m01 / 04[0m
+            [36m</p>[39m
+            [36m<h2[39m
+              [33mid[39m=[32m"benchmarks-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0mBenchmark 入口[0m
+            [36m</h2>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m四类范围均已登记；实现、自动验证与 Human Gate 仍各自独立。[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"benchmark-grid"[39m
+        [36m>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-compact-data-management"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-a"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-A[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mCompact Data Management[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m2[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-default-large-form"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-b"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-B[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mDefault Large Form[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m1[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-complex-workbench"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-c"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-C[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mComplex Workbench[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m3[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+          [36m<li[39m
+            [33mid[39m=[32m"benchmark-report-key-data"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33mclass[39m=[32m"benchmark-card"[39m
+              [33mdata-rain-id[39m=[32m"benchmark-entry-bm-d"[39m
+              [33mdata-state[39m=[32m"completed"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-id"[39m
+              [36m>[39m
+                [0mBM-D[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-title"[39m
+              [36m>[39m
+                [0mReport / Key Data[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-status"[39m
+              [36m>[39m
+                [0m已完成[0m
+              [36m</span>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"benchmark-evidence"[39m
+              [36m>[39m
+                [0m2[0m
+                [0m 条正式来源[0m
+              [36m</span>[39m
+            [36m</article>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+      [36m</section>[39m
+    [36m</main>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ apps/playground/src/docs/components/g4-component-pages.test.tsx:27:18
+     25|     window.location.hash = "#progress";
+     26|     render(<App />);
+     27|     await screen.findByRole("heading", { level: 1, name: "Progress 任务进…
+       |                  ^
+     28|     const bar = screen.getByRole("progressbar", { name: "资料同步" });
+     29|     expect(bar).toHaveAttribute("aria-valuenow", "40");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  19:51:20
+   Duration  4.42s (transform 924ms, setup 169ms, import 1.52s, tests 2.04s, environment 583ms)
+

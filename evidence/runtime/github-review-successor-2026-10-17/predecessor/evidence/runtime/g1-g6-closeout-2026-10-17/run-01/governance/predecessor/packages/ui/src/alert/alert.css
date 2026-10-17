@@ -1,0 +1,52 @@
+/* State paints and relationships between optional parts. All visual values are existing Rain Tokens. */
+@layer base {
+  .rain-alert { container: rain-alert / inline-size; border: var(--rain-line-thickness-1) solid; border-radius: var(--rain-radius-6); padding: var(--rain-space-4) var(--rain-space-16); overflow-wrap: anywhere; }
+  .rain-alert[data-tone="info"] { background-color: var(--rain-category-fill-brand-alpha-4); border-color: var(--rain-category-border-brand-3); color: var(--rain-category-text-brand-1); }
+  .rain-alert[data-tone="success"] { background-color: var(--rain-category-fill-green-alpha-2); border-color: var(--rain-category-border-green-2); color: var(--rain-category-text-green-1); }
+  .rain-alert[data-tone="warning"] { background-color: var(--rain-category-fill-orange-alpha-2); border-color: var(--rain-category-border-orange-2); color: var(--rain-category-text-orange-1); }
+  .rain-alert[data-tone="error"] { background-color: var(--rain-category-fill-red-alpha-2); border-color: var(--rain-category-border-red-2); color: var(--rain-category-text-red-1); }
+  .rain-alert[data-tone="info"] > .rain-alert__icon { color: var(--rain-category-icon-brand-1); }
+  .rain-alert[data-tone="success"] > .rain-alert__icon { color: var(--rain-category-icon-green-1); }
+  .rain-alert[data-tone="warning"] > .rain-alert__icon { color: var(--rain-category-icon-orange-1); }
+  .rain-alert[data-tone="error"] > .rain-alert__icon { color: var(--rain-category-icon-red-1); }
+  .rain-alert[data-density="compact"] { padding: var(--rain-space-4) var(--rain-space-12); }
+  .rain-alert:has(.rain-alert__title, .rain-alert__description, .rain-alert__actions) { padding-block: var(--rain-space-14); }
+  .rain-alert[data-presentation="banner"]:has(.rain-alert__title, .rain-alert__description, .rain-alert__actions) { padding-block: var(--rain-space-6); }
+  .rain-alert[data-presentation="banner"] { border-width: 0 0 var(--rain-line-thickness-1); border-radius: 0; }
+  .rain-alert__icon { display: inline-flex; align-items: center; justify-content: center; width: var(--rain-space-16); height: var(--rain-line-height-22); }
+  .rain-alert__icon > .rain-icon { width: var(--rain-space-16); height: var(--rain-space-16); }
+  .rain-alert__close { flex: none; }
+  .rain-alert__content { display: grid; gap: var(--rain-space-4); align-items: start; }
+  .rain-alert__content:has(> .rain-alert__actions):not(:has(> .rain-alert__description)) { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--rain-space-16); align-items: center; }
+  .rain-alert__content:has(> .rain-alert__description) > .rain-alert__actions { margin-top: var(--rain-space-4); }
+  .rain-alert__description > :first-child { margin-top: 0; }
+  .rain-alert__description > :last-child { margin-bottom: 0; }
+  .rain-alert__description :is(ul, ol) { margin-block: var(--rain-space-4); padding-inline-start: var(--rain-space-20); }
+  .rain-alert__description ul { list-style: disc; }
+  .rain-alert__description ol { list-style: decimal; }
+  @container rain-alert (max-width: 420px) {
+    .rain-alert__content:has(> .rain-alert__actions):not(:has(> .rain-alert__description)) { grid-template-columns: minmax(0, 1fr); }
+    .rain-alert__actions { margin-top: var(--rain-space-4); }
+  }
+}
+/* Alert actions must reflow even when the composed Button uses single-line utilities. */
+.rain-alert[data-presentation="banner"] .rain-alert__title { font-weight: var(--rain-font-weight-regular); }
+.rain-alert__actions > :is(button, a) { max-width: 100%; white-space: normal; height: auto; min-height: var(--rain-space-24); }
+.rain-alert__actions > [data-rain-id="ui-button"] [data-slot="label"] { flex-shrink: 1; white-space: normal; overflow: visible; }
+.rain-alert[data-tone="info"] .rain-alert__actions > [data-rain-id="ui-button"] { color: var(--rain-category-text-brand-1); border-color: var(--rain-category-border-brand-1); }
+.rain-alert[data-tone="info"] .rain-alert__actions > [data-rain-id="ui-button"] [data-slot="label"] { color: var(--rain-category-text-brand-1); }
+.rain-alert[data-tone="info"] .rain-alert__actions > [data-rain-id="ui-button"] :is([data-slot="leading-icon"], [data-slot="trailing-icon"]) { color: var(--rain-category-icon-brand-1); }
+.rain-alert[data-tone="success"] .rain-alert__actions > [data-rain-id="ui-button"] { color: var(--rain-category-text-green-1); border-color: var(--rain-category-border-green-1); }
+.rain-alert[data-tone="success"] .rain-alert__actions > [data-rain-id="ui-button"] [data-slot="label"] { color: var(--rain-category-text-green-1); }
+.rain-alert[data-tone="success"] .rain-alert__actions > [data-rain-id="ui-button"] :is([data-slot="leading-icon"], [data-slot="trailing-icon"]) { color: var(--rain-category-icon-green-1); }
+.rain-alert[data-tone="warning"] .rain-alert__actions > [data-rain-id="ui-button"] { color: var(--rain-category-text-orange-1); border-color: var(--rain-category-border-orange-1); }
+.rain-alert[data-tone="warning"] .rain-alert__actions > [data-rain-id="ui-button"] [data-slot="label"] { color: var(--rain-category-text-orange-1); }
+.rain-alert[data-tone="warning"] .rain-alert__actions > [data-rain-id="ui-button"] :is([data-slot="leading-icon"], [data-slot="trailing-icon"]) { color: var(--rain-category-icon-orange-1); }
+.rain-alert[data-tone="error"] .rain-alert__actions > [data-rain-id="ui-button"] { color: var(--rain-category-text-red-1); border-color: var(--rain-category-border-red-1); }
+.rain-alert[data-tone="error"] .rain-alert__actions > [data-rain-id="ui-button"] [data-slot="label"] { color: var(--rain-category-text-red-1); }
+.rain-alert[data-tone="error"] .rain-alert__actions > [data-rain-id="ui-button"] :is([data-slot="leading-icon"], [data-slot="trailing-icon"]) { color: var(--rain-category-icon-red-1); }
+.rain-alert .rain-alert__actions > [data-rain-id="ui-button"][data-variant="tertiary"] { background-color: var(--rain-category-background-neutral-1); }
+@media (forced-colors: active) {
+  .rain-alert[data-tone] { color: CanvasText; background-color: Canvas; border-color: CanvasText; }
+  .rain-alert[data-tone] > .rain-alert__icon { color: CanvasText; }
+}

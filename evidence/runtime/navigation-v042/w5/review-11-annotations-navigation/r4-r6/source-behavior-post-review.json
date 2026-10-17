@@ -1,0 +1,17 @@
+{
+  "sourceSHA256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+  "originalHandlerAttributes": 39,
+  "currentHandlerAttributes": 40,
+  "exactUnchangedOriginalHandlerCount": 38,
+  "removedExpressionCount": 1,
+  "newExpressionCount": 2,
+  "reason": "One global Platform intent expression corrected, one global-only RecoveryBar intercept added; the original account notice handler is relocated onto the whole button without changing its expression. All38 unrelated handlers remain byte-exact.",
+  "removedExpressions": [
+    "onClick={()=>dispatch(temporary?{type:'DISMISS_TEMP',reason:'close'}:{type:'TOGGLE_GLOBAL',regionId:'global',viewportWidth})}"
+  ],
+  "newExpressions": [
+    "onClick={item.id==='global'?event=>{event.preventDefault();dispatch(state.session.temporary?.regionId==='global'?{type:'DISMISS_TEMP',reason:'close'}:{type:effective.regions.global?.mode==='expanded'?'TOGGLE_GLOBAL':'SHOW_REGION',regionId:'global',viewportWidth});}:undefined}",
+    "onClick={()=>dispatch(temporary?{type:'DISMISS_TEMP',reason:'close'}:{type:expanded?'TOGGLE_GLOBAL':'SHOW_REGION',regionId:'global',viewportWidth})}"
+  ],
+  "sharedReducerAndOtherRestoreRegions": "unchanged"
+}

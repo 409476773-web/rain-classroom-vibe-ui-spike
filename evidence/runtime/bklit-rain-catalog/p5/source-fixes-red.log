@@ -1,0 +1,66 @@
+
+Running 2 tests using 1 worker
+
+(node:62484) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/bklit-catalog.spec.ts:84:1 › [P5] multiple funnels isolate gradient definitions (580ms)
+(node:62489) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/bklit-catalog.spec.ts:94:1 › [P1] composed bars leave visible space to both axes (910ms)
+
+
+  1) tests/e2e/bklit-catalog.spec.ts:84:1 › [P5] multiple funnels isolate gradient definitions ─────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 8
+    Received: 4
+
+      89 |   await expect.poll(() => page.locator("linearGradient[id]").count()).toBeGreaterThan(1);
+      90 |   const ids = await page.locator("linearGradient[id]").evaluateAll(nodes => nodes.map(node => node.id));
+    > 91 |   expect(new Set(ids).size).toBe(ids.length);
+         |                             ^
+      92 | });
+      93 |
+      94 | test("[P1] composed bars leave visible space to both axes", async ({ page }) => {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/bklit-catalog.spec.ts:91:29
+
+    Error Context: evidence/runtime/bklit-rain-catalog/test-results/bklit-catalog--P5-multiple-9518b-solate-gradient-definitions/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/test-results/bklit-catalog--P5-multiple-9518b-solate-gradient-definitions/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/test-results/bklit-catalog--P5-multiple-9518b-solate-gradient-definitions/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/bklit-catalog.spec.ts:94:1 › [P1] composed bars leave visible space to both axes ────
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 8
+    Received:    2.36175537109375
+
+      107 |       return {left:Math.min(...bars.map(x=>x.left))-Math.max(...left.map(x=>x.right)),right:Math.min(...right.map(x=>x.left))-Math.max(...bars.map(x=>x.right))};
+      108 |     });
+    > 109 |     expect(facts.left).toBeGreaterThanOrEqual(8);expect(facts.right).toBeGreaterThanOrEqual(8);
+          |                        ^
+      110 |   }
+      111 | });
+      112 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/bklit-catalog.spec.ts:109:24
+
+    Error Context: evidence/runtime/bklit-rain-catalog/test-results/bklit-catalog--P1-composed-955c7--visible-space-to-both-axes/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/test-results/bklit-catalog--P1-composed-955c7--visible-space-to-both-axes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/test-results/bklit-catalog--P1-composed-955c7--visible-space-to-both-axes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/bklit-catalog.spec.ts:84:1 › [P5] multiple funnels isolate gradient definitions ──────
+    tests/e2e/bklit-catalog.spec.ts:94:1 › [P1] composed bars leave visible space to both axes ─────

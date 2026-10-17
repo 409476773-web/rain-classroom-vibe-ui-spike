@@ -1,0 +1,150 @@
+{
+  "config": {
+    "argv": [
+      "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "tests/e2e/button-group-repair.config.ts",
+      "-g",
+      "all five explicit sizes"
+    ],
+    "configFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.config.ts",
+    "rootDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/button-group-sizes-2026-10-08/browser-red/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "button-group-repair.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/button-group-sizes-2026-10-08/browser-red/report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "button-group-repair.spec.ts",
+      "file": "button-group-repair.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "all five explicit sizes align text, borders and separators without narrow overflow",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 60086,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts",
+                        "column": 38,
+                        "line": 21
+                      },
+                      "message": "Error: locator.evaluate: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('group', { name: 'mini 横向按钮组', exact: true })\u001b[22m\n\n\n  19 |         for (const kind of [\"横向\",\"文字\",\"竖向\"]) {\n  20 |           const group=page.getByRole(\"group\",{name:`${expected.size} ${kind}按钮组`,exact:true});\n> 21 |           const geometry=await group.evaluate(el=>[...el.children].map(child=>{const s=getComputedStyle(child),r=child.getBoundingClientRect();return {slot:child.getAttribute('data-slot'),height:r.height,font:s.fontSize,line:s.lineHeight,tl:s.borderTopLeftRadius,tr:s.borderTopRightRadius,opacity:s.opacity,disabled:child.hasAttribute('disabled'),childOpacity:child.querySelector('[data-slot=\"label\"]')?getComputedStyle(child.querySelector('[data-slot=\"label\"]')!).opacity:null};}));\n     |                                      ^\n  22 |           for(const item of geometry.filter(item=>item.slot!=='button-group-separator')) {\n  23 |             expect(item.height).toBe(expected.height);\n  24 |             expect(item.font).toBe(expected.font);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts:21:38"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T04:10:33.304Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/button-group-sizes-2026-10-08/browser-red/results/button-group-repair-all-fi-051be-ors-without-narrow-overflow-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/button-group-sizes-2026-10-08/browser-red/results/button-group-repair-all-fi-051be-ors-without-narrow-overflow-chromium/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "4350f84ef1656a345fca-53e197d0b1e39da3d472",
+          "file": "button-group-repair.spec.ts",
+          "line": 11,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-08T04:10:32.982Z",
+    "duration": 60568.215,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

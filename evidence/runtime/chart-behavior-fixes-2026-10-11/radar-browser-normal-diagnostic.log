@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+(node:91511) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-radar-motion.spec.ts:147:3 › ordinary radar retains stagger, intermediate geometry and six variant styles at 1440 (8.6s)
+
+
+  1) tests/e2e/chart-radar-motion.spec.ts:147:3 › ordinary radar retains stagger, intermediate geometry and six variant styles at 1440 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      156 |       await record(`${id}-${width}-normal-early`, { early, active: await host.getAttribute("data-active"), current: await geometry(host) });
+      157 |       expect(early?.reduced).toBe(false);
+    > 158 |       expect(early?.facts.allAtTarget).toBe(false);
+          |                                        ^
+      159 |       const frames = await sampleEntry(host);
+      160 |       const terminal = frames.at(-1)!;
+      161 |       expect(terminal.allAtTarget).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-radar-motion.spec.ts:158:40
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-ordinar-42d68--six-variant-styles-at-1440/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-ordinar-42d68--six-variant-styles-at-1440/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-ordinar-42d68--six-variant-styles-at-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-radar-motion.spec.ts:147:3 › ordinary radar retains stagger, intermediate geometry and six variant styles at 1440 

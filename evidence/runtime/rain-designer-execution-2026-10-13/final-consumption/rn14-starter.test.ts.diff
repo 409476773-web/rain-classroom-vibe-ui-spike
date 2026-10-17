@@ -1,0 +1,31 @@
+--- before/scripts/rn14-starter.test.ts
++++ current/scripts/rn14-starter.test.ts
+@@ -34,11 +34,28 @@
+       expect(visited).toContain("docs/ai/prototype-design.md");
+       expect(visited).toContain("docs/ai/information-design.md");
+       expect(visited).toContain("docs/ai/form-composition.md");
++      expect(visited).toContain("docs/ai/g6-components.md");
++      const g6 = JSON.parse(readFileSync(join(root, "registry/g6-assets.json"), "utf8"));
++      for (const file of [...g6.items.flatMap((item: any) => [item.manifest, ...item.files]), ...g6.shared.files]) {
++        expect(readFileSync(join(output, file)), file).toEqual(readFileSync(join(root, file)));
++        expect(lock.files[file], file).toBe(lock.sourceFiles[file]);
++      }
++      const portableG6 = readFileSync(join(output, "docs/ai/g6-components.md"), "utf8");
++      expect(portableG6).toContain("registry/g6-assets.json` 是原工作区追溯材料，本 Starter 未附带");
++      expect(portableG6).toContain("本 Starter 使用 workspace 结构");
++      expect(portableG6).toContain("sourceEvidence/examples 是原工作区追溯材料");
++      expect(existsSync(join(output, "registry/g6-assets.json"))).toBe(false);
++      expect(lock.sourceFiles["docs/ai/g6-components.md"]).toBe(createHash("sha256").update(readFileSync(join(root, "docs/ai/g6-components.md"))).digest("hex"));
++      expect(lock.sourceFiles["docs/ai/g6-components.md"]).not.toBe(lock.files["docs/ai/g6-components.md"]);
++
+       for (const guide of ["docs/ai/prototype-design.md", "docs/ai/information-design.md"]) {
+         const original = readFileSync(join(root, guide), "utf8");
+         const navigationCase = "当前导航E1–E6已在2026-10-05获得运行视觉、本地AI消费与实例隔离审阅确认，见[消费合同](navigation-v042-w6.md)及[决定范围](../../evidence/runtime/navigation-v042/g3-acceptance-review02/acceptance.json)。这是可参考的本地组合案例，候选仍未发布，完整质量门单列。";
+         let expected = guide === "docs/ai/prototype-design.md" ? original.replace(navigationCase,
+           "导航工作包的消费指南与验收材料在专用导航交付包中；当前 M1/M2 Starter 仅开放对应业务场景，以下组合经验可作为参考。") : original;
++        if (guide === "docs/ai/prototype-design.md") {
++          expected = expected.replace("使用 [G6 组件指南](./g6-components.md) 和 Registry/Manifest", "使用本包附带的 [G6 组件指南](./g6-components.md) 和对应 Manifest，按 sourcePath、随包组件 README 与 package.json/pnpm-lock.yaml 核对当前可用能力");
++        }
+         if (guide === "docs/ai/information-design.md") {
+           for (const label of ["Breadcrumb验证记录", "导航使用指南", "Tree实施规则与审核记录", "导航review-04与review-07及验收范围", "独立消费合同", "当前人工决定", "网络体验记录", "P3反馈记录", "确认台账", "逐图规则"]) {
+             const trace = new RegExp(`\\[${label}\\]\\([^)]+\\)`, "g");

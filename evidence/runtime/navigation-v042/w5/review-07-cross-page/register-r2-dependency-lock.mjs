@@ -1,0 +1,18 @@
+import fs from 'node:fs/promises';
+import crypto from 'node:crypto';
+const registryPath='registry/navigation-v042.json';
+const registry=JSON.parse(await fs.readFile(registryPath));
+const dependencyRegistry=JSON.parse(await fs.readFile('registry/tree.json'));
+const dependency=dependencyRegistry.items.find(item=>item.name==='manage-tree');
+const filesSha256=Object.fromEntries(await Promise.all(dependency.files.map(async file=>[file,crypto.createHash('sha256').update(await fs.readFile(file)).digest('hex')])));
+const closure=registry.currentSourceSnapshot.consumptionSourceClosure;
+closure.scope='9-file R2 local fixture payload plus the explicitly declared registry/tree.json#manage-tree 4-file Pattern source dependency; other public package dependencies remain declared in Registry.';
+closure.resolvedRegisteredDependencies=[{reference:'registry/tree.json#manage-tree',manifest:dependency.manifest,scope:'Existing explicitly declared Pattern dependency; these sources retain their own Registry boundary and are not duplicated in R2 item.files.',filesSha256}];
+await fs.writeFile(registryPath,JSON.stringify(registry,null,2)+'\n');
+const manifestPath='manifests/recipes/navigation-r2.yaml';
+let text=await fs.readFile(manifestPath,'utf8');
+text=text.replace('consumptionSourceClosure:\n  scope: "Local relative source/style copy payload; public package dependencies remain declared in Registry."','consumptionSourceClosure:\n  scope: "9-file local fixture payload plus the explicitly declared ManageTree 4-file Pattern Registry dependency; other public package assets retain their declared Registry boundaries."');
+const lines=['  resolvedRegisteredDependencies:','    - reference: "registry/tree.json#manage-tree"','      manifest: "'+dependency.manifest+'"','      scope: "Existing Pattern dependency, resolved through the declared Registry item; not duplicated in local fixture payload."','      sourceFiles:',...Object.entries(filesSha256).flatMap(([path,sha256])=>['        - path: '+JSON.stringify(path),'          sha256: '+JSON.stringify(sha256)])];
+text=text.replace('\nplatformNavigationFeedbackTokens:','\n'+lines.join('\n')+'\n\nplatformNavigationFeedbackTokens:');
+await fs.writeFile(manifestPath,text);
+console.log(JSON.stringify({scope:'R2 local fixture plus already-declared Pattern dependency',localPayloadFiles:closure.files.length,registeredPatternFiles:dependency.files.length,recordedAt:new Date().toISOString()}));

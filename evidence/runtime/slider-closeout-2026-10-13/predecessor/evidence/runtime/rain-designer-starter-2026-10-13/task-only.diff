@@ -1,0 +1,253 @@
+--- before/AGENTS.md
++++ after/AGENTS.md
+@@ -51,9 +51,9 @@
+ 
+ 不得为了节省上下文而跳过相关 Evidence、Benchmark、Manifest 或 ADR，也不得每次无差别加载全部资料。
+ 
+-生成或改造原型页面前，先读 [原型设计入口](docs/ai/prototype-design.md)，按主任务读取命中的组合、参考图与组件合同。用几行记录适用原因、保持关系和必要变化；交付前查看真实整页与必要状态。反馈按该入口回流到组件合同、组合指南或页面局部记录，不把单页数值升级为全库默认。独立 Starter 随附同一设计入口，避免只交付源码而丢失使用依据。
+-
+-设计或改造组件、模块、页面时，先读取[设计方法库](docs/ai/information-design.md)的方法索引，按当前问题选读视觉表现、设计手法与信息表达条目。在任务设计记录中写明方法编号、适用原因、本次调整与检查方式；没有合适条目时可以探索并标为待验证。按用户约定，每次组件或页面设计完成、确认后检查是否有可复用的新经验，按该文档格式合并或追加方法、案例和证据范围；没有新发现时不追加，中间反馈先记在任务记录中。纯讨论或只读任务遵守用户边界，先给候选经验。局部选择不自动升级为全局规范，AI 自查不替代用户确认。此流程用于当前任务中的读取与回写，不自行创建后台定时任务。
++生成、优化或评审原型界面时，使用 [Rain Designer](.agents/skills/rain-designer/SKILL.md)，并读取 [本库接入说明](docs/ai/prototype-design.md)。方法在 Skill 中维护；品牌、组件合同、真实导出与实现边界按本库说明查找。当前上下文中已读的内容可复用，不重复启动流程。
++
++先理解当前任务和信息关系，再核对和复用合适能力。历史页面不作为默认模板；只有明确要求参考/还原，或核实具体资产用法时，才读取相关示例。[原设计经验库](docs/ai/information-design.md)保留项目案例与历史来源，按需查阅，不与 Skill 并行启动方法流程。记录所读依据、选择原因与实际检查；反馈按当前授权回流到组件合同、组合指南或页面局部记录，有可复用的新经验及证据才更新，没有新发现不追加。纯讨论或只读任务不自动写入；局部选择不升级为全库规则，AI 自查不替代用户验收，不创建后台任务。独立 Starter 同样保留设计入口与消费边界。
+ 
+ 涉及图标时，先阅读 [图标选择规范](docs/ai/icon-selection.md)，再查询 `@rain-next/foundations/icons/catalog` 的身份、可用性与静态引用。按实际行为选择；唯一已确认规则直接使用。仅 `availability: available` 的资产可导入，未定义用途不等于不可用。使用 `@rain-next/ui/icons/<slug>` 单图标入口并加载已有 UI 样式；目录预览入口仅供完整图库页面使用。普通图标颜色由宿主提供，不在页面补写白色、重画 SVG 或用近似字符替代。来源与未解决项见 [图标来源记录](evidence/icons/README.md)。
+ 
+@@ -207,7 +207,7 @@
+ - **Layout**：空间关系、分区、滚动、固定区、响应式与容器规则。
+ - **Pattern**：可重复的交互或信息组织规则，如 Filter Bar、Table Toolbar、Form Section。
+ - **Block**：面向明确业务目标、具有较高设计完成度、预期可复制和改造的源码资产，可覆盖一个或多个区域。
+-- **Template**：完整页面或场景骨架，是生成页面的起点，不是不可修改的成品页面。
++- **Template**：完整页面或场景骨架，可在任务匹配时采用，不是生成页面的默认起点或不可修改的成品页面。
+ - **Local Prototype**：只服务当前原型的页面私有实现，不属于公共架构层。
+ 
+ ### 6.2 AI 资产检索顺序
+@@ -219,6 +219,7 @@
+ 规则：
+ 
+ - Foundations 是所有层共享的基础，不属于页面资产检索链。
++- 此顺序用于理解当前任务后核对可复用能力，不要求先找相似旧整页并沿用其结构。
+ - AI 应优先选择语义匹配度足够的高层资产。
+ - “层级更高”不等于“必须使用”。当 Template 或 Block 与任务语义不匹配、改造成本过高或引入无关结构时，应退回较低层重新组合。
+ - 不得在已有合适 Template、Block 或 Pattern 时，无理由直接堆砌基础 UI。
+--- before/docs/ai/prototype-design.md
++++ after/docs/ai/prototype-design.md
+@@ -2,18 +2,24 @@
+ 
+ 本页随本地 Starter 导出，供没有历史聊天的 AI 使用。它组织已有组件与设计经验，不新增公共组件或全库视觉默认。候选、示例和局部接受不能互相替代；新页面需独立审阅。
+ 
+-设计或改造组件、模块、页面时，先查[设计方法库](information-design.md)的方法索引，再选读与当前问题相关的条目：视觉表现 V01—V05、设计手法 D01—D05、信息表达 I01—I03。在设计记录中写明方法编号、为什么适合、本次如何调整与检查；没有命中时可探索新方法并标明待验证。该方法库随独立 Starter 导出，持续补充配色、样式组合、组件改造、版式、层级及功能与装饰的经验。
++## 与设计 Skill 的分工
++
++设计判断使用 [Rain Designer](../../.agents/skills/rain-designer/SKILL.md)及其[设计指南](../../.agents/skills/rain-designer/references/designer.md)。本页导航当前品牌、组件 API、Token、真实源码与原型边界，不重复维护方法正文。入口已读时直接继续，不在两个文件之间循环启动。
++
++先理解任务、信息与操作关系，再核对和复用合适能力；历史整页不作为默认答案，不强制布局、卡片、列数、配色、光学偏移或方案数量。[原设计经验库](information-design.md)保留项目案例、来源与历史方法编号，按需核实具体用法或用户明确要求的参考；不作为默认生成起点。通用方法只在 Designer 中维护，项目已确认规则不能被一般原则取消。
++
++品牌主蓝保持 `#1561F8`，消费现有 Rain Token；正式 UI 与中文单位使用 PingFang SC，关键数据的字体资格以现有 Foundations 合同为准。保持 Focus、可访问名称与来源，不分发未经许可的字体。公共 packages 与锁文件默认只读；局部设计自由不授权改共享资产、发布或写入 Figma。
+ 
+ 原工作区的当前学习报告 V2 已获视觉确认，记录为 `evidence/runtime/learning-report-a/v2-feedback/verification.md`；这是局部参考，原 `#bm-d`、公共图表和新页面不继承其验收。方法库中的原始案例路径不保证随 Starter 附带，缺失时不能声称已经查阅。
+ 
+-2026-09-19 新原型消费要求：默认交付至少两个业务范围相同、组织方式明显不同且有真实内容的布局方向，用户选择后细化；明确要求快速出图时自行比较并交一版。普通业务标题优先16/24、正文14/22，长阅读沿用 Reading；重点数据18/20按需要到22/24、数值与单位分开。常规控件优先，同组输入/选择/按钮可显式采用已有36px配方（Button 为 medium，Input/Select 为36），不因区域拥挤自动改 compact。旧共享默认不改。辅助内容先用字重、位置与留白退后，必要信息仍须可读。
++2026-09-19 原有多稿约定保留为历史来源；2026-10-13 当前用户指令改为按任务和风险决定是否比较不同方向，不固定稿数，不因已选方向重新启动选择。普通业务标题优先16/24、正文14/22，长阅读沿用 Reading；重点数据18/20按需要到22/24、数值与单位分开。常规控件优先，同组输入/选择/按钮可显式采用已有36px配方（Button 为 medium，Input/Select 为36），不因区域拥挤自动改 compact。旧共享默认不改。辅助内容先用字重、位置与留白退后，必要信息仍须可读。
+ 
+ ## 开始前的四个判断
+ 
+ 1. 使用者主要要完成什么：查找并处理多个对象、编辑一个对象、连续处理任务，还是比较数据？写一句主任务。
+ 2. 哪些信息帮助判断，哪些可以稍后查看？确定主要操作，区分整页条件、局部显示和执行命令。
+-3. 查看语义相近组合的截图、源码与状态说明。匹配时保留关系、按需求改内容；不匹配时退回 Layout 与 UI 组合，记录原因。
+-4. 开工前只记几行：参考什么、为什么适合、保留什么、改变什么。设计说明留在工作记录，不放入业务界面。
++3. 根据前两项判断查找合适的组件、Layout 或组合，核对真实用途、API 和状态。只有选用具体组合、核实行为或明确要求参考/还原时，才查看相关截图与源码；不为套用历史页改变任务。
++4. 开工前只记几行：所读依据、选择原因、保留与改变的关系。设计说明留在工作记录，不放入业务界面。
+ 
+ 优先复用已有 Variant → 页面 Local Recipe → 页面 Local Fork。共享 packages 默认只读；业务数据、过滤、草稿、校验、保存留在页面。不要为一页增加全局 Token 或公共 Props。
+ 
+@@ -68,7 +74,7 @@
+ 
+ ## 第一份完整组合：多分区表单
+ 
+-编辑单个对象，包含短字段、长说明和统一提交时，先读 [大表单组合](form-composition.md)：两种窗口的参考图、源码、状态、可调部分和退出条件。
++选用 BM-B 多分区表单组合、核对其状态行为，或用户明确要求参考该对象时，按需读 [大表单组合](form-composition.md)：两种窗口的参考图、源码、状态、可调部分和退出条件。包含短字段、长说明和统一提交，不意味着必须沿用其结构。
+ 
+ 列表可读 [BM-A 源码](../../apps/prototype/src/scenarios/bm-a/page.tsx)及[状态合同](../../apps/prototype/src/scenarios/bm-a/state-contract.md)。本便携指南尚未交付列表、工作台、报告的成熟视觉模板；不能把可运行场景当作已验证模板。原工作区的列表校准及 BM-C/D 仍有独立视觉复审范围。
+ 
+@@ -84,7 +90,7 @@
+ 
+ 每次修订提取：**触发条件 → 原问题 → 设计判断 → 使用方式 → 适用范围 → 证据与确认状态**。先更新已有指南或组件合同，避免复制同义规则。
+ 
+-按用户约定，每次组件或页面设计完成、确认后，按[设计方法库](information-design.md)的条目格式回顾本次选用的方法，中间反馈先记在任务记录中。有新增配色、样式搭配、版式、组件改造或信息表达经验时，优先补充原条目的案例、做法与适用边界；新方法新增编号并同步索引。没有新发现不追加，未经验证的探索注明状态。独立 Starter 的补充先留在该副本，回到原工作区时核对来源再合并。
++设计完成、确认后，检查是否有可复用的新经验；中间反馈先记在任务记录中，未经验证的探索注明状态。项目案例可按[原经验库](information-design.md)的来源与范围格式维护；通用方法仍由 Designer 单点维护，修改方法正文需相应授权，不另建并行方法库。没有新发现不追加。独立 Starter 的补充先留在衍生副本，回到原工作区时核对来源再合并，不覆盖原快照锁。
+ 
+ - 通用组件缺陷或已授权默认调整：回到共享组件与合同。
+ - 多个组件的关系：更新组合指南和参考图，保留场景身份。
+--- before/scripts/rn14-starter.mjs
++++ after/scripts/rn14-starter.mjs
+@@ -62,10 +62,11 @@
+   /** @type {Record<string, string>} */
+   const exportedFiles = {};
+   const entries = ["pnpm-lock.yaml", "pnpm-workspace.yaml", "tsconfig.base.json", "apps/prototype/package.json", "apps/prototype/tsconfig.json", "apps/prototype/vite.config.ts", "apps/prototype/index.html", "apps/prototype/src/styles.css", "apps/prototype/src/data-table-recipe.tsx", "apps/prototype/src/data-table-recipe.css"];
+-  entries.push("docs/ai/prototype-design.md", "docs/ai/information-design.md", "docs/ai/form-composition.md",
++  entries.push(...filesIn(join(root, ".agents/skills/rain-designer")).map(path => relative(root, path)));
++  entries.push("docs/ai/prototype-design.md", "docs/ai/information-design.md", "docs/ai/form-composition.md", "docs/ai/g4-components.md",
+     "evidence/runtime/design-knowledge/form-desktop.png", "evidence/runtime/design-knowledge/form-narrow.png",
+     "evidence/runtime/bm-b-rn10/section-surfaces-2026-09-15.md", "evidence/runtime/bm-b-rn10/header-hint-2026-09-15.md");
+-  for (const name of ["tabs", "radio-group", "checkable-tag-group", "select", "input", "search-input", "button", "dropdown-menu", "icon-button", "form-item", "dialog", "alert-dialog", "textarea"]) entries.push(`manifests/ui/${name}.yaml`);
++  for (const name of ["tabs", "radio-group", "checkable-tag-group", "select", "input", "search-input", "button", "dropdown-menu", "icon-button", "form-item", "dialog", "alert-dialog", "textarea", "typography", "item", "progress"]) entries.push(`manifests/ui/${name}.yaml`);
+   for (const name of ["foundations", "ui", "layouts"]) {
+     entries.push(`packages/${name}/package.json`, `packages/${name}/tsconfig.json`);
+     entries.push(...filesIn(join(root, `packages/${name}/src`)).map(path => relative(root, path)));
+@@ -84,17 +85,35 @@
+     if (guide?.includes("navigation-v042-w6.md") && guide.split(navigationCase).length !== 2) throw new Error("Starter navigation guidance differs from its single recorded paragraph");
+     let exported = guide?.includes(navigationCase) ? Buffer.from(guide.replace(navigationCase,
+       "导航工作包的消费指南与验收材料在专用导航交付包中；当前 M1/M2 Starter 仅开放对应业务场景，以下组合经验可作为参考。")) : bytes;
+-    if (file === "docs/ai/information-design.md") {
++    if (["docs/ai/information-design.md", "docs/ai/g4-components.md", "docs/ai/m2-trial-guide.md"].includes(file)) {
+       let text = bytes.toString("utf8");
+       // These optional case traces live in their own work packages; keep the methods readable here.
+-      for (const link of [
++      const traces = file === "docs/ai/information-design.md" ? [
+         "[Breadcrumb验证记录](../../evidence/runtime/breadcrumb/verification.md)",
+         "[导航使用指南](navigation-v042.md#g1-人工视觉验收--2026-10-01)",
+         "[Tree实施规则与审核记录](../plans/2026-09-25-tree-implementation-rules.md)",
+         "[导航review-04与review-07及验收范围](navigation-v042.md#g1-人工视觉验收--2026-10-01)",
+         "[独立消费合同](navigation-v042-w6.md)",
+         "[当前人工决定](../../evidence/runtime/navigation-v042/g3-acceptance-review02/acceptance.json)",
+-      ]) {
++        "[网络体验记录](../../evidence/runtime/chart-network-experience-2026-10-10/verification.md)",
++        "[P3反馈记录](../../evidence/runtime/chart-business-expansion/p3/feedback-2026-10-09/verification.md)",
++        "[确认台账](../../evidence/runtime/chart-experience-second-batch-2026-10-11/human-review.md)",
++        "[逐图规则](chart-legend-rules.md)",
++      ] : file === "docs/ai/g4-components.md" ? [
++        "[视觉反馈记录](../../evidence/runtime/g4-visual-refinement-2026-10-11/verification.md)",
++        "[字号与图标反馈记录](../../evidence/runtime/g4-review-sizing-2026-10-11/verification.md)",
++        "[来源锁](../../evidence/runtime/g4-components-2026-10-11/source-lock.json)",
++        "[本轮记录](../../evidence/runtime/g4-components-2026-10-11/verification.md)",
++        "[页面验收记录](../../evidence/runtime/g4-pages-acceptance-2026-10-12/verification.md)",
++      ] : [
++        "[修订证据](../../evidence/runtime/generation-quality/bm-c-feedback/review.md)",
++        "[本轮证据](../../evidence/runtime/generation-quality/bm-c-composition/review.md)",
++        "[本轮记录](../../evidence/runtime/generation-quality/composition-refinement/review.md)",
++        "[本轮证据](../../evidence/runtime/generation-quality/bm-c-primary-workflow/review.md)",
++        "[本轮证据](../../evidence/runtime/generation-quality/bm-c-directory-detail/review.md)",
++        "[本轮证据](../../evidence/runtime/generation-quality/bm-c-question-switch/review.md)",
++      ];
++      for (const link of traces) {
+         if (text.split(link).length !== 2) throw new Error(`Starter optional case trace changed: ${link}`);
+         text = text.replace(link, link.slice(1, link.indexOf("]")) + "（原工作区追溯材料；本 Starter 未附带）");
+       }
+@@ -110,7 +129,7 @@
+     .replace('import { TextbookFormScenario } from "./scenarios/bm-b/page";', 'import { TextbookFormScenario } from "./scenarios/bm-b/page";\nimport { GradingWorkbenchScenario } from "./scenarios/bm-c/page";\nimport { LearningReportScenario } from "./scenarios/bm-d/page";')
+     .replace('  const form = route === "#bm-b";', '  if (route === "#bm-c") return <DensityProvider density="default"><GradingWorkbenchScenario /></DensityProvider>;\n  if (route === "#bm-d") return <DensityProvider density="default"><LearningReportScenario /></DensityProvider>;\n  const form = route === "#bm-b";')
+     .replace('<Inline gap={16} align="center"><Button', '<Inline gap={16} align="center"><Button variant="secondary" onClick={() => { location.hash = "bm-c"; }}>作业批改</Button><Button variant="secondary" onClick={() => { location.hash = "bm-d"; }}>学习报告</Button><Button') : main;
+-  const instructions = "# Rain Next 本地原型\n\n生成或修改页面、组件前，先读 [设计方法库](docs/ai/information-design.md)，按任务匹配条目的适用条件、设计做法和边界，再读 [原型设计指南](docs/ai/prototype-design.md) 及相关组合、参考图和组件合同；记录所用方法与选择原因，按指南保存设计依据、首稿和实际检查。任务结束时，若形成可复用的新方法、验证结果或用户修正，按方法库的沉淀规则补充或更新条目；没有新结论时不追加重复记录，不把单页参数升级为通用规则。\n\n默认 Prototype Mode：共享 packages 与锁文件保持只读，优先已有 Variant、页面 Local Recipe、Local Fork。业务状态由页面持有；不扩大旧视觉接受，不自动发布、迁移、写入 Figma 或执行 Git 操作。用户的新任务指令优先。\n";
++  const instructions = "# Rain Next 本地原型\n\n生成、优化或评审原型界面时，使用 [Rain Designer](.agents/skills/rain-designer/SKILL.md)，并读取 [本库接入说明](docs/ai/prototype-design.md)。先理解当前任务和信息关系，再核对和复用合适能力；历史整页不作为默认模板，示例仅在明确要求参考/还原或核实具体用法时读取。设计方法在 Skill 中维护，品牌、组件 API、真实导出与实现边界按本库说明查找；已读内容可复用，不循环启动。记录依据、选择原因、实际检查与未验证项，局部参数不升级为全库规则，AI 自查不替代用户验收。\n\n默认 Prototype Mode：共享 packages 与锁文件保持只读，优先已有 Variant、页面 Local Recipe、Local Fork。业务状态由页面持有；不扩大旧视觉接受，不自动发布、迁移、写入 Figma 或执行 Git 操作。用户的新任务指令优先。\n";
+   sourceFiles["scripts/rn14-starter.mjs"] = sha(readFileSync(join(root, "scripts/rn14-starter.mjs")));
+   for (const [file, content] of Object.entries({ "package.json": json(manifest), "apps/prototype/src/main.tsx": entry, "AGENTS.md": instructions })) {
+     sourceFiles[file] = sha(readFileSync(join(root, file)));
+--- before/scripts/rn14-starter.test.ts
++++ after/scripts/rn14-starter.test.ts
+@@ -5,6 +5,7 @@
+ import { dirname, join, resolve } from "node:path";
+ import { fileURLToPath } from "node:url";
+ import { expect, it } from "vitest";
++import { createHash } from "node:crypto";
+ import { getValidatedTailwindB2History, hasRn14Authorization, parseYamlSubset } from "./verification-helpers.mjs";
+ 
+ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+@@ -15,7 +16,7 @@
+     for (const milestone of ["M1", "M2"]) {
+       const output = join(temporary, milestone), lock = exportStarter(output, { milestone });
+       expect(existsSync(join(output, "AGENTS.md"))).toBe(true);
+-      const pending = ["AGENTS.md"], visited = new Set<string>();
++      const pending = ["AGENTS.md", ...(milestone === "M2" ? ["docs/ai/m2-trial-guide.md"] : [])], visited = new Set<string>();
+       while (pending.length) {
+         const file = pending.pop()!;
+         if (visited.has(file)) continue;
+@@ -39,7 +40,7 @@
+         let expected = guide === "docs/ai/prototype-design.md" ? original.replace(navigationCase,
+           "导航工作包的消费指南与验收材料在专用导航交付包中；当前 M1/M2 Starter 仅开放对应业务场景，以下组合经验可作为参考。") : original;
+         if (guide === "docs/ai/information-design.md") {
+-          for (const label of ["Breadcrumb验证记录", "导航使用指南", "Tree实施规则与审核记录", "导航review-04与review-07及验收范围", "独立消费合同", "当前人工决定"]) {
++          for (const label of ["Breadcrumb验证记录", "导航使用指南", "Tree实施规则与审核记录", "导航review-04与review-07及验收范围", "独立消费合同", "当前人工决定", "网络体验记录", "P3反馈记录", "确认台账", "逐图规则"]) {
+             const trace = new RegExp(`\\[${label}\\]\\([^)]+\\)`, "g");
+             expect(original.match(trace)).toHaveLength(1);
+             expected = expected.replace(trace, `${label}（原工作区追溯材料；本 Starter 未附带）`);
+@@ -56,6 +57,44 @@
+       writeFileSync(join(output, "docs/ai/information-design.md"), "changed guidance");
+       expect(() => verifyStarter(output)).toThrow(/changed/);
+     }
++  } finally { rmSync(temporary, { recursive: true, force: true }); }
++});
++it.each(["M1", "M2"])("distributes the complete Rain Designer snapshot in %s and detects each missing or changed method file", async milestone => {
++  const { exportStarter, verifyStarter } = await import("./rn14-starter.mjs");
++  const temporary = mkdtempSync(join(tmpdir(), "rain-designer-starter-"));
++  const output = join(temporary, "starter");
++  const skill = ".agents/skills/rain-designer/";
++  const files = ["SKILL.md", "agents/openai.yaml", "references/designer.md", "references/designer-sources-v0.3.md", "references/optical-alignment.md", "references/optical-sources.md"].map(file => skill + file);
++  try {
++    const lock = exportStarter(output, { milestone });
++    for (const file of files) {
++      expect(existsSync(join(output, file)), file).toBe(true);
++      const original = readFileSync(join(root, file));
++      expect(readFileSync(join(output, file))).toEqual(original);
++      const hash = createHash("sha256").update(original).digest("hex");
++      expect(lock.sourceFiles[file]).toBe(hash);
++      expect(lock.files[file]).toBe(hash);
++      writeFileSync(join(output, file), "changed");
++      expect(() => verifyStarter(output), file).toThrow(/changed/);
++      writeFileSync(join(output, file), original);
++      rmSync(join(output, file));
++      expect(() => verifyStarter(output), file).toThrow(/inventory/);
++      writeFileSync(join(output, file), original);
++    }
++    const instructions = readFileSync(join(output, "AGENTS.md"), "utf8");
++    expect(instructions).toContain(`[Rain Designer](${skill}SKILL.md)`);
++    expect(instructions).toContain("先理解当前任务");
++    expect(instructions).toContain("共享 packages 与锁文件保持只读");
++    expect(instructions).not.toContain("先读 [设计方法库]");
++    expect(readFileSync(join(output, skill + "SKILL.md"), "utf8")).toContain("0.2.1");
++    expect(readFileSync(join(output, skill + "references/designer.md"), "utf8")).toContain("v0.5");
++    for (const file of ["AGENTS.md", "docs/ai/prototype-design.md", "docs/ai/g4-components.md", ...files]) {
++      expect(readFileSync(join(output, file), "utf8"), file).not.toContain(root);
++    }
++    expect(readFileSync(join(output, "docs/ai/g4-components.md"), "utf8")).toContain("原工作区追溯材料；本 Starter 未附带");
++    expect(lock.sourceFiles["docs/ai/g4-components.md"]).not.toBe(lock.files["docs/ai/g4-components.md"]);
++    expect(verifyStarter(output)).toBe(lock.snapshotId);
++    expect(lock.snapshotId).not.toBe("rn14-90fc74205a764fb1");
+   } finally { rmSync(temporary, { recursive: true, force: true }); }
+ });
+ it("exports M2 only when explicitly requested, while the default starter remains A/B", async () => {
+@@ -107,6 +146,8 @@
+     (fs as any).symlinkSync(join(root, tokens), join(output, tokens));
+     expect(() => verifyStarter(output)).toThrow(/Symbolic link|Invalid path/);
+   } finally { rmSync(temporary, { recursive: true, force: true }); }
++});
++it("preserves the existing RN14 authorization and frozen B2 history", () => {
+   const phase = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) as any;
+   expect(hasRn14Authorization(phase)).toBe(true);
+   expect(getValidatedTailwindB2History(phase)).toEqual(phase.phaseHistory.tailwindB2);
+--- before/status/current-phase.yaml
++++ after/status/current-phase.yaml
+@@ -2553,6 +2553,23 @@
+       - "business-migration"
+       - "local-or-remote-git"
+ localExperiments:
++  rainDesignerStarter:
++    authorization: "authorized"
++    authorizedAt: "2026-10-13"
++    decisionSource: "explicit-user-rain-designer-s3-existing-card-v2"
++    userStatement: "在现有 card-v2 实施 S3（推荐）"
++    scope: "repository-skill-entry-merge-existing-rn14-m1-m2-export-and-one-isolated-consumer-trial"
++    assetIdentity: "local-experiment"
++    plan: "../docs/plans/2026-10-13-rain-designer-starter.md"
++    evidence: "../docs/ai/rain-designer-integration.md"
++    implementation: "completed"
++    automatedVerification: "scoped-passed-with-existing-frozen-b2-history-failure"
++    nativeConsumerVerification: "m1-m2-discovered-and-explicitly-read"
++    m1Snapshot: "rn14-8852f7741e235e00"
++    m2Snapshot: "rn14-88fd71655d996afd"
++    humanGate: "awaiting_human"
++    publication: "not-authorized"
++    businessMigration: "not-authorized"
+   dropdownBatchOne:
+     authorization: "authorized"
+     authorizedAt: "2026-09-09"

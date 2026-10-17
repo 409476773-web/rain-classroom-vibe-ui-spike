@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+················x
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/attachment-workflow/attachment-list.test.tsx > keeps the surrounding dark theme when opening a preview
+Error: expect(element).toHaveAttribute("data-rain-theme", "dark") // element.getAttribute("data-rain-theme") === "dark"
+
+Expected the element to have attribute:
+  data-rain-theme="dark"
+Received:
+  data-rain-theme="light"
+ ❯ packages/ui/src/attachment-workflow/attachment-list.test.tsx:216:38
+    214|   render(<div data-rain-theme="dark"><AttachmentList items={[photo]} /…
+    215|   await user.click(screen.getByRole("button", { name: "预览 " + photo.na…
+    216|   expect(screen.getByRole("dialog")).toHaveAttribute("data-rain-theme"…
+       |                                      ^
+    217| });
+    218|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 16 passed (17)
+   Start at  00:32:09
+   Duration  2.31s (transform 262ms, setup 147ms, import 479ms, tests 995ms, environment 582ms)
+

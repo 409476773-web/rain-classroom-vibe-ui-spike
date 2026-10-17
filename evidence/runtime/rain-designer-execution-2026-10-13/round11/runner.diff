@@ -1,0 +1,139 @@
+--- round10/run-coverage-chunked.py
++++ round11/run-gaps.py
+@@ -1,6 +1,6 @@
+-"""Local experiment: incremental receipts with one coverage review in an ephemeral read-only thread.
+-
+-Usage: python3 -B run-coverage-chunked.py CONTEXT OUT PROMPT IMAGE IMAGE
++"""Local experiment: one evidence gap then one observation in an ephemeral read-only thread.
++
++Usage: python3 -B run-gaps.py CONTEXT OUT PROMPT IMAGE IMAGE
+ No model/effort override; no reasoning events or command-output bodies are exported.
+ """
+ import hashlib
+@@ -71,25 +71,22 @@
+ 
+ 
+ 
+-def validate_coverage(value, receipts):
+-    if not isinstance(value, dict) or set(value) != {'coverage', 'decision', 'summary'}:
+-        raise ValueError('coverage response requires coverage, decision and summary')
+-    if value['decision'] not in ('补查', '结束') or not isinstance(value['summary'], str) or not value['summary'].strip():
+-        raise ValueError('invalid coverage decision or summary')
+-    if not isinstance(value['coverage'], list) or not value['coverage']:
+-        raise ValueError('coverage must be a nonempty list')
++def validate_gap(value, receipts):
++    if not isinstance(value, dict) or type(value.get('done')) is not bool:
++        raise ValueError('gap must have boolean done')
++    if value['done']:
++        return validate_receipt(value)
++    fields = {'done', 'objects', 'dimension', 'receipts', 'gap', 'checkable', 'limit'}
++    if set(value) != fields or any(not isinstance(value[k], str) or not value[k].strip()
++                                  for k in ('objects', 'dimension', 'gap', 'limit')):
++        raise ValueError('one gap requires all text fields')
++    if type(value['checkable']) is not bool or not isinstance(value['receipts'], list):
++        raise ValueError('gap requires boolean checkable and receipt list')
+     known = {item['id'] for item in receipts}
+-    for item in value['coverage']:
+-        if not isinstance(item, dict) or set(item) != {'objects', 'dimension', 'status', 'receipts', 'note'}:
+-            raise ValueError('invalid coverage row fields')
+-        if any(not isinstance(item[key], str) or not item[key].strip() for key in ('objects', 'dimension', 'note')):
+-            raise ValueError('empty coverage description')
+-        if item['status'] not in ('已查', '未查', '证据不足') or not isinstance(item['receipts'], list):
+-            raise ValueError('invalid coverage status or receipt references')
+-        if any(not isinstance(rid, str) or rid not in known for rid in item['receipts']):
+-            raise ValueError('coverage references an unknown receipt')
+-        if len(set(item['receipts'])) != len(item['receipts']) or (item['status'] == '已查' and not item['receipts']):
+-            raise ValueError('duplicate or missing evidence references')
++    if any(not isinstance(rid, str) or rid not in known for rid in value['receipts']):
++        raise ValueError('gap references unknown receipt')
++    if len(set(value['receipts'])) != len(value['receipts']):
++        raise ValueError('gap references duplicate receipts')
+     return value
+ 
+ 
+@@ -296,32 +293,14 @@
+         next_prompt = prompt_path.with_name('next-prompt.txt').read_text()
+         summary['receipts'] = []
+         index = 1
+-        stage_prefix = 'receipt'
+-        summary['coverageReviewPerformed'] = False
+         while can_start_stage(time.monotonic() - started):
+-            review = run_stage(f'{stage_prefix}-{index:02d}', [{'type': 'text', 'text': next_prompt},
++            review = run_stage(f'receipt-{index:02d}', [{'type': 'text', 'text': next_prompt},
+                 *image_inputs(images)], 10 + index)
+             receipt = validate_receipt(json.loads(review))
+             if receipt['done']:
+-                if not summary['coverageReviewPerformed']:
+-                    summary['preCoverage'] = {'receipts': list(summary['receipts']), 'finalFindings': receipt['summary'],
+-                        'elapsedSeconds': round(time.monotonic() - started, 2)}
+-                    save_json(output / 'before-coverage.json', summary['preCoverage'])
+-                    if not can_start_stage(time.monotonic() - started):
+-                        summary['status'] = 'budget-exhausted-before-coverage'
+-                        break
+-                    coverage_prompt = prompt_path.with_name('coverage-prompt.txt').read_text()
+-                    audit = run_stage('coverage-audit', [{'type': 'text', 'text': coverage_prompt
+-                        + json.dumps(summary['receipts'], ensure_ascii=False)}, *image_inputs(images)], 6000)
+-                    coverage = validate_coverage(json.loads(audit), summary['receipts'])
+-                    save_json(output / 'coverage.json', coverage)
+-                    summary.update(coverageReviewPerformed=True, coverageDecision=coverage['decision'])
+-                    if coverage['decision'] == '补查':
+-                        stage_prefix = 'supplement'
+-                        next_prompt = prompt_path.with_name('supplement-prompt.txt').read_text() + '\n' + next_prompt
+-                        continue
+-                    receipt['summary'] = coverage['summary']
+-                summary.update(status='completed', finalFindings=receipt['summary'])
++                summary['preGap'] = {'receipts': list(summary['receipts']), 'finalFindings': receipt['summary'],
++                    'elapsedSeconds': round(time.monotonic() - started, 2)}
++                save_json(output / 'before-gaps.json', summary['preGap'])
+                 break
+             receipt['id'] = f'R{index:02d}'
+             summary['receipts'].append(receipt)
+@@ -333,7 +312,47 @@
+             print(json.dumps({'receiptDelivered': index, 'totalSeconds': round(time.monotonic() - started, 2)}), flush=True)
+             index += 1
+         else:
+-            summary['status'] = 'budget-exhausted'
++            summary['status'] = 'budget-exhausted-in-initial-review'
++        summary['gaps'] = []
++        summary['gapAuditStarted'] = False
++        if 'preGap' in summary:
++            gap_prompt = prompt_path.with_name('gap-prompt.txt').read_text()
++            observation_prompt = prompt_path.with_name('observe-gap-prompt.txt').read_text()
++            gap_index = 1
++            while can_start_stage(time.monotonic() - started):
++                summary['gapAuditStarted'] = True
++                ledger = {'receipts': summary['receipts'], 'handledGaps': summary['gaps']}
++                review = run_stage(f'gap-{gap_index:02d}', [{'type': 'text', 'text': gap_prompt
++                    + json.dumps(ledger, ensure_ascii=False)}, *image_inputs(images)], 1000 + 2 * gap_index)
++                gap = validate_gap(json.loads(review), summary['receipts'])
++                if gap['done']:
++                    summary.update(status='completed', finalFindings=gap['summary'])
++                    break
++                gap['id'] = f'Q{gap_index:02d}'
++                summary['gaps'].append(gap)
++                save_json(output / 'gaps.json', summary['gaps'])
++                print(json.dumps({'gapDelivered': gap_index, 'checkable': gap['checkable'],
++                                  'totalSeconds': round(time.monotonic() - started, 2)}), flush=True)
++                if gap['checkable']:
++                    if not can_start_stage(time.monotonic() - started):
++                        summary['status'] = 'budget-exhausted-before-gap-observation'
++                        break
++                    review = run_stage(f'gap-observation-{gap_index:02d}', [{'type': 'text', 'text': observation_prompt
++                        + json.dumps(gap, ensure_ascii=False)}, *image_inputs(images)], 1001 + 2 * gap_index)
++                    receipt = validate_receipt(json.loads(review))
++                    if receipt['done']:
++                        raise ValueError('gap observation must be a concrete receipt, not completion')
++                    receipt['id'] = f'R{index:02d}'
++                    summary['receipts'].append(receipt)
++                    gap['observationReceipt'] = receipt['id']
++                    save_json(output / 'receipts.json', summary['receipts'])
++                    save_json(output / 'gaps.json', summary['gaps'])
++                    print(json.dumps({'supplementDelivered': receipt['id'], 'gap': gap['id'],
++                                      'totalSeconds': round(time.monotonic() - started, 2)}), flush=True)
++                    index += 1
++                gap_index += 1
++            else:
++                summary['status'] = 'budget-exhausted-in-gap-review'
+         send('thread/unsubscribe', {'threadId': root_id}, 9999)
+     except (Exception, KeyboardInterrupt) as error:
+         summary.update(status='runner-error', error=str(error))

@@ -1,0 +1,259 @@
+{
+  "schemaVersion": "1.0",
+  "reviewedAt": "2026-10-01T14:08:39.310390+00:00",
+  "reviewer": "independent-subagent-w4-audit",
+  "status": "changes-requested",
+  "scope": {
+    "independent": [
+      "packages/layouts/src/workspace.tsx",
+      "packages/layouts/src/workspace.css",
+      "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+      "apps/playground/src/recipes/navigation-v042/workspace-states.css"
+    ],
+    "excludedAuthoredByReviewer": [
+      "packages/layouts/src/workspace-state.ts",
+      "packages/layouts/src/workspace-state.test.ts",
+      "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+      "apps/playground/src/recipes/navigation-v042/r4-r6.css"
+    ],
+    "sourceFrozen": true,
+    "implementationEdits": false,
+    "coverage": "Read-only React adapter and S1-S6 composition review; targeted focus/session/hover/Escape/splitter/storage ownership inspection plus existing focused tests. This is not full accessibility, all N01-N38, human visual approval, or an independent review of the pure core/R4-R6."
+  },
+  "sourceHashes": {
+    "packages/layouts/src/workspace.tsx": "e7ad383c30209342ec62ccbdab85f2b098e895158afbe275f8043b5325cef5ca",
+    "packages/layouts/src/workspace.css": "f690ced7af96312ab00baf054591bf5ec5b090276e9d01da91672f9237c3d73b",
+    "apps/playground/src/recipes/navigation-v042/workspace-states.tsx": "3343b0ca8d07d57979308761eb1138a23c1284f61bcac9c783ae4426b0254451",
+    "apps/playground/src/recipes/navigation-v042/workspace-states.css": "96939634dd03ec972af46d920845fbb5a81365fe24dc11341f5c6aaa8d981d03"
+  },
+  "verification": {
+    "command": "pnpm exec vitest run packages/layouts/src/workspace.test.tsx apps/playground/src/recipes/navigation-v042/workspace-states.test.tsx",
+    "result": "pass",
+    "testFiles": 2,
+    "testsPassed": 20,
+    "browser": "Actual Chrome candidate at http://127.0.0.1:5198/navigation-v042-w3-consumer.html, selected document tools S5 through native UI; readonly DOM measurements after actions.",
+    "additionalInMemoryTest": {
+      "case": "Disable hover while a 240ms open timer is pending",
+      "result": "reproduced",
+      "output": {
+        "hoverPreviewAfterRerender": false,
+        "panelTemporary": "true",
+        "panelHidden": false
+      },
+      "filesystemWrites": false,
+      "browserClaim": false
+    }
+  },
+  "findings": [
+    {
+      "id": "ADAPTER-01",
+      "priority": "P2",
+      "file": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+      "line": 92,
+      "title": "Selected Ribbon tab cannot open temporary tools",
+      "reproduction": [
+        "Open document tools S5",
+        "Click 收起工具区 to enter tabs-only mode",
+        "Click the already-selected 开始 tab"
+      ],
+      "actual": {
+        "mode": "tabs",
+        "temporary": false,
+        "toolsVisible": false
+      },
+      "expected": "Any visible tool tab activation including the currently selected group opens temporary tools, retaining the tabs owner height.",
+      "cause": "OPEN_RIBBON_TEMP is dispatched only from onValueChange; selecting the same tab does not change its value.",
+      "recommendation": "Handle activation of the current tab in the local Ribbon intent entry, retaining the existing Tabs semantics and defaults.",
+      "gateImpact": "Fix targeted S5 behavior before accepting this batch; no change to other workspaces required."
+    },
+    {
+      "id": "ADAPTER-02",
+      "priority": "P2",
+      "file": "apps/playground/src/recipes/navigation-v042/workspace-states.css",
+      "line": 27,
+      "title": "S5 focus retains the document header",
+      "reproduction": [
+        "Open document tools S5",
+        "Click 专注内容"
+      ],
+      "actual": {
+        "workspaceFocused": true,
+        "headerDisplay": "flex",
+        "headerHeight": 56
+      },
+      "expected": "Approved reference focus mode hides .workspace-head; the stable external identity/recovery bar remains.",
+      "referenceEvidence": "approved-v0.4.2.html selector .prototype[data-vr-focus=true] .workspace-head {display:none!important}; S5 source uses that header class.",
+      "recommendation": "Add an S5-local focused header rule; retain mounted document data and original layout restore.",
+      "gateImpact": "Fix and recapture affected S5 focus state before visual acceptance."
+    },
+    {
+      "id": "ADAPTER-03",
+      "priority": "P2",
+      "file": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+      "line": 65,
+      "title": "S4 grading recovery bar displays the interaction identity",
+      "reproduction": [
+        "Render WorkspaceStateSample scene=S4 variant=grading"
+      ],
+      "actual": "The toolbar always uses sceneTitles[S4] 辩论赛：大学校园是否应该免费开放 and sceneSubtitles[S4] 课堂互动 / 小组讨论, independent of grading variant and current business object.",
+      "expected": "The external workspace identity matches the grading scene and selected student/question.",
+      "referenceEvidence": "evidence/runtime/navigation-v042/w4/reference/2026-10-01T11-55-02-325Z/S4-grading-1440-pass1.fragment.html: A 卷 · 第一题 · 概念辨析 · 李梦 / 按题批改 · 仅本地演示草稿.",
+      "recommendation": "Expose or reuse the recipe-owned live business identity in the S toolbar instead of scene constants; keep recovery controls on the stable external owner.",
+      "gateImpact": "Incorrect visible current-workspace identity should be corrected before S4 grading acceptance."
+    },
+    {
+      "id": "ADAPTER-04",
+      "priority": "P2",
+      "file": "packages/layouts/src/workspace.tsx",
+      "line": 112,
+      "title": "Disabling hover leaves a scheduled open timer active",
+      "reproduction": [
+        "Mount WorkspaceLayout hoverPreview=true with a hidden directory region and intent=peek restore trigger",
+        "Fire pointerEnter on its trigger, scheduling the 240ms hover-open timeout",
+        "Rerender the same workspace with hoverPreview=false before the delay",
+        "Wait 275ms"
+      ],
+      "actual": {
+        "hoverPreview": false,
+        "panelTemporary": "true",
+        "panelHidden": false
+      },
+      "expected": "Once hover enhancement is disabled, a previously scheduled hover-open intent cannot open a panel.",
+      "cause": "The hoverPreview dependency only changes the handler callback; no effect clears the scheduled timer and its callback does not recheck the current flag.",
+      "verification": "Read-only in-memory Rolldown bundle with React/testing-library/jsdom, no implementation/test files written; observed exact actual payload above.",
+      "recommendation": "Cancel timers when hoverPreview becomes false, or guard delayed callbacks against the current flag; add a prop-toggle timer regression.",
+      "gateImpact": "Correct this adapter lifecycle edge before accepting optional hover behavior."
+    }
+  ],
+  "observations": [
+    "No additional P1 was found within this scoped adapter review.",
+    "Existing tests cover focus layout/session restoration, one-layer Escape for a child popup, hover timer cleanup across workspace keys/StrictMode, outside first-click/focus behavior, mounted region draft+scroll retention, end-side splitter physical keyboard direction, denied storage, effective width derivation, and S5 per-instance drafts/restore IDs.",
+    "Storage format validation and reducers remain outside independent scope because the reviewer authored the pure core."
+  ],
+  "findingsFrozen": true,
+  "closure": {
+    "closedAt": "2026-10-01T14:24:59.154521+00:00",
+    "status": "all-four-scoped-findings-resolved",
+    "implementationEditsByReviewer": false,
+    "scope": "Read-only closure of ADAPTER-01..04. Actual S5/S3/S4 toolbar and document-header browser behavior; WorkspaceLayout hover disable lifecycle via in-memory React test. This does not independently review the reviewer-authored pure core or R4-R6 business implementation, full accessibility, N01-N38, or a Human Gate.",
+    "reviewedSourceHashes": {
+      "packages/layouts/src/workspace.tsx": "1d8677dc534adf4a369ae3c4d380049f0e48a228d4660c3e6bdb35e37da86805",
+      "packages/layouts/src/workspace.css": "f690ced7af96312ab00baf054591bf5ec5b090276e9d01da91672f9237c3d73b",
+      "apps/playground/src/recipes/navigation-v042/workspace-states.tsx": "9f8d892077e52e73594a7777408db2df92c24312f45dc935f9c6aa105a6cb423",
+      "apps/playground/src/recipes/navigation-v042/workspace-states.css": "e71d9c83e7a4c72bb213c44471ea8824e0b76a9d7627c55cb03f661fcd88ef15"
+    },
+    "sourceHashesAfterVerification": {
+      "packages/layouts/src/workspace.tsx": "1d8677dc534adf4a369ae3c4d380049f0e48a228d4660c3e6bdb35e37da86805",
+      "packages/layouts/src/workspace.css": "f690ced7af96312ab00baf054591bf5ec5b090276e9d01da91672f9237c3d73b",
+      "apps/playground/src/recipes/navigation-v042/workspace-states.tsx": "9f8d892077e52e73594a7777408db2df92c24312f45dc935f9c6aa105a6cb423",
+      "apps/playground/src/recipes/navigation-v042/workspace-states.css": "e71d9c83e7a4c72bb213c44471ea8824e0b76a9d7627c55cb03f661fcd88ef15"
+    },
+    "runtimeSourceUnchangedDuringClosure": true,
+    "sourceLastWrittenAt": {
+      "packages/layouts/src/workspace.tsx": "2026-10-01T14:15:43.017588+00:00",
+      "packages/layouts/src/workspace.css": "2026-10-01T11:41:51.834215+00:00",
+      "apps/playground/src/recipes/navigation-v042/workspace-states.tsx": "2026-10-01T14:15:36.749759+00:00",
+      "apps/playground/src/recipes/navigation-v042/workspace-states.css": "2026-10-01T14:15:36.769540+00:00"
+    },
+    "unitVerification": {
+      "command": "pnpm exec vitest run packages/layouts/src/workspace.test.tsx apps/playground/src/recipes/navigation-v042/workspace-states.test.tsx",
+      "latestResult": "pass",
+      "testFiles": 2,
+      "testsPassed": 24,
+      "localStartedAt": "2026-10-01T22:21:41+08:00",
+      "durationSeconds": 2.4,
+      "earlierFixtureFailure": {
+        "log": "evidence/runtime/navigation-v042/w5/independent-adapter-closure-first-unit.log",
+        "actualResult": "24 passed, 1 failed; focus CSS mirror test expected flex but jsdom had block because ordinary CSS was not injected.",
+        "resolution": "Author removed only the newly added CSS mirror assertion; the focus visual behavior was verified through the browser at the proper rendering layer. No runtime rollback or change was performed for this test failure."
+      }
+    },
+    "browserVerification": {
+      "browser": "Actual Chrome via CUA native/UI locators",
+      "url": "http://127.0.0.1:5198/?sample=S5#navigation-v042",
+      "boardWidth": 1440,
+      "actions": "Live source-frozen candidate, selected S5 then S4 grading and S3 through existing UI. Only mock local draft entered.",
+      "results": [
+        {
+          "finding": "ADAPTER-01",
+          "status": "resolved",
+          "evidence": {
+            "before": {
+              "mode": "tabs",
+              "temporary": false,
+              "ownerHeight": 41,
+              "editorY": 409.1953125
+            },
+            "afterCurrentTabClick": {
+              "mode": "tabs",
+              "temporary": true,
+              "currentSelected": true,
+              "ownerHeight": 41,
+              "editorY": 409.1953125
+            },
+            "afterCurrentTabEnter": {
+              "mode": "tabs",
+              "temporary": true,
+              "ownerHeight": 41
+            }
+          }
+        },
+        {
+          "finding": "ADAPTER-02",
+          "status": "resolved",
+          "evidence": {
+            "focused": {
+              "headerDisplay": "none",
+              "headerHeight": 0,
+              "draft": "独立复核未提交目标",
+              "ribbonTemporary": false
+            },
+            "restored": {
+              "headerDisplay": "flex",
+              "headerHeight": 56,
+              "draft": "独立复核未提交目标",
+              "ribbonMode": "tabs"
+            }
+          }
+        },
+        {
+          "finding": "ADAPTER-03",
+          "status": "resolved",
+          "evidence": {
+            "S4GradingInitial": {
+              "title": "A 卷 · 第一题 · 概念辨析 · 李梦",
+              "subtitle": "按题批改 · 仅本地演示草稿"
+            },
+            "S4GradingAfterStudent": {
+              "title": "A 卷 · 第一题 · 概念辨析 · 欧阳小明",
+              "subtitle": "按题批改 · 仅本地演示草稿"
+            },
+            "S4GradingAfterQuestion": {
+              "title": "A 卷 · 第二题 · 案例分析 · 欧阳小明",
+              "subtitle": "按题批改 · 仅本地演示草稿"
+            },
+            "S3Initial": "学习反馈 / 反馈表单",
+            "S3AfterView": "学习反馈 / 状态分组",
+            "S3AfterPage": "课程任务 / 表格"
+          }
+        }
+      ]
+    },
+    "inMemoryVerification": {
+      "finding": "ADAPTER-04",
+      "status": "resolved",
+      "method": "Bundled existing adapter into memory via installed Rolldown, then React/testing-library/jsdom with the original hover-off reproduction; no files or runtime source changed.",
+      "afterDisableAnd275ms": {
+        "hoverPreview": false,
+        "panelTemporary": "false",
+        "panelHidden": true
+      },
+      "afterExplicitClick": {
+        "panelTemporary": "true",
+        "panelHidden": false
+      }
+    },
+    "remainingScopedFindings": [],
+    "approval": "not-a-human-gate"
+  }
+}

@@ -15,10 +15,12 @@ export type { TabsSize } from "@rain-next/foundations";
 export type TabsValue = string | number;
 export type TabsAppearance = "line" | "contained" | "soft";
 export type TabsPanelMount = "lazy-retain" | "eager-retain" | "unmount";
-export type TabsPart = "root" | "nav" | "list" | "tab" | "icon" | "label" | "count" | "indicator" | "extra-start" | "extra-end" | "more" | "panel";
+export type TabsPart = "root" | "nav" | "list" | "tab" | "icon" | "label" | "description" | "count" | "indicator" | "extra-start" | "extra-end" | "more" | "panel";
 export type TabsLocalRecipe = RainLocalRecipe<TabsPart, "ui-tabs">;
 export interface TabsItem {
   readonly value: TabsValue; readonly label: string; readonly leadingIcon?: ReactNode;
+  /** Navigation identity metadata; shown only by the explicit browser preset. */
+  readonly description?: string;
   readonly count?: number | string | null; readonly countAccessibleLabel?: string;
   readonly disabled?: boolean; readonly disabledReason?: string;
   readonly content: ReactNode; readonly panelMount?: TabsPanelMount;
@@ -41,6 +43,7 @@ type TabsCommonProps = {
   items: readonly TabsItem[]; size?: TabsSize; activationMode?: "manual" | "automatic"; panelMount?: TabsPanelMount;
   extraStart?: ReactNode; extraEnd?: ReactNode; id?: string; "aria-describedby"?: string;
   className?: string; localRecipe?: TabsLocalRecipe; widthMode?: "natural" | "equal";
+  visualPreset?: "navigation-line" | "navigation-browser";
 };
 export type TabsProps = TabsValueProps & TabsDirectionProps & TabsAppearanceProps & TabsNameProps & TabsCommonProps;
 export type TabsRootProps = TabsValueProps & TabsDirectionProps & TabsAppearanceProps & TabsNameProps & Omit<TabsCommonProps, "extraStart" | "extraEnd"> & { children: ReactNode };
@@ -54,6 +57,7 @@ function validateTabs(props: TabsRootProps) {
   for (const item of props.items) {
     if (!validValue(item.value) || values.has(item.value)) throw new Error("Tabs requires unique finite number or nonempty string values");
     if (typeof item.label !== "string" || !item.label.trim()) throw new Error("Tabs requires a nonempty label");
+    if (item.description !== undefined && typeof item.description !== "string") throw new Error("Tabs description must be plain text");
     if (item.panelMount !== undefined && !policies.includes(item.panelMount)) throw new Error("Invalid Tabs item panelMount");
     values.add(item.value);
   }
@@ -62,6 +66,7 @@ function validateTabs(props: TabsRootProps) {
   if (props.value !== undefined && typeof props.onValueChange !== "function") throw new Error("Controlled Tabs requires onValueChange");
   if (Boolean(props["aria-label"]?.trim()) === Boolean(props["aria-labelledby"]?.trim())) throw new Error("Tabs requires exactly one accessible name");
   const vertical = props.position === "start" || props.position === "end";
+  if (props.visualPreset !== undefined && (!["navigation-line", "navigation-browser"].includes(props.visualPreset) || (props.position !== undefined && props.position !== "top"))) throw new Error("Navigation presets require top-position Tabs");
   if (props.position !== undefined && !["top", "bottom", "start", "end"].includes(props.position)) throw new Error("Invalid Tabs position");
   if (props.appearance !== undefined && !["line", "contained", "soft"].includes(props.appearance)) throw new Error("Invalid Tabs appearance");
   if ((vertical && ((props.overflow as string) === "more" || props.align !== undefined)) || (!vertical && props.itemAlign !== undefined)) throw new Error("Invalid Tabs direction combination");
@@ -159,21 +164,22 @@ function TabsRoot(props: TabsRootProps) {
   return <TabsContext.Provider value={model}><PopupProvider><BaseTabs.Root ref={rootRef} id={props.id} value={value} orientation={vertical ? "vertical" : "horizontal"}
     onValueChange={next => { if (typeof next === "number" || typeof next === "string") model.request(next, "tab"); }}
     className={rainCn("rain-tabs", props.className, part("root"))} style={style} data-rain-id="ui-tabs" data-slot="root" data-variant={appearance} data-density={density} data-local-recipe={props.localRecipe?.id} data-appearance={appearance} data-size={size}
-    data-position={position} data-label-lines={labelLines} data-width-mode={props.widthMode ?? "natural"} data-align={props.align ?? "start"} data-item-align={itemAlign} data-indicator-size={props.indicatorSize ?? "content"}>
+    data-position={position} data-label-lines={labelLines} data-width-mode={props.widthMode ?? "natural"} data-align={props.align ?? "start"} data-item-align={itemAlign} data-indicator-size={props.indicatorSize ?? "content"} data-visual-preset={props.visualPreset}>
     {props.children}
   </BaseTabs.Root></PopupProvider></TabsContext.Provider>;
 }
 
-function TabParts({ item, selected, measure = false, labelRef }: { item: TabsItem; selected: boolean; measure?: boolean; labelRef?: React.RefObject<HTMLSpanElement | null> }) {
-  const { appearance, part, iconColumn } = useTabs();
+function TabParts({ item, selected, measure = false, labelRef, descriptionId }: { item: TabsItem; selected: boolean; measure?: boolean; labelRef?: React.RefObject<HTMLSpanElement | null>; descriptionId?: string }) {
+  const { appearance, part, iconColumn, props } = useTabs();
   const state = item.disabled ? selected ? "selectedDisabled" : "disabled" : selected ? "selected" : "normal";
   const paints = tabsPaints[appearance][state], count = formatTabsCount(item);
+  const label = <span ref={props.visualPreset ? undefined : labelRef} data-part="label" data-slot="label" data-label={props.visualPreset ? item.label : undefined} className={rainCn("rain-tabs__label", paints.label, part("label"))}>{props.visualPreset ? <span ref={labelRef}>{item.label}</span> : item.label}</span>;
   return <>
     <span data-part="paint" data-slot="paint" className={rainCn("rain-tabs__paint", paints.paint, paints.border)} aria-hidden="true" />
     <span data-part="content" data-slot="content" className="rain-tabs__item-content">
       {(item.leadingIcon != null || iconColumn) && <span aria-hidden="true" data-part="icon" data-slot="icon" data-placeholder={item.leadingIcon == null || undefined} className={rainCn("rain-tabs__icon", paints.icon, part("icon"))}>{measure ? null : item.leadingIcon}</span>}
-      <span ref={labelRef} data-part="label" data-slot="label" className={rainCn("rain-tabs__label", paints.label, part("label"))}>{item.label}</span>
-      {count && <span data-part="count" data-slot="count" aria-hidden="true" className={rainCn("rain-tabs__count", paints.count, part("count"))}>{count.display}</span>}
+      {props.visualPreset === "navigation-browser" && item.description ? <span className="rain-navigation__identity"><span id={descriptionId} data-part="description" className={rainCn("rain-navigation__description", part("description"))}>{item.description}</span>{label}</span> : label}
+      {count && <span data-part="count" data-slot="count" aria-hidden="true" className={rainCn("rain-tabs__count", paints.count, part("count"))}>{props.visualPreset ? item.count : count.display}</span>}
       {appearance === "line" && selected && <span data-part="indicator" data-slot="indicator" aria-hidden="true" className={rainCn("rain-tabs__indicator", tabsPaints.indicator, part("indicator"))} />}
     </span>
   </>;
@@ -182,13 +188,14 @@ function TabParts({ item, selected, measure = false, labelRef }: { item: TabsIte
 function TabsTab({ item, hidden = false, width }: { item: TabsItem; hidden?: boolean; width?: number }) {
   const model = useTabs(), id = useId(), labelRef = useRef<HTMLSpanElement>(null), count = formatTabsCount(item);
   const selected = model.value === item.value;
-  return <TabsFullLabel label={`${item.label}${count ? ` ${count.display}` : ""}`} labelRef={labelRef} hidden={hidden} disabled={Boolean(item.disabled)}>
+  const descriptionId = model.props.visualPreset === "navigation-browser" && item.description ? `${id}-description` : undefined;
+  return <TabsFullLabel label={`${item.label}${count ? ` ${model.props.visualPreset ? item.count : count.display}` : ""}`} labelRef={labelRef} hidden={hidden} disabled={Boolean(item.disabled)}>
     <BaseTabs.Tab value={item.value} disabled={item.disabled} hidden={hidden} aria-label={item.label}
-      aria-describedby={count ? id : undefined} data-focus="item" data-slot="tab" data-position={model.position} data-item-align={model.itemAlign} data-indicator-size={model.props.indicatorSize ?? "content"} data-part="tab" data-selected={selected} data-disabled={Boolean(item.disabled)}
-      className={rainCn("rain-tabs__tab group/tabs", model.heightClass, model.part("tab"))} style={width ? { width } : undefined}
+      aria-describedby={[count ? id : undefined, descriptionId].filter(Boolean).join(" ") || undefined} data-focus="item" data-slot="tab" data-position={model.position} data-item-align={model.itemAlign} data-indicator-size={model.props.indicatorSize ?? "content"} data-part="tab" data-selected={selected} data-disabled={Boolean(item.disabled)} data-identity={model.props.visualPreset === "navigation-browser" && Boolean(item.description) || undefined}
+      className={rainCn("rain-tabs__tab group/tabs", model.heightClass, model.part("tab"))} style={width && model.props.visualPreset !== "navigation-browser" ? { width } : undefined}
       ref={node => { if (node) model.tabs.set(item.value, node); else model.tabs.delete(item.value); }}
       render={<TabsTooltipTrigger itemDisabled={Boolean(item.disabled)} />}>
-      <TabParts item={item} selected={selected} labelRef={labelRef} />
+      <TabParts item={item} selected={selected} labelRef={labelRef} descriptionId={descriptionId} />
       {count && <span id={id} className="sr-only">{count.description}</span>}
     </BaseTabs.Tab>
   </TabsFullLabel>;
@@ -202,10 +209,10 @@ function MoreParts({ measure = false }: { measure?: boolean }) {
     </span></>;
 }
 function MoreItem({ item }: { item: TabsItem }) {
-  const id = useId(), count = formatTabsCount(item);
+  const id = useId(), count = formatTabsCount(item), { props } = useTabs();
   return <DropdownMenu.RadioItem value={item.value} label={item.label} aria-label={item.label} disabled={item.disabled} leading={item.leadingIcon}
     description={item.disabled ? item.disabledReason : undefined} aria-describedby={count ? id : undefined}
-    meta={count ? <><span aria-hidden="true">{count.display}</span><span id={id} className="sr-only">{count.description}</span></> : undefined} />;
+    meta={count ? <><span aria-hidden="true">{props.visualPreset ? item.count : count.display}</span><span id={id} className="sr-only">{count.description}</span></> : undefined} />;
 }
 type TabsLayout = { result: OverflowResult; widths: readonly number[]; order: readonly TabsValue[] };
 function TabsNav({ extraStart, extraEnd }: TabsNavProps) {
@@ -382,8 +389,10 @@ function TabsNav({ extraStart, extraEnd }: TabsNavProps) {
   </div>;
 }
 
-function TabsPanels() {
+function TabsPanels({ sharedContent }: { sharedContent?: ReactNode } = {}) {
   const model = usePart("panels");
+  // A shared editor stays mounted while the selected identity changes; the application owns its data.
+  if (sharedContent !== undefined) return <div className="rain-tabs__panels">{model.value !== null && <BaseTabs.Panel value={model.value} keepMounted data-part="panel" data-slot="panel" className={model.part("panel")}>{sharedContent}</BaseTabs.Panel>}</div>;
   return <div className="rain-tabs__panels">{model.props.items.map(item => {
     const policy = item.panelMount ?? model.props.panelMount ?? "lazy-retain";
     const mount = model.value === item.value || policy === "eager-retain" || (policy === "lazy-retain" && model.visited.has(item.value));

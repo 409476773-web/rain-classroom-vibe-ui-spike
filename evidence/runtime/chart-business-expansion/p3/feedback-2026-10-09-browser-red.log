@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:61982) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-business-category.spec.ts:7:3 › reduce: category business examples keep identity, units and original period dates (6.2s)
+
+
+  1) tests/e2e/chart-business-category.spec.ts:7:3 › reduce: category business examples keep identity, units and original period dates 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-category-example="semester"] path[fill^="url(#area-gradient-"]')
+    Expected: 1
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-category-example="semester"] path[fill^="url(#area-gradient-"]')
+        14 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      15 |     for (const [id, count] of [["semester", 1], ["period", 2]] as const) {
+      16 |       const fills = page.locator(`[data-category-example="${id}"] path[fill^="url(#area-gradient-"]`);
+    > 17 |       await expect(fills).toHaveCount(count);
+         |                           ^
+      18 |       await expect.poll(() => fills.evaluateAll(paths => paths.every(path => (path as SVGGraphicsElement).getBBox().height > 10))).toBe(true);
+      19 |     }
+      20 |     const score = page.locator('[data-category-example="score"]');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-category.spec.ts:17:27
+
+    Error Context: evidence/runtime/chart-business-expansion/p3/feedback-2026-10-09/browser-results-red/chart-business-category-re-b1dd3-s-and-original-period-dates/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-business-expansion/p3/feedback-2026-10-09/browser-results-red/chart-business-category-re-b1dd3-s-and-original-period-dates/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-business-expansion/p3/feedback-2026-10-09/browser-results-red/chart-business-category-re-b1dd3-s-and-original-period-dates/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-business-category.spec.ts:7:3 › reduce: category business examples keep identity, units and original period dates 

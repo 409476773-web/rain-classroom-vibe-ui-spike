@@ -125,7 +125,15 @@ it("protects only the reviewed Tabs CSS rules, retaining shared Focus and color 
   const contract = helpers.parseYamlSubset(readFileSync('manifests/contracts/tailwind-b2.yaml', 'utf8'));
   const check = (css: string, authorized = true) => tailwind.validateTabsCssExceptions({ source: css, contract, authorized });
   expect(check(source)).toEqual([]);
-  expect(check(source + '\n.unrelated { display: block; }')).toEqual([]);
+  const predecessor = helpers.getG6PreviousSource(resolve('.'), 'packages/ui/src/styles.css');
+  if (predecessor == null) throw new Error('Tabs synthetic fixture requires the verified G6 predecessor');
+  const importPrefix = [
+    '@import "./navigation/navigation.css";', '@import "./navigation/navigation-families.css";',
+    '@import "./tree/tree.css";', '@import "./item/item.css";', '@import "./progress/progress.css";',
+  ].join('\n') + '\n';
+  expect(predecessor.startsWith(importPrefix)).toBe(true);
+  const mutationSource = predecessor.slice(importPrefix.length);
+  expect(check(mutationSource + '\n.unrelated { display: block; }')).toEqual([]);
   for (const added of [
     '.rain-tabs { --tabs-font: 20px; }', '.rain-tabs__tab { color: red; }',
     '[data-rain-id="ui-tabs"] [data-slot="tab"]:focus-visible { outline: none; }', '[class~="rain-tabs"] [data-slot="tab"] { padding: 0; }',
@@ -134,9 +142,9 @@ it("protects only the reviewed Tabs CSS rules, retaining shared Focus and color 
     '.r\\61 in-tabs__tab:focus-visible { outline: none; }', '[data-slot="root"][data-appearance="soft"] [data-slot="tab"] { padding: 0; }',
     '[data-slot="root"] [data-part="label"] { font-size: 20px; }', 'button:focus-visible { outline: none; }',
     '.unrelated, button:focus-visible { outline: none; }', ':is(.unrelated, button):focus-visible { outline: none; }', ':where(button, .unrelated) { padding: 0; }',
-  ]) expect(check(source + '\n' + added)).not.toEqual([]);
-  expect(check(source.replace('tabs-geometry:', 'unregistered-geometry:'))).not.toEqual([]);
-  expect(check(source, false)).not.toEqual([]);
+  ]) expect(check(mutationSource + '\n' + added)).not.toEqual([]);
+  expect(check(mutationSource.replace('tabs-geometry:', 'unregistered-geometry:'))).not.toEqual([]);
+  expect(check(mutationSource, false)).not.toEqual([]);
 });
 
 it('keeps Tabs metadata tied to real candidate sources and separate human acceptance', () => {

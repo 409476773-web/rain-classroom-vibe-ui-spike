@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/recipes/navigation-v042/r4-r6.test.tsx (10 tests | 1 failed) 1271ms
+   × R4 group result summary follows the actual filtered and searched collection 58ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/recipes/navigation-v042/r4-r6.test.tsx > R4 group result summary follows the actual filtered and searched collection
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  展示 2 / 6 组
+Received:
+  展示 6 组演示对象 · 选择后结果同步更新
+ ❯ apps/playground/src/recipes/navigation-v042/r4-r6.test.tsx:38:19
+     36|   const summary=container.querySelector('.nv5-queue-footer')!;
+     37|   fireEvent.click(screen.getByRole('radio',{name:'未评分',exact:true}));
+     38|   expect(summary).toHaveTextContent('展示 2 / 6 组');
+       |                   ^
+     39|   fireEvent.change(screen.getByRole('textbox',{name:'搜索小组'}),{target:{…
+     40|   expect(summary).toHaveTextContent('展示 1 / 6 组');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  13:51:13
+   Duration  2.69s (transform 512ms, setup 93ms, import 879ms, tests 1.27s, environment 368ms)
+

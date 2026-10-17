@@ -1,7 +1,9 @@
 import { useState, type ReactNode } from "react";
 
 import { DensityProvider } from "@rain-next/foundations";
+import { ComponentCatalog, componentDocEntries } from "./component-catalog";
 import {
+  Alert,
   Badge,
   Button,
   Card,
@@ -94,8 +96,8 @@ export function CoreUiPage() {
               Core UI，把高频动作先做准
             </h1>
             <p className="core-ui-lead rain-type-reading">
-              这里展示六个可运行的基础家族。Input 与 Select 各有一个完整用法入口，
-              当前运行视觉已确认，组件仍为未发布的本地候选。
+              按用途查找已有组件与工作区布局，查看独立用法、状态和接口。
+              当前资产为未发布的共享候选，各自审阅范围继续保留。
             </p>
             <Link href="#checkbox">查看 Checkbox 与分组表单</Link>
             <Link href="#selection-playground">打开分类选择 Playground 与源码检索</Link>
@@ -106,8 +108,8 @@ export function CoreUiPage() {
           </div>
           <dl className="core-ui-summary" aria-label="Core UI 批次摘要">
             <div>
-              <dt>Families</dt>
-              <dd>06</dd>
+              <dt>本批展示入口</dt>
+              <dd>{componentDocEntries.length}</dd>
             </div>
             <div>
               <dt>Densities</dt>
@@ -124,6 +126,8 @@ export function CoreUiPage() {
           </dl>
         </div>
       </header>
+
+      <ComponentCatalog />
 
       <section className="core-family" data-rain-id="core-ui-button" data-slot="component-family">
         <FamilyHeading
@@ -295,8 +299,16 @@ export function CoreUiPage() {
         <div className="component-stage component-stage--fields"><FormItem label="练习题数"><InputNumber defaultValue={3} min={0} suffixText="题" /></FormItem></div>
       </section>
 
+      <section className="core-family" data-rain-id="core-ui-alert" data-slot="component-family">
+        <div className="core-family__intro"><h2>Alert 提示</h2><p>持续的页面提示，四种状态、可组合内容与操作，保留 Rain 轻量视觉。</p><Link href="#alert">查看 Alert 全部用法</Link></div>
+        <div className="component-stage"><Alert>成绩发布后，学生才能查看批改结果。</Alert></div>
+      </section>
+
+      <section className="core-family" data-rain-id="core-ui-breadcrumb" data-slot="component-family">
+        <div className="core-family__intro"><h2>Breadcrumb 面包屑</h2><p>返回上级、切换同级，长路径按容器宽度折叠。</p><Link href="#breadcrumb">查看 Breadcrumb 全部用法</Link></div>
+      </section>
       <section className="core-family" data-rain-id="core-ui-tabs" data-slot="component-family">
-        <div className="core-family__intro"><h2>Tabs 分区切换</h2><p>完整的导航与面板，三种外观、连续更多菜单，以及本页内容保留。</p><Link href="#tabs">查看 Tabs 全部用法</Link></div>
+        <div className="core-family__intro"><h2>Tabs 分区切换</h2><p>完整的导航与面板，三种外观、连续更多菜单，以及本页内容保留。</p><Link href="#tabs">查看 Tabs 全部用法</Link><Link href="#navigation-v042">导航 v0.4.2 · 组合样板</Link></div>
       </section>
       <section className="core-family" data-rain-id="core-ui-select" data-slot="component-family">
         <FamilyHeading

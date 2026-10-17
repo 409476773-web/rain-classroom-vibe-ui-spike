@@ -1,0 +1,48 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/library-governance-closeout.test.ts (2 tests | 2 failed) 30ms
+   × recognizes current authorized successors while retaining the exact original B2 22ms
+   × rejects changing a recorded successor, unknown phases or the original B2 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/library-governance-closeout.test.ts > recognizes current authorized successors while retaining the exact original B2
+Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged
+ ❯ fail scripts/verification-helpers.mjs:3811:30
+    3809|
+    3810| export function getValidatedTailwindB2History(status) {
+    3811|   const fail = () => { throw new Error("Invalid Token Foundations V1 h…
+       |                              ^
+    3812|   const history = status?.phaseHistory?.tailwindB2;
+    3813|   if (status?.currentPhase?.id !== "token-foundations-v1" || !history
+ ❯ getValidatedTailwindB2History scripts/verification-helpers.mjs:3874:67
+ ❯ scripts/library-governance-closeout.test.ts:12:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/library-governance-closeout.test.ts > rejects changing a recorded successor, unknown phases or the original B2
+AssertionError: expected [Function] to not throw an error but 'Error: Invalid Token Foundations V1 h…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged"
+
+ ❯ scripts/library-governance-closeout.test.ts:18:61
+     16| it("rejects changing a recorded successor, unknown phases or the origi…
+     17|   const status = phase();
+     18|   expect(() => validateTokenFoundationsV1Phase(status)).not.toThrow();
+       |                                                             ^
+     19|   for (const change of [
+     20|     (value: any) => { value.componentRefinements.navigationPlaygroundV…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  19:02:13
+   Duration  1.08s (transform 100ms, setup 190ms, import 105ms, tests 30ms, environment 650ms)
+

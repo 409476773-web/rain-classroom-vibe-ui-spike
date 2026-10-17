@@ -1,0 +1,163 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/tabs-color-consumers.test.ts (6 tests | 1 failed) 520ms
+   ✓ removes persistent Soft selected borders while retaining its selected fill and content roles 2ms
+   × binds approved paint roles to actual Tab/More and inert measurement consumers 14ms
+   ✓ validates the real Tabs source and records only four Soft text eligibility decisions per theme 40ms
+   ✓ rejects added raw consumers, a copied file, and a different actual static definition 52ms
+   ✓ rejects post-initialization mutation and aliases, and freezes every mutable layer 35ms
+   ✓ fails closed when source metadata, roles, state flags, surfaces or the indicator threshold change  376ms
+ ❯ scripts/tooltip.test.ts (2 tests | 1 failed) 110ms
+   × adds only the authorized fixed Tooltip Tokens and preserves all prior generated values 40ms
+   ✓ keeps authorization, fixed paints and forced-colors limited to the Tooltip contract 69ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/tabs-color-consumers.test.ts > binds approved paint roles to actual Tab/More and inert measurement consumers
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "Tabs actual Tab/More paint routing or its real/measurement hosts changed outside the reviewed color contract",
++ ]
+
+ ❯ scripts/tabs-color-consumers.test.ts:22:44
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/tooltip.test.ts > adds only the authorized fixed Tooltip Tokens and preserves all prior generated values
+AssertionError: expected [ [ …(2) ], [ …(2) ], …(1364) ] to deeply equal [ [ …(2) ], [ …(2) ], …(1346) ]
+
+- Expected
++ Received
+
+@@ -715,10 +715,34 @@
+    [
+      "--rain-color-semantic-info-surface",
+      "var(--rain-category-fill-second-alpha-2)",
+    ],
+    [
++     "--rain-color-switch-track-unchecked",
++     "var(--rain-category-icon-neutral-4)",
++   ],
++   [
++     "--rain-color-switch-track-hover",
++     "var(--rain-category-icon-neutral-3)",
++   ],
++   [
++     "--rain-color-switch-track-pressed",
++     "var(--rain-category-text-neutral-2)",
++   ],
++   [
++     "--rain-color-switch-track-checked-hover",
++     "var(--rain-category-fill-brand-solid-1)",
++   ],
++   [
++     "--rain-color-switch-track-checked-pressed",
++     "var(--rain-category-fill-brand-alpha-1)",
++   ],
++   [
++     "--rain-color-switch-indicator",
++     "var(--rain-category-oncolor-1)",
++   ],
++   [
+      "--rain-color-action-primary-text",
+      "var(--rain-category-text-brand-1)",
+    ],
+    [
+      "--rain-link-color",
+@@ -3765,12 +3789,36 @@
+      "var(--rain-category-fill-red-alpha-2)",
+    ],
+    [
+      "--rain-color-semantic-info-surface",
+      "var(--rain-category-fill-second-alpha-2)",
++   ],
++   [
++     "--rain-color-switch-track-unchecked",
++     "var(--rain-category-icon-neutral-4)",
++   ],
++   [
++     "--rain-color-switch-track-hover",
++     "var(--rain-category-icon-neutral-3)",
++   ],
++   [
++     "--rain-color-switch-track-pressed",
++     "var(--rain-category-text-neutral-2)",
++   ],
++   [
++     "--rain-color-switch-track-checked-hover",
++     "var(--rain-category-fill-brand-solid-1)",
++   ],
++   [
++     "--rain-color-switch-track-checked-pressed",
++     "var(--rain-category-fill-brand-alpha-1)",
+    ],
+    [
++     "--rain-color-switch-indicator",
++     "var(--rain-category-oncolor-1)",
++   ],
++   [
+      "--rain-color-action-primary-text",
+      "var(--rain-category-text-brand-1)",
+    ],
+    [
+      "--rain-link-color",
+@@ -5161,10 +5209,34 @@
+      "var(--rain-category-fill-red-alpha-2)",
+    ],
+    [
+      "--rain-color-semantic-info-surface",
+      "var(--rain-category-fill-second-alpha-2)",
++   ],
++   [
++     "--rain-color-switch-track-unchecked",
++     "var(--rain-category-icon-neutral-4)",
++   ],
++   [
++     "--rain-color-switch-track-hover",
++     "var(--rain-category-icon-neutral-3)",
++   ],
++   [
++     "--rain-color-switch-track-pressed",
++     "var(--rain-category-text-neutral-2)",
++   ],
++   [
++     "--rain-color-switch-track-checked-hover",
++     "var(--rain-category-fill-brand-solid-1)",
++   ],
++   [
++     "--rain-color-switch-track-checked-pressed",
++     "var(--rain-category-fill-brand-alpha-1)",
++   ],
++   [
++     "--rain-color-switch-indicator",
++     "var(--rain-category-oncolor-1)",
+    ],
+    [
+      "--rain-color-action-primary-text",
+      "var(--rain-category-text-brand-1)",
+    ],
+
+ ❯ scripts/tooltip.test.ts:17:71
+     15|   }
+     16|   const previousValues = (source: string) => [...source.matchAll(/(--r…
+     17|   expect(previousValues(read("packages/foundations/src/tokens.css"))).…
+       |                                                                       ^
+     18| });
+     19| it("keeps authorization, fixed paints and forced-colors limited to the…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 6 passed (8)
+   Start at  02:13:33
+   Duration  2.46s (transform 339ms, setup 216ms, import 590ms, tests 630ms, environment 834ms)
+
+JSON report written to /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-06/agent/legacy-tabs-tooltip/baseline-results.json

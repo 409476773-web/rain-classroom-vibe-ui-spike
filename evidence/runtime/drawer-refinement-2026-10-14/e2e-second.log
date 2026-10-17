@@ -1,0 +1,241 @@
+
+Running 18 tests using 1 worker
+
+(node:1703) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [desktop] › tests/e2e/drawer-refinement.spec.ts:15:1 › aligned surface, fixed actions and single-layer preview preserve the draft (1.5s)
+(node:1709) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [desktop] › tests/e2e/drawer-refinement.spec.ts:39:1 › all close requests protect dirty input and restore safe focus (5.3s)
+  ✓   3 [desktop] › tests/e2e/drawer-refinement.spec.ts:63:1 › field validation and failed-save retry keep the submitted draft (4.2s)
+  ✘   4 [desktop] › tests/e2e/drawer-refinement.spec.ts:82:1 › long reading scrolls while the heading and return control stay visible (3.2s)
+(node:2565) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [desktop] › tests/e2e/drawer-refinement.spec.ts:97:1 › four directions and non-modal pointer interaction still operate (7.8s)
+  ✓   6 [desktop] › tests/e2e/drawer-refinement.spec.ts:111:1 › 320px-high failure actions remain reachable and continuous text wraps (4.4s)
+(node:3357) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 [narrow] › tests/e2e/drawer-refinement.spec.ts:15:1 › aligned surface, fixed actions and single-layer preview preserve the draft (1.2s)
+(node:3363) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [narrow] › tests/e2e/drawer-refinement.spec.ts:39:1 › all close requests protect dirty input and restore safe focus (4.8s)
+  ✓   9 [narrow] › tests/e2e/drawer-refinement.spec.ts:63:1 › field validation and failed-save retry keep the submitted draft (4.2s)
+  ✘  10 [narrow] › tests/e2e/drawer-refinement.spec.ts:82:1 › long reading scrolls while the heading and return control stay visible (2.9s)
+(node:4506) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [narrow] › tests/e2e/drawer-refinement.spec.ts:97:1 › four directions and non-modal pointer interaction still operate (7.7s)
+  ✓  12 [narrow] › tests/e2e/drawer-refinement.spec.ts:111:1 › 320px-high failure actions remain reachable and continuous text wraps (4.5s)
+(node:4533) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  13 [short] › tests/e2e/drawer-refinement.spec.ts:15:1 › aligned surface, fixed actions and single-layer preview preserve the draft (1.2s)
+(node:4545) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  14 [short] › tests/e2e/drawer-refinement.spec.ts:39:1 › all close requests protect dirty input and restore safe focus (4.9s)
+  ✓  15 [short] › tests/e2e/drawer-refinement.spec.ts:63:1 › field validation and failed-save retry keep the submitted draft (4.2s)
+  ✘  16 [short] › tests/e2e/drawer-refinement.spec.ts:82:1 › long reading scrolls while the heading and return control stay visible (2.9s)
+(node:4571) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  17 [short] › tests/e2e/drawer-refinement.spec.ts:97:1 › four directions and non-modal pointer interaction still operate (7.7s)
+  ✓  18 [short] › tests/e2e/drawer-refinement.spec.ts:111:1 › 320px-high failure actions remain reachable and continuous text wraps (4.5s)
+
+
+  1) [desktop] › tests/e2e/drawer-refinement.spec.ts:15:1 › aligned surface, fixed actions and single-layer preview preserve the draft 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 901
+    Received:    1221.3992919921875
+
+      20 |   const footer = await dialog.locator('[data-slot="drawer-footer"]').boundingBox();
+      21 |   expect(before!.y).toBeGreaterThanOrEqual(0);
+    > 22 |   expect(footer!.y + footer!.height).toBeLessThanOrEqual(page.viewportSize()!.height + 1);
+         |                                      ^
+      23 |   const box = await dialog.boundingBox();
+      24 |   expect(box!.width).toBeCloseTo(Math.min(680, page.viewportSize()!.width), 0);
+      25 |   expect(box!.x).toBeCloseTo((page.viewportSize()!.width - box!.width) / 2, 0);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/drawer-refinement.spec.ts:22:38
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop] › tests/e2e/drawer-refinement.spec.ts:82:1 › long reading scrolls while the heading and return control stay visible 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 184.3712158203125
+    Received: 91
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   93.3712158203125
+
+      89 |   await body.hover(); await page.mouse.wheel(0, 1000);
+      90 |   await expect.poll(() => body.evaluate(node => node.scrollTop)).toBeGreaterThan(0);
+    > 91 |   expect((await header.boundingBox())!.y).toBeCloseTo(top, 0);
+         |                                           ^
+      92 |   await expect(page.getByText("课程导读.pdf", { exact: true })).toBeVisible();
+      93 |   await expect(page.getByRole("button", { name: "返回编辑", exact: true })).toBeVisible();
+      94 |   await page.screenshot({ path: `${evidence}/long-scrolled-${info.project.name}.png` });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/drawer-refinement.spec.ts:91:43
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-rea-9f2c7-return-control-stay-visible-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-rea-9f2c7-return-control-stay-visible-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-rea-9f2c7-return-control-stay-visible-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-rea-9f2c7-return-control-stay-visible-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [narrow] › tests/e2e/drawer-refinement.spec.ts:15:1 › aligned surface, fixed actions and single-layer preview preserve the draft 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 845
+    Received:    1204.905029296875
+
+      20 |   const footer = await dialog.locator('[data-slot="drawer-footer"]').boundingBox();
+      21 |   expect(before!.y).toBeGreaterThanOrEqual(0);
+    > 22 |   expect(footer!.y + footer!.height).toBeLessThanOrEqual(page.viewportSize()!.height + 1);
+         |                                      ^
+      23 |   const box = await dialog.boundingBox();
+      24 |   expect(box!.width).toBeCloseTo(Math.min(680, page.viewportSize()!.width), 0);
+      25 |   expect(box!.x).toBeCloseTo((page.viewportSize()!.width - box!.width) / 2, 0);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/drawer-refinement.spec.ts:22:38
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [narrow] › tests/e2e/drawer-refinement.spec.ts:82:1 › long reading scrolls while the heading and return control stay visible 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 207.8492431640625
+    Received: 109.4000244140625
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   98.44921875
+
+      89 |   await body.hover(); await page.mouse.wheel(0, 1000);
+      90 |   await expect.poll(() => body.evaluate(node => node.scrollTop)).toBeGreaterThan(0);
+    > 91 |   expect((await header.boundingBox())!.y).toBeCloseTo(top, 0);
+         |                                           ^
+      92 |   await expect(page.getByText("课程导读.pdf", { exact: true })).toBeVisible();
+      93 |   await expect(page.getByRole("button", { name: "返回编辑", exact: true })).toBeVisible();
+      94 |   await page.screenshot({ path: `${evidence}/long-scrolled-${info.project.name}.png` });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/drawer-refinement.spec.ts:91:43
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-rea-9f2c7-return-control-stay-visible-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-rea-9f2c7-return-control-stay-visible-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-rea-9f2c7-return-control-stay-visible-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-rea-9f2c7-return-control-stay-visible-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [short] › tests/e2e/drawer-refinement.spec.ts:15:1 › aligned surface, fixed actions and single-layer preview preserve the draft 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 481
+    Received:    662.4482421875
+
+      20 |   const footer = await dialog.locator('[data-slot="drawer-footer"]').boundingBox();
+      21 |   expect(before!.y).toBeGreaterThanOrEqual(0);
+    > 22 |   expect(footer!.y + footer!.height).toBeLessThanOrEqual(page.viewportSize()!.height + 1);
+         |                                      ^
+      23 |   const box = await dialog.boundingBox();
+      24 |   expect(box!.width).toBeCloseTo(Math.min(680, page.viewportSize()!.width), 0);
+      25 |   expect(box!.x).toBeCloseTo((page.viewportSize()!.width - box!.width) / 2, 0);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/drawer-refinement.spec.ts:22:38
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-short/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-short/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-short/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-short/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [short] › tests/e2e/drawer-refinement.spec.ts:82:1 › long reading scrolls while the heading and return control stay visible 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 127.96893310546875
+    Received: 73
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   54.96893310546875
+
+      89 |   await body.hover(); await page.mouse.wheel(0, 1000);
+      90 |   await expect.poll(() => body.evaluate(node => node.scrollTop)).toBeGreaterThan(0);
+    > 91 |   expect((await header.boundingBox())!.y).toBeCloseTo(top, 0);
+         |                                           ^
+      92 |   await expect(page.getByText("课程导读.pdf", { exact: true })).toBeVisible();
+      93 |   await expect(page.getByRole("button", { name: "返回编辑", exact: true })).toBeVisible();
+      94 |   await page.screenshot({ path: `${evidence}/long-scrolled-${info.project.name}.png` });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/drawer-refinement.spec.ts:91:43
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-rea-9f2c7-return-control-stay-visible-short/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-rea-9f2c7-return-control-stay-visible-short/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-rea-9f2c7-return-control-stay-visible-short/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-rea-9f2c7-return-control-stay-visible-short/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6 failed
+    [desktop] › tests/e2e/drawer-refinement.spec.ts:15:1 › aligned surface, fixed actions and single-layer preview preserve the draft 
+    [desktop] › tests/e2e/drawer-refinement.spec.ts:82:1 › long reading scrolls while the heading and return control stay visible 
+    [narrow] › tests/e2e/drawer-refinement.spec.ts:15:1 › aligned surface, fixed actions and single-layer preview preserve the draft 
+    [narrow] › tests/e2e/drawer-refinement.spec.ts:82:1 › long reading scrolls while the heading and return control stay visible 
+    [short] › tests/e2e/drawer-refinement.spec.ts:15:1 › aligned surface, fixed actions and single-layer preview preserve the draft 
+    [short] › tests/e2e/drawer-refinement.spec.ts:82:1 › long reading scrolls while the heading and return control stay visible 
+  12 passed (1.5m)

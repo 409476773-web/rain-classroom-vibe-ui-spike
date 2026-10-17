@@ -1,0 +1,12 @@
+--- round13/run-review.py
++++ round17/run-workflow.py
+@@ -251,6 +251,9 @@
+         review_prompt = prompt_path.with_name('review-prompt.txt').read_text()
+         summary['review'] = run_stage('review', [{'type': 'text', 'text': review_prompt},
+             *image_inputs(images)], 5)
++        delivery_prompt = prompt_path.with_name('delivery-prompt.txt').read_text()
++        summary['delivery'] = run_stage('delivery', [{'type': 'text', 'text': delivery_prompt},
++            *image_inputs(images)], 6)
+         summary['status'] = 'completed'
+         send('thread/unsubscribe', {'threadId': root_id}, 9999)
+     except (Exception, KeyboardInterrupt) as error:

@@ -1,0 +1,113 @@
+[WebServer] (node:37472) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:37475) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:37482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:37483) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 24 tests using 1 worker
+
+(node:37490) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/e2e/g6-components.spec.ts:8:1 › 12 routes, themes, density, 390px and source examples (5.0s)
+  ✓   2 [desktop] › tests/e2e/g6-components.spec.ts:24:1 › media ratio, attachment actions and direction islands (3.1s)
+  ✓   3 [desktop] › tests/e2e/g6-components.spec.ts:33:1 › task drawer modality, draft protection, menu and nested focus (13.7s)
+  ✓   4 [desktop] › tests/e2e/g6-components.spec.ts:44:1 › OTP paste, explicit verification, error preservation and retry (2.3s)
+  ✓   5 [desktop] › tests/e2e/g6-components.spec.ts:49:1 › carousel actual API, input key ownership, RTL and vertical (660ms)
+  ✓   6 [desktop] › tests/e2e/g6-components.spec.ts:55:1 › conversation reactions, copy, local retry and meaningful marker (1.5s)
+  ✓   7 [desktop] › tests/e2e/g6-components.spec.ts:60:1 › scroller preserves reading on stream/prepend, pauses and commands (1.0s)
+  ✓   8 [desktop] › tests/e2e/g6-components.spec.ts:67:1 › questionnaire conditional validation, native summary, restore and submit failure (941ms)
+  ✓   9 [desktop] › tests/e2e/g6-components.spec.ts:71:1 › reduced motion and forced colors keep state readable (1.4s)
+  ✓  10 [desktop] › tests/e2e/g6-components.spec.ts:74:1 › isolated installed packages: default, local recipe, sibling and copied table (2.1s)
+  ✘  11 [desktop] › tests/e2e/g6-components.spec.ts:84:1 › data table keeps stable selection, query scope, columns and failed refresh (1.0m)
+(node:42454) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 [desktop] › tests/e2e/g6-components.spec.ts:91:1 › drawer mouse swipe closes, while carousel drag retains its owning drawer (3.1s)
+(node:42837) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [narrow] › tests/e2e/g6-components.spec.ts:8:1 › 12 routes, themes, density, 390px and source examples (4.7s)
+  ✓  14 [narrow] › tests/e2e/g6-components.spec.ts:24:1 › media ratio, attachment actions and direction islands (3.1s)
+  ✓  15 [narrow] › tests/e2e/g6-components.spec.ts:33:1 › task drawer modality, draft protection, menu and nested focus (13.1s)
+  ✓  16 [narrow] › tests/e2e/g6-components.spec.ts:44:1 › OTP paste, explicit verification, error preservation and retry (2.2s)
+  ✓  17 [narrow] › tests/e2e/g6-components.spec.ts:49:1 › carousel actual API, input key ownership, RTL and vertical (668ms)
+  ✓  18 [narrow] › tests/e2e/g6-components.spec.ts:55:1 › conversation reactions, copy, local retry and meaningful marker (1.5s)
+  ✓  19 [narrow] › tests/e2e/g6-components.spec.ts:60:1 › scroller preserves reading on stream/prepend, pauses and commands (1.0s)
+  ✓  20 [narrow] › tests/e2e/g6-components.spec.ts:67:1 › questionnaire conditional validation, native summary, restore and submit failure (1.0s)
+  ✓  21 [narrow] › tests/e2e/g6-components.spec.ts:71:1 › reduced motion and forced colors keep state readable (1.4s)
+  ✓  22 [narrow] › tests/e2e/g6-components.spec.ts:74:1 › isolated installed packages: default, local recipe, sibling and copied table (2.0s)
+  ✘  23 [narrow] › tests/e2e/g6-components.spec.ts:84:1 › data table keeps stable selection, query scope, columns and failed refresh (1.0m)
+(node:47096) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  24 [narrow] › tests/e2e/g6-components.spec.ts:91:1 › drawer mouse swipe closes, while carousel drag retains its owning drawer (2.2s)
+
+
+  1) [desktop] › tests/e2e/g6-components.spec.ts:84:1 › data table keeps stable selection, query scope, columns and failed refresh 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.press: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByRole('menu')
+
+
+      87 |  await page.getByRole('button',{name:'按资料名称排序',exact:true}).click();await page.getByRole('button',{name:'下一页',exact:true}).click();await expect(page.getByText('已选 1 份资料',{exact:true})).toBeVisible();
+      88 |  await page.getByRole('textbox',{name:'查找资料',exact:true}).fill('教学案例');await page.getByRole('button',{name:'搜索',exact:true}).click();await expect(page.getByRole('button',{name:'上一页',exact:true})).toBeDisabled();await expect(page.getByRole('button',{name:'取消选择',exact:true})).toHaveCount(0);await page.getByRole('button',{name:'清空筛选',exact:true}).click();
+    > 89 |  await page.getByRole('button',{name:'显示列',exact:true}).click();await page.getByRole('menuitemcheckbox',{name:'资料类型',exact:true}).click();await page.getByRole('menu').press('Escape');await expect(page.getByRole('columnheader',{name:'资料类型',exact:true})).toHaveCount(0);await page.getByText('试用加载与空数据状态',{exact:true}).click();await page.getByRole('checkbox',{name:'下次刷新模拟失败',exact:true}).locator('..').click();await page.getByRole('button',{name:'刷新资料',exact:true}).click();await expect(page.getByRole('alert')).toContainText('资料和选择已保留');await page.getByRole('button',{name:'重试',exact:true}).click();await expect(page.getByRole('alert')).toHaveCount(0);
+         |                                                                                                                                                                        ^
+      90 | });
+      91 | test("drawer mouse swipe closes, while carousel drag retains its owning drawer",async({page})=>{
+      92 |  await open(page,'drawer');await page.getByRole('button',{name:'从底部打开',exact:true}).click();const popup=page.getByRole('dialog',{name:'底部任务概览',exact:true});const handle=popup.locator('[data-slot="drawer-swipe-handle"]');await expect(handle).toBeVisible();await expect(popup).not.toHaveAttribute('data-starting-style','');await popup.evaluate(el=>Promise.all(el.getAnimations().map(animation=>animation.finished.catch(()=>{}))));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g6-components.spec.ts:89:168
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g6-components-2026-10-14/browser/results/g6-components-data-table-k-73431--columns-and-failed-refresh-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g6-components-2026-10-14/browser/results/g6-components-data-table-k-73431--columns-and-failed-refresh-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g6-components-2026-10-14/browser/results/g6-components-data-table-k-73431--columns-and-failed-refresh-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g6-components-2026-10-14/browser/results/g6-components-data-table-k-73431--columns-and-failed-refresh-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [narrow] › tests/e2e/g6-components.spec.ts:84:1 › data table keeps stable selection, query scope, columns and failed refresh 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.press: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByRole('menu')
+
+
+      87 |  await page.getByRole('button',{name:'按资料名称排序',exact:true}).click();await page.getByRole('button',{name:'下一页',exact:true}).click();await expect(page.getByText('已选 1 份资料',{exact:true})).toBeVisible();
+      88 |  await page.getByRole('textbox',{name:'查找资料',exact:true}).fill('教学案例');await page.getByRole('button',{name:'搜索',exact:true}).click();await expect(page.getByRole('button',{name:'上一页',exact:true})).toBeDisabled();await expect(page.getByRole('button',{name:'取消选择',exact:true})).toHaveCount(0);await page.getByRole('button',{name:'清空筛选',exact:true}).click();
+    > 89 |  await page.getByRole('button',{name:'显示列',exact:true}).click();await page.getByRole('menuitemcheckbox',{name:'资料类型',exact:true}).click();await page.keyboard.press('Escape');await expect(page.getByRole('columnheader',{name:'资料类型',exact:true})).toHaveCount(0);await page.getByText('试用加载与空数据状态',{exact:true}).click();await page.getByRole('checkbox',{name:'下次刷新模拟失败',exact:true}).locator('..').click();await page.getByRole('button',{name:'刷新资料',exact:true}).click();await expect(page.getByRole('alert')).toContainText('资料和选择已保留');await page.getByRole('button',{name:'重试',exact:true}).click();await expect(page.getByRole('alert')).toHaveCount(0);
+         |                                                                                                                                                                        ^
+      90 | });
+      91 | test("drawer mouse swipe closes, while carousel drag retains its owning drawer",async({page})=>{
+      92 |  await open(page,'drawer');await page.getByRole('button',{name:'从底部打开',exact:true}).click();const popup=page.getByRole('dialog',{name:'底部任务概览',exact:true});const handle=popup.locator('[data-slot="drawer-swipe-handle"]');await expect(handle).toBeVisible();await expect(popup).not.toHaveAttribute('data-starting-style','');await popup.evaluate(el=>Promise.all(el.getAnimations().map(animation=>animation.finished.catch(()=>{}))));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g6-components.spec.ts:89:168
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g6-components-2026-10-14/browser/results/g6-components-data-table-k-73431--columns-and-failed-refresh-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g6-components-2026-10-14/browser/results/g6-components-data-table-k-73431--columns-and-failed-refresh-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g6-components-2026-10-14/browser/results/g6-components-data-table-k-73431--columns-and-failed-refresh-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g6-components-2026-10-14/browser/results/g6-components-data-table-k-73431--columns-and-failed-refresh-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/e2e/g6-components.spec.ts:84:1 › data table keeps stable selection, query scope, columns and failed refresh 
+    [narrow] › tests/e2e/g6-components.spec.ts:84:1 › data table keeps stable selection, query scope, columns and failed refresh 
+  22 passed (3.2m)

@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+(node:23957) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-business-network.spec.ts:9:1 › normal light node centres keep classification text and boundaries readable in each recipe (1.3s)
+
+
+  1) tests/e2e/chart-business-network.spec.ts:9:1 › normal light node centres keep classification text and boundaries readable in each recipe 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 4.5
+    Received:    3.731584072276373
+
+      27 |     });
+      28 |     facts.push({recipe,paints,ratios});
+    > 29 |     expect(Math.min(...ratios.map(row => row.text))).toBeGreaterThanOrEqual(4.5);
+         |                                                      ^
+      30 |     expect(Math.min(...ratios.map(row => row.border))).toBeGreaterThanOrEqual(3);
+      31 |   }
+      32 |   await mkdir(evidence,{recursive:true});
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-network.spec.ts:29:54
+
+    Error Context: evidence/runtime/chart-business-expansion/p4/contrast-browser-red/chart-business-network-nor-9d779-ies-readable-in-each-recipe/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-business-expansion/p4/contrast-browser-red/chart-business-network-nor-9d779-ies-readable-in-each-recipe/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-business-expansion/p4/contrast-browser-red/chart-business-network-nor-9d779-ies-readable-in-each-recipe/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-business-network.spec.ts:9:1 › normal light node centres keep classification text and boundaries readable in each recipe 

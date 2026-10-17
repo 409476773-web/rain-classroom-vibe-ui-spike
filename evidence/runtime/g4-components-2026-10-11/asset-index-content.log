@@ -1,0 +1,27 @@
+# Rain 资产检索索引
+
+由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。
+
+只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。
+
+按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。
+
+| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |
+| --- | --- | --- | --- | --- | --- |
+| **Alert** | 页面内持续提示，四种状态、内容与操作组合；单段文字默认无图标，复合内容使用状态色面状图标和同色正文。 | Alert, AlertTitle, AlertDescription, AlertActions · `@rain-next/ui` · [源码](../../packages/ui/src/alert/alert.tsx) | [合同](../../manifests/ui/alert.yaml) · [依赖](../../registry/alert.json) | registry-candidate / registry-candidate | passed / accepted / not-granted / unpublished |
+| **Card** | 独立内容对象的非交互容器。默认使用完整 Recipe，有明确需求时再调整其中的部件。 | Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter · `@rain-next/ui` · [源码](../../packages/ui/src/card/card.tsx) | [合同](../../manifests/ui/card.yaml) · [依赖](../../registry/card.json) | registry-candidate / registry-candidate | passed / awaiting_human / not-granted / unpublished |
+| **Empty** | 确认没有内容或没有匹配结果时，使用 Rain 原稿插画、轻量图形或纯文字，并按需提供下一步。 | Empty, EmptyMedia, EmptyTitle, EmptyDescription, EmptyActions · `@rain-next/ui` · [源码](../../packages/ui/src/empty/empty.tsx) | [合同](../../manifests/ui/empty.yaml) · [依赖](../../registry/table.json) | registry-candidate / registry-candidate | passed / accepted / not-granted / unpublished |
+| **Input** | 单行文本编辑与完整字段 Parts；可用于宿主控制的即时搜索、逐字过滤或普通表单输入。 | Input · `@rain-next/ui` · [源码](../../packages/ui/src/input/input.tsx) | [合同](../../manifests/ui/input.yaml) · [依赖](../../registry/core-ui.json) | registry-candidate / registry-candidate | passed / accepted / not-recorded / unpublished |
+| **Item** | 组织资料、通知、成员等普通内容条目的媒体、主副信息与独立操作。 | Item, ItemActions, ItemContent, ItemDescription, ItemFooter, ItemGroup, ItemHeader, ItemMedia, ItemSeparator, ItemTitle · `@rain-next/ui` · [源码](../../packages/ui/src/item/item.tsx) | [合同](../../manifests/ui/item.yaml) · [依赖](../../registry/g4-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |
+| **Navigation Menu** | 站点或工作区导航，支持展开内容与键盘导航。 | NavigationMenu · `@rain-next/ui` · [源码](../../packages/ui/src/navigation-menu/navigation-menu.tsx) | [合同](../../manifests/ui/navigation-menu.yaml) · [依赖](../../registry/token-first-g3.json) | registry-candidate / registry-candidate | scoped-passed / pending-visual-review / not-granted / unpublished |
+| **NavigationTabs** | A1 内容分区与 A4 双行身份页签，显式复用既有 Tabs 行为。 | NavigationTabs · `@rain-next/ui` · [源码](../../packages/ui/src/navigation/navigation.tsx) | [合同](../../manifests/ui/navigation-tabs.yaml) · [依赖](../../registry/navigation-v042.json) | registry-candidate / registry-candidate | scoped-passed / accepted / not-granted / unpublished |
+| **Popover** | 具名的局部浮层任务面板；适合包含独立字段、筛选、搜索、预览或确认操作的内容。 | Popover · `@rain-next/ui` · [源码](../../packages/ui/src/popover/popover.tsx) | [合同](../../manifests/ui/popover.yaml) · [依赖](../../registry/dropdown-family.json) | registry-candidate / registry-candidate | passed / accepted / not-granted / unpublished |
+| **Scroll Area** | 受控的可滚动内容区域，包含键盘可达的 Viewport 与可见滚动条。 | ScrollArea · `@rain-next/ui` · [源码](../../packages/ui/src/scroll-area/scroll-area.tsx) | [合同](../../manifests/ui/scroll-area.yaml) · [依赖](../../registry/token-first-g3.json) | registry-candidate / registry-candidate | scoped-passed / pending-visual-review / not-granted / unpublished |
+| **SearchInput** | 明确提交查询的搜索字段；复用 Input 与文字按钮，输入草稿后通过按钮或 Enter 发出搜索意图。 | SearchInput · `@rain-next/ui` · [源码](../../packages/ui/src/input/search-input.tsx) | [合同](../../manifests/ui/search-input.yaml) · [依赖](../../registry/core-ui.json) | registry-candidate / registry-candidate | passed / accepted / not-recorded / unpublished |
+| **Separator** | 内容组的横向或纵向非交互分隔。 | Separator · `@rain-next/ui` · [源码](../../packages/ui/src/separator/separator.tsx) | [合同](../../manifests/ui/separator.yaml) · [依赖](../../registry/dialog.json) | registry-candidate / registry-candidate | passed / awaiting_human / not-granted / unpublished |
+| **Tabs** | 页面内同级内容分区切换；完整 Tabs 包含导航、内容面板、键盘切换、连续 More 溢出与会话内内容保留。 | Tabs · `@rain-next/ui` · [源码](../../packages/ui/src/tabs/tabs.tsx) | [合同](../../manifests/ui/tabs.yaml) · [依赖](../../registry/tabs.json) | registry-candidate / registry-candidate | passed / accepted / not-granted / unpublished |
+| **Tree** | 基础与富内容树：层级、展开、独立行选中和勾选、搜索、异步加载、关系线与移动提案。 | Tree · `@rain-next/ui` · [源码](../../packages/ui/src/tree/tree.tsx) | [合同](../../manifests/ui/tree.yaml) · [依赖](../../registry/tree.json) | registry-candidate / registry-candidate | scoped-passed / accepted-web-prototype-foundation-runtime-visual-2026-09-29 / not-granted / unpublished |
+| **Typography** | 复用现有 UI／Reading／Data 三角色和十种预设，以原生 HTML 组织标题、正文、说明与关键数值。 | typographyPresets, typographyUtilityClassNames, resolveTypographyPreset, validateTypographyComposition, validateDataFontUsage · `@rain-next/foundations` · [源码](../../packages/foundations/src/typography-contract.ts) | [合同](../../manifests/ui/typography.yaml) · [依赖](../../registry/g4-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |
+
+状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。
+

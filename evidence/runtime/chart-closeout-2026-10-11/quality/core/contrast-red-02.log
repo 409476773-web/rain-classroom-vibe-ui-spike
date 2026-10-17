@@ -1,0 +1,40 @@
+
+Running 1 test using 1 worker
+
+(node:34941) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/core/contrast.spec.ts:6:1 › ordinary chart axis labels and legend labels meet normal-text contrast on their actual light surface (2.3s)
+
+
+  1) [chromium-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/core/contrast.spec.ts:6:1 › ordinary chart axis labels and legend labels meet normal-text contrast on their actual light surface 
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      18 |       const legends = await paintReadings(host.locator(".legend-container .text-legend-foreground"));
+      19 |       expect(axes.length).toBeGreaterThan(0);
+    > 20 |       expect(legends.length).toBeGreaterThan(0);
+         |                              ^
+      21 |       readings.push({ family, axes, legends });
+      22 |       await host.screenshot({ path: resolve(run, `${family}-actual-text.png`) });
+      23 |       for (const reading of [...axes, ...legends]) expect.soft(reading.ratio, `${family}: ${reading.text} ${reading.foreground} on ${reading.background}`).toBeGreaterThanOrEqual(4.5);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/core/contrast.spec.ts:20:30
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/red-02/test-results/contrast-ordinary-chart-ax-e23cd--their-actual-light-surface-chromium-1440/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/core/red-02/test-results/contrast-ordinary-chart-ax-e23cd--their-actual-light-surface-chromium-1440/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/red-02/test-results/contrast-ordinary-chart-ax-e23cd--their-actual-light-surface-chromium-1440/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/core/red-02/test-results/contrast-ordinary-chart-ax-e23cd--their-actual-light-surface-chromium-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/core/contrast.spec.ts:6:1 › ordinary chart axis labels and legend labels meet normal-text contrast on their actual light surface 

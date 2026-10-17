@@ -1,0 +1,24 @@
+/* @rain-css-exception local-attachment-intake: page-private drop feedback and media-tile Button recipe. */
+@layer utilities {
+  .attachment-intake { position: relative; display: flex; flex-direction: column; gap: var(--rain-space-16); min-width: 0; width: 100%; font-family: var(--rain-font-ui); }
+  .attachment-intake__empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--rain-space-8); min-height: calc(var(--rain-space-32) * 4); box-sizing: border-box; padding: var(--rain-space-24) var(--rain-space-16); border: var(--rain-line-thickness-1) dashed var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-8); color: var(--rain-category-text-neutral-2); background: var(--rain-category-background-neutral-1); }
+  .attachment-intake__empty > .rain-icon { width: var(--rain-icon-size-24); height: var(--rain-icon-size-24); color: var(--rain-category-icon-neutral-3); }
+  .attachment-intake__empty-action { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--rain-space-4); font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-22); }
+  .attachment-intake__empty p { margin: 0; color: var(--rain-category-text-neutral-3); font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); }
+  .attachment-intake__overlay { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--rain-space-12); box-sizing: border-box; padding: var(--rain-space-16); border: var(--rain-line-thickness-2) solid var(--rain-category-border-brand-1); border-radius: var(--rain-radius-8); background: color-mix(in srgb, var(--rain-category-background-neutral-2) 94%, transparent); color: var(--rain-category-text-brand-1); font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-22); text-align: center; pointer-events: none; }
+  .attachment-intake__overlay > .rain-icon { width: var(--rain-icon-size-24); height: var(--rain-icon-size-24); }
+  .attachment-intake__tile { display: flex; width: 100%; height: 100%; min-height: calc(var(--rain-space-32) * 5); flex-direction: column; border: var(--rain-line-thickness-1) dashed var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-8); padding: var(--rain-space-24) var(--rain-space-12); background: var(--rain-category-background-neutral-1); color: var(--rain-category-text-neutral-2); white-space: normal; }
+  .attachment-intake__tile:not(:disabled):hover { border-color: var(--rain-category-border-brand-1); background: var(--rain-category-background-neutral-2); }
+  .attachment-intake__tile:disabled { color: var(--rain-category-text-neutral-4); border-color: var(--rain-category-border-neutral-4); }
+  .attachment-intake__tile:disabled .attachment-intake__tile-label > .rain-icon { color: var(--rain-category-icon-neutral-4); }
+  .attachment-intake__tile-label { display: flex; flex-direction: column; align-items: center; gap: var(--rain-space-8); line-height: var(--rain-line-height-22); }
+  .attachment-intake__tile-label > .rain-icon { width: var(--rain-icon-size-24); height: var(--rain-icon-size-24); color: var(--rain-category-icon-neutral-2); }
+  .attachment-intake__tile-hint { font-size: var(--rain-font-size-12); color: var(--rain-category-text-neutral-3); line-height: var(--rain-line-height-20); font-weight: var(--rain-font-weight-regular); }
+  .attachment-intake__sr { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .attachment-intake__error { margin: 0; color: var(--rain-category-text-red-1); font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); overflow-wrap: anywhere; }
+  .attachment-intake__description { margin: 0; color: var(--rain-category-text-neutral-3); font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); overflow-wrap: anywhere; }
+}
+@media (forced-colors: active) {
+  .attachment-intake__overlay { background: Canvas; color: Highlight; border-color: Highlight; }
+  .attachment-intake__tile, .attachment-intake__empty { border-color: ButtonText; }
+}

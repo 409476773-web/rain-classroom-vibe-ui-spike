@@ -1,0 +1,461 @@
+{
+  "config": {
+    "argv": [
+      "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/.pnpm/@playwright+test@1.62.1/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "tests/e2e/g4-components.config.ts",
+      "--grep",
+      "Item lists aligned"
+    ],
+    "configFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.config.ts",
+    "rootDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/g4-visual-refinement-2026-10-11/browser/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "g4-components.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/g4-visual-refinement-2026-10-11/browser/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "narrow",
+        "name": "narrow",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "g4-components.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/g4-visual-refinement-2026-10-11/browser//report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "g4-components.spec.ts",
+      "file": "g4-components.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Item lists aligned readable resources and keeps native keyboard navigation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1055,
+                  "error": {
+                    "message": "Error: 课程导读：从问题到证据: fontSize\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"1\u001b[7m4\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"1\u001b[7m2\u001b[27mpx\"\u001b[39m",
+                    "stack": "Error: 课程导读：从问题到证据: fontSize\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"1\u001b[7m4\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"1\u001b[7m2\u001b[27mpx\"\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                      "column": 111,
+                      "line": 148
+                    },
+                    "snippet": "  146 |   expect(actionSizes).toHaveLength(2);\n  147 |   for (const row of actionSizes) {\n> 148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n      |                                                                                                               ^\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 111,
+                        "line": 148
+                      },
+                      "message": "Error: 课程导读：从问题到证据: fontSize\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"1\u001b[7m4\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"1\u001b[7m2\u001b[27mpx\"\u001b[39m\n\n  146 |   expect(actionSizes).toHaveLength(2);\n  147 |   for (const row of actionSizes) {\n> 148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n      |                                                                                                               ^\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 111,
+                        "line": 148
+                      },
+                      "message": "Error: 课程导读：从问题到证据: lineHeight\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"\u001b[7m20\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7m14\u001b[27mpx\"\u001b[39m\n\n  146 |   expect(actionSizes).toHaveLength(2);\n  147 |   for (const row of actionSizes) {\n> 148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n      |                                                                                                               ^\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 104,
+                        "line": 149
+                      },
+                      "message": "Error: 课程导读：从问题到证据: height\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m26\u001b[39m\nReceived: \u001b[31m20\u001b[39m\n\nExpected precision:    1\nExpected difference: < \u001b[32m0.05\u001b[39m\nReceived difference:   \u001b[31m6\u001b[39m\n\n  147 |   for (const row of actionSizes) {\n  148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n> 149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n      |                                                                                                        ^\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n  152 |     expect.soft(row.read.height).toBe(26);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 104,
+                        "line": 149
+                      },
+                      "message": "Error: 课程导读：从问题到证据: width\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m40\u001b[39m\nReceived: \u001b[31m36\u001b[39m\n\nExpected precision:    1\nExpected difference: < \u001b[32m0.05\u001b[39m\nReceived difference:   \u001b[31m4\u001b[39m\n\n  147 |   for (const row of actionSizes) {\n  148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n> 149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n      |                                                                                                        ^\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n  152 |     expect.soft(row.read.height).toBe(26);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 36,
+                        "line": 150
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"1\u001b[7m4\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"1\u001b[7m2\u001b[27mpx\"\u001b[39m\n\n  148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n> 150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n      |                                    ^\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n  152 |     expect.soft(row.read.height).toBe(26);\n  153 |   }\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:150:36"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 38,
+                        "line": 151
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"\u001b[7m20\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7m14\u001b[27mpx\"\u001b[39m\n\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n> 151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n      |                                      ^\n  152 |     expect.soft(row.read.height).toBe(26);\n  153 |   }\n  154 |   const first = rows.first();\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:151:38"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 34,
+                        "line": 152
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m26\u001b[39m\nReceived: \u001b[31m20\u001b[39m\n\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n> 152 |     expect.soft(row.read.height).toBe(26);\n      |                                  ^\n  153 |   }\n  154 |   const first = rows.first();\n  155 |   const layout = await rows.evaluateAll(nodes => nodes.map(root => {\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:34"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 111,
+                        "line": 148
+                      },
+                      "message": "Error: 案例阅读：如何识别一条可靠的学习证据: fontSize\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"1\u001b[7m4\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"1\u001b[7m2\u001b[27mpx\"\u001b[39m\n\n  146 |   expect(actionSizes).toHaveLength(2);\n  147 |   for (const row of actionSizes) {\n> 148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n      |                                                                                                               ^\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 111,
+                        "line": 148
+                      },
+                      "message": "Error: 案例阅读：如何识别一条可靠的学习证据: lineHeight\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"\u001b[7m20\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7m14\u001b[27mpx\"\u001b[39m\n\n  146 |   expect(actionSizes).toHaveLength(2);\n  147 |   for (const row of actionSizes) {\n> 148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n      |                                                                                                               ^\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 104,
+                        "line": 149
+                      },
+                      "message": "Error: 案例阅读：如何识别一条可靠的学习证据: height\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m26\u001b[39m\nReceived: \u001b[31m20\u001b[39m\n\nExpected precision:    1\nExpected difference: < \u001b[32m0.05\u001b[39m\nReceived difference:   \u001b[31m6\u001b[39m\n\n  147 |   for (const row of actionSizes) {\n  148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n> 149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n      |                                                                                                        ^\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n  152 |     expect.soft(row.read.height).toBe(26);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 104,
+                        "line": 149
+                      },
+                      "message": "Error: 案例阅读：如何识别一条可靠的学习证据: width\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m40\u001b[39m\nReceived: \u001b[31m36\u001b[39m\n\nExpected precision:    1\nExpected difference: < \u001b[32m0.05\u001b[39m\nReceived difference:   \u001b[31m4\u001b[39m\n\n  147 |   for (const row of actionSizes) {\n  148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n> 149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n      |                                                                                                        ^\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n  152 |     expect.soft(row.read.height).toBe(26);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 36,
+                        "line": 150
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"1\u001b[7m4\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"1\u001b[7m2\u001b[27mpx\"\u001b[39m\n\n  148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n> 150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n      |                                    ^\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n  152 |     expect.soft(row.read.height).toBe(26);\n  153 |   }\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:150:36"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 38,
+                        "line": 151
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"\u001b[7m20\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7m14\u001b[27mpx\"\u001b[39m\n\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n> 151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n      |                                      ^\n  152 |     expect.soft(row.read.height).toBe(26);\n  153 |   }\n  154 |   const first = rows.first();\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:151:38"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 34,
+                        "line": 152
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m26\u001b[39m\nReceived: \u001b[31m20\u001b[39m\n\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n> 152 |     expect.soft(row.read.height).toBe(26);\n      |                                  ^\n  153 |   }\n  154 |   const first = rows.first();\n  155 |   const layout = await rows.evaluateAll(nodes => nodes.map(root => {\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:34"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-11T14:08:58.447Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                    "column": 111,
+                    "line": 148
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8f6fcc47e5c28ae00af4-88361046bb5954de5bf4",
+          "file": "g4-components.spec.ts",
+          "line": 127,
+          "column": 1
+        },
+        {
+          "title": "Item lists aligned readable resources and keeps native keyboard navigation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "narrow",
+              "projectName": "narrow",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 823,
+                  "error": {
+                    "message": "Error: 课程导读：从问题到证据: fontSize\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"1\u001b[7m4\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"1\u001b[7m2\u001b[27mpx\"\u001b[39m",
+                    "stack": "Error: 课程导读：从问题到证据: fontSize\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"1\u001b[7m4\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"1\u001b[7m2\u001b[27mpx\"\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                      "column": 111,
+                      "line": 148
+                    },
+                    "snippet": "  146 |   expect(actionSizes).toHaveLength(2);\n  147 |   for (const row of actionSizes) {\n> 148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n      |                                                                                                               ^\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 111,
+                        "line": 148
+                      },
+                      "message": "Error: 课程导读：从问题到证据: fontSize\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"1\u001b[7m4\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"1\u001b[7m2\u001b[27mpx\"\u001b[39m\n\n  146 |   expect(actionSizes).toHaveLength(2);\n  147 |   for (const row of actionSizes) {\n> 148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n      |                                                                                                               ^\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 111,
+                        "line": 148
+                      },
+                      "message": "Error: 课程导读：从问题到证据: lineHeight\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"\u001b[7m20\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7m14\u001b[27mpx\"\u001b[39m\n\n  146 |   expect(actionSizes).toHaveLength(2);\n  147 |   for (const row of actionSizes) {\n> 148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n      |                                                                                                               ^\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 104,
+                        "line": 149
+                      },
+                      "message": "Error: 课程导读：从问题到证据: height\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m26\u001b[39m\nReceived: \u001b[31m20\u001b[39m\n\nExpected precision:    1\nExpected difference: < \u001b[32m0.05\u001b[39m\nReceived difference:   \u001b[31m6\u001b[39m\n\n  147 |   for (const row of actionSizes) {\n  148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n> 149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n      |                                                                                                        ^\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n  152 |     expect.soft(row.read.height).toBe(26);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 104,
+                        "line": 149
+                      },
+                      "message": "Error: 课程导读：从问题到证据: width\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m40\u001b[39m\nReceived: \u001b[31m36\u001b[39m\n\nExpected precision:    1\nExpected difference: < \u001b[32m0.05\u001b[39m\nReceived difference:   \u001b[31m4\u001b[39m\n\n  147 |   for (const row of actionSizes) {\n  148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n> 149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n      |                                                                                                        ^\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n  152 |     expect.soft(row.read.height).toBe(26);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 36,
+                        "line": 150
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"1\u001b[7m4\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"1\u001b[7m2\u001b[27mpx\"\u001b[39m\n\n  148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n> 150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n      |                                    ^\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n  152 |     expect.soft(row.read.height).toBe(26);\n  153 |   }\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:150:36"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 38,
+                        "line": 151
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"\u001b[7m20\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7m14\u001b[27mpx\"\u001b[39m\n\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n> 151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n      |                                      ^\n  152 |     expect.soft(row.read.height).toBe(26);\n  153 |   }\n  154 |   const first = rows.first();\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:151:38"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 34,
+                        "line": 152
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m26\u001b[39m\nReceived: \u001b[31m20\u001b[39m\n\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n> 152 |     expect.soft(row.read.height).toBe(26);\n      |                                  ^\n  153 |   }\n  154 |   const first = rows.first();\n  155 |   const layout = await rows.evaluateAll(nodes => nodes.map(root => {\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:34"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 111,
+                        "line": 148
+                      },
+                      "message": "Error: 案例阅读：如何识别一条可靠的学习证据: fontSize\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"1\u001b[7m4\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"1\u001b[7m2\u001b[27mpx\"\u001b[39m\n\n  146 |   expect(actionSizes).toHaveLength(2);\n  147 |   for (const row of actionSizes) {\n> 148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n      |                                                                                                               ^\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 111,
+                        "line": 148
+                      },
+                      "message": "Error: 案例阅读：如何识别一条可靠的学习证据: lineHeight\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"\u001b[7m20\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7m14\u001b[27mpx\"\u001b[39m\n\n  146 |   expect(actionSizes).toHaveLength(2);\n  147 |   for (const row of actionSizes) {\n> 148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n      |                                                                                                               ^\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 104,
+                        "line": 149
+                      },
+                      "message": "Error: 案例阅读：如何识别一条可靠的学习证据: height\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m26\u001b[39m\nReceived: \u001b[31m20\u001b[39m\n\nExpected precision:    1\nExpected difference: < \u001b[32m0.05\u001b[39m\nReceived difference:   \u001b[31m6\u001b[39m\n\n  147 |   for (const row of actionSizes) {\n  148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n> 149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n      |                                                                                                        ^\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n  152 |     expect.soft(row.read.height).toBe(26);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 104,
+                        "line": 149
+                      },
+                      "message": "Error: 案例阅读：如何识别一条可靠的学习证据: width\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m40\u001b[39m\nReceived: \u001b[31m36\u001b[39m\n\nExpected precision:    1\nExpected difference: < \u001b[32m0.05\u001b[39m\nReceived difference:   \u001b[31m4\u001b[39m\n\n  147 |   for (const row of actionSizes) {\n  148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n> 149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n      |                                                                                                        ^\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n  152 |     expect.soft(row.read.height).toBe(26);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 36,
+                        "line": 150
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"1\u001b[7m4\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"1\u001b[7m2\u001b[27mpx\"\u001b[39m\n\n  148 |     for (const key of [\"fontSize\", \"lineHeight\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n> 150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n      |                                    ^\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n  152 |     expect.soft(row.read.height).toBe(26);\n  153 |   }\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:150:36"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 38,
+                        "line": 151
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"\u001b[7m20\u001b[27mpx\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7m14\u001b[27mpx\"\u001b[39m\n\n  149 |     for (const key of [\"height\", \"width\"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n> 151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n      |                                      ^\n  152 |     expect.soft(row.read.height).toBe(26);\n  153 |   }\n  154 |   const first = rows.first();\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:151:38"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                        "column": 34,
+                        "line": 152
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m26\u001b[39m\nReceived: \u001b[31m20\u001b[39m\n\n  150 |     expect.soft(row.read.fontSize).toBe(\"14px\");\n  151 |     expect.soft(row.read.lineHeight).toBe(\"20px\");\n> 152 |     expect.soft(row.read.height).toBe(26);\n      |                                  ^\n  153 |   }\n  154 |   const first = rows.first();\n  155 |   const layout = await rows.evaluateAll(nodes => nodes.map(root => {\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:34"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-11T14:09:00.019Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts",
+                    "column": 111,
+                    "line": 148
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8f6fcc47e5c28ae00af4-de2566fe37ec360e6dc4",
+          "file": "g4-components.spec.ts",
+          "line": 127,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-11T14:08:58.123Z",
+    "duration": 2906.825,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

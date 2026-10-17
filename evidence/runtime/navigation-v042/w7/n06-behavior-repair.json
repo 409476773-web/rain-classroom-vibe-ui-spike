@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.0",
+  "scope": "W7 N06 hover Escape/leave/reentry behavior repair",
+  "status": "passed-unit-and-three-engine-final-browser-regression",
+  "protectedVisuals": "CSS/Tokens unchanged; G2 accepted source snapshot retained",
+  "before": {
+    "packages/layouts/src/workspace.tsx": "1d8677dc534adf4a369ae3c4d380049f0e48a228d4660c3e6bdb35e37da86805",
+    "packages/layouts/src/workspace.test.tsx": "d9a3452a3f40568189e5d056d2165221a8c11e9245e307defc8739d9b64a517c"
+  },
+  "redBrowserEvidence": [
+    "browser-smoke-04-results.json",
+    "browser-smoke-04-artifacts/",
+    "browser-full-01-results.json",
+    "browser-full-01-artifacts/"
+  ],
+  "after": {
+    "packages/layouts/src/workspace.tsx": "c74c137303b7a283ebfbd3728f60f89ae7d90ea62e3872ce8a64aa5b10bb358c",
+    "packages/layouts/src/workspace.test.tsx": "87974e0ca49df9bb0079c360df6035fd2e0a93a5ac4501b445664fe837022c31"
+  },
+  "unit": {
+    "red": {
+      "command": "pnpm exec vitest run packages/layouts/src/workspace.test.tsx --maxWorkers 1 --testNamePattern 'N06 allows one hover reentry'",
+      "exitCode": 1,
+      "passed": 0,
+      "failed": 1,
+      "skipped": 16,
+      "log": "n06-unit-red.log"
+    },
+    "green": {
+      "command": "pnpm exec vitest run packages/layouts/src/workspace.test.tsx --maxWorkers 1",
+      "exitCode": 0,
+      "passed": 17,
+      "failed": 0,
+      "durationSeconds": 1.1,
+      "log": "n06-unit-green.log"
+    }
+  },
+  "rootCause": "Escape sets temporary=false and suppression to the region ID before a pointer leave from that panel. The handler previously ignored every non-temporary leave, so the next entry hover was suppressed indefinitely until an extra entry leave.",
+  "fix": "Permit the existing hoverLeave handler for a suppressed region as well as a temporary region. This clears only the matching suppression and retains the 240ms hover delay, no-rebound behavior and cleanup.",
+  "browserFocused": {
+    "passed": 6,
+    "failed": 0,
+    "durationSeconds": 16.1,
+    "command": "RAIN_W7_BROWSER_MATRIX=all pnpm exec playwright test navigation-v042-w7.spec.ts --config tests/e2e/navigation-v042-w7.config.ts --grep='N06 N04|N17 R2 brand'",
+    "results": "browser-smoke-05-results.json",
+    "log": "browser-smoke-05-repair.log"
+  },
+  "browserFinal": {
+    "passed": 232,
+    "failed": 0,
+    "durationSeconds": 313.17,
+    "summary": "browser-final-summary.json",
+    "results": "browser-full-02-results.json"
+  },
+  "independentReview": "n06-independent-review.json"
+}

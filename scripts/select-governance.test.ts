@@ -1,3 +1,5 @@
+import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import * as helpers from "./verification-helpers.mjs";
@@ -6,8 +8,17 @@ import { rainCn } from "../packages/ui/src/utils/rain-class-names";
 import { validateTokenConsumerSource } from "./verify-token-foundations.mjs";
 
 it("allows only the authorized Select width repair when comparing protected sources", () => {
-  const file = "packages/ui/src/styles.css", source = readFileSync(file, "utf8");
+  const file = "packages/ui/src/styles.css";
   const checksum = JSON.parse(readFileSync("evidence/runtime/generation-quality/select-repair/before.json", "utf8"))[file];
+  const archive = "evidence/runtime/rn14-editability/starter-final.tar.gz";
+  expect(createHash("sha256").update(readFileSync(archive)).digest("hex")).toBe("81ed247e9e3c57bf9edd94ace9bea30487557ab5404c26570aa8ea055c7f900e");
+  const extracted = spawnSync("tar", ["-xOzf", archive, file], { encoding: "utf8" });
+  expect(extracted.status, extracted.stderr).toBe(0);
+  const before = extracted.stdout;
+  expect(createHash("sha256").update(before).digest("hex")).toBe(checksum);
+  // Exercise this named historical repair, before later authorized shared CSS additions.
+  expect(before.split('.rain-select__popup { width: 100%; }')).toHaveLength(2);
+  const source = before.replace('.rain-select__popup { width: 100%; }', '.rain-select__popup { --rain-popup-width: var(--anchor-width); width: 100%; }');
   const status = helpers.parseYamlSubset(readFileSync("status/current-phase.yaml", "utf8")) as any;
   expect(helpers.matchesRn15ProtectedSource(file, source, checksum, status, [])).toBe(true);
   expect(helpers.matchesRn15ProtectedSource(file, source + "\n.rain-select { color: red; }", checksum, status, [])).toBe(false);

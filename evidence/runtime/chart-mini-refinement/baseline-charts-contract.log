@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /private/var/folders/2h/mp7rp10x1plgfqrm94_0dcdm0000gn/T/rain-mini-baseline-o0vn0_iv
+
+ ❯ scripts/charts.test.ts (5 tests | 1 failed) 55ms
+   × 17 discoverable chart entries have valid source Registry, contracts and recipes 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/charts.test.ts > 17 discoverable chart entries have valid source Registry, contracts and recipes
+AssertionError: expected [ { name: 'chart-area', …(7) }, …(17) ] to have a length of 17 but got 18
+
+- Expected
++ Received
+
+- 17
++ 18
+
+ ❯ scripts/charts.test.ts:19:26
+     17|
+     18| test("17 discoverable chart entries have valid source Registry, contra…
+     19|   expect(registry.items).toHaveLength(17);
+       |                          ^
+     20|   expect(new Set(CHART_ENTRIES.map(entry => entry.id)).size).toBe(17);
+     21|   for (const entry of CHART_ENTRIES) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  00:47:39
+   Duration  1.76s (transform 161ms, setup 244ms, import 215ms, tests 55ms, environment 1.10s)
+

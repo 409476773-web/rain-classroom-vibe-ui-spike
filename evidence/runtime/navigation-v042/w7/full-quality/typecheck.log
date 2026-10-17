@@ -1,0 +1,22 @@
+
+> @rain-next/workspace@0.0.0 typecheck /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> pnpm -r typecheck && tsc --noEmit --project tsconfig.tests.json
+
+Scope: 5 of 6 workspace projects
+packages/foundations typecheck$ tsc --noEmit --project tsconfig.json
+packages/foundations typecheck: Done
+packages/ui typecheck$ tsc --noEmit --project tsconfig.json
+packages/layouts typecheck$ tsc --noEmit --project tsconfig.json
+packages/layouts typecheck: Done
+packages/ui typecheck: Done
+apps/playground typecheck$ tsc --noEmit --project tsconfig.json
+apps/prototype typecheck$ tsc --noEmit --project tsconfig.json
+apps/prototype typecheck: Done
+apps/playground typecheck: Done
+packages/ui/src/command/command.test.tsx(20,10): error TS2322: Type '(group: typeof groups[number]) => React.JSX.Element' is not assignable to type '((group: CommandGroupData) => ReactNode) | ReactNode'.
+  Type '(group: typeof groups[number]) => React.JSX.Element' is not assignable to type '(group: CommandGroupData) => ReactNode'.
+    Types of parameters 'group' and 'group' are incompatible.
+      Type 'CommandGroupData' is not assignable to type '{ readonly value: "任务"; readonly items: readonly [{ readonly value: "open-panel"; readonly label: "打开任务面板"; }, { readonly value: "archive"; readonly label: "归档任务"; }]; }'.
+        Types of property 'value' are incompatible.
+          Type 'string' is not assignable to type '"任务"'.
+ ELIFECYCLE  Command failed with exit code 1.

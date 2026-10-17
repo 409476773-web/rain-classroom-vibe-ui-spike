@@ -1,0 +1,54 @@
+.rain-chart-radial { max-width: 340px; width: 100%; margin: auto; }
+.rain-chart-gauge { --chart-5: var(--chart-2); width: min(100%,420px); height: 300px; margin: auto; }
+.rain-chart-sunburst { width: min(100%,360px); margin: auto; }
+.rain-chart-mini-row { display: flex; align-items: center; justify-content: center; max-width: 360px; margin: auto; padding-block: var(--rain-space-12); }
+.rain-chart-mini-state-row { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; padding-block: var(--rain-space-12); font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-22); }
+.rain-chart-center-reading { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: var(--rain-space-8); }
+.rain-chart-center-value { font-family: var(--rain-font-data); font-size: var(--rain-font-size-24); color: var(--rain-category-text-neutral-1); }
+.rain-chart-center-label { font-size: var(--rain-font-size-12); color: var(--rain-category-text-neutral-4); }
+.rain-chart-example-control, .rain-chart-live-controls, .rain-chart-breadcrumb, .rain-chart-scale { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--rain-space-8); font-size: var(--rain-font-size-12); margin: var(--rain-space-12) 0; }
+.rain-chart-scale > i { width: 20px; height: 8px; border-radius: var(--rain-radius-4); flex-shrink: 0; }
+.rain-chart-scale > span { white-space: nowrap; }
+.rain-chart-note { color: var(--rain-category-text-neutral-4); font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); }
+.rain-chart-data { margin-top: var(--rain-space-16); overflow: auto; }
+.rain-chart-empty { min-height: 250px; display: grid; align-content: center; justify-items: center; color: var(--rain-category-text-neutral-4); }
+
+.rain-chart-data > div { overflow: auto; max-width: 100%; }
+.rain-chart-data table { width: 100%; border-collapse: collapse; font-size: var(--rain-font-size-12); }
+.rain-chart-data :is(th,td) { padding: var(--rain-space-8) var(--rain-space-12); text-align: right; white-space: nowrap; border-bottom: 1px solid var(--rain-category-border-neutral-4); }
+.rain-chart-data :is(th,td):first-child { text-align: left; }
+.rain-chart-data summary { cursor: pointer; color: var(--rain-category-text-neutral-3); }
+.rain-chart-data caption { color: var(--rain-category-text-neutral-4); text-align: left; padding-bottom: var(--rain-space-8); }
+/* Keep the native-control fallback below legend overrides. */
+.rain-chart :is(button,select):where(:not([data-rain-id])) { font: inherit; color: var(--rain-category-text-neutral-3); background: var(--rain-category-background-neutral-1); border: 1px solid var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-6); padding: var(--rain-space-8); cursor: pointer; }
+
+.rain-chart-variant-legend, .rain-chart-sunburst-legend { display:flex; flex-wrap:wrap; justify-content:center; gap:var(--rain-space-8); margin-block:var(--rain-space-12); }
+.rain-chart-variant-legend-item, .rain-chart-variant-legend > span, .rain-chart-legend-button { display:inline-flex; align-items:center; gap:var(--rain-space-8); }
+.rain-chart .rain-chart-legend-button { border:0; background:transparent; padding:var(--rain-space-6) var(--rain-space-8); white-space:nowrap; }
+.rain-chart .rain-chart-variant-legend-item, .rain-chart .rain-chart-sunburst-legend button { height:auto; border:0; background:transparent; padding:var(--rain-space-6) var(--rain-space-8); }
+.rain-chart-sunburst-legend button > [data-slot="label"] { display:inline-flex; align-items:center; gap:var(--rain-space-8); white-space:nowrap; }
+.rain-chart-legend-dot, .rain-chart-legend-button > span:first-child { display:inline-block; width:10px; height:10px; flex-shrink:0; border-radius:var(--rain-radius-full); }
+.rain-chart-legend-button > span:not(:first-child) { width:auto; height:auto; }
+.rain-chart .rain-chart-progress-legend { flex-direction:column; align-items:stretch; width:100%; max-width:340px; margin:var(--rain-space-12) auto; }
+.rain-chart-progress-legend-item { display:grid; gap:var(--rain-space-6); padding:var(--rain-space-6) var(--rain-space-8); }
+.rain-chart .rain-chart-progress-legend-heading { display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:var(--rain-space-8); width:100%; border:0; background:transparent; padding:0; text-align:left; }
+.rain-chart-progress-legend-heading > span { white-space:nowrap; }
+.rain-chart .rain-chart-sunburst-title { margin:0; font-size:var(--rain-font-size-15); font-weight:var(--rain-font-weight-regular); line-height:var(--rain-line-height-22); color:var(--rain-category-text-neutral-1); }
+.rain-chart-sunburst-heading { display:flex; justify-content:center; margin-bottom:var(--rain-space-16); text-align:center; }
+.rain-chart-sunburst-heading .rain-breadcrumb { max-width:100%; }
+.rain-chart-sunburst-heading .rain-breadcrumb-list { justify-content:center; }
+.rain-chart-sunburst-navigation { width:100%; }
+.rain-chart-sunburst-controls { display:flex; flex-wrap:wrap; justify-content:center; gap:var(--rain-space-8); margin-top:var(--rain-space-8); }
+.rain-chart-sunburst-controls button { height:auto; max-width:100%; }
+.rain-chart-sunburst-controls button > [data-slot="label"] { white-space:normal; overflow-wrap:anywhere; }
+.rain-chart-heatmap-legend { margin-top:var(--rain-space-16); }
+.rain-chart-map { width:min(100%,960px); margin-inline:auto; }
+.rain-chart-variant-controls, .rain-chart-map-controls, .rain-chart-controls { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:var(--rain-space-8); margin-block:var(--rain-space-12); }
+.rain-chart-heatmap-scroll { overflow-x:auto; min-width:0; }
+.rain-chart-sunburst { display:flex; flex-direction:column; align-items:center; }
+.rain-chart-funnel-variant > [data-slot="chart-root"] { width:100%; height:280px; }
+.rain-chart-funnel-variant--vertical > [data-slot="chart-root"] { height:360px; }
+.rain-chart-gauge-variant { max-width:420px; margin-inline:auto; }
+.rain-chart-gauge-variant--linear { max-width:none; padding-block:24px; }
+.rain-chart-center-label { max-width:100%; overflow-wrap:anywhere; text-align:center; }
+.rain-chart-static-loading { min-height:260px; display:grid; place-items:center; }

@@ -1,0 +1,68 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ scripts/asset-index.test.ts (4 tests | 2 failed) 2510ms
+   × limits generation-quality authorization without changing previous decisions 43ms
+   × keeps the asset index traceable, current and separate from local experiments and acceptance 59ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/asset-index.test.ts > limits generation-quality authorization without changing previous decisions
+AssertionError: expected [Function] to not throw an error but 'AssertionError [ERR_ASSERTION]: Close…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"AssertionError [ERR_ASSERTION]: Closeout retained source or original proof changed: apps/playground/src/docs/components/g5-component-pages.tsx
++ actual - expected
+
++ '8b728554961036ed66c4d69c40de0ed1ec6735a825425ce464d5beede16df90f'
+- 'ae5523e29c0fd842fd28797b50dbd05d45198fc3e56648ca1f0d4767ed86a154'
+"
+
+ ❯ scripts/asset-index.test.ts:62:66
+     60| it("limits generation-quality authorization without changing previous …
+     61|   const phase = authorizationPhase("generationQuality");
+     62|   expect(() => helpers.getValidatedTailwindB2History(phase)).not.toThr…
+       |                                                                  ^
+     63|   for (const change of [
+     64|     { scope: "all-components" }, { humanGate: "accepted" },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/asset-index.test.ts > keeps the asset index traceable, current and separate from local experiments and acceptance
+AssertionError: Closeout retained source or original proof changed: apps/playground/src/docs/components/g5-component-pages.tsx
++ actual - expected
+
++ '8b728554961036ed66c4d69c40de0ed1ec6735a825425ce464d5beede16df90f'
+- 'ae5523e29c0fd842fd28797b50dbd05d45198fc3e56648ca1f0d4767ed86a154'
+
+
+Expected: "ae5523e29c0fd842fd28797b50dbd05d45198fc3e56648ca1f0d4767ed86a154"
+Received: "8b728554961036ed66c4d69c40de0ed1ec6735a825425ce464d5beede16df90f"
+
+ ❯ readG1G6CloseoutBindings scripts/g1-g6-closeout-governance.mjs:44:79
+     42|   const normalizedModule = bytes(root, modulePath).toString().replace(…
+     43|   assert.equal(sha(normalizedModule), moduleSeal, "Closeout verifier s…
+     44|   for (const [file, expected] of Object.entries(record.retainedFiles))…
+       |                                                                               ^
+     45|   for (const [file, binding] of Object.entries(record.sourceFiles)) {
+     46|     assert.equal(sha(bytes(root, file)), binding.after, "Closeout auth…
+ ❯ scripts/verification-helpers.mjs:638:261
+ ❯ verifySourceBindingTraversal scripts/verification-helpers.mjs:605:75
+ ❯ getG6SourceBindingView scripts/verification-helpers.mjs:638:10
+ ❯ getG6SourceBindings scripts/verification-helpers.mjs:642:26
+ ❯ scripts/verification-helpers.mjs:4139:21
+ ❯ verifySourceBindingTraversal scripts/verification-helpers.mjs:605:75
+ ❯ Module.getValidatedTailwindB2History scripts/verification-helpers.mjs:4138:10
+ ❯ scripts/asset-index.test.ts:138:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 passed (4)
+   Start at  13:40:53
+   Duration  2.98s (transform 153ms, setup 128ms, import 244ms, tests 2.51s, environment 0ms)
+

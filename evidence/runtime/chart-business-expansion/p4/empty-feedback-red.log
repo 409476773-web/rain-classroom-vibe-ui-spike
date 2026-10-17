@@ -1,0 +1,38 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/network-examples.test.tsx (7 tests | 1 failed | 6 skipped) 70ms
+   × empty networks do not suggest unavailable node selection 69ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/network-examples.test.tsx > empty networks do not suggest unavailable node selection
+AssertionError: expected <p …(2)></p> to be null
+
+- Expected:
+null
+
++ Received:
+<p
+  class="rain-network-feedback"
+  role="status"
+>
+  选择节点查看关联详情；也可通过节点列表操作。
+</p>
+
+ ❯ apps/playground/src/docs/components/chart-business/network-examples.test.tsx:10:54
+      8|   const view = render(<NetworkExamples state="empty" fixtureId="course…
+      9|   expect(within(view.container.querySelector(".rain-network") as HTMLE…
+     10|   expect(view.queryByText("选择节点查看关联详情；也可通过节点列表操作。")).toBeNull();
+       |                                                      ^
+     11| });
+     12|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  16:30:31
+   Duration  2.92s (transform 1.29s, setup 145ms, import 2.05s, tests 70ms, environment 555ms)
+

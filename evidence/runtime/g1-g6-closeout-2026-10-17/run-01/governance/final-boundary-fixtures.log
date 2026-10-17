@@ -1,0 +1,105 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ × scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > accepts the current finite registered sources without treating archived copies as live code 9605ms
+   → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ × scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects an unknown live source: unapproved-navigation.ts 9599ms
+   → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ × scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects an unknown live source: apps/playground/src/recipes/navigation-v042/unapproved.tsx 9424ms
+   → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ × scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects an unknown live source: packages/ui/src/navigation/unapproved.ts 9968ms
+   → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ × scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects an unknown live source: packages/layouts/src/unapproved.ts 9958ms
+   → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ × scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects an unknown live source: tests/e2e/unapproved-navigation.spec.ts 9917ms
+   → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ✓ scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects an unapproved Headless module even inside a registered G3 wrapper 732ms
+ ✓ scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects Foundations importing UI through a known source 724ms
+ ✓ scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects an unauthorized direct package dependency 701ms
+ × scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > retains the exact historical evidence allowlist 9860ms
+   → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ✓ scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects self-registration through an altered inventory: registry/navigation-v042.json 932ms
+ × scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects self-registration through an altered inventory: evidence/runtime/navigation-v042/w6/review-02/final-source.json 9841ms
+   → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ × scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects self-registration through an altered inventory: evidence/runtime/navigation-v042/w7/regression-map.json 10943ms
+   → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ✓ scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects a registered runtime importing executable code from a data domain: docs/ai 949ms
+ ✓ scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects a registered runtime importing executable code from a data domain: evidence/runtime/navigation-v042 886ms
+ ✓ scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects a registered runtime importing executable code from a data domain: artifacts 844ms
+ ✓ scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > does not let a mutable Manifest example authorize an unknown source 662ms
+ ✓ scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > does not switch to the data/source domain when the accepted parent phase is invalid 961ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > accepts the current finite registered sources without treating archived copies as live code
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/verify-boundaries-navigation.test.ts:76:3
+     74|   }, 30_000);
+     75|
+     76|   it("accepts the current finite registered sources without treating a…
+       |   ^
+     77|     const result = verify("registered-baseline");
+     78|     expect(result.output).toMatch(/Boundary verification passed/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects an unknown live source: unapproved-navigation.ts
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects an unknown live source: apps/playground/src/recipes/navigation-v042/unapproved.tsx
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects an unknown live source: packages/ui/src/navigation/unapproved.ts
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects an unknown live source: packages/layouts/src/unapproved.ts
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects an unknown live source: tests/e2e/unapproved-navigation.spec.ts
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/verify-boundaries-navigation.test.ts:88:5
+     86|     ["packages/layouts/src/unapproved.ts", "layouts"],
+     87|     ["tests/e2e/unapproved-navigation.spec.ts", "test"],
+     88|   ])("rejects an unknown live source: %s", (file, label) => {
+       |     ^
+     89|     const result = mutate(file, "export const unapproved = true;\n", `…
+     90|     expect(result.status).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > retains the exact historical evidence allowlist
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/verify-boundaries-navigation.test.ts:118:3
+    116|   });
+    117|
+    118|   it("retains the exact historical evidence allowlist", () => {
+       |   ^
+    119|     const file = "evidence/runtime/tailwind-b2/unapproved.yaml";
+    120|     const result = mutate(file, "kind: Unapproved\n", "historical-evid…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects self-registration through an altered inventory: evidence/runtime/navigation-v042/w6/review-02/final-source.json
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects self-registration through an altered inventory: evidence/runtime/navigation-v042/w7/regression-map.json
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/verify-boundaries-navigation.test.ts:130:5
+    128|     ["evidence/runtime/navigation-v042/w6/review-02/final-source.json"…
+    129|     ["evidence/runtime/navigation-v042/w7/regression-map.json", "tests…
+    130|   ])("rejects self-registration through an altered inventory: %s", (in…
+       |     ^
+    131|     const document = JSON.parse(readFileSync(join(fixtureRoot, invento…
+    132|     if (label === "registry") document.shared.files.push(file);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 failed | 9 passed (18)
+   Start at  01:40:26
+   Duration  165.20s (transform 413ms, setup 218ms, import 596ms, tests 164.28s, environment 0ms)
+

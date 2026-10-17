@@ -1,0 +1,284 @@
+{
+  "schemaVersion": "0.3.0",
+  "scope": "T05 M01/M02 local candidate only",
+  "runAt": "2026-09-23T06:18:01.272971+00:00",
+  "preview": [
+    "http://127.0.0.1:4174/#token-first-g3?rebuild=1&scene=commands&recipe=M01",
+    "http://127.0.0.1:4174/#token-first-g3?rebuild=1&scene=commands&recipe=M02"
+  ],
+  "sourcePaths": [
+    "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/apps/prototype/src/scenarios/token-first-g3/rebuild/commands.tsx",
+    "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/apps/prototype/src/scenarios/token-first-g3/rebuild/commands.css",
+    "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/apps/prototype/src/scenarios/token-first-g3/rebuild/commands.test.tsx",
+    "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-rebuild-commands.spec.ts"
+  ],
+  "fingerprint": {
+    "head": "321e1a0c1b5f9284e0fcb5167fa059d6174b1752",
+    "files": {
+      "apps/prototype/src/scenarios/token-first-g3/rebuild/commands.tsx": "351c0c3936560dc7961dd8e6fd2ae970d5f756ca4bf72746b4c8718d216bafa7",
+      "apps/prototype/src/scenarios/token-first-g3/rebuild/commands.css": "60e9286b66cda4070e0d979d91c3465e80a88b98cbbc6cbc75cdbba20c339168",
+      "apps/prototype/src/scenarios/token-first-g3/rebuild/commands.test.tsx": "e66dd15b2c609b4d6b9aaa687de94b6eb2da2c652813493a302a22976aef1835",
+      "tests/e2e/navigation-rebuild-commands.spec.ts": "4d5b9ed52a9aabda76f22fbbeae02cdd05db44741f62c7d895dbfb0b6bbe837b"
+    },
+    "parentPageSha256": "f99fe96c8b7b370f9ec0722c9bd2be817cd3df47879377045bfd9ab0aa27cffc",
+    "lockfileSha256": "e905860d944717713398d0090c3f5f76d7fe93ef58c623b9b36f22486ffa3b2d"
+  },
+  "verification": {
+    "red": {
+      "command": "pnpm exec vitest run apps/prototype/src/scenarios/token-first-g3/rebuild/commands.test.tsx",
+      "exitCode": 1,
+      "expectedFailure": "3 tests fail because the command workbench region did not exist.",
+      "artifact": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-red.log"
+    },
+    "unit": {
+      "command": "pnpm exec vitest run apps/prototype/src/scenarios/token-first-g3/rebuild/commands.test.tsx",
+      "exitCode": 0,
+      "testsPassed": 3,
+      "artifact": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-green.log"
+    },
+    "typecheck": {
+      "command": "pnpm --filter @rain-next/prototype typecheck",
+      "exitCode": 0,
+      "artifact": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-typecheck.log"
+    },
+    "browser": {
+      "command": "pnpm exec playwright test --config playwright.navigation-rebuild.config.ts tests/e2e/navigation-rebuild-commands.spec.ts --output=evidence/runtime/navigation-rebuild-v03/command-tests --reporter=list",
+      "exitCode": 0,
+      "testsPassed": 8,
+      "artifact": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-browser.log"
+    },
+    "visualInspection": "Current full-page, short-viewport popup and dark compact screenshots inspected; public separator default was locally rebound to existing subtle border via candidate className. Human visual approval not granted.",
+    "contrast": "not-run-by-this-subtask",
+    "assistiveTechnology": "not-run",
+    "designStatus": "pending-review"
+  },
+  "cases": [
+    {
+      "id": "V-M01-01",
+      "status": "pass",
+      "implementationStatus": "implemented-local-candidate",
+      "verificationStatus": "pass",
+      "designStatus": "pending-review",
+      "observed": "Focus moves from 文件 to 编辑 with ArrowRight; ArrowDown opens 编辑 and ArrowRight opens adjacent 插入.",
+      "command": "pnpm exec playwright test --config playwright.navigation-rebuild.config.ts tests/e2e/navigation-rebuild-commands.spec.ts --output=evidence/runtime/navigation-rebuild-v03/command-tests --reporter=list",
+      "exitCode": 0,
+      "artifactPaths": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-browser.log"
+      ],
+      "runAt": "2026-09-23T06:18:01.272971+00:00",
+      "reviewer": null
+    },
+    {
+      "id": "V-M01-02",
+      "status": "pass",
+      "implementationStatus": "implemented-local-candidate",
+      "verificationStatus": "pass",
+      "designStatus": "pending-review",
+      "observed": "Escape closes 练习类别 child only, leaves 插入 open, then closes parent and restores 插入 trigger focus.",
+      "command": "pnpm exec playwright test --config playwright.navigation-rebuild.config.ts tests/e2e/navigation-rebuild-commands.spec.ts --output=evidence/runtime/navigation-rebuild-v03/command-tests --reporter=list",
+      "exitCode": 0,
+      "artifactPaths": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-submenu.png"
+      ],
+      "runAt": "2026-09-23T06:18:01.272971+00:00",
+      "reviewer": null
+    },
+    {
+      "id": "V-M01-03",
+      "status": "pass",
+      "implementationStatus": "implemented-local-candidate",
+      "verificationStatus": "pass",
+      "designStatus": "pending-review",
+      "observed": "发布到课程 is aria-disabled; 显示大纲 starts checked and toggles independently; compact/default radio is exclusive; toggling mark does not move label x.",
+      "command": "pnpm exec playwright test --config playwright.navigation-rebuild.config.ts tests/e2e/navigation-rebuild-commands.spec.ts --output=evidence/runtime/navigation-rebuild-v03/command-tests --reporter=list",
+      "exitCode": 0,
+      "artifactPaths": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-green.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-isolated-dark-compact.png"
+      ],
+      "runAt": "2026-09-23T06:18:01.272971+00:00",
+      "reviewer": null
+    },
+    {
+      "id": "V-M01-04",
+      "status": "pass",
+      "implementationStatus": "implemented-local-candidate",
+      "verificationStatus": "pass",
+      "designStatus": "pending-review",
+      "observed": "Both skins insert paragraphs, undo and redo visible content. Unregistered key display is labelled. Meta+Shift+Enter in textarea retains focus and does not insert document content.",
+      "command": "pnpm exec playwright test --config playwright.navigation-rebuild.config.ts tests/e2e/navigation-rebuild-commands.spec.ts --output=evidence/runtime/navigation-rebuild-v03/command-tests --reporter=list",
+      "exitCode": 0,
+      "artifactPaths": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-M01-content.png"
+      ],
+      "runAt": "2026-09-23T06:18:01.272971+00:00",
+      "reviewer": null
+    },
+    {
+      "id": "V-M02-01",
+      "status": "pass",
+      "implementationStatus": "implemented-local-candidate",
+      "verificationStatus": "pass",
+      "designStatus": "pending-review",
+      "observed": "M01 and M02 use the same CommandWorkbench local component, action state/history and parameterized unit/browser scenario; appearance changes the wrapper only.",
+      "command": "pnpm exec playwright test --config playwright.navigation-rebuild.config.ts tests/e2e/navigation-rebuild-commands.spec.ts --output=evidence/runtime/navigation-rebuild-v03/command-tests --reporter=list",
+      "exitCode": 0,
+      "artifactPaths": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-green.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-M02-content.png"
+      ],
+      "runAt": "2026-09-23T06:18:01.272971+00:00",
+      "reviewer": null
+    },
+    {
+      "id": "V-M02-02",
+      "status": "pass",
+      "implementationStatus": "implemented-local-candidate",
+      "verificationStatus": "pass",
+      "designStatus": "pending-review",
+      "observed": "Base UI Portal submenu opens by keyboard and remains within viewport; closes one layer at a time with Base UI behavior.",
+      "command": "pnpm exec playwright test --config playwright.navigation-rebuild.config.ts tests/e2e/navigation-rebuild-commands.spec.ts --output=evidence/runtime/navigation-rebuild-v03/command-tests --reporter=list",
+      "exitCode": 0,
+      "artifactPaths": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-submenu.png"
+      ],
+      "runAt": "2026-09-23T06:18:01.272971+00:00",
+      "reviewer": null
+    },
+    {
+      "id": "V-M02-03",
+      "status": "pass",
+      "implementationStatus": "implemented-local-candidate",
+      "verificationStatus": "pass",
+      "designStatus": "pending-review",
+      "observed": "All visible menu rows retain four nonoverlapping slot rectangles with a long Chinese command and multi-key shortcut at four requested viewports.",
+      "command": "pnpm exec playwright test --config playwright.navigation-rebuild.config.ts tests/e2e/navigation-rebuild-commands.spec.ts --output=evidence/runtime/navigation-rebuild-v03/command-tests --reporter=list",
+      "exitCode": 0,
+      "artifactPaths": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-columns-1200x800.png",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-columns-1200x650.png",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-columns-1440x900.png",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-columns-1920x1080.png"
+      ],
+      "runAt": "2026-09-23T06:18:01.272971+00:00",
+      "reviewer": null
+    },
+    {
+      "id": "V-M02-04",
+      "status": "pass",
+      "implementationStatus": "implemented-local-candidate",
+      "verificationStatus": "pass",
+      "designStatus": "pending-review",
+      "observed": "Changing A to dark/compact and hiding outline leaves B light/default with outline; B computed text/background/bar colors and trigger height remain identical.",
+      "command": "pnpm exec playwright test --config playwright.navigation-rebuild.config.ts tests/e2e/navigation-rebuild-commands.spec.ts --output=evidence/runtime/navigation-rebuild-v03/command-tests --reporter=list",
+      "exitCode": 0,
+      "artifactPaths": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-isolated-dark-compact.png"
+      ],
+      "runAt": "2026-09-23T06:18:01.272971+00:00",
+      "reviewer": null
+    },
+    {
+      "id": "E06",
+      "status": "pass",
+      "implementationStatus": "implemented-local-candidate",
+      "verificationStatus": "pass",
+      "designStatus": "pending-review",
+      "observed": "Both appearances run the same visible model with disabled, checkbox, radio, submenu and coordinated menu focus. Four viewports and long labels covered; shortcut display and unregistered status are explicit.",
+      "command": "pnpm exec playwright test --config playwright.navigation-rebuild.config.ts tests/e2e/navigation-rebuild-commands.spec.ts --output=evidence/runtime/navigation-rebuild-v03/command-tests --reporter=list",
+      "exitCode": 0,
+      "artifactPaths": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-green.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-typecheck.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-submenu.png",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-M01-content.png",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-M02-content.png"
+      ],
+      "runAt": "2026-09-23T06:18:01.272971+00:00",
+      "reviewer": null
+    },
+    {
+      "id": "E08",
+      "status": "partial",
+      "implementationStatus": "implemented-local-candidate",
+      "verificationStatus": "partial",
+      "designStatus": "pending-review",
+      "observed": "M01/M02 local candidate instance isolation passed using public className/children and same installed Base UI checkbox/radio; no shared source change. This is supporting evidence only; whole-family E08 remains owned by combined T06 results.",
+      "command": "pnpm exec playwright test --config playwright.navigation-rebuild.config.ts tests/e2e/navigation-rebuild-commands.spec.ts --output=evidence/runtime/navigation-rebuild-v03/command-tests --reporter=list",
+      "exitCode": 0,
+      "artifactPaths": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/commands-isolated-dark-compact.png"
+      ],
+      "runAt": "2026-09-23T06:18:01.272971+00:00",
+      "reviewer": null
+    }
+  ],
+  "publicSourceProtection": {
+    "packages/ui/src/menubar/menubar.tsx": {
+      "baseline": "d88da91f79994c8b399cef7f4d8eb54492980c39a55ae8ba70b038e25b08f64c",
+      "current": "d88da91f79994c8b399cef7f4d8eb54492980c39a55ae8ba70b038e25b08f64c",
+      "unchanged": true
+    },
+    "packages/ui/src/_internal/popup.tsx": {
+      "baseline": "4ced9c573e2f502abcfe5ab23c43a44c4a3910811cc3b721b284cc4b2728224f",
+      "current": "4ced9c573e2f502abcfe5ab23c43a44c4a3910811cc3b721b284cc4b2728224f",
+      "unchanged": true
+    },
+    "packages/ui/src/styles.css": {
+      "baseline": "42a50827b374808b9a673836b6b3af07d547b33cff04d25ac9b1c90e00edb0ac",
+      "current": "42a50827b374808b9a673836b6b3af07d547b33cff04d25ac9b1c90e00edb0ac",
+      "unchanged": true
+    },
+    "packages/ui/src/index.ts": {
+      "baseline": "44831427dc14d38a0270bc769ab405bec5516d56525c26e21874cfb3b9325948",
+      "current": "44831427dc14d38a0270bc769ab405bec5516d56525c26e21874cfb3b9325948",
+      "unchanged": true
+    },
+    "packages/foundations/src/tokens.css": {
+      "baseline": "aaac07083c6ea0b3861437a2778ff6322e0f1a9e4bfbac80baf00da36425d640",
+      "current": "aaac07083c6ea0b3861437a2778ff6322e0f1a9e4bfbac80baf00da36425d640",
+      "unchanged": true
+    },
+    "packages/foundations/src/density.tsx": {
+      "baseline": "e94d07234fb5d5a90c33a73cdae43839b4aae3a159c387df910453ff659d6ed2",
+      "current": "e94d07234fb5d5a90c33a73cdae43839b4aae3a159c387df910453ff659d6ed2",
+      "unchanged": true
+    }
+  },
+  "sourceContract": {
+    "headless": "@base-ui/react 1.8.0",
+    "exports": [
+      "CommandWorkbench({ appearance?: plain | framed, instance?: string })",
+      "CommandStateBoard()"
+    ],
+    "reused": [
+      "@rain-next/ui Menubar and Kbd",
+      "@rain-next/foundations DensityProvider and densityMetrics",
+      "@base-ui/react/menu CheckboxItem, RadioGroup, RadioItem"
+    ],
+    "menuPolicies": {
+      "modal": "false on Menubar.Root; child Menu does not override it",
+      "checkbox": "closeOnClick=false",
+      "densityRadio": "closeOnClick=false",
+      "categoryRadio": "closeOnClick=true",
+      "submenu": "openOnHover=false, closeParentOnEsc=false",
+      "shortcuts": "display only; no keydown listener or registration"
+    },
+    "icons": [
+      "CheckBoldIcon available; semantic rule selected-item",
+      "ChevronRightIcon available; local submenu direction marker only"
+    ]
+  },
+  "publicApiApproved": false,
+  "publishApproved": false,
+  "figma": "not-written"
+}

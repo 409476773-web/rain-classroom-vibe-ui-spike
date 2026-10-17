@@ -1,3 +1,4 @@
+import { copyCurrentGovernanceFixture } from "./select-unification-test-fixture";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
@@ -22,8 +23,141 @@ import {
   parseYamlSubset,
 } from "./verification-helpers.mjs";
 import * as verificationHelpers from "./verification-helpers.mjs";
+import { getM2ColorConsumers, getTokenFirstV12ColorConsumers, validateRegisteredRecipeColors } from "./verify-token-foundations.mjs";
+import { getTokenFoundationOutputs } from "./token-foundation-outputs.mjs";
 
 const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+it("validates later navigation records while rejecting frozen-history and permission changes", () => {
+  const status = parseYamlSubset(readFileSync(join(workspaceRoot, "status/current-phase.yaml"), "utf8")) as any;
+  expect(() => verificationHelpers.validateTokenFoundationsV1Phase(status)).not.toThrow();
+  for (const [key, field, value] of [
+    ["navigationComponentsV042", "scope", "all-components"],
+    ["navigationComponentsV042Continuation", "workpackScope", "publish-and-migrate"],
+    ["navigationComponentsV042W6W8", "scope", "all-components"],
+    ["navigationComponentsV042W6W8", "publication", "published"],
+    ["navigationComponentsV042W6W8", "gitOperations", "authorized"],
+    ["navigationComponentsV042W6W8", "figmaWrite", "authorized"],
+    ["navigationComponentsV042W6W8", "businessMigration", "authorized"],
+    ["navigationComponentsV042W6W8", "unexpected", true],
+    ["navigationComponentsV042W6W8", "humanGateG3", "accepted-global-system"],
+  ] as const) {
+    const invalid = structuredClone(status);
+    invalid[key][field] = value;
+    expect(() => verificationHelpers.validateTokenFoundationsV1Phase(invalid), `${key}.${field}`).toThrow();
+  }
+  for (const name of ["breadcrumbSingleSize", "tokenFirstG3NavigationRebuildV03", "tokenFirstV12G3", "tokenFirstV12G2"]) {
+    const invalid = structuredClone(status);
+    invalid.componentRefinements[name].scope = "all-components";
+    expect(() => verificationHelpers.validateTokenFoundationsV1Phase(invalid), name).toThrow();
+  }
+  const expanded = structuredClone(status);
+  expanded.navigationComponentsV042W6W8.nextAuthorizedWork.scope = "all-components";
+  expect(() => verificationHelpers.validateTokenFoundationsV1Phase(expanded)).toThrow();
+  const missingParent = structuredClone(status);
+  missingParent.componentRefinements.tokenFirstV12.authorization = "missing";
+  expect(verificationHelpers.hasTokenFirstV12G1NextAuthorization(missingParent)).toBe(false);
+  expect(verificationHelpers.hasTooltipAuthorization(missingParent)).toBe(false);
+  for (const path of [["tokenFirstV12"], ["tokenFirstV12", "g1Next"], ["tokenFirstV12G2"]]) {
+    for (const change of [{ unexpected: true }, { implementation: "in-progress" }, { automatedVerification: "failed" }, { independentReview: "findings" }, { publication: "published" }]) {
+      const invalid = structuredClone(status);
+      Object.assign(path.reduce((record: any, key) => record[key], invalid.componentRefinements), change);
+      expect(() => verificationHelpers.validateTokenFoundationsV1Phase(invalid), path.join(".")).toThrow();
+    }
+  }
+  const rewritten = structuredClone(status);
+  rewritten.phaseHistory.tailwindB2.independentLifecycle.humanGate = "accepted";
+  expect(() => verificationHelpers.validateTokenFoundationsV1Phase(rewritten)).toThrow(/history/);
+  const unknown = structuredClone(status);
+  unknown.unapprovedNavigation = { authorization: "authorized" };
+  expect(() => verificationHelpers.validateTokenFoundationsV1Phase(unknown)).toThrow(/unknown/);
+});
+it("limits G1 continuation to Tooltip and the pinned Resizable engine with valid color roles", () => {
+  const status = parseYamlSubset(readFileSync(join(workspaceRoot, "status/current-phase.yaml"), "utf8")) as any;
+  expect(verificationHelpers.hasTokenFirstV12G1NextAuthorization(status)).toBe(true);
+  for (const change of [{ scope: "all-components" }, { dependency: "react-resizable-panels@latest" }, { humanGate: "accepted", humanGateDecision: undefined }, { contrastAcceptance: "granted" }, { publication: "published" }]) {
+    const invalid = structuredClone(status);
+    Object.assign(invalid.componentRefinements.tokenFirstV12.g1Next, change);
+    expect(verificationHelpers.hasTokenFirstV12G1NextAuthorization(invalid)).toBe(false);
+  }
+  const filePath = "apps/prototype/src/scenarios/token-first-g1/next.css";
+  const source = readFileSync(join(workspaceRoot, filePath), "utf8");
+  const outputs = getTokenFoundationOutputs();
+  outputs.colorCssConsumers.push(...getTokenFirstV12ColorConsumers(workspaceRoot));
+  expect(validateRegisteredRecipeColors({ filePath, source, outputs, root: workspaceRoot })).toEqual([]);
+  expect(validateRegisteredRecipeColors({ filePath, source: source.replace("--rain-category-text-neutral-2", "--rain-category-text-neutral-6"), outputs, root: workspaceRoot })).not.toEqual([]);
+});
+it("registers report A local colors and preserves user-directed weak-text findings", () => {
+  const filePath = "apps/prototype/src/scenarios/bm-d/report-a.css";
+  const source = readFileSync(join(workspaceRoot, filePath), "utf8");
+  const consumers = getM2ColorConsumers(workspaceRoot).filter((entry: { filePath: string }) => entry.filePath === filePath);
+  expect(consumers).toHaveLength(13);
+  const outputs = getTokenFoundationOutputs();
+  outputs.colorCssConsumers.push(...consumers);
+  const historicalSource = readFileSync(join(workspaceRoot, 'evidence/runtime/learning-report-a/feedback-color-findings.json'), 'utf8');
+  const review = JSON.parse(historicalSource);
+  expect(review.status).toBe('pending-review'); expect(review.acceptedException).toBe(false);
+  expect(review.failures).toHaveLength(6);
+  expect(createHash('sha256').update(historicalSource).digest('hex')).toBe('8d5745f726b2b46b8910bacc831463955edb9a90e8e50c88d2fa6e3b7de3c34a');
+  const currentReview = JSON.parse(readFileSync(join(workspaceRoot, 'evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-06/learning-report-current-findings.json'), 'utf8'));
+  expect(currentReview.status).toBe('measured-current-source'); expect(currentReview.resolution).toBe('unresolved');
+  expect(currentReview.outcome).toBe('real-fail'); expect(currentReview.acceptedException).toBe(false);
+  expect(currentReview.filePath).toBe(filePath); expect(currentReview.failures).toHaveLength(119);
+  expect(createHash('sha256').update(source).digest('hex')).toBe(currentReview.sourceSha256);
+  expect([...new Set(validateRegisteredRecipeColors({ filePath, source, outputs, root: workspaceRoot }))].sort()).toEqual(currentReview.failures);
+  expect([...new Set(validateRegisteredRecipeColors({ filePath, source: source.replaceAll("--rain-category-text-neutral-4", "--rain-category-text-neutral-6"), outputs, root: workspaceRoot }))].sort()).not.toEqual(currentReview.failures);
+  // V2 already reports grouped native paints, so exercise the historical exact exception in isolation.
+  const nativeSource = '@media (forced-colors: active) { .report-a-bar { border: var(--rain-line-thickness-1) solid CanvasText; } }';
+  const nativeOutputs = getTokenFoundationOutputs();
+  expect(validateRegisteredRecipeColors({ filePath, source: nativeSource, outputs: nativeOutputs, root: workspaceRoot })).toEqual([]);
+  expect(validateRegisteredRecipeColors({ filePath, source: nativeSource.replace('@media (forced-colors: active)', '@media (min-width: 1px)'), outputs: nativeOutputs, root: workspaceRoot })).toEqual([`Unregistered border color in ${filePath}: var(--rain-line-thickness-1) solid CanvasText`]);
+});
+it("keeps v1.2 G0/G1 authorization separate from frozen history and ungranted Gates", () => verificationHelpers.withSourceBindingTraversal(workspaceRoot, () => {
+  const status = parseYamlSubset(readFileSync(join(workspaceRoot, "status/current-phase.yaml"), "utf8")) as any;
+  expect(verificationHelpers.getValidatedTailwindB2History(status)).toEqual(status.phaseHistory.tailwindB2);
+  for (const change of [{ scope: "all-components" }, { humanGate: "accepted", humanGateDecision: undefined }, { contrastAcceptance: "granted" }, { publication: "published" }, { git: "authorized" }]) {
+    const invalid = structuredClone(status);
+    Object.assign(invalid.componentRefinements.tokenFirstV12, change);
+    expect(verificationHelpers.hasTokenFirstV12Authorization(invalid)).toBe(false);
+    expect(() => verificationHelpers.getValidatedTailwindB2History(invalid)).toThrow();
+  }
+  const invalid = structuredClone(status);
+  invalid.phaseHistory.tailwindB2.kind = "changed";
+  expect(() => verificationHelpers.getValidatedTailwindB2History(invalid)).toThrow();
+  const filePath = "apps/prototype/src/scenarios/token-first-g1/page.css";
+  const source = readFileSync(join(workspaceRoot, filePath), "utf8");
+  const outputs = getTokenFoundationOutputs();
+  outputs.colorCssConsumers.push(...getTokenFirstV12ColorConsumers(workspaceRoot));
+  const review = JSON.parse(readFileSync(join(workspaceRoot, "evidence/runtime/token-first-v12-g1/annotation-color-findings.json"), "utf8"));
+  expect(review.status).toBe("pending-review"); expect(review.acceptedException).toBe(false);
+  const currentReview = JSON.parse(readFileSync(join(workspaceRoot, "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/g1-current-color-findings.json"), "utf8"));
+  expect(currentReview.status).toBe("measured-current-source"); expect(currentReview.acceptedException).toBe(false);
+  // Current selector coverage retains real roles and findings; it does not rewrite the historical review.
+  const g1SourcePaths = [...new Set((getTokenFirstV12ColorConsumers(workspaceRoot) as Array<{ filePath: string; use: { recipeId: string } }>)
+    .filter(entry => entry.use.recipeId === "token-first-g1").map(entry => entry.filePath))];
+  const pendingContrastFindings: any[] = [], pendingEligibilityFindings: any[] = [];
+  const currentFailures = g1SourcePaths.flatMap(path => validateRegisteredRecipeColors({ filePath: path, source: readFileSync(join(workspaceRoot, path), "utf8"), outputs, root: workspaceRoot, pendingContrastFindings, pendingEligibilityFindings }));
+  expect(currentReview.failures).toHaveLength(36);
+  expect(currentFailures).toEqual([]);
+  expect(pendingContrastFindings.length).toBeGreaterThan(0);
+  expect(pendingEligibilityFindings.length).toBeGreaterThan(0);
+  expect(pendingContrastFindings.every(row => row.acceptedException === false && row.actual < row.minimum && row.minimum === (row.content === "text" ? 4.5 : 3))).toBe(true);
+  expect(pendingEligibilityFindings.every(row => row.acceptedException === false && row.reason === "Weak Neutral needs non-critical, non-interactive content")).toBe(true);
+  expect(validateRegisteredRecipeColors({ filePath, source: source.replace("/ 65%", "/ 10%"), outputs, root: workspaceRoot })).not.toEqual([]);
+  expect(validateRegisteredRecipeColors({ filePath, source: source + "\n.rain-g1-accordion-trigger-icon, .rain-g1-collapsible-trigger-icon { color: var(--rain-category-icon-neutral-4); }", outputs, root: workspaceRoot }).some(failure => failure.startsWith("Unregistered Category CSS paint"))).toBe(true);
+  const weakened = structuredClone(outputs);
+  const iconPath = verificationHelpers.hasG123PlaygroundAssetizationAuthorization(status) ? "packages/ui/src/accordion/accordion.css" : filePath;
+  weakened.colorCssConsumers.find(entry => entry.filePath === iconPath && entry.use.content === "meaningful-icon")!.use.content = "decorative";
+  expect(validateRegisteredRecipeColors({ filePath: iconPath, source: readFileSync(join(workspaceRoot, iconPath), "utf8"), outputs: weakened, root: workspaceRoot })).toEqual(["G1 colors require exact authorization, selectors, roles and actual parent surfaces"]);
+  const popup = "packages/ui/src/dropdown-menu/dropdown-menu.css";
+  const current = readFileSync(join(workspaceRoot, popup), "utf8");
+  const before = readFileSync(join(workspaceRoot, "evidence/runtime/token-first-v12-g1/before", popup + ".txt"));
+  const checksum = createHash("sha256").update(before).digest("hex");
+  const matches = (text: string, phase = status) => verificationHelpers.matchesRn15ProtectedSource(popup, text, checksum, phase, []);
+  expect(matches(current)).toBe(true);
+  expect(matches(current, {})).toBe(false);
+  expect(matches(current.replace("@layer base", "@layer utilities"))).toBe(false);
+  expect(matches(current + ".rain-popup { color: red; }\n")).toBe(false);
+}));
 it("keeps Card V2 authorization separate from frozen history and rejects scope or Git escalation", () => {
   const status = parseYamlSubset(readFileSync(join(workspaceRoot, "status/current-phase.yaml"), "utf8")) as any;
   expect(verificationHelpers.hasCardV2Authorization(status)).toBe(true);
@@ -251,20 +385,16 @@ function readFrozenB2File(filePath: string) {
 
 function createEvidenceFixture() {
   const fixtureRoot = mkdtempSync(join(tmpdir(), "rain-day2-evidence-lock-"));
-  for (const filePath of [
-    "evidence",
-    "benchmarks/benchmark-registry.yaml",
-    "status/current-phase.yaml",
-    "apps/playground/src/docs/evidence-index.ts",
-    "apps/playground/src/docs/benchmark-index.ts",
-    "docs/audits/2026-09-01-visual-asset-audit.md",
-  ]) {
-    const sourcePath = join(workspaceRoot, filePath);
-    const targetPath = join(fixtureRoot, filePath);
-    mkdirSync(dirname(targetPath), { recursive: true });
-    cpSync(sourcePath, targetPath, { recursive: true });
+  const archive = join(workspaceRoot, "evidence/runtime/token-foundations-v1/pre-token-runtime.tar.gz");
+  expect(createHash("sha256").update(readFileSync(archive)).digest("hex"))
+    .toBe("39b6253185367626ddf8f66e6b1cd99ed2e8addd4937e7c93f3c12ad48289280");
+  // Historical mutation tests need the frozen inputs, not later captures and delivery copies.
+  const extracted = spawnSync("tar", ["-xzf", archive, "-C", fixtureRoot], { encoding: "utf8" });
+  expect(extracted.status, extracted.stderr).toBe(0);
+  for (const file of ["evidence/visual-evidence.yaml", "evidence/screenshots", "evidence/runtime/day-2", "docs/audits/2026-09-01-visual-asset-audit.md"]) {
+    mkdirSync(dirname(join(fixtureRoot, file)), { recursive: true });
+    cpSync(join(workspaceRoot, file), join(fixtureRoot, file), { recursive: true });
   }
-  writeFileSync(join(fixtureRoot, "status/current-phase.yaml"), readFrozenB2File("status/current-phase.yaml"));
   for (const [filePath, checksum] of [
     ["benchmarks/benchmark-registry.yaml", "06da78a15c264a6985e1b129ffafb87f5d86d901875cb904ac6f43a1664f18d3"],
     ["apps/playground/src/docs/benchmark-index.ts", "a01201fe5ca6cdcfbd6345bdaf02ab4f7926526f0b28bc9b00b7a9cf489f7f02"],
@@ -768,73 +898,21 @@ describe("color supplement phase scope", () => {
 describe("Tailwind B2 real CLI boundaries", () => {
   let fixtureRoot: string;
   beforeAll(() => {
-    fixtureRoot = mkdtempSync(join(tmpdir(), "rain-b2-cli-gate-"));
-    const tokenFiles = new Set([
-      ...Object.values(verificationHelpers.avatarFamilyFiles).flat(), "evidence/runtime/avatar",
-      ...Object.values(verificationHelpers.m2DeliveryFiles).flat(), "evidence/runtime/m2",
-      ...Object.values(verificationHelpers.rn15DeliveryFiles).flat(), "evidence/runtime/rn15-delivery",
-      "manifests/ui/alert-dialog.yaml", "packages/foundations/src/overlay-token-contract.ts", "scripts/dialog-refinement.test.ts", "tests/e2e/dialog-refinement.spec.ts", "evidence/runtime/dialog-refinement-2026-09-15",
-      ...Object.values(verificationHelpers.rn14EditabilityFiles).flat(), "evidence/runtime/rn14-editability",
-      ...Object.values(verificationHelpers.rn13AssetIndexFiles).flat(), "evidence/runtime/rn13-asset-index",
-      ...Object.values(verificationHelpers.tableRn08Files).flat(), ...Object.values(verificationHelpers.tablePaginationFiles).flat(), "evidence/runtime/table-rn08", "evidence/runtime/table-pagination-replacement",
-      ...Object.values(verificationHelpers.emptyRefinementFiles).flat(), "evidence/runtime/empty-refinement",
-      ...verificationHelpers.insideFieldLabelBrowserFiles,
-      ...Object.values(verificationHelpers.layoutsV1Files).flat(), "evidence/runtime/layouts-v1",
-      ...Object.values(verificationHelpers.dialogV2Files).flat(), "evidence/runtime/dialog-v2",
-      ...Object.values(verificationHelpers.cardV2Files).flat(), "apps/prototype", "evidence/runtime/card-v2",
-      ...Object.values(verificationHelpers.tokenFoundationsV1Files).flat(),
-      ...Object.values(verificationHelpers.tabsPreflightFiles).flat(), ...Object.values(verificationHelpers.tabsTokenFiles).flat(), ...Object.values(verificationHelpers.tabsColorFiles).flat(), ...Object.values(verificationHelpers.tabsComponentFiles).flat(),
-      ...Object.values(verificationHelpers.tabsVisualRefinementFiles).flat(),
-      ...Object.values(verificationHelpers.iconButtonRefinementFiles).flat(),
-      ...Object.values(verificationHelpers.inputRefinementFiles).flat(),
-      ...Object.values(verificationHelpers.selectRefinementFiles).flat(),
-      ...Object.values(verificationHelpers.dropdownBatchOneFiles).flat(),
-      ...Object.values(verificationHelpers.dropdownFamilyFiles).flat(),
-      ...Object.values(verificationHelpers.checkboxSc01Files).flat(),
-      ...Object.values(verificationHelpers.bmARn09Files).flat(),
-      ...Object.values(verificationHelpers.bmBRn10Files).flat(),
-      ...Object.values(verificationHelpers.radioSc01Files).flat(),
-      ...Object.values(verificationHelpers.selectionCardsSc02Files).flat(),
-      ...Object.values(verificationHelpers.selectionPatternsSc03Files).flat(),
-      ...Object.values(verificationHelpers.selectionPlaygroundSc04Files).flat(),
-      "evidence/runtime/select",
-      "evidence/runtime/dropdown-batch-one",
-      ...Object.values(verificationHelpers.tagRefinementFiles).flat(),
-      ...Object.values(verificationHelpers.tagBatchTwoRefinementFiles).flat(),
-      ...Object.values(verificationHelpers.tagBatchThreeFiles).flat(),
-      ...Object.values(verificationHelpers.questionNumberRefinementFiles).flat(),
-      ...Object.values(verificationHelpers.optionButtonRefinementFiles).flat(),
-      ...Object.values(verificationHelpers.optionButtonContentRefinementFiles).flat(),
-      ...Object.values(verificationHelpers.questionOptionSizeReviewFiles).flat(),
-      ...Object.values(verificationHelpers.questionOptionSizeRefinementFiles).flat(),
-      "evidence/icons/source-additions.json",
-      ...["grading-pending", "grading-reviewed"].flatMap((slug) => [
-        `evidence/icons/source-additions/${slug}.source.svg`,
-        `packages/ui/src/icons/${slug}.tsx`, `packages/ui/src/icons/assets/${slug}.svg`,
-      ]),
-      "packages/foundations/src/button-token-contract.ts",
-      "packages/foundations/src/button-token-contract.test.ts",
-      "apps/playground/src/docs/components/button-token-review.tsx",
-      "apps/playground/src/docs/components/button-token-review.css",
-      "apps/playground/src/docs/components/button-token-review.test.tsx",
-    ]);
-    cpSync(workspaceRoot, fixtureRoot, {
-      recursive: true,
-      filter: (source) => !tokenFiles.has(relative(workspaceRoot, source))
-        && !relative(workspaceRoot, source).split(/[\\/]/).some((part) => [
-          ".git", "node_modules", "dist", "playwright-report", "test-results", "coverage", ".vite", "token-foundations-v1", "token-foundations",
-        ].includes(part)),
-    });
+    fixtureRoot = createEvidenceFixture();
+    // B2's code is immutable archive input. Copy only its missing historical data.
+    for (const file of [".gitignore", "docs", "benchmarks/README.md", "evidence/icons", "evidence/rain-classic", "evidence/runtime/day-3", "evidence/runtime/icon-migration", "registry/icons.json"]) {
+      mkdirSync(dirname(join(fixtureRoot, file)), { recursive: true });
+      cpSync(join(workspaceRoot, file), join(fixtureRoot, file), {
+        recursive: true,
+        filter: (source) => {
+          const path = relative(workspaceRoot, source);
+          if (/\.(?:tsx?|mjs|html|zip)$/.test(path) && file === "docs") return false;
+          if (path.startsWith("docs/adr/") && !["docs/adr/0001-icon-assets-and-semantic-consumption.md", "docs/adr/0002-tailwind-b2-local-fork.md"].includes(path)) return false;
+          return !path.startsWith("evidence/icons/source-additions");
+        },
+      });
+    }
     expect(spawnSync("git", ["init", "--quiet"], { cwd: fixtureRoot }).status).toBe(0);
-    // Run the current verifier against the complete frozen B2 input, so new
-    // Token files and values cannot silently redefine the historical fixture.
-    const archive = join(workspaceRoot, "evidence/runtime/token-foundations-v1/pre-token-runtime.tar.gz");
-    expect(createHash("sha256").update(readFileSync(archive)).digest("hex"))
-      .toBe("39b6253185367626ddf8f66e6b1cd99ed2e8addd4937e7c93f3c12ad48289280");
-    const extracted = spawnSync("tar", ["-xzf", archive, "-C", fixtureRoot], { encoding: "utf8" });
-    expect(extracted.status, `${extracted.stdout}${extracted.stderr}`).toBe(0);
-    // BM-A is a later scenario; the historical B2 fixture retains its pre-RN-09 registry.
-    writeFileSync(join(fixtureRoot, "benchmarks/benchmark-registry.yaml"), readFileSync(join(workspaceRoot, "evidence/runtime/bm-a-rn09/before/benchmarks/benchmark-registry.yaml.txt")));
     const inventoryPath = join(fixtureRoot, "evidence/icons/inventory.json");
     const inventory = JSON.parse(readFileSync(inventoryPath, "utf8"));
     inventory.icons = inventory.icons.filter((icon: any) => !["icon/grading-pending", "icon/grading-reviewed"].includes(icon.assetId));
@@ -2206,7 +2284,7 @@ describe("OptionButton visual acceptance and next content batch", () => {
 it("normalizes only the exact approved dropdown width source for frozen history", () => {
   const hashes = JSON.parse(readFileSync(join(workspaceRoot, "evidence/runtime/table-rn08/before-hashes.json"), "utf8"));
   for (const file of ["packages/ui/src/dropdown-menu/dropdown-menu.tsx", "packages/ui/src/dropdown-menu/dropdown-menu.css"]) {
-    const source = readFileSync(join(workspaceRoot, file));
+    const source = readFileSync(join(workspaceRoot, file.endsWith(".css") ? `evidence/runtime/token-first-v12-g1/before/${file}.txt` : file));
     const restored = verificationHelpers.restoreDropdownWidthBaseline(file, source);
     expect(createHash("sha256").update(restored).digest("hex")).toBe(hashes[file]);
     const changed = Buffer.concat([source, Buffer.from("/* unapproved change */")]);
@@ -2226,9 +2304,15 @@ it("admits only RN-10 form scope while rejecting fabricated acceptance or public
   }
   const sources = JSON.parse(readWorkspaceFile("evidence/runtime/bm-b-rn10/textarea-source.json"));
   const transitions = JSON.parse(readWorkspaceFile("evidence/runtime/rn15-delivery/source-transitions.json"));
+  const archive = join(workspaceRoot, "evidence/runtime/rn14-editability/starter-final.tar.gz");
+  expect(createHash("sha256").update(readFileSync(archive)).digest("hex")).toBe("81ed247e9e3c57bf9edd94ace9bea30487557ab5404c26570aa8ea055c7f900e");
   for (const file of sources.files.filter((file: any) => file.target.startsWith("packages/"))) {
-    expect(verificationHelpers.matchesRn15ProtectedSource(file.target, readWorkspaceFile(file.target), file.sha256, status, transitions), file.target).toBe(true);
+    const frozen = spawnSync("tar", ["-xOf", archive, file.target], { encoding: "utf8" });
+    expect(frozen.status, frozen.stderr).toBe(0);
+    expect(verificationHelpers.matchesRn15ProtectedSource(file.target, frozen.stdout, file.sha256, status, transitions), file.target).toBe(true);
+    expect(verificationHelpers.matchesRn15ProtectedSource(file.target, frozen.stdout + "\n/* unrecorded */", file.sha256, status, transitions)).toBe(false);
   }
+  expect(() => verificationHelpers.getG5SourceBindings(workspaceRoot, status)).not.toThrow();
   const registry = JSON.parse(readWorkspaceFile("registry/textarea.json"));
   expect(registry.publication).toBe("not-published"); expect(registry.humanGate).toBe("awaiting_human");
 });
@@ -2241,17 +2325,9 @@ it("admits only RN-09 local BM-A without widening any prior phase", () => {
     expect(verificationHelpers.hasBmARn09Authorization(invalid)).toBe(false);
     expect(() => verificationHelpers.getValidatedTailwindB2History(invalid)).toThrow();
   }
-  const { bmARn09, ...earlier } = status.componentRefinements;
-  if (verificationHelpers.hasBmBRn10Authorization(status)) delete earlier.bmBRn10;
-  if (verificationHelpers.hasAvatarFamilyAuthorization(status)) delete earlier.avatarFamily;
-  if (verificationHelpers.hasInputNumberAuthorization(status)) delete earlier.inputNumber;
-  if (verificationHelpers.hasGenerationQualityAuthorization(status)) delete earlier.generationQuality;
-  if (verificationHelpers.hasM2Authorization(status)) delete earlier.m2Delivery;
-  if (verificationHelpers.hasRn15Authorization(status)) delete earlier.rn15Delivery;
-  if (verificationHelpers.hasDialogRefinementAuthorization(status)) delete earlier.dialogRefinement;
-  if (verificationHelpers.hasRn14Authorization(status)) delete earlier.rn14Editability;
-  if (verificationHelpers.hasRn13Authorization(status)) delete earlier.rn13AssetIndex;
-  expect({ ...status, componentRefinements: earlier }).toEqual(parseYamlSubset(readFileSync(join(workspaceRoot, "evidence/runtime/bm-a-rn09/before/status/current-phase.yaml.txt"), "utf8")));
+  const before = parseYamlSubset(readFileSync(join(workspaceRoot, "evidence/runtime/bm-a-rn09/before/status/current-phase.yaml.txt"), "utf8")) as any;
+  expect(status.phaseHistory).toEqual(before.phaseHistory);
+  expect(verificationHelpers.getValidatedTailwindB2History(status)).toEqual(before.phaseHistory.tailwindB2);
 });
 
 it("closes BM-A only with scoped human confirmation and completed technical verification", () => {
@@ -2275,3 +2351,64 @@ it("closes BM-A only with scoped human confirmation and completed technical veri
     expect(verificationHelpers.hasBmARn09Authorization(invalid)).toBe(false);
   }
 });
+
+it("projects only the exact R2 account-hover successor back to its immutable colour inventory", async () => {
+  const { projectNavigationAccountHoverSource: project } = await import("./verify-token-foundations.mjs") as any;
+  expect(typeof project).toBe("function");
+  const path = "apps/playground/src/recipes/navigation-v042/r2.css";
+  const line = '.rain-workspace.nv42-r2 .rain-workspace__region[data-region-id="global"] .nv42-account:enabled:not([aria-disabled="true"]):hover,\n';
+  const current = readFileSync(join(workspaceRoot, path), "utf8");
+  const baseline = current.replace(line, "");
+  const successor = baseline.replace(".nv42-history:hover {", line + ".nv42-history:hover {");
+  expect(project(path, baseline)).toBe(baseline);
+  expect(project(path, successor)).toBe(baseline);
+  for (const changed of [successor + line, successor.replace(line, line.replace("global", "context")), successor.replace("--rain-category-fill-neutral-alpha-6", "--rain-category-fill-neutral-alpha-5"), successor + '\n.other { color: #fff; }']) {
+    expect(() => project(path, changed)).toThrow();
+  }
+  expect(project("outside.css", successor)).toBe(successor);
+});
+
+it("registers the finite navigation metadata without claiming contrast conformance or widening review scope", async () => {
+  const { getNavigationColorConsumerRegistration: getRegistration } = await import("./verify-token-foundations.mjs") as any;
+  expect(typeof getRegistration).toBe("function");
+  const registration = getRegistration(workspaceRoot);
+  expect(registration).toMatchObject({ status: "metadata-registered", automatedConformance: "unproved", sourceFiles: 18, cssPaintOccurrences: 1315, noPaintOccurrences: 135, pendingPaints: 810 });
+  expect(registration.pendingGroups).toHaveLength(6);
+  expect(registration.pendingGroups.reduce((total: number, group: any) => total + group.declarationIds.length, 0)).toBe(810);
+  expect(registration.humanReview.status).toBe("completed-human-review");
+  expect(registration.sourceFreezeBinding).toMatchObject({ baselineMatched: 17, currentExact: 14, unlisted: ["apps/playground/src/recipes/navigation-v042/samples.css"] });
+  expect(registration.sourceSuccessors).toHaveLength(3);
+  expect(registration.totalPendingPaintUses).toBe(840);
+  expect(registration.sourceSuccessors.find((row: any) => row.filePath.endsWith("/r2.css"))).toMatchObject({ filePath: "apps/playground/src/recipes/navigation-v042/r2.css", status: "pending-parent-and-state-evidence", humanReview: "not-inherited-from-baseline" });
+
+  const evidence = "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-06/";
+  const ledgerPath = evidence + "navigation-color-consumers.json", inventoryPath = evidence + "navigation-color-consumers-source.json";
+  const ledger = JSON.parse(readFileSync(join(workspaceRoot, ledgerPath), "utf8"));
+  const fixture = mkdtempSync(join(tmpdir(), "rain-navigation-colour-integrity-"));
+  const files = [ledgerPath, inventoryPath, "status/current-phase.yaml", ledger.humanReview.path, ledger.sourceFreezeMatch.path, ...ledger.sourceFiles.map((file: any) => file.path)];
+  try {
+    copyCurrentGovernanceFixture(workspaceRoot, fixture);
+    for (const file of files) { mkdirSync(dirname(join(fixture, file)), { recursive: true }); cpSync(join(workspaceRoot, file), join(fixture, file)); }
+    expect(getRegistration(fixture).pendingPaints).toBe(810);
+    expect(ledger.cssConsumers).toHaveLength(1295);
+    expect(registration.sourceSuccessors.every((row: any) => row.humanReview === "not-inherited-from-baseline")).toBe(true);
+    const mutate = (file: string, change: (source: string) => string) => {
+      const path = join(fixture, file), original = readFileSync(path, "utf8");
+      try { writeFileSync(path, change(original)); expect(() => getRegistration(fixture), file).toThrow(); }
+      finally { writeFileSync(path, original); }
+    };
+    for (const change of [
+      (data: any) => data.sourceFiles.push({ path: "outside.css", sha256: "unknown" }),
+      (data: any) => data.cssConsumers.find((row: any) => row.contentRole === "text").minimumContrast = 3,
+      (data: any) => data.cssConsumers.find((row: any) => row.critical).critical = false,
+      (data: any) => data.cssConsumers.find((row: any) => row.parentResolution === "unresolved").parentResolution = "passed",
+      (data: any) => data.humanReview.automaticConformance = "passed",
+    ]) mutate(ledgerPath, source => { const data = JSON.parse(source); change(data); return JSON.stringify(data); });
+    mutate(inventoryPath, source => { const data = JSON.parse(source); data.sourceFreezeMatch.unlistedSourceFiles = []; return JSON.stringify(data); });
+    const css = "packages/ui/src/navigation/navigation.css";
+    mutate(css, source => source.replace("#525b6a", "#ffffff"));
+    mutate(css, source => source + '\n:scope .rain-tabs__tab { color: var(--rain-local-navigation-text); }\n:scope .rain-tabs__tab { color: var(--rain-local-navigation-text); }\n:scope .rain-tabs__tab { color: var(--rain-local-navigation-text); }');
+    mutate(ledger.humanReview.path, source => { const data = JSON.parse(source); data.scope = "all-components-and-production"; return JSON.stringify(data); });
+    mutate("status/current-phase.yaml", source => source.replace('scope: "W6 AI consumption and asset closure, W7 full regression, W8 reviewable local handoff"', 'scope: "all-components"'));
+  } finally { rmSync(fixture, { recursive: true, force: true }); }
+}, 120_000);

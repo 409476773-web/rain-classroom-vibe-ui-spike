@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-variants/special.test.tsx (13 tests | 1 failed) 3067ms
+   × a live variant stops when its own plot leaves view while its expanded table keeps the card active 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/special.test.tsx > a live variant stops when its own plot leaves view while its expanded table keeps the card active
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ apps/playground/src/docs/components/chart-variants/special.test.tsx:258:21
+    256|   try {
+    257|     const view = render(<SpecialVariant {...props} reduced={false} var…
+    258|     expect(targets).toHaveLength(1);
+       |                     ^
+    259|     expect(targets[0]!.querySelector('[data-rain-id="ui-chart-live-lin…
+    260|     expect(targets[0]!.querySelector("table")).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 passed (13)
+   Start at  15:05:22
+   Duration  3.80s (transform 890ms, setup 101ms, import 38ms, tests 3.07s, environment 459ms)
+

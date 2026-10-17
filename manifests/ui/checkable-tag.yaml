@@ -54,6 +54,13 @@ verification:
 id: "ui-checkable-tag"
 name: "CheckableTag"
 sourcePath: "packages/ui/src/tag/checkable-tag.tsx"
+description: "可选标签使用原生 checkbox 或 radio 表达多选或单选，选中值和业务处理由宿主控制。"
+useWhen:
+  - "使用可选标签筛选分类或选择属性，需要多选 checkbox 或同名 radio 单选。"
+  - "需要标签外观，同时保留表单值、键盘操作和禁用语义。"
+doNotUseWhen:
+  - "仅展示静态分类；使用 Tag。需要导航时使用 LinkTag。"
+  - "需要在同一标签内放置独立链接、移除按钮或其他交互控件。"
 anatomy:
   - "Native input owns selection, form value, disabled, Space and arrows."
   - "Enter activates once without submitting; selected mark follows text without an empty placeholder."

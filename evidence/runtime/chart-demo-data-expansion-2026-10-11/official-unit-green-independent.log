@@ -1,0 +1,38 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-variants/radial.test.tsx (12 tests | 1 failed) 711ms
+   × pie and radar preserve their initial profiles and return after three small updates 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/radial.test.tsx > pie and radar preserve their initial profiles and return after three small updates
+AssertionError: expected [] to deeply equal [ 186, 142, 98, 74 ]
+
+- Expected
++ Received
+
+- [
+-   186,
+-   142,
+-   98,
+-   74,
+- ]
++ []
+
+ ❯ apps/playground/src/docs/components/chart-variants/radial.test.tsx:102:22
+    100|     if (variantId.startsWith("pie-")) {
+    101|       const counts = [...view.container.querySelectorAll("tbody td:fir…
+    102|       expect(counts).toEqual(variantId === "pie-gradients" ? [40, 30, …
+       |                      ^
+    103|     } else {
+    104|       expect(initial).toEqual(variantId === "radar-single-series" ? ["…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 50 passed (51)
+   Start at  11:19:29
+   Duration  3.92s (transform 2.53s, setup 343ms, import 2.72s, tests 4.11s, environment 1.25s)
+

@@ -1,0 +1,82 @@
+
+Running 3 tests using 1 worker
+
+(node:81448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/token-first-g1-next.spec.ts:12:1 › Tooltip keeps labels, descriptions, hover, Escape and scoped theme (5.7s)
+(node:81479) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/e2e/token-first-g1-next.spec.ts:36:1 › Resizable supports pointer and keyboard bounds, reset and instance isolation (761ms)
+  ✘  3 tests/e2e/token-first-g1-next.spec.ts:66:1 › Tooltip works within Dialog; layouts stay usable at narrow widths and forced colors (5.6s)
+
+
+  1) tests/e2e/token-first-g1-next.spec.ts:12:1 › Tooltip keeps labels, descriptions, hover, Escape and scoped theme 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: getByRole('tooltip')
+    Expected: "仅统计已提交的作答，未作答不计入平均分。"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveText" with timeout 5000ms
+      - waiting for getByRole('tooltip')
+
+
+      15 |   await trigger.hover();
+      16 |   const tooltip = page.getByRole("tooltip");
+    > 17 |   await expect(tooltip).toHaveText("仅统计已提交的作答，未作答不计入平均分。");
+         |                         ^
+      18 |   await expect(trigger).toHaveAccessibleName("成绩口径");
+      19 |   await expect(trigger).toHaveAccessibleDescription("仅统计已提交的作答，未作答不计入平均分。");
+      20 |   await tooltip.hover();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/token-first-g1-next.spec.ts:17:25
+
+    Error Context: evidence/runtime/token-first-v12-g1-next/test-results/token-first-g1-next-Toolti-62da5-ver-Escape-and-scoped-theme/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/token-first-v12-g1-next/test-results/token-first-g1-next-Toolti-62da5-ver-Escape-and-scoped-theme/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/token-first-v12-g1-next/test-results/token-first-g1-next-Toolti-62da5-ver-Escape-and-scoped-theme/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/token-first-g1-next.spec.ts:66:1 › Tooltip works within Dialog; layouts stay usable at narrow widths and forced colors 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('tooltip')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('tooltip')
+
+
+      68 |   const dialog = page.getByRole("dialog", { name: "评分说明" });
+      69 |   await dialog.getByRole("button", { name: "弹窗成绩口径" }).focus();
+    > 70 |   await expect(page.getByRole("tooltip")).toBeVisible();
+         |                                           ^
+      71 |   await page.keyboard.press("Escape");
+      72 |   await expect(page.getByRole("tooltip")).toBeHidden();
+      73 |   await expect(dialog).toBeVisible();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/token-first-g1-next.spec.ts:70:43
+
+    Error Context: evidence/runtime/token-first-v12-g1-next/test-results/token-first-g1-next-Toolti-0cdb3-ow-widths-and-forced-colors/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/token-first-v12-g1-next/test-results/token-first-g1-next-Toolti-0cdb3-ow-widths-and-forced-colors/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/token-first-v12-g1-next/test-results/token-first-g1-next-Toolti-0cdb3-ow-widths-and-forced-colors/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/token-first-g1-next.spec.ts:12:1 › Tooltip keeps labels, descriptions, hover, Escape and scoped theme 
+    tests/e2e/token-first-g1-next.spec.ts:66:1 › Tooltip works within Dialog; layouts stay usable at narrow widths and forced colors 
+  1 passed (12.9s)

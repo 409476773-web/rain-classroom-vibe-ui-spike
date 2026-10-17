@@ -1,0 +1,97 @@
+import { StrictMode } from "react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, expect, it, vi } from "vitest";
+import { ConnectedSurface } from "./connected-surface";
+import { buildConnectedSurfacePath, resolveConnectedSurfaceGeometry } from "./connected-surface-geometry";
+
+afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); });
+
+it("preserves the approved inset constraint and rejects unapproved geometry", () => {
+  expect(resolveConnectedSurfaceGeometry("inset", { panelRadius: 12, shoulder: 8, trackInset: 8 })).toMatchObject({ minimumInset: 22, resolvedInset: 22, adjusted: true });
+  expect(resolveConnectedSurfaceGeometry("merged", { panelRadius: 12, trackInset: 24 })).toMatchObject({ minimumInset: 0, resolvedInset: 0, outerOwner: "frame" });
+  expect(() => resolveConnectedSurfaceGeometry("invalid" as never)).toThrow();
+  for (const panelRadius of [-1, 7, NaN, Infinity]) expect(() => resolveConnectedSurfaceGeometry("inset", { panelRadius } as never)).toThrow();
+});
+
+it("retains the baseline union for first/middle/last tabs and removes the tab contour when clipped", () => {
+  const frame = { width: 600, height: 280, seam: 72, viewport: { x: 0, width: 600 } };
+  const geometry = resolveConnectedSurfaceGeometry("inset");
+  const first = buildConnectedSurfacePath({ ...frame, active: { x: 24, y: 8, width: 190, height: 64 } }, geometry, "tonal");
+  expect(first?.path).toBe("M 0 82 Q 0 72 10 72 L 16 72 Q 24 72 24 64 L 24 18 Q 24 8 34 8 L 204 8 Q 214 8 214 18 L 214 64 Q 214 72 222 72 L 590 72 Q 600 72 600 82 L 600 270 Q 600 280 590 280 L 10 280 Q 0 280 0 270 Z");
+  for (const connection of ["inset", "merged"] as const) for (const panelRadius of [0, 6, 8, 10, 12] as const) for (const shoulder of [4, 6, 8] as const) for (const x of [0, 24, 216, 386, 450]) {
+    const path = buildConnectedSurfacePath({ ...frame, active: { x, y: 8, width: 190, height: 64 } }, resolveConnectedSurfaceGeometry(connection, { panelRadius, shoulder }), "outlined");
+    expect(path?.path).not.toMatch(/NaN|Infinity/);
+    expect(path?.path.endsWith("Z")).toBe(true);
+    expect(path?.activeVisible).toBe(x + 190 <= 601);
+  }
+  expect(buildConnectedSurfacePath({ ...frame, width: 0 }, geometry, "tonal")).toBeNull();
+  expect(buildConnectedSurfacePath({ ...frame, height: NaN }, geometry, "tonal")).toBeNull();
+  const clipped = buildConnectedSurfacePath({ ...frame, active: { x: -12, y: 8, width: 190, height: 64 } }, geometry, "tonal");
+  expect(clipped?.activeVisible).toBe(false);
+  expect(clipped?.path).not.toContain(" 8 ");
+});
+
+it("merged tabs take over only the frame edge they actually touch", () => {
+  const frame = { width: 600, height: 280, seam: 72, viewport: { x: 0, width: 600 } };
+  const geometry = resolveConnectedSurfaceGeometry("merged");
+  const contour = (x: number) => buildConnectedSurfacePath({ ...frame, active: { x, y: 8, width: 190, height: 64 } }, geometry, "tonal")!.path;
+  const leftCorner = "M 0 82 Q 0 72 10 72", rightCorner = "Q 600 72 600 82";
+  expect(contour(0)).not.toContain(leftCorner);
+  expect(contour(0)).toContain(rightCorner);
+  expect(contour(200)).toContain(leftCorner);
+  expect(contour(200)).toContain(rightCorner);
+  expect(contour(410)).toContain(leftCorner);
+  expect(contour(410)).not.toContain(rightCorner);
+  // The last visible tab still has a rounded panel corner when More occupies the right edge.
+  expect(contour(350)).toContain(rightCorner);
+  const clipped = buildConnectedSurfacePath({ ...frame, viewport: { x: 0, width: 400 }, active: { x: 350, y: 8, width: 190, height: 64 } }, geometry, "tonal")!;
+  expect(clipped.activeVisible).toBe(false);
+  expect(clipped.path).toContain(leftCorner);
+  expect(clipped.path).toContain(rightCorner);
+});
+
+it("measures transformed instances independently, recovers from hidden geometry and cleans up StrictMode effects", async () => {
+  const frames = new Map<number, FrameRequestCallback>(); let nextFrame = 0;
+  vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) => { frames.set(++nextFrame, callback); return nextFrame; });
+  vi.stubGlobal("cancelAnimationFrame", (id: number) => frames.delete(id));
+  const observers: { callback: ResizeObserverCallback; disconnect: ReturnType<typeof vi.fn<() => void>> }[] = [];
+  vi.stubGlobal("ResizeObserver", class {
+    record: typeof observers[number];
+    constructor(callback: ResizeObserverCallback) { this.record = { callback, disconnect: vi.fn() }; observers.push(this.record); }
+    observe() {} unobserve() {} disconnect() { this.record.disconnect(); }
+  });
+  let hidden = false, shift = 0;
+  vi.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockImplementation(function(this: HTMLElement) { return this.matches(".rain-connected-surface") && !hidden ? 600 : 0; });
+  vi.spyOn(HTMLElement.prototype, "offsetHeight", "get").mockImplementation(function(this: HTMLElement) { return this.matches(".rain-connected-surface") && !hidden ? 280 : 0; });
+  vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function(this: HTMLElement) {
+    const second = this.closest('[data-instance-id="second"]') !== null, origin = second ? 700 : 20, scale = second ? 1.25 : 2;
+    let [x, y, width, height] = [0, 0, 600, 280];
+    if (this.matches(".rain-connected-surface__panel")) [x, y, width, height] = [0, 72, 600, 208];
+    if (this.matches("[data-connected-viewport]")) [x, y, width, height] = [0, 0, 600, 72];
+    if (this.matches('[aria-selected="true"]')) [x, y, width, height] = [second ? 216 : 24 + shift, 8, 190, 64];
+    return new DOMRect(origin + x! * scale, y! * scale, hidden ? 0 : width! * scale, hidden ? 0 : height! * scale);
+  });
+  const example = (id: string) => <ConnectedSurface instanceId={id} track={<div data-connected-viewport><div role="tablist"><button role="tab" aria-selected="true">{id}</button></div></div>}><input aria-label={`${id} draft`} defaultValue="saved locally" /></ConnectedSurface>;
+  const view = render(<StrictMode>{example("first")}{example("second")}</StrictMode>);
+  const flush = () => act(() => { const current = [...frames.values()]; frames.clear(); current.forEach(callback => callback(0)); });
+  flush();
+  const paths = view.container.querySelectorAll("path");
+  expect(paths).toHaveLength(2);
+  expect(paths[0]?.getAttribute("d")).toContain("Q 24 8 34 8");
+  expect(paths[1]?.getAttribute("d")).toContain("Q 216 8 226 8");
+  const input = screen.getByRole("textbox", { name: "first draft" });
+  fireEvent.change(input, { target: { value: "unsubmitted draft" } });
+  shift = 192;
+  fireEvent.scroll(view.container.querySelector('[data-instance-id="first"] [data-connected-viewport]')!); flush();
+  expect(paths[0]?.getAttribute("d")).toContain("Q 216 8 226 8");
+  hidden = true; act(() => observers.forEach(observer => observer.callback([], {} as ResizeObserver))); flush();
+  expect(paths[0]?.getAttribute("d")).toBe("");
+  hidden = false; act(() => observers.forEach(observer => observer.callback([], {} as ResizeObserver))); flush();
+  expect(paths[0]?.getAttribute("d")).toContain("Q 216 8 226 8");
+  expect(input).toHaveValue("unsubmitted draft");
+  const layers = view.container.querySelectorAll("svg");
+  layers.forEach(layer => expect(layer).toHaveAttribute("aria-hidden", "true"));
+  view.unmount(); await act(async () => { await Promise.resolve(); });
+  expect(observers.every(observer => observer.disconnect.mock.calls.length === 1)).toBe(true);
+  expect(frames.size).toBe(0);
+});

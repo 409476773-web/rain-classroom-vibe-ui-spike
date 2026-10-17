@@ -1,0 +1,64 @@
+
+> @rain-next/workspace@0.0.0 test /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> vitest run packages/ui/src/charts/network/network-geometry.test.ts apps/playground/src/docs/components/chart-business/network-examples.test.tsx
+
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/network-examples.test.tsx (8 tests | 1 failed) 512ms
+   × style and palette switches retain the current selection and filtered node positions 67ms
+ ❯ packages/ui/src/charts/network/network-geometry.test.ts (14 tests | 6 failed) 4676ms
+   × structured: revision 0 / normal keeps curves clear of unrelated nodes and labels 15ms
+   × structured: revision 0 / long keeps curves clear of unrelated nodes and labels 15ms
+   × structured: revision 1 / normal keeps curves clear of unrelated nodes and labels 12ms
+   × structured: revision 1 / long keeps curves clear of unrelated nodes and labels 12ms
+   × structured: revision 2 / normal keeps curves clear of unrelated nodes and labels 12ms
+   × structured: revision 2 / long keeps curves clear of unrelated nodes and labels 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/network/network-geometry.test.ts > structured: revision 0 / normal keeps curves clear of unrelated nodes and labels
+ FAIL  packages/ui/src/charts/network/network-geometry.test.ts > structured: revision 0 / long keeps curves clear of unrelated nodes and labels
+ FAIL  packages/ui/src/charts/network/network-geometry.test.ts > structured: revision 1 / normal keeps curves clear of unrelated nodes and labels
+ FAIL  packages/ui/src/charts/network/network-geometry.test.ts > structured: revision 1 / long keeps curves clear of unrelated nodes and labels
+ FAIL  packages/ui/src/charts/network/network-geometry.test.ts > structured: revision 2 / normal keeps curves clear of unrelated nodes and labels
+ FAIL  packages/ui/src/charts/network/network-geometry.test.ts > structured: revision 2 / long keeps curves clear of unrelated nodes and labels
+AssertionError: elements/case-derivative crosses case: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ packages/ui/src/charts/network/network-geometry.test.ts:44:191
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/network-examples.test.tsx > style and palette switches retain the current selection and filtered node positions
+AssertionError: expected 6 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 6
+
+ ❯ apps/playground/src/docs/components/chart-business/network-examples.test.tsx:74:82
+     72|   const structuredNodes = [...view.container.querySelectorAll("[data-n…
+     73|   const x = (id: string) => Number(structuredNodes.find(node => node.g…
+     74|   expect(new Set(structuredNodes.map(node => node.getAttribute("data-x…
+       |                                                                                  ^
+     75|   for (const source of ["guide", "reading", "case", "quiz", "lab"]) fo…
+     76|   const structuredPosition = [x("derivative"), Number(structuredNodes.…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  7 failed | 15 passed (22)
+   Start at  09:58:30
+   Duration  5.63s (transform 1.46s, setup 357ms, import 2.44s, tests 5.19s, environment 1.26s)
+
+ ELIFECYCLE  Test failed. See above for more details.

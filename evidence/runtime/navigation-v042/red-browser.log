@@ -1,0 +1,35 @@
+
+Running 1 test using 1 worker
+
+(node:88816) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-v042.spec.ts:2:1 › R2 exposes a real shared consumer, scope identity and editor survive layout changes (4.8s)
+
+
+  1) tests/e2e/navigation-v042.spec.ts:2:1 › R2 exposes a real shared consumer, scope identity and editor survive layout changes 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: '导航组件 · v0.4.2' })
+    Expected: visible
+    Timeout: 4000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 4000ms
+      - waiting for getByRole('heading', { name: '导航组件 · v0.4.2' })
+
+
+      2 | test('R2 exposes a real shared consumer, scope identity and editor survive layout changes', async ({page}) => {
+      3 |   await page.goto('/#navigation-v042');
+    > 4 |   await expect(page.getByRole('heading',{name:'导航组件 · v0.4.2'})).toBeVisible({timeout:4000});
+        |                                                                  ^
+      5 |   const root=page.locator('[data-rain-id="recipe-navigation-r2"]');
+      6 |   await expect(root.getByRole('tab',{name:'公共资源包',exact:true})).toHaveAttribute('aria-selected','true');
+      7 |   await root.getByRole('button',{name:'更多班级',exact:true}).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042.spec.ts:4:66
+
+    Error Context: evidence/runtime/navigation-v042/test-artifacts/navigation-v042-R2-exposes-f9958-itor-survive-layout-changes/error-context.md
+
+  1 failed
+    tests/e2e/navigation-v042.spec.ts:2:1 › R2 exposes a real shared consumer, scope identity and editor survive layout changes 

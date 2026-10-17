@@ -1,0 +1,317 @@
+{
+  "kind": "g6-six-component-preflight-research",
+  "commit": "3ba91b1cc83e1bbe4ab35a422ff2a694849c5048",
+  "repository": "shadcn-ui/ui",
+  "license": "MIT",
+  "workspace": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2",
+  "components": [
+    {
+      "component": "Data Table",
+      "slug": "data-table",
+      "sourcePath": "apps/v4/content/docs/components/base/data-table.mdx",
+      "url": "https://raw.githubusercontent.com/shadcn-ui/ui/3ba91b1cc83e1bbe4ab35a422ff2a694849c5048/apps/v4/content/docs/components/base/data-table.mdx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/content/docs/components/base/data-table.mdx",
+      "sha256": "a502d72b8242cb77f724a723a83c684a7738ba9b784b64db6df79111724bc41e",
+      "imports": [
+        "./columns",
+        "./data-table",
+        "./data-table-features",
+        "@/components/ui/badge",
+        "@/components/ui/button",
+        "@/components/ui/checkbox",
+        "@/components/ui/dropdown-menu",
+        "@/components/ui/input",
+        "@/components/ui/table",
+        "@tanstack/react-table",
+        "lucide-react",
+        "react"
+      ],
+      "docPath": "apps/v4/content/docs/components/base/data-table.mdx",
+      "docUrl": "https://ui.shadcn.com/docs/components/base/data-table",
+      "license": "MIT",
+      "implementation": "Reuse existing registry/table.json local copy recipe and docs/ai/list-composition.md backed by TanStack 8.21.3; extend source registry recipe identity only if G6 requires a distinct entry, preserve pure Rain Table/Pagination UI.",
+      "existingEngine": "@tanstack/react-table@8.21.3 (apps/prototype)",
+      "newDirectDependencies": [],
+      "caveats": [
+        "Fixed source and upstream lock use TanStack 9.0.0, so existing v8 adapter must explicitly document divergence.",
+        "Registry/table.json already registers local recipeReference apps/prototype/src/data-table-recipe.tsx. Manifest explicitly says public UI does not import TanStack; keep engine and domain state in local recipe/caller, avoid generic public DataTable wrapper.",
+        "Native table, not ARIA grid; do not add speculative virtualization/server request abstraction."
+      ]
+    },
+    {
+      "component": "Aspect Ratio",
+      "slug": "aspect-ratio",
+      "sourcePath": "apps/v4/registry/bases/base/ui/aspect-ratio.tsx",
+      "url": "https://raw.githubusercontent.com/shadcn-ui/ui/3ba91b1cc83e1bbe4ab35a422ff2a694849c5048/apps/v4/registry/bases/base/ui/aspect-ratio.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/ui/aspect-ratio.tsx.txt",
+      "sha256": "6df19df6b983c450361081b695dbf3541a6fe4a9d2ec148766991e4eb0bf6473",
+      "imports": [
+        "cn"
+      ],
+      "docPath": "apps/v4/content/docs/components/base/aspect-ratio.mdx",
+      "docUrl": "https://ui.shadcn.com/docs/components/base/aspect-ratio",
+      "license": "MIT",
+      "implementation": "div with ratio prop, CSS aspect-ratio; width from host, media fitting remains child-owned.",
+      "newDirectDependencies": [],
+      "caveats": [
+        "Validate positive finite ratio; props spread currently may overwrite inline ratio.",
+        "Do not add default frame size or object-fit rules to every child."
+      ]
+    },
+    {
+      "component": "Attachment",
+      "slug": "attachment",
+      "sourcePath": "apps/v4/registry/bases/base/ui/attachment.tsx",
+      "url": "https://raw.githubusercontent.com/shadcn-ui/ui/3ba91b1cc83e1bbe4ab35a422ff2a694849c5048/apps/v4/registry/bases/base/ui/attachment.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/ui/attachment.tsx.txt",
+      "sha256": "8990c8ba1b1737acdbaf847aae6360ae544700beac7f3f53e559a57b04a48bfe",
+      "imports": [
+        "@/registry/bases/base/ui/button",
+        "@base-ui/react/merge-props",
+        "@base-ui/react/use-render",
+        "class-variance-authority",
+        "cn",
+        "react"
+      ],
+      "docPath": "apps/v4/content/docs/components/base/attachment.mdx",
+      "docUrl": "https://ui.shadcn.com/docs/components/base/attachment",
+      "license": "MIT",
+      "implementation": "Retain upstream compound parts and all five upload visual states; reuse Rain Item tokens/size patterns, Rain Button/IconButton, Progress where caller supplies progress. Host owns File/URL lifecycle.",
+      "newDirectDependencies": [],
+      "caveats": [
+        "Attachment is display/state composition, not uploader backend.",
+        "Preserve trigger/action independent focus and stacking, group keyboard scroll, actionable names.",
+        "No new shimmer engine; use existing motion/reduced-motion CSS, no external blob lifecycle inside shared UI."
+      ]
+    },
+    {
+      "component": "Drawer",
+      "slug": "drawer",
+      "sourcePath": "apps/v4/registry/bases/base/ui/drawer.tsx",
+      "url": "https://raw.githubusercontent.com/shadcn-ui/ui/3ba91b1cc83e1bbe4ab35a422ff2a694849c5048/apps/v4/registry/bases/base/ui/drawer.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/ui/drawer.tsx.txt",
+      "sha256": "7180299dff3cc1659ab75130f0521ba485e18b38625b904e1da4049f23479060",
+      "imports": [
+        "@base-ui/react/drawer",
+        "cn",
+        "react"
+      ],
+      "docPath": "apps/v4/content/docs/components/base/drawer.mdx",
+      "docUrl": "https://ui.shadcn.com/docs/components/base/drawer",
+      "license": "MIT",
+      "implementation": "Independent Rain Drawer wrapper over existing @base-ui/react@1.8.0; reuse PopupProvider/theme/density bridge from Sheet/Dialog. Preserve actual swipeDirection/snapPoints/controlled open and handle, CSS transforms consume Base UI movement vars.",
+      "existingEngine": "@base-ui/react@1.8.0",
+      "upstreamEngine": "@base-ui/react@1.6.0",
+      "newDirectDependencies": [],
+      "caveats": [
+        "Current Sheet Content CSS does not consume swipe movement variables; do not export Sheet alias as Drawer.",
+        "Scope swipe suppression to controls; nested Carousel may need data-base-ui-swipe-ignore=x.",
+        "iOS absolute backdrop requires body positioning; check pointer/scroll, snap endpoints, cancel/refusal, focus return, virtual keyboard and safe-area.",
+        "Installed 1.8.0 inspected d.ts exposes Root swipeDirection/snapPoints/snapPoint/onSnapPointChange/SwipeArea/VirtualKeyboardProvider."
+      ]
+    },
+    {
+      "component": "Input OTP",
+      "slug": "input-otp",
+      "sourcePath": "apps/v4/registry/bases/base/ui/input-otp.tsx",
+      "url": "https://raw.githubusercontent.com/shadcn-ui/ui/3ba91b1cc83e1bbe4ab35a422ff2a694849c5048/apps/v4/registry/bases/base/ui/input-otp.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/ui/input-otp.tsx.txt",
+      "sha256": "8f540b9de861859602b3fbfffa5af76045877498aad5401aa4d1e8d94e1f8922",
+      "imports": [
+        "@/app/(create)/components/icon-placeholder",
+        "cn",
+        "input-otp",
+        "react"
+      ],
+      "docPath": "apps/v4/content/docs/components/base/input-otp.mdx",
+      "docUrl": "https://ui.shadcn.com/docs/components/base/input-otp",
+      "license": "MIT",
+      "implementation": "Adapt upstream single OTPInput-backed compound InputOTP/Group/Slot/Separator. FormItem context should supply label/id/description/error/disabled/required to actual hidden input; retain one-time-code autocomplete and real single input.",
+      "newDirectDependencies": [
+        {
+          "name": "input-otp",
+          "version": "1.4.2",
+          "license": "MIT",
+          "registryMetadata": "evidence/runtime/g6-preflight-2026-10-14/upstream/npm-input-otp.json",
+          "reason": "Fixed upstream lock exact version, paste/completion/mobile/autofill/accessibility engine; React 19 peer supported."
+        }
+      ],
+      "caveats": [
+        "Do not compose six ordinary Rain Inputs or rewrite selection/paste engine.",
+        "Verify deletion/selection/paste normalizer/invalid chars/controlled refusal/disabled/read-only/onComplete; actual mobile autofill remains manual gate.",
+        "Normal Rain Input used for tokens/field contract only; OTPInput owns native control."
+      ]
+    },
+    {
+      "component": "Carousel",
+      "slug": "carousel",
+      "sourcePath": "apps/v4/registry/bases/base/ui/carousel.tsx",
+      "url": "https://raw.githubusercontent.com/shadcn-ui/ui/3ba91b1cc83e1bbe4ab35a422ff2a694849c5048/apps/v4/registry/bases/base/ui/carousel.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/ui/carousel.tsx.txt",
+      "sha256": "d2c33f0ae6b64f5d6ba8d6ad467322008008621fff6b09e9f6d8e21011849123",
+      "imports": [
+        "@/app/(create)/components/icon-placeholder",
+        "@/registry/bases/base/ui/button",
+        "cn",
+        "embla-carousel-react",
+        "react"
+      ],
+      "docPath": "apps/v4/content/docs/components/base/carousel.mdx",
+      "docUrl": "https://ui.shadcn.com/docs/components/base/carousel",
+      "license": "MIT",
+      "implementation": "Adapt upstream Embla wrapper and compound parts, Rain buttons/icons/tokens. Expose opts/orientation/setApi; keep autoplay off initially.",
+      "newDirectDependencies": [
+        {
+          "name": "embla-carousel-react",
+          "version": "8.5.2",
+          "license": "MIT",
+          "registryMetadata": "evidence/runtime/g6-preflight-2026-10-14/upstream/npm-embla-carousel-react.json",
+          "transitiveDependencies": {
+            "embla-carousel": "8.5.2",
+            "embla-carousel-reactive-utils": "8.5.2"
+          },
+          "reason": "Fixed upstream exact version, React 19 support, actual pointer/touch drag and resize engine."
+        }
+      ],
+      "caveats": [
+        "No self-written drag/snap engine, no autoplay plugin by default.",
+        "Upstream key handler captures arrows from child inputs and only horizontal arrows even vertical carousel; scope and adapt keyboard handling.",
+        "Upstream effect off(select) but not off(reInit); remove both on cleanup.",
+        "Verify pointer drag, edge buttons, loop, vertical, resize/reInit, long text/focus visibility/empty and one-item content, nested drawer gesture arbitration."
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "LICENSE.md",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/LICENSE.md",
+      "sha256": "1564074e13439397221ffd522e2e504d56561994a23d371aa5e3ad43e4f5423f",
+      "bytes": 1063
+    },
+    {
+      "path": "apps/v4/content/docs/components/base/aspect-ratio.mdx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/content/docs/components/base/aspect-ratio.mdx",
+      "sha256": "0a248906c3ee2ec5e9f5dc8272b07ce546914114d00fcce6c1912507e3526639",
+      "bytes": 2165
+    },
+    {
+      "path": "apps/v4/content/docs/components/base/attachment.mdx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/content/docs/components/base/attachment.mdx",
+      "sha256": "1fe065378f7929d12d4b85c0472cc72543173d206e691ac32aaec07a25d95764",
+      "bytes": 10092
+    },
+    {
+      "path": "apps/v4/content/docs/components/base/carousel.mdx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/content/docs/components/base/carousel.mdx",
+      "sha256": "42e87e8c7fecc9f7f5fbb1786ca2bdd0af3e97af052529b8b31b07b0cdb2f07b",
+      "bytes": 7593
+    },
+    {
+      "path": "apps/v4/content/docs/components/base/data-table.mdx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/content/docs/components/base/data-table.mdx",
+      "sha256": "a502d72b8242cb77f724a723a83c684a7738ba9b784b64db6df79111724bc41e",
+      "bytes": 24295
+    },
+    {
+      "path": "apps/v4/content/docs/components/base/drawer.mdx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/content/docs/components/base/drawer.mdx",
+      "sha256": "4f0474a675c714681cbb24f4521556d15f7a3c1d96c2ae1387e5b65505c3a3c3",
+      "bytes": 10288
+    },
+    {
+      "path": "apps/v4/content/docs/components/base/input-otp.mdx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/content/docs/components/base/input-otp.mdx",
+      "sha256": "bc3af0765b342e0f40c0ae3aa01bf26effb9a626749b57cd0f1752bd9961fd2b",
+      "bytes": 3640
+    },
+    {
+      "path": "apps/v4/package.json",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/package.json",
+      "sha256": "68676b144564b81d223403a6b04065b82c9abbcda5d55ea05f7241c7b4ea178f",
+      "bytes": 5905
+    },
+    {
+      "path": "apps/v4/registry/bases/base/blocks/dashboard-01/components/data-table.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/blocks/dashboard-01/components/data-table.tsx.txt",
+      "sha256": "550720f1a152940a42e0013b66cdbf76c44a7e628a4ea3ca7c4ff5f52fb4e297",
+      "bytes": 32098
+    },
+    {
+      "path": "apps/v4/registry/bases/base/examples/attachment-example.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/examples/attachment-example.tsx.txt",
+      "sha256": "39fbf1843c0941ad3dffe4978209902b6b552f96884f6d3687335c87b1c8c16f",
+      "bytes": 60684
+    },
+    {
+      "path": "apps/v4/registry/bases/base/examples/carousel-example.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/examples/carousel-example.tsx.txt",
+      "sha256": "3f04d744b24e2e9ade532b5b7aa2ade70c305ade9c87c47f2a2335766cac2bb6",
+      "bytes": 3081
+    },
+    {
+      "path": "apps/v4/registry/bases/base/ui/aspect-ratio.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/ui/aspect-ratio.tsx.txt",
+      "sha256": "6df19df6b983c450361081b695dbf3541a6fe4a9d2ec148766991e4eb0bf6473",
+      "bytes": 394
+    },
+    {
+      "path": "apps/v4/registry/bases/base/ui/attachment.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/ui/attachment.tsx.txt",
+      "sha256": "8990c8ba1b1737acdbaf847aae6360ae544700beac7f3f53e559a57b04a48bfe",
+      "bytes": 5076
+    },
+    {
+      "path": "apps/v4/registry/bases/base/ui/carousel.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/ui/carousel.tsx.txt",
+      "sha256": "d2c33f0ae6b64f5d6ba8d6ad467322008008621fff6b09e9f6d8e21011849123",
+      "bytes": 6059
+    },
+    {
+      "path": "apps/v4/registry/bases/base/ui/drawer.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/ui/drawer.tsx.txt",
+      "sha256": "7180299dff3cc1659ab75130f0521ba485e18b38625b904e1da4049f23479060",
+      "bytes": 10202
+    },
+    {
+      "path": "apps/v4/registry/bases/base/ui/input-otp.tsx",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/bases/base/ui/input-otp.tsx.txt",
+      "sha256": "8f540b9de861859602b3fbfffa5af76045877498aad5401aa4d1e8d94e1f8922",
+      "bytes": 2186
+    },
+    {
+      "path": "apps/v4/registry/styles/style-nova.css",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/apps/v4/registry/styles/style-nova.css.txt",
+      "sha256": "5d5751579c015b61e77cf0822862a43ac79f3e6fed236a17624be8e6d1ebea1d",
+      "bytes": 75461
+    },
+    {
+      "path": "npm-embla-carousel-react.json",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/npm-embla-carousel-react.json",
+      "sha256": "5a3d079ccac4a73002831a286bb83e4bece150053541a76c3a99954649ce2577",
+      "bytes": 2573
+    },
+    {
+      "path": "npm-embla-carousel.json",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/npm-embla-carousel.json",
+      "sha256": "7cbb83d18109e87571a774b836294346c28686f585497f2208d356aa8b34487b",
+      "bytes": 2310
+    },
+    {
+      "path": "npm-input-otp.json",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/npm-input-otp.json",
+      "sha256": "ff8c4eaa0f32398034d7745bb1378fdd7b09ba1a87937669c565245f0044b62b",
+      "bytes": 3301
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "stored": "evidence/runtime/g6-preflight-2026-10-14/upstream/pnpm-lock.yaml.txt",
+      "sha256": "71ec9a74db1621a888975e736cf0b45d732c69f598bb6c61224194ec2b448b8d",
+      "bytes": 711829
+    }
+  ],
+  "notDone": [
+    "No repository/runtime/lock/dependency writes",
+    "No package installation",
+    "No browser/device acceptance"
+  ]
+}

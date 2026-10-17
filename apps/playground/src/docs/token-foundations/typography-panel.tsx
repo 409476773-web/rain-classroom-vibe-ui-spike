@@ -81,7 +81,9 @@ export function TypographyPanel() {
               : previousLineHeight;
             setOverrides({ ...overrides, fontSize, lineHeight });
           }}>
-            {Object.keys(fontSizeTokens).map((value) => <option key={value} value={value}>{value}px</option>)}
+            {Object.keys(fontSizeTokens)
+              .filter((value) => resolveTypographyPreset(presetName, { fontSize: Number(value), lineHeight: "equal" }).validation.valid)
+              .map((value) => <option key={value} value={value}>{value}px</option>)}
           </select>
         </label>
         <label className="grid gap-rain-4">

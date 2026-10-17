@@ -1,0 +1,929 @@
+ M AGENTS.md
+ M README.md
+ M apps/playground/package.json
+ M apps/playground/src/app.tsx
+ M apps/playground/src/docs/benchmark-index.ts
+ M apps/playground/src/docs/components/core-ui-page.test.tsx
+ M apps/playground/src/docs/components/core-ui-page.tsx
+ M apps/playground/src/docs/components/input-page.css
+ M apps/playground/src/docs/components/input-page.tsx
+ M apps/playground/src/docs/components/select-page.css
+ M apps/playground/src/docs/components/select-page.tsx
+ M apps/playground/src/docs/components/tag-management-recipe.test.tsx
+ M apps/playground/src/docs/components/tag-management-recipe.tsx
+ M apps/playground/src/docs/components/tag-page.css
+ M apps/playground/src/docs/token-foundations/typography-panel.test.tsx
+ M apps/playground/src/docs/token-foundations/typography-panel.tsx
+ M apps/playground/src/main.tsx
+ M apps/playground/src/patterns/selection-patterns.css
+ M apps/playground/src/patterns/selection-patterns.tsx
+ M apps/playground/src/routes/playground-shell.test.tsx
+ M apps/playground/src/styles.css
+ M apps/playground/vite.config.ts
+ M benchmarks/benchmark-registry.yaml
+ M docs/ai/token-selection.md
+ M docs/audits/2026-09-12-core-ui-contracts.md
+ M evidence/runtime/checkbox/compact.png
+ M evidence/runtime/checkbox/dark.png
+ M evidence/runtime/checkbox/light.png
+ M evidence/runtime/dropdown-batch-one/base-dark-narrow-panel.png
+ M evidence/runtime/dropdown-batch-one/radix-dark-narrow-panel.png
+ M evidence/runtime/question-number/compact.png
+ M evidence/runtime/radio/compact.png
+ M evidence/runtime/selection-patterns/compact.png
+ M evidence/runtime/selection-patterns/dark.png
+ M evidence/runtime/selection-patterns/forced-colors.png
+ M evidence/runtime/selection-patterns/light.png
+ M evidence/runtime/selection-patterns/narrow.png
+ M evidence/runtime/selection-playground/browser-facts.json
+ M evidence/runtime/selection-playground/compact.png
+ M evidence/runtime/selection-playground/dark.png
+ M evidence/runtime/selection-playground/forced-colors.png
+ M evidence/runtime/selection-playground/light.png
+ M evidence/runtime/selection-playground/long-preview.png
+ M evidence/runtime/selection-playground/narrow.png
+ M evidence/runtime/tabs-visual-refinement/browser-facts.json
+ M evidence/runtime/tabs-visual-refinement/coarse-pointer.png
+ M evidence/runtime/tabs-visual-refinement/color-findings.json
+ M evidence/runtime/tabs-visual-refinement/indicator-facts.json
+ M evidence/runtime/tabs-visual-refinement/layout-facts.json
+ M evidence/runtime/tabs-visual-refinement/more-open.png
+ M evidence/runtime/tabs-visual-refinement/supplemental-facts.json
+ M manifests/contracts/tailwind-b2.yaml
+ M manifests/contracts/token-foundations-v1.json
+ M manifests/ui/checkable-tag-group.yaml
+ M manifests/ui/dropdown-menu.yaml
+ M manifests/ui/form-item.yaml
+ M manifests/ui/icon-button.yaml
+ M manifests/ui/input.yaml
+ M manifests/ui/popover.yaml
+ M manifests/ui/radio-group.yaml
+ M manifests/ui/search-input.yaml
+ M manifests/ui/select.yaml
+ M manifests/ui/tabs.yaml
+ M packages/foundations/src/index.ts
+ M packages/foundations/src/tailwind-theme.css
+ M packages/foundations/src/token-contract.test.ts
+ M packages/foundations/src/token-contract.ts
+ M packages/foundations/src/tokens.css
+ M packages/foundations/src/typography-contract.test.ts
+ M packages/foundations/src/typography-contract.ts
+ M packages/foundations/src/typography.css
+ M packages/ui/package.json
+ M packages/ui/src/_internal/popup.tsx
+ M packages/ui/src/card/card.tsx
+ M packages/ui/src/dropdown-menu/dropdown-menu.css
+ M packages/ui/src/dropdown-menu/dropdown-menu.tsx
+ M packages/ui/src/index.ts
+ M packages/ui/src/input/form-item.tsx
+ M packages/ui/src/input/input-field.test.tsx
+ M packages/ui/src/input/input.tsx
+ M packages/ui/src/select/select.test.tsx
+ M packages/ui/src/select/select.tsx
+ M packages/ui/src/styles.css
+ M packages/ui/src/tabs/tabs.tsx
+ M playwright.config.ts
+ M pnpm-lock.yaml
+ M scripts/generate-icons.mjs
+ M scripts/generate-token-foundations.mjs
+ M scripts/icon-button-color-consumers.test.ts
+ M scripts/input-color-consumers.test.ts
+ M scripts/select-color-consumers.test.ts
+ M scripts/select-governance.test.ts
+ M scripts/tabs-color-consumers.test.ts
+ M scripts/token-foundation-outputs.mjs
+ M scripts/verification-helpers.mjs
+ M scripts/verification-helpers.test.ts
+ M scripts/verify-boundaries.mjs
+ M scripts/verify-evidence.mjs
+ M scripts/verify-tailwind-b2.mjs
+ M scripts/verify-tailwind-b2.test.ts
+ M scripts/verify-token-foundations.mjs
+ M scripts/verify-token-foundations.test.ts
+ M scripts/verify-workspace.mjs
+ M status/current-phase.yaml
+ M tests/e2e/color-contrast.ts
+ M tests/e2e/core-ui.spec.ts
+ M tests/e2e/playground-shell.spec.ts
+ M tests/e2e/token-foundations.spec.ts
+ M tests/node-runtime.d.ts
+ M vitest.config.ts
+?? .agents/
+?? apps/playground/drawer-refinement-consumer.html
+?? apps/playground/navigation-v042-consumer.html
+?? apps/playground/navigation-v042-w3-consumer.html
+?? apps/playground/navigation-v042-w6-consumer.html
+?? apps/playground/src/docs/components/accordion-page.tsx
+?? apps/playground/src/docs/components/alert-page.css
+?? apps/playground/src/docs/components/alert-page.tsx
+?? apps/playground/src/docs/components/avatar-page.css
+?? apps/playground/src/docs/components/avatar-page.tsx
+?? apps/playground/src/docs/components/breadcrumb-page.css
+?? apps/playground/src/docs/components/breadcrumb-page.tsx
+?? apps/playground/src/docs/components/button-group-page.css
+?? apps/playground/src/docs/components/button-group-page.test.tsx
+?? apps/playground/src/docs/components/button-group-page.tsx
+?? apps/playground/src/docs/components/card-page.css
+?? apps/playground/src/docs/components/card-page.tsx
+?? apps/playground/src/docs/components/carousel-artwork.tsx
+?? apps/playground/src/docs/components/carousel-examples.css
+?? apps/playground/src/docs/components/carousel-examples.tsx
+?? apps/playground/src/docs/components/chart-boundary-download.test.tsx
+?? apps/playground/src/docs/components/chart-business/
+?? apps/playground/src/docs/components/chart-catalog.ts
+?? apps/playground/src/docs/components/chart-china-source.tsx
+?? apps/playground/src/docs/components/chart-choropleth-drilldown.test.tsx
+?? apps/playground/src/docs/components/chart-data.ts
+?? apps/playground/src/docs/components/chart-demo-data.test.ts
+?? apps/playground/src/docs/components/chart-example-source.tsx
+?? apps/playground/src/docs/components/chart-examples.css
+?? apps/playground/src/docs/components/chart-examples.test.tsx
+?? apps/playground/src/docs/components/chart-examples.tsx
+?? apps/playground/src/docs/components/chart-grouped-bar-data.test.ts
+?? apps/playground/src/docs/components/chart-live-lifecycle.test.tsx
+?? apps/playground/src/docs/components/chart-mini-size.test.tsx
+?? apps/playground/src/docs/components/chart-network-geometry.test.ts
+?? apps/playground/src/docs/components/chart-page.css
+?? apps/playground/src/docs/components/chart-page.tsx
+?? apps/playground/src/docs/components/chart-point-reading.test.tsx
+?? apps/playground/src/docs/components/chart-point-reading.tsx
+?? apps/playground/src/docs/components/chart-profit-loss-reading.test.tsx
+?? apps/playground/src/docs/components/chart-third-batch-data.test.ts
+?? apps/playground/src/docs/components/chart-variant-gallery.test.tsx
+?? apps/playground/src/docs/components/chart-variant-gallery.tsx
+?? apps/playground/src/docs/components/chart-variants.ts
+?? apps/playground/src/docs/components/chart-variants/
+?? apps/playground/src/docs/components/collapsible-page.tsx
+?? apps/playground/src/docs/components/component-asset-page.tsx
+?? apps/playground/src/docs/components/component-catalog.tsx
+?? apps/playground/src/docs/components/component-doc.css
+?? apps/playground/src/docs/components/component-doc.test.tsx
+?? apps/playground/src/docs/components/component-doc.tsx
+?? apps/playground/src/docs/components/date-time-examples.test.tsx
+?? apps/playground/src/docs/components/date-time-examples.tsx
+?? apps/playground/src/docs/components/dialog-page.css
+?? apps/playground/src/docs/components/dialog-page.tsx
+?? apps/playground/src/docs/components/g1-component-pages.css
+?? apps/playground/src/docs/components/g3-component-pages.css
+?? apps/playground/src/docs/components/g3-component-pages.test.tsx
+?? apps/playground/src/docs/components/g3-component-pages.tsx
+?? apps/playground/src/docs/components/g3-demo-location.ts
+?? apps/playground/src/docs/components/g4-component-pages.css
+?? apps/playground/src/docs/components/g4-component-pages.test.tsx
+?? apps/playground/src/docs/components/g4-component-pages.tsx
+?? apps/playground/src/docs/components/g5-component-pages.css
+?? apps/playground/src/docs/components/g5-component-pages.test.tsx
+?? apps/playground/src/docs/components/g5-component-pages.tsx
+?? apps/playground/src/docs/components/g6-conversation-pages.css
+?? apps/playground/src/docs/components/g6-conversation-pages.test.tsx
+?? apps/playground/src/docs/components/g6-conversation-pages.tsx
+?? apps/playground/src/docs/components/g6-course-conversation.css
+?? apps/playground/src/docs/components/g6-course-conversation.test.tsx
+?? apps/playground/src/docs/components/g6-course-conversation.tsx
+?? apps/playground/src/docs/components/g6-drawer-width-control.css
+?? apps/playground/src/docs/components/g6-drawer-width-control.tsx
+?? apps/playground/src/docs/components/g6-feedback-scenario.css
+?? apps/playground/src/docs/components/g6-feedback-scenario.test.tsx
+?? apps/playground/src/docs/components/g6-feedback-scenario.tsx
+?? apps/playground/src/docs/components/g6-feedback-toggle.css
+?? apps/playground/src/docs/components/g6-feedback-toggle.ts
+?? apps/playground/src/docs/components/g6-interaction-pages.css
+?? apps/playground/src/docs/components/g6-interaction-pages.test.tsx
+?? apps/playground/src/docs/components/g6-interaction-pages.tsx
+?? apps/playground/src/docs/components/g6-media-pages.css
+?? apps/playground/src/docs/components/g6-media-pages.test.tsx
+?? apps/playground/src/docs/components/g6-media-pages.tsx
+?? apps/playground/src/docs/components/g6-message-showcase.css
+?? apps/playground/src/docs/components/g6-message-showcase.tsx
+?? apps/playground/src/docs/components/g6-task-details-drawer.css
+?? apps/playground/src/docs/components/g6-task-details-drawer.test.tsx
+?? apps/playground/src/docs/components/g6-task-details-drawer.tsx
+?? apps/playground/src/docs/components/g6-task-drawer.css
+?? apps/playground/src/docs/components/g6-task-drawer.test.tsx
+?? apps/playground/src/docs/components/g6-task-drawer.tsx
+?? apps/playground/src/docs/components/input-number-page.css
+?? apps/playground/src/docs/components/input-number-page.tsx
+?? apps/playground/src/docs/components/layouts-page.css
+?? apps/playground/src/docs/components/layouts-page.tsx
+?? apps/playground/src/docs/components/manage-tree-domain-examples.tsx
+?? apps/playground/src/docs/components/manage-tree-page.tsx
+?? apps/playground/src/docs/components/navigation-component-pages.tsx
+?? apps/playground/src/docs/components/navigation-doc-pages.css
+?? apps/playground/src/docs/components/navigation-v042-page.css
+?? apps/playground/src/docs/components/navigation-v042-page.css.d.ts
+?? apps/playground/src/docs/components/navigation-v042-page.tsx
+?? apps/playground/src/docs/components/resizable-page.tsx
+?? apps/playground/src/docs/components/skeleton-page.css
+?? apps/playground/src/docs/components/skeleton-page.tsx
+?? apps/playground/src/docs/components/slider-examples.css
+?? apps/playground/src/docs/components/slider-examples.test.tsx
+?? apps/playground/src/docs/components/slider-examples.tsx
+?? apps/playground/src/docs/components/spinner-page.tsx
+?? apps/playground/src/docs/components/switch-page.tsx
+?? apps/playground/src/docs/components/table-page.tsx
+?? apps/playground/src/docs/components/toast-page.tsx
+?? apps/playground/src/docs/components/toggle-group-page.css
+?? apps/playground/src/docs/components/toggle-group-page.tsx
+?? apps/playground/src/docs/components/toggle-page.tsx
+?? apps/playground/src/docs/components/tooltip-page.tsx
+?? apps/playground/src/docs/components/tree-behavior-examples.tsx
+?? apps/playground/src/docs/components/tree-page.css
+?? apps/playground/src/docs/components/tree-page.tsx
+?? apps/playground/src/drawer-refinement-consumer.tsx
+?? apps/playground/src/patterns/manage-tree/
+?? apps/playground/src/recipes/
+?? apps/playground/src/routes/component-assets.test.tsx
+?? apps/prototype/
+?? artifacts/
+?? design-qa.md
+?? docs/adr/0009-minimal-layouts.md
+?? docs/adr/0009-native-switch.md
+?? docs/adr/0010-input-number-native-editing.md
+?? docs/adr/0011-tree-and-manage-tree-ownership.md
+?? docs/adr/0012-bklit-rain-charts.md
+?? docs/ai/README.md
+?? docs/ai/asset-index.md
+?? docs/ai/chart-capabilities.md
+?? docs/ai/chart-legend-rules.md
+?? docs/ai/charts.md
+?? docs/ai/form-composition.md
+?? docs/ai/g4-components.md
+?? docs/ai/g5-components.md
+?? docs/ai/g6-components.md
+?? docs/ai/information-design.md
+?? docs/ai/list-composition.md
+?? docs/ai/m2-trial-guide.md
+?? docs/ai/navigation-v042-handoff.md
+?? docs/ai/navigation-v042-w3.md
+?? docs/ai/navigation-v042-w5.md
+?? docs/ai/navigation-v042-w6.md
+?? docs/ai/navigation-v042.md
+?? docs/ai/navigation-workspaces-v042.md
+?? docs/ai/prototype-design.md
+?? docs/ai/rain-designer-integration.md
+?? docs/ai/rain-designer-integration/
+?? docs/ai/skills/
+?? docs/ai/trial-guide.md
+?? docs/audits/2026-09-13-composition-layout-rules.md
+?? docs/audits/2026-09-13-layouts-usage.md
+?? docs/design-reviews/
+?? docs/plans/2026-09-12-card-v2-implementation.md
+?? docs/plans/2026-09-12-rain-next-v2-roadmap.json
+?? docs/plans/2026-09-13-card-visual-refinement-plan.md
+?? docs/plans/2026-09-13-dialog-v2-implementation.md
+?? docs/plans/2026-09-13-dialog-visual-refinement-plan.md
+?? docs/plans/2026-09-13-layouts-v1-implementation.md
+?? docs/plans/2026-09-13-spacing-hierarchy-design.md
+?? docs/plans/2026-09-14-empty-refinement.md
+?? docs/plans/2026-09-14-inside-field-labels.md
+?? docs/plans/2026-09-14-table-action-order.md
+?? docs/plans/2026-09-14-table-card-parity.md
+?? docs/plans/2026-09-14-table-clear-filters.md
+?? docs/plans/2026-09-14-table-pagination-replacement.md
+?? docs/plans/2026-09-14-table-rn08.md
+?? docs/plans/2026-09-14-table-two-row-toolbar.md
+?? docs/plans/2026-09-14-table-visual-refinement.md
+?? docs/plans/2026-09-15-bm-a-rn09.md
+?? docs/plans/2026-09-15-bm-b-rn10.md
+?? docs/plans/2026-09-15-dialog-refinement-design.md
+?? docs/plans/2026-09-15-dialog-refinement-implementation.md
+?? docs/plans/2026-09-15-m2-workbench-report.md
+?? docs/plans/2026-09-15-rain-generation-quality-improvement.md
+?? docs/plans/2026-09-15-rn13-asset-index.md
+?? docs/plans/2026-09-15-rn14-editability.md
+?? docs/plans/2026-09-15-rn15-delivery.md
+?? docs/plans/2026-09-16-avatar-family-design-and-construction.md
+?? docs/plans/2026-09-16-design-knowledge-delivery.md
+?? docs/plans/2026-09-16-input-number.md
+?? docs/plans/2026-09-16-list-composition-pilot.md
+?? docs/plans/2026-09-18-exam-question-move.md
+?? docs/plans/2026-09-19-learning-report-a.md
+?? docs/plans/2026-09-19-report-composition-design.md
+?? docs/plans/2026-09-19-token-first-v12-g1.md
+?? docs/plans/2026-09-20-alert.md
+?? docs/plans/2026-09-20-learning-report-v2.md
+?? docs/plans/2026-09-20-switch-implementation.md
+?? docs/plans/2026-09-20-token-first-g1-next.md
+?? docs/plans/2026-09-20-tooltip-classic.md
+?? docs/plans/2026-09-21-token-first-g2.md
+?? docs/plans/2026-09-22-token-first-g3.md
+?? docs/plans/2026-09-24-breadcrumb-design.md
+?? docs/plans/2026-09-24-breadcrumb-implementation.md
+?? docs/plans/2026-09-25-tree-implementation-rules.md
+?? docs/plans/2026-10-04-navigation-w6-review01-design.md
+?? docs/plans/2026-10-04-navigation-w6-w8.md
+?? docs/plans/2026-10-05-navigation-w6-review02-design.md
+?? docs/plans/2026-10-07-bklit-rain-catalog-plan.md
+?? docs/plans/2026-10-07-bklit-rain-validation.md
+?? docs/plans/2026-10-07-button-group-repair.md
+?? docs/plans/2026-10-07-chart-library-validation-plan.md
+?? docs/plans/2026-10-07-chart-reference-recipes-design.md
+?? docs/plans/2026-10-07-chart-trend-motion-implementation.md
+?? docs/plans/2026-10-07-g1-g3-playground.md
+?? docs/plans/2026-10-08-button-group-sizes.md
+?? docs/plans/2026-10-08-button-group-style.md
+?? docs/plans/2026-10-08-chart-business-expansion-implementation-plan.md
+?? docs/plans/2026-10-08-chart-variants-coverage.md
+?? docs/plans/2026-10-08-chart-variants-implementation-plan.md
+?? docs/plans/2026-10-08-g2-g3-family-refinement.md
+?? docs/plans/2026-10-08-g2-g3-remaining-families.md
+?? docs/plans/2026-10-08-toast-action-position.md
+?? docs/plans/2026-10-09-business-label-color-layout.md
+?? docs/plans/2026-10-09-chart-visual-feedback.md
+?? docs/plans/2026-10-09-matrix-interaction-refinement.md
+?? docs/plans/2026-10-09-matrix-page-separation.md
+?? docs/plans/2026-10-09-matrix-sticky-layout.md
+?? docs/plans/2026-10-09-mini-chart-size-refinement-implementation-plan.md
+?? docs/plans/2026-10-09-mini-typography-feedback.md
+?? docs/plans/2026-10-09-navigation-list-workspace-playground-refinement.md
+?? docs/plans/2026-10-09-navigation-playground-refinement-index.md
+?? docs/plans/2026-10-09-navigation-tabs-bar-segmented-playground-refinement.md
+?? docs/plans/2026-10-09-network-visual-refinement.md
+?? docs/plans/2026-10-09-object-navigator-playground-refinement.md
+?? docs/plans/2026-10-09-radar-visual-feedback.md
+?? docs/plans/2026-10-09-scope-connected-playground-refinement.md
+?? docs/plans/2026-10-09-sheet-task-refinement.md
+?? docs/plans/2026-10-09-tree-components-entry-design.md
+?? docs/plans/2026-10-10-chart-experience-refinement-plan.md
+?? docs/plans/2026-10-10-chart-visual-rebalance.md
+?? docs/plans/2026-10-10-china-map-experience.md
+?? docs/plans/2026-10-10-network-arrow-feedback.md
+?? docs/plans/2026-10-10-network-experience.md
+?? docs/plans/2026-10-10-network-structured-feedback.md
+?? docs/plans/2026-10-11-chart-behavior-fixes.md
+?? docs/plans/2026-10-11-chart-closeout.md
+?? docs/plans/2026-10-11-chart-curve-refinement.md
+?? docs/plans/2026-10-11-chart-demo-data-expansion.md
+?? docs/plans/2026-10-11-chart-demo-data.md
+?? docs/plans/2026-10-11-chart-experience-second-batch.md
+?? docs/plans/2026-10-11-chart-experience-third-batch.md
+?? docs/plans/2026-10-11-g4-components.md
+?? docs/plans/2026-10-11-g4-sizing-and-icons.md
+?? docs/plans/2026-10-11-g4-visual-refinement.md
+?? docs/plans/2026-10-12-date-picker-ux-refinement.md
+?? docs/plans/2026-10-12-date-time-optimization-design.md
+?? docs/plans/2026-10-12-date-time-optimization-implementation.md
+?? docs/plans/2026-10-12-exam-question-gather.md
+?? docs/plans/2026-10-12-token-first-g5.md
+?? docs/plans/2026-10-13-date-picker-closeout.md
+?? docs/plans/2026-10-13-date-picker-visual-feedback.md
+?? docs/plans/2026-10-13-library-governance-closeout.md
+?? docs/plans/2026-10-13-rain-designer-starter.md
+?? docs/plans/2026-10-13-select-unification.md
+?? docs/plans/2026-10-13-slider-closeout.md
+?? docs/plans/2026-10-13-slider-experience.md
+?? docs/plans/2026-10-13-slider-refinement.md
+?? docs/plans/2026-10-14-carousel-closeout.md
+?? docs/plans/2026-10-14-carousel-upgrade.md
+?? docs/plans/2026-10-14-carousel-visual-feedback.md
+?? docs/plans/2026-10-14-dialog-and-task-details.md
+?? docs/plans/2026-10-14-drawer-refinement.md
+?? docs/plans/2026-10-14-g6-doc-refinement-trial.md
+?? docs/plans/2026-10-14-g6-visual-refinement.md
+?? docs/plans/2026-10-14-token-first-g6.md
+?? docs/plans/assets/
+?? docs/research/
+?? evidence/research/
+?? evidence/runtime/alert/
+?? evidence/runtime/attachment-functions-2026-10-15/
+?? evidence/runtime/avatar/
+?? evidence/runtime/bklit-rain-catalog/
+?? evidence/runtime/bklit-rain-validation/
+?? evidence/runtime/bm-a-rn09/
+?? evidence/runtime/bm-b-rn10/
+?? evidence/runtime/breadcrumb/
+?? evidence/runtime/button-group-repair-2026-10-07/
+?? evidence/runtime/button-group-sizes-2026-10-08/
+?? evidence/runtime/button-group-style-2026-10-08/
+?? evidence/runtime/card-v2/
+?? evidence/runtime/card-visual-2026-09-13/
+?? evidence/runtime/carousel-closeout-2026-10-14/
+?? evidence/runtime/carousel-upgrade-2026-10-14/
+?? evidence/runtime/chart-behavior-fixes-2026-10-11/
+?? evidence/runtime/chart-business-expansion/
+?? evidence/runtime/chart-business-label-color-layout-2026-10-09/
+?? evidence/runtime/chart-china-experience-2026-10-10/
+?? evidence/runtime/chart-china-selector-feedback-2026-10-10/
+?? evidence/runtime/chart-closeout-2026-10-11/
+?? evidence/runtime/chart-curve-refinement-2026-10-11/
+?? evidence/runtime/chart-demo-data-2026-10-11/
+?? evidence/runtime/chart-demo-data-expansion-2026-10-11/
+?? evidence/runtime/chart-experience-first-batch/
+?? evidence/runtime/chart-experience-second-batch-2026-10-11/
+?? evidence/runtime/chart-experience-third-batch-2026-10-11/
+?? evidence/runtime/chart-library-validation/
+?? evidence/runtime/chart-matrix-page-separation-2026-10-09/
+?? evidence/runtime/chart-matrix-refinement-2026-10-09/
+?? evidence/runtime/chart-matrix-sticky-layout-2026-10-09/
+?? evidence/runtime/chart-mini-refinement/
+?? evidence/runtime/chart-mini-typography-feedback-2026-10-09/
+?? evidence/runtime/chart-monochrome-blue/
+?? evidence/runtime/chart-network-arrow-feedback-2026-10-10/
+?? evidence/runtime/chart-network-experience-2026-10-10/
+?? evidence/runtime/chart-network-structured-feedback-2026-10-10/
+?? evidence/runtime/chart-network-visual-refinement-2026-10-09/
+?? evidence/runtime/chart-radar-feedback-2026-10-09/
+?? evidence/runtime/chart-trend-motion/
+?? evidence/runtime/chart-variants/
+?? evidence/runtime/chart-visual-feedback-2026-10-09/
+?? evidence/runtime/chart-visual-rebalance-2026-10-10/
+?? evidence/runtime/date-picker-closeout-2026-10-13/
+?? evidence/runtime/date-picker-ux-refinement-2026-10-12/
+?? evidence/runtime/date-picker-visual-feedback-2026-10-13/
+?? evidence/runtime/date-time-optimization-2026-10-12/
+?? evidence/runtime/date-time-ux-review-2026-10-12/
+?? evidence/runtime/design-knowledge/
+?? evidence/runtime/dialog-bm-b-visual-2026-09-15/
+?? evidence/runtime/dialog-refinement-2026-09-15/
+?? evidence/runtime/dialog-v2/
+?? evidence/runtime/dialog-visual-2026-09-13/
+?? evidence/runtime/drawer-refinement-2026-10-14/
+?? evidence/runtime/empty-refinement/
+?? evidence/runtime/g123-playground-2026-10-07/
+?? evidence/runtime/g2-g3-family-refinement-2026-10-08/
+?? evidence/runtime/g2-g3-remaining-families-2026-10-08/
+?? evidence/runtime/g4-components-2026-10-11/
+?? evidence/runtime/g4-pages-acceptance-2026-10-12/
+?? evidence/runtime/g4-review-sizing-2026-10-11/
+?? evidence/runtime/g4-visual-refinement-2026-10-11/
+?? evidence/runtime/g5-components-2026-10-12/
+?? evidence/runtime/g6-components-2026-10-14/
+?? evidence/runtime/g6-doc-refinement-2026-10-14/
+?? evidence/runtime/g6-preflight-2026-10-14/
+?? evidence/runtime/g6-research-2026-10-14/
+?? evidence/runtime/g6-visual-refinement-2026-10-14/
+?? evidence/runtime/generation-quality/
+?? evidence/runtime/input-number/
+?? evidence/runtime/inside-field-labels/
+?? evidence/runtime/layouts-v1/
+?? evidence/runtime/learning-report-a/
+?? evidence/runtime/library-governance-closeout-2026-10-13/
+?? evidence/runtime/list-composition/
+?? evidence/runtime/m2/
+?? evidence/runtime/manage-tree/
+?? evidence/runtime/navigation-feedback-2026-10-10/
+?? evidence/runtime/navigation-playground-refinement-2026-10-09/
+?? evidence/runtime/navigation-rebuild-v03/
+?? evidence/runtime/navigation-rebuild/
+?? evidence/runtime/navigation-v042/
+?? evidence/runtime/rain-designer-execution-2026-10-13/
+?? evidence/runtime/rain-designer-starter-2026-10-13/
+?? evidence/runtime/rn13-asset-index/
+?? evidence/runtime/rn14-editability/
+?? evidence/runtime/rn15-delivery/
+?? evidence/runtime/select-unification-2026-10-13/
+?? evidence/runtime/sheet-feedback-2026-10-09/
+?? evidence/runtime/sheet-task-refinement-2026-10-09/
+?? evidence/runtime/slider-closeout-2026-10-13/
+?? evidence/runtime/slider-experience-2026-10-13/
+?? evidence/runtime/slider-refinement-2026-10-13/
+?? evidence/runtime/spacing-hierarchy/
+?? evidence/runtime/switch/
+?? evidence/runtime/table-action-order/
+?? evidence/runtime/table-clear-filters/
+?? evidence/runtime/table-pagination-replacement/
+?? evidence/runtime/table-rn08/
+?? evidence/runtime/table-two-row-toolbar/
+?? evidence/runtime/table-visual-refinement/
+?? evidence/runtime/teacher-grading-annotations/
+?? evidence/runtime/toast-action-position-2026-10-08/
+?? evidence/runtime/token-first-v12-closeout-20261007/
+?? evidence/runtime/token-first-v12-g1-next/
+?? evidence/runtime/token-first-v12-g1/
+?? evidence/runtime/token-first-v12-g2/
+?? evidence/runtime/token-first-v12-g3/
+?? evidence/runtime/token-first-v12-g4/
+?? evidence/runtime/token-first-v12-g6/
+?? evidence/runtime/tooltip-classic/
+?? evidence/runtime/tree/
+?? manifests/layouts/
+?? manifests/patterns/manage-tree.yaml
+?? manifests/recipes/data-table.yaml
+?? manifests/recipes/input-group.yaml
+?? manifests/recipes/navigation-r1.yaml
+?? manifests/recipes/navigation-r2.yaml
+?? manifests/recipes/navigation-r3.yaml
+?? manifests/recipes/navigation-r4.yaml
+?? manifests/recipes/navigation-r5.yaml
+?? manifests/recipes/navigation-r6.yaml
+?? manifests/recipes/navigation-states.yaml
+?? manifests/ui/accordion.yaml
+?? manifests/ui/activity-overlay.yaml
+?? manifests/ui/alert-dialog.yaml
+?? manifests/ui/alert.yaml
+?? manifests/ui/aspect-ratio.yaml
+?? manifests/ui/attachment.yaml
+?? manifests/ui/avatar-grid.yaml
+?? manifests/ui/avatar-group.yaml
+?? manifests/ui/avatar.yaml
+?? manifests/ui/badge.yaml
+?? manifests/ui/breadcrumb.yaml
+?? manifests/ui/bubble.yaml
+?? manifests/ui/button-group.yaml
+?? manifests/ui/calendar.yaml
+?? manifests/ui/card.yaml
+?? manifests/ui/carousel.yaml
+?? manifests/ui/chart-area.yaml
+?? manifests/ui/chart-bar.yaml
+?? manifests/ui/chart-candlestick.yaml
+?? manifests/ui/chart-choropleth.yaml
+?? manifests/ui/chart-composed.yaml
+?? manifests/ui/chart-funnel.yaml
+?? manifests/ui/chart-gauge.yaml
+?? manifests/ui/chart-heatmap.yaml
+?? manifests/ui/chart-line.yaml
+?? manifests/ui/chart-live-line.yaml
+?? manifests/ui/chart-matrix.yaml
+?? manifests/ui/chart-network.yaml
+?? manifests/ui/chart-pie.yaml
+?? manifests/ui/chart-profit-loss.yaml
+?? manifests/ui/chart-radar.yaml
+?? manifests/ui/chart-ring.yaml
+?? manifests/ui/chart-sankey.yaml
+?? manifests/ui/chart-scatter.yaml
+?? manifests/ui/chart-sunburst.yaml
+?? manifests/ui/collapsible.yaml
+?? manifests/ui/combobox.yaml
+?? manifests/ui/command.yaml
+?? manifests/ui/context-menu.yaml
+?? manifests/ui/date-picker.yaml
+?? manifests/ui/dialog.yaml
+?? manifests/ui/direction.yaml
+?? manifests/ui/drawer.yaml
+?? manifests/ui/empty.yaml
+?? manifests/ui/hover-card.yaml
+?? manifests/ui/input-number.yaml
+?? manifests/ui/input-otp.yaml
+?? manifests/ui/item.yaml
+?? manifests/ui/kbd.yaml
+?? manifests/ui/link.yaml
+?? manifests/ui/marker.yaml
+?? manifests/ui/menubar.yaml
+?? manifests/ui/message-scroller.yaml
+?? manifests/ui/message.yaml
+?? manifests/ui/native-select.yaml
+?? manifests/ui/navigation-bar.yaml
+?? manifests/ui/navigation-list.yaml
+?? manifests/ui/navigation-menu.yaml
+?? manifests/ui/navigation-tabs.yaml
+?? manifests/ui/object-navigator.yaml
+?? manifests/ui/pagination.yaml
+?? manifests/ui/progress.yaml
+?? manifests/ui/questionnaire.yaml
+?? manifests/ui/resizable.yaml
+?? manifests/ui/scope-navigation.yaml
+?? manifests/ui/scroll-area.yaml
+?? manifests/ui/segmented-control.yaml
+?? manifests/ui/separator.yaml
+?? manifests/ui/sheet.yaml
+?? manifests/ui/sidebar.yaml
+?? manifests/ui/skeleton.yaml
+?? manifests/ui/slider.yaml
+?? manifests/ui/spinner.yaml
+?? manifests/ui/status-indicator-group.yaml
+?? manifests/ui/status-indicator.yaml
+?? manifests/ui/surface.yaml
+?? manifests/ui/switch.yaml
+?? manifests/ui/table.yaml
+?? manifests/ui/textarea.yaml
+?? manifests/ui/toast.yaml
+?? manifests/ui/toggle-group.yaml
+?? manifests/ui/toggle.yaml
+?? manifests/ui/tooltip.yaml
+?? manifests/ui/tree.yaml
+?? manifests/ui/typography.yaml
+?? packages/foundations/src/overlay-token-contract.ts
+?? packages/foundations/src/tooltip-token-contract.ts
+?? packages/layouts/package.json
+?? packages/layouts/src/
+?? packages/layouts/tsconfig.json
+?? packages/ui/src/_internal/g3-popup-context.test.tsx
+?? packages/ui/src/accordion/
+?? packages/ui/src/alert/
+?? packages/ui/src/aspect-ratio/
+?? packages/ui/src/attachment/
+?? packages/ui/src/avatar/
+?? packages/ui/src/breadcrumb/
+?? packages/ui/src/bubble/
+?? packages/ui/src/button-group/
+?? packages/ui/src/calendar/
+?? packages/ui/src/card/card.css
+?? packages/ui/src/card/card.css.d.ts
+?? packages/ui/src/card/card.styles.ts
+?? packages/ui/src/card/card.test.tsx
+?? packages/ui/src/carousel/
+?? packages/ui/src/charts/
+?? packages/ui/src/collapsible/
+?? packages/ui/src/combobox/
+?? packages/ui/src/command/
+?? packages/ui/src/context-menu/
+?? packages/ui/src/date-picker/
+?? packages/ui/src/dialog/
+?? packages/ui/src/direction/
+?? packages/ui/src/drawer/
+?? packages/ui/src/empty/
+?? packages/ui/src/hover-card/
+?? packages/ui/src/input-number/
+?? packages/ui/src/input-otp/
+?? packages/ui/src/item/
+?? packages/ui/src/kbd/
+?? packages/ui/src/loading/
+?? packages/ui/src/marker/
+?? packages/ui/src/menubar/
+?? packages/ui/src/message-scroller/
+?? packages/ui/src/message/
+?? packages/ui/src/native-select/
+?? packages/ui/src/navigation-menu/
+?? packages/ui/src/navigation/
+?? packages/ui/src/pagination/
+?? packages/ui/src/progress/
+?? packages/ui/src/questionnaire/
+?? packages/ui/src/resizable/
+?? packages/ui/src/scroll-area/
+?? packages/ui/src/select/select-form.test.tsx
+?? packages/ui/src/separator/
+?? packages/ui/src/sheet/
+?? packages/ui/src/sidebar/
+?? packages/ui/src/slider/
+?? packages/ui/src/status-indicator/
+?? packages/ui/src/switch/
+?? packages/ui/src/table/
+?? packages/ui/src/textarea/
+?? packages/ui/src/toast/
+?? packages/ui/src/toggle-group/
+?? packages/ui/src/toggle/
+?? packages/ui/src/tooltip/
+?? packages/ui/src/tree/
+?? playwright.g3.config.ts
+?? playwright.navigation-rebuild.config.ts
+?? registry/alert.json
+?? registry/avatar.json
+?? registry/breadcrumb.json
+?? registry/card.json
+?? registry/charts.json
+?? registry/core-ui.json
+?? registry/dialog.json
+?? registry/g1-assets.json
+?? registry/g2-assets.json
+?? registry/g4-assets.json
+?? registry/g5-assets.json
+?? registry/g6-assets.json
+?? registry/input-number.json
+?? registry/layouts.json
+?? registry/navigation-v042-recipes.json
+?? registry/navigation-v042-w3.json
+?? registry/navigation-v042-workspaces.json
+?? registry/navigation-v042.json
+?? registry/status-indicator.json
+?? registry/switch.json
+?? registry/table.json
+?? registry/textarea.json
+?? registry/token-first-g3.json
+?? registry/tooltip.json
+?? registry/tree.json
+?? scripts/alert.mjs
+?? scripts/alert.test.ts
+?? scripts/asset-index.mjs
+?? scripts/asset-index.test.ts
+?? scripts/avatar-family.mjs
+?? scripts/avatar-family.test.ts
+?? scripts/bind-carousel-upgrade.mjs
+?? scripts/capture-chart-variant-review.mjs
+?? scripts/carousel-closeout.test.ts
+?? scripts/carousel-color-consumers.mjs
+?? scripts/carousel-color-consumers.test.ts
+?? scripts/carousel-upgrade-governance.mjs
+?? scripts/carousel-upgrade-governance.test.ts
+?? scripts/carousel-upgrade-source.test.ts
+?? scripts/chart-china-consumption-cases.mjs
+?? scripts/chart-color-consumers.test.ts
+?? scripts/chart-variant-parts.test.ts
+?? scripts/charts.test.ts
+?? scripts/date-picker-closeout.test.ts
+?? scripts/date-picker-visual-feedback-governance.test.ts
+?? scripts/dialog-refinement.test.ts
+?? scripts/dialog-v2.test.ts
+?? scripts/drawer-color-consumers.mjs
+?? scripts/drawer-color-consumers.test.ts
+?? scripts/drawer-refinement-governance.mjs
+?? scripts/drawer-refinement-governance.test.ts
+?? scripts/drawer-refinement-integration.test.ts
+?? scripts/g123-playground-governance.test.ts
+?? scripts/g23-family-refinement-governance.test.ts
+?? scripts/g4-components-governance.test.ts
+?? scripts/g4-page-acceptance.test.ts
+?? scripts/g4-sizing-review.test.ts
+?? scripts/g4-visual-refinement.test.ts
+?? scripts/g5-color-consumers.mjs
+?? scripts/g5-color-consumers.test.ts
+?? scripts/g5-components-governance.test.ts
+?? scripts/g5-date-picker-refinement-governance.test.ts
+?? scripts/g5-date-time-governance.test.ts
+?? scripts/g5-evidence-paths.mjs
+?? scripts/g5-evidence-paths.test.ts
+?? scripts/g6-color-consumers.mjs
+?? scripts/g6-color-consumers.test.ts
+?? scripts/g6-governance.mjs
+?? scripts/g6-governance.test.ts
+?? scripts/generate-chart-styles.mjs
+?? scripts/input-number.mjs
+?? scripts/input-number.test.ts
+?? scripts/layouts-v1.test.ts
+?? scripts/library-governance-closeout.test.ts
+?? scripts/m2.test.ts
+?? scripts/navigation-v042-compare.mjs
+?? scripts/navigation-v042-export.mjs
+?? scripts/navigation-v042-reference.mjs
+?? scripts/navigation-v042-review.mjs
+?? scripts/navigation-v042-w3-compare.mjs
+?? scripts/navigation-v042-w3-reference.mjs
+?? scripts/navigation-v042-w4-compare.mjs
+?? scripts/navigation-v042-w4-r2-regression.mjs
+?? scripts/navigation-v042-w4-reference.mjs
+?? scripts/navigation-v042-w5-compare.mjs
+?? scripts/navigation-v042-w5-reference.mjs
+?? scripts/navigation-v042-w5-stability.mjs
+?? scripts/navigation-v042-w7-quality.mjs
+?? scripts/navigation-w7-color-anatomy.mjs
+?? scripts/navigation-w7-colors.mjs
+?? scripts/navigation-w7-colors.test.ts
+?? scripts/pagination-color-consumers.mjs
+?? scripts/rn14-browser.mjs
+?? scripts/rn14-starter.mjs
+?? scripts/rn14-starter.test.ts
+?? scripts/rn15-delivery.test.ts
+?? scripts/select-unification-governance.test.ts
+?? scripts/select-unification-test-fixture.ts
+?? scripts/slider-closeout.test.ts
+?? scripts/slider-refinement-governance.test.ts
+?? scripts/table-rn08.test.ts
+?? scripts/tooltip.test.ts
+?? scripts/tree-closeout.test.ts
+?? scripts/verify-boundaries-navigation.test.ts
+?? scripts/verify-carousel-closeout.mjs
+?? scripts/verify-carousel-upgrade.mjs
+?? scripts/verify-carousel-visual-feedback.mjs
+?? scripts/verify-chart-business-consumption.mjs
+?? scripts/verify-chart-business-consumption.test.ts
+?? scripts/verify-chart-consumer-combinations.mjs
+?? scripts/verify-chart-variant-consumption.mjs
+?? scripts/verify-chart-variant-consumption.test.ts
+?? scripts/verify-g5-components.mjs
+?? scripts/verify-g5-consumption.mjs
+?? scripts/verify-g6-components.mjs
+?? tests/e2e/alert.config.ts
+?? tests/e2e/alert.spec.ts
+?? tests/e2e/avatar.spec.ts
+?? tests/e2e/bklit-catalog.config.ts
+?? tests/e2e/bklit-catalog.spec.ts
+?? tests/e2e/bklit-rain-validation.config.ts
+?? tests/e2e/bklit-rain-validation.spec.ts
+?? tests/e2e/bm-a.config.ts
+?? tests/e2e/bm-a.spec.ts
+?? tests/e2e/bm-b.config.ts
+?? tests/e2e/bm-b.spec.ts
+?? tests/e2e/breadcrumb.config.ts
+?? tests/e2e/breadcrumb.spec.ts
+?? tests/e2e/button-group-repair.config.ts
+?? tests/e2e/button-group-repair.spec.ts
+?? tests/e2e/card.spec.ts
+?? tests/e2e/chart-business-category-motion.spec.ts
+?? tests/e2e/chart-business-category.spec.ts
+?? tests/e2e/chart-business-embedding.spec.ts
+?? tests/e2e/chart-business-map-scope.spec.ts
+?? tests/e2e/chart-business-map.spec.ts
+?? tests/e2e/chart-business-matrix-refinement.spec.ts
+?? tests/e2e/chart-business-motion.spec.ts
+?? tests/e2e/chart-business-network.spec.ts
+?? tests/e2e/chart-business-sizes.spec.ts
+?? tests/e2e/chart-business-typography-feedback.spec.ts
+?? tests/e2e/chart-business.config.ts
+?? tests/e2e/chart-curve-refinement.spec.ts
+?? tests/e2e/chart-experience-radial-flow.spec.ts
+?? tests/e2e/chart-feedback-legend-tooltip.config.ts
+?? tests/e2e/chart-feedback-legend-tooltip.spec.ts
+?? tests/e2e/chart-feedback-material.spec.ts
+?? tests/e2e/chart-feedback-radar.spec.ts
+?? tests/e2e/chart-feedback-radial.spec.ts
+?? tests/e2e/chart-feedback-refinement.spec.ts
+?? tests/e2e/chart-feedback-structure.config.ts
+?? tests/e2e/chart-feedback-structure.spec.ts
+?? tests/e2e/chart-feedback.config.ts
+?? tests/e2e/chart-legend-second-batch.spec.ts
+?? tests/e2e/chart-library-validation.config.ts
+?? tests/e2e/chart-library-validation.spec.ts
+?? tests/e2e/chart-matrix-sticky-layout.spec.ts
+?? tests/e2e/chart-profit-loss-zero.spec.ts
+?? tests/e2e/chart-radar-hover-origin.spec.ts
+?? tests/e2e/chart-radar-motion.spec.ts
+?? tests/e2e/chart-second-batch-heatmap-map.spec.ts
+?? tests/e2e/chart-second-batch-matrix-china.spec.ts
+?? tests/e2e/chart-third-batch-candle.spec.ts
+?? tests/e2e/chart-third-batch-live.spec.ts
+?? tests/e2e/chart-third-batch-profit-loss.spec.ts
+?? tests/e2e/chart-third-batch-scatter.spec.ts
+?? tests/e2e/chart-trend-motion.config.ts
+?? tests/e2e/chart-trend-motion.spec.ts
+?? tests/e2e/chart-variants-interactions.config.ts
+?? tests/e2e/chart-variants-interactions.spec.ts
+?? tests/e2e/chart-variants-structure.spec.ts
+?? tests/e2e/chart-variants.config.ts
+?? tests/e2e/chart-variants.spec.ts
+?? tests/e2e/chart-visual-rebalance.spec.ts
+?? tests/e2e/chart-x-axis-resize.spec.ts
+?? tests/e2e/charts-playground.config.ts
+?? tests/e2e/charts-playground.spec.ts
+?? tests/e2e/date-picker-refinement.config.ts
+?? tests/e2e/date-picker-refinement.spec.ts
+?? tests/e2e/date-time-optimization.config.ts
+?? tests/e2e/date-time-optimization.spec.ts
+?? tests/e2e/dialog-refinement.spec.ts
+?? tests/e2e/dialog.spec.ts
+?? tests/e2e/drawer-refinement.config.ts
+?? tests/e2e/drawer-refinement.spec.ts
+?? tests/e2e/evidence/
+?? tests/e2e/g123-playground.config.ts
+?? tests/e2e/g123-playground.spec.ts
+?? tests/e2e/g2-g3-family-refinement.spec.ts
+?? tests/e2e/g2-g3-remaining-families.spec.ts
+?? tests/e2e/g4-components.config.ts
+?? tests/e2e/g4-components.spec.ts
+?? tests/e2e/g5-components.config.ts
+?? tests/e2e/g5-components.spec.ts
+?? tests/e2e/g5-dates.config.ts
+?? tests/e2e/g5-dates.spec.ts
+?? tests/e2e/g6-components.config.ts
+?? tests/e2e/g6-components.spec.ts
+?? tests/e2e/input-number.spec.ts
+?? tests/e2e/inside-labels.config.ts
+?? tests/e2e/inside-labels.spec.ts
+?? tests/e2e/layouts.spec.ts
+?? tests/e2e/learning-report-a.spec.ts
+?? tests/e2e/learning-report.config.ts
+?? tests/e2e/m2.config.ts
+?? tests/e2e/m2.spec.ts
+?? tests/e2e/navigation-rebuild-a11y.spec.ts
+?? tests/e2e/navigation-rebuild-acceptance.spec.ts
+?? tests/e2e/navigation-rebuild-closure.spec.ts
+?? tests/e2e/navigation-rebuild-commands.spec.ts
+?? tests/e2e/navigation-rebuild-course.spec.ts
+?? tests/e2e/navigation-rebuild-isolation.spec.ts
+?? tests/e2e/navigation-rebuild-reuse.spec.ts
+?? tests/e2e/navigation-rebuild-select.ts
+?? tests/e2e/navigation-rebuild-topnav.spec.ts
+?? tests/e2e/navigation-rebuild-visual-feedback-2.spec.ts
+?? tests/e2e/navigation-rebuild-visual-feedback.spec.ts
+?? tests/e2e/navigation-rebuild.spec.ts
+?? tests/e2e/navigation-v042-r4-feedback.config.ts
+?? tests/e2e/navigation-v042-r4-feedback.spec.ts
+?? tests/e2e/navigation-v042-review07.config.ts
+?? tests/e2e/navigation-v042-review07.spec.ts
+?? tests/e2e/navigation-v042-review08.config.ts
+?? tests/e2e/navigation-v042-review08.spec.ts
+?? tests/e2e/navigation-v042-review09-r1-r3.config.ts
+?? tests/e2e/navigation-v042-review09-r1-r3.spec.ts
+?? tests/e2e/navigation-v042-review09.config.ts
+?? tests/e2e/navigation-v042-review09.spec.ts
+?? tests/e2e/navigation-v042-review10.config.ts
+?? tests/e2e/navigation-v042-review10.spec.ts
+?? tests/e2e/navigation-v042-review11-parent.config.ts
+?? tests/e2e/navigation-v042-review11-platform.config.ts
+?? tests/e2e/navigation-v042-review11-platform.spec.ts
+?? tests/e2e/navigation-v042-review11-r1-r3.spec.ts
+?? tests/e2e/navigation-v042-review11-r4-r6-platform-footer.spec.ts
+?? tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts
+?? tests/e2e/navigation-v042-review11-r4-r6.spec.ts
+?? tests/e2e/navigation-v042-review11-root.spec.ts
+?? tests/e2e/navigation-v042-w3.config.ts
+?? tests/e2e/navigation-v042-w3.spec.ts
+?? tests/e2e/navigation-v042-w4.config.ts
+?? tests/e2e/navigation-v042-w4.spec.ts
+?? tests/e2e/navigation-v042-w5.config.ts
+?? tests/e2e/navigation-v042-w5.spec.ts
+?? tests/e2e/navigation-v042-w6-review01-compat.config.ts
+?? tests/e2e/navigation-v042-w6-review01.config.ts
+?? tests/e2e/navigation-v042-w6-review01.spec.ts
+?? tests/e2e/navigation-v042-w6-review02-compat.config.ts
+?? tests/e2e/navigation-v042-w6-review02.config.ts
+?? tests/e2e/navigation-v042-w6-review02.spec.ts
+?? tests/e2e/navigation-v042-w6.config.ts
+?? tests/e2e/navigation-v042-w6.spec.ts
+?? tests/e2e/navigation-v042-w7.config.ts
+?? tests/e2e/navigation-v042-w7.spec.ts
+?? tests/e2e/navigation-v042.config.ts
+?? tests/e2e/navigation-v042.spec.ts
+?? tests/e2e/rn15.config.ts
+?? tests/e2e/select-unification.config.ts
+?? tests/e2e/select-unification.spec.ts
+?? tests/e2e/slider-refinement.config.ts
+?? tests/e2e/slider-refinement.spec.ts
+?? tests/e2e/table.config.ts
+?? tests/e2e/table.spec.ts
+?? tests/e2e/teacher-grading.spec.ts
+?? tests/e2e/toast-action-position.spec.ts
+?? tests/e2e/token-first-g1-next.spec.ts
+?? tests/e2e/token-first-g1.spec.ts
+?? tests/e2e/token-first-g2.spec.ts
+?? tests/e2e/token-first-g3.spec.ts
+?? tests/e2e/tree.config.ts
+?? tests/e2e/tree.spec.ts

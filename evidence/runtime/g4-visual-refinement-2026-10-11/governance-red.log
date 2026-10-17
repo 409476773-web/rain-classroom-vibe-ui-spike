@@ -1,0 +1,99 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g4-visual-refinement.test.ts (7 tests | 6 failed) 228ms
+     × keeps the original completed candidate and all prior Gates unchanged 12ms
+     × rejects expanded scope or transferred visual, contrast, publication and Git acceptance 3ms
+     × cannot claim completion before scoped checks and independent review 3ms
+     × accepts only the two cascade fixes and retains paragraph margins and all other preview rules 0ms
+     × binds current feedback files to the immutable G4 predecessor 47ms
+     × permits Manifest feedback metadata only, without changing the original capability or gate 41ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g4-visual-refinement.test.ts > G4 visual feedback is a finite successor > keeps the original completed candidate and all prior Gates unchanged
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ scripts/g4-visual-refinement.test.ts:58:49
+     56|   it("keeps the original completed candidate and all prior Gates uncha…
+     57|     const phase = authorized(), original = before();
+     58|     expect(hasG4ComponentsAuthorization(phase)).toBe(true); expect(has…
+       |                                                 ^
+     59|     delete phase.componentRefinements.g4Components.visualRefinement;
+     60|     expect(phase).toEqual(original); expect(hasG4VisualRefinementAutho…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  scripts/g4-visual-refinement.test.ts > G4 visual feedback is a finite successor > rejects expanded scope or transferred visual, contrast, publication and Git acceptance
+TypeError: hasG4VisualRefinementAuthorization is not a function
+ ❯ scripts/g4-visual-refinement.test.ts:66:78
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  scripts/g4-visual-refinement.test.ts > G4 visual feedback is a finite successor > cannot claim completion before scoped checks and independent review
+TypeError: hasG4VisualRefinementAuthorization is not a function
+ ❯ scripts/g4-visual-refinement.test.ts:71:49
+     69|   it("cannot claim completion before scoped checks and independent rev…
+     70|     const phase = authorized(), record = phase.componentRefinements.g4…
+     71|     record.implementation = "completed"; expect(hasG4VisualRefinementA…
+       |                                                 ^
+     72|     record.automatedVerification = "passed-scoped"; expect(hasG4Visual…
+     73|     record.independentReview = "passed-scoped"; expect(hasG4VisualRefi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  scripts/g4-visual-refinement.test.ts > G4 visual feedback is a finite successor > accepts only the two cascade fixes and retains paragraph margins and all other preview rules
+TypeError: validateG4PreviewTypographySuccessor is not a function
+ ❯ scripts/g4-visual-refinement.test.ts:78:12
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  scripts/g4-visual-refinement.test.ts > G4 visual feedback is a finite successor > binds current feedback files to the immutable G4 predecessor
+AssertionError: expected [Function] to not throw an error but 'TypeError: (0 , __vite_ssr_import_5__…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"TypeError: (0 , __vite_ssr_import_5__.getG4VisualRefinementSourceBindings) is not a function"
+
+ ❯ scripts/g4-visual-refinement.test.ts:86:79
+     84|     const { directory, phase, record, save } = fixture();
+     85|     try {
+     86|       expect(() => getG4VisualRefinementSourceBindings(directory, phas…
+       |                                                                               ^
+     87|       record.sourceFiles["packages/ui/src/item/item.tsx"] = { before: …
+     88|       expect(() => getG4VisualRefinementSourceBindings(directory, phas…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  scripts/g4-visual-refinement.test.ts > G4 visual feedback is a finite successor > permits Manifest feedback metadata only, without changing the original capability or gate
+AssertionError: expected [Function] to throw error including 'Manifest must preserve its original c…' but got '(0 , __vite_ssr_import_5__.getG4Visua…'
+
+Expected: "Manifest must preserve its original capability"
+Received: "(0 , __vite_ssr_import_5__.getG4VisualRefinementSourceBindings) is not a function"
+
+ ❯ scripts/g4-visual-refinement.test.ts:108:75
+    106|       const file = "manifests/ui/item.yaml", changed = readFileSync(jo…
+    107|       copy(file, changed); record.sourceFiles[file].after = sha(change…
+    108|       expect(() => getG4VisualRefinementSourceBindings(directory, phas…
+       |                                                                           ^
+    109|       const changedPhase = structuredClone(phase); changedPhase.compon…
+    110|       expect(hasG4VisualRefinementAuthorization(changedPhase)).toBe(fa…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed | 1 passed (7)
+   Start at  21:25:50
+   Duration  903ms (transform 80ms, setup 100ms, import 82ms, tests 228ms, environment 395ms)
+

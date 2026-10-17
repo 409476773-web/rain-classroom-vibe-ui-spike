@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, it } from "vitest";
+import { createHash } from "node:crypto";
 import { getValidatedTailwindB2History, hasRn14Authorization, parseYamlSubset } from "./verification-helpers.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -15,7 +16,7 @@ it("delivers reachable design guidance and locks it with each standalone starter
     for (const milestone of ["M1", "M2"]) {
       const output = join(temporary, milestone), lock = exportStarter(output, { milestone });
       expect(existsSync(join(output, "AGENTS.md"))).toBe(true);
-      const pending = ["AGENTS.md"], visited = new Set<string>();
+      const pending = ["AGENTS.md", ...(milestone === "M2" ? ["docs/ai/m2-trial-guide.md"] : [])], visited = new Set<string>();
       while (pending.length) {
         const file = pending.pop()!;
         if (visited.has(file)) continue;
@@ -31,14 +32,86 @@ it("delivers reachable design guidance and locks it with each standalone starter
         }
       }
       expect(visited).toContain("docs/ai/prototype-design.md");
+      expect(visited).toContain("docs/ai/information-design.md");
       expect(visited).toContain("docs/ai/form-composition.md");
-      const guide = "docs/ai/prototype-design.md";
-      expect(readFileSync(join(output, guide), "utf8")).toBe(readFileSync(join(root, guide), "utf8"));
-      expect(lock.sourceFiles[guide]).toBe(lock.files[guide]);
+      expect(visited).toContain("docs/ai/g6-components.md");
+      const g6 = JSON.parse(readFileSync(join(root, "registry/g6-assets.json"), "utf8"));
+      for (const file of [...g6.items.flatMap((item: any) => [item.manifest, ...item.files]), ...g6.shared.files]) {
+        expect(readFileSync(join(output, file)), file).toEqual(readFileSync(join(root, file)));
+        expect(lock.files[file], file).toBe(lock.sourceFiles[file]);
+      }
+      const portableG6 = readFileSync(join(output, "docs/ai/g6-components.md"), "utf8");
+      expect(portableG6).toContain("registry/g6-assets.json` 是原工作区追溯材料，本 Starter 未附带");
+      expect(portableG6).toContain("本 Starter 使用 workspace 结构");
+      expect(portableG6).toContain("sourceEvidence/examples 是原工作区追溯材料");
+      expect(existsSync(join(output, "registry/g6-assets.json"))).toBe(false);
+      expect(lock.sourceFiles["docs/ai/g6-components.md"]).toBe(createHash("sha256").update(readFileSync(join(root, "docs/ai/g6-components.md"))).digest("hex"));
+      expect(lock.sourceFiles["docs/ai/g6-components.md"]).not.toBe(lock.files["docs/ai/g6-components.md"]);
+
+      for (const guide of ["docs/ai/prototype-design.md", "docs/ai/information-design.md"]) {
+        const original = readFileSync(join(root, guide), "utf8");
+        const navigationCase = "当前导航E1–E6已在2026-10-05获得运行视觉、本地AI消费与实例隔离审阅确认，见[消费合同](navigation-v042-w6.md)及[决定范围](../../evidence/runtime/navigation-v042/g3-acceptance-review02/acceptance.json)。这是可参考的本地组合案例，候选仍未发布，完整质量门单列。";
+        let expected = guide === "docs/ai/prototype-design.md" ? original.replace(navigationCase,
+          "导航工作包的消费指南与验收材料在专用导航交付包中；当前 M1/M2 Starter 仅开放对应业务场景，以下组合经验可作为参考。") : original;
+        if (guide === "docs/ai/prototype-design.md") {
+          expected = expected.replace("使用 [G6 组件指南](./g6-components.md) 和 Registry/Manifest", "使用本包附带的 [G6 组件指南](./g6-components.md) 和对应 Manifest，按 sourcePath、随包组件 README 与 package.json/pnpm-lock.yaml 核对当前可用能力");
+        }
+        if (guide === "docs/ai/information-design.md") {
+          for (const label of ["Breadcrumb验证记录", "导航使用指南", "Tree实施规则与审核记录", "导航review-04与review-07及验收范围", "独立消费合同", "当前人工决定", "网络体验记录", "P3反馈记录", "确认台账", "逐图规则"]) {
+            const trace = new RegExp(`\\[${label}\\]\\([^)]+\\)`, "g");
+            expect(original.match(trace)).toHaveLength(1);
+            expected = expected.replace(trace, `${label}（原工作区追溯材料；本 Starter 未附带）`);
+          }
+        }
+        expect(readFileSync(join(output, guide), "utf8")).toBe(expected);
+        expect(readFileSync(join(root, guide), "utf8")).toBe(original);
+        if (guide === "docs/ai/prototype-design.md") {
+          expect(original.split(navigationCase)).toHaveLength(2);
+          expect(lock.sourceFiles[guide]).not.toBe(lock.files[guide]);
+        } else expect(lock.sourceFiles[guide]).not.toBe(lock.files[guide]);
+      }
       expect(verifyStarter(output)).toBe(lock.snapshotId);
-      writeFileSync(join(output, guide), "changed guidance");
+      writeFileSync(join(output, "docs/ai/information-design.md"), "changed guidance");
       expect(() => verifyStarter(output)).toThrow(/changed/);
     }
+  } finally { rmSync(temporary, { recursive: true, force: true }); }
+});
+it.each(["M1", "M2"])("distributes the complete Rain Designer snapshot in %s and detects each missing or changed method file", async milestone => {
+  const { exportStarter, verifyStarter } = await import("./rn14-starter.mjs");
+  const temporary = mkdtempSync(join(tmpdir(), "rain-designer-starter-"));
+  const output = join(temporary, "starter");
+  const skill = ".agents/skills/rain-designer/";
+  const files = ["SKILL.md", "agents/openai.yaml", "references/designer.md", "references/designer-sources-v0.3.md", "references/optical-alignment.md", "references/optical-sources.md"].map(file => skill + file);
+  try {
+    const lock = exportStarter(output, { milestone });
+    for (const file of files) {
+      expect(existsSync(join(output, file)), file).toBe(true);
+      const original = readFileSync(join(root, file));
+      expect(readFileSync(join(output, file))).toEqual(original);
+      const hash = createHash("sha256").update(original).digest("hex");
+      expect(lock.sourceFiles[file]).toBe(hash);
+      expect(lock.files[file]).toBe(hash);
+      writeFileSync(join(output, file), "changed");
+      expect(() => verifyStarter(output), file).toThrow(/changed/);
+      writeFileSync(join(output, file), original);
+      rmSync(join(output, file));
+      expect(() => verifyStarter(output), file).toThrow(/inventory/);
+      writeFileSync(join(output, file), original);
+    }
+    const instructions = readFileSync(join(output, "AGENTS.md"), "utf8");
+    expect(instructions).toContain(`[Rain Designer](${skill}SKILL.md)`);
+    expect(instructions).toContain("先理解当前任务");
+    expect(instructions).toContain("共享 packages 与锁文件保持只读");
+    expect(instructions).not.toContain("先读 [设计方法库]");
+    expect(readFileSync(join(output, skill + "SKILL.md"), "utf8")).toContain("0.2.1");
+    expect(readFileSync(join(output, skill + "references/designer.md"), "utf8")).toContain("v0.5");
+    for (const file of ["AGENTS.md", "docs/ai/prototype-design.md", "docs/ai/g4-components.md", ...files]) {
+      expect(readFileSync(join(output, file), "utf8"), file).not.toContain(root);
+    }
+    expect(readFileSync(join(output, "docs/ai/g4-components.md"), "utf8")).toContain("原工作区追溯材料；本 Starter 未附带");
+    expect(lock.sourceFiles["docs/ai/g4-components.md"]).not.toBe(lock.files["docs/ai/g4-components.md"]);
+    expect(verifyStarter(output)).toBe(lock.snapshotId);
+    expect(lock.snapshotId).not.toBe("rn14-90fc74205a764fb1");
   } finally { rmSync(temporary, { recursive: true, force: true }); }
 });
 it("exports M2 only when explicitly requested, while the default starter remains A/B", async () => {
@@ -90,6 +163,8 @@ it("exports a fixed local starter without links to the source workspace and dete
     (fs as any).symlinkSync(join(root, tokens), join(output, tokens));
     expect(() => verifyStarter(output)).toThrow(/Symbolic link|Invalid path/);
   } finally { rmSync(temporary, { recursive: true, force: true }); }
+});
+it("preserves the existing RN14 authorization and frozen B2 history", () => {
   const phase = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) as any;
   expect(hasRn14Authorization(phase)).toBe(true);
   expect(getValidatedTailwindB2History(phase)).toEqual(phase.phaseHistory.tailwindB2);

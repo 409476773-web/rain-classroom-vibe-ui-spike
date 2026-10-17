@@ -1,3 +1,6 @@
+import { getG6SourceBindings } from "./verification-helpers.mjs";
+import { hasG5ComponentsAuthorization, getG5SourceBindings, g5ComponentFiles, hasDateTimeOptimizationAuthorization, dateTimeOptimizationFiles, hasDatePickerUxRefinementAuthorization, datePickerUxRefinementFiles, hasDatePickerVisualFeedbackAuthorization, datePickerVisualFeedbackFiles } from "./verification-helpers.mjs";
+import { hasButtonGroupRepairAuthorization, getButtonGroupRepairSourceBindings, buttonGroupRepairFiles, hasG123PlaygroundAssetizationAuthorization, g123PlaygroundFiles, hasG4ComponentsAuthorization, hasG4VisualRefinementAuthorization, hasG4SizingReviewAuthorization, g4SizingReviewSourcePaths, g4ComponentFiles } from "./verification-helpers.mjs";
 import {
   existsSync,
   readFileSync,
@@ -21,17 +24,43 @@ const workspaceRoot = process.cwd();
 const failures = [];
 let workspacePhaseId = null;
 let isTokenFoundationsV1 = false;
+let g123PlaygroundAuthorized = false;
+let g5Authorized = false;
+let g6Bindings;
+let dateTimeOptimizationAuthorized = false;
+let datePickerUxRefinementAuthorized = false;
+let datePickerVisualFeedbackAuthorized = false;
+let g4Authorized = false;
+let g4VisualAuthorized = false;
+let g4SizingAuthorized = false;
+let buttonGroupRepairAuthorized = false;
+let buttonGroupRepairStatus = null;
 
 try {
   const phasePath = join(workspaceRoot, "status/current-phase.yaml");
   if (existsSync(phasePath)) {
     const status = parseYamlSubset(readFileSync(phasePath, "utf8"));
+    g123PlaygroundAuthorized = hasG123PlaygroundAssetizationAuthorization(status);
+    g5Authorized = hasG5ComponentsAuthorization(status);
+    if (status?.componentRefinements?.g6Components) g6Bindings = getG6SourceBindings(workspaceRoot, status);
+    dateTimeOptimizationAuthorized = hasDateTimeOptimizationAuthorization(status);
+    datePickerUxRefinementAuthorized = dateTimeOptimizationAuthorized && hasDatePickerUxRefinementAuthorization(status);
+    datePickerVisualFeedbackAuthorized = hasDatePickerVisualFeedbackAuthorization(status);
+    g4Authorized = hasG4ComponentsAuthorization(status);
+    g4VisualAuthorized = hasG4VisualRefinementAuthorization(status);
+    g4SizingAuthorized = hasG4SizingReviewAuthorization(status);
+    buttonGroupRepairAuthorized = hasButtonGroupRepairAuthorization(status);
+    buttonGroupRepairStatus = buttonGroupRepairAuthorized ? status : null;
     isTokenFoundationsV1 = status?.currentPhase?.id === "token-foundations-v1";
     if (isTokenFoundationsV1) validateTokenFoundationsV1Phase(status);
     workspacePhaseId = getCurrentB2Status(status)?.currentPhase?.id ?? null;
   }
 } catch (error) {
   failures.push(`status/current-phase.yaml cannot be parsed: ${error.message}`);
+}
+if (buttonGroupRepairStatus) {
+  try { getButtonGroupRepairSourceBindings(workspaceRoot, buttonGroupRepairStatus); }
+  catch (error) { failures.push(`Button Group repair source bindings: ${error.message}`); }
 }
 
 const hasTailwindB2Surface = [
@@ -69,6 +98,16 @@ const requiredDirectories = [
 ];
 
 const requiredFiles = [
+  ...(g5Authorized ? Object.values(g5ComponentFiles).flat() : []),
+  ...Object.entries(g6Bindings?.sourceFiles ?? {}).filter(([,binding]) => binding.after !== null).map(([file]) => file),
+  ...(dateTimeOptimizationAuthorized ? Object.values(dateTimeOptimizationFiles).flat() : []),
+  ...(datePickerUxRefinementAuthorized ? Object.values(datePickerUxRefinementFiles).flat() : []),
+  ...(datePickerVisualFeedbackAuthorized ? Object.values(datePickerVisualFeedbackFiles).flat() : []),
+  ...(g4SizingAuthorized ? g4SizingReviewSourcePaths : []),
+  ...(g4VisualAuthorized ? ["docs/plans/2026-10-11-g4-visual-refinement.md", "scripts/g4-visual-refinement.test.ts"] : []),
+  ...(g4Authorized ? [...g4ComponentFiles.application, ...g4ComponentFiles.ui, ...g4ComponentFiles.documents, ...g4ComponentFiles.workspace] : []),
+  ...(g123PlaygroundAuthorized ? [...g123PlaygroundFiles.application, ...g123PlaygroundFiles.documents, ...g123PlaygroundFiles.workspace] : []),
+  ...(buttonGroupRepairAuthorized ? [...buttonGroupRepairFiles.application, ...buttonGroupRepairFiles.documents, ...buttonGroupRepairFiles.workspace] : []),
   ...(isTokenFoundationsV1 ? [...tokenFoundationsV1Files.foundations, ...tokenFoundationsV1Files.application, ...tokenFoundationsV1Files.workspace, ...tokenFoundationsV1Files.documents] : []),
   ".gitignore",
   "package.json",

@@ -1,0 +1,53 @@
+import { useId, useState } from "react";
+import { DensityProvider, compositionSpaceTokenEntries, compositionSpaceTokens } from "@rain-next/foundations";
+import { Grid, Inline, Stack, defineLayoutSpacing, type LayoutSpacing } from "@rain-next/layouts";
+import { Button, Checkbox, FormItem, Link, Select, Tag } from "@rain-next/ui";
+import { LayoutRecipes, layoutSpacingDefaults } from "../../../../prototype/src/layout-recipes";
+import "./layouts-page.css";
+
+function SpacingControls({ target, onApply }: { target: "card" | "panel"; onApply: (spacing: LayoutSpacing) => void }) {
+  const [draft, setDraft] = useState<LayoutSpacing>(layoutSpacingDefaults[target]);
+  const [spacingError, setSpacingError] = useState(false), [applied, setApplied] = useState(false);
+  const helpId = useId(), isCard = target === "card", name = isCard ? "外层卡片" : "资料面板";
+  return <details><summary>调整{name}间距</summary><form className="layouts-review-notes" aria-label={`${name}间距`} aria-describedby={helpId} onSubmit={event => {
+    event.preventDefault();
+    try { onApply(defineLayoutSpacing(draft)); setSpacingError(false); setApplied(true); }
+    catch (error) { if (!(error instanceof RangeError)) throw error; setSpacingError(true); setApplied(false); }
+  }}><Stack gap={layoutSpacingDefaults.page.item}>
+    <p id={helpId}>{isCard ? "作用于“课程设置”和“课程资料”两张外层卡片。" : "作用于“课程资料”内的资料列表与详情面板。"}边缘留白 ≥ 分区间距 ≥ 信息间距，可以自由选值，也可以全部相等。</p>
+    <Grid columns={3} minColumnWidth={180} gap={layoutSpacingDefaults.page.item} className="items-start">
+      {([["inset", "边缘留白"], ["section", "分区间距"], ["item", "信息间距"]] as const).map(([key, label]) => <FormItem key={key} label={label}>
+        <Select value={draft[key]} clearable={false} options={compositionSpaceTokenEntries.map(([value]) => ({ value: Number(value), label: `${value}px` }))}
+          onValueChange={value => { if (typeof value === "number") { setDraft(previous => ({ ...previous, [key]: value as LayoutSpacing[typeof key] })); setApplied(false); } }} />
+      </FormItem>)}
+    </Grid>
+    {spacingError && <p role="alert">间距顺序不符合规则，请确保边缘留白 ≥ 分区间距 ≥ 信息间距。预览保留上一次有效设置。</p>}
+    <Inline gap={layoutSpacingDefaults.page.item}><Button size="small" variant="secondary" type="submit">应用{isCard ? "卡片" : "面板"}间距</Button>{applied && <p role="status">{isCard ? "已应用到“课程设置”和“课程资料”两张外层卡片。" : "已应用到下方资料列表与详情面板。"}</p>}</Inline>
+  </Stack></form></details>;
+}
+
+export function LayoutsPage() {
+  const [dark, setDark] = useState(false), [compact, setCompact] = useState(false), [narrow, setNarrow] = useState(false);
+  const [cardSpacing, setCardSpacing] = useState(layoutSpacingDefaults.card), [panelSpacing, setPanelSpacing] = useState(layoutSpacingDefaults.panel);
+  const pageSpacing = layoutSpacingDefaults.page;
+  return <DensityProvider density={compact ? "compact" : "default"}><main className="layouts-review" data-rain-theme={dark ? "dark" : "light"} data-rain-id="layouts-page" data-asset-identity="local-experiment" style={{ paddingBlock: compositionSpaceTokens[pageSpacing.inset] }}>
+    <Stack gap={pageSpacing.section} className="layouts-review-content">
+      <Stack gap={pageSpacing.item}><Link href="#components">返回组件</Link><h1 id="layouts-title" tabIndex={-1}>布局与组合</h1><p>用稳定的间距、对齐与分区，让组件组成清楚、连贯的任务界面。</p><Inline><Tag size={20} color="neutral">待评审候选</Tag></Inline></Stack>
+      <Inline gap={pageSpacing.item} aria-label="预览设置"><Checkbox label="深色主题" checked={dark} onCheckedChange={setDark} /><Checkbox label="紧凑控件" checked={compact} onCheckedChange={setCompact} /><Checkbox label="窄容器" checked={narrow} onCheckedChange={setNarrow} /></Inline>
+      <SpacingControls target="card" onApply={setCardSpacing} />
+      <SpacingControls target="panel" onApply={setPanelSpacing} />
+      <div className="layouts-review-preview" data-narrow={narrow}><LayoutRecipes cardSpacing={cardSpacing} panelSpacing={panelSpacing} /></div>
+      <details><summary>组合规则与使用边界</summary><Stack gap={16} className="layouts-review-notes">
+        <p>Stack 管理纵向节奏；Inline 管理横向排列和换行；Grid 管理有限列数；Split 管理主从区域和收起。布局不自带卡片外观，也不改变控件尺寸。</p>
+        <p>同一容器中，边缘留白大于或等于分区间距，分区间距大于或等于信息间距；横向、纵向分别比较。字段内部由 FormItem 管理，主区与详情分别滚动，收起后保留草稿。</p>
+        <p>当前使用虚构数据验证组合，所有保存仅在本页生效。技术检查、人工视觉接受、对比度、完整业务样本和发布各自独立。</p>
+        <pre>{`const spacing = defineLayoutSpacing({ inset: 20, section: 16, item: 12 })
+// The container owns its inset; the layout owns each group gap.
+<Stack gap={spacing.section}>
+  <Grid columns={2} minColumnWidth={260} gap={spacing.item}>…</Grid>
+  <Inline gap={spacing.item}>…</Inline>
+</Stack>`}</pre>
+      </Stack></details>
+    </Stack>
+  </main></DensityProvider>;
+}

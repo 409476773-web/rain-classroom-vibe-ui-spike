@@ -1,0 +1,4436 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: g4-components.spec.ts >> Typography sizing reaches existing consumers and limits named preset choices
+- Location: tests/e2e/g4-components.spec.ts:144:1
+
+# Error details
+
+```
+Error: input
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: "16px"
+Received: "36px"
+```
+
+```
+Error: input
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: "24px"
+Received: "37.8px"
+```
+
+```
+Error: select
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: "16px"
+Received: "36px"
+```
+
+```
+Error: select
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: "24px"
+Received: "37.8px"
+```
+
+```
+Error: input-number
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: "16px"
+Received: "36px"
+```
+
+```
+Error: input-number
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: "24px"
+Received: "37.8px"
+```
+
+```
+Error: tag
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: "16px"
+Received: "36px"
+```
+
+```
+Error: tag
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: "24px"
+Received: "37.8px"
+```
+
+# Page snapshot
+
+```yaml
+- main [ref=e3]:
+  - generic [ref=e4]:
+    - link "返回 Foundations" [ref=e5] [cursor=pointer]:
+      - /url: "#foundations"
+    - paragraph [ref=e6]: RAIN NEXT · FOUNDATIONS V1
+    - heading "Token 基础建设" [level=1] [ref=e7]
+    - paragraph [ref=e8]: 这是 Foundations 下的 Token 目录与完整排版方案。Token 定义基础值与用途，排版方案组合字体、字号、行高和字重；Tailwind 类名使用同一套来源。
+    - paragraph [ref=e9]: 默认使用完整排版方案，按需调整其中的单项 Token。全局 Tab 焦点使用 Border/Brand/1 细环与 Fill/Brand/Alpha/3 浅外圈；字体、密度、焦点与动效的完整规则见 Foundations 总入口。
+    - paragraph [ref=e10]: 已确认的颜色视觉范围各自保留；现有语义色中 17 项已共享这里的 Category 色源，其余保留原定义。下方目录已包含 Tag 的 20 组分类色，可按中文色名和业务名称查找；检索不会自动改变语义映射。逐项来源与默认层级见 Foundations 兼容区。
+    - paragraph [ref=e11]: 排版、线条、圆角与间距的页面视觉已于 2026-09-12 确认。颜色、对比度、组件映射与剩余真机检查仍各自保留未决状态；本次确认不代表 Foundations 整体验收完成。
+  - region [ref=e12]:
+    - heading "线条：粗细、颜色、线型各自选择" [level=2] [ref=e13]
+    - paragraph [ref=e14]: 1–6px 固定粗细。改变下面的实验样本不会改变右侧内容分隔线。
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - text: 线条粗细
+        - combobox "线条粗细" [ref=e17]:
+          - option "1px" [selected]
+          - option "2px"
+          - option "3px"
+          - option "4px"
+          - option "5px"
+          - option "6px"
+      - generic [ref=e18]:
+        - text: 线型
+        - combobox "线型" [ref=e19]:
+          - option "实线" [selected]
+          - option "虚线"
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - heading "实验样本" [level=3] [ref=e22]
+        - generic [ref=e23]: 容器边框
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - heading "课程内容" [level=3] [ref=e29]
+          - paragraph [ref=e30]: 阅读材料与课程任务，按清楚的层次组织。
+        - generic [ref=e32]:
+          - heading "学习记录" [level=3] [ref=e33]
+          - paragraph [ref=e34]: 完整分隔方案使用 1px 填充线。周围间距由这个内容容器负责。
+  - region [ref=e35]:
+    - heading "圆角与间距：使用明确数值" [level=2] [ref=e36]
+    - paragraph [ref=e37]: 数值是稳定身份；相同数值并不意味着组件必须共同变化。这里展示已确认选择，组件专属几何保留在自己的完整方案中。
+    - heading "7 档圆角" [level=3] [ref=e38]
+    - list "圆角选择" [ref=e39]:
+      - listitem [ref=e40]:
+        - strong [ref=e41]: 4px
+      - listitem [ref=e42]:
+        - strong [ref=e43]: 6px
+      - listitem [ref=e44]:
+        - strong [ref=e45]: 8px
+      - listitem [ref=e46]:
+        - strong [ref=e47]: 10px
+      - listitem [ref=e48]:
+        - strong [ref=e49]: 12px
+      - listitem [ref=e50]:
+        - strong [ref=e51]: 16px
+      - listitem [ref=e52]:
+        - strong [ref=e53]: 9999px
+    - heading "16 档间距" [level=3] [ref=e54]
+    - list "间距选择" [ref=e55]:
+      - listitem [ref=e56]:
+        - generic [ref=e57]: 0px
+      - listitem [ref=e61]:
+        - generic [ref=e62]: 2px
+      - listitem [ref=e66]:
+        - generic [ref=e67]: 4px
+      - listitem [ref=e71]:
+        - generic [ref=e72]: 6px
+      - listitem [ref=e76]:
+        - generic [ref=e77]: 8px
+      - listitem [ref=e81]:
+        - generic [ref=e82]: 10px
+      - listitem [ref=e86]:
+        - generic [ref=e87]: 12px
+      - listitem [ref=e91]:
+        - generic [ref=e92]: 14px
+      - listitem [ref=e96]:
+        - generic [ref=e97]: 16px
+      - listitem [ref=e101]:
+        - generic [ref=e102]: 18px
+      - listitem [ref=e106]:
+        - generic [ref=e107]: 20px
+      - listitem [ref=e111]:
+        - generic [ref=e112]: 24px
+      - listitem [ref=e116]:
+        - generic [ref=e117]: 28px
+      - listitem [ref=e121]:
+        - generic [ref=e122]: 32px
+      - listitem [ref=e126]:
+        - generic [ref=e127]: 36px
+      - listitem [ref=e131]:
+        - generic [ref=e132]: 40px
+  - region [ref=e136]:
+    - heading "排版：默认完整方案，按需调整" [level=2] [ref=e137]
+    - paragraph [ref=e138]: 19 档字号、14 档固定行高与等于字号的选项。先选用途，再调整必要字段；变更只作用于下方样本。
+    - paragraph [ref=e139]: 界面和阅读使用 PingFang SC，关键数据使用 LINE Seed。未分发字体文件，本机字体是否安装与实际字形仍需视觉核对；回退字体仅用于环境容错。
+    - group "试用排版组合" [ref=e140]:
+      - generic [ref=e142]:
+        - generic [ref=e143]: 排版方案
+        - combobox "排版方案" [ref=e144]:
+          - option "常规界面"
+          - option "紧凑界面"
+          - option "辅助信息"
+          - option "补充说明"
+          - option "区块标题"
+          - option "页面标题"
+          - option "紧凑阅读"
+          - option "常规阅读" [selected]
+          - option "大字阅读"
+          - option "关键数据"
+      - generic [ref=e145]:
+        - generic [ref=e146]: 字号
+        - combobox "字号" [ref=e147]:
+          - option "9px"
+          - option "10px"
+          - option "11px"
+          - option "12px"
+          - option "13px"
+          - option "14px"
+          - option "15px"
+          - option "16px"
+          - option "17px"
+          - option "18px"
+          - option "19px"
+          - option "20px"
+          - option "22px"
+          - option "24px"
+          - option "26px"
+          - option "28px"
+          - option "32px"
+          - option "36px"
+          - option "40px" [selected]
+      - generic [ref=e148]:
+        - generic [ref=e149]: 行高
+        - combobox "行高" [ref=e150]:
+          - option "12px"
+          - option "14px"
+          - option "15px"
+          - option "16px"
+          - option "18px"
+          - option "20px"
+          - option "22px"
+          - option "24px"
+          - option "26px"
+          - option "28px"
+          - option "32px"
+          - option "36px"
+          - option "40px" [selected]
+          - option "42px"
+          - option "48px"
+          - option "等于字号"
+      - button "恢复完整方案" [active] [ref=e151]
+    - paragraph [ref=e152]: 切换字号时，超出范围的行高会同步调整到最近的可用档位；仍可手动选择行高。局部调整保留原方案的字体、字重和字距，切换方案会清除局部调整。
+    - paragraph [ref=e153]: 这里的设计检查不会限制浏览器缩放或用户的辅助阅读样式。
+    - status [ref=e154]: 组合范围通过：40px / 40px。实际字形与容器仍需检查。
+    - paragraph [ref=e155]: 学习与探索，让每一次思考都有回响。Rain Classroom 2026，课程说明支持中文、English 与普通数字混排。
+    - table "10 个排版默认方案" [ref=e157]:
+      - rowgroup [ref=e158]:
+        - row [ref=e159]:
+          - columnheader "方案" [ref=e160]
+          - columnheader "默认字号 / 行高 / 字重" [ref=e161]
+          - columnheader "默认用途与样本" [ref=e162]
+      - rowgroup [ref=e163]:
+        - row [ref=e164]:
+          - rowheader "常规界面" [ref=e165]
+          - cell "14 / 22 / 400" [ref=e166]
+          - cell [ref=e167]:
+            - paragraph [ref=e168]: 普通界面文字、表格正文和常规标签
+            - paragraph [ref=e169]: 学习与探索，让每一次思考都有回响。Rain Classroom 2026，课程说明支持中文、English 与普通数字混排。
+        - row [ref=e170]:
+          - rowheader "紧凑界面" [ref=e171]
+          - cell "13 / 18 / 400" [ref=e172]
+          - cell [ref=e173]:
+            - paragraph [ref=e174]: 紧凑标签、短提示和辅助字段
+            - paragraph [ref=e175]: 学习与探索，让每一次思考都有回响。Rain Classroom 2026，课程说明支持中文、English 与普通数字混排。
+        - row [ref=e176]:
+          - rowheader "辅助信息" [ref=e177]
+          - cell "12 / 20 / 400" [ref=e178]
+          - cell [ref=e179]:
+            - paragraph [ref=e180]: 次要元数据、图注与短辅助信息
+            - paragraph [ref=e181]: 学习与探索，让每一次思考都有回响。Rain Classroom 2026，课程说明支持中文、English 与普通数字混排。
+        - row [ref=e182]:
+          - rowheader "补充说明" [ref=e183]
+          - cell "13 / 20 / 400" [ref=e184]
+          - cell [ref=e185]:
+            - paragraph [ref=e186]: 面板短说明和内容补充
+            - paragraph [ref=e187]: 学习与探索，让每一次思考都有回响。Rain Classroom 2026，课程说明支持中文、English 与普通数字混排。
+        - row [ref=e188]:
+          - rowheader "区块标题" [ref=e189]
+          - cell "16 / 24 / 600" [ref=e190]
+          - cell [ref=e191]:
+            - paragraph [ref=e192]: 卡片、区块标题和页面主标题
+            - paragraph [ref=e193]: 学习与探索，让每一次思考都有回响。Rain Classroom 2026，课程说明支持中文、English 与普通数字混排。
+        - row [ref=e194]:
+          - rowheader "页面标题" [ref=e195]
+          - cell "16 / 24 / 600" [ref=e196]
+          - cell [ref=e197]:
+            - paragraph [ref=e198]: 页面主标题默认 16px；同页已有较多 16px 标题时，才手动选择 17px 或 18px
+            - paragraph [ref=e199]: 学习与探索，让每一次思考都有回响。Rain Classroom 2026，课程说明支持中文、English 与普通数字混排。
+        - row [ref=e200]:
+          - rowheader "紧凑阅读" [ref=e201]
+          - cell "14 / 24 / 400" [ref=e202]
+          - cell [ref=e203]:
+            - paragraph [ref=e204]: 较紧凑的长内容阅读区
+            - paragraph [ref=e205]: 学习与探索，让每一次思考都有回响。Rain Classroom 2026，课程说明支持中文、English 与普通数字混排。
+        - row [ref=e206]:
+          - rowheader "常规阅读" [ref=e207]
+          - cell "15 / 26 / 400" [ref=e208]
+          - cell [ref=e209]:
+            - paragraph [ref=e210]: 答案解析、评语和报告结论
+            - paragraph [ref=e211]: 学习与探索，让每一次思考都有回响。Rain Classroom 2026，课程说明支持中文、English 与普通数字混排。
+        - row [ref=e212]:
+          - rowheader "大字阅读" [ref=e213]
+          - cell "16 / 26 / 400" [ref=e214]
+          - cell [ref=e215]:
+            - paragraph [ref=e216]: 更大字号的阅读区
+            - paragraph [ref=e217]: 学习与探索，让每一次思考都有回响。Rain Classroom 2026，课程说明支持中文、English 与普通数字混排。
+        - row [ref=e218]:
+          - rowheader "关键数据" [ref=e219]
+          - cell "28 / 36 / 700" [ref=e220]
+          - cell "极少使用、承担视觉锚点的关键数值。默认 28px，最大 28px；可选更小的已登记字号，并检查对应行高。 关键得分 98.6 分" [ref=e221]:
+            - paragraph [ref=e222]: 极少使用、承担视觉锚点的关键数值。默认 28px，最大 28px；可选更小的已登记字号，并检查对应行高。
+            - generic [ref=e223]: 关键得分 98.6 分
+  - region [ref=e224]:
+    - generic [ref=e225]:
+      - generic [ref=e226]:
+        - paragraph [ref=e227]: LIGHT / DARK · COLOR
+        - heading "颜色：先选用途，再选层级" [level=2] [ref=e228]
+      - paragraph [ref=e229]: 269 个色阶均已登记 Light / Dark 色值。点击查看细节；组件迁移与正式视觉验收另行记录。
+    - paragraph [ref=e230]: 优先使用已有 Variant 与完整 Recipe。色阶分别显示在两种主题的 Background/Neutral/1 上；Alpha 色块按该背景叠加。
+    - paragraph [ref=e231]:
+      - text: Tag 分类色来自旧 Vue 的完整 20 组配色。搜索名称不改变颜色身份；关闭反馈与业务专用色沿用原用途。
+      - link "查看 Tag 组件与验收范围" [ref=e232] [cursor=pointer]:
+        - /url: "#tag"
+    - group "查找颜色" [ref=e233]:
+      - generic [ref=e235]:
+        - generic [ref=e236]: 搜索颜色
+        - searchbox "搜索颜色" [ref=e237]
+      - generic [ref=e238]:
+        - generic [ref=e239]: 颜色用途
+        - combobox "颜色用途" [ref=e240]:
+          - option "全部用途" [selected]
+          - option "文字"
+          - option "图标"
+          - option "边界"
+          - option "背景表面"
+          - option "填充"
+          - option "反白前景"
+      - button "清空筛选" [disabled] [ref=e241]
+    - paragraph [ref=e242]: 支持色名、业务名称、Family 和 Token ID，例如“蓝紫”“视频”“TagPurple”。空格分隔多个关键词。
+    - status [ref=e243]: 找到 269 个颜色 Token；每个同时展示 Light / Dark。
+    - generic [ref=e244]:
+      - generic [ref=e245]: 预览主题
+      - combobox "预览主题" [ref=e246]:
+        - option "Light" [selected]
+        - option "Dark"
+    - region [ref=e247]:
+      - heading "Fill 前景配对预览" [level=3] [ref=e248]
+      - paragraph [ref=e249]: 保留全部原值，分别检查普通文字与有意义图标。对比度满足不代表组件方案已验收。
+      - group "选择背景与前景" [ref=e250]:
+        - generic [ref=e252]:
+          - generic [ref=e253]: 色系
+          - combobox "色系" [ref=e254]:
+            - option "Second" [selected]
+            - option "橙色"
+            - option "绿色"
+            - option "红色"
+            - option "翠绿"
+            - option "橄榄绿"
+            - option "青绿"
+            - option "青蓝"
+            - option "暖橙"
+            - option "金黄"
+            - option "蓝紫"
+            - option "靛蓝"
+            - option "亮蓝"
+            - option "叶绿"
+            - option "洋红"
+            - option "棕褐"
+            - option "雾蓝"
+            - option "明紫"
+            - option "石板蓝"
+            - option "薄荷绿"
+            - option "草绿"
+            - option "芥末金"
+            - option "鲜橙"
+            - option "朱红"
+            - option "TagOngoing"
+            - option "TagUnsubmitted"
+            - option "TagBatch"
+        - generic [ref=e255]:
+          - generic [ref=e256]: 填充背景
+          - combobox "填充背景" [ref=e257]:
+            - option "Solid · 第 1 级" [selected]
+            - option "Solid · 第 2 级"
+            - option "Solid · 第 3 级"
+            - option "Alpha · 第 1 级"
+            - option "Alpha · 第 2 级"
+        - generic [ref=e258]:
+          - generic [ref=e259]: 文字颜色
+          - combobox "文字颜色" [ref=e260]:
+            - option "OnColor/1" [selected]
+            - option "OnColor/2"
+            - option "OnColor/3"
+            - option "OnColor/4"
+            - option "OnColor/5"
+        - generic [ref=e261]:
+          - generic [ref=e262]: 图标颜色
+          - combobox "图标颜色" [ref=e263]:
+            - option "OnColor/1" [selected]
+            - option "OnColor/2"
+            - option "OnColor/3"
+            - option "OnColor/4"
+            - option "OnColor/5"
+      - paragraph [ref=e264]: Solid 一级、二级仅放反白色系文字与图标。
+      - paragraph [ref=e265]:
+        - text: Light ·
+        - code [ref=e266]: Fill/Second/Solid/1
+        - text: · rgb(55 82 171)
+      - generic [ref=e267]: 查看详情
+      - status [ref=e274]:
+        - paragraph [ref=e275]: "文字 7.10 : 1 · 满足 4.5 : 1"
+        - paragraph [ref=e276]: "图标 7.10 : 1 · 满足 3 : 1"
+        - paragraph [ref=e277]: 当前两项对比度满足要求，实际状态、内容与视觉仍需验收。
+        - paragraph [ref=e278]: 文字用途校验：未通过 · OnColor needs an explicit surface Recipe context
+        - paragraph [ref=e279]: 图标用途校验：未通过 · OnColor needs an explicit surface Recipe context
+      - paragraph [ref=e280]: 按页面自有内容校验。OnColor 另需具名表面 Recipe；新页面实际使用尚未验证。
+      - group [ref=e281]:
+        - generic "查看完整使用类名与条件" [ref=e282]
+    - generic [ref=e283]:
+      - table "Text + Icon / Neutral" [ref=e285]:
+        - caption [ref=e286]: Text + Icon / Neutral · 中性
+        - rowgroup [ref=e287]:
+          - row [ref=e288]:
+            - columnheader "模式 / 类别" [ref=e289]
+            - columnheader "第 1 级" [ref=e290]
+            - columnheader "第 2 级" [ref=e291]
+            - columnheader "第 3 级" [ref=e292]
+            - columnheader "第 4 级" [ref=e293]
+            - columnheader "第 5 级" [ref=e294]
+            - columnheader "第 6 级" [ref=e295]
+        - rowgroup [ref=e296]:
+          - row [ref=e297]:
+            - rowheader "Light Text/Neutral" [ref=e298]: LightText/Neutral
+            - cell [ref=e299]:
+              - button "Text/Neutral/1" [pressed] [ref=e300] [cursor=pointer]:
+                - code [ref=e302]: Text/Neutral/1
+                - generic [ref=e303]: "#142346"
+            - cell [ref=e304]:
+              - button "Text/Neutral/2" [ref=e305] [cursor=pointer]:
+                - code [ref=e307]: Text/Neutral/2
+                - generic [ref=e308]: "#3A4865"
+            - cell [ref=e309]:
+              - button "Text/Neutral/3" [ref=e310] [cursor=pointer]:
+                - code [ref=e312]: Text/Neutral/3
+                - generic [ref=e313]: "#495D87"
+            - cell [ref=e314]:
+              - button "Text/Neutral/4" [ref=e315] [cursor=pointer]:
+                - code [ref=e317]: Text/Neutral/4
+                - generic [ref=e318]: "#56688F"
+            - cell [ref=e319]:
+              - button "Text/Neutral/5" [ref=e320] [cursor=pointer]:
+                - code [ref=e322]: Text/Neutral/5
+                - generic [ref=e323]: "#7485A8"
+            - cell [ref=e324]:
+              - button "Text/Neutral/6" [ref=e325] [cursor=pointer]:
+                - code [ref=e327]: Text/Neutral/6
+                - generic [ref=e328]: "#A0ACC5"
+          - row [ref=e329]:
+            - rowheader "Light Icon/Neutral" [ref=e330]: LightIcon/Neutral
+            - cell [ref=e331]:
+              - button "Icon/Neutral/1" [ref=e332] [cursor=pointer]:
+                - code [ref=e334]: Icon/Neutral/1
+                - generic [ref=e335]: "#3A4865"
+            - cell [ref=e336]:
+              - button "Icon/Neutral/2" [ref=e337] [cursor=pointer]:
+                - code [ref=e339]: Icon/Neutral/2
+                - generic [ref=e340]: "#495D87"
+            - cell [ref=e341]:
+              - button "Icon/Neutral/3" [ref=e342] [cursor=pointer]:
+                - code [ref=e344]: Icon/Neutral/3
+                - generic [ref=e345]: "#7485A8"
+            - cell [ref=e346]:
+              - button "Icon/Neutral/4" [ref=e347] [cursor=pointer]:
+                - code [ref=e349]: Icon/Neutral/4
+                - generic [ref=e350]: "#96A3C1"
+            - cell [ref=e351]:
+              - button "Icon/Neutral/5" [ref=e352] [cursor=pointer]:
+                - code [ref=e354]: Icon/Neutral/5
+                - generic [ref=e355]: "#B8C2D8"
+            - cell "—" [ref=e356]
+          - row [ref=e357]:
+            - rowheader "Dark Text/Neutral" [ref=e358]: DarkText/Neutral
+            - cell [ref=e359]:
+              - button "Dark Text/Neutral/1" [ref=e360] [cursor=pointer]:
+                - code [ref=e362]: Text/Neutral/1
+                - generic [ref=e363]: "#EFF1F5"
+            - cell [ref=e364]:
+              - button "Dark Text/Neutral/2" [ref=e365] [cursor=pointer]:
+                - code [ref=e367]: Text/Neutral/2
+                - generic [ref=e368]: "#D3DAF0"
+            - cell [ref=e369]:
+              - button "Dark Text/Neutral/3" [ref=e370] [cursor=pointer]:
+                - code [ref=e372]: Text/Neutral/3
+                - generic [ref=e373]: "#B7C1E0"
+            - cell [ref=e374]:
+              - button "Dark Text/Neutral/4" [ref=e375] [cursor=pointer]:
+                - code [ref=e377]: Text/Neutral/4
+                - generic [ref=e378]: "#949CB8"
+            - cell [ref=e379]:
+              - button "Dark Text/Neutral/5" [ref=e380] [cursor=pointer]:
+                - code [ref=e382]: Text/Neutral/5
+                - generic [ref=e383]: "#8891AD"
+            - cell [ref=e384]:
+              - button "Dark Text/Neutral/6" [ref=e385] [cursor=pointer]:
+                - code [ref=e387]: Text/Neutral/6
+                - generic [ref=e388]: "#6F7A9E"
+          - row [ref=e389]:
+            - rowheader "Dark Icon/Neutral" [ref=e390]: DarkIcon/Neutral
+            - cell [ref=e391]:
+              - button "Dark Icon/Neutral/1" [ref=e392] [cursor=pointer]:
+                - code [ref=e394]: Icon/Neutral/1
+                - generic [ref=e395]: "#D3DAF0"
+            - cell [ref=e396]:
+              - button "Dark Icon/Neutral/2" [ref=e397] [cursor=pointer]:
+                - code [ref=e399]: Icon/Neutral/2
+                - generic [ref=e400]: "#B7C1E0"
+            - cell [ref=e401]:
+              - button "Dark Icon/Neutral/3" [ref=e402] [cursor=pointer]:
+                - code [ref=e404]: Icon/Neutral/3
+                - generic [ref=e405]: "#8891AD"
+            - cell [ref=e406]:
+              - button "Dark Icon/Neutral/4" [ref=e407] [cursor=pointer]:
+                - code [ref=e409]: Icon/Neutral/4
+                - generic [ref=e410]: "#8490B5"
+            - cell [ref=e411]:
+              - button "Dark Icon/Neutral/5" [ref=e412] [cursor=pointer]:
+                - code [ref=e414]: Icon/Neutral/5
+                - generic [ref=e415]: "#555F80"
+            - cell "—" [ref=e416]
+      - table "Text + Icon / Brand" [ref=e418]:
+        - caption [ref=e419]: Text + Icon / Brand · 品牌蓝
+        - rowgroup [ref=e420]:
+          - row [ref=e421]:
+            - columnheader "模式 / 类别" [ref=e422]
+            - columnheader "第 1 级" [ref=e423]
+            - columnheader "第 2 级" [ref=e424]
+            - columnheader "第 3 级" [ref=e425]
+        - rowgroup [ref=e426]:
+          - row [ref=e427]:
+            - rowheader "Light Text/Brand" [ref=e428]: LightText/Brand
+            - cell [ref=e429]:
+              - button "Text/Brand/1" [ref=e430] [cursor=pointer]:
+                - code [ref=e432]: Text/Brand/1
+                - generic [ref=e433]: "#0F55DF"
+            - cell [ref=e434]:
+              - button "Text/Brand/2" [ref=e435] [cursor=pointer]:
+                - code [ref=e437]: Text/Brand/2
+                - generic [ref=e438]: "#1561F8"
+            - cell [ref=e439]:
+              - button "Text/Brand/3" [ref=e440] [cursor=pointer]:
+                - code [ref=e442]: Text/Brand/3
+                - generic [ref=e443]: "#3D7BFF"
+          - row [ref=e444]:
+            - rowheader "Light Icon/Brand" [ref=e445]: LightIcon/Brand
+            - cell [ref=e446]:
+              - button "Icon/Brand/1" [ref=e447] [cursor=pointer]:
+                - code [ref=e449]: Icon/Brand/1
+                - generic [ref=e450]: "#0F55DF"
+            - cell [ref=e451]:
+              - button "Icon/Brand/2" [ref=e452] [cursor=pointer]:
+                - code [ref=e454]: Icon/Brand/2
+                - generic [ref=e455]: "#1561F8"
+            - cell "—" [ref=e456]
+          - row [ref=e457]:
+            - rowheader "Dark Text/Brand" [ref=e458]: DarkText/Brand
+            - cell [ref=e459]:
+              - button "Dark Text/Brand/1" [ref=e460] [cursor=pointer]:
+                - code [ref=e462]: Text/Brand/1
+                - generic [ref=e463]: "#7CA5FF"
+            - cell [ref=e464]:
+              - button "Dark Text/Brand/2" [ref=e465] [cursor=pointer]:
+                - code [ref=e467]: Text/Brand/2
+                - generic [ref=e468]: "#5188FF"
+            - cell [ref=e469]:
+              - button "Dark Text/Brand/3" [ref=e470] [cursor=pointer]:
+                - code [ref=e472]: Text/Brand/3
+                - generic [ref=e473]: "#2F71FF"
+          - row [ref=e474]:
+            - rowheader "Dark Icon/Brand" [ref=e475]: DarkIcon/Brand
+            - cell [ref=e476]:
+              - button "Dark Icon/Brand/1" [ref=e477] [cursor=pointer]:
+                - code [ref=e479]: Icon/Brand/1
+                - generic [ref=e480]: "#7CA5FF"
+            - cell [ref=e481]:
+              - button "Dark Icon/Brand/2" [ref=e482] [cursor=pointer]:
+                - code [ref=e484]: Icon/Brand/2
+                - generic [ref=e485]: "#5188FF"
+            - cell "—" [ref=e486]
+      - table "Text + Icon / Second" [ref=e488]:
+        - caption [ref=e489]: Text + Icon / Second · Second
+        - rowgroup [ref=e490]:
+          - row [ref=e491]:
+            - columnheader "模式 / 类别" [ref=e492]
+            - columnheader "第 1 级" [ref=e493]
+            - columnheader "第 2 级" [ref=e494]
+            - columnheader "第 3 级" [ref=e495]
+            - columnheader "第 4 级" [ref=e496]
+        - rowgroup [ref=e497]:
+          - row [ref=e498]:
+            - rowheader "Light Text/Second" [ref=e499]: LightText/Second
+            - cell [ref=e500]:
+              - button "Text/Second/1" [ref=e501] [cursor=pointer]:
+                - code [ref=e503]: Text/Second/1
+                - generic [ref=e504]: "#1C3A9C"
+            - cell [ref=e505]:
+              - button "Text/Second/2" [ref=e506] [cursor=pointer]:
+                - code [ref=e508]: Text/Second/2
+                - generic [ref=e509]: "#3751A7"
+            - cell [ref=e510]:
+              - button "Text/Second/3" [ref=e511] [cursor=pointer]:
+                - code [ref=e513]: Text/Second/3
+                - generic [ref=e514]: "#576EBD"
+            - cell [ref=e515]:
+              - button "Text/Second/4" [ref=e516] [cursor=pointer]:
+                - code [ref=e518]: Text/Second/4
+                - generic [ref=e519]: "#91ACEA"
+          - row [ref=e520]:
+            - rowheader "Light Icon/Second" [ref=e521]: LightIcon/Second
+            - cell [ref=e522]:
+              - button "Icon/Second/1" [ref=e523] [cursor=pointer]:
+                - code [ref=e525]: Icon/Second/1
+                - generic [ref=e526]: "#1C3A9C"
+            - cell [ref=e527]:
+              - button "Icon/Second/2" [ref=e528] [cursor=pointer]:
+                - code [ref=e530]: Icon/Second/2
+                - generic [ref=e531]: "#3751A7"
+            - cell [ref=e532]:
+              - button "Icon/Second/3" [ref=e533] [cursor=pointer]:
+                - code [ref=e535]: Icon/Second/3
+                - generic [ref=e536]: "#576EBD"
+            - cell [ref=e537]:
+              - button "Icon/Second/4" [ref=e538] [cursor=pointer]:
+                - code [ref=e540]: Icon/Second/4
+                - generic [ref=e541]: "#91ACEA"
+          - row [ref=e542]:
+            - rowheader "Dark Text/Second" [ref=e543]: DarkText/Second
+            - cell [ref=e544]:
+              - button "Dark Text/Second/1" [ref=e545] [cursor=pointer]:
+                - code [ref=e547]: Text/Second/1
+                - generic [ref=e548]: "#BCD1FF"
+            - cell [ref=e549]:
+              - button "Dark Text/Second/2" [ref=e550] [cursor=pointer]:
+                - code [ref=e552]: Text/Second/2
+                - generic [ref=e553]: "#95B0EA"
+            - cell [ref=e554]:
+              - button "Dark Text/Second/3" [ref=e555] [cursor=pointer]:
+                - code [ref=e557]: Text/Second/3
+                - generic [ref=e558]: "#566E9F"
+            - cell [ref=e559]:
+              - button "Dark Text/Second/4" [ref=e560] [cursor=pointer]:
+                - code [ref=e562]: Text/Second/4
+                - generic [ref=e563]: "#2A3854"
+          - row [ref=e564]:
+            - rowheader "Dark Icon/Second" [ref=e565]: DarkIcon/Second
+            - cell [ref=e566]:
+              - button "Dark Icon/Second/1" [ref=e567] [cursor=pointer]:
+                - code [ref=e569]: Icon/Second/1
+                - generic [ref=e570]: "#BCD1FF"
+            - cell [ref=e571]:
+              - button "Dark Icon/Second/2" [ref=e572] [cursor=pointer]:
+                - code [ref=e574]: Icon/Second/2
+                - generic [ref=e575]: "#95B0EA"
+            - cell [ref=e576]:
+              - button "Dark Icon/Second/3" [ref=e577] [cursor=pointer]:
+                - code [ref=e579]: Icon/Second/3
+                - generic [ref=e580]: "#566E9F"
+            - cell [ref=e581]:
+              - button "Dark Icon/Second/4" [ref=e582] [cursor=pointer]:
+                - code [ref=e584]: Icon/Second/4
+                - generic [ref=e585]: "#2A3854"
+      - table "Text + Icon / Orange" [ref=e587]:
+        - caption [ref=e588]: Text + Icon / Orange · 橙色
+        - rowgroup [ref=e589]:
+          - row [ref=e590]:
+            - columnheader "模式 / 类别" [ref=e591]
+            - columnheader "第 1 级" [ref=e592]
+            - columnheader "第 2 级" [ref=e593]
+        - rowgroup [ref=e594]:
+          - row [ref=e595]:
+            - rowheader "Light Text/Orange" [ref=e596]: LightText/Orange
+            - cell [ref=e597]:
+              - button "Text/Orange/1" [ref=e598] [cursor=pointer]:
+                - code [ref=e600]: Text/Orange/1
+                - generic [ref=e601]: "#DD5C00"
+            - cell [ref=e602]:
+              - button "Text/Orange/2" [ref=e603] [cursor=pointer]:
+                - code [ref=e605]: Text/Orange/2
+                - generic [ref=e606]: "#F18300"
+          - row [ref=e607]:
+            - rowheader "Light Icon/Orange" [ref=e608]: LightIcon/Orange
+            - cell [ref=e609]:
+              - button "Icon/Orange/1" [ref=e610] [cursor=pointer]:
+                - code [ref=e612]: Icon/Orange/1
+                - generic [ref=e613]: "#DD5C00"
+            - cell [ref=e614]:
+              - button "Icon/Orange/2" [ref=e615] [cursor=pointer]:
+                - code [ref=e617]: Icon/Orange/2
+                - generic [ref=e618]: "#F18300"
+          - row [ref=e619]:
+            - rowheader "Dark Text/Orange" [ref=e620]: DarkText/Orange
+            - cell [ref=e621]:
+              - button "Dark Text/Orange/1" [ref=e622] [cursor=pointer]:
+                - code [ref=e624]: Text/Orange/1
+                - generic [ref=e625]: "#E49523"
+            - cell [ref=e626]:
+              - button "Dark Text/Orange/2" [ref=e627] [cursor=pointer]:
+                - code [ref=e629]: Text/Orange/2
+                - generic [ref=e630]: "#C16E0C"
+          - row [ref=e631]:
+            - rowheader "Dark Icon/Orange" [ref=e632]: DarkIcon/Orange
+            - cell [ref=e633]:
+              - button "Dark Icon/Orange/1" [ref=e634] [cursor=pointer]:
+                - code [ref=e636]: Icon/Orange/1
+                - generic [ref=e637]: "#E49523"
+            - cell [ref=e638]:
+              - button "Dark Icon/Orange/2" [ref=e639] [cursor=pointer]:
+                - code [ref=e641]: Icon/Orange/2
+                - generic [ref=e642]: "#C16E0C"
+      - table "Text + Icon / Green" [ref=e644]:
+        - caption [ref=e645]: Text + Icon / Green · 绿色
+        - rowgroup [ref=e646]:
+          - row [ref=e647]:
+            - columnheader "模式 / 类别" [ref=e648]
+            - columnheader "第 1 级" [ref=e649]
+            - columnheader "第 2 级" [ref=e650]
+        - rowgroup [ref=e651]:
+          - row [ref=e652]:
+            - rowheader "Light Text/Green" [ref=e653]: LightText/Green
+            - cell [ref=e654]:
+              - button "Text/Green/1" [ref=e655] [cursor=pointer]:
+                - code [ref=e657]: Text/Green/1
+                - generic [ref=e658]: "#058952"
+            - cell [ref=e659]:
+              - button "Text/Green/2" [ref=e660] [cursor=pointer]:
+                - code [ref=e662]: Text/Green/2
+                - generic [ref=e663]: "#00B574"
+          - row [ref=e664]:
+            - rowheader "Light Icon/Green" [ref=e665]: LightIcon/Green
+            - cell [ref=e666]:
+              - button "Icon/Green/1" [ref=e667] [cursor=pointer]:
+                - code [ref=e669]: Icon/Green/1
+                - generic [ref=e670]: "#058952"
+            - cell [ref=e671]:
+              - button "Icon/Green/2" [ref=e672] [cursor=pointer]:
+                - code [ref=e674]: Icon/Green/2
+                - generic [ref=e675]: "#00B574"
+          - row [ref=e676]:
+            - rowheader "Dark Text/Green" [ref=e677]: DarkText/Green
+            - cell [ref=e678]:
+              - button "Dark Text/Green/1" [ref=e679] [cursor=pointer]:
+                - code [ref=e681]: Text/Green/1
+                - generic [ref=e682]: "#14BF82"
+            - cell [ref=e683]:
+              - button "Dark Text/Green/2" [ref=e684] [cursor=pointer]:
+                - code [ref=e686]: Text/Green/2
+                - generic [ref=e687]: "#119B68"
+          - row [ref=e688]:
+            - rowheader "Dark Icon/Green" [ref=e689]: DarkIcon/Green
+            - cell [ref=e690]:
+              - button "Dark Icon/Green/1" [ref=e691] [cursor=pointer]:
+                - code [ref=e693]: Icon/Green/1
+                - generic [ref=e694]: "#14BF82"
+            - cell [ref=e695]:
+              - button "Dark Icon/Green/2" [ref=e696] [cursor=pointer]:
+                - code [ref=e698]: Icon/Green/2
+                - generic [ref=e699]: "#119B68"
+      - table "Text + Icon / Red" [ref=e701]:
+        - caption [ref=e702]: Text + Icon / Red · 红色
+        - rowgroup [ref=e703]:
+          - row [ref=e704]:
+            - columnheader "模式 / 类别" [ref=e705]
+            - columnheader "第 1 级" [ref=e706]
+            - columnheader "第 2 级" [ref=e707]
+        - rowgroup [ref=e708]:
+          - row [ref=e709]:
+            - rowheader "Light Text/Red" [ref=e710]: LightText/Red
+            - cell [ref=e711]:
+              - button "Text/Red/1" [ref=e712] [cursor=pointer]:
+                - code [ref=e714]: Text/Red/1
+                - generic [ref=e715]: "#CA2732"
+            - cell [ref=e716]:
+              - button "Text/Red/2" [ref=e717] [cursor=pointer]:
+                - code [ref=e719]: Text/Red/2
+                - generic [ref=e720]: "#F34848"
+          - row [ref=e721]:
+            - rowheader "Light Icon/Red" [ref=e722]: LightIcon/Red
+            - cell [ref=e723]:
+              - button "Icon/Red/1" [ref=e724] [cursor=pointer]:
+                - code [ref=e726]: Icon/Red/1
+                - generic [ref=e727]: "#CA2732"
+            - cell [ref=e728]:
+              - button "Icon/Red/2" [ref=e729] [cursor=pointer]:
+                - code [ref=e731]: Icon/Red/2
+                - generic [ref=e732]: "#F34848"
+          - row [ref=e733]:
+            - rowheader "Dark Text/Red" [ref=e734]: DarkText/Red
+            - cell [ref=e735]:
+              - button "Dark Text/Red/1" [ref=e736] [cursor=pointer]:
+                - code [ref=e738]: Text/Red/1
+                - generic [ref=e739]: "#F55858"
+            - cell [ref=e740]:
+              - button "Dark Text/Red/2" [ref=e741] [cursor=pointer]:
+                - code [ref=e743]: Text/Red/2
+                - generic [ref=e744]: "#E13843"
+          - row [ref=e745]:
+            - rowheader "Dark Icon/Red" [ref=e746]: DarkIcon/Red
+            - cell [ref=e747]:
+              - button "Dark Icon/Red/1" [ref=e748] [cursor=pointer]:
+                - code [ref=e750]: Icon/Red/1
+                - generic [ref=e751]: "#F55858"
+            - cell [ref=e752]:
+              - button "Dark Icon/Red/2" [ref=e753] [cursor=pointer]:
+                - code [ref=e755]: Icon/Red/2
+                - generic [ref=e756]: "#E13843"
+      - table "Text + Icon / TagClassroom" [ref=e758]:
+        - caption [ref=e759]: Text + Icon / TagClassroom · 翠绿
+        - rowgroup [ref=e760]:
+          - row [ref=e761]:
+            - columnheader "模式 / 类别" [ref=e762]
+            - columnheader "第 1 级" [ref=e763]
+        - rowgroup [ref=e764]:
+          - row [ref=e765]:
+            - rowheader "Light Text/TagClassroom" [ref=e766]: LightText/TagClassroom
+            - cell [ref=e767]:
+              - button "Text/TagClassroom/1" [ref=e768] [cursor=pointer]:
+                - code [ref=e770]: Text/TagClassroom/1
+                - generic [ref=e771]: "#019550"
+          - row [ref=e772]:
+            - rowheader "Light Icon/TagClassroom" [ref=e773]: LightIcon/TagClassroom
+            - cell [ref=e774]:
+              - button "Icon/TagClassroom/1" [ref=e775] [cursor=pointer]:
+                - code [ref=e777]: Icon/TagClassroom/1
+                - generic [ref=e778]: "#019550"
+          - row [ref=e779]:
+            - rowheader "Dark Text/TagClassroom" [ref=e780]: DarkText/TagClassroom
+            - cell [ref=e781]:
+              - button "Dark Text/TagClassroom/1" [ref=e782] [cursor=pointer]:
+                - code [ref=e784]: Text/TagClassroom/1
+                - generic [ref=e785]: "#01A458"
+          - row [ref=e786]:
+            - rowheader "Dark Icon/TagClassroom" [ref=e787]: DarkIcon/TagClassroom
+            - cell [ref=e788]:
+              - button "Dark Icon/TagClassroom/1" [ref=e789] [cursor=pointer]:
+                - code [ref=e791]: Icon/TagClassroom/1
+                - generic [ref=e792]: "#01A458"
+      - table "Text + Icon / TagOlive" [ref=e794]:
+        - caption [ref=e795]: Text + Icon / TagOlive · 橄榄绿
+        - rowgroup [ref=e796]:
+          - row [ref=e797]:
+            - columnheader "模式 / 类别" [ref=e798]
+            - columnheader "第 1 级" [ref=e799]
+        - rowgroup [ref=e800]:
+          - row [ref=e801]:
+            - rowheader "Light Text/TagOlive" [ref=e802]: LightText/TagOlive
+            - cell [ref=e803]:
+              - button "Text/TagOlive/1" [ref=e804] [cursor=pointer]:
+                - code [ref=e806]: Text/TagOlive/1
+                - generic [ref=e807]: "#609300"
+          - row [ref=e808]:
+            - rowheader "Light Icon/TagOlive" [ref=e809]: LightIcon/TagOlive
+            - cell [ref=e810]:
+              - button "Icon/TagOlive/1" [ref=e811] [cursor=pointer]:
+                - code [ref=e813]: Icon/TagOlive/1
+                - generic [ref=e814]: "#609300"
+          - row [ref=e815]:
+            - rowheader "Dark Text/TagOlive" [ref=e816]: DarkText/TagOlive
+            - cell [ref=e817]:
+              - button "Dark Text/TagOlive/1" [ref=e818] [cursor=pointer]:
+                - code [ref=e820]: Text/TagOlive/1
+                - generic [ref=e821]: "#68A000"
+          - row [ref=e822]:
+            - rowheader "Dark Icon/TagOlive" [ref=e823]: DarkIcon/TagOlive
+            - cell [ref=e824]:
+              - button "Dark Icon/TagOlive/1" [ref=e825] [cursor=pointer]:
+                - code [ref=e827]: Icon/TagOlive/1
+                - generic [ref=e828]: "#68A000"
+      - table "Text + Icon / TagPaper" [ref=e830]:
+        - caption [ref=e831]: Text + Icon / TagPaper · 青绿
+        - rowgroup [ref=e832]:
+          - row [ref=e833]:
+            - columnheader "模式 / 类别" [ref=e834]
+            - columnheader "第 1 级" [ref=e835]
+        - rowgroup [ref=e836]:
+          - row [ref=e837]:
+            - rowheader "Light Text/TagPaper" [ref=e838]: LightText/TagPaper
+            - cell [ref=e839]:
+              - button "Text/TagPaper/1" [ref=e840] [cursor=pointer]:
+                - code [ref=e842]: Text/TagPaper/1
+                - generic [ref=e843]: "#07978F"
+          - row [ref=e844]:
+            - rowheader "Light Icon/TagPaper" [ref=e845]: LightIcon/TagPaper
+            - cell [ref=e846]:
+              - button "Icon/TagPaper/1" [ref=e847] [cursor=pointer]:
+                - code [ref=e849]: Icon/TagPaper/1
+                - generic [ref=e850]: "#07978F"
+          - row [ref=e851]:
+            - rowheader "Dark Text/TagPaper" [ref=e852]: DarkText/TagPaper
+            - cell [ref=e853]:
+              - button "Dark Text/TagPaper/1" [ref=e854] [cursor=pointer]:
+                - code [ref=e856]: Text/TagPaper/1
+                - generic [ref=e857]: "#07A199"
+          - row [ref=e858]:
+            - rowheader "Dark Icon/TagPaper" [ref=e859]: DarkIcon/TagPaper
+            - cell [ref=e860]:
+              - button "Dark Icon/TagPaper/1" [ref=e861] [cursor=pointer]:
+                - code [ref=e863]: Icon/TagPaper/1
+                - generic [ref=e864]: "#07A199"
+      - table "Text + Icon / TagExam" [ref=e866]:
+        - caption [ref=e867]: Text + Icon / TagExam · 青蓝
+        - rowgroup [ref=e868]:
+          - row [ref=e869]:
+            - columnheader "模式 / 类别" [ref=e870]
+            - columnheader "第 1 级" [ref=e871]
+        - rowgroup [ref=e872]:
+          - row [ref=e873]:
+            - rowheader "Light Text/TagExam" [ref=e874]: LightText/TagExam
+            - cell [ref=e875]:
+              - button "Text/TagExam/1" [ref=e876] [cursor=pointer]:
+                - code [ref=e878]: Text/TagExam/1
+                - generic [ref=e879]: "#008FBC"
+          - row [ref=e880]:
+            - rowheader "Light Icon/TagExam" [ref=e881]: LightIcon/TagExam
+            - cell [ref=e882]:
+              - button "Icon/TagExam/1" [ref=e883] [cursor=pointer]:
+                - code [ref=e885]: Icon/TagExam/1
+                - generic [ref=e886]: "#008FBC"
+          - row [ref=e887]:
+            - rowheader "Dark Text/TagExam" [ref=e888]: DarkText/TagExam
+            - cell [ref=e889]:
+              - button "Dark Text/TagExam/1" [ref=e890] [cursor=pointer]:
+                - code [ref=e892]: Text/TagExam/1
+                - generic [ref=e893]: "#009ACB"
+          - row [ref=e894]:
+            - rowheader "Dark Icon/TagExam" [ref=e895]: DarkIcon/TagExam
+            - cell [ref=e896]:
+              - button "Dark Icon/TagExam/1" [ref=e897] [cursor=pointer]:
+                - code [ref=e899]: Icon/TagExam/1
+                - generic [ref=e900]: "#009ACB"
+      - table "Text + Icon / TagCourseware" [ref=e902]:
+        - caption [ref=e903]: Text + Icon / TagCourseware · 暖橙
+        - rowgroup [ref=e904]:
+          - row [ref=e905]:
+            - columnheader "模式 / 类别" [ref=e906]
+            - columnheader "第 1 级" [ref=e907]
+        - rowgroup [ref=e908]:
+          - row [ref=e909]:
+            - rowheader "Light Text/TagCourseware" [ref=e910]: LightText/TagCourseware
+            - cell [ref=e911]:
+              - button "Text/TagCourseware/1" [ref=e912] [cursor=pointer]:
+                - code [ref=e914]: Text/TagCourseware/1
+                - generic [ref=e915]: "#DA6814"
+          - row [ref=e916]:
+            - rowheader "Light Icon/TagCourseware" [ref=e917]: LightIcon/TagCourseware
+            - cell [ref=e918]:
+              - button "Icon/TagCourseware/1" [ref=e919] [cursor=pointer]:
+                - code [ref=e921]: Icon/TagCourseware/1
+                - generic [ref=e922]: "#DA6814"
+          - row [ref=e923]:
+            - rowheader "Dark Text/TagCourseware" [ref=e924]: DarkText/TagCourseware
+            - cell [ref=e925]:
+              - button "Dark Text/TagCourseware/1" [ref=e926] [cursor=pointer]:
+                - code [ref=e928]: Text/TagCourseware/1
+                - generic [ref=e929]: "#E66E15"
+          - row [ref=e930]:
+            - rowheader "Dark Icon/TagCourseware" [ref=e931]: DarkIcon/TagCourseware
+            - cell [ref=e932]:
+              - button "Dark Icon/TagCourseware/1" [ref=e933] [cursor=pointer]:
+                - code [ref=e935]: Icon/TagCourseware/1
+                - generic [ref=e936]: "#E66E15"
+      - table "Text + Icon / TagGold" [ref=e938]:
+        - caption [ref=e939]: Text + Icon / TagGold · 金黄
+        - rowgroup [ref=e940]:
+          - row [ref=e941]:
+            - columnheader "模式 / 类别" [ref=e942]
+            - columnheader "第 1 级" [ref=e943]
+        - rowgroup [ref=e944]:
+          - row [ref=e945]:
+            - rowheader "Light Text/TagGold" [ref=e946]: LightText/TagGold
+            - cell [ref=e947]:
+              - button "Text/TagGold/1" [ref=e948] [cursor=pointer]:
+                - code [ref=e950]: Text/TagGold/1
+                - generic [ref=e951]: "#967800"
+          - row [ref=e952]:
+            - rowheader "Light Icon/TagGold" [ref=e953]: LightIcon/TagGold
+            - cell [ref=e954]:
+              - button "Icon/TagGold/1" [ref=e955] [cursor=pointer]:
+                - code [ref=e957]: Icon/TagGold/1
+                - generic [ref=e958]: "#967800"
+          - row [ref=e959]:
+            - rowheader "Dark Text/TagGold" [ref=e960]: DarkText/TagGold
+            - cell [ref=e961]:
+              - button "Dark Text/TagGold/1" [ref=e962] [cursor=pointer]:
+                - code [ref=e964]: Text/TagGold/1
+                - generic [ref=e965]: "#AD8C00"
+          - row [ref=e966]:
+            - rowheader "Dark Icon/TagGold" [ref=e967]: DarkIcon/TagGold
+            - cell [ref=e968]:
+              - button "Dark Icon/TagGold/1" [ref=e969] [cursor=pointer]:
+                - code [ref=e971]: Icon/TagGold/1
+                - generic [ref=e972]: "#AD8C00"
+      - table "Text + Icon / TagPurple" [ref=e974]:
+        - caption [ref=e975]: Text + Icon / TagPurple · 蓝紫
+        - rowgroup [ref=e976]:
+          - row [ref=e977]:
+            - columnheader "模式 / 类别" [ref=e978]
+            - columnheader "第 1 级" [ref=e979]
+        - rowgroup [ref=e980]:
+          - row [ref=e981]:
+            - rowheader "Light Text/TagPurple" [ref=e982]: LightText/TagPurple
+            - cell [ref=e983]:
+              - button "Text/TagPurple/1" [ref=e984] [cursor=pointer]:
+                - code [ref=e986]: Text/TagPurple/1
+                - generic [ref=e987]: "#7240E7"
+          - row [ref=e988]:
+            - rowheader "Light Icon/TagPurple" [ref=e989]: LightIcon/TagPurple
+            - cell [ref=e990]:
+              - button "Icon/TagPurple/1" [ref=e991] [cursor=pointer]:
+                - code [ref=e993]: Icon/TagPurple/1
+                - generic [ref=e994]: "#7240E7"
+          - row [ref=e995]:
+            - rowheader "Dark Text/TagPurple" [ref=e996]: DarkText/TagPurple
+            - cell [ref=e997]:
+              - button "Dark Text/TagPurple/1" [ref=e998] [cursor=pointer]:
+                - code [ref=e1000]: Text/TagPurple/1
+                - generic [ref=e1001]: "#9D7BEF"
+          - row [ref=e1002]:
+            - rowheader "Dark Icon/TagPurple" [ref=e1003]: DarkIcon/TagPurple
+            - cell [ref=e1004]:
+              - button "Dark Icon/TagPurple/1" [ref=e1005] [cursor=pointer]:
+                - code [ref=e1007]: Icon/TagPurple/1
+                - generic [ref=e1008]: "#9D7BEF"
+      - table "Text + Icon / TagAssignment" [ref=e1010]:
+        - caption [ref=e1011]: Text + Icon / TagAssignment · 靛蓝
+        - rowgroup [ref=e1012]:
+          - row [ref=e1013]:
+            - columnheader "模式 / 类别" [ref=e1014]
+            - columnheader "第 1 级" [ref=e1015]
+        - rowgroup [ref=e1016]:
+          - row [ref=e1017]:
+            - rowheader "Light Text/TagAssignment" [ref=e1018]: LightText/TagAssignment
+            - cell [ref=e1019]:
+              - button "Text/TagAssignment/1" [ref=e1020] [cursor=pointer]:
+                - code [ref=e1022]: Text/TagAssignment/1
+                - generic [ref=e1023]: "#3E56FF"
+          - row [ref=e1024]:
+            - rowheader "Light Icon/TagAssignment" [ref=e1025]: LightIcon/TagAssignment
+            - cell [ref=e1026]:
+              - button "Icon/TagAssignment/1" [ref=e1027] [cursor=pointer]:
+                - code [ref=e1029]: Icon/TagAssignment/1
+                - generic [ref=e1030]: "#3E56FF"
+          - row [ref=e1031]:
+            - rowheader "Dark Text/TagAssignment" [ref=e1032]: DarkText/TagAssignment
+            - cell [ref=e1033]:
+              - button "Dark Text/TagAssignment/1" [ref=e1034] [cursor=pointer]:
+                - code [ref=e1036]: Text/TagAssignment/1
+                - generic [ref=e1037]: "#7284FF"
+          - row [ref=e1038]:
+            - rowheader "Dark Icon/TagAssignment" [ref=e1039]: DarkIcon/TagAssignment
+            - cell [ref=e1040]:
+              - button "Dark Icon/TagAssignment/1" [ref=e1041] [cursor=pointer]:
+                - code [ref=e1043]: Icon/TagAssignment/1
+                - generic [ref=e1044]: "#7284FF"
+      - table "Text + Icon / TagLive" [ref=e1046]:
+        - caption [ref=e1047]: Text + Icon / TagLive · 亮蓝
+        - rowgroup [ref=e1048]:
+          - row [ref=e1049]:
+            - columnheader "模式 / 类别" [ref=e1050]
+            - columnheader "第 1 级" [ref=e1051]
+        - rowgroup [ref=e1052]:
+          - row [ref=e1053]:
+            - rowheader "Light Text/TagLive" [ref=e1054]: LightText/TagLive
+            - cell [ref=e1055]:
+              - button "Text/TagLive/1" [ref=e1056] [cursor=pointer]:
+                - code [ref=e1058]: Text/TagLive/1
+                - generic [ref=e1059]: "#2481FF"
+          - row [ref=e1060]:
+            - rowheader "Light Icon/TagLive" [ref=e1061]: LightIcon/TagLive
+            - cell [ref=e1062]:
+              - button "Icon/TagLive/1" [ref=e1063] [cursor=pointer]:
+                - code [ref=e1065]: Icon/TagLive/1
+                - generic [ref=e1066]: "#2481FF"
+          - row [ref=e1067]:
+            - rowheader "Dark Text/TagLive" [ref=e1068]: DarkText/TagLive
+            - cell [ref=e1069]:
+              - button "Dark Text/TagLive/1" [ref=e1070] [cursor=pointer]:
+                - code [ref=e1072]: Text/TagLive/1
+                - generic [ref=e1073]: "#3B8EFF"
+          - row [ref=e1074]:
+            - rowheader "Dark Icon/TagLive" [ref=e1075]: DarkIcon/TagLive
+            - cell [ref=e1076]:
+              - button "Dark Icon/TagLive/1" [ref=e1077] [cursor=pointer]:
+                - code [ref=e1079]: Icon/TagLive/1
+                - generic [ref=e1080]: "#3B8EFF"
+      - table "Text + Icon / TagAudio" [ref=e1082]:
+        - caption [ref=e1083]: Text + Icon / TagAudio · 叶绿
+        - rowgroup [ref=e1084]:
+          - row [ref=e1085]:
+            - columnheader "模式 / 类别" [ref=e1086]
+            - columnheader "第 1 级" [ref=e1087]
+        - rowgroup [ref=e1088]:
+          - row [ref=e1089]:
+            - rowheader "Light Text/TagAudio" [ref=e1090]: LightText/TagAudio
+            - cell [ref=e1091]:
+              - button "Text/TagAudio/1" [ref=e1092] [cursor=pointer]:
+                - code [ref=e1094]: Text/TagAudio/1
+                - generic [ref=e1095]: "#09A21D"
+          - row [ref=e1096]:
+            - rowheader "Light Icon/TagAudio" [ref=e1097]: LightIcon/TagAudio
+            - cell [ref=e1098]:
+              - button "Icon/TagAudio/1" [ref=e1099] [cursor=pointer]:
+                - code [ref=e1101]: Icon/TagAudio/1
+                - generic [ref=e1102]: "#09A21D"
+          - row [ref=e1103]:
+            - rowheader "Dark Text/TagAudio" [ref=e1104]: DarkText/TagAudio
+            - cell [ref=e1105]:
+              - button "Dark Text/TagAudio/1" [ref=e1106] [cursor=pointer]:
+                - code [ref=e1108]: Text/TagAudio/1
+                - generic [ref=e1109]: "#09A81E"
+          - row [ref=e1110]:
+            - rowheader "Dark Icon/TagAudio" [ref=e1111]: DarkIcon/TagAudio
+            - cell [ref=e1112]:
+              - button "Dark Icon/TagAudio/1" [ref=e1113] [cursor=pointer]:
+                - code [ref=e1115]: Icon/TagAudio/1
+                - generic [ref=e1116]: "#09A81E"
+      - table "Text + Icon / TagMagenta" [ref=e1118]:
+        - caption [ref=e1119]: Text + Icon / TagMagenta · 洋红
+        - rowgroup [ref=e1120]:
+          - row [ref=e1121]:
+            - columnheader "模式 / 类别" [ref=e1122]
+            - columnheader "第 1 级" [ref=e1123]
+        - rowgroup [ref=e1124]:
+          - row [ref=e1125]:
+            - rowheader "Light Text/TagMagenta" [ref=e1126]: LightText/TagMagenta
+            - cell [ref=e1127]:
+              - button "Text/TagMagenta/1" [ref=e1128] [cursor=pointer]:
+                - code [ref=e1130]: Text/TagMagenta/1
+                - generic [ref=e1131]: "#C652BE"
+          - row [ref=e1132]:
+            - rowheader "Light Icon/TagMagenta" [ref=e1133]: LightIcon/TagMagenta
+            - cell [ref=e1134]:
+              - button "Icon/TagMagenta/1" [ref=e1135] [cursor=pointer]:
+                - code [ref=e1137]: Icon/TagMagenta/1
+                - generic [ref=e1138]: "#C652BE"
+          - row [ref=e1139]:
+            - rowheader "Dark Text/TagMagenta" [ref=e1140]: DarkText/TagMagenta
+            - cell [ref=e1141]:
+              - button "Dark Text/TagMagenta/1" [ref=e1142] [cursor=pointer]:
+                - code [ref=e1144]: Text/TagMagenta/1
+                - generic [ref=e1145]: "#CD69C7"
+          - row [ref=e1146]:
+            - rowheader "Dark Icon/TagMagenta" [ref=e1147]: DarkIcon/TagMagenta
+            - cell [ref=e1148]:
+              - button "Dark Icon/TagMagenta/1" [ref=e1149] [cursor=pointer]:
+                - code [ref=e1151]: Icon/TagMagenta/1
+                - generic [ref=e1152]: "#CD69C7"
+      - table "Text + Icon / TagBrown" [ref=e1154]:
+        - caption [ref=e1155]: Text + Icon / TagBrown · 棕褐
+        - rowgroup [ref=e1156]:
+          - row [ref=e1157]:
+            - columnheader "模式 / 类别" [ref=e1158]
+            - columnheader "第 1 级" [ref=e1159]
+        - rowgroup [ref=e1160]:
+          - row [ref=e1161]:
+            - rowheader "Light Text/TagBrown" [ref=e1162]: LightText/TagBrown
+            - cell [ref=e1163]:
+              - button "Text/TagBrown/1" [ref=e1164] [cursor=pointer]:
+                - code [ref=e1166]: Text/TagBrown/1
+                - generic [ref=e1167]: "#9A593C"
+          - row [ref=e1168]:
+            - rowheader "Light Icon/TagBrown" [ref=e1169]: LightIcon/TagBrown
+            - cell [ref=e1170]:
+              - button "Icon/TagBrown/1" [ref=e1171] [cursor=pointer]:
+                - code [ref=e1173]: Icon/TagBrown/1
+                - generic [ref=e1174]: "#9A593C"
+          - row [ref=e1175]:
+            - rowheader "Dark Text/TagBrown" [ref=e1176]: DarkText/TagBrown
+            - cell [ref=e1177]:
+              - button "Dark Text/TagBrown/1" [ref=e1178] [cursor=pointer]:
+                - code [ref=e1180]: Text/TagBrown/1
+                - generic [ref=e1181]: "#C17F61"
+          - row [ref=e1182]:
+            - rowheader "Dark Icon/TagBrown" [ref=e1183]: DarkIcon/TagBrown
+            - cell [ref=e1184]:
+              - button "Dark Icon/TagBrown/1" [ref=e1185] [cursor=pointer]:
+                - code [ref=e1187]: Icon/TagBrown/1
+                - generic [ref=e1188]: "#C17F61"
+      - table "Text + Icon / TagVote" [ref=e1190]:
+        - caption [ref=e1191]: Text + Icon / TagVote · 雾蓝
+        - rowgroup [ref=e1192]:
+          - row [ref=e1193]:
+            - columnheader "模式 / 类别" [ref=e1194]
+            - columnheader "第 1 级" [ref=e1195]
+        - rowgroup [ref=e1196]:
+          - row [ref=e1197]:
+            - rowheader "Light Text/TagVote" [ref=e1198]: LightText/TagVote
+            - cell [ref=e1199]:
+              - button "Text/TagVote/1" [ref=e1200] [cursor=pointer]:
+                - code [ref=e1202]: Text/TagVote/1
+                - generic [ref=e1203]: "#687CAC"
+          - row [ref=e1204]:
+            - rowheader "Light Icon/TagVote" [ref=e1205]: LightIcon/TagVote
+            - cell [ref=e1206]:
+              - button "Icon/TagVote/1" [ref=e1207] [cursor=pointer]:
+                - code [ref=e1209]: Icon/TagVote/1
+                - generic [ref=e1210]: "#687CAC"
+          - row [ref=e1211]:
+            - rowheader "Dark Text/TagVote" [ref=e1212]: DarkText/TagVote
+            - cell [ref=e1213]:
+              - button "Dark Text/TagVote/1" [ref=e1214] [cursor=pointer]:
+                - code [ref=e1216]: Text/TagVote/1
+                - generic [ref=e1217]: "#7E8FB8"
+          - row [ref=e1218]:
+            - rowheader "Dark Icon/TagVote" [ref=e1219]: DarkIcon/TagVote
+            - cell [ref=e1220]:
+              - button "Dark Icon/TagVote/1" [ref=e1221] [cursor=pointer]:
+                - code [ref=e1223]: Icon/TagVote/1
+                - generic [ref=e1224]: "#7E8FB8"
+      - table "Text + Icon / TagSelfTest" [ref=e1226]:
+        - caption [ref=e1227]: Text + Icon / TagSelfTest · 明紫
+        - rowgroup [ref=e1228]:
+          - row [ref=e1229]:
+            - columnheader "模式 / 类别" [ref=e1230]
+            - columnheader "第 1 级" [ref=e1231]
+        - rowgroup [ref=e1232]:
+          - row [ref=e1233]:
+            - rowheader "Light Text/TagSelfTest" [ref=e1234]: LightText/TagSelfTest
+            - cell [ref=e1235]:
+              - button "Text/TagSelfTest/1" [ref=e1236] [cursor=pointer]:
+                - code [ref=e1238]: Text/TagSelfTest/1
+                - generic [ref=e1239]: "#994AF4"
+          - row [ref=e1240]:
+            - rowheader "Light Icon/TagSelfTest" [ref=e1241]: LightIcon/TagSelfTest
+            - cell [ref=e1242]:
+              - button "Icon/TagSelfTest/1" [ref=e1243] [cursor=pointer]:
+                - code [ref=e1245]: Icon/TagSelfTest/1
+                - generic [ref=e1246]: "#994AF4"
+          - row [ref=e1247]:
+            - rowheader "Dark Text/TagSelfTest" [ref=e1248]: DarkText/TagSelfTest
+            - cell [ref=e1249]:
+              - button "Dark Text/TagSelfTest/1" [ref=e1250] [cursor=pointer]:
+                - code [ref=e1252]: Text/TagSelfTest/1
+                - generic [ref=e1253]: "#AE70F6"
+          - row [ref=e1254]:
+            - rowheader "Dark Icon/TagSelfTest" [ref=e1255]: DarkIcon/TagSelfTest
+            - cell [ref=e1256]:
+              - button "Dark Icon/TagSelfTest/1" [ref=e1257] [cursor=pointer]:
+                - code [ref=e1259]: Icon/TagSelfTest/1
+                - generic [ref=e1260]: "#AE70F6"
+      - table "Text + Icon / TagSlate" [ref=e1262]:
+        - caption [ref=e1263]: Text + Icon / TagSlate · 石板蓝
+        - rowgroup [ref=e1264]:
+          - row [ref=e1265]:
+            - columnheader "模式 / 类别" [ref=e1266]
+            - columnheader "第 1 级" [ref=e1267]
+        - rowgroup [ref=e1268]:
+          - row [ref=e1269]:
+            - rowheader "Light Text/TagSlate" [ref=e1270]: LightText/TagSlate
+            - cell [ref=e1271]:
+              - button "Text/TagSlate/1" [ref=e1272] [cursor=pointer]:
+                - code [ref=e1274]: Text/TagSlate/1
+                - generic [ref=e1275]: "#6D84AC"
+          - row [ref=e1276]:
+            - rowheader "Light Icon/TagSlate" [ref=e1277]: LightIcon/TagSlate
+            - cell [ref=e1278]:
+              - button "Icon/TagSlate/1" [ref=e1279] [cursor=pointer]:
+                - code [ref=e1281]: Icon/TagSlate/1
+                - generic [ref=e1282]: "#6D84AC"
+          - row [ref=e1283]:
+            - rowheader "Dark Text/TagSlate" [ref=e1284]: DarkText/TagSlate
+            - cell [ref=e1285]:
+              - button "Dark Text/TagSlate/1" [ref=e1286] [cursor=pointer]:
+                - code [ref=e1288]: Text/TagSlate/1
+                - generic [ref=e1289]: "#7D91B5"
+          - row [ref=e1290]:
+            - rowheader "Dark Icon/TagSlate" [ref=e1291]: DarkIcon/TagSlate
+            - cell [ref=e1292]:
+              - button "Dark Icon/TagSlate/1" [ref=e1293] [cursor=pointer]:
+                - code [ref=e1295]: Icon/TagSlate/1
+                - generic [ref=e1296]: "#7D91B5"
+      - table "Text + Icon / TagDifficulty1" [ref=e1298]:
+        - caption [ref=e1299]: Text + Icon / TagDifficulty1 · 薄荷绿
+        - rowgroup [ref=e1300]:
+          - row [ref=e1301]:
+            - columnheader "模式 / 类别" [ref=e1302]
+            - columnheader "第 1 级" [ref=e1303]
+        - rowgroup [ref=e1304]:
+          - row [ref=e1305]:
+            - rowheader "Light Text/TagDifficulty1" [ref=e1306]: LightText/TagDifficulty1
+            - cell [ref=e1307]:
+              - button "Text/TagDifficulty1/1" [ref=e1308] [cursor=pointer]:
+                - code [ref=e1310]: Text/TagDifficulty1/1
+                - generic [ref=e1311]: "#24AF8E"
+          - row [ref=e1312]:
+            - rowheader "Light Icon/TagDifficulty1" [ref=e1313]: LightIcon/TagDifficulty1
+            - cell [ref=e1314]:
+              - button "Icon/TagDifficulty1/1" [ref=e1315] [cursor=pointer]:
+                - code [ref=e1317]: Icon/TagDifficulty1/1
+                - generic [ref=e1318]: "#24AF8E"
+          - row [ref=e1319]:
+            - rowheader "Dark Text/TagDifficulty1" [ref=e1320]: DarkText/TagDifficulty1
+            - cell [ref=e1321]:
+              - button "Dark Text/TagDifficulty1/1" [ref=e1322] [cursor=pointer]:
+                - code [ref=e1324]: Text/TagDifficulty1/1
+                - generic [ref=e1325]: "#24AF8E"
+          - row [ref=e1326]:
+            - rowheader "Dark Icon/TagDifficulty1" [ref=e1327]: DarkIcon/TagDifficulty1
+            - cell [ref=e1328]:
+              - button "Dark Icon/TagDifficulty1/1" [ref=e1329] [cursor=pointer]:
+                - code [ref=e1331]: Icon/TagDifficulty1/1
+                - generic [ref=e1332]: "#24AF8E"
+      - table "Text + Icon / TagDifficulty2" [ref=e1334]:
+        - caption [ref=e1335]: Text + Icon / TagDifficulty2 · 草绿
+        - rowgroup [ref=e1336]:
+          - row [ref=e1337]:
+            - columnheader "模式 / 类别" [ref=e1338]
+            - columnheader "第 1 级" [ref=e1339]
+        - rowgroup [ref=e1340]:
+          - row [ref=e1341]:
+            - rowheader "Light Text/TagDifficulty2" [ref=e1342]: LightText/TagDifficulty2
+            - cell [ref=e1343]:
+              - button "Text/TagDifficulty2/1" [ref=e1344] [cursor=pointer]:
+                - code [ref=e1346]: Text/TagDifficulty2/1
+                - generic [ref=e1347]: "#5BA219"
+          - row [ref=e1348]:
+            - rowheader "Light Icon/TagDifficulty2" [ref=e1349]: LightIcon/TagDifficulty2
+            - cell [ref=e1350]:
+              - button "Icon/TagDifficulty2/1" [ref=e1351] [cursor=pointer]:
+                - code [ref=e1353]: Icon/TagDifficulty2/1
+                - generic [ref=e1354]: "#5BA219"
+          - row [ref=e1355]:
+            - rowheader "Dark Text/TagDifficulty2" [ref=e1356]: DarkText/TagDifficulty2
+            - cell [ref=e1357]:
+              - button "Dark Text/TagDifficulty2/1" [ref=e1358] [cursor=pointer]:
+                - code [ref=e1360]: Text/TagDifficulty2/1
+                - generic [ref=e1361]: "#5CA419"
+          - row [ref=e1362]:
+            - rowheader "Dark Icon/TagDifficulty2" [ref=e1363]: DarkIcon/TagDifficulty2
+            - cell [ref=e1364]:
+              - button "Dark Icon/TagDifficulty2/1" [ref=e1365] [cursor=pointer]:
+                - code [ref=e1367]: Icon/TagDifficulty2/1
+                - generic [ref=e1368]: "#5CA419"
+      - table "Text + Icon / TagDifficulty3" [ref=e1370]:
+        - caption [ref=e1371]: Text + Icon / TagDifficulty3 · 芥末金
+        - rowgroup [ref=e1372]:
+          - row [ref=e1373]:
+            - columnheader "模式 / 类别" [ref=e1374]
+            - columnheader "第 1 级" [ref=e1375]
+        - rowgroup [ref=e1376]:
+          - row [ref=e1377]:
+            - rowheader "Light Text/TagDifficulty3" [ref=e1378]: LightText/TagDifficulty3
+            - cell [ref=e1379]:
+              - button "Text/TagDifficulty3/1" [ref=e1380] [cursor=pointer]:
+                - code [ref=e1382]: Text/TagDifficulty3/1
+                - generic [ref=e1383]: "#A88400"
+          - row [ref=e1384]:
+            - rowheader "Light Icon/TagDifficulty3" [ref=e1385]: LightIcon/TagDifficulty3
+            - cell [ref=e1386]:
+              - button "Icon/TagDifficulty3/1" [ref=e1387] [cursor=pointer]:
+                - code [ref=e1389]: Icon/TagDifficulty3/1
+                - generic [ref=e1390]: "#A88400"
+          - row [ref=e1391]:
+            - rowheader "Dark Text/TagDifficulty3" [ref=e1392]: DarkText/TagDifficulty3
+            - cell [ref=e1393]:
+              - button "Dark Text/TagDifficulty3/1" [ref=e1394] [cursor=pointer]:
+                - code [ref=e1396]: Text/TagDifficulty3/1
+                - generic [ref=e1397]: "#B28C00"
+          - row [ref=e1398]:
+            - rowheader "Dark Icon/TagDifficulty3" [ref=e1399]: DarkIcon/TagDifficulty3
+            - cell [ref=e1400]:
+              - button "Dark Icon/TagDifficulty3/1" [ref=e1401] [cursor=pointer]:
+                - code [ref=e1403]: Icon/TagDifficulty3/1
+                - generic [ref=e1404]: "#B28C00"
+      - table "Text + Icon / TagDifficulty4" [ref=e1406]:
+        - caption [ref=e1407]: Text + Icon / TagDifficulty4 · 鲜橙
+        - rowgroup [ref=e1408]:
+          - row [ref=e1409]:
+            - columnheader "模式 / 类别" [ref=e1410]
+            - columnheader "第 1 级" [ref=e1411]
+        - rowgroup [ref=e1412]:
+          - row [ref=e1413]:
+            - rowheader "Light Text/TagDifficulty4" [ref=e1414]: LightText/TagDifficulty4
+            - cell [ref=e1415]:
+              - button "Text/TagDifficulty4/1" [ref=e1416] [cursor=pointer]:
+                - code [ref=e1418]: Text/TagDifficulty4/1
+                - generic [ref=e1419]: "#E46700"
+          - row [ref=e1420]:
+            - rowheader "Light Icon/TagDifficulty4" [ref=e1421]: LightIcon/TagDifficulty4
+            - cell [ref=e1422]:
+              - button "Icon/TagDifficulty4/1" [ref=e1423] [cursor=pointer]:
+                - code [ref=e1425]: Icon/TagDifficulty4/1
+                - generic [ref=e1426]: "#E46700"
+          - row [ref=e1427]:
+            - rowheader "Dark Text/TagDifficulty4" [ref=e1428]: DarkText/TagDifficulty4
+            - cell [ref=e1429]:
+              - button "Dark Text/TagDifficulty4/1" [ref=e1430] [cursor=pointer]:
+                - code [ref=e1432]: Text/TagDifficulty4/1
+                - generic [ref=e1433]: "#EB6A00"
+          - row [ref=e1434]:
+            - rowheader "Dark Icon/TagDifficulty4" [ref=e1435]: DarkIcon/TagDifficulty4
+            - cell [ref=e1436]:
+              - button "Dark Icon/TagDifficulty4/1" [ref=e1437] [cursor=pointer]:
+                - code [ref=e1439]: Icon/TagDifficulty4/1
+                - generic [ref=e1440]: "#EB6A00"
+      - table "Text + Icon / TagDifficulty5" [ref=e1442]:
+        - caption [ref=e1443]: Text + Icon / TagDifficulty5 · 朱红
+        - rowgroup [ref=e1444]:
+          - row [ref=e1445]:
+            - columnheader "模式 / 类别" [ref=e1446]
+            - columnheader "第 1 级" [ref=e1447]
+        - rowgroup [ref=e1448]:
+          - row [ref=e1449]:
+            - rowheader "Light Text/TagDifficulty5" [ref=e1450]: LightText/TagDifficulty5
+            - cell [ref=e1451]:
+              - button "Text/TagDifficulty5/1" [ref=e1452] [cursor=pointer]:
+                - code [ref=e1454]: Text/TagDifficulty5/1
+                - generic [ref=e1455]: "#E13411"
+          - row [ref=e1456]:
+            - rowheader "Light Icon/TagDifficulty5" [ref=e1457]: LightIcon/TagDifficulty5
+            - cell [ref=e1458]:
+              - button "Icon/TagDifficulty5/1" [ref=e1459] [cursor=pointer]:
+                - code [ref=e1461]: Icon/TagDifficulty5/1
+                - generic [ref=e1462]: "#E13411"
+          - row [ref=e1463]:
+            - rowheader "Dark Text/TagDifficulty5" [ref=e1464]: DarkText/TagDifficulty5
+            - cell [ref=e1465]:
+              - button "Dark Text/TagDifficulty5/1" [ref=e1466] [cursor=pointer]:
+                - code [ref=e1468]: Text/TagDifficulty5/1
+                - generic [ref=e1469]: "#F15A3C"
+          - row [ref=e1470]:
+            - rowheader "Dark Icon/TagDifficulty5" [ref=e1471]: DarkIcon/TagDifficulty5
+            - cell [ref=e1472]:
+              - button "Dark Icon/TagDifficulty5/1" [ref=e1473] [cursor=pointer]:
+                - code [ref=e1475]: Icon/TagDifficulty5/1
+                - generic [ref=e1476]: "#F15A3C"
+      - table "Text + Icon / TagOngoing" [ref=e1478]:
+        - caption [ref=e1479]: Text + Icon / TagOngoing · 按用途选择
+        - rowgroup [ref=e1480]:
+          - row [ref=e1481]:
+            - columnheader "模式 / 类别" [ref=e1482]
+            - columnheader "第 1 级" [ref=e1483]
+        - rowgroup [ref=e1484]:
+          - row [ref=e1485]:
+            - rowheader "Light Text/TagOngoing" [ref=e1486]: LightText/TagOngoing
+            - cell [ref=e1487]:
+              - button "Text/TagOngoing/1" [ref=e1488] [cursor=pointer]:
+                - code [ref=e1490]: Text/TagOngoing/1
+                - generic [ref=e1491]: "#058952"
+          - row [ref=e1492]:
+            - rowheader "Light Icon/TagOngoing" [ref=e1493]: LightIcon/TagOngoing
+            - cell [ref=e1494]:
+              - button "Icon/TagOngoing/1" [ref=e1495] [cursor=pointer]:
+                - code [ref=e1497]: Icon/TagOngoing/1
+                - generic [ref=e1498]: "#0E9954"
+          - row [ref=e1499]:
+            - rowheader "Dark Text/TagOngoing" [ref=e1500]: DarkText/TagOngoing
+            - cell [ref=e1501]:
+              - button "Dark Text/TagOngoing/1" [ref=e1502] [cursor=pointer]:
+                - code [ref=e1504]: Text/TagOngoing/1
+                - generic [ref=e1505]: "#06AA65"
+          - row [ref=e1506]:
+            - rowheader "Dark Icon/TagOngoing" [ref=e1507]: DarkIcon/TagOngoing
+            - cell [ref=e1508]:
+              - button "Dark Icon/TagOngoing/1" [ref=e1509] [cursor=pointer]:
+                - code [ref=e1511]: Icon/TagOngoing/1
+                - generic [ref=e1512]: "#0E9954"
+      - table "Text + Icon / TagUnsubmitted" [ref=e1514]:
+        - caption [ref=e1515]: Text + Icon / TagUnsubmitted · 按用途选择
+        - rowgroup [ref=e1516]:
+          - row [ref=e1517]:
+            - columnheader "模式 / 类别" [ref=e1518]
+            - columnheader "第 1 级" [ref=e1519]
+        - rowgroup [ref=e1520]:
+          - row [ref=e1521]:
+            - rowheader "Light Text/TagUnsubmitted" [ref=e1522]: LightText/TagUnsubmitted
+            - cell [ref=e1523]:
+              - button "Text/TagUnsubmitted/1" [ref=e1524] [cursor=pointer]:
+                - code [ref=e1526]: Text/TagUnsubmitted/1
+                - generic [ref=e1527]: "#DD5C00"
+          - row [ref=e1528]:
+            - rowheader "Dark Text/TagUnsubmitted" [ref=e1529]: DarkText/TagUnsubmitted
+            - cell [ref=e1530]:
+              - button "Dark Text/TagUnsubmitted/1" [ref=e1531] [cursor=pointer]:
+                - code [ref=e1533]: Text/TagUnsubmitted/1
+                - generic [ref=e1534]: "#FF7716"
+      - table "Text + Icon / TagEnded" [ref=e1536]:
+        - caption [ref=e1537]: Text + Icon / TagEnded · 按用途选择
+        - rowgroup [ref=e1538]:
+          - row [ref=e1539]:
+            - columnheader "模式 / 类别" [ref=e1540]
+            - columnheader "第 1 级" [ref=e1541]
+            - columnheader "第 2 级" [ref=e1542]
+        - rowgroup [ref=e1543]:
+          - row [ref=e1544]:
+            - rowheader "Light Text/TagEnded" [ref=e1545]: LightText/TagEnded
+            - cell [ref=e1546]:
+              - button "Text/TagEnded/1" [ref=e1547] [cursor=pointer]:
+                - code [ref=e1549]: Text/TagEnded/1
+                - generic [ref=e1550]: "#56688F"
+            - cell [ref=e1551]:
+              - button "Text/TagEnded/2" [ref=e1552] [cursor=pointer]:
+                - code [ref=e1554]: Text/TagEnded/2
+                - generic [ref=e1555]: "#495D87"
+          - row [ref=e1556]:
+            - rowheader "Dark Text/TagEnded" [ref=e1557]: DarkText/TagEnded
+            - cell [ref=e1558]:
+              - button "Dark Text/TagEnded/1" [ref=e1559] [cursor=pointer]:
+                - code [ref=e1561]: Text/TagEnded/1
+                - generic [ref=e1562]: "#8291B3"
+            - cell [ref=e1563]:
+              - button "Dark Text/TagEnded/2" [ref=e1564] [cursor=pointer]:
+                - code [ref=e1566]: Text/TagEnded/2
+                - generic [ref=e1567]: "#D7DEF5"
+      - table "Text + Icon / TagReminder" [ref=e1569]:
+        - caption [ref=e1570]: Text + Icon / TagReminder · 按用途选择
+        - rowgroup [ref=e1571]:
+          - row [ref=e1572]:
+            - columnheader "模式 / 类别" [ref=e1573]
+            - columnheader "第 1 级" [ref=e1574]
+        - rowgroup [ref=e1575]:
+          - row [ref=e1576]:
+            - rowheader "Light Icon/TagReminder" [ref=e1577]: LightIcon/TagReminder
+            - cell [ref=e1578]:
+              - button "Icon/TagReminder/1" [ref=e1579] [cursor=pointer]:
+                - code [ref=e1581]: Icon/TagReminder/1
+                - generic [ref=e1582]: "#F34848"
+          - row [ref=e1583]:
+            - rowheader "Dark Icon/TagReminder" [ref=e1584]: DarkIcon/TagReminder
+            - cell [ref=e1585]:
+              - button "Dark Icon/TagReminder/1" [ref=e1586] [cursor=pointer]:
+                - code [ref=e1588]: Icon/TagReminder/1
+                - generic [ref=e1589]: "#F34848"
+      - table "Text + Icon / TagNeutralSolid" [ref=e1591]:
+        - caption [ref=e1592]: Text + Icon / TagNeutralSolid · 按用途选择
+        - rowgroup [ref=e1593]:
+          - row [ref=e1594]:
+            - columnheader "模式 / 类别" [ref=e1595]
+            - columnheader "第 1 级" [ref=e1596]
+        - rowgroup [ref=e1597]:
+          - row [ref=e1598]:
+            - rowheader "Light Icon/TagNeutralSolid" [ref=e1599]: LightIcon/TagNeutralSolid
+            - cell [ref=e1600]:
+              - button "Icon/TagNeutralSolid/1" [ref=e1601] [cursor=pointer]:
+                - code [ref=e1603]: Icon/TagNeutralSolid/1
+                - generic [ref=e1604]: "#142346"
+          - row [ref=e1605]:
+            - rowheader "Dark Icon/TagNeutralSolid" [ref=e1606]: DarkIcon/TagNeutralSolid
+            - cell [ref=e1607]:
+              - button "Dark Icon/TagNeutralSolid/1" [ref=e1608] [cursor=pointer]:
+                - code [ref=e1610]: Icon/TagNeutralSolid/1
+                - generic [ref=e1611]: "#EFF1F5"
+      - table "Border/Neutral" [ref=e1613]:
+        - caption [ref=e1614]: Border/Neutral · 中性
+        - rowgroup [ref=e1615]:
+          - row [ref=e1616]:
+            - columnheader "模式 / 类别" [ref=e1617]
+            - columnheader "第 1 级" [ref=e1618]
+            - columnheader "第 2 级" [ref=e1619]
+            - columnheader "第 3 级" [ref=e1620]
+            - columnheader "第 4 级" [ref=e1621]
+        - rowgroup [ref=e1622]:
+          - row [ref=e1623]:
+            - rowheader "Light Border/Neutral" [ref=e1624]: LightBorder/Neutral
+            - cell [ref=e1625]:
+              - button "Border/Neutral/1" [ref=e1626] [cursor=pointer]:
+                - code [ref=e1628]: Border/Neutral/1
+                - generic [ref=e1629]: "#103FB7 · 35%"
+            - cell [ref=e1630]:
+              - button "Border/Neutral/2" [ref=e1631] [cursor=pointer]:
+                - code [ref=e1633]: Border/Neutral/2
+                - generic [ref=e1634]: "#103FB7 · 25%"
+            - cell [ref=e1635]:
+              - button "Border/Neutral/3" [ref=e1636] [cursor=pointer]:
+                - code [ref=e1638]: Border/Neutral/3
+                - generic [ref=e1639]: "#103FB7 · 16%"
+            - cell [ref=e1640]:
+              - button "Border/Neutral/4" [ref=e1641] [cursor=pointer]:
+                - code [ref=e1643]: Border/Neutral/4
+                - generic [ref=e1644]: "#103FB7 · 10%"
+          - row [ref=e1645]:
+            - rowheader "Dark Border/Neutral" [ref=e1646]: DarkBorder/Neutral
+            - cell [ref=e1647]:
+              - button "Dark Border/Neutral/1" [ref=e1648] [cursor=pointer]:
+                - code [ref=e1650]: Border/Neutral/1
+                - generic [ref=e1651]: "#C2D4FF · 35%"
+            - cell [ref=e1652]:
+              - button "Dark Border/Neutral/2" [ref=e1653] [cursor=pointer]:
+                - code [ref=e1655]: Border/Neutral/2
+                - generic [ref=e1656]: "#C2D4FF · 20%"
+            - cell [ref=e1657]:
+              - button "Dark Border/Neutral/3" [ref=e1658] [cursor=pointer]:
+                - code [ref=e1660]: Border/Neutral/3
+                - generic [ref=e1661]: "#C2D4FF · 10%"
+            - cell [ref=e1662]:
+              - button "Dark Border/Neutral/4" [ref=e1663] [cursor=pointer]:
+                - code [ref=e1665]: Border/Neutral/4
+                - generic [ref=e1666]: "#C2D4FF · 5%"
+      - table "Border/Brand" [ref=e1668]:
+        - caption [ref=e1669]: Border/Brand · 品牌蓝
+        - rowgroup [ref=e1670]:
+          - row [ref=e1671]:
+            - columnheader "模式 / 类别" [ref=e1672]
+            - columnheader "第 1 级" [ref=e1673]
+            - columnheader "第 2 级" [ref=e1674]
+            - columnheader "第 3 级" [ref=e1675]
+        - rowgroup [ref=e1676]:
+          - row [ref=e1677]:
+            - rowheader "Light Border/Brand" [ref=e1678]: LightBorder/Brand
+            - cell [ref=e1679]:
+              - button "Border/Brand/1" [ref=e1680] [cursor=pointer]:
+                - code [ref=e1682]: Border/Brand/1
+                - generic [ref=e1683]: "#3D7BFF"
+            - cell [ref=e1684]:
+              - button "Border/Brand/2" [ref=e1685] [cursor=pointer]:
+                - code [ref=e1687]: Border/Brand/2
+                - generic [ref=e1688]: "#6495FF"
+            - cell [ref=e1689]:
+              - button "Border/Brand/3" [ref=e1690] [cursor=pointer]:
+                - code [ref=e1692]: Border/Brand/3
+                - generic [ref=e1693]: "#B5CCFC"
+          - row [ref=e1694]:
+            - rowheader "Dark Border/Brand" [ref=e1695]: DarkBorder/Brand
+            - cell [ref=e1696]:
+              - button "Dark Border/Brand/1" [ref=e1697] [cursor=pointer]:
+                - code [ref=e1699]: Border/Brand/1
+                - generic [ref=e1700]: "#2A5DCB"
+            - cell [ref=e1701]:
+              - button "Dark Border/Brand/2" [ref=e1702] [cursor=pointer]:
+                - code [ref=e1704]: Border/Brand/2
+                - generic [ref=e1705]: "#3054A4"
+            - cell [ref=e1706]:
+              - button "Dark Border/Brand/3" [ref=e1707] [cursor=pointer]:
+                - code [ref=e1709]: Border/Brand/3
+                - generic [ref=e1710]: "#233B71"
+      - table "Background/Neutral" [ref=e1712]:
+        - caption [ref=e1713]: Background/Neutral · 中性
+        - rowgroup [ref=e1714]:
+          - row [ref=e1715]:
+            - columnheader "模式 / 类别" [ref=e1716]
+            - columnheader "第 1 级" [ref=e1717]
+            - columnheader "第 2 级" [ref=e1718]
+            - columnheader "第 3 级" [ref=e1719]
+            - columnheader "第 4 级" [ref=e1720]
+            - columnheader "第 5 级" [ref=e1721]
+        - rowgroup [ref=e1722]:
+          - row [ref=e1723]:
+            - rowheader "Light Background/Neutral" [ref=e1724]: LightBackground/Neutral
+            - cell [ref=e1725]:
+              - button "Background/Neutral/1" [ref=e1726] [cursor=pointer]:
+                - code [ref=e1728]: Background/Neutral/1
+                - generic [ref=e1729]: "#FFFFFF"
+            - cell [ref=e1730]:
+              - button "Background/Neutral/2" [ref=e1731] [cursor=pointer]:
+                - code [ref=e1733]: Background/Neutral/2
+                - generic [ref=e1734]: "#F7F9FF"
+            - cell [ref=e1735]:
+              - button "Background/Neutral/3" [ref=e1736] [cursor=pointer]:
+                - code [ref=e1738]: Background/Neutral/3
+                - generic [ref=e1739]: "#F2F4FF"
+            - cell [ref=e1740]:
+              - button "Background/Neutral/4" [ref=e1741] [cursor=pointer]:
+                - code [ref=e1743]: Background/Neutral/4
+                - generic [ref=e1744]: "#EBEFFF"
+            - cell [ref=e1745]:
+              - button "Background/Neutral/5" [ref=e1746] [cursor=pointer]:
+                - code [ref=e1748]: Background/Neutral/5
+                - generic [ref=e1749]: "#E3E9FD"
+          - row [ref=e1750]:
+            - rowheader "Dark Background/Neutral" [ref=e1751]: DarkBackground/Neutral
+            - cell [ref=e1752]:
+              - button "Dark Background/Neutral/1" [ref=e1753] [cursor=pointer]:
+                - code [ref=e1755]: Background/Neutral/1
+                - generic [ref=e1756]: "#1E243B"
+            - cell [ref=e1757]:
+              - button "Dark Background/Neutral/2" [ref=e1758] [cursor=pointer]:
+                - code [ref=e1760]: Background/Neutral/2
+                - generic [ref=e1761]: "#1A1F33"
+            - cell [ref=e1762]:
+              - button "Dark Background/Neutral/3" [ref=e1763] [cursor=pointer]:
+                - code [ref=e1765]: Background/Neutral/3
+                - generic [ref=e1766]: "#15192B"
+            - cell [ref=e1767]:
+              - button "Dark Background/Neutral/4" [ref=e1768] [cursor=pointer]:
+                - code [ref=e1770]: Background/Neutral/4
+                - generic [ref=e1771]: "#101322"
+            - cell [ref=e1772]:
+              - button "Dark Background/Neutral/5" [ref=e1773] [cursor=pointer]:
+                - code [ref=e1775]: Background/Neutral/5
+                - generic [ref=e1776]: "#05070E"
+      - table "Background/Dark" [ref=e1778]:
+        - caption [ref=e1779]: Background/Dark · 深色表面
+        - rowgroup [ref=e1780]:
+          - row [ref=e1781]:
+            - columnheader "模式 / 类别" [ref=e1782]
+            - columnheader "第 1 级" [ref=e1783]
+            - columnheader "第 2 级" [ref=e1784]
+            - columnheader "第 3 级" [ref=e1785]
+        - rowgroup [ref=e1786]:
+          - row [ref=e1787]:
+            - rowheader "Light Background/Dark" [ref=e1788]: LightBackground/Dark
+            - cell [ref=e1789]:
+              - button "Background/Dark/1" [ref=e1790] [cursor=pointer]:
+                - code [ref=e1792]: Background/Dark/1
+                - generic [ref=e1793]: "#15192B"
+            - cell [ref=e1794]:
+              - button "Background/Dark/2" [ref=e1795] [cursor=pointer]:
+                - code [ref=e1797]: Background/Dark/2
+                - generic [ref=e1798]: "#32364B"
+            - cell [ref=e1799]:
+              - button "Background/Dark/3" [ref=e1800] [cursor=pointer]:
+                - code [ref=e1802]: Background/Dark/3
+                - generic [ref=e1803]: "#535970"
+          - row [ref=e1804]:
+            - rowheader "Dark Background/Dark" [ref=e1805]: DarkBackground/Dark
+            - cell [ref=e1806]:
+              - button "Dark Background/Dark/1" [ref=e1807] [cursor=pointer]:
+                - code [ref=e1809]: Background/Dark/1
+                - generic [ref=e1810]: "#646D91"
+            - cell [ref=e1811]:
+              - button "Dark Background/Dark/2" [ref=e1812] [cursor=pointer]:
+                - code [ref=e1814]: Background/Dark/2
+                - generic [ref=e1815]: "#ABB2CC"
+            - cell [ref=e1816]:
+              - button "Dark Background/Dark/3" [ref=e1817] [cursor=pointer]:
+                - code [ref=e1819]: Background/Dark/3
+                - generic [ref=e1820]: "#E5EBFF"
+      - table "Fill/Neutral/Solid" [ref=e1822]:
+        - caption [ref=e1823]: Fill/Neutral/Solid · 中性
+        - rowgroup [ref=e1824]:
+          - row [ref=e1825]:
+            - columnheader "模式 / 类别" [ref=e1826]
+            - columnheader "第 1 级" [ref=e1827]
+            - columnheader "第 2 级" [ref=e1828]
+            - columnheader "第 3 级" [ref=e1829]
+            - columnheader "第 4 级" [ref=e1830]
+            - columnheader "第 5 级" [ref=e1831]
+            - columnheader "第 6 级" [ref=e1832]
+            - columnheader "第 7 级" [ref=e1833]
+        - rowgroup [ref=e1834]:
+          - row [ref=e1835]:
+            - rowheader "Light Fill/Neutral/Solid" [ref=e1836]: LightFill/Neutral/Solid
+            - cell [ref=e1837]:
+              - button "Fill/Neutral/Solid/1" [ref=e1838] [cursor=pointer]:
+                - code [ref=e1840]: Fill/Neutral/Solid/1
+                - generic [ref=e1841]: "#CCD4ED"
+            - cell [ref=e1842]:
+              - button "Fill/Neutral/Solid/2" [ref=e1843] [cursor=pointer]:
+                - code [ref=e1845]: Fill/Neutral/Solid/2
+                - generic [ref=e1846]: "#D7DEF5"
+            - cell [ref=e1847]:
+              - button "Fill/Neutral/Solid/3" [ref=e1848] [cursor=pointer]:
+                - code [ref=e1850]: Fill/Neutral/Solid/3
+                - generic [ref=e1851]: "#E3E9FD"
+            - cell [ref=e1852]:
+              - button "Fill/Neutral/Solid/4" [ref=e1853] [cursor=pointer]:
+                - code [ref=e1855]: Fill/Neutral/Solid/4
+                - generic [ref=e1856]: "#EBEFFF"
+            - cell [ref=e1857]:
+              - button "Fill/Neutral/Solid/5" [ref=e1858] [cursor=pointer]:
+                - code [ref=e1860]: Fill/Neutral/Solid/5
+                - generic [ref=e1861]: "#F2F4FF"
+            - cell [ref=e1862]:
+              - button "Fill/Neutral/Solid/6" [ref=e1863] [cursor=pointer]:
+                - code [ref=e1865]: Fill/Neutral/Solid/6
+                - generic [ref=e1866]: "#F5F7FE"
+            - cell [ref=e1867]:
+              - button "Fill/Neutral/Solid/7" [ref=e1868] [cursor=pointer]:
+                - code [ref=e1870]: Fill/Neutral/Solid/7
+                - generic [ref=e1871]: "#FFFFFF"
+          - row [ref=e1872]:
+            - rowheader "Dark Fill/Neutral/Solid" [ref=e1873]: DarkFill/Neutral/Solid
+            - cell [ref=e1874]:
+              - button "Dark Fill/Neutral/Solid/1" [ref=e1875] [cursor=pointer]:
+                - code [ref=e1877]: Fill/Neutral/Solid/1
+                - generic [ref=e1878]: "#2D3452"
+            - cell [ref=e1879]:
+              - button "Dark Fill/Neutral/Solid/2" [ref=e1880] [cursor=pointer]:
+                - code [ref=e1882]: Fill/Neutral/Solid/2
+                - generic [ref=e1883]: "#2A304A"
+            - cell [ref=e1884]:
+              - button "Dark Fill/Neutral/Solid/3" [ref=e1885] [cursor=pointer]:
+                - code [ref=e1887]: Fill/Neutral/Solid/3
+                - generic [ref=e1888]: "#242A41"
+            - cell [ref=e1889]:
+              - button "Dark Fill/Neutral/Solid/4" [ref=e1890] [cursor=pointer]:
+                - code [ref=e1892]: Fill/Neutral/Solid/4
+                - generic [ref=e1893]: "#1F2439"
+            - cell [ref=e1894]:
+              - button "Dark Fill/Neutral/Solid/5" [ref=e1895] [cursor=pointer]:
+                - code [ref=e1897]: Fill/Neutral/Solid/5
+                - generic [ref=e1898]: "#181C2B"
+            - cell [ref=e1899]:
+              - button "Dark Fill/Neutral/Solid/6" [ref=e1900] [cursor=pointer]:
+                - code [ref=e1902]: Fill/Neutral/Solid/6
+                - generic [ref=e1903]: "#131726"
+            - cell [ref=e1904]:
+              - button "Dark Fill/Neutral/Solid/7" [ref=e1905] [cursor=pointer]:
+                - code [ref=e1907]: Fill/Neutral/Solid/7
+                - generic [ref=e1908]: "#070B1D"
+      - table "Fill/Neutral/Alpha" [ref=e1910]:
+        - caption [ref=e1911]: Fill/Neutral/Alpha · 中性
+        - rowgroup [ref=e1912]:
+          - row [ref=e1913]:
+            - columnheader "模式 / 类别" [ref=e1914]
+            - columnheader "第 1 级" [ref=e1915]
+            - columnheader "第 2 级" [ref=e1916]
+            - columnheader "第 3 级" [ref=e1917]
+            - columnheader "第 4 级" [ref=e1918]
+            - columnheader "第 5 级" [ref=e1919]
+            - columnheader "第 6 级" [ref=e1920]
+        - rowgroup [ref=e1921]:
+          - row [ref=e1922]:
+            - rowheader "Light Fill/Neutral/Alpha" [ref=e1923]: LightFill/Neutral/Alpha
+            - cell [ref=e1924]:
+              - button "Fill/Neutral/Alpha/1" [ref=e1925] [cursor=pointer]:
+                - code [ref=e1927]: Fill/Neutral/Alpha/1
+                - generic [ref=e1928]: "#546CC6 · 28%"
+            - cell [ref=e1929]:
+              - button "Fill/Neutral/Alpha/2" [ref=e1930] [cursor=pointer]:
+                - code [ref=e1932]: Fill/Neutral/Alpha/2
+                - generic [ref=e1933]: "#4A66D1 · 20%"
+            - cell [ref=e1934]:
+              - button "Fill/Neutral/Alpha/3" [ref=e1935] [cursor=pointer]:
+                - code [ref=e1937]: Fill/Neutral/Alpha/3
+                - generic [ref=e1938]: "#5075FE · 16%"
+            - cell [ref=e1939]:
+              - button "Fill/Neutral/Alpha/4" [ref=e1940] [cursor=pointer]:
+                - code [ref=e1942]: Fill/Neutral/Alpha/4
+                - generic [ref=e1943]: "#5075FE · 12%"
+            - cell [ref=e1944]:
+              - button "Fill/Neutral/Alpha/5" [ref=e1945] [cursor=pointer]:
+                - code [ref=e1947]: Fill/Neutral/Alpha/5
+                - generic [ref=e1948]: "#5577F4 · 10%"
+            - cell [ref=e1949]:
+              - button "Fill/Neutral/Alpha/6" [ref=e1950] [cursor=pointer]:
+                - code [ref=e1952]: Fill/Neutral/Alpha/6
+                - generic [ref=e1953]: "#5570F4 · 6%"
+          - row [ref=e1954]:
+            - rowheader "Dark Fill/Neutral/Alpha" [ref=e1955]: DarkFill/Neutral/Alpha
+            - cell [ref=e1956]:
+              - button "Dark Fill/Neutral/Alpha/1" [ref=e1957] [cursor=pointer]:
+                - code [ref=e1959]: Fill/Neutral/Alpha/1
+                - generic [ref=e1960]: "#6E81C8 · 40%"
+            - cell [ref=e1961]:
+              - button "Dark Fill/Neutral/Alpha/2" [ref=e1962] [cursor=pointer]:
+                - code [ref=e1964]: Fill/Neutral/Alpha/2
+                - generic [ref=e1965]: "#566AB5 · 30%"
+            - cell [ref=e1966]:
+              - button "Dark Fill/Neutral/Alpha/3" [ref=e1967] [cursor=pointer]:
+                - code [ref=e1969]: Fill/Neutral/Alpha/3
+                - generic [ref=e1970]: "#566AB5 · 20%"
+            - cell [ref=e1971]:
+              - button "Dark Fill/Neutral/Alpha/4" [ref=e1972] [cursor=pointer]:
+                - code [ref=e1974]: Fill/Neutral/Alpha/4
+                - generic [ref=e1975]: "#566AB5 · 15%"
+            - cell [ref=e1976]:
+              - button "Dark Fill/Neutral/Alpha/5" [ref=e1977] [cursor=pointer]:
+                - code [ref=e1979]: Fill/Neutral/Alpha/5
+                - generic [ref=e1980]: "#566AB5 · 10%"
+            - cell [ref=e1981]:
+              - button "Dark Fill/Neutral/Alpha/6" [ref=e1982] [cursor=pointer]:
+                - code [ref=e1984]: Fill/Neutral/Alpha/6
+                - generic [ref=e1985]: "#566AB5 · 6%"
+      - table "Fill/Brand/Solid" [ref=e1987]:
+        - caption [ref=e1988]: Fill/Brand/Solid · 品牌蓝
+        - rowgroup [ref=e1989]:
+          - row [ref=e1990]:
+            - columnheader "模式 / 类别" [ref=e1991]
+            - columnheader "第 1 级" [ref=e1992]
+            - columnheader "第 2 级" [ref=e1993]
+            - columnheader "第 3 级" [ref=e1994]
+            - columnheader "第 4 级" [ref=e1995]
+        - rowgroup [ref=e1996]:
+          - row [ref=e1997]:
+            - rowheader "Light Fill/Brand/Solid" [ref=e1998]: LightFill/Brand/Solid
+            - cell [ref=e1999]:
+              - button "Fill/Brand/Solid/1" [ref=e2000] [cursor=pointer]:
+                - code [ref=e2002]: Fill/Brand/Solid/1
+                - generic [ref=e2003]: "#0F55DF"
+            - cell [ref=e2004]:
+              - button "Fill/Brand/Solid/2" [ref=e2005] [cursor=pointer]:
+                - code [ref=e2007]: Fill/Brand/Solid/2
+                - generic [ref=e2008]: "#1561F8"
+            - cell [ref=e2009]:
+              - button "Fill/Brand/Solid/3" [ref=e2010] [cursor=pointer]:
+                - code [ref=e2012]: Fill/Brand/Solid/3
+                - generic [ref=e2013]: "#C6D8FF"
+            - cell [ref=e2014]:
+              - button "Fill/Brand/Solid/4" [ref=e2015] [cursor=pointer]:
+                - code [ref=e2017]: Fill/Brand/Solid/4
+                - generic [ref=e2018]: "#E0EAFF"
+          - row [ref=e2019]:
+            - rowheader "Dark Fill/Brand/Solid" [ref=e2020]: DarkFill/Brand/Solid
+            - cell [ref=e2021]:
+              - button "Dark Fill/Brand/Solid/1" [ref=e2022] [cursor=pointer]:
+                - code [ref=e2024]: Fill/Brand/Solid/1
+                - generic [ref=e2025]: "#3C7AFF"
+            - cell [ref=e2026]:
+              - button "Dark Fill/Brand/Solid/2" [ref=e2027] [cursor=pointer]:
+                - code [ref=e2029]: Fill/Brand/Solid/2
+                - generic [ref=e2030]: "#266BFF"
+            - cell [ref=e2031]:
+              - button "Dark Fill/Brand/Solid/3" [ref=e2032] [cursor=pointer]:
+                - code [ref=e2034]: Fill/Brand/Solid/3
+                - generic [ref=e2035]: "#273B7C"
+            - cell [ref=e2036]:
+              - button "Dark Fill/Brand/Solid/4" [ref=e2037] [cursor=pointer]:
+                - code [ref=e2039]: Fill/Brand/Solid/4
+                - generic [ref=e2040]: "#203065"
+      - table "Fill/Brand/Alpha" [ref=e2042]:
+        - caption [ref=e2043]: Fill/Brand/Alpha · 品牌蓝
+        - rowgroup [ref=e2044]:
+          - row [ref=e2045]:
+            - columnheader "模式 / 类别" [ref=e2046]
+            - columnheader "第 1 级" [ref=e2047]
+            - columnheader "第 2 级" [ref=e2048]
+            - columnheader "第 3 级" [ref=e2049]
+            - columnheader "第 4 级" [ref=e2050]
+        - rowgroup [ref=e2051]:
+          - row [ref=e2052]:
+            - rowheader "Light Fill/Brand/Alpha" [ref=e2053]: LightFill/Brand/Alpha
+            - cell [ref=e2054]:
+              - button "Fill/Brand/Alpha/1" [ref=e2055] [cursor=pointer]:
+                - code [ref=e2057]: Fill/Brand/Alpha/1
+                - generic [ref=e2058]: "#003AAD · 85%"
+            - cell [ref=e2059]:
+              - button "Fill/Brand/Alpha/2" [ref=e2060] [cursor=pointer]:
+                - code [ref=e2062]: Fill/Brand/Alpha/2
+                - generic [ref=e2063]: "#154DBE · 65%"
+            - cell [ref=e2064]:
+              - button "Fill/Brand/Alpha/3" [ref=e2065] [cursor=pointer]:
+                - code [ref=e2067]: Fill/Brand/Alpha/3
+                - generic [ref=e2068]: "#3D7BFF · 20%"
+            - cell [ref=e2069]:
+              - button "Fill/Brand/Alpha/4" [ref=e2070] [cursor=pointer]:
+                - code [ref=e2072]: Fill/Brand/Alpha/4
+                - generic [ref=e2073]: "#3D7BFF · 10%"
+          - row [ref=e2074]:
+            - rowheader "Dark Fill/Brand/Alpha" [ref=e2075]: DarkFill/Brand/Alpha
+            - cell [ref=e2076]:
+              - button "Dark Fill/Brand/Alpha/1" [ref=e2077] [cursor=pointer]:
+                - code [ref=e2079]: Fill/Brand/Alpha/1
+                - generic [ref=e2080]: "#3577FB · 85%"
+            - cell [ref=e2081]:
+              - button "Dark Fill/Brand/Alpha/2" [ref=e2082] [cursor=pointer]:
+                - code [ref=e2084]: Fill/Brand/Alpha/2
+                - generic [ref=e2085]: "#2164EB · 75%"
+            - cell [ref=e2086]:
+              - button "Dark Fill/Brand/Alpha/3" [ref=e2087] [cursor=pointer]:
+                - code [ref=e2089]: Fill/Brand/Alpha/3
+                - generic [ref=e2090]: "#3860FF · 30%"
+            - cell [ref=e2091]:
+              - button "Dark Fill/Brand/Alpha/4" [ref=e2092] [cursor=pointer]:
+                - code [ref=e2094]: Fill/Brand/Alpha/4
+                - generic [ref=e2095]: "#145FFF · 10%"
+      - table "OnColor" [ref=e2097]:
+        - caption [ref=e2098]: OnColor · 按用途选择
+        - rowgroup [ref=e2099]:
+          - row [ref=e2100]:
+            - columnheader "模式 / 类别" [ref=e2101]
+            - columnheader "第 1 级" [ref=e2102]
+            - columnheader "第 2 级" [ref=e2103]
+            - columnheader "第 3 级" [ref=e2104]
+            - columnheader "第 4 级" [ref=e2105]
+            - columnheader "第 5 级" [ref=e2106]
+        - rowgroup [ref=e2107]:
+          - row [ref=e2108]:
+            - rowheader "Light OnColor" [ref=e2109]: LightOnColor
+            - cell [ref=e2110]:
+              - button "OnColor/1" [ref=e2111] [cursor=pointer]:
+                - code [ref=e2113]: OnColor/1
+                - generic [ref=e2114]: "#FFFFFF"
+            - cell [ref=e2115]:
+              - button "OnColor/2" [ref=e2116] [cursor=pointer]:
+                - code [ref=e2118]: OnColor/2
+                - generic [ref=e2119]: "#FFFFFF · 85%"
+            - cell [ref=e2120]:
+              - button "OnColor/3" [ref=e2121] [cursor=pointer]:
+                - code [ref=e2123]: OnColor/3
+                - generic [ref=e2124]: "#E8F0FF · 75%"
+            - cell [ref=e2125]:
+              - button "OnColor/4" [ref=e2126] [cursor=pointer]:
+                - code [ref=e2128]: OnColor/4
+                - generic [ref=e2129]: "#D8E0FF · 45%"
+            - cell [ref=e2130]:
+              - button "OnColor/5" [ref=e2131] [cursor=pointer]:
+                - code [ref=e2133]: OnColor/5
+                - generic [ref=e2134]: "#D8E0FF · 25%"
+          - row [ref=e2135]:
+            - rowheader "Dark OnColor" [ref=e2136]: DarkOnColor
+            - cell [ref=e2137]:
+              - button "Dark OnColor/1" [ref=e2138] [cursor=pointer]:
+                - code [ref=e2140]: OnColor/1
+                - generic [ref=e2141]: "#FFFFFF"
+            - cell [ref=e2142]:
+              - button "Dark OnColor/2" [ref=e2143] [cursor=pointer]:
+                - code [ref=e2145]: OnColor/2
+                - generic [ref=e2146]: "#FFFFFF · 90%"
+            - cell [ref=e2147]:
+              - button "Dark OnColor/3" [ref=e2148] [cursor=pointer]:
+                - code [ref=e2150]: OnColor/3
+                - generic [ref=e2151]: "#FFFFFF · 80%"
+            - cell [ref=e2152]:
+              - button "Dark OnColor/4" [ref=e2153] [cursor=pointer]:
+                - code [ref=e2155]: OnColor/4
+                - generic [ref=e2156]: "#E4E9FF · 55%"
+            - cell [ref=e2157]:
+              - button "Dark OnColor/5" [ref=e2158] [cursor=pointer]:
+                - code [ref=e2160]: OnColor/5
+                - generic [ref=e2161]: "#E5EAFF · 30%"
+      - table "Border/Second" [ref=e2163]:
+        - caption [ref=e2164]: Border/Second · Second
+        - rowgroup [ref=e2165]:
+          - row [ref=e2166]:
+            - columnheader "模式 / 类别" [ref=e2167]
+            - columnheader "第 1 级" [ref=e2168]
+            - columnheader "第 2 级" [ref=e2169]
+        - rowgroup [ref=e2170]:
+          - row [ref=e2171]:
+            - rowheader "Light Border/Second" [ref=e2172]: LightBorder/Second
+            - cell [ref=e2173]:
+              - button "Border/Second/1" [ref=e2174] [cursor=pointer]:
+                - code [ref=e2176]: Border/Second/1
+                - generic [ref=e2177]: "#5F7DE1"
+            - cell [ref=e2178]:
+              - button "Border/Second/2" [ref=e2179] [cursor=pointer]:
+                - code [ref=e2181]: Border/Second/2
+                - generic [ref=e2182]: "#ACBAEA"
+          - row [ref=e2183]:
+            - rowheader "Dark Border/Second" [ref=e2184]: DarkBorder/Second
+            - cell [ref=e2185]:
+              - button "Dark Border/Second/1" [ref=e2186] [cursor=pointer]:
+                - code [ref=e2188]: Border/Second/1
+                - generic [ref=e2189]: "#4D5B8B"
+            - cell [ref=e2190]:
+              - button "Dark Border/Second/2" [ref=e2191] [cursor=pointer]:
+                - code [ref=e2193]: Border/Second/2
+                - generic [ref=e2194]: "#2C3450"
+      - table "Fill/Second/Solid" [ref=e2196]:
+        - caption [ref=e2197]: Fill/Second/Solid · Second
+        - rowgroup [ref=e2198]:
+          - row [ref=e2199]:
+            - columnheader "模式 / 类别" [ref=e2200]
+            - columnheader "第 1 级" [ref=e2201]
+            - columnheader "第 2 级" [ref=e2202]
+            - columnheader "第 3 级" [ref=e2203]
+        - rowgroup [ref=e2204]:
+          - row [ref=e2205]:
+            - rowheader "Light Fill/Second/Solid" [ref=e2206]: LightFill/Second/Solid
+            - cell [ref=e2207]:
+              - button "Fill/Second/Solid/1" [ref=e2208] [cursor=pointer]:
+                - code [ref=e2210]: Fill/Second/Solid/1
+                - generic [ref=e2211]: "#3752AB"
+            - cell [ref=e2212]:
+              - button "Fill/Second/Solid/2" [ref=e2213] [cursor=pointer]:
+                - code [ref=e2215]: Fill/Second/Solid/2
+                - generic [ref=e2216]: "#365BD6"
+            - cell [ref=e2217]:
+              - button "Fill/Second/Solid/3" [ref=e2218] [cursor=pointer]:
+                - code [ref=e2220]: Fill/Second/Solid/3
+                - generic [ref=e2221]: "#E3E9FC"
+          - row [ref=e2222]:
+            - rowheader "Dark Fill/Second/Solid" [ref=e2223]: DarkFill/Second/Solid
+            - cell [ref=e2224]:
+              - button "Dark Fill/Second/Solid/1" [ref=e2225] [cursor=pointer]:
+                - code [ref=e2227]: Fill/Second/Solid/1
+                - generic [ref=e2228]: "#485380"
+            - cell [ref=e2229]:
+              - button "Dark Fill/Second/Solid/2" [ref=e2230] [cursor=pointer]:
+                - code [ref=e2232]: Fill/Second/Solid/2
+                - generic [ref=e2233]: "#2F3754"
+            - cell [ref=e2234]:
+              - button "Dark Fill/Second/Solid/3" [ref=e2235] [cursor=pointer]:
+                - code [ref=e2237]: Fill/Second/Solid/3
+                - generic [ref=e2238]: "#1F2643"
+      - table "Fill/Second/Alpha" [ref=e2240]:
+        - caption [ref=e2241]: Fill/Second/Alpha · Second
+        - rowgroup [ref=e2242]:
+          - row [ref=e2243]:
+            - columnheader "模式 / 类别" [ref=e2244]
+            - columnheader "第 1 级" [ref=e2245]
+            - columnheader "第 2 级" [ref=e2246]
+        - rowgroup [ref=e2247]:
+          - row [ref=e2248]:
+            - rowheader "Light Fill/Second/Alpha" [ref=e2249]: LightFill/Second/Alpha
+            - cell [ref=e2250]:
+              - button "Fill/Second/Alpha/1" [ref=e2251] [cursor=pointer]:
+                - code [ref=e2253]: Fill/Second/Alpha/1
+                - generic [ref=e2254]: "#4976F2 · 18%"
+            - cell [ref=e2255]:
+              - button "Fill/Second/Alpha/2" [ref=e2256] [cursor=pointer]:
+                - code [ref=e2258]: Fill/Second/Alpha/2
+                - generic [ref=e2259]: "#4976F2 · 10%"
+          - row [ref=e2260]:
+            - rowheader "Dark Fill/Second/Alpha" [ref=e2261]: DarkFill/Second/Alpha
+            - cell [ref=e2262]:
+              - button "Dark Fill/Second/Alpha/1" [ref=e2263] [cursor=pointer]:
+                - code [ref=e2265]: Fill/Second/Alpha/1
+                - generic [ref=e2266]: "#6F92F3 · 18%"
+            - cell [ref=e2267]:
+              - button "Dark Fill/Second/Alpha/2" [ref=e2268] [cursor=pointer]:
+                - code [ref=e2270]: Fill/Second/Alpha/2
+                - generic [ref=e2271]: "#6F92F3 · 10%"
+      - table "Border/Orange" [ref=e2273]:
+        - caption [ref=e2274]: Border/Orange · 橙色
+        - rowgroup [ref=e2275]:
+          - row [ref=e2276]:
+            - columnheader "模式 / 类别" [ref=e2277]
+            - columnheader "第 1 级" [ref=e2278]
+            - columnheader "第 2 级" [ref=e2279]
+        - rowgroup [ref=e2280]:
+          - row [ref=e2281]:
+            - rowheader "Light Border/Orange" [ref=e2282]: LightBorder/Orange
+            - cell [ref=e2283]:
+              - button "Border/Orange/1" [ref=e2284] [cursor=pointer]:
+                - code [ref=e2286]: Border/Orange/1
+                - generic [ref=e2287]: "#F78600"
+            - cell [ref=e2288]:
+              - button "Border/Orange/2" [ref=e2289] [cursor=pointer]:
+                - code [ref=e2291]: Border/Orange/2
+                - generic [ref=e2292]: "#FFD6B7"
+          - row [ref=e2293]:
+            - rowheader "Dark Border/Orange" [ref=e2294]: DarkBorder/Orange
+            - cell [ref=e2295]:
+              - button "Dark Border/Orange/1" [ref=e2296] [cursor=pointer]:
+                - code [ref=e2298]: Border/Orange/1
+                - generic [ref=e2299]: "#F78600"
+            - cell [ref=e2300]:
+              - button "Dark Border/Orange/2" [ref=e2301] [cursor=pointer]:
+                - code [ref=e2303]: Border/Orange/2
+                - generic [ref=e2304]: "#643D17"
+      - table "Fill/Orange/Solid" [ref=e2306]:
+        - caption [ref=e2307]: Fill/Orange/Solid · 橙色
+        - rowgroup [ref=e2308]:
+          - row [ref=e2309]:
+            - columnheader "模式 / 类别" [ref=e2310]
+            - columnheader "第 1 级" [ref=e2311]
+            - columnheader "第 2 级" [ref=e2312]
+            - columnheader "第 3 级" [ref=e2313]
+        - rowgroup [ref=e2314]:
+          - row [ref=e2315]:
+            - rowheader "Light Fill/Orange/Solid" [ref=e2316]: LightFill/Orange/Solid
+            - cell [ref=e2317]:
+              - button "Fill/Orange/Solid/1" [ref=e2318] [cursor=pointer]:
+                - code [ref=e2320]: Fill/Orange/Solid/1
+                - generic [ref=e2321]: "#EB7600"
+            - cell [ref=e2322]:
+              - button "Fill/Orange/Solid/2" [ref=e2323] [cursor=pointer]:
+                - code [ref=e2325]: Fill/Orange/Solid/2
+                - generic [ref=e2326]: "#F78600"
+            - cell [ref=e2327]:
+              - button "Fill/Orange/Solid/3" [ref=e2328] [cursor=pointer]:
+                - code [ref=e2330]: Fill/Orange/Solid/3
+                - generic [ref=e2331]: "#FFF2EB"
+          - row [ref=e2332]:
+            - rowheader "Dark Fill/Orange/Solid" [ref=e2333]: DarkFill/Orange/Solid
+            - cell [ref=e2334]:
+              - button "Dark Fill/Orange/Solid/1" [ref=e2335] [cursor=pointer]:
+                - code [ref=e2337]: Fill/Orange/Solid/1
+                - generic [ref=e2338]: "#FFA53A"
+            - cell [ref=e2339]:
+              - button "Dark Fill/Orange/Solid/2" [ref=e2340] [cursor=pointer]:
+                - code [ref=e2342]: Fill/Orange/Solid/2
+                - generic [ref=e2343]: "#E38618"
+            - cell [ref=e2344]:
+              - button "Dark Fill/Orange/Solid/3" [ref=e2345] [cursor=pointer]:
+                - code [ref=e2347]: Fill/Orange/Solid/3
+                - generic [ref=e2348]: "#28251E"
+      - table "Fill/Orange/Alpha" [ref=e2350]:
+        - caption [ref=e2351]: Fill/Orange/Alpha · 橙色
+        - rowgroup [ref=e2352]:
+          - row [ref=e2353]:
+            - columnheader "模式 / 类别" [ref=e2354]
+            - columnheader "第 1 级" [ref=e2355]
+            - columnheader "第 2 级" [ref=e2356]
+        - rowgroup [ref=e2357]:
+          - row [ref=e2358]:
+            - rowheader "Light Fill/Orange/Alpha" [ref=e2359]: LightFill/Orange/Alpha
+            - cell [ref=e2360]:
+              - button "Fill/Orange/Alpha/1" [ref=e2361] [cursor=pointer]:
+                - code [ref=e2363]: Fill/Orange/Alpha/1
+                - generic [ref=e2364]: "#F78600 · 18%"
+            - cell [ref=e2365]:
+              - button "Fill/Orange/Alpha/2" [ref=e2366] [cursor=pointer]:
+                - code [ref=e2368]: Fill/Orange/Alpha/2
+                - generic [ref=e2369]: "#F78600 · 10%"
+          - row [ref=e2370]:
+            - rowheader "Dark Fill/Orange/Alpha" [ref=e2371]: DarkFill/Orange/Alpha
+            - cell [ref=e2372]:
+              - button "Dark Fill/Orange/Alpha/1" [ref=e2373] [cursor=pointer]:
+                - code [ref=e2375]: Fill/Orange/Alpha/1
+                - generic [ref=e2376]: "#E38618 · 18%"
+            - cell [ref=e2377]:
+              - button "Dark Fill/Orange/Alpha/2" [ref=e2378] [cursor=pointer]:
+                - code [ref=e2380]: Fill/Orange/Alpha/2
+                - generic [ref=e2381]: "#E38618 · 10%"
+      - table "Border/Green" [ref=e2383]:
+        - caption [ref=e2384]: Border/Green · 绿色
+        - rowgroup [ref=e2385]:
+          - row [ref=e2386]:
+            - columnheader "模式 / 类别" [ref=e2387]
+            - columnheader "第 1 级" [ref=e2388]
+            - columnheader "第 2 级" [ref=e2389]
+        - rowgroup [ref=e2390]:
+          - row [ref=e2391]:
+            - rowheader "Light Border/Green" [ref=e2392]: LightBorder/Green
+            - cell [ref=e2393]:
+              - button "Border/Green/1" [ref=e2394] [cursor=pointer]:
+                - code [ref=e2396]: Border/Green/1
+                - generic [ref=e2397]: "#14BF82"
+            - cell [ref=e2398]:
+              - button "Border/Green/2" [ref=e2399] [cursor=pointer]:
+                - code [ref=e2401]: Border/Green/2
+                - generic [ref=e2402]: "#98DAC5"
+          - row [ref=e2403]:
+            - rowheader "Dark Border/Green" [ref=e2404]: DarkBorder/Green
+            - cell [ref=e2405]:
+              - button "Dark Border/Green/1" [ref=e2406] [cursor=pointer]:
+                - code [ref=e2408]: Border/Green/1
+                - generic [ref=e2409]: "#14BF82"
+            - cell [ref=e2410]:
+              - button "Dark Border/Green/2" [ref=e2411] [cursor=pointer]:
+                - code [ref=e2413]: Border/Green/2
+                - generic [ref=e2414]: "#155243"
+      - table "Fill/Green/Solid" [ref=e2416]:
+        - caption [ref=e2417]: Fill/Green/Solid · 绿色
+        - rowgroup [ref=e2418]:
+          - row [ref=e2419]:
+            - columnheader "模式 / 类别" [ref=e2420]
+            - columnheader "第 1 级" [ref=e2421]
+            - columnheader "第 2 级" [ref=e2422]
+            - columnheader "第 3 级" [ref=e2423]
+        - rowgroup [ref=e2424]:
+          - row [ref=e2425]:
+            - rowheader "Light Fill/Green/Solid" [ref=e2426]: LightFill/Green/Solid
+            - cell [ref=e2427]:
+              - button "Fill/Green/Solid/1" [ref=e2428] [cursor=pointer]:
+                - code [ref=e2430]: Fill/Green/Solid/1
+                - generic [ref=e2431]: "#0E9954"
+            - cell [ref=e2432]:
+              - button "Fill/Green/Solid/2" [ref=e2433] [cursor=pointer]:
+                - code [ref=e2435]: Fill/Green/Solid/2
+                - generic [ref=e2436]: "#14B565"
+            - cell [ref=e2437]:
+              - button "Fill/Green/Solid/3" [ref=e2438] [cursor=pointer]:
+                - code [ref=e2440]: Fill/Green/Solid/3
+                - generic [ref=e2441]: "#E7F9F2"
+          - row [ref=e2442]:
+            - rowheader "Dark Fill/Green/Solid" [ref=e2443]: DarkFill/Green/Solid
+            - cell [ref=e2444]:
+              - button "Dark Fill/Green/Solid/1" [ref=e2445] [cursor=pointer]:
+                - code [ref=e2447]: Fill/Green/Solid/1
+                - generic [ref=e2448]: "#01AF73"
+            - cell [ref=e2449]:
+              - button "Dark Fill/Green/Solid/2" [ref=e2450] [cursor=pointer]:
+                - code [ref=e2452]: Fill/Green/Solid/2
+                - generic [ref=e2453]: "#006E48"
+            - cell [ref=e2454]:
+              - button "Dark Fill/Green/Solid/3" [ref=e2455] [cursor=pointer]:
+                - code [ref=e2457]: Fill/Green/Solid/3
+                - generic [ref=e2458]: "#192C27"
+      - table "Fill/Green/Alpha" [ref=e2460]:
+        - caption [ref=e2461]: Fill/Green/Alpha · 绿色
+        - rowgroup [ref=e2462]:
+          - row [ref=e2463]:
+            - columnheader "模式 / 类别" [ref=e2464]
+            - columnheader "第 1 级" [ref=e2465]
+            - columnheader "第 2 级" [ref=e2466]
+        - rowgroup [ref=e2467]:
+          - row [ref=e2468]:
+            - rowheader "Light Fill/Green/Alpha" [ref=e2469]: LightFill/Green/Alpha
+            - cell [ref=e2470]:
+              - button "Fill/Green/Alpha/1" [ref=e2471] [cursor=pointer]:
+                - code [ref=e2473]: Fill/Green/Alpha/1
+                - generic [ref=e2474]: "#14B565 · 18%"
+            - cell [ref=e2475]:
+              - button "Fill/Green/Alpha/2" [ref=e2476] [cursor=pointer]:
+                - code [ref=e2478]: Fill/Green/Alpha/2
+                - generic [ref=e2479]: "#14B565 · 10%"
+          - row [ref=e2480]:
+            - rowheader "Dark Fill/Green/Alpha" [ref=e2481]: DarkFill/Green/Alpha
+            - cell [ref=e2482]:
+              - button "Dark Fill/Green/Alpha/1" [ref=e2483] [cursor=pointer]:
+                - code [ref=e2485]: Fill/Green/Alpha/1
+                - generic [ref=e2486]: "#00FFB2 · 18%"
+            - cell [ref=e2487]:
+              - button "Dark Fill/Green/Alpha/2" [ref=e2488] [cursor=pointer]:
+                - code [ref=e2490]: Fill/Green/Alpha/2
+                - generic [ref=e2491]: "#00FFB2 · 10%"
+      - table "Border/Red" [ref=e2493]:
+        - caption [ref=e2494]: Border/Red · 红色
+        - rowgroup [ref=e2495]:
+          - row [ref=e2496]:
+            - columnheader "模式 / 类别" [ref=e2497]
+            - columnheader "第 1 级" [ref=e2498]
+            - columnheader "第 2 级" [ref=e2499]
+        - rowgroup [ref=e2500]:
+          - row [ref=e2501]:
+            - rowheader "Light Border/Red" [ref=e2502]: LightBorder/Red
+            - cell [ref=e2503]:
+              - button "Border/Red/1" [ref=e2504] [cursor=pointer]:
+                - code [ref=e2506]: Border/Red/1
+                - generic [ref=e2507]: "#F34848"
+            - cell [ref=e2508]:
+              - button "Border/Red/2" [ref=e2509] [cursor=pointer]:
+                - code [ref=e2511]: Border/Red/2
+                - generic [ref=e2512]: "#F5BABC"
+          - row [ref=e2513]:
+            - rowheader "Dark Border/Red" [ref=e2514]: DarkBorder/Red
+            - cell [ref=e2515]:
+              - button "Dark Border/Red/1" [ref=e2516] [cursor=pointer]:
+                - code [ref=e2518]: Border/Red/1
+                - generic [ref=e2519]: "#63292F"
+            - cell [ref=e2520]:
+              - button "Dark Border/Red/2" [ref=e2521] [cursor=pointer]:
+                - code [ref=e2523]: Border/Red/2
+                - generic [ref=e2524]: "#3C2835"
+      - table "Fill/Red/Solid" [ref=e2526]:
+        - caption [ref=e2527]: Fill/Red/Solid · 红色
+        - rowgroup [ref=e2528]:
+          - row [ref=e2529]:
+            - columnheader "模式 / 类别" [ref=e2530]
+            - columnheader "第 1 级" [ref=e2531]
+            - columnheader "第 2 级" [ref=e2532]
+            - columnheader "第 3 级" [ref=e2533]
+        - rowgroup [ref=e2534]:
+          - row [ref=e2535]:
+            - rowheader "Light Fill/Red/Solid" [ref=e2536]: LightFill/Red/Solid
+            - cell [ref=e2537]:
+              - button "Fill/Red/Solid/1" [ref=e2538] [cursor=pointer]:
+                - code [ref=e2540]: Fill/Red/Solid/1
+                - generic [ref=e2541]: "#E13843"
+            - cell [ref=e2542]:
+              - button "Fill/Red/Solid/2" [ref=e2543] [cursor=pointer]:
+                - code [ref=e2545]: Fill/Red/Solid/2
+                - generic [ref=e2546]: "#F34848"
+            - cell [ref=e2547]:
+              - button "Fill/Red/Solid/3" [ref=e2548] [cursor=pointer]:
+                - code [ref=e2550]: Fill/Red/Solid/3
+                - generic [ref=e2551]: "#FCEDED"
+          - row [ref=e2552]:
+            - rowheader "Dark Fill/Red/Solid" [ref=e2553]: DarkFill/Red/Solid
+            - cell [ref=e2554]:
+              - button "Dark Fill/Red/Solid/1" [ref=e2555] [cursor=pointer]:
+                - code [ref=e2557]: Fill/Red/Solid/1
+                - generic [ref=e2558]: "#F34848"
+            - cell [ref=e2559]:
+              - button "Dark Fill/Red/Solid/2" [ref=e2560] [cursor=pointer]:
+                - code [ref=e2562]: Fill/Red/Solid/2
+                - generic [ref=e2563]: "#AE313A"
+            - cell [ref=e2564]:
+              - button "Dark Fill/Red/Solid/3" [ref=e2565] [cursor=pointer]:
+                - code [ref=e2567]: Fill/Red/Solid/3
+                - generic [ref=e2568]: "#301F1F"
+      - table "Fill/Red/Alpha" [ref=e2570]:
+        - caption [ref=e2571]: Fill/Red/Alpha · 红色
+        - rowgroup [ref=e2572]:
+          - row [ref=e2573]:
+            - columnheader "模式 / 类别" [ref=e2574]
+            - columnheader "第 1 级" [ref=e2575]
+            - columnheader "第 2 级" [ref=e2576]
+        - rowgroup [ref=e2577]:
+          - row [ref=e2578]:
+            - rowheader "Light Fill/Red/Alpha" [ref=e2579]: LightFill/Red/Alpha
+            - cell [ref=e2580]:
+              - button "Fill/Red/Alpha/1" [ref=e2581] [cursor=pointer]:
+                - code [ref=e2583]: Fill/Red/Alpha/1
+                - generic [ref=e2584]: "#F34848 · 18%"
+            - cell [ref=e2585]:
+              - button "Fill/Red/Alpha/2" [ref=e2586] [cursor=pointer]:
+                - code [ref=e2588]: Fill/Red/Alpha/2
+                - generic [ref=e2589]: "#F34848 · 10%"
+          - row [ref=e2590]:
+            - rowheader "Dark Fill/Red/Alpha" [ref=e2591]: DarkFill/Red/Alpha
+            - cell [ref=e2592]:
+              - button "Dark Fill/Red/Alpha/1" [ref=e2593] [cursor=pointer]:
+                - code [ref=e2595]: Fill/Red/Alpha/1
+                - generic [ref=e2596]: "#F34848 · 18%"
+            - cell [ref=e2597]:
+              - button "Dark Fill/Red/Alpha/2" [ref=e2598] [cursor=pointer]:
+                - code [ref=e2600]: Fill/Red/Alpha/2
+                - generic [ref=e2601]: "#F34848 · 10%"
+      - table "Border/TagClassroom" [ref=e2603]:
+        - caption [ref=e2604]: Border/TagClassroom · 翠绿
+        - rowgroup [ref=e2605]:
+          - row [ref=e2606]:
+            - columnheader "模式 / 类别" [ref=e2607]
+            - columnheader "第 1 级" [ref=e2608]
+        - rowgroup [ref=e2609]:
+          - row [ref=e2610]:
+            - rowheader "Light Border/TagClassroom" [ref=e2611]: LightBorder/TagClassroom
+            - cell [ref=e2612]:
+              - button "Border/TagClassroom/1" [ref=e2613] [cursor=pointer]:
+                - code [ref=e2615]: Border/TagClassroom/1
+                - generic [ref=e2616]: "#019550 · 35%"
+          - row [ref=e2617]:
+            - rowheader "Dark Border/TagClassroom" [ref=e2618]: DarkBorder/TagClassroom
+            - cell [ref=e2619]:
+              - button "Dark Border/TagClassroom/1" [ref=e2620] [cursor=pointer]:
+                - code [ref=e2622]: Border/TagClassroom/1
+                - generic [ref=e2623]: "#01A458 · 66%"
+      - table "Fill/TagClassroom/Solid" [ref=e2625]:
+        - caption [ref=e2626]: Fill/TagClassroom/Solid · 翠绿
+        - rowgroup [ref=e2627]:
+          - row [ref=e2628]:
+            - columnheader "模式 / 类别" [ref=e2629]
+            - columnheader "第 1 级" [ref=e2630]
+        - rowgroup [ref=e2631]:
+          - row [ref=e2632]:
+            - rowheader "Light Fill/TagClassroom/Solid" [ref=e2633]: LightFill/TagClassroom/Solid
+            - cell [ref=e2634]:
+              - button "Fill/TagClassroom/Solid/1" [ref=e2635] [cursor=pointer]:
+                - code [ref=e2637]: Fill/TagClassroom/Solid/1
+                - generic [ref=e2638]: "#59A17F"
+          - row [ref=e2639]:
+            - rowheader "Dark Fill/TagClassroom/Solid" [ref=e2640]: DarkFill/TagClassroom/Solid
+            - cell [ref=e2641]:
+              - button "Dark Fill/TagClassroom/Solid/1" [ref=e2642] [cursor=pointer]:
+                - code [ref=e2644]: Fill/TagClassroom/Solid/1
+                - generic [ref=e2645]: "#478065"
+      - table "Fill/TagClassroom/Alpha" [ref=e2647]:
+        - caption [ref=e2648]: Fill/TagClassroom/Alpha · 翠绿
+        - rowgroup [ref=e2649]:
+          - row [ref=e2650]:
+            - columnheader "模式 / 类别" [ref=e2651]
+            - columnheader "第 1 级" [ref=e2652]
+            - columnheader "第 2 级" [ref=e2653]
+            - columnheader "第 3 级" [ref=e2654]
+        - rowgroup [ref=e2655]:
+          - row [ref=e2656]:
+            - rowheader "Light Fill/TagClassroom/Alpha" [ref=e2657]: LightFill/TagClassroom/Alpha
+            - cell [ref=e2658]:
+              - button "Fill/TagClassroom/Alpha/1" [ref=e2659] [cursor=pointer]:
+                - code [ref=e2661]: Fill/TagClassroom/Alpha/1
+                - generic [ref=e2662]: "#019550 · 10%"
+            - cell [ref=e2663]:
+              - button "Fill/TagClassroom/Alpha/2" [ref=e2664] [cursor=pointer]:
+                - code [ref=e2666]: Fill/TagClassroom/Alpha/2
+                - generic [ref=e2667]: "#019550 · 12%"
+            - cell [ref=e2668]:
+              - button "Fill/TagClassroom/Alpha/3" [ref=e2669] [cursor=pointer]:
+                - code [ref=e2671]: Fill/TagClassroom/Alpha/3
+                - generic [ref=e2672]: "#019550 · 18%"
+          - row [ref=e2673]:
+            - rowheader "Dark Fill/TagClassroom/Alpha" [ref=e2674]: DarkFill/TagClassroom/Alpha
+            - cell [ref=e2675]:
+              - button "Dark Fill/TagClassroom/Alpha/1" [ref=e2676] [cursor=pointer]:
+                - code [ref=e2678]: Fill/TagClassroom/Alpha/1
+                - generic [ref=e2679]: "#019550 · 18%"
+            - cell [ref=e2680]:
+              - button "Dark Fill/TagClassroom/Alpha/2" [ref=e2681] [cursor=pointer]:
+                - code [ref=e2683]: Fill/TagClassroom/Alpha/2
+                - generic [ref=e2684]: "#01A458 · 12%"
+            - cell [ref=e2685]:
+              - button "Dark Fill/TagClassroom/Alpha/3" [ref=e2686] [cursor=pointer]:
+                - code [ref=e2688]: Fill/TagClassroom/Alpha/3
+                - generic [ref=e2689]: "#01A458 · 18%"
+      - table "Border/TagOlive" [ref=e2691]:
+        - caption [ref=e2692]: Border/TagOlive · 橄榄绿
+        - rowgroup [ref=e2693]:
+          - row [ref=e2694]:
+            - columnheader "模式 / 类别" [ref=e2695]
+            - columnheader "第 1 级" [ref=e2696]
+        - rowgroup [ref=e2697]:
+          - row [ref=e2698]:
+            - rowheader "Light Border/TagOlive" [ref=e2699]: LightBorder/TagOlive
+            - cell [ref=e2700]:
+              - button "Border/TagOlive/1" [ref=e2701] [cursor=pointer]:
+                - code [ref=e2703]: Border/TagOlive/1
+                - generic [ref=e2704]: "#609300 · 35%"
+          - row [ref=e2705]:
+            - rowheader "Dark Border/TagOlive" [ref=e2706]: DarkBorder/TagOlive
+            - cell [ref=e2707]:
+              - button "Dark Border/TagOlive/1" [ref=e2708] [cursor=pointer]:
+                - code [ref=e2710]: Border/TagOlive/1
+                - generic [ref=e2711]: "#68A000 · 65%"
+      - table "Fill/TagOlive/Solid" [ref=e2713]:
+        - caption [ref=e2714]: Fill/TagOlive/Solid · 橄榄绿
+        - rowgroup [ref=e2715]:
+          - row [ref=e2716]:
+            - columnheader "模式 / 类别" [ref=e2717]
+            - columnheader "第 1 级" [ref=e2718]
+        - rowgroup [ref=e2719]:
+          - row [ref=e2720]:
+            - rowheader "Light Fill/TagOlive/Solid" [ref=e2721]: LightFill/TagOlive/Solid
+            - cell [ref=e2722]:
+              - button "Fill/TagOlive/Solid/1" [ref=e2723] [cursor=pointer]:
+                - code [ref=e2725]: Fill/TagOlive/Solid/1
+                - generic [ref=e2726]: "#85A44B"
+          - row [ref=e2727]:
+            - rowheader "Dark Fill/TagOlive/Solid" [ref=e2728]: DarkFill/TagOlive/Solid
+            - cell [ref=e2729]:
+              - button "Dark Fill/TagOlive/Solid/1" [ref=e2730] [cursor=pointer]:
+                - code [ref=e2732]: Fill/TagOlive/Solid/1
+                - generic [ref=e2733]: "#667D39"
+      - table "Fill/TagOlive/Alpha" [ref=e2735]:
+        - caption [ref=e2736]: Fill/TagOlive/Alpha · 橄榄绿
+        - rowgroup [ref=e2737]:
+          - row [ref=e2738]:
+            - columnheader "模式 / 类别" [ref=e2739]
+            - columnheader "第 1 级" [ref=e2740]
+            - columnheader "第 2 级" [ref=e2741]
+            - columnheader "第 3 级" [ref=e2742]
+        - rowgroup [ref=e2743]:
+          - row [ref=e2744]:
+            - rowheader "Light Fill/TagOlive/Alpha" [ref=e2745]: LightFill/TagOlive/Alpha
+            - cell [ref=e2746]:
+              - button "Fill/TagOlive/Alpha/1" [ref=e2747] [cursor=pointer]:
+                - code [ref=e2749]: Fill/TagOlive/Alpha/1
+                - generic [ref=e2750]: "#609300 · 10%"
+            - cell [ref=e2751]:
+              - button "Fill/TagOlive/Alpha/2" [ref=e2752] [cursor=pointer]:
+                - code [ref=e2754]: Fill/TagOlive/Alpha/2
+                - generic [ref=e2755]: "#609300 · 12%"
+            - cell [ref=e2756]:
+              - button "Fill/TagOlive/Alpha/3" [ref=e2757] [cursor=pointer]:
+                - code [ref=e2759]: Fill/TagOlive/Alpha/3
+                - generic [ref=e2760]: "#609300 · 18%"
+          - row [ref=e2761]:
+            - rowheader "Dark Fill/TagOlive/Alpha" [ref=e2762]: DarkFill/TagOlive/Alpha
+            - cell [ref=e2763]:
+              - button "Dark Fill/TagOlive/Alpha/1" [ref=e2764] [cursor=pointer]:
+                - code [ref=e2766]: Fill/TagOlive/Alpha/1
+                - generic [ref=e2767]: "#609300 · 18%"
+            - cell [ref=e2768]:
+              - button "Dark Fill/TagOlive/Alpha/2" [ref=e2769] [cursor=pointer]:
+                - code [ref=e2771]: Fill/TagOlive/Alpha/2
+                - generic [ref=e2772]: "#68A000 · 12%"
+            - cell [ref=e2773]:
+              - button "Dark Fill/TagOlive/Alpha/3" [ref=e2774] [cursor=pointer]:
+                - code [ref=e2776]: Fill/TagOlive/Alpha/3
+                - generic [ref=e2777]: "#68A000 · 18%"
+      - table "Border/TagPaper" [ref=e2779]:
+        - caption [ref=e2780]: Border/TagPaper · 青绿
+        - rowgroup [ref=e2781]:
+          - row [ref=e2782]:
+            - columnheader "模式 / 类别" [ref=e2783]
+            - columnheader "第 1 级" [ref=e2784]
+        - rowgroup [ref=e2785]:
+          - row [ref=e2786]:
+            - rowheader "Light Border/TagPaper" [ref=e2787]: LightBorder/TagPaper
+            - cell [ref=e2788]:
+              - button "Border/TagPaper/1" [ref=e2789] [cursor=pointer]:
+                - code [ref=e2791]: Border/TagPaper/1
+                - generic [ref=e2792]: "#07978F · 35%"
+          - row [ref=e2793]:
+            - rowheader "Dark Border/TagPaper" [ref=e2794]: DarkBorder/TagPaper
+            - cell [ref=e2795]:
+              - button "Dark Border/TagPaper/1" [ref=e2796] [cursor=pointer]:
+                - code [ref=e2798]: Border/TagPaper/1
+                - generic [ref=e2799]: "#07A199 · 66%"
+      - table "Fill/TagPaper/Solid" [ref=e2801]:
+        - caption [ref=e2802]: Fill/TagPaper/Solid · 青绿
+        - rowgroup [ref=e2803]:
+          - row [ref=e2804]:
+            - columnheader "模式 / 类别" [ref=e2805]
+            - columnheader "第 1 级" [ref=e2806]
+        - rowgroup [ref=e2807]:
+          - row [ref=e2808]:
+            - rowheader "Light Fill/TagPaper/Solid" [ref=e2809]: LightFill/TagPaper/Solid
+            - cell [ref=e2810]:
+              - button "Fill/TagPaper/Solid/1" [ref=e2811] [cursor=pointer]:
+                - code [ref=e2813]: Fill/TagPaper/Solid/1
+                - generic [ref=e2814]: "#21B3AA"
+          - row [ref=e2815]:
+            - rowheader "Dark Fill/TagPaper/Solid" [ref=e2816]: DarkFill/TagPaper/Solid
+            - cell [ref=e2817]:
+              - button "Dark Fill/TagPaper/Solid/1" [ref=e2818] [cursor=pointer]:
+                - code [ref=e2820]: Fill/TagPaper/Solid/1
+                - generic [ref=e2821]: "#18827C"
+      - table "Fill/TagPaper/Alpha" [ref=e2823]:
+        - caption [ref=e2824]: Fill/TagPaper/Alpha · 青绿
+        - rowgroup [ref=e2825]:
+          - row [ref=e2826]:
+            - columnheader "模式 / 类别" [ref=e2827]
+            - columnheader "第 1 级" [ref=e2828]
+            - columnheader "第 2 级" [ref=e2829]
+            - columnheader "第 3 级" [ref=e2830]
+        - rowgroup [ref=e2831]:
+          - row [ref=e2832]:
+            - rowheader "Light Fill/TagPaper/Alpha" [ref=e2833]: LightFill/TagPaper/Alpha
+            - cell [ref=e2834]:
+              - button "Fill/TagPaper/Alpha/1" [ref=e2835] [cursor=pointer]:
+                - code [ref=e2837]: Fill/TagPaper/Alpha/1
+                - generic [ref=e2838]: "#07978F · 10%"
+            - cell [ref=e2839]:
+              - button "Fill/TagPaper/Alpha/2" [ref=e2840] [cursor=pointer]:
+                - code [ref=e2842]: Fill/TagPaper/Alpha/2
+                - generic [ref=e2843]: "#07978F · 12%"
+            - cell [ref=e2844]:
+              - button "Fill/TagPaper/Alpha/3" [ref=e2845] [cursor=pointer]:
+                - code [ref=e2847]: Fill/TagPaper/Alpha/3
+                - generic [ref=e2848]: "#07978F · 18%"
+          - row [ref=e2849]:
+            - rowheader "Dark Fill/TagPaper/Alpha" [ref=e2850]: DarkFill/TagPaper/Alpha
+            - cell [ref=e2851]:
+              - button "Dark Fill/TagPaper/Alpha/1" [ref=e2852] [cursor=pointer]:
+                - code [ref=e2854]: Fill/TagPaper/Alpha/1
+                - generic [ref=e2855]: "#07978F · 18%"
+            - cell [ref=e2856]:
+              - button "Dark Fill/TagPaper/Alpha/2" [ref=e2857] [cursor=pointer]:
+                - code [ref=e2859]: Fill/TagPaper/Alpha/2
+                - generic [ref=e2860]: "#07A199 · 12%"
+            - cell [ref=e2861]:
+              - button "Dark Fill/TagPaper/Alpha/3" [ref=e2862] [cursor=pointer]:
+                - code [ref=e2864]: Fill/TagPaper/Alpha/3
+                - generic [ref=e2865]: "#07A199 · 18%"
+      - table "Border/TagExam" [ref=e2867]:
+        - caption [ref=e2868]: Border/TagExam · 青蓝
+        - rowgroup [ref=e2869]:
+          - row [ref=e2870]:
+            - columnheader "模式 / 类别" [ref=e2871]
+            - columnheader "第 1 级" [ref=e2872]
+        - rowgroup [ref=e2873]:
+          - row [ref=e2874]:
+            - rowheader "Light Border/TagExam" [ref=e2875]: LightBorder/TagExam
+            - cell [ref=e2876]:
+              - button "Border/TagExam/1" [ref=e2877] [cursor=pointer]:
+                - code [ref=e2879]: Border/TagExam/1
+                - generic [ref=e2880]: "#008FBC · 35%"
+          - row [ref=e2881]:
+            - rowheader "Dark Border/TagExam" [ref=e2882]: DarkBorder/TagExam
+            - cell [ref=e2883]:
+              - button "Dark Border/TagExam/1" [ref=e2884] [cursor=pointer]:
+                - code [ref=e2886]: Border/TagExam/1
+                - generic [ref=e2887]: "#009ACB · 66%"
+      - table "Fill/TagExam/Solid" [ref=e2889]:
+        - caption [ref=e2890]: Fill/TagExam/Solid · 青蓝
+        - rowgroup [ref=e2891]:
+          - row [ref=e2892]:
+            - columnheader "模式 / 类别" [ref=e2893]
+            - columnheader "第 1 级" [ref=e2894]
+        - rowgroup [ref=e2895]:
+          - row [ref=e2896]:
+            - rowheader "Light Fill/TagExam/Solid" [ref=e2897]: LightFill/TagExam/Solid
+            - cell [ref=e2898]:
+              - button "Fill/TagExam/Solid/1" [ref=e2899] [cursor=pointer]:
+                - code [ref=e2901]: Fill/TagExam/Solid/1
+                - generic [ref=e2902]: "#30A7BC"
+          - row [ref=e2903]:
+            - rowheader "Dark Fill/TagExam/Solid" [ref=e2904]: DarkFill/TagExam/Solid
+            - cell [ref=e2905]:
+              - button "Dark Fill/TagExam/Solid/1" [ref=e2906] [cursor=pointer]:
+                - code [ref=e2908]: Fill/TagExam/Solid/1
+                - generic [ref=e2909]: "#257F90"
+      - table "Fill/TagExam/Alpha" [ref=e2911]:
+        - caption [ref=e2912]: Fill/TagExam/Alpha · 青蓝
+        - rowgroup [ref=e2913]:
+          - row [ref=e2914]:
+            - columnheader "模式 / 类别" [ref=e2915]
+            - columnheader "第 1 级" [ref=e2916]
+            - columnheader "第 2 级" [ref=e2917]
+            - columnheader "第 3 级" [ref=e2918]
+        - rowgroup [ref=e2919]:
+          - row [ref=e2920]:
+            - rowheader "Light Fill/TagExam/Alpha" [ref=e2921]: LightFill/TagExam/Alpha
+            - cell [ref=e2922]:
+              - button "Fill/TagExam/Alpha/1" [ref=e2923] [cursor=pointer]:
+                - code [ref=e2925]: Fill/TagExam/Alpha/1
+                - generic [ref=e2926]: "#008FBC · 10%"
+            - cell [ref=e2927]:
+              - button "Fill/TagExam/Alpha/2" [ref=e2928] [cursor=pointer]:
+                - code [ref=e2930]: Fill/TagExam/Alpha/2
+                - generic [ref=e2931]: "#008FBC · 12%"
+            - cell [ref=e2932]:
+              - button "Fill/TagExam/Alpha/3" [ref=e2933] [cursor=pointer]:
+                - code [ref=e2935]: Fill/TagExam/Alpha/3
+                - generic [ref=e2936]: "#008FBC · 18%"
+          - row [ref=e2937]:
+            - rowheader "Dark Fill/TagExam/Alpha" [ref=e2938]: DarkFill/TagExam/Alpha
+            - cell [ref=e2939]:
+              - button "Dark Fill/TagExam/Alpha/1" [ref=e2940] [cursor=pointer]:
+                - code [ref=e2942]: Fill/TagExam/Alpha/1
+                - generic [ref=e2943]: "#008FBC · 18%"
+            - cell [ref=e2944]:
+              - button "Dark Fill/TagExam/Alpha/2" [ref=e2945] [cursor=pointer]:
+                - code [ref=e2947]: Fill/TagExam/Alpha/2
+                - generic [ref=e2948]: "#009ACB · 12%"
+            - cell [ref=e2949]:
+              - button "Dark Fill/TagExam/Alpha/3" [ref=e2950] [cursor=pointer]:
+                - code [ref=e2952]: Fill/TagExam/Alpha/3
+                - generic [ref=e2953]: "#009ACB · 18%"
+      - table "Border/TagCourseware" [ref=e2955]:
+        - caption [ref=e2956]: Border/TagCourseware · 暖橙
+        - rowgroup [ref=e2957]:
+          - row [ref=e2958]:
+            - columnheader "模式 / 类别" [ref=e2959]
+            - columnheader "第 1 级" [ref=e2960]
+        - rowgroup [ref=e2961]:
+          - row [ref=e2962]:
+            - rowheader "Light Border/TagCourseware" [ref=e2963]: LightBorder/TagCourseware
+            - cell [ref=e2964]:
+              - button "Border/TagCourseware/1" [ref=e2965] [cursor=pointer]:
+                - code [ref=e2967]: Border/TagCourseware/1
+                - generic [ref=e2968]: "#DA6814 · 35%"
+          - row [ref=e2969]:
+            - rowheader "Dark Border/TagCourseware" [ref=e2970]: DarkBorder/TagCourseware
+            - cell [ref=e2971]:
+              - button "Dark Border/TagCourseware/1" [ref=e2972] [cursor=pointer]:
+                - code [ref=e2974]: Border/TagCourseware/1
+                - generic [ref=e2975]: "#E66E15 · 65%"
+      - table "Fill/TagCourseware/Solid" [ref=e2977]:
+        - caption [ref=e2978]: Fill/TagCourseware/Solid · 暖橙
+        - rowgroup [ref=e2979]:
+          - row [ref=e2980]:
+            - columnheader "模式 / 类别" [ref=e2981]
+            - columnheader "第 1 级" [ref=e2982]
+        - rowgroup [ref=e2983]:
+          - row [ref=e2984]:
+            - rowheader "Light Fill/TagCourseware/Solid" [ref=e2985]: LightFill/TagCourseware/Solid
+            - cell [ref=e2986]:
+              - button "Fill/TagCourseware/Solid/1" [ref=e2987] [cursor=pointer]:
+                - code [ref=e2989]: Fill/TagCourseware/Solid/1
+                - generic [ref=e2990]: "#E38F28"
+          - row [ref=e2991]:
+            - rowheader "Dark Fill/TagCourseware/Solid" [ref=e2992]: DarkFill/TagCourseware/Solid
+            - cell [ref=e2993]:
+              - button "Dark Fill/TagCourseware/Solid/1" [ref=e2994] [cursor=pointer]:
+                - code [ref=e2996]: Fill/TagCourseware/Solid/1
+                - generic [ref=e2997]: "#A76616"
+      - table "Fill/TagCourseware/Alpha" [ref=e2999]:
+        - caption [ref=e3000]: Fill/TagCourseware/Alpha · 暖橙
+        - rowgroup [ref=e3001]:
+          - row [ref=e3002]:
+            - columnheader "模式 / 类别" [ref=e3003]
+            - columnheader "第 1 级" [ref=e3004]
+            - columnheader "第 2 级" [ref=e3005]
+            - columnheader "第 3 级" [ref=e3006]
+        - rowgroup [ref=e3007]:
+          - row [ref=e3008]:
+            - rowheader "Light Fill/TagCourseware/Alpha" [ref=e3009]: LightFill/TagCourseware/Alpha
+            - cell [ref=e3010]:
+              - button "Fill/TagCourseware/Alpha/1" [ref=e3011] [cursor=pointer]:
+                - code [ref=e3013]: Fill/TagCourseware/Alpha/1
+                - generic [ref=e3014]: "#DA6814 · 10%"
+            - cell [ref=e3015]:
+              - button "Fill/TagCourseware/Alpha/2" [ref=e3016] [cursor=pointer]:
+                - code [ref=e3018]: Fill/TagCourseware/Alpha/2
+                - generic [ref=e3019]: "#DA6814 · 12%"
+            - cell [ref=e3020]:
+              - button "Fill/TagCourseware/Alpha/3" [ref=e3021] [cursor=pointer]:
+                - code [ref=e3023]: Fill/TagCourseware/Alpha/3
+                - generic [ref=e3024]: "#DA6814 · 18%"
+          - row [ref=e3025]:
+            - rowheader "Dark Fill/TagCourseware/Alpha" [ref=e3026]: DarkFill/TagCourseware/Alpha
+            - cell [ref=e3027]:
+              - button "Dark Fill/TagCourseware/Alpha/1" [ref=e3028] [cursor=pointer]:
+                - code [ref=e3030]: Fill/TagCourseware/Alpha/1
+                - generic [ref=e3031]: "#DA6814 · 18%"
+            - cell [ref=e3032]:
+              - button "Dark Fill/TagCourseware/Alpha/2" [ref=e3033] [cursor=pointer]:
+                - code [ref=e3035]: Fill/TagCourseware/Alpha/2
+                - generic [ref=e3036]: "#E66E15 · 12%"
+            - cell [ref=e3037]:
+              - button "Dark Fill/TagCourseware/Alpha/3" [ref=e3038] [cursor=pointer]:
+                - code [ref=e3040]: Fill/TagCourseware/Alpha/3
+                - generic [ref=e3041]: "#E66E15 · 18%"
+      - table "Border/TagGold" [ref=e3043]:
+        - caption [ref=e3044]: Border/TagGold · 金黄
+        - rowgroup [ref=e3045]:
+          - row [ref=e3046]:
+            - columnheader "模式 / 类别" [ref=e3047]
+            - columnheader "第 1 级" [ref=e3048]
+        - rowgroup [ref=e3049]:
+          - row [ref=e3050]:
+            - rowheader "Light Border/TagGold" [ref=e3051]: LightBorder/TagGold
+            - cell [ref=e3052]:
+              - button "Border/TagGold/1" [ref=e3053] [cursor=pointer]:
+                - code [ref=e3055]: Border/TagGold/1
+                - generic [ref=e3056]: "#967800 · 35%"
+          - row [ref=e3057]:
+            - rowheader "Dark Border/TagGold" [ref=e3058]: DarkBorder/TagGold
+            - cell [ref=e3059]:
+              - button "Dark Border/TagGold/1" [ref=e3060] [cursor=pointer]:
+                - code [ref=e3062]: Border/TagGold/1
+                - generic [ref=e3063]: "#AD8C00 · 65%"
+      - table "Fill/TagGold/Solid" [ref=e3065]:
+        - caption [ref=e3066]: Fill/TagGold/Solid · 金黄
+        - rowgroup [ref=e3067]:
+          - row [ref=e3068]:
+            - columnheader "模式 / 类别" [ref=e3069]
+            - columnheader "第 1 级" [ref=e3070]
+        - rowgroup [ref=e3071]:
+          - row [ref=e3072]:
+            - rowheader "Light Fill/TagGold/Solid" [ref=e3073]: LightFill/TagGold/Solid
+            - cell [ref=e3074]:
+              - button "Fill/TagGold/Solid/1" [ref=e3075] [cursor=pointer]:
+                - code [ref=e3077]: Fill/TagGold/Solid/1
+                - generic [ref=e3078]: "#C1A01C"
+          - row [ref=e3079]:
+            - rowheader "Dark Fill/TagGold/Solid" [ref=e3080]: DarkFill/TagGold/Solid
+            - cell [ref=e3081]:
+              - button "Dark Fill/TagGold/Solid/1" [ref=e3082] [cursor=pointer]:
+                - code [ref=e3084]: Fill/TagGold/Solid/1
+                - generic [ref=e3085]: "#8B7314"
+      - table "Fill/TagGold/Alpha" [ref=e3087]:
+        - caption [ref=e3088]: Fill/TagGold/Alpha · 金黄
+        - rowgroup [ref=e3089]:
+          - row [ref=e3090]:
+            - columnheader "模式 / 类别" [ref=e3091]
+            - columnheader "第 1 级" [ref=e3092]
+            - columnheader "第 2 级" [ref=e3093]
+            - columnheader "第 3 级" [ref=e3094]
+        - rowgroup [ref=e3095]:
+          - row [ref=e3096]:
+            - rowheader "Light Fill/TagGold/Alpha" [ref=e3097]: LightFill/TagGold/Alpha
+            - cell [ref=e3098]:
+              - button "Fill/TagGold/Alpha/1" [ref=e3099] [cursor=pointer]:
+                - code [ref=e3101]: Fill/TagGold/Alpha/1
+                - generic [ref=e3102]: "#967800 · 10%"
+            - cell [ref=e3103]:
+              - button "Fill/TagGold/Alpha/2" [ref=e3104] [cursor=pointer]:
+                - code [ref=e3106]: Fill/TagGold/Alpha/2
+                - generic [ref=e3107]: "#967800 · 12%"
+            - cell [ref=e3108]:
+              - button "Fill/TagGold/Alpha/3" [ref=e3109] [cursor=pointer]:
+                - code [ref=e3111]: Fill/TagGold/Alpha/3
+                - generic [ref=e3112]: "#967800 · 18%"
+          - row [ref=e3113]:
+            - rowheader "Dark Fill/TagGold/Alpha" [ref=e3114]: DarkFill/TagGold/Alpha
+            - cell [ref=e3115]:
+              - button "Dark Fill/TagGold/Alpha/1" [ref=e3116] [cursor=pointer]:
+                - code [ref=e3118]: Fill/TagGold/Alpha/1
+                - generic [ref=e3119]: "#9A7C00 · 18%"
+            - cell [ref=e3120]:
+              - button "Dark Fill/TagGold/Alpha/2" [ref=e3121] [cursor=pointer]:
+                - code [ref=e3123]: Fill/TagGold/Alpha/2
+                - generic [ref=e3124]: "#AD8C00 · 12%"
+            - cell [ref=e3125]:
+              - button "Dark Fill/TagGold/Alpha/3" [ref=e3126] [cursor=pointer]:
+                - code [ref=e3128]: Fill/TagGold/Alpha/3
+                - generic [ref=e3129]: "#AD8C00 · 18%"
+      - table "Border/TagPurple" [ref=e3131]:
+        - caption [ref=e3132]: Border/TagPurple · 蓝紫
+        - rowgroup [ref=e3133]:
+          - row [ref=e3134]:
+            - columnheader "模式 / 类别" [ref=e3135]
+            - columnheader "第 1 级" [ref=e3136]
+        - rowgroup [ref=e3137]:
+          - row [ref=e3138]:
+            - rowheader "Light Border/TagPurple" [ref=e3139]: LightBorder/TagPurple
+            - cell [ref=e3140]:
+              - button "Border/TagPurple/1" [ref=e3141] [cursor=pointer]:
+                - code [ref=e3143]: Border/TagPurple/1
+                - generic [ref=e3144]: "#7240E7 · 35%"
+          - row [ref=e3145]:
+            - rowheader "Dark Border/TagPurple" [ref=e3146]: DarkBorder/TagPurple
+            - cell [ref=e3147]:
+              - button "Dark Border/TagPurple/1" [ref=e3148] [cursor=pointer]:
+                - code [ref=e3150]: Border/TagPurple/1
+                - generic [ref=e3151]: "#9D7BEF · 65%"
+      - table "Fill/TagPurple/Solid" [ref=e3153]:
+        - caption [ref=e3154]: Fill/TagPurple/Solid · 蓝紫
+        - rowgroup [ref=e3155]:
+          - row [ref=e3156]:
+            - columnheader "模式 / 类别" [ref=e3157]
+            - columnheader "第 1 级" [ref=e3158]
+        - rowgroup [ref=e3159]:
+          - row [ref=e3160]:
+            - rowheader "Light Fill/TagPurple/Solid" [ref=e3161]: LightFill/TagPurple/Solid
+            - cell [ref=e3162]:
+              - button "Fill/TagPurple/Solid/1" [ref=e3163] [cursor=pointer]:
+                - code [ref=e3165]: Fill/TagPurple/Solid/1
+                - generic [ref=e3166]: "#8C72DD"
+          - row [ref=e3167]:
+            - rowheader "Dark Fill/TagPurple/Solid" [ref=e3168]: DarkFill/TagPurple/Solid
+            - cell [ref=e3169]:
+              - button "Dark Fill/TagPurple/Solid/1" [ref=e3170] [cursor=pointer]:
+                - code [ref=e3172]: Fill/TagPurple/Solid/1
+                - generic [ref=e3173]: "#7E60D9"
+      - table "Fill/TagPurple/Alpha" [ref=e3175]:
+        - caption [ref=e3176]: Fill/TagPurple/Alpha · 蓝紫
+        - rowgroup [ref=e3177]:
+          - row [ref=e3178]:
+            - columnheader "模式 / 类别" [ref=e3179]
+            - columnheader "第 1 级" [ref=e3180]
+            - columnheader "第 2 级" [ref=e3181]
+            - columnheader "第 3 级" [ref=e3182]
+        - rowgroup [ref=e3183]:
+          - row [ref=e3184]:
+            - rowheader "Light Fill/TagPurple/Alpha" [ref=e3185]: LightFill/TagPurple/Alpha
+            - cell [ref=e3186]:
+              - button "Fill/TagPurple/Alpha/1" [ref=e3187] [cursor=pointer]:
+                - code [ref=e3189]: Fill/TagPurple/Alpha/1
+                - generic [ref=e3190]: "#7240E7 · 10%"
+            - cell [ref=e3191]:
+              - button "Fill/TagPurple/Alpha/2" [ref=e3192] [cursor=pointer]:
+                - code [ref=e3194]: Fill/TagPurple/Alpha/2
+                - generic [ref=e3195]: "#7240E7 · 12%"
+            - cell [ref=e3196]:
+              - button "Fill/TagPurple/Alpha/3" [ref=e3197] [cursor=pointer]:
+                - code [ref=e3199]: Fill/TagPurple/Alpha/3
+                - generic [ref=e3200]: "#7240E7 · 18%"
+          - row [ref=e3201]:
+            - rowheader "Dark Fill/TagPurple/Alpha" [ref=e3202]: DarkFill/TagPurple/Alpha
+            - cell [ref=e3203]:
+              - button "Dark Fill/TagPurple/Alpha/1" [ref=e3204] [cursor=pointer]:
+                - code [ref=e3206]: Fill/TagPurple/Alpha/1
+                - generic [ref=e3207]: "#8E66EC · 18%"
+            - cell [ref=e3208]:
+              - button "Dark Fill/TagPurple/Alpha/2" [ref=e3209] [cursor=pointer]:
+                - code [ref=e3211]: Fill/TagPurple/Alpha/2
+                - generic [ref=e3212]: "#9D7BEF · 12%"
+            - cell [ref=e3213]:
+              - button "Dark Fill/TagPurple/Alpha/3" [ref=e3214] [cursor=pointer]:
+                - code [ref=e3216]: Fill/TagPurple/Alpha/3
+                - generic [ref=e3217]: "#9D7BEF · 18%"
+      - table "Border/TagAssignment" [ref=e3219]:
+        - caption [ref=e3220]: Border/TagAssignment · 靛蓝
+        - rowgroup [ref=e3221]:
+          - row [ref=e3222]:
+            - columnheader "模式 / 类别" [ref=e3223]
+            - columnheader "第 1 级" [ref=e3224]
+        - rowgroup [ref=e3225]:
+          - row [ref=e3226]:
+            - rowheader "Light Border/TagAssignment" [ref=e3227]: LightBorder/TagAssignment
+            - cell [ref=e3228]:
+              - button "Border/TagAssignment/1" [ref=e3229] [cursor=pointer]:
+                - code [ref=e3231]: Border/TagAssignment/1
+                - generic [ref=e3232]: "#3E56FF · 35%"
+          - row [ref=e3233]:
+            - rowheader "Dark Border/TagAssignment" [ref=e3234]: DarkBorder/TagAssignment
+            - cell [ref=e3235]:
+              - button "Dark Border/TagAssignment/1" [ref=e3236] [cursor=pointer]:
+                - code [ref=e3238]: Border/TagAssignment/1
+                - generic [ref=e3239]: "#7284FF · 66%"
+      - table "Fill/TagAssignment/Solid" [ref=e3241]:
+        - caption [ref=e3242]: Fill/TagAssignment/Solid · 靛蓝
+        - rowgroup [ref=e3243]:
+          - row [ref=e3244]:
+            - columnheader "模式 / 类别" [ref=e3245]
+            - columnheader "第 1 级" [ref=e3246]
+        - rowgroup [ref=e3247]:
+          - row [ref=e3248]:
+            - rowheader "Light Fill/TagAssignment/Solid" [ref=e3249]: LightFill/TagAssignment/Solid
+            - cell [ref=e3250]:
+              - button "Fill/TagAssignment/Solid/1" [ref=e3251] [cursor=pointer]:
+                - code [ref=e3253]: Fill/TagAssignment/Solid/1
+                - generic [ref=e3254]: "#6D7DF1"
+          - row [ref=e3255]:
+            - rowheader "Dark Fill/TagAssignment/Solid" [ref=e3256]: DarkFill/TagAssignment/Solid
+            - cell [ref=e3257]:
+              - button "Dark Fill/TagAssignment/Solid/1" [ref=e3258] [cursor=pointer]:
+                - code [ref=e3260]: Fill/TagAssignment/Solid/1
+                - generic [ref=e3261]: "#5467EF"
+      - table "Fill/TagAssignment/Alpha" [ref=e3263]:
+        - caption [ref=e3264]: Fill/TagAssignment/Alpha · 靛蓝
+        - rowgroup [ref=e3265]:
+          - row [ref=e3266]:
+            - columnheader "模式 / 类别" [ref=e3267]
+            - columnheader "第 1 级" [ref=e3268]
+            - columnheader "第 2 级" [ref=e3269]
+            - columnheader "第 3 级" [ref=e3270]
+        - rowgroup [ref=e3271]:
+          - row [ref=e3272]:
+            - rowheader "Light Fill/TagAssignment/Alpha" [ref=e3273]: LightFill/TagAssignment/Alpha
+            - cell [ref=e3274]:
+              - button "Fill/TagAssignment/Alpha/1" [ref=e3275] [cursor=pointer]:
+                - code [ref=e3277]: Fill/TagAssignment/Alpha/1
+                - generic [ref=e3278]: "#3E56FF · 10%"
+            - cell [ref=e3279]:
+              - button "Fill/TagAssignment/Alpha/2" [ref=e3280] [cursor=pointer]:
+                - code [ref=e3282]: Fill/TagAssignment/Alpha/2
+                - generic [ref=e3283]: "#3E56FF · 12%"
+            - cell [ref=e3284]:
+              - button "Fill/TagAssignment/Alpha/3" [ref=e3285] [cursor=pointer]:
+                - code [ref=e3287]: Fill/TagAssignment/Alpha/3
+                - generic [ref=e3288]: "#3E56FF · 18%"
+          - row [ref=e3289]:
+            - rowheader "Dark Fill/TagAssignment/Alpha" [ref=e3290]: DarkFill/TagAssignment/Alpha
+            - cell [ref=e3291]:
+              - button "Dark Fill/TagAssignment/Alpha/1" [ref=e3292] [cursor=pointer]:
+                - code [ref=e3294]: Fill/TagAssignment/Alpha/1
+                - generic [ref=e3295]: "#5C71FF · 18%"
+            - cell [ref=e3296]:
+              - button "Dark Fill/TagAssignment/Alpha/2" [ref=e3297] [cursor=pointer]:
+                - code [ref=e3299]: Fill/TagAssignment/Alpha/2
+                - generic [ref=e3300]: "#7284FF · 12%"
+            - cell [ref=e3301]:
+              - button "Dark Fill/TagAssignment/Alpha/3" [ref=e3302] [cursor=pointer]:
+                - code [ref=e3304]: Fill/TagAssignment/Alpha/3
+                - generic [ref=e3305]: "#7284FF · 18%"
+      - table "Border/TagLive" [ref=e3307]:
+        - caption [ref=e3308]: Border/TagLive · 亮蓝
+        - rowgroup [ref=e3309]:
+          - row [ref=e3310]:
+            - columnheader "模式 / 类别" [ref=e3311]
+            - columnheader "第 1 级" [ref=e3312]
+        - rowgroup [ref=e3313]:
+          - row [ref=e3314]:
+            - rowheader "Light Border/TagLive" [ref=e3315]: LightBorder/TagLive
+            - cell [ref=e3316]:
+              - button "Border/TagLive/1" [ref=e3317] [cursor=pointer]:
+                - code [ref=e3319]: Border/TagLive/1
+                - generic [ref=e3320]: "#2481FF · 35%"
+          - row [ref=e3321]:
+            - rowheader "Dark Border/TagLive" [ref=e3322]: DarkBorder/TagLive
+            - cell [ref=e3323]:
+              - button "Dark Border/TagLive/1" [ref=e3324] [cursor=pointer]:
+                - code [ref=e3326]: Border/TagLive/1
+                - generic [ref=e3327]: "#3B8EFF · 66%"
+      - table "Fill/TagLive/Solid" [ref=e3329]:
+        - caption [ref=e3330]: Fill/TagLive/Solid · 亮蓝
+        - rowgroup [ref=e3331]:
+          - row [ref=e3332]:
+            - columnheader "模式 / 类别" [ref=e3333]
+            - columnheader "第 1 级" [ref=e3334]
+        - rowgroup [ref=e3335]:
+          - row [ref=e3336]:
+            - rowheader "Light Fill/TagLive/Solid" [ref=e3337]: LightFill/TagLive/Solid
+            - cell [ref=e3338]:
+              - button "Fill/TagLive/Solid/1" [ref=e3339] [cursor=pointer]:
+                - code [ref=e3341]: Fill/TagLive/Solid/1
+                - generic [ref=e3342]: "#399FFF"
+          - row [ref=e3343]:
+            - rowheader "Dark Fill/TagLive/Solid" [ref=e3344]: DarkFill/TagLive/Solid
+            - cell [ref=e3345]:
+              - button "Dark Fill/TagLive/Solid/1" [ref=e3346] [cursor=pointer]:
+                - code [ref=e3348]: Fill/TagLive/Solid/1
+                - generic [ref=e3349]: "#0073E0"
+      - table "Fill/TagLive/Alpha" [ref=e3351]:
+        - caption [ref=e3352]: Fill/TagLive/Alpha · 亮蓝
+        - rowgroup [ref=e3353]:
+          - row [ref=e3354]:
+            - columnheader "模式 / 类别" [ref=e3355]
+            - columnheader "第 1 级" [ref=e3356]
+            - columnheader "第 2 级" [ref=e3357]
+            - columnheader "第 3 级" [ref=e3358]
+        - rowgroup [ref=e3359]:
+          - row [ref=e3360]:
+            - rowheader "Light Fill/TagLive/Alpha" [ref=e3361]: LightFill/TagLive/Alpha
+            - cell [ref=e3362]:
+              - button "Fill/TagLive/Alpha/1" [ref=e3363] [cursor=pointer]:
+                - code [ref=e3365]: Fill/TagLive/Alpha/1
+                - generic [ref=e3366]: "#2481FF · 10%"
+            - cell [ref=e3367]:
+              - button "Fill/TagLive/Alpha/2" [ref=e3368] [cursor=pointer]:
+                - code [ref=e3370]: Fill/TagLive/Alpha/2
+                - generic [ref=e3371]: "#2481FF · 12%"
+            - cell [ref=e3372]:
+              - button "Fill/TagLive/Alpha/3" [ref=e3373] [cursor=pointer]:
+                - code [ref=e3375]: Fill/TagLive/Alpha/3
+                - generic [ref=e3376]: "#2481FF · 18%"
+          - row [ref=e3377]:
+            - rowheader "Dark Fill/TagLive/Alpha" [ref=e3378]: DarkFill/TagLive/Alpha
+            - cell [ref=e3379]:
+              - button "Dark Fill/TagLive/Alpha/1" [ref=e3380] [cursor=pointer]:
+                - code [ref=e3382]: Fill/TagLive/Alpha/1
+                - generic [ref=e3383]: "#2481FF · 18%"
+            - cell [ref=e3384]:
+              - button "Dark Fill/TagLive/Alpha/2" [ref=e3385] [cursor=pointer]:
+                - code [ref=e3387]: Fill/TagLive/Alpha/2
+                - generic [ref=e3388]: "#3B8EFF · 12%"
+            - cell [ref=e3389]:
+              - button "Dark Fill/TagLive/Alpha/3" [ref=e3390] [cursor=pointer]:
+                - code [ref=e3392]: Fill/TagLive/Alpha/3
+                - generic [ref=e3393]: "#3B8EFF · 18%"
+      - table "Border/TagAudio" [ref=e3395]:
+        - caption [ref=e3396]: Border/TagAudio · 叶绿
+        - rowgroup [ref=e3397]:
+          - row [ref=e3398]:
+            - columnheader "模式 / 类别" [ref=e3399]
+            - columnheader "第 1 级" [ref=e3400]
+        - rowgroup [ref=e3401]:
+          - row [ref=e3402]:
+            - rowheader "Light Border/TagAudio" [ref=e3403]: LightBorder/TagAudio
+            - cell [ref=e3404]:
+              - button "Border/TagAudio/1" [ref=e3405] [cursor=pointer]:
+                - code [ref=e3407]: Border/TagAudio/1
+                - generic [ref=e3408]: "#09A21D · 35%"
+          - row [ref=e3409]:
+            - rowheader "Dark Border/TagAudio" [ref=e3410]: DarkBorder/TagAudio
+            - cell [ref=e3411]:
+              - button "Dark Border/TagAudio/1" [ref=e3412] [cursor=pointer]:
+                - code [ref=e3414]: Border/TagAudio/1
+                - generic [ref=e3415]: "#09A81E · 65%"
+      - table "Fill/TagAudio/Solid" [ref=e3417]:
+        - caption [ref=e3418]: Fill/TagAudio/Solid · 叶绿
+        - rowgroup [ref=e3419]:
+          - row [ref=e3420]:
+            - columnheader "模式 / 类别" [ref=e3421]
+            - columnheader "第 1 级" [ref=e3422]
+        - rowgroup [ref=e3423]:
+          - row [ref=e3424]:
+            - rowheader "Light Fill/TagAudio/Solid" [ref=e3425]: LightFill/TagAudio/Solid
+            - cell [ref=e3426]:
+              - button "Fill/TagAudio/Solid/1" [ref=e3427] [cursor=pointer]:
+                - code [ref=e3429]: Fill/TagAudio/Solid/1
+                - generic [ref=e3430]: "#61B06B"
+          - row [ref=e3431]:
+            - rowheader "Dark Fill/TagAudio/Solid" [ref=e3432]: DarkFill/TagAudio/Solid
+            - cell [ref=e3433]:
+              - button "Dark Fill/TagAudio/Solid/1" [ref=e3434] [cursor=pointer]:
+                - code [ref=e3436]: Fill/TagAudio/Solid/1
+                - generic [ref=e3437]: "#41824A"
+      - table "Fill/TagAudio/Alpha" [ref=e3439]:
+        - caption [ref=e3440]: Fill/TagAudio/Alpha · 叶绿
+        - rowgroup [ref=e3441]:
+          - row [ref=e3442]:
+            - columnheader "模式 / 类别" [ref=e3443]
+            - columnheader "第 1 级" [ref=e3444]
+            - columnheader "第 2 级" [ref=e3445]
+            - columnheader "第 3 级" [ref=e3446]
+        - rowgroup [ref=e3447]:
+          - row [ref=e3448]:
+            - rowheader "Light Fill/TagAudio/Alpha" [ref=e3449]: LightFill/TagAudio/Alpha
+            - cell [ref=e3450]:
+              - button "Fill/TagAudio/Alpha/1" [ref=e3451] [cursor=pointer]:
+                - code [ref=e3453]: Fill/TagAudio/Alpha/1
+                - generic [ref=e3454]: "#09A21D · 10%"
+            - cell [ref=e3455]:
+              - button "Fill/TagAudio/Alpha/2" [ref=e3456] [cursor=pointer]:
+                - code [ref=e3458]: Fill/TagAudio/Alpha/2
+                - generic [ref=e3459]: "#09A21D · 12%"
+            - cell [ref=e3460]:
+              - button "Fill/TagAudio/Alpha/3" [ref=e3461] [cursor=pointer]:
+                - code [ref=e3463]: Fill/TagAudio/Alpha/3
+                - generic [ref=e3464]: "#09A21D · 18%"
+          - row [ref=e3465]:
+            - rowheader "Dark Fill/TagAudio/Alpha" [ref=e3466]: DarkFill/TagAudio/Alpha
+            - cell [ref=e3467]:
+              - button "Dark Fill/TagAudio/Alpha/1" [ref=e3468] [cursor=pointer]:
+                - code [ref=e3470]: Fill/TagAudio/Alpha/1
+                - generic [ref=e3471]: "#09A21D · 18%"
+            - cell [ref=e3472]:
+              - button "Dark Fill/TagAudio/Alpha/2" [ref=e3473] [cursor=pointer]:
+                - code [ref=e3475]: Fill/TagAudio/Alpha/2
+                - generic [ref=e3476]: "#09A81E · 12%"
+            - cell [ref=e3477]:
+              - button "Dark Fill/TagAudio/Alpha/3" [ref=e3478] [cursor=pointer]:
+                - code [ref=e3480]: Fill/TagAudio/Alpha/3
+                - generic [ref=e3481]: "#09A81E · 18%"
+      - table "Border/TagMagenta" [ref=e3483]:
+        - caption [ref=e3484]: Border/TagMagenta · 洋红
+        - rowgroup [ref=e3485]:
+          - row [ref=e3486]:
+            - columnheader "模式 / 类别" [ref=e3487]
+            - columnheader "第 1 级" [ref=e3488]
+        - rowgroup [ref=e3489]:
+          - row [ref=e3490]:
+            - rowheader "Light Border/TagMagenta" [ref=e3491]: LightBorder/TagMagenta
+            - cell [ref=e3492]:
+              - button "Border/TagMagenta/1" [ref=e3493] [cursor=pointer]:
+                - code [ref=e3495]: Border/TagMagenta/1
+                - generic [ref=e3496]: "#C652BE · 35%"
+          - row [ref=e3497]:
+            - rowheader "Dark Border/TagMagenta" [ref=e3498]: DarkBorder/TagMagenta
+            - cell [ref=e3499]:
+              - button "Dark Border/TagMagenta/1" [ref=e3500] [cursor=pointer]:
+                - code [ref=e3502]: Border/TagMagenta/1
+                - generic [ref=e3503]: "#CD69C7 · 66%"
+      - table "Fill/TagMagenta/Solid" [ref=e3505]:
+        - caption [ref=e3506]: Fill/TagMagenta/Solid · 洋红
+        - rowgroup [ref=e3507]:
+          - row [ref=e3508]:
+            - columnheader "模式 / 类别" [ref=e3509]
+            - columnheader "第 1 级" [ref=e3510]
+        - rowgroup [ref=e3511]:
+          - row [ref=e3512]:
+            - rowheader "Light Fill/TagMagenta/Solid" [ref=e3513]: LightFill/TagMagenta/Solid
+            - cell [ref=e3514]:
+              - button "Fill/TagMagenta/Solid/1" [ref=e3515] [cursor=pointer]:
+                - code [ref=e3517]: Fill/TagMagenta/Solid/1
+                - generic [ref=e3518]: "#DC75B1"
+          - row [ref=e3519]:
+            - rowheader "Dark Fill/TagMagenta/Solid" [ref=e3520]: DarkFill/TagMagenta/Solid
+            - cell [ref=e3521]:
+              - button "Dark Fill/TagMagenta/Solid/1" [ref=e3522] [cursor=pointer]:
+                - code [ref=e3524]: Fill/TagMagenta/Solid/1
+                - generic [ref=e3525]: "#CD388F"
+      - table "Fill/TagMagenta/Alpha" [ref=e3527]:
+        - caption [ref=e3528]: Fill/TagMagenta/Alpha · 洋红
+        - rowgroup [ref=e3529]:
+          - row [ref=e3530]:
+            - columnheader "模式 / 类别" [ref=e3531]
+            - columnheader "第 1 级" [ref=e3532]
+            - columnheader "第 2 级" [ref=e3533]
+            - columnheader "第 3 级" [ref=e3534]
+        - rowgroup [ref=e3535]:
+          - row [ref=e3536]:
+            - rowheader "Light Fill/TagMagenta/Alpha" [ref=e3537]: LightFill/TagMagenta/Alpha
+            - cell [ref=e3538]:
+              - button "Fill/TagMagenta/Alpha/1" [ref=e3539] [cursor=pointer]:
+                - code [ref=e3541]: Fill/TagMagenta/Alpha/1
+                - generic [ref=e3542]: "#C652BE · 10%"
+            - cell [ref=e3543]:
+              - button "Fill/TagMagenta/Alpha/2" [ref=e3544] [cursor=pointer]:
+                - code [ref=e3546]: Fill/TagMagenta/Alpha/2
+                - generic [ref=e3547]: "#C652BE · 12%"
+            - cell [ref=e3548]:
+              - button "Fill/TagMagenta/Alpha/3" [ref=e3549] [cursor=pointer]:
+                - code [ref=e3551]: Fill/TagMagenta/Alpha/3
+                - generic [ref=e3552]: "#C652BE · 18%"
+          - row [ref=e3553]:
+            - rowheader "Dark Fill/TagMagenta/Alpha" [ref=e3554]: DarkFill/TagMagenta/Alpha
+            - cell [ref=e3555]:
+              - button "Dark Fill/TagMagenta/Alpha/1" [ref=e3556] [cursor=pointer]:
+                - code [ref=e3558]: Fill/TagMagenta/Alpha/1
+                - generic [ref=e3559]: "#C652BE · 18%"
+            - cell [ref=e3560]:
+              - button "Dark Fill/TagMagenta/Alpha/2" [ref=e3561] [cursor=pointer]:
+                - code [ref=e3563]: Fill/TagMagenta/Alpha/2
+                - generic [ref=e3564]: "#CD69C7 · 12%"
+            - cell [ref=e3565]:
+              - button "Dark Fill/TagMagenta/Alpha/3" [ref=e3566] [cursor=pointer]:
+                - code [ref=e3568]: Fill/TagMagenta/Alpha/3
+                - generic [ref=e3569]: "#CD69C7 · 18%"
+      - table "Border/TagBrown" [ref=e3571]:
+        - caption [ref=e3572]: Border/TagBrown · 棕褐
+        - rowgroup [ref=e3573]:
+          - row [ref=e3574]:
+            - columnheader "模式 / 类别" [ref=e3575]
+            - columnheader "第 1 级" [ref=e3576]
+        - rowgroup [ref=e3577]:
+          - row [ref=e3578]:
+            - rowheader "Light Border/TagBrown" [ref=e3579]: LightBorder/TagBrown
+            - cell [ref=e3580]:
+              - button "Border/TagBrown/1" [ref=e3581] [cursor=pointer]:
+                - code [ref=e3583]: Border/TagBrown/1
+                - generic [ref=e3584]: "#9A593C · 35%"
+          - row [ref=e3585]:
+            - rowheader "Dark Border/TagBrown" [ref=e3586]: DarkBorder/TagBrown
+            - cell [ref=e3587]:
+              - button "Dark Border/TagBrown/1" [ref=e3588] [cursor=pointer]:
+                - code [ref=e3590]: Border/TagBrown/1
+                - generic [ref=e3591]: "#C17F61 · 66%"
+      - table "Fill/TagBrown/Solid" [ref=e3593]:
+        - caption [ref=e3594]: Fill/TagBrown/Solid · 棕褐
+        - rowgroup [ref=e3595]:
+          - row [ref=e3596]:
+            - columnheader "模式 / 类别" [ref=e3597]
+            - columnheader "第 1 级" [ref=e3598]
+        - rowgroup [ref=e3599]:
+          - row [ref=e3600]:
+            - rowheader "Light Fill/TagBrown/Solid" [ref=e3601]: LightFill/TagBrown/Solid
+            - cell [ref=e3602]:
+              - button "Fill/TagBrown/Solid/1" [ref=e3603] [cursor=pointer]:
+                - code [ref=e3605]: Fill/TagBrown/Solid/1
+                - generic [ref=e3606]: "#C2816E"
+          - row [ref=e3607]:
+            - rowheader "Dark Fill/TagBrown/Solid" [ref=e3608]: DarkFill/TagBrown/Solid
+            - cell [ref=e3609]:
+              - button "Dark Fill/TagBrown/Solid/1" [ref=e3610] [cursor=pointer]:
+                - code [ref=e3612]: Fill/TagBrown/Solid/1
+                - generic [ref=e3613]: "#AD6049"
+      - table "Fill/TagBrown/Alpha" [ref=e3615]:
+        - caption [ref=e3616]: Fill/TagBrown/Alpha · 棕褐
+        - rowgroup [ref=e3617]:
+          - row [ref=e3618]:
+            - columnheader "模式 / 类别" [ref=e3619]
+            - columnheader "第 1 级" [ref=e3620]
+            - columnheader "第 2 级" [ref=e3621]
+            - columnheader "第 3 级" [ref=e3622]
+        - rowgroup [ref=e3623]:
+          - row [ref=e3624]:
+            - rowheader "Light Fill/TagBrown/Alpha" [ref=e3625]: LightFill/TagBrown/Alpha
+            - cell [ref=e3626]:
+              - button "Fill/TagBrown/Alpha/1" [ref=e3627] [cursor=pointer]:
+                - code [ref=e3629]: Fill/TagBrown/Alpha/1
+                - generic [ref=e3630]: "#9A593C · 10%"
+            - cell [ref=e3631]:
+              - button "Fill/TagBrown/Alpha/2" [ref=e3632] [cursor=pointer]:
+                - code [ref=e3634]: Fill/TagBrown/Alpha/2
+                - generic [ref=e3635]: "#9A593C · 12%"
+            - cell [ref=e3636]:
+              - button "Fill/TagBrown/Alpha/3" [ref=e3637] [cursor=pointer]:
+                - code [ref=e3639]: Fill/TagBrown/Alpha/3
+                - generic [ref=e3640]: "#9A593C · 18%"
+          - row [ref=e3641]:
+            - rowheader "Dark Fill/TagBrown/Alpha" [ref=e3642]: DarkFill/TagBrown/Alpha
+            - cell [ref=e3643]:
+              - button "Dark Fill/TagBrown/Alpha/1" [ref=e3644] [cursor=pointer]:
+                - code [ref=e3646]: Fill/TagBrown/Alpha/1
+                - generic [ref=e3647]: "#B86C49 · 18%"
+            - cell [ref=e3648]:
+              - button "Dark Fill/TagBrown/Alpha/2" [ref=e3649] [cursor=pointer]:
+                - code [ref=e3651]: Fill/TagBrown/Alpha/2
+                - generic [ref=e3652]: "#C17F61 · 12%"
+            - cell [ref=e3653]:
+              - button "Dark Fill/TagBrown/Alpha/3" [ref=e3654] [cursor=pointer]:
+                - code [ref=e3656]: Fill/TagBrown/Alpha/3
+                - generic [ref=e3657]: "#C17F61 · 18%"
+      - table "Border/TagVote" [ref=e3659]:
+        - caption [ref=e3660]: Border/TagVote · 雾蓝
+        - rowgroup [ref=e3661]:
+          - row [ref=e3662]:
+            - columnheader "模式 / 类别" [ref=e3663]
+            - columnheader "第 1 级" [ref=e3664]
+        - rowgroup [ref=e3665]:
+          - row [ref=e3666]:
+            - rowheader "Light Border/TagVote" [ref=e3667]: LightBorder/TagVote
+            - cell [ref=e3668]:
+              - button "Border/TagVote/1" [ref=e3669] [cursor=pointer]:
+                - code [ref=e3671]: Border/TagVote/1
+                - generic [ref=e3672]: "#687CAC · 35%"
+          - row [ref=e3673]:
+            - rowheader "Dark Border/TagVote" [ref=e3674]: DarkBorder/TagVote
+            - cell [ref=e3675]:
+              - button "Dark Border/TagVote/1" [ref=e3676] [cursor=pointer]:
+                - code [ref=e3678]: Border/TagVote/1
+                - generic [ref=e3679]: "#7E8FB8 · 65%"
+      - table "Fill/TagVote/Solid" [ref=e3681]:
+        - caption [ref=e3682]: Fill/TagVote/Solid · 雾蓝
+        - rowgroup [ref=e3683]:
+          - row [ref=e3684]:
+            - columnheader "模式 / 类别" [ref=e3685]
+            - columnheader "第 1 级" [ref=e3686]
+        - rowgroup [ref=e3687]:
+          - row [ref=e3688]:
+            - rowheader "Light Fill/TagVote/Solid" [ref=e3689]: LightFill/TagVote/Solid
+            - cell [ref=e3690]:
+              - button "Fill/TagVote/Solid/1" [ref=e3691] [cursor=pointer]:
+                - code [ref=e3693]: Fill/TagVote/Solid/1
+                - generic [ref=e3694]: "#7D94CC"
+          - row [ref=e3695]:
+            - rowheader "Dark Fill/TagVote/Solid" [ref=e3696]: DarkFill/TagVote/Solid
+            - cell [ref=e3697]:
+              - button "Dark Fill/TagVote/Solid/1" [ref=e3698] [cursor=pointer]:
+                - code [ref=e3700]: Fill/TagVote/Solid/1
+                - generic [ref=e3701]: "#5573BC"
+      - table "Fill/TagVote/Alpha" [ref=e3703]:
+        - caption [ref=e3704]: Fill/TagVote/Alpha · 雾蓝
+        - rowgroup [ref=e3705]:
+          - row [ref=e3706]:
+            - columnheader "模式 / 类别" [ref=e3707]
+            - columnheader "第 1 级" [ref=e3708]
+            - columnheader "第 2 级" [ref=e3709]
+            - columnheader "第 3 级" [ref=e3710]
+        - rowgroup [ref=e3711]:
+          - row [ref=e3712]:
+            - rowheader "Light Fill/TagVote/Alpha" [ref=e3713]: LightFill/TagVote/Alpha
+            - cell [ref=e3714]:
+              - button "Fill/TagVote/Alpha/1" [ref=e3715] [cursor=pointer]:
+                - code [ref=e3717]: Fill/TagVote/Alpha/1
+                - generic [ref=e3718]: "#687CAC · 10%"
+            - cell [ref=e3719]:
+              - button "Fill/TagVote/Alpha/2" [ref=e3720] [cursor=pointer]:
+                - code [ref=e3722]: Fill/TagVote/Alpha/2
+                - generic [ref=e3723]: "#687CAC · 12%"
+            - cell [ref=e3724]:
+              - button "Fill/TagVote/Alpha/3" [ref=e3725] [cursor=pointer]:
+                - code [ref=e3727]: Fill/TagVote/Alpha/3
+                - generic [ref=e3728]: "#687CAC · 18%"
+          - row [ref=e3729]:
+            - rowheader "Dark Fill/TagVote/Alpha" [ref=e3730]: DarkFill/TagVote/Alpha
+            - cell [ref=e3731]:
+              - button "Dark Fill/TagVote/Alpha/1" [ref=e3732] [cursor=pointer]:
+                - code [ref=e3734]: Fill/TagVote/Alpha/1
+                - generic [ref=e3735]: "#6B7FAE · 18%"
+            - cell [ref=e3736]:
+              - button "Dark Fill/TagVote/Alpha/2" [ref=e3737] [cursor=pointer]:
+                - code [ref=e3739]: Fill/TagVote/Alpha/2
+                - generic [ref=e3740]: "#7E8FB8 · 12%"
+            - cell [ref=e3741]:
+              - button "Dark Fill/TagVote/Alpha/3" [ref=e3742] [cursor=pointer]:
+                - code [ref=e3744]: Fill/TagVote/Alpha/3
+                - generic [ref=e3745]: "#7E8FB8 · 18%"
+      - table "Border/TagSelfTest" [ref=e3747]:
+        - caption [ref=e3748]: Border/TagSelfTest · 明紫
+        - rowgroup [ref=e3749]:
+          - row [ref=e3750]:
+            - columnheader "模式 / 类别" [ref=e3751]
+            - columnheader "第 1 级" [ref=e3752]
+        - rowgroup [ref=e3753]:
+          - row [ref=e3754]:
+            - rowheader "Light Border/TagSelfTest" [ref=e3755]: LightBorder/TagSelfTest
+            - cell [ref=e3756]:
+              - button "Border/TagSelfTest/1" [ref=e3757] [cursor=pointer]:
+                - code [ref=e3759]: Border/TagSelfTest/1
+                - generic [ref=e3760]: "#994AF4 · 35%"
+          - row [ref=e3761]:
+            - rowheader "Dark Border/TagSelfTest" [ref=e3762]: DarkBorder/TagSelfTest
+            - cell [ref=e3763]:
+              - button "Dark Border/TagSelfTest/1" [ref=e3764] [cursor=pointer]:
+                - code [ref=e3766]: Border/TagSelfTest/1
+                - generic [ref=e3767]: "#AE70F6 · 66%"
+      - table "Fill/TagSelfTest/Solid" [ref=e3769]:
+        - caption [ref=e3770]: Fill/TagSelfTest/Solid · 明紫
+        - rowgroup [ref=e3771]:
+          - row [ref=e3772]:
+            - columnheader "模式 / 类别" [ref=e3773]
+            - columnheader "第 1 级" [ref=e3774]
+        - rowgroup [ref=e3775]:
+          - row [ref=e3776]:
+            - rowheader "Light Fill/TagSelfTest/Solid" [ref=e3777]: LightFill/TagSelfTest/Solid
+            - cell [ref=e3778]:
+              - button "Fill/TagSelfTest/Solid/1" [ref=e3779] [cursor=pointer]:
+                - code [ref=e3781]: Fill/TagSelfTest/Solid/1
+                - generic [ref=e3782]: "#AB72DD"
+          - row [ref=e3783]:
+            - rowheader "Dark Fill/TagSelfTest/Solid" [ref=e3784]: DarkFill/TagSelfTest/Solid
+            - cell [ref=e3785]:
+              - button "Dark Fill/TagSelfTest/Solid/1" [ref=e3786] [cursor=pointer]:
+                - code [ref=e3788]: Fill/TagSelfTest/Solid/1
+                - generic [ref=e3789]: "#9953D6"
+      - table "Fill/TagSelfTest/Alpha" [ref=e3791]:
+        - caption [ref=e3792]: Fill/TagSelfTest/Alpha · 明紫
+        - rowgroup [ref=e3793]:
+          - row [ref=e3794]:
+            - columnheader "模式 / 类别" [ref=e3795]
+            - columnheader "第 1 级" [ref=e3796]
+            - columnheader "第 2 级" [ref=e3797]
+            - columnheader "第 3 级" [ref=e3798]
+        - rowgroup [ref=e3799]:
+          - row [ref=e3800]:
+            - rowheader "Light Fill/TagSelfTest/Alpha" [ref=e3801]: LightFill/TagSelfTest/Alpha
+            - cell [ref=e3802]:
+              - button "Fill/TagSelfTest/Alpha/1" [ref=e3803] [cursor=pointer]:
+                - code [ref=e3805]: Fill/TagSelfTest/Alpha/1
+                - generic [ref=e3806]: "#994AF4 · 10%"
+            - cell [ref=e3807]:
+              - button "Fill/TagSelfTest/Alpha/2" [ref=e3808] [cursor=pointer]:
+                - code [ref=e3810]: Fill/TagSelfTest/Alpha/2
+                - generic [ref=e3811]: "#994AF4 · 12%"
+            - cell [ref=e3812]:
+              - button "Fill/TagSelfTest/Alpha/3" [ref=e3813] [cursor=pointer]:
+                - code [ref=e3815]: Fill/TagSelfTest/Alpha/3
+                - generic [ref=e3816]: "#994AF4 · 18%"
+          - row [ref=e3817]:
+            - rowheader "Dark Fill/TagSelfTest/Alpha" [ref=e3818]: DarkFill/TagSelfTest/Alpha
+            - cell [ref=e3819]:
+              - button "Dark Fill/TagSelfTest/Alpha/1" [ref=e3820] [cursor=pointer]:
+                - code [ref=e3822]: Fill/TagSelfTest/Alpha/1
+                - generic [ref=e3823]: "#A159F5 · 18%"
+            - cell [ref=e3824]:
+              - button "Dark Fill/TagSelfTest/Alpha/2" [ref=e3825] [cursor=pointer]:
+                - code [ref=e3827]: Fill/TagSelfTest/Alpha/2
+                - generic [ref=e3828]: "#AE70F6 · 12%"
+            - cell [ref=e3829]:
+              - button "Dark Fill/TagSelfTest/Alpha/3" [ref=e3830] [cursor=pointer]:
+                - code [ref=e3832]: Fill/TagSelfTest/Alpha/3
+                - generic [ref=e3833]: "#AE70F6 · 18%"
+      - table "Border/TagSlate" [ref=e3835]:
+        - caption [ref=e3836]: Border/TagSlate · 石板蓝
+        - rowgroup [ref=e3837]:
+          - row [ref=e3838]:
+            - columnheader "模式 / 类别" [ref=e3839]
+            - columnheader "第 1 级" [ref=e3840]
+        - rowgroup [ref=e3841]:
+          - row [ref=e3842]:
+            - rowheader "Light Border/TagSlate" [ref=e3843]: LightBorder/TagSlate
+            - cell [ref=e3844]:
+              - button "Border/TagSlate/1" [ref=e3845] [cursor=pointer]:
+                - code [ref=e3847]: Border/TagSlate/1
+                - generic [ref=e3848]: "#6D84AC · 35%"
+          - row [ref=e3849]:
+            - rowheader "Dark Border/TagSlate" [ref=e3850]: DarkBorder/TagSlate
+            - cell [ref=e3851]:
+              - button "Dark Border/TagSlate/1" [ref=e3852] [cursor=pointer]:
+                - code [ref=e3854]: Border/TagSlate/1
+                - generic [ref=e3855]: "#7D91B5 · 65%"
+      - table "Fill/TagSlate/Solid" [ref=e3857]:
+        - caption [ref=e3858]: Fill/TagSlate/Solid · 石板蓝
+        - rowgroup [ref=e3859]:
+          - row [ref=e3860]:
+            - columnheader "模式 / 类别" [ref=e3861]
+            - columnheader "第 1 级" [ref=e3862]
+        - rowgroup [ref=e3863]:
+          - row [ref=e3864]:
+            - rowheader "Light Fill/TagSlate/Solid" [ref=e3865]: LightFill/TagSlate/Solid
+            - cell [ref=e3866]:
+              - button "Fill/TagSlate/Solid/1" [ref=e3867] [cursor=pointer]:
+                - code [ref=e3869]: Fill/TagSlate/Solid/1
+                - generic [ref=e3870]: "#8699B9"
+          - row [ref=e3871]:
+            - rowheader "Dark Fill/TagSlate/Solid" [ref=e3872]: DarkFill/TagSlate/Solid
+            - cell [ref=e3873]:
+              - button "Dark Fill/TagSlate/Solid/1" [ref=e3874] [cursor=pointer]:
+                - code [ref=e3876]: Fill/TagSlate/Solid/1
+                - generic [ref=e3877]: "#5D76A0"
+      - table "Fill/TagSlate/Alpha" [ref=e3879]:
+        - caption [ref=e3880]: Fill/TagSlate/Alpha · 石板蓝
+        - rowgroup [ref=e3881]:
+          - row [ref=e3882]:
+            - columnheader "模式 / 类别" [ref=e3883]
+            - columnheader "第 1 级" [ref=e3884]
+            - columnheader "第 2 级" [ref=e3885]
+            - columnheader "第 3 级" [ref=e3886]
+        - rowgroup [ref=e3887]:
+          - row [ref=e3888]:
+            - rowheader "Light Fill/TagSlate/Alpha" [ref=e3889]: LightFill/TagSlate/Alpha
+            - cell [ref=e3890]:
+              - button "Fill/TagSlate/Alpha/1" [ref=e3891] [cursor=pointer]:
+                - code [ref=e3893]: Fill/TagSlate/Alpha/1
+                - generic [ref=e3894]: "#6D84AC · 10%"
+            - cell [ref=e3895]:
+              - button "Fill/TagSlate/Alpha/2" [ref=e3896] [cursor=pointer]:
+                - code [ref=e3898]: Fill/TagSlate/Alpha/2
+                - generic [ref=e3899]: "#6D84AC · 12%"
+            - cell [ref=e3900]:
+              - button "Fill/TagSlate/Alpha/3" [ref=e3901] [cursor=pointer]:
+                - code [ref=e3903]: Fill/TagSlate/Alpha/3
+                - generic [ref=e3904]: "#6D84AC · 18%"
+          - row [ref=e3905]:
+            - rowheader "Dark Fill/TagSlate/Alpha" [ref=e3906]: DarkFill/TagSlate/Alpha
+            - cell [ref=e3907]:
+              - button "Dark Fill/TagSlate/Alpha/1" [ref=e3908] [cursor=pointer]:
+                - code [ref=e3910]: Fill/TagSlate/Alpha/1
+                - generic [ref=e3911]: "#6D84AC · 18%"
+            - cell [ref=e3912]:
+              - button "Dark Fill/TagSlate/Alpha/2" [ref=e3913] [cursor=pointer]:
+                - code [ref=e3915]: Fill/TagSlate/Alpha/2
+                - generic [ref=e3916]: "#7D91B5 · 12%"
+            - cell [ref=e3917]:
+              - button "Dark Fill/TagSlate/Alpha/3" [ref=e3918] [cursor=pointer]:
+                - code [ref=e3920]: Fill/TagSlate/Alpha/3
+                - generic [ref=e3921]: "#7D91B5 · 18%"
+      - table "Border/TagDifficulty1" [ref=e3923]:
+        - caption [ref=e3924]: Border/TagDifficulty1 · 薄荷绿
+        - rowgroup [ref=e3925]:
+          - row [ref=e3926]:
+            - columnheader "模式 / 类别" [ref=e3927]
+            - columnheader "第 1 级" [ref=e3928]
+        - rowgroup [ref=e3929]:
+          - row [ref=e3930]:
+            - rowheader "Light Border/TagDifficulty1" [ref=e3931]: LightBorder/TagDifficulty1
+            - cell [ref=e3932]:
+              - button "Border/TagDifficulty1/1" [ref=e3933] [cursor=pointer]:
+                - code [ref=e3935]: Border/TagDifficulty1/1
+                - generic [ref=e3936]: "#24AF8E · 35%"
+          - row [ref=e3937]:
+            - rowheader "Dark Border/TagDifficulty1" [ref=e3938]: DarkBorder/TagDifficulty1
+            - cell [ref=e3939]:
+              - button "Dark Border/TagDifficulty1/1" [ref=e3940] [cursor=pointer]:
+                - code [ref=e3942]: Border/TagDifficulty1/1
+                - generic [ref=e3943]: "#24AF8E · 60%"
+      - table "Fill/TagDifficulty1/Solid" [ref=e3945]:
+        - caption [ref=e3946]: Fill/TagDifficulty1/Solid · 薄荷绿
+        - rowgroup [ref=e3947]:
+          - row [ref=e3948]:
+            - columnheader "模式 / 类别" [ref=e3949]
+            - columnheader "第 1 级" [ref=e3950]
+        - rowgroup [ref=e3951]:
+          - row [ref=e3952]:
+            - rowheader "Light Fill/TagDifficulty1/Solid" [ref=e3953]: LightFill/TagDifficulty1/Solid
+            - cell [ref=e3954]:
+              - button "Fill/TagDifficulty1/Solid/1" [ref=e3955] [cursor=pointer]:
+                - code [ref=e3957]: Fill/TagDifficulty1/Solid/1
+                - generic [ref=e3958]: "#3FB498"
+          - row [ref=e3959]:
+            - rowheader "Dark Fill/TagDifficulty1/Solid" [ref=e3960]: DarkFill/TagDifficulty1/Solid
+            - cell [ref=e3961]:
+              - button "Dark Fill/TagDifficulty1/Solid/1" [ref=e3962] [cursor=pointer]:
+                - code [ref=e3964]: Fill/TagDifficulty1/Solid/1
+                - generic [ref=e3965]: "#2E826E"
+      - table "Fill/TagDifficulty1/Alpha" [ref=e3967]:
+        - caption [ref=e3968]: Fill/TagDifficulty1/Alpha · 薄荷绿
+        - rowgroup [ref=e3969]:
+          - row [ref=e3970]:
+            - columnheader "模式 / 类别" [ref=e3971]
+            - columnheader "第 1 级" [ref=e3972]
+            - columnheader "第 2 级" [ref=e3973]
+            - columnheader "第 3 级" [ref=e3974]
+        - rowgroup [ref=e3975]:
+          - row [ref=e3976]:
+            - rowheader "Light Fill/TagDifficulty1/Alpha" [ref=e3977]: LightFill/TagDifficulty1/Alpha
+            - cell [ref=e3978]:
+              - button "Fill/TagDifficulty1/Alpha/1" [ref=e3979] [cursor=pointer]:
+                - code [ref=e3981]: Fill/TagDifficulty1/Alpha/1
+                - generic [ref=e3982]: "#24AF8E · 10%"
+            - cell [ref=e3983]:
+              - button "Fill/TagDifficulty1/Alpha/2" [ref=e3984] [cursor=pointer]:
+                - code [ref=e3986]: Fill/TagDifficulty1/Alpha/2
+                - generic [ref=e3987]: "#24AF8E · 12%"
+            - cell [ref=e3988]:
+              - button "Fill/TagDifficulty1/Alpha/3" [ref=e3989] [cursor=pointer]:
+                - code [ref=e3991]: Fill/TagDifficulty1/Alpha/3
+                - generic [ref=e3992]: "#24AF8E · 18%"
+          - row [ref=e3993]:
+            - rowheader "Dark Fill/TagDifficulty1/Alpha" [ref=e3994]: DarkFill/TagDifficulty1/Alpha
+            - cell [ref=e3995]:
+              - button "Dark Fill/TagDifficulty1/Alpha/1" [ref=e3996] [cursor=pointer]:
+                - code [ref=e3998]: Fill/TagDifficulty1/Alpha/1
+                - generic [ref=e3999]: "#24AF8E · 18%"
+            - cell [ref=e4000]:
+              - button "Dark Fill/TagDifficulty1/Alpha/2" [ref=e4001] [cursor=pointer]:
+                - code [ref=e4003]: Fill/TagDifficulty1/Alpha/2
+                - generic [ref=e4004]: "#24AF8E · 12%"
+            - cell [ref=e4005]:
+              - button "Dark Fill/TagDifficulty1/Alpha/3" [ref=e4006] [cursor=pointer]:
+                - code [ref=e4008]: Fill/TagDifficulty1/Alpha/3
+                - generic [ref=e4009]: "#24AF8E · 18%"
+      - table "Border/TagDifficulty2" [ref=e4011]:
+        - caption [ref=e4012]: Border/TagDifficulty2 · 草绿
+        - rowgroup [ref=e4013]:
+          - row [ref=e4014]:
+            - columnheader "模式 / 类别" [ref=e4015]
+            - columnheader "第 1 级" [ref=e4016]
+        - rowgroup [ref=e4017]:
+          - row [ref=e4018]:
+            - rowheader "Light Border/TagDifficulty2" [ref=e4019]: LightBorder/TagDifficulty2
+            - cell [ref=e4020]:
+              - button "Border/TagDifficulty2/1" [ref=e4021] [cursor=pointer]:
+                - code [ref=e4023]: Border/TagDifficulty2/1
+                - generic [ref=e4024]: "#5BA219 · 35%"
+          - row [ref=e4025]:
+            - rowheader "Dark Border/TagDifficulty2" [ref=e4026]: DarkBorder/TagDifficulty2
+            - cell [ref=e4027]:
+              - button "Dark Border/TagDifficulty2/1" [ref=e4028] [cursor=pointer]:
+                - code [ref=e4030]: Border/TagDifficulty2/1
+                - generic [ref=e4031]: "#5CA419 · 64%"
+      - table "Fill/TagDifficulty2/Solid" [ref=e4033]:
+        - caption [ref=e4034]: Fill/TagDifficulty2/Solid · 草绿
+        - rowgroup [ref=e4035]:
+          - row [ref=e4036]:
+            - columnheader "模式 / 类别" [ref=e4037]
+            - columnheader "第 1 级" [ref=e4038]
+        - rowgroup [ref=e4039]:
+          - row [ref=e4040]:
+            - rowheader "Light Fill/TagDifficulty2/Solid" [ref=e4041]: LightFill/TagDifficulty2/Solid
+            - cell [ref=e4042]:
+              - button "Fill/TagDifficulty2/Solid/1" [ref=e4043] [cursor=pointer]:
+                - code [ref=e4045]: Fill/TagDifficulty2/Solid/1
+                - generic [ref=e4046]: "#77B140"
+          - row [ref=e4047]:
+            - rowheader "Dark Fill/TagDifficulty2/Solid" [ref=e4048]: DarkFill/TagDifficulty2/Solid
+            - cell [ref=e4049]:
+              - button "Dark Fill/TagDifficulty2/Solid/1" [ref=e4050] [cursor=pointer]:
+                - code [ref=e4052]: Fill/TagDifficulty2/Solid/1
+                - generic [ref=e4053]: "#56802E"
+      - table "Fill/TagDifficulty2/Alpha" [ref=e4055]:
+        - caption [ref=e4056]: Fill/TagDifficulty2/Alpha · 草绿
+        - rowgroup [ref=e4057]:
+          - row [ref=e4058]:
+            - columnheader "模式 / 类别" [ref=e4059]
+            - columnheader "第 1 级" [ref=e4060]
+            - columnheader "第 2 级" [ref=e4061]
+            - columnheader "第 3 级" [ref=e4062]
+        - rowgroup [ref=e4063]:
+          - row [ref=e4064]:
+            - rowheader "Light Fill/TagDifficulty2/Alpha" [ref=e4065]: LightFill/TagDifficulty2/Alpha
+            - cell [ref=e4066]:
+              - button "Fill/TagDifficulty2/Alpha/1" [ref=e4067] [cursor=pointer]:
+                - code [ref=e4069]: Fill/TagDifficulty2/Alpha/1
+                - generic [ref=e4070]: "#5BA219 · 10%"
+            - cell [ref=e4071]:
+              - button "Fill/TagDifficulty2/Alpha/2" [ref=e4072] [cursor=pointer]:
+                - code [ref=e4074]: Fill/TagDifficulty2/Alpha/2
+                - generic [ref=e4075]: "#5BA219 · 12%"
+            - cell [ref=e4076]:
+              - button "Fill/TagDifficulty2/Alpha/3" [ref=e4077] [cursor=pointer]:
+                - code [ref=e4079]: Fill/TagDifficulty2/Alpha/3
+                - generic [ref=e4080]: "#5BA219 · 18%"
+          - row [ref=e4081]:
+            - rowheader "Dark Fill/TagDifficulty2/Alpha" [ref=e4082]: DarkFill/TagDifficulty2/Alpha
+            - cell [ref=e4083]:
+              - button "Dark Fill/TagDifficulty2/Alpha/1" [ref=e4084] [cursor=pointer]:
+                - code [ref=e4086]: Fill/TagDifficulty2/Alpha/1
+                - generic [ref=e4087]: "#5BA219 · 18%"
+            - cell [ref=e4088]:
+              - button "Dark Fill/TagDifficulty2/Alpha/2" [ref=e4089] [cursor=pointer]:
+                - code [ref=e4091]: Fill/TagDifficulty2/Alpha/2
+                - generic [ref=e4092]: "#5CA419 · 12%"
+            - cell [ref=e4093]:
+              - button "Dark Fill/TagDifficulty2/Alpha/3" [ref=e4094] [cursor=pointer]:
+                - code [ref=e4096]: Fill/TagDifficulty2/Alpha/3
+                - generic [ref=e4097]: "#5CA419 · 18%"
+      - table "Border/TagDifficulty3" [ref=e4099]:
+        - caption [ref=e4100]: Border/TagDifficulty3 · 芥末金
+        - rowgroup [ref=e4101]:
+          - row [ref=e4102]:
+            - columnheader "模式 / 类别" [ref=e4103]
+            - columnheader "第 1 级" [ref=e4104]
+        - rowgroup [ref=e4105]:
+          - row [ref=e4106]:
+            - rowheader "Light Border/TagDifficulty3" [ref=e4107]: LightBorder/TagDifficulty3
+            - cell [ref=e4108]:
+              - button "Border/TagDifficulty3/1" [ref=e4109] [cursor=pointer]:
+                - code [ref=e4111]: Border/TagDifficulty3/1
+                - generic [ref=e4112]: "#A88400 · 35%"
+          - row [ref=e4113]:
+            - rowheader "Dark Border/TagDifficulty3" [ref=e4114]: DarkBorder/TagDifficulty3
+            - cell [ref=e4115]:
+              - button "Dark Border/TagDifficulty3/1" [ref=e4116] [cursor=pointer]:
+                - code [ref=e4118]: Border/TagDifficulty3/1
+                - generic [ref=e4119]: "#B28C00 · 65%"
+      - table "Fill/TagDifficulty3/Solid" [ref=e4121]:
+        - caption [ref=e4122]: Fill/TagDifficulty3/Solid · 芥末金
+        - rowgroup [ref=e4123]:
+          - row [ref=e4124]:
+            - columnheader "模式 / 类别" [ref=e4125]
+            - columnheader "第 1 级" [ref=e4126]
+        - rowgroup [ref=e4127]:
+          - row [ref=e4128]:
+            - rowheader "Light Fill/TagDifficulty3/Solid" [ref=e4129]: LightFill/TagDifficulty3/Solid
+            - cell [ref=e4130]:
+              - button "Fill/TagDifficulty3/Solid/1" [ref=e4131] [cursor=pointer]:
+                - code [ref=e4133]: Fill/TagDifficulty3/Solid/1
+                - generic [ref=e4134]: "#BEA134"
+          - row [ref=e4135]:
+            - rowheader "Dark Fill/TagDifficulty3/Solid" [ref=e4136]: DarkFill/TagDifficulty3/Solid
+            - cell [ref=e4137]:
+              - button "Dark Fill/TagDifficulty3/Solid/1" [ref=e4138] [cursor=pointer]:
+                - code [ref=e4140]: Fill/TagDifficulty3/Solid/1
+                - generic [ref=e4141]: "#887325"
+      - table "Fill/TagDifficulty3/Alpha" [ref=e4143]:
+        - caption [ref=e4144]: Fill/TagDifficulty3/Alpha · 芥末金
+        - rowgroup [ref=e4145]:
+          - row [ref=e4146]:
+            - columnheader "模式 / 类别" [ref=e4147]
+            - columnheader "第 1 级" [ref=e4148]
+            - columnheader "第 2 级" [ref=e4149]
+            - columnheader "第 3 级" [ref=e4150]
+        - rowgroup [ref=e4151]:
+          - row [ref=e4152]:
+            - rowheader "Light Fill/TagDifficulty3/Alpha" [ref=e4153]: LightFill/TagDifficulty3/Alpha
+            - cell [ref=e4154]:
+              - button "Fill/TagDifficulty3/Alpha/1" [ref=e4155] [cursor=pointer]:
+                - code [ref=e4157]: Fill/TagDifficulty3/Alpha/1
+                - generic [ref=e4158]: "#A88400 · 10%"
+            - cell [ref=e4159]:
+              - button "Fill/TagDifficulty3/Alpha/2" [ref=e4160] [cursor=pointer]:
+                - code [ref=e4162]: Fill/TagDifficulty3/Alpha/2
+                - generic [ref=e4163]: "#A88400 · 12%"
+            - cell [ref=e4164]:
+              - button "Fill/TagDifficulty3/Alpha/3" [ref=e4165] [cursor=pointer]:
+                - code [ref=e4167]: Fill/TagDifficulty3/Alpha/3
+                - generic [ref=e4168]: "#A88400 · 18%"
+          - row [ref=e4169]:
+            - rowheader "Dark Fill/TagDifficulty3/Alpha" [ref=e4170]: DarkFill/TagDifficulty3/Alpha
+            - cell [ref=e4171]:
+              - button "Dark Fill/TagDifficulty3/Alpha/1" [ref=e4172] [cursor=pointer]:
+                - code [ref=e4174]: Fill/TagDifficulty3/Alpha/1
+                - generic [ref=e4175]: "#A88400 · 18%"
+            - cell [ref=e4176]:
+              - button "Dark Fill/TagDifficulty3/Alpha/2" [ref=e4177] [cursor=pointer]:
+                - code [ref=e4179]: Fill/TagDifficulty3/Alpha/2
+                - generic [ref=e4180]: "#B28C00 · 12%"
+            - cell [ref=e4181]:
+              - button "Dark Fill/TagDifficulty3/Alpha/3" [ref=e4182] [cursor=pointer]:
+                - code [ref=e4184]: Fill/TagDifficulty3/Alpha/3
+                - generic [ref=e4185]: "#B28C00 · 18%"
+      - table "Border/TagDifficulty4" [ref=e4187]:
+        - caption [ref=e4188]: Border/TagDifficulty4 · 鲜橙
+        - rowgroup [ref=e4189]:
+          - row [ref=e4190]:
+            - columnheader "模式 / 类别" [ref=e4191]
+            - columnheader "第 1 级" [ref=e4192]
+        - rowgroup [ref=e4193]:
+          - row [ref=e4194]:
+            - rowheader "Light Border/TagDifficulty4" [ref=e4195]: LightBorder/TagDifficulty4
+            - cell [ref=e4196]:
+              - button "Border/TagDifficulty4/1" [ref=e4197] [cursor=pointer]:
+                - code [ref=e4199]: Border/TagDifficulty4/1
+                - generic [ref=e4200]: "#E46700 · 35%"
+          - row [ref=e4201]:
+            - rowheader "Dark Border/TagDifficulty4" [ref=e4202]: DarkBorder/TagDifficulty4
+            - cell [ref=e4203]:
+              - button "Dark Border/TagDifficulty4/1" [ref=e4204] [cursor=pointer]:
+                - code [ref=e4206]: Border/TagDifficulty4/1
+                - generic [ref=e4207]: "#EB6A00 · 66%"
+      - table "Fill/TagDifficulty4/Solid" [ref=e4209]:
+        - caption [ref=e4210]: Fill/TagDifficulty4/Solid · 鲜橙
+        - rowgroup [ref=e4211]:
+          - row [ref=e4212]:
+            - columnheader "模式 / 类别" [ref=e4213]
+            - columnheader "第 1 级" [ref=e4214]
+        - rowgroup [ref=e4215]:
+          - row [ref=e4216]:
+            - rowheader "Light Fill/TagDifficulty4/Solid" [ref=e4217]: LightFill/TagDifficulty4/Solid
+            - cell [ref=e4218]:
+              - button "Fill/TagDifficulty4/Solid/1" [ref=e4219] [cursor=pointer]:
+                - code [ref=e4221]: Fill/TagDifficulty4/Solid/1
+                - generic [ref=e4222]: "#E38827"
+          - row [ref=e4223]:
+            - rowheader "Dark Fill/TagDifficulty4/Solid" [ref=e4224]: DarkFill/TagDifficulty4/Solid
+            - cell [ref=e4225]:
+              - button "Dark Fill/TagDifficulty4/Solid/1" [ref=e4226] [cursor=pointer]:
+                - code [ref=e4228]: Fill/TagDifficulty4/Solid/1
+                - generic [ref=e4229]: "#AC6316"
+      - table "Fill/TagDifficulty4/Alpha" [ref=e4231]:
+        - caption [ref=e4232]: Fill/TagDifficulty4/Alpha · 鲜橙
+        - rowgroup [ref=e4233]:
+          - row [ref=e4234]:
+            - columnheader "模式 / 类别" [ref=e4235]
+            - columnheader "第 1 级" [ref=e4236]
+            - columnheader "第 2 级" [ref=e4237]
+            - columnheader "第 3 级" [ref=e4238]
+        - rowgroup [ref=e4239]:
+          - row [ref=e4240]:
+            - rowheader "Light Fill/TagDifficulty4/Alpha" [ref=e4241]: LightFill/TagDifficulty4/Alpha
+            - cell [ref=e4242]:
+              - button "Fill/TagDifficulty4/Alpha/1" [ref=e4243] [cursor=pointer]:
+                - code [ref=e4245]: Fill/TagDifficulty4/Alpha/1
+                - generic [ref=e4246]: "#E46700 · 10%"
+            - cell [ref=e4247]:
+              - button "Fill/TagDifficulty4/Alpha/2" [ref=e4248] [cursor=pointer]:
+                - code [ref=e4250]: Fill/TagDifficulty4/Alpha/2
+                - generic [ref=e4251]: "#E46700 · 12%"
+            - cell [ref=e4252]:
+              - button "Fill/TagDifficulty4/Alpha/3" [ref=e4253] [cursor=pointer]:
+                - code [ref=e4255]: Fill/TagDifficulty4/Alpha/3
+                - generic [ref=e4256]: "#E46700 · 18%"
+          - row [ref=e4257]:
+            - rowheader "Dark Fill/TagDifficulty4/Alpha" [ref=e4258]: DarkFill/TagDifficulty4/Alpha
+            - cell [ref=e4259]:
+              - button "Dark Fill/TagDifficulty4/Alpha/1" [ref=e4260] [cursor=pointer]:
+                - code [ref=e4262]: Fill/TagDifficulty4/Alpha/1
+                - generic [ref=e4263]: "#E46700 · 18%"
+            - cell [ref=e4264]:
+              - button "Dark Fill/TagDifficulty4/Alpha/2" [ref=e4265] [cursor=pointer]:
+                - code [ref=e4267]: Fill/TagDifficulty4/Alpha/2
+                - generic [ref=e4268]: "#EB6A00 · 12%"
+            - cell [ref=e4269]:
+              - button "Dark Fill/TagDifficulty4/Alpha/3" [ref=e4270] [cursor=pointer]:
+                - code [ref=e4272]: Fill/TagDifficulty4/Alpha/3
+                - generic [ref=e4273]: "#EB6A00 · 18%"
+      - table "Border/TagDifficulty5" [ref=e4275]:
+        - caption [ref=e4276]: Border/TagDifficulty5 · 朱红
+        - rowgroup [ref=e4277]:
+          - row [ref=e4278]:
+            - columnheader "模式 / 类别" [ref=e4279]
+            - columnheader "第 1 级" [ref=e4280]
+        - rowgroup [ref=e4281]:
+          - row [ref=e4282]:
+            - rowheader "Light Border/TagDifficulty5" [ref=e4283]: LightBorder/TagDifficulty5
+            - cell [ref=e4284]:
+              - button "Border/TagDifficulty5/1" [ref=e4285] [cursor=pointer]:
+                - code [ref=e4287]: Border/TagDifficulty5/1
+                - generic [ref=e4288]: "#E13411 · 35%"
+          - row [ref=e4289]:
+            - rowheader "Dark Border/TagDifficulty5" [ref=e4290]: DarkBorder/TagDifficulty5
+            - cell [ref=e4291]:
+              - button "Dark Border/TagDifficulty5/1" [ref=e4292] [cursor=pointer]:
+                - code [ref=e4294]: Border/TagDifficulty5/1
+                - generic [ref=e4295]: "#F15A3C · 68%"
+      - table "Fill/TagDifficulty5/Solid" [ref=e4297]:
+        - caption [ref=e4298]: Fill/TagDifficulty5/Solid · 朱红
+        - rowgroup [ref=e4299]:
+          - row [ref=e4300]:
+            - columnheader "模式 / 类别" [ref=e4301]
+            - columnheader "第 1 级" [ref=e4302]
+        - rowgroup [ref=e4303]:
+          - row [ref=e4304]:
+            - rowheader "Light Fill/TagDifficulty5/Solid" [ref=e4305]: LightFill/TagDifficulty5/Solid
+            - cell [ref=e4306]:
+              - button "Fill/TagDifficulty5/Solid/1" [ref=e4307] [cursor=pointer]:
+                - code [ref=e4309]: Fill/TagDifficulty5/Solid/1
+                - generic [ref=e4310]: "#E9684E"
+          - row [ref=e4311]:
+            - rowheader "Dark Fill/TagDifficulty5/Solid" [ref=e4312]: DarkFill/TagDifficulty5/Solid
+            - cell [ref=e4313]:
+              - button "Dark Fill/TagDifficulty5/Solid/1" [ref=e4314] [cursor=pointer]:
+                - code [ref=e4316]: Fill/TagDifficulty5/Solid/1
+                - generic [ref=e4317]: "#D83B1B"
+      - table "Fill/TagDifficulty5/Alpha" [ref=e4319]:
+        - caption [ref=e4320]: Fill/TagDifficulty5/Alpha · 朱红
+        - rowgroup [ref=e4321]:
+          - row [ref=e4322]:
+            - columnheader "模式 / 类别" [ref=e4323]
+            - columnheader "第 1 级" [ref=e4324]
+            - columnheader "第 2 级" [ref=e4325]
+            - columnheader "第 3 级" [ref=e4326]
+        - rowgroup [ref=e4327]:
+          - row [ref=e4328]:
+            - rowheader "Light Fill/TagDifficulty5/Alpha" [ref=e4329]: LightFill/TagDifficulty5/Alpha
+            - cell [ref=e4330]:
+              - button "Fill/TagDifficulty5/Alpha/1" [ref=e4331] [cursor=pointer]:
+                - code [ref=e4333]: Fill/TagDifficulty5/Alpha/1
+                - generic [ref=e4334]: "#E13411 · 10%"
+            - cell [ref=e4335]:
+              - button "Fill/TagDifficulty5/Alpha/2" [ref=e4336] [cursor=pointer]:
+                - code [ref=e4338]: Fill/TagDifficulty5/Alpha/2
+                - generic [ref=e4339]: "#E13411 · 12%"
+            - cell [ref=e4340]:
+              - button "Fill/TagDifficulty5/Alpha/3" [ref=e4341] [cursor=pointer]:
+                - code [ref=e4343]: Fill/TagDifficulty5/Alpha/3
+                - generic [ref=e4344]: "#E13411 · 18%"
+          - row [ref=e4345]:
+            - rowheader "Dark Fill/TagDifficulty5/Alpha" [ref=e4346]: DarkFill/TagDifficulty5/Alpha
+            - cell [ref=e4347]:
+              - button "Dark Fill/TagDifficulty5/Alpha/1" [ref=e4348] [cursor=pointer]:
+                - code [ref=e4350]: Fill/TagDifficulty5/Alpha/1
+                - generic [ref=e4351]: "#EE3B17 · 18%"
+            - cell [ref=e4352]:
+              - button "Dark Fill/TagDifficulty5/Alpha/2" [ref=e4353] [cursor=pointer]:
+                - code [ref=e4355]: Fill/TagDifficulty5/Alpha/2
+                - generic [ref=e4356]: "#F15A3C · 12%"
+            - cell [ref=e4357]:
+              - button "Dark Fill/TagDifficulty5/Alpha/3" [ref=e4358] [cursor=pointer]:
+                - code [ref=e4360]: Fill/TagDifficulty5/Alpha/3
+                - generic [ref=e4361]: "#F15A3C · 18%"
+      - table "Fill/TagOngoing/Alpha" [ref=e4363]:
+        - caption [ref=e4364]: Fill/TagOngoing/Alpha · 按用途选择
+        - rowgroup [ref=e4365]:
+          - row [ref=e4366]:
+            - columnheader "模式 / 类别" [ref=e4367]
+            - columnheader "第 1 级" [ref=e4368]
+        - rowgroup [ref=e4369]:
+          - row [ref=e4370]:
+            - rowheader "Light Fill/TagOngoing/Alpha" [ref=e4371]: LightFill/TagOngoing/Alpha
+            - cell [ref=e4372]:
+              - button "Fill/TagOngoing/Alpha/1" [ref=e4373] [cursor=pointer]:
+                - code [ref=e4375]: Fill/TagOngoing/Alpha/1
+                - generic [ref=e4376]: "#14B565 · 18%"
+          - row [ref=e4377]:
+            - rowheader "Dark Fill/TagOngoing/Alpha" [ref=e4378]: DarkFill/TagOngoing/Alpha
+            - cell [ref=e4379]:
+              - button "Dark Fill/TagOngoing/Alpha/1" [ref=e4380] [cursor=pointer]:
+                - code [ref=e4382]: Fill/TagOngoing/Alpha/1
+                - generic [ref=e4383]: "#14B565 · 18%"
+      - table "Fill/TagOngoing/Solid" [ref=e4385]:
+        - caption [ref=e4386]: Fill/TagOngoing/Solid · 按用途选择
+        - rowgroup [ref=e4387]:
+          - row [ref=e4388]:
+            - columnheader "模式 / 类别" [ref=e4389]
+            - columnheader "第 1 级" [ref=e4390]
+        - rowgroup [ref=e4391]:
+          - row [ref=e4392]:
+            - rowheader "Light Fill/TagOngoing/Solid" [ref=e4393]: LightFill/TagOngoing/Solid
+            - cell [ref=e4394]:
+              - button "Fill/TagOngoing/Solid/1" [ref=e4395] [cursor=pointer]:
+                - code [ref=e4397]: Fill/TagOngoing/Solid/1
+                - generic [ref=e4398]: "#14B565"
+          - row [ref=e4399]:
+            - rowheader "Dark Fill/TagOngoing/Solid" [ref=e4400]: DarkFill/TagOngoing/Solid
+            - cell [ref=e4401]:
+              - button "Dark Fill/TagOngoing/Solid/1" [ref=e4402] [cursor=pointer]:
+                - code [ref=e4404]: Fill/TagOngoing/Solid/1
+                - generic [ref=e4405]: "#0E7B45"
+      - table "OnColor/TagOngoing" [ref=e4407]:
+        - caption [ref=e4408]: OnColor/TagOngoing · 按用途选择
+        - rowgroup [ref=e4409]:
+          - row [ref=e4410]:
+            - columnheader "模式 / 类别" [ref=e4411]
+            - columnheader "第 1 级" [ref=e4412]
+        - rowgroup [ref=e4413]:
+          - row [ref=e4414]:
+            - rowheader "Light OnColor/TagOngoing" [ref=e4415]: LightOnColor/TagOngoing
+            - cell [ref=e4416]:
+              - button "OnColor/TagOngoing/1" [ref=e4417] [cursor=pointer]:
+                - code [ref=e4419]: OnColor/TagOngoing/1
+                - generic [ref=e4420]: "#FFFFFF · 90%"
+          - row [ref=e4421]:
+            - rowheader "Dark OnColor/TagOngoing" [ref=e4422]: DarkOnColor/TagOngoing
+            - cell [ref=e4423]:
+              - button "Dark OnColor/TagOngoing/1" [ref=e4424] [cursor=pointer]:
+                - code [ref=e4426]: OnColor/TagOngoing/1
+                - generic [ref=e4427]: "#FFFFFF · 90%"
+      - table "Fill/TagUnsubmitted/Alpha" [ref=e4429]:
+        - caption [ref=e4430]: Fill/TagUnsubmitted/Alpha · 按用途选择
+        - rowgroup [ref=e4431]:
+          - row [ref=e4432]:
+            - columnheader "模式 / 类别" [ref=e4433]
+            - columnheader "第 1 级" [ref=e4434]
+        - rowgroup [ref=e4435]:
+          - row [ref=e4436]:
+            - rowheader "Light Fill/TagUnsubmitted/Alpha" [ref=e4437]: LightFill/TagUnsubmitted/Alpha
+            - cell [ref=e4438]:
+              - button "Fill/TagUnsubmitted/Alpha/1" [ref=e4439] [cursor=pointer]:
+                - code [ref=e4441]: Fill/TagUnsubmitted/Alpha/1
+                - generic [ref=e4442]: "#F78600 · 18%"
+          - row [ref=e4443]:
+            - rowheader "Dark Fill/TagUnsubmitted/Alpha" [ref=e4444]: DarkFill/TagUnsubmitted/Alpha
+            - cell [ref=e4445]:
+              - button "Dark Fill/TagUnsubmitted/Alpha/1" [ref=e4446] [cursor=pointer]:
+                - code [ref=e4448]: Fill/TagUnsubmitted/Alpha/1
+                - generic [ref=e4449]: "#F78600 · 24%"
+      - table "Fill/TagEnded" [ref=e4451]:
+        - caption [ref=e4452]: Fill/TagEnded · 按用途选择
+        - rowgroup [ref=e4453]:
+          - row [ref=e4454]:
+            - columnheader "模式 / 类别" [ref=e4455]
+            - columnheader "第 1 级" [ref=e4456]
+            - columnheader "第 2 级" [ref=e4457]
+        - rowgroup [ref=e4458]:
+          - row [ref=e4459]:
+            - rowheader "Light Fill/TagEnded" [ref=e4460]: LightFill/TagEnded
+            - cell [ref=e4461]:
+              - button "Fill/TagEnded/1" [ref=e4462] [cursor=pointer]:
+                - code [ref=e4464]: Fill/TagEnded/1
+                - generic [ref=e4465]: "#5075FE · 12%"
+            - cell [ref=e4466]:
+              - button "Fill/TagEnded/2" [ref=e4467] [cursor=pointer]:
+                - code [ref=e4469]: Fill/TagEnded/2
+                - generic [ref=e4470]: "#D7DEF5"
+          - row [ref=e4471]:
+            - rowheader "Dark Fill/TagEnded" [ref=e4472]: DarkFill/TagEnded
+            - cell [ref=e4473]:
+              - button "Dark Fill/TagEnded/1" [ref=e4474] [cursor=pointer]:
+                - code [ref=e4476]: Fill/TagEnded/1
+                - generic [ref=e4477]: "#5075FE · 20%"
+            - cell [ref=e4478]:
+              - button "Dark Fill/TagEnded/2" [ref=e4479] [cursor=pointer]:
+                - code [ref=e4481]: Fill/TagEnded/2
+                - generic [ref=e4482]: "#5075FE · 24%"
+      - table "Fill/TagBatch/Solid" [ref=e4484]:
+        - caption [ref=e4485]: Fill/TagBatch/Solid · 按用途选择
+        - rowgroup [ref=e4486]:
+          - row [ref=e4487]:
+            - columnheader "模式 / 类别" [ref=e4488]
+            - columnheader "第 1 级" [ref=e4489]
+        - rowgroup [ref=e4490]:
+          - row [ref=e4491]:
+            - rowheader "Light Fill/TagBatch/Solid" [ref=e4492]: LightFill/TagBatch/Solid
+            - cell [ref=e4493]:
+              - button "Fill/TagBatch/Solid/1" [ref=e4494] [cursor=pointer]:
+                - code [ref=e4496]: Fill/TagBatch/Solid/1
+                - generic [ref=e4497]: "#728CCB"
+          - row [ref=e4498]:
+            - rowheader "Dark Fill/TagBatch/Solid" [ref=e4499]: DarkFill/TagBatch/Solid
+            - cell [ref=e4500]:
+              - button "Dark Fill/TagBatch/Solid/1" [ref=e4501] [cursor=pointer]:
+                - code [ref=e4503]: Fill/TagBatch/Solid/1
+                - generic [ref=e4504]: "#728CCB"
+      - table "Fill/TagUnsubmitted/Solid" [ref=e4506]:
+        - caption [ref=e4507]: Fill/TagUnsubmitted/Solid · 按用途选择
+        - rowgroup [ref=e4508]:
+          - row [ref=e4509]:
+            - columnheader "模式 / 类别" [ref=e4510]
+            - columnheader "第 1 级" [ref=e4511]
+        - rowgroup [ref=e4512]:
+          - row [ref=e4513]:
+            - rowheader "Light Fill/TagUnsubmitted/Solid" [ref=e4514]: LightFill/TagUnsubmitted/Solid
+            - cell [ref=e4515]:
+              - button "Fill/TagUnsubmitted/Solid/1" [ref=e4516] [cursor=pointer]:
+                - code [ref=e4518]: Fill/TagUnsubmitted/Solid/1
+                - generic [ref=e4519]: "#F78600"
+          - row [ref=e4520]:
+            - rowheader "Dark Fill/TagUnsubmitted/Solid" [ref=e4521]: DarkFill/TagUnsubmitted/Solid
+            - cell [ref=e4522]:
+              - button "Dark Fill/TagUnsubmitted/Solid/1" [ref=e4523] [cursor=pointer]:
+                - code [ref=e4525]: Fill/TagUnsubmitted/Solid/1
+                - generic [ref=e4526]: "#F78600"
+      - table "Border/TagReminder" [ref=e4528]:
+        - caption [ref=e4529]: Border/TagReminder · 按用途选择
+        - rowgroup [ref=e4530]:
+          - row [ref=e4531]:
+            - columnheader "模式 / 类别" [ref=e4532]
+            - columnheader "第 1 级" [ref=e4533]
+        - rowgroup [ref=e4534]:
+          - row [ref=e4535]:
+            - rowheader "Light Border/TagReminder" [ref=e4536]: LightBorder/TagReminder
+            - cell [ref=e4537]:
+              - button "Border/TagReminder/1" [ref=e4538] [cursor=pointer]:
+                - code [ref=e4540]: Border/TagReminder/1
+                - generic [ref=e4541]: "#FFFFFF"
+          - row [ref=e4542]:
+            - rowheader "Dark Border/TagReminder" [ref=e4543]: DarkBorder/TagReminder
+            - cell [ref=e4544]:
+              - button "Dark Border/TagReminder/1" [ref=e4545] [cursor=pointer]:
+                - code [ref=e4547]: Border/TagReminder/1
+                - generic [ref=e4548]: "#FFFFFF"
+      - table "Fill/TagNeutralAction/Alpha" [ref=e4550]:
+        - caption [ref=e4551]: Fill/TagNeutralAction/Alpha · 按用途选择
+        - rowgroup [ref=e4552]:
+          - row [ref=e4553]:
+            - columnheader "模式 / 类别" [ref=e4554]
+            - columnheader "第 1 级" [ref=e4555]
+            - columnheader "第 2 级" [ref=e4556]
+        - rowgroup [ref=e4557]:
+          - row [ref=e4558]:
+            - rowheader "Light Fill/TagNeutralAction/Alpha" [ref=e4559]: LightFill/TagNeutralAction/Alpha
+            - cell [ref=e4560]:
+              - button "Fill/TagNeutralAction/Alpha/1" [ref=e4561] [cursor=pointer]:
+                - code [ref=e4563]: Fill/TagNeutralAction/Alpha/1
+                - generic [ref=e4564]: "#495D87 · 12%"
+            - cell [ref=e4565]:
+              - button "Fill/TagNeutralAction/Alpha/2" [ref=e4566] [cursor=pointer]:
+                - code [ref=e4568]: Fill/TagNeutralAction/Alpha/2
+                - generic [ref=e4569]: "#495D87 · 18%"
+          - row [ref=e4570]:
+            - rowheader "Dark Fill/TagNeutralAction/Alpha" [ref=e4571]: DarkFill/TagNeutralAction/Alpha
+            - cell [ref=e4572]:
+              - button "Dark Fill/TagNeutralAction/Alpha/1" [ref=e4573] [cursor=pointer]:
+                - code [ref=e4575]: Fill/TagNeutralAction/Alpha/1
+                - generic [ref=e4576]: "#B7C1E0 · 12%"
+            - cell [ref=e4577]:
+              - button "Dark Fill/TagNeutralAction/Alpha/2" [ref=e4578] [cursor=pointer]:
+                - code [ref=e4580]: Fill/TagNeutralAction/Alpha/2
+                - generic [ref=e4581]: "#B7C1E0 · 18%"
+      - table "Fill/TagBrandAction/Alpha" [ref=e4583]:
+        - caption [ref=e4584]: Fill/TagBrandAction/Alpha · 按用途选择
+        - rowgroup [ref=e4585]:
+          - row [ref=e4586]:
+            - columnheader "模式 / 类别" [ref=e4587]
+            - columnheader "第 1 级" [ref=e4588]
+            - columnheader "第 2 级" [ref=e4589]
+        - rowgroup [ref=e4590]:
+          - row [ref=e4591]:
+            - rowheader "Light Fill/TagBrandAction/Alpha" [ref=e4592]: LightFill/TagBrandAction/Alpha
+            - cell [ref=e4593]:
+              - button "Fill/TagBrandAction/Alpha/1" [ref=e4594] [cursor=pointer]:
+                - code [ref=e4596]: Fill/TagBrandAction/Alpha/1
+                - generic [ref=e4597]: "#0F55DF · 12%"
+            - cell [ref=e4598]:
+              - button "Fill/TagBrandAction/Alpha/2" [ref=e4599] [cursor=pointer]:
+                - code [ref=e4601]: Fill/TagBrandAction/Alpha/2
+                - generic [ref=e4602]: "#0F55DF · 18%"
+          - row [ref=e4603]:
+            - rowheader "Dark Fill/TagBrandAction/Alpha" [ref=e4604]: DarkFill/TagBrandAction/Alpha
+            - cell [ref=e4605]:
+              - button "Dark Fill/TagBrandAction/Alpha/1" [ref=e4606] [cursor=pointer]:
+                - code [ref=e4608]: Fill/TagBrandAction/Alpha/1
+                - generic [ref=e4609]: "#7CA5FF · 12%"
+            - cell [ref=e4610]:
+              - button "Dark Fill/TagBrandAction/Alpha/2" [ref=e4611] [cursor=pointer]:
+                - code [ref=e4613]: Fill/TagBrandAction/Alpha/2
+                - generic [ref=e4614]: "#7CA5FF · 18%"
+      - table "Fill/TagSolidAction/Alpha" [ref=e4616]:
+        - caption [ref=e4617]: Fill/TagSolidAction/Alpha · 按用途选择
+        - rowgroup [ref=e4618]:
+          - row [ref=e4619]:
+            - columnheader "模式 / 类别" [ref=e4620]
+            - columnheader "第 1 级" [ref=e4621]
+            - columnheader "第 2 级" [ref=e4622]
+        - rowgroup [ref=e4623]:
+          - row [ref=e4624]:
+            - rowheader "Light Fill/TagSolidAction/Alpha" [ref=e4625]: LightFill/TagSolidAction/Alpha
+            - cell [ref=e4626]:
+              - button "Fill/TagSolidAction/Alpha/1" [ref=e4627] [cursor=pointer]:
+                - code [ref=e4629]: Fill/TagSolidAction/Alpha/1
+                - generic [ref=e4630]: "#FFFFFF · 12%"
+            - cell [ref=e4631]:
+              - button "Fill/TagSolidAction/Alpha/2" [ref=e4632] [cursor=pointer]:
+                - code [ref=e4634]: Fill/TagSolidAction/Alpha/2
+                - generic [ref=e4635]: "#FFFFFF · 18%"
+          - row [ref=e4636]:
+            - rowheader "Dark Fill/TagSolidAction/Alpha" [ref=e4637]: DarkFill/TagSolidAction/Alpha
+            - cell [ref=e4638]:
+              - button "Dark Fill/TagSolidAction/Alpha/1" [ref=e4639] [cursor=pointer]:
+                - code [ref=e4641]: Fill/TagSolidAction/Alpha/1
+                - generic [ref=e4642]: "#FFFFFF · 12%"
+            - cell [ref=e4643]:
+              - button "Dark Fill/TagSolidAction/Alpha/2" [ref=e4644] [cursor=pointer]:
+                - code [ref=e4646]: Fill/TagSolidAction/Alpha/2
+                - generic [ref=e4647]: "#FFFFFF · 18%"
+      - table "Fill/TagNeutralSolidAction/Alpha" [ref=e4649]:
+        - caption [ref=e4650]: Fill/TagNeutralSolidAction/Alpha · 按用途选择
+        - rowgroup [ref=e4651]:
+          - row [ref=e4652]:
+            - columnheader "模式 / 类别" [ref=e4653]
+            - columnheader "第 1 级" [ref=e4654]
+            - columnheader "第 2 级" [ref=e4655]
+        - rowgroup [ref=e4656]:
+          - row [ref=e4657]:
+            - rowheader "Light Fill/TagNeutralSolidAction/Alpha" [ref=e4658]: LightFill/TagNeutralSolidAction/Alpha
+            - cell [ref=e4659]:
+              - button "Fill/TagNeutralSolidAction/Alpha/1" [ref=e4660] [cursor=pointer]:
+                - code [ref=e4662]: Fill/TagNeutralSolidAction/Alpha/1
+                - generic [ref=e4663]: "#142346 · 12%"
+            - cell [ref=e4664]:
+              - button "Fill/TagNeutralSolidAction/Alpha/2" [ref=e4665] [cursor=pointer]:
+                - code [ref=e4667]: Fill/TagNeutralSolidAction/Alpha/2
+                - generic [ref=e4668]: "#142346 · 18%"
+          - row [ref=e4669]:
+            - rowheader "Dark Fill/TagNeutralSolidAction/Alpha" [ref=e4670]: DarkFill/TagNeutralSolidAction/Alpha
+            - cell [ref=e4671]:
+              - button "Dark Fill/TagNeutralSolidAction/Alpha/1" [ref=e4672] [cursor=pointer]:
+                - code [ref=e4674]: Fill/TagNeutralSolidAction/Alpha/1
+                - generic [ref=e4675]: "#EFF1F5 · 12%"
+            - cell [ref=e4676]:
+              - button "Dark Fill/TagNeutralSolidAction/Alpha/2" [ref=e4677] [cursor=pointer]:
+                - code [ref=e4679]: Fill/TagNeutralSolidAction/Alpha/2
+                - generic [ref=e4680]: "#EFF1F5 · 18%"
+    - region "颜色详情" [ref=e4681]:
+      - heading "颜色详情" [level=3] [ref=e4682]
+      - code [ref=e4683]: Text/Neutral/1
+      - generic [ref=e4684]:
+        - generic [ref=e4685]:
+          - term [ref=e4686]: 搜索名称
+          - definition [ref=e4687]: 中性
+        - generic [ref=e4688]:
+          - term [ref=e4689]: 用途范围
+          - definition [ref=e4690]: 按内容、主题与实际父表面校验；优先已有 Variant 与完整 Recipe
+        - generic [ref=e4691]:
+          - term [ref=e4692]: 完整 Tailwind 类名
+          - definition [ref=e4693]:
+            - generic [ref=e4694]:
+              - code [ref=e4695]: text-rain-category-text-neutral-1
+              - text: · text / color
+        - generic [ref=e4696]:
+          - term [ref=e4697]: 当前展示位置
+          - definition [ref=e4698]: 第 1 级 · 稳定 Key 1
+        - generic [ref=e4699]:
+          - term [ref=e4700]: 当前预览主题
+          - definition [ref=e4701]: Light
+        - generic [ref=e4702]:
+          - term [ref=e4703]: Light 解析值
+          - definition [ref=e4704]: rgb(20 35 70)
+        - generic [ref=e4705]:
+          - term [ref=e4706]: Dark 解析值
+          - definition [ref=e4707]: rgb(239 241 245)
+        - generic [ref=e4708]:
+          - term [ref=e4709]: 排序方向
+          - definition [ref=e4710]: 本类别由强到弱
+        - generic [ref=e4711]:
+          - term [ref=e4712]: 默认选用范围
+          - definition [ref=e4713]: 按实际用途与表面选择
+        - generic [ref=e4714]:
+          - term [ref=e4715]: 常用 / 条件 / 限制标签
+          - definition [ref=e4716]: 待消费者证据确认
+        - generic [ref=e4717]:
+          - term [ref=e4718]: Semantic 与迁移
+          - definition [ref=e4719]: 未建立新 Alias；现有组件保持原配方
+        - generic [ref=e4720]:
+          - term [ref=e4721]: 使用登记
+          - definition [ref=e4722]: 实际消费者见 Token Manifest 的 colorConsumers / colorRecipeConsumers；各组件验收独立记录
+        - generic [ref=e4723]:
+          - term [ref=e4724]: 使用验证
+          - definition [ref=e4725]: 色块只展示事实；有意义内容须在实际父表面上验证
+        - generic [ref=e4726]:
+          - term [ref=e4727]: 来源
+          - definition [ref=e4728]:
+            - code [ref=e4729]: docs/plans/2026-09-05-color-token-governance-design.md#4
+        - generic [ref=e4730]:
+          - term [ref=e4731]: Dark 来源
+          - definition [ref=e4732]:
+            - code [ref=e4733]: evidence/runtime/color-dark-theme/confirmed-input.json
+      - group [ref=e4734]:
+        - generic "组件建设与 Alpha" [ref=e4735]
+    - region "页面自有内容使用示例" [ref=e4736]:
+      - heading "页面自有内容使用示例" [level=3] [ref=e4737]
+      - paragraph [ref=e4738]: 两种最小用途：中性正文与同色提示图标，均使用已有 Category 类名。此处的声明与实际父表面逐项登记，不扩展控件或业务状态用途。
+      - generic [ref=e4739]:
+        - generic [ref=e4741]:
+          - paragraph [ref=e4742]: Light · 复习资料已整理，可按章节阅读。
+          - img "提示" [ref=e4743]
+        - generic [ref=e4746]:
+          - paragraph [ref=e4747]: Dark · 复习资料已整理，可按章节阅读。
+          - img "提示" [ref=e4748]
+    - region "局部 Alpha 替换样本" [ref=e4750]:
+      - heading "同一来源，局部改变叠加强度" [level=3] [ref=e4751]
+      - paragraph [ref=e4752]: 以下两个装饰填充均位于白色表面。右侧替换为 20%，原 16% 预设保持不变；不把它们相乘为 3.2%。
+      - generic [ref=e4753]:
+        - figure "完整预设 · 16%" [ref=e4754]
+        - figure "局部替换 · 20%" [ref=e4757]
+      - paragraph [ref=e4760]:
+        - code [ref=e4761]: "--rain-local-token-color-demo-highlight"
+        - text: · 只作用于本样本
+```
+
+# Test source
+
+```ts
+  53  |     headingFacts.push({ id, headings });
+  54  |     for (const heading of headings) {
+  55  |       expect.soft(heading.size, `${id}: ${heading.text}`).toBe("16px");
+  56  |       expect.soft(heading.line, `${id}: ${heading.text}`).toBe("24px");
+  57  |     }
+  58  |     await expect(page.locator("pre code").last()).not.toBeEmpty();
+  59  |     const codeDetails = page.locator(".g4-doc-example-code").first();
+  60  |     const summary = codeDetails.locator("summary");
+  61  |     await expect(codeDetails).not.toHaveAttribute("open");
+  62  |     await summary.focus();
+  63  |     await page.keyboard.press("Tab");
+  64  |     await page.keyboard.press("Shift+Tab");
+  65  |     await expect(summary).toBeFocused();
+  66  |     await expect(summary).toHaveCSS("outline-style", "auto");
+  67  |     await page.keyboard.press("Enter");
+  68  |     await expect(codeDetails.locator("pre code").first()).toBeVisible();
+  69  |     await page.keyboard.press("Space");
+  70  |     await expect(codeDetails).not.toHaveAttribute("open");
+  71  |     await page.locator(`#${id}-title`).click();
+  72  |     expect(await page.evaluate(() => document.documentElement.scrollWidth), id).toBeLessThanOrEqual(page.viewportSize()!.width + 1);
+  73  |     await page.screenshot({ path: `${evidence}/${id}-${info.project.name}-light.png`, fullPage: true });
+  74  |     await page.getByRole("button", { name: "深色", exact: true }).click();
+  75  |     await page.getByRole("button", { name: "紧凑密度", exact: true }).click();
+  76  |     await expect(page.locator("main.component-doc")).toHaveAttribute("data-rain-theme", "dark");
+  77  |     if (id !== "typography") await expect(page.locator(`[data-rain-id="ui-${id}"][data-slot="root"]`).first()).toHaveAttribute("data-density", "compact");
+  78  |     expect(await page.evaluate(() => document.documentElement.scrollWidth), `${id} dark`).toBeLessThanOrEqual(page.viewportSize()!.width + 1);
+  79  |     await page.screenshot({ path: `${evidence}/${id}-${info.project.name}-dark-compact.png`, fullPage: true });
+  80  |     if (id === "item") await page.getByRole("region", { name: "课程资料示例", exact: true }).screenshot({ path: `${evidence}/item-${info.project.name}-dark-compact-scene.png` });
+  81  |   }
+  82  |   writeFileSync(`${evidence}/headings-${info.project.name}-facts.json`, JSON.stringify(headingFacts, null, 2));
+  83  | });
+  84  | 
+  85  | test("Typography uses existing measured roles and separates value from Chinese unit", async ({ page }, info) => {
+  86  |   await page.goto("/#typography");
+  87  |   const facts = await page.locator('[data-slot="typography-data-example"]').evaluate(root => {
+  88  |     const measure = (selector: string) => {
+  89  |       const node = root.querySelector<HTMLElement>(selector)!;
+  90  |       const style = getComputedStyle(node);
+  91  |       return { text: node.textContent, font: style.fontFamily, size: style.fontSize, line: style.lineHeight, weight: style.fontWeight };
+  92  |     };
+  93  |     const reading = getComputedStyle(document.querySelector('[aria-label="课程导读示例"]')!);
+  94  |     const heading = getComputedStyle(document.querySelector('[data-slot="typography-ui-example"] h3')!);
+  95  |     return { value: measure('[data-slot="value"]'), unit: measure('[data-slot="unit"]'), reading: { font: reading.fontFamily, size: reading.fontSize, line: reading.lineHeight }, heading: { size: heading.fontSize, line: heading.lineHeight }, dataFontCheck: document.fonts.check('28px "LINE Seed JP App_OTF"') };
+  96  |   });
+  97  |   writeFileSync(`${evidence}/typography-${info.project.name}-facts.json`, JSON.stringify(facts, null, 2));
+  98  |   expect.soft(facts.value.size).toBe("28px");
+  99  |   expect.soft(facts.value.line).toBe("36px");
+  100 |   expect.soft(facts.heading.size).toBe("16px");
+  101 |   expect.soft(facts.heading.line).toBe("24px");
+  102 |   expect(facts.value.font).toContain("LINE Seed JP");
+  103 |   expect(facts.value.weight).toBe("700");
+  104 |   expect(facts.unit.size).toBe("14px");
+  105 |   expect(facts.unit.font).toContain("PingFang SC");
+  106 |   expect(facts.unit.text).toBe("分");
+  107 |   expect(facts.reading.size).toBe("15px");
+  108 |   expect(facts.reading.line).toBe("26px");
+  109 | });
+  110 | 
+  111 | test("Typography paragraphs keep the registered line heights on actual text nodes", async ({ page }, info) => {
+  112 |   await page.goto("/#typography");
+  113 |   await expect(page.locator("#typography-title")).toBeVisible();
+  114 |   const facts = [];
+  115 |   for (const [selector, line] of [
+  116 |     ['[data-slot="typography-ui-example"] p.rain-type-ui-default', "22px"],
+  117 |     ['.g4-doc-article > p.rain-type-ui-supporting, [data-slot="typography-data-example"] > p.rain-type-ui-supporting', "20px"],
+  118 |     ['[data-slot="typography-ui-example"] p.rain-type-ui-caption', "20px"],
+  119 |     ['[aria-label="课程导读示例"] p', "26px"],
+  120 |   ] as const) {
+  121 |     const paragraphs = await page.locator(selector).evaluateAll(nodes => nodes.map(node => ({
+  122 |       text: node.textContent,
+  123 |       line: getComputedStyle(node).lineHeight,
+  124 |     })));
+  125 |     facts.push({ selector, expectedLine: line, paragraphs });
+  126 |     expect.soft(paragraphs.length, `${selector} has visible examples`).toBeGreaterThan(0);
+  127 |     for (const paragraph of paragraphs) expect.soft(paragraph.line, `${selector}: ${paragraph.text}`).toBe(line);
+  128 |   }
+  129 |   writeFileSync(`${evidence}/typography-${info.project.name}-paragraph-facts.json`, JSON.stringify(facts, null, 2));
+  130 |   await expect(page.locator(".g4-doc-type-row")).toHaveCount(9);
+  131 |   for (const [preset, size, line] of [
+  132 |     ["ui-default", "14px", "22px"], ["ui-compact", "13px", "18px"],
+  133 |     ["ui-caption", "12px", "20px"], ["ui-supporting", "13px", "20px"],
+  134 |     ["heading-section", "16px", "24px"], ["heading-page", "16px", "24px"],
+  135 |     ["reading-small", "14px", "24px"], ["reading-default", "15px", "26px"],
+  136 |     ["reading-large", "16px", "26px"],
+  137 |   ] as const) {
+  138 |     const sample = page.locator(`.g4-doc-type-row > p.rain-type-${preset}`);
+  139 |     await expect(sample).toHaveCSS("font-size", size);
+  140 |     await expect(sample).toHaveCSS("line-height", line);
+  141 |   }
+  142 | });
+  143 | 
+  144 | test("Typography sizing reaches existing consumers and limits named preset choices", async ({ page }, info) => {
+  145 |   const facts = [];
+  146 |   for (const [id, headingId] of [["input", "input-title"], ["select", "select-title"], ["input-number", "input-number-title"], ["tag", "tag-title"]] as const) {
+  147 |     await page.goto(`/#${id}`);
+  148 |     const heading = page.locator(`#${headingId}`);
+  149 |     await expect(heading).toBeVisible();
+  150 |     const measured = await heading.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight }));
+  151 |     facts.push({ id, measured });
+  152 |     expect.soft(measured.size, id).toBe("16px");
+> 153 |     expect.soft(measured.line, id).toBe("24px");
+      |                                    ^ Error: tag
+  154 |   }
+  155 |   await page.goto("/#foundations");
+  156 |   const statistic = page.locator('[data-rain-id="foundation-type-data"]');
+  157 |   const legacy = await statistic.evaluate(root => {
+  158 |     const value = getComputedStyle(root.querySelector('[data-slot="statistic-value"]')!);
+  159 |     const unit = getComputedStyle(root.querySelector('[data-slot="statistic-unit"]')!);
+  160 |     return { value: { size: value.fontSize, line: value.lineHeight, font: value.fontFamily, weight: value.fontWeight }, unit: { size: unit.fontSize, font: unit.fontFamily } };
+  161 |   });
+  162 |   facts.push({ id: "foundations", measured: legacy });
+  163 |   expect.soft(legacy.value.size).toBe("28px");
+  164 |   expect.soft(legacy.value.line).toBe("36px");
+  165 |   expect(legacy.value.font).toContain("LINE Seed JP");
+  166 |   expect(legacy.value.weight).toBe("700");
+  167 |   expect(legacy.unit.size).toBe("14px");
+  168 |   expect(legacy.unit.font).toContain("PingFang SC");
+  169 | 
+  170 |   await page.goto("/#token-foundations");
+  171 |   const panel = page.locator('[data-rain-id="token-typography-panel"]');
+  172 |   const preset = panel.getByRole("combobox", { name: "排版方案", exact: true });
+  173 |   const size = panel.getByRole("combobox", { name: "字号", exact: true });
+  174 |   const line = panel.getByRole("combobox", { name: "行高", exact: true });
+  175 |   const sample = panel.getByTestId("typography-live-preview");
+  176 |   const uiSizes = await size.locator("option").evaluateAll(nodes => nodes.map(node => Number((node as HTMLOptionElement).value)));
+  177 |   expect(uiSizes).toHaveLength(19);
+  178 |   expect(uiSizes).toContain(40);
+  179 |   for (const name of ["heading-page", "heading-section"]) {
+  180 |     await preset.selectOption(name);
+  181 |     const choices = await size.locator("option").evaluateAll(nodes => nodes.map(node => Number((node as HTMLOptionElement).value)));
+  182 |     const measured = await sample.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight }));
+  183 |     facts.push({ id: name, choices, measured });
+  184 |     expect.soft(choices, name).toEqual([16, 17, 18]);
+  185 |     expect.soft(measured.size, name).toBe("16px");
+  186 |     expect.soft(measured.line, name).toBe("24px");
+  187 |     for (const selectedSize of ["17", "18"]) {
+  188 |       await size.selectOption(selectedSize);
+  189 |       await expect(sample).toHaveCSS("font-size", `${selectedSize}px`);
+  190 |     }
+  191 |     await panel.getByRole("button", { name: "恢复完整方案", exact: true }).click();
+  192 |     await expect.soft(sample).toHaveCSS("font-size", "16px");
+  193 |   }
+  194 |   await preset.selectOption("data-default");
+  195 |   const dataSizes = await size.locator("option").evaluateAll(nodes => nodes.map(node => Number((node as HTMLOptionElement).value)));
+  196 |   const value = sample.locator('[data-slot="statistic-value"]');
+  197 |   const measured = await value.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight, weight: getComputedStyle(node).fontWeight }));
+  198 |   facts.push({ id: "data-default", choices: dataSizes, measured });
+  199 |   writeFileSync(`${evidence}/typography-consumers-${info.project.name}-facts.json`, JSON.stringify(facts, null, 2));
+  200 |   expect.soft(Math.max(...dataSizes)).toBe(28);
+  201 |   expect.soft(dataSizes.every(candidate => candidate <= 28)).toBe(true);
+  202 |   expect.soft(measured.size).toBe("28px");
+  203 |   expect.soft(measured.line).toBe("36px");
+  204 |   expect(measured.weight).toBe("700");
+  205 |   for (const excluded of [32, 36, 40]) expect(dataSizes).not.toContain(excluded);
+  206 |   await size.selectOption("24");
+  207 |   await line.selectOption("32");
+  208 |   await expect(value).toHaveCSS("font-size", "24px");
+  209 |   await expect(value).toHaveCSS("line-height", "32px");
+  210 |   await panel.getByRole("button", { name: "恢复完整方案", exact: true }).click();
+  211 |   await expect(value).toHaveCSS("font-size", "28px");
+  212 |   await expect(value).toHaveCSS("line-height", "36px");
+  213 |   await preset.selectOption("reading-default");
+  214 |   await size.selectOption("40");
+  215 |   await expect(sample).toHaveCSS("font-size", "40px");
+  216 |   await panel.screenshot({ path: `${evidence}/typography-panel-${info.project.name}.png` });
+  217 | });
+  218 | 
+  219 | test("Item lists aligned readable resources and keeps native keyboard navigation", async ({ page }, info) => {
+  220 |   await page.goto("/#item");
+  221 |   const list = page.getByRole("list", { name: "本讲课程资料", exact: true });
+  222 |   await expect(list.getByRole("listitem")).toHaveCount(3);
+  223 |   await expect(list.getByRole("button", { name: "课堂讨论任务尚未开放", exact: true })).toBeDisabled();
+  224 |   const rows = list.locator('[data-rain-id="ui-item"][data-slot="root"]');
+  225 |   await expect(rows).toHaveCount(3);
+  226 |   const mediaSizes = await rows.evaluateAll(nodes => nodes.map(root => {
+  227 |     const media = root.querySelector('[data-slot="media"]')!, icon = media.querySelector('[data-rain-id="icon"]')!;
+  228 |     const box = media.getBoundingClientRect(), glyph = icon.getBoundingClientRect();
+  229 |     const probe = document.createElement("span");
+  230 |     probe.style.backgroundColor = "var(--rain-category-background-neutral-2)";
+  231 |     media.append(probe);
+  232 |     const expectedBackground = getComputedStyle(probe).backgroundColor;
+  233 |     probe.remove();
+  234 |     return { box: { width: box.width, height: box.height }, icon: { width: glyph.width, height: glyph.height }, asset: icon.getAttribute("data-icon"), hidden: icon.getAttribute("aria-hidden"), background: getComputedStyle(media).backgroundColor, expectedBackground };
+  235 |   }));
+  236 |   writeFileSync(`${evidence}/item-${info.project.name}-media-sizes.json`, JSON.stringify(mediaSizes, null, 2));
+  237 |   for (const media of mediaSizes) {
+  238 |     expect.soft(media.box).toEqual({ width: 40, height: 40 });
+  239 |     expect.soft(media.icon).toEqual({ width: 20, height: 20 });
+  240 |     expect(media.asset).toBe("icon/file");
+  241 |     expect(media.hidden).toBe("true");
+  242 |     expect(media.background).toBe(media.expectedBackground);
+  243 |   }
+  244 |   const actionSizes = await rows.evaluateAll(nodes => nodes.flatMap(root => {
+  245 |     const actions = root.querySelector('[data-slot="actions"]')!;
+  246 |     const read = actions.querySelector("button"), download = actions.querySelector("a[download]");
+  247 |     if (!read || !download) return [];
+  248 |     const measure = (node: Element) => {
+  249 |       const style = getComputedStyle(node), bounds = node.getBoundingClientRect();
+  250 |       return { fontSize: style.fontSize, lineHeight: style.lineHeight, height: bounds.height, width: bounds.width };
+  251 |     };
+  252 |     return [{ title: root.querySelector('[data-slot="title"]')!.textContent, read: measure(read), download: measure(download) }];
+  253 |   }));
+```

@@ -1,0 +1,44 @@
+
+Running 5 tests using 1 worker
+
+(node:18022) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/navigation-v042-r4-feedback.spec.ts:66:3 › R4 feedback contracts › existing AvatarGroup portraits remain visible and do not nest actions inside group selectors (726ms)
+  ✓  2 tests/e2e/navigation-v042-r4-feedback.spec.ts:78:3 › R4 feedback contracts › compact activity cards reserve more room for details across every supported canvas width (2.2s)
+  ✓  3 tests/e2e/navigation-v042-r4-feedback.spec.ts:106:3 › R4 feedback contracts › group filter, search and activity selection preserve identity and grey ungraded scores (843ms)
+  ✘  4 tests/e2e/navigation-v042-r4-feedback.spec.ts:124:3 › R4 feedback contracts › context boundary moves closer while keyboard, pointer resizing and temporary restoration retain the selected object (5.9s)
+(node:18048) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 tests/e2e/navigation-v042-r4-feedback.spec.ts:150:3 › R4 feedback contracts › platform brand and footer keep sensible alignment in compact and expanded modes (2.3s)
+
+
+  1) tests/e2e/navigation-v042-r4-feedback.spec.ts:124:3 › R4 feedback contracts › context boundary moves closer while keyboard, pointer resizing and temporary restoration retain the selected object 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-recipe-id="recipe-navigation-r4"]').locator('.rain-workspace__region[data-region-id="context"]')
+    Expected: "true"
+    Received: "false"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for locator('[data-recipe-id="recipe-navigation-r4"]').locator('.rain-workspace__region[data-region-id="context"]')
+        14 × locator resolved to <div data-side="start" aria-label="课堂功能" data-forced="false" data-mode="expanded" data-temporary="false" data-region-id="context" id="_r_1_-workspace-context" class="rain-workspace__region nv5-class-context">…</div>
+           - unexpected value "false"
+
+
+      142 |     expect(await recovery.evaluate(el => getComputedStyle(el).backgroundColor)).toBe(await tokenColor(root, '--rain-category-fill-brand-solid-3'));
+      143 |     await recovery.click(); await expect(region(root, 'context')).toBeVisible();
+    > 144 |     await expect(region(root, 'context')).toHaveAttribute('data-temporary', 'true');
+          |                                           ^
+      145 |     expect(await region(root, 'context').evaluate(el => getComputedStyle(el).backgroundColor)).toBe(await tokenColor(root, '--rain-category-background-neutral-1'));
+      146 |     expect(await region(root, 'context').evaluate(el => getComputedStyle(el).boxShadow)).toBe(await tokenStyle(root, '--rain-shadow-overlay', 'box-shadow'));
+      147 |     expect(await region(root, 'context').locator('.nv5-region-head>small').evaluate(el => getComputedStyle(el).color)).toBe(await tokenColor(root, '--rain-category-text-neutral-3'));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-r4-feedback.spec.ts:144:43
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-06-r4-feedback/green-04-final-test-artifacts/navigation-v042-r4-feedbac-985fd--retain-the-selected-object/error-context.md
+
+  1 failed
+    tests/e2e/navigation-v042-r4-feedback.spec.ts:124:3 › R4 feedback contracts › context boundary moves closer while keyboard, pointer resizing and temporary restoration retain the selected object 
+  4 passed (12.9s)

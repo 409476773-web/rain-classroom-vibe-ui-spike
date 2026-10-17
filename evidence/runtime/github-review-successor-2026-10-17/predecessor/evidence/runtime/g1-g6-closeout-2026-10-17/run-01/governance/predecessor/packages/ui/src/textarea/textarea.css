@@ -1,0 +1,27 @@
+/* @rain-css-exception textarea-block-additions: source-derived block slots within the existing native field. */
+@layer components {
+  .rain-textarea[data-has-block-addons] {
+    transition: background-color var(--rain-input-transition-duration) var(--rain-input-transition-easing), border-color var(--rain-input-transition-duration) var(--rain-input-transition-easing);
+  }
+  .rain-textarea__addon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--rain-space-8);
+    min-width: 0;
+    padding-inline: var(--rain-space-12);
+    color: var(--rain-category-text-neutral-4);
+    cursor: text;
+  }
+  .rain-textarea__addon[data-align="block-start"] { padding-block-start: var(--rain-space-8); }
+  .rain-textarea__addon[data-align="block-end"] { padding-block-end: var(--rain-space-8); }
+  .rain-textarea__addon[data-blocked] { color: var(--rain-category-text-neutral-6); cursor: default; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rain-textarea[data-has-block-addons] { transition: none; }
+}
+@media (forced-colors: active) {
+  .rain-textarea__addon { color: CanvasText; }
+  .rain-textarea__addon[data-blocked] { color: GrayText; }
+}

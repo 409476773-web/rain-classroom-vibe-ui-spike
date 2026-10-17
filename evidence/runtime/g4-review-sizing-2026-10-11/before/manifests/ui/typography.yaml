@@ -1,0 +1,87 @@
+schemaVersion: "1.0"
+kind: "RainFoundationManifest"
+id: "foundation-typography"
+name: "Typography"
+category: "foundations"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "react-only"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/foundations/src/typography-contract.ts"
+styleSourcePath: "packages/foundations/src/typography.css"
+sourceVersion: "existing-foundations-preserved-2026-10-11"
+description: "复用现有 UI／Reading／Data 三角色和十种预设，以原生 HTML 组织标题、正文、说明与关键数值。"
+useWhen:
+  - "需要按内容角色选择已经登记的排版，而不是新增同义包装组件。"
+  - "长答案、评语、课程介绍和报告结论使用 Reading。"
+doNotUseWhen:
+  - "普通日期、序号、表格数值或中文单位使用 Data 字体。"
+anatomy:
+  - "native heading / paragraph / article"
+  - "key data label / value / unit"
+parts:
+  - "语义 Parts 由原生 HTML 与宿主提供。"
+props:
+  - "typographyPresets、typographyUtilityClassNames.preset、resolveTypographyPreset"
+  - "validateTypographyComposition、validateDataFontUsage"
+slots:
+  - "原生内容、关键数据 label / value / unit"
+variants:
+  - "现有十种预设，以 typography-contract.ts 为唯一来源。"
+states:
+  - "静态语义内容；字体可用／已登记回退。"
+dependencies:
+  - "@rain-next/foundations"
+  - "现有 typography.css、tailwind-theme.css 和明确源码扫描"
+tokens:
+  - "Typography/UI、Typography/Reading、Typography/Data 现有合同"
+layoutConstraints:
+  - "长内容自然换行；行长由宿主布局控制。"
+compositionRules:
+  - "标题层级按文档结构选择；视觉 class 不替代 HTML 语义。"
+  - "关键数字与中文单位、分母、标签分开，普通数字保留 UI 字体。"
+allowedModifications:
+  - "选择已有预设，使用合法排版组合与原生 HTML。"
+restrictedModifications:
+  - "不另建字体体系、修改预设或分发字体文件。"
+accessibility:
+  - "保留原生标题与内容关系；检查放大、长内容和必要文字的可读性。"
+examples:
+  - "apps/playground/src/docs/components/g4-component-pages.tsx#TypographyPage"
+  - "apps/playground/src/docs/token-foundations/typography-panel.tsx"
+recipes:
+  - "现有 preset 工具类；局部阅读行长只属于文档样例。"
+antiPatterns:
+  - "根据字符串长度改变行高、把中文单位置于 Data 字体或添加同义 Typography UI 导出。"
+relatedComponents:
+  - "ui-item"
+  - "ui-progress"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "既有字体、Reading、关键数字与单位规则，见 SPIKE_BRIEF.md 和 AGENTS.md。"
+  externalReferences: []
+  retainedTraits:
+    - "三种字体角色、十种既有预设和原生 HTML 语义。"
+  redesignedTraits:
+    - "新增独立使用页与检索映射；现有 Foundations 源码和验收记录保持。"
+  intentionallyNotInherited:
+    - "Tailwind 默认 typography、额外字体与同义 UI 包装。"
+figmaMapping: null
+migrationNotes: "这是 G4 使用收口登记，不重置旧 Foundations 验收；新的展示与使用例独立待审。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  evidence: "evidence/runtime/g4-components-2026-10-11/verification.md"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  visualRefinement:
+    scope: "playground-documentation-visual-only"
+    evidence: "evidence/runtime/g4-visual-refinement-2026-10-11/verification.md"
+    automated: "scoped-passed"
+    independentReview: "passed-scoped"
+    humanGate: "awaiting_human"
+    contrastAcceptance: "not-granted"

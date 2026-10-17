@@ -1,0 +1,51 @@
+Current target files: 64
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/asset-index.test.ts (3 tests | 2 failed) 1425ms
+   × limits generation-quality authorization without changing previous decisions 10ms
+   × keeps the asset index traceable, current and separate from local experiments and acceptance 638ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/asset-index.test.ts > limits generation-quality authorization without changing previous decisions
+AssertionError: expected [Function] to not throw an error but 'Error: Invalid Token Foundations V1 h…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged"
+
+ ❯ scripts/asset-index.test.ts:25:66
+     23| it("limits generation-quality authorization without changing previous …
+     24|   const phase = helpers.parseYamlSubset(readFileSync(resolve(root, "st…
+     25|   expect(() => helpers.getValidatedTailwindB2History(phase)).not.toThr…
+       |                                                                  ^
+     26|   for (const change of [
+     27|     { scope: "all-components" }, { humanGate: "accepted" },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/asset-index.test.ts > keeps the asset index traceable, current and separate from local experiments and acceptance
+Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged
+ ❯ fail scripts/verification-helpers.mjs:2666:30
+    2664|
+    2665| export function getValidatedTailwindB2History(status) {
+    2666|   const fail = () => { throw new Error("Invalid Token Foundations V1 h…
+       |                              ^
+    2667|   const history = status?.phaseHistory?.tailwindB2;
+    2668|   if (status?.currentPhase?.id !== "token-foundations-v1" || !history
+ ❯ Module.getValidatedTailwindB2History scripts/verification-helpers.mjs:2721:67
+ ❯ scripts/asset-index.test.ts:102:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 63 passed (64)
+      Tests  2 failed | 762 passed (764)
+   Start at  17:21:06
+   Duration  51.50s (transform 2.39s, setup 5.95s, import 17.66s, tests 48.63s, environment 24.65s)
+

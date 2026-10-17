@@ -1,0 +1,167 @@
+
+Running 8 tests using 1 worker
+
+(node:94475) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 1440px no-preference (5.1s)
+  ✓  2 tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 1440px reduce (2.9s)
+  ✓  3 tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 390px no-preference (4.9s)
+  ✓  4 tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 390px reduce (2.9s)
+  ✘  5 tests/e2e/chart-third-batch-profit-loss.spec.ts:5:3 › [third-profit-loss] exact near-zero signs, zero platforms and same-date update 1440 no-preference (6.7s)
+(node:94512) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  6 tests/e2e/chart-third-batch-profit-loss.spec.ts:5:3 › [third-profit-loss] exact near-zero signs, zero platforms and same-date update 1440 reduce (6.7s)
+(node:94524) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  7 tests/e2e/chart-third-batch-profit-loss.spec.ts:5:3 › [third-profit-loss] exact near-zero signs, zero platforms and same-date update 390 no-preference (6.2s)
+(node:94533) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  8 tests/e2e/chart-third-batch-profit-loss.spec.ts:5:3 › [third-profit-loss] exact near-zero signs, zero platforms and same-date update 390 reduce (6.2s)
+
+
+  1) tests/e2e/chart-third-batch-profit-loss.spec.ts:5:3 › [third-profit-loss] exact near-zero signs, zero platforms and same-date update 1440 no-preference 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-rain-id="chart-profit-loss"]').locator('[data-point-reading] [role=status]')
+    Expected substring: "0.004"
+    Received string:    "2026年9月4日 · 相对基准变化 0.001 · 符号 正值"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-profit-loss"]').locator('[data-point-reading] [role=status]')
+        14 × locator resolved to <p role="status" aria-live="polite" aria-atomic="true" class="rain-chart-note" data-point-reading-date="2026-09-03T16:00:00.000Z">2026年9月4日 · 相对基准变化 0.001 · 符号 正值</p>
+           - unexpected value "2026年9月4日 · 相对基准变化 0.001 · 符号 正值"
+
+
+      20 |         await select.selectOption(String(new Date(2026,8,day).getTime())); await expect(reading).toContainText(`相对基准变化 ${value}`);await expect(reading).toContainText(sign);
+      21 |       }
+    > 22 |       await select.focus();await select.press("ArrowDown"); await expect(reading).toContainText("0.004");
+         |                                                                                   ^
+      23 |       const svg=host.locator(".rain-chart-plot svg").first();await expect(svg).toBeVisible();
+      24 |       await svg.scrollIntoViewIfNeeded();const box=(await svg.boundingBox())!;
+      25 |       await expect.poll(async()=>{await page.mouse.move(0,0);await page.mouse.move(box.x+58+(box.width-82)*3/7,box.y+box.height/2);return host.locator(".rain-chart-tooltip").isVisible();}).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-third-batch-profit-loss.spec.ts:22:83
+
+    Error Context: evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser/results/chart-third-batch-profit-l-5d75d-e-update-1440-no-preference/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser/results/chart-third-batch-profit-l-5d75d-e-update-1440-no-preference/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser/results/chart-third-batch-profit-l-5d75d-e-update-1440-no-preference/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-third-batch-profit-loss.spec.ts:5:3 › [third-profit-loss] exact near-zero signs, zero platforms and same-date update 1440 reduce 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-rain-id="chart-profit-loss"]').locator('[data-point-reading] [role=status]')
+    Expected substring: "0.004"
+    Received string:    "2026年9月4日 · 相对基准变化 0.001 · 符号 正值"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-profit-loss"]').locator('[data-point-reading] [role=status]')
+        14 × locator resolved to <p role="status" aria-live="polite" aria-atomic="true" class="rain-chart-note" data-point-reading-date="2026-09-03T16:00:00.000Z">2026年9月4日 · 相对基准变化 0.001 · 符号 正值</p>
+           - unexpected value "2026年9月4日 · 相对基准变化 0.001 · 符号 正值"
+
+
+      20 |         await select.selectOption(String(new Date(2026,8,day).getTime())); await expect(reading).toContainText(`相对基准变化 ${value}`);await expect(reading).toContainText(sign);
+      21 |       }
+    > 22 |       await select.focus();await select.press("ArrowDown"); await expect(reading).toContainText("0.004");
+         |                                                                                   ^
+      23 |       const svg=host.locator(".rain-chart-plot svg").first();await expect(svg).toBeVisible();
+      24 |       await svg.scrollIntoViewIfNeeded();const box=(await svg.boundingBox())!;
+      25 |       await expect.poll(async()=>{await page.mouse.move(0,0);await page.mouse.move(box.x+58+(box.width-82)*3/7,box.y+box.height/2);return host.locator(".rain-chart-tooltip").isVisible();}).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-third-batch-profit-loss.spec.ts:22:83
+
+    Error Context: evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser/results/chart-third-batch-profit-l-c8272-ame-date-update-1440-reduce/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser/results/chart-third-batch-profit-l-c8272-ame-date-update-1440-reduce/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser/results/chart-third-batch-profit-l-c8272-ame-date-update-1440-reduce/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/chart-third-batch-profit-loss.spec.ts:5:3 › [third-profit-loss] exact near-zero signs, zero platforms and same-date update 390 no-preference 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-rain-id="chart-profit-loss"]').locator('[data-point-reading] [role=status]')
+    Expected substring: "0.004"
+    Received string:    "2026年9月4日 · 相对基准变化 0.001 · 符号 正值"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-profit-loss"]').locator('[data-point-reading] [role=status]')
+        14 × locator resolved to <p role="status" aria-live="polite" aria-atomic="true" class="rain-chart-note" data-point-reading-date="2026-09-03T16:00:00.000Z">2026年9月4日 · 相对基准变化 0.001 · 符号 正值</p>
+           - unexpected value "2026年9月4日 · 相对基准变化 0.001 · 符号 正值"
+
+
+      20 |         await select.selectOption(String(new Date(2026,8,day).getTime())); await expect(reading).toContainText(`相对基准变化 ${value}`);await expect(reading).toContainText(sign);
+      21 |       }
+    > 22 |       await select.focus();await select.press("ArrowDown"); await expect(reading).toContainText("0.004");
+         |                                                                                   ^
+      23 |       const svg=host.locator(".rain-chart-plot svg").first();await expect(svg).toBeVisible();
+      24 |       await svg.scrollIntoViewIfNeeded();const box=(await svg.boundingBox())!;
+      25 |       await expect.poll(async()=>{await page.mouse.move(0,0);await page.mouse.move(box.x+58+(box.width-82)*3/7,box.y+box.height/2);return host.locator(".rain-chart-tooltip").isVisible();}).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-third-batch-profit-loss.spec.ts:22:83
+
+    Error Context: evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser/results/chart-third-batch-profit-l-c7b2e-te-update-390-no-preference/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser/results/chart-third-batch-profit-l-c7b2e-te-update-390-no-preference/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser/results/chart-third-batch-profit-l-c7b2e-te-update-390-no-preference/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/chart-third-batch-profit-loss.spec.ts:5:3 › [third-profit-loss] exact near-zero signs, zero platforms and same-date update 390 reduce 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-rain-id="chart-profit-loss"]').locator('[data-point-reading] [role=status]')
+    Expected substring: "0.004"
+    Received string:    "2026年9月4日 · 相对基准变化 0.001 · 符号 正值"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-profit-loss"]').locator('[data-point-reading] [role=status]')
+        14 × locator resolved to <p role="status" aria-live="polite" aria-atomic="true" class="rain-chart-note" data-point-reading-date="2026-09-03T16:00:00.000Z">2026年9月4日 · 相对基准变化 0.001 · 符号 正值</p>
+           - unexpected value "2026年9月4日 · 相对基准变化 0.001 · 符号 正值"
+
+
+      20 |         await select.selectOption(String(new Date(2026,8,day).getTime())); await expect(reading).toContainText(`相对基准变化 ${value}`);await expect(reading).toContainText(sign);
+      21 |       }
+    > 22 |       await select.focus();await select.press("ArrowDown"); await expect(reading).toContainText("0.004");
+         |                                                                                   ^
+      23 |       const svg=host.locator(".rain-chart-plot svg").first();await expect(svg).toBeVisible();
+      24 |       await svg.scrollIntoViewIfNeeded();const box=(await svg.boundingBox())!;
+      25 |       await expect.poll(async()=>{await page.mouse.move(0,0);await page.mouse.move(box.x+58+(box.width-82)*3/7,box.y+box.height/2);return host.locator(".rain-chart-tooltip").isVisible();}).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-third-batch-profit-loss.spec.ts:22:83
+
+    Error Context: evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser/results/chart-third-batch-profit-l-11467-same-date-update-390-reduce/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser/results/chart-third-batch-profit-l-11467-same-date-update-390-reduce/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser/results/chart-third-batch-profit-l-11467-same-date-update-390-reduce/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    tests/e2e/chart-third-batch-profit-loss.spec.ts:5:3 › [third-profit-loss] exact near-zero signs, zero platforms and same-date update 1440 no-preference 
+    tests/e2e/chart-third-batch-profit-loss.spec.ts:5:3 › [third-profit-loss] exact near-zero signs, zero platforms and same-date update 1440 reduce 
+    tests/e2e/chart-third-batch-profit-loss.spec.ts:5:3 › [third-profit-loss] exact near-zero signs, zero platforms and same-date update 390 no-preference 
+    tests/e2e/chart-third-batch-profit-loss.spec.ts:5:3 › [third-profit-loss] exact near-zero signs, zero platforms and same-date update 390 reduce 
+  4 passed (43.4s)

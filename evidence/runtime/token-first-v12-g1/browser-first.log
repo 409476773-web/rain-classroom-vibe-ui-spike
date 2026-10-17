@@ -1,0 +1,99 @@
+
+Running 3 tests using 1 worker
+
+(node:17543) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/token-first-g1.spec.ts:7:1 › G1 toolbar dimensions, filtering, keyboard and sibling isolation (333ms)
+(node:17552) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/token-first-g1.spec.ts:29:1 › G1 cards, local menu paint, nested portal, dynamic theme and focus return (30.0s)
+(node:17697) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/e2e/token-first-g1.spec.ts:56:1 › G1 built layouts: two directions each, narrow windows, chart data and fonts (30.0s)
+
+
+  1) tests/e2e/token-first-g1.spec.ts:7:1 › G1 toolbar dimensions, filtering, keyboard and sibling isolation 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 36
+    Received: 22
+
+      20 |   const geometry = await toolbar.evaluate(el => [...el.querySelectorAll('input:not([type="checkbox"]), [role="combobox"], button')].filter(e => e.getBoundingClientRect().height > 0).map(e => ({ role: e.getAttribute("role") || e.tagName, height: e.getBoundingClientRect().height })));
+      21 |   expect(geometry.length).toBeGreaterThanOrEqual(3);
+    > 22 |   for (const box of geometry) expect(box.height).toBe(36);
+         |                                                  ^
+      23 |   await toolbar.getByRole("switch").press("Tab");
+      24 |   expect(await page.locator(":focus-visible").count()).toBe(1);
+      25 |   await page.screenshot({ path: `${evidence}/samples-first.png`, fullPage: true });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/token-first-g1.spec.ts:22:50
+
+    Error Context: test-results/token-first-g1-G1-toolbar--393c6-board-and-sibling-isolation/error-context.md
+
+  2) tests/e2e/token-first-g1.spec.ts:29:1 › G1 cards, local menu paint, nested portal, dynamic theme and focus return 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('.g1-cards > article').nth(1).getByRole('button', { name: '更多操作' })
+
+
+      32 |   const paints = await cards.evaluateAll(nodes => nodes.map(node => getComputedStyle(node).backgroundColor));
+      33 |   expect(paints[0]).toBe(paints[2]); expect(paints[1]).not.toBe(paints[0]);
+    > 34 |   await cards.nth(1).getByRole("button", { name: "更多操作" }).click();
+         |                                                            ^
+      35 |   await expect(page.getByRole("menu")).toHaveCSS("background-color", paints[1]!);
+      36 |   await page.getByRole("menuitem", { name: "标记为复核", exact: true }).click();
+      37 |   await expect(cards.nth(1).getByRole("status")).toContainText("已标记复核");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/token-first-g1.spec.ts:34:60
+
+    Error Context: test-results/token-first-g1-G1-cards-lo-07529-amic-theme-and-focus-return/error-context.md
+
+  3) tests/e2e/token-first-g1.spec.ts:56:1 › G1 built layouts: two directions each, narrow windows, chart data and fonts 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('radio', { name: /^B ·/ })
+        - locator resolved to <input value="b" type="radio" name="_r_0_" class="sr-only" data-slot="input" data-focus="control" aria-labelledby="_r_2_-label"/>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        57 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      59 |     await page.goto(`${url}/#token-first-${view}`);
+      60 |     for (const direction of ["A", "B"]) {
+    > 61 |       await page.getByRole("radio", { name: new RegExp(`^${direction} ·`) }).check();
+         |                                                                              ^
+      62 |       for (const width of [1440, 900, 390]) {
+      63 |         await page.setViewportSize({ width, height: 1000 });
+      64 |         await expect(page.getByRole("heading", { level: 1 })).toHaveCSS("font-size", "16px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/token-first-g1.spec.ts:61:78
+
+    Error Context: test-results/token-first-g1-G1-built-la-c9564-indows-chart-data-and-fonts/error-context.md
+
+  3 failed
+    tests/e2e/token-first-g1.spec.ts:7:1 › G1 toolbar dimensions, filtering, keyboard and sibling isolation 
+    tests/e2e/token-first-g1.spec.ts:29:1 › G1 cards, local menu paint, nested portal, dynamic theme and focus return 
+    tests/e2e/token-first-g1.spec.ts:56:1 › G1 built layouts: two directions each, narrow windows, chart data and fonts 

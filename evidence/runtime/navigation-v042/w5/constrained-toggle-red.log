@@ -1,0 +1,35 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+········x··············
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/layouts/src/workspace-state.test.ts > requested/effective/session separation > opens a constrained global expansion on the first toggle without pushing the main region
+AssertionError: expected null to match object { regionId: 'global', …(1) }
+
+- Expected:
+{
+  "baseMode": "compact",
+  "regionId": "global",
+}
+
++ Received:
+null
+
+ ❯ packages/layouts/src/workspace-state.test.ts:118:40
+    116|     const expanded = step(state, { type: "TOGGLE_GLOBAL", regionId: "g…
+    117|     expect(expanded.preferences.global!.mode).toBe("expanded");
+    118|     expect(expanded.session.temporary).toMatchObject({ regionId: "glob…
+       |                                        ^
+    119|     expect(resolveWorkspace(spec, expanded, 1000).mainWidth).toBe(befo…
+    120|     expect(step(expanded, { type: "TOGGLE_GLOBAL", regionId: "global",…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 22 passed (23)
+   Start at  21:24:15
+   Duration  614ms (transform 34ms, setup 99ms, import 28ms, tests 11ms, environment 389ms)
+

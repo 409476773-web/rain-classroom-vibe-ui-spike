@@ -1,0 +1,78 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-third-batch-data.test.ts (5 tests | 5 failed) 4ms
+   × named boundaries preserve the original arrays and observations 3ms
+   × dense dates are unique ordered and every candle retains valid OHLC 0ms
+   × overlap preserves all series and flat candles use exact equality 0ms
+   × near-zero readings retain both signs and continuous zero observations 0ms
+   × empty boundaries remain empty 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-third-batch-data.test.ts > named boundaries preserve the original arrays and observations
+TypeError: applyScatterBoundary is not a function
+ ❯ apps/playground/src/docs/components/chart-third-batch-data.test.ts:6:10
+      4| test("named boundaries preserve the original arrays and observations",…
+      5|   const scatter=makeTimeline(), candle=makeCandles(), profit=makeProfi…
+      6|   expect(applyScatterBoundary(scatter,"normal")).toBe(scatter);
+       |          ^
+      7|   expect(applyCandleBoundary(candle,"normal")).toBe(candle);
+      8|   expect(applyProfitLossBoundary(profit,"normal")).toBe(profit);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-third-batch-data.test.ts > dense dates are unique ordered and every candle retains valid OHLC
+TypeError: applyScatterBoundary is not a function
+ ❯ apps/playground/src/docs/components/chart-third-batch-data.test.ts:17:17
+     15|
+     16| test("dense dates are unique ordered and every candle retains valid OH…
+     17|   const scatter=applyScatterBoundary(makeTimeline(),"scatter-dense"), …
+       |                 ^
+     18|   for(const data of [scatter,candles]) {
+     19|     expect(data).toHaveLength(96);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-third-batch-data.test.ts > overlap preserves all series and flat candles use exact equality
+TypeError: applyScatterBoundary is not a function
+ ❯ apps/playground/src/docs/components/chart-third-batch-data.test.ts:28:14
+     26|
+     27| test("overlap preserves all series and flat candles use exact equality…
+     28|   const rows=applyScatterBoundary(makeTimeline(),"scatter-overlap");
+       |              ^
+     29|   expect(rows.every(point=>point.completed===point.enrolled&&point.ret…
+     30|   const flat=applyCandleBoundary(makeCandles(),"candlestick-flat");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-third-batch-data.test.ts > near-zero readings retain both signs and continuous zero observations
+TypeError: applyProfitLossBoundary is not a function
+ ❯ apps/playground/src/docs/components/chart-third-batch-data.test.ts:35:14
+     33|
+     34| test("near-zero readings retain both signs and continuous zero observa…
+     35|   const near=applyProfitLossBoundary(makeProfitLoss(),"profit-loss-nea…
+       |              ^
+     36|   expect(near.map(point=>point.value)).toEqual([-.004,-.001,0,.001,.00…
+     37|   const zero=applyProfitLossBoundary(makeProfitLoss(),"profit-loss-zer…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-third-batch-data.test.ts > empty boundaries remain empty
+TypeError: applyScatterBoundary is not a function
+ ❯ apps/playground/src/docs/components/chart-third-batch-data.test.ts:42:10
+     40|
+     41| test("empty boundaries remain empty", () => {
+     42|   expect(applyScatterBoundary([],"scatter-dense")).toEqual([]);
+       |          ^
+     43|   expect(applyCandleBoundary([],"candlestick-flat")).toEqual([]);
+     44|   expect(applyProfitLossBoundary([],"profit-loss-near-zero")).toEqual(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  14:52:53
+   Duration  956ms (transform 44ms, setup 169ms, import 38ms, tests 4ms, environment 643ms)
+

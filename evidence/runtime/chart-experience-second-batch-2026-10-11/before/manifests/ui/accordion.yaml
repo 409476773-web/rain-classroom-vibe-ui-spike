@@ -1,0 +1,126 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-accordion"
+name: "Accordion"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/accordion/accordion.tsx"
+styleSourcePath: "packages/ui/src/accordion/accordion.css"
+sourceVersion: "local-2026-10-07-g1-assetization"
+description: "按标题展开一组相关内容，支持单项或多项展开。"
+useWhen:
+  - "多个同级章节需要按需阅读或比较。"
+doNotUseWhen:
+  - "同级完整视图切换使用 Tabs；单段补充信息使用 Collapsible。"
+anatomy:
+  - "Accordion"
+  - "AccordionItem"
+  - "AccordionTrigger"
+  - "AccordionContent"
+parts:
+  - "Accordion"
+  - "AccordionItem"
+  - "AccordionTrigger"
+  - "AccordionContent"
+props:
+  - "Root: variant=line|contained|tinted|quiet（默认 line）；multiple 默认 false。"
+  - "Root: value / defaultValue（默认 []）、onValueChange；数组内为 Item 的稳定 value。"
+  - "Item: value、disabled；Trigger / Content 保留 Base UI 对应 Props 与 className。"
+slots:
+  - "children: 由宿主提供标题、正文与业务内容。"
+variants:
+  - "line"
+  - "contained"
+  - "tinted"
+  - "quiet"
+states:
+  - "collapsed"
+  - "expanded"
+  - "disabled"
+  - "focus-visible"
+  - "default/compact density"
+dependencies:
+  - "React"
+  - "@rain-next/foundations"
+  - "tailwind-merge@3.6.0"
+  - "@base-ui/react@1.8.0"
+  - "@rain-next/ui/icons/arrow-down"
+tokens:
+  - "--rain-category-background-neutral-1"
+  - "--rain-category-border-neutral-1"
+  - "--rain-category-border-neutral-3"
+  - "--rain-category-fill-neutral-alpha-6"
+  - "--rain-category-icon-neutral-4"
+  - "--rain-category-text-neutral-1"
+  - "--rain-category-text-neutral-3"
+  - "--rain-category-text-neutral-6"
+  - "--rain-line-height-22"
+  - "--rain-line-thickness-1"
+  - "--rain-line-thickness-2"
+  - "--rain-motion-ease-out"
+  - "--rain-motion-feedback-duration"
+  - "--rain-motion-region-duration"
+  - "--rain-radius-8"
+  - "--rain-space-12"
+  - "--rain-space-14"
+  - "--rain-space-16"
+  - "--rain-space-2"
+  - "--rain-space-36"
+  - "--rain-space-4"
+  - "--rain-space-40"
+  - "--rain-space-6"
+  - "--rain-space-8"
+layoutConstraints:
+  - "内容随容器宽度换行；高度动画由 Base UI 实测 Panel 高度。"
+compositionRules:
+  - "AccordionItem 的 value 保持稳定且唯一。"
+  - "触发器应只有展开动作；其他操作置于宿主旁边。"
+allowedModifications:
+  - "宿主内容、现有变体、受控状态、className 与实例内局部 Recipe。"
+restrictedModifications:
+  - "不改 Foundation Token、共享视觉值或交互引擎；新能力另行审阅。"
+accessibility:
+  - "Header/Trigger/Panel 语义、aria-expanded、Tab/Enter/Space 沿用 Base UI 1.8.0；该版本不使用方向键移动标题焦点。"
+  - "触发器保留文字名称、可见焦点与 disabled 状态；reduced-motion 关闭过渡。"
+examples:
+  - "apps/playground/src/docs/components/accordion-page.tsx"
+  - "apps/prototype/src/scenarios/token-first-g1/page.tsx"
+recipes:
+  - "原 G1 已接受样板保持原验收范围；本次独立文档页单独待审阅。"
+antiPatterns:
+  - "复制交互引擎；用关闭/拖动隐式清空宿主状态；仅凭历史样板接受推导公共资产已批准。"
+relatedComponents:
+  - "ui-collapsible"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences: []
+  externalReferences:
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; MIT; original author source and Nova styles retained in sourceLock"
+    - "@base-ui/react@1.8.0"
+  retainedTraits:
+    - "已接受 G1 局部样板的 Rain 颜色、边界、字形、密度与状态；按原选择器迁移。"
+  redesignedTraits:
+    - "仅位置与公开候选身份变化；没有新增设计方向、视觉值或交互能力。"
+  intentionallyNotInherited:
+    - "外部默认主题；原样板的局部接受不转为新共享资产的系统审核或发布。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/token-first-v12-g1/source-lock.json"
+migrationNotes: "旧 G1 入口 re-export 共享候选；原文与 MIT 保持可追踪。"
+humanGate: "pending-visual-review"
+contrastAcceptance: "not-granted"
+sourceAcceptance:
+  acceptedAt: "2026-09-21"
+  scope: "current-G1-sample-runtime-visual-only"
+  evidence: "evidence/runtime/token-first-v12-g1/verification.md"
+  transfersToCurrentSharedAsset: false
+verification:
+  evidence: "evidence/runtime/g123-playground-2026-10-07/verification.md"
+  automated: "scoped-unit-typecheck-build-and-30-route-browser-passed"
+  independentReview: "passed-scoped-source-contract-review"
+  humanGate: "pending-visual-review"
+  contrastAcceptance: "not-granted"

@@ -1,0 +1,1201 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-variants/special.test.tsx (12 tests | 4 failed) 2828ms
+   × candle variants restore a dense snapshot and return to their original normal rows 6ms
+   × the named flat candle snapshot retains lawful OHLC and a native horizontal body 3ms
+   × candle variants reject the actual invalid OHLC state before native geometry 4ms
+   × the dense candle date reader follows the same raw OHLC identity through a value update 88ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/special.test.tsx > candle variants restore a dense snapshot and return to their original normal rows
+AssertionError: expected …(20) to have a length of 96 but got 20
+
+- Expected
++ Received
+
+- 96
++ 20
+
+ ❯ apps/playground/src/docs/components/chart-variants/special.test.tsx:165:55
+    163|   const change = vi.fn();
+    164|   const view = render(<SpecialVariant {...props} variantId="candlestic…
+    165|   expect(view.container.querySelectorAll("tbody tr")).toHaveLength(96);
+       |                                                       ^
+    166|   const selector = within(view.container).getByRole("combobox", { name…
+    167|   expect(selector).toHaveValue("candlestick-dense");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/special.test.tsx > the named flat candle snapshot retains lawful OHLC and a native horizontal body
+AssertionError: expected 116 to be 112 // Object.is equality
+
+- Expected
++ Received
+
+- 112
++ 116
+
+ ❯ apps/playground/src/docs/components/chart-variants/special.test.tsx:182:19
+    180|     const cells = [...row.querySelectorAll("td")];
+    181|     const [open, high, low, close] = cells.slice(0, 4).map(cell => Num…
+    182|     expect(close).toBe(open);
+       |                   ^
+    183|     expect(high).toBeGreaterThanOrEqual(open!);
+    184|     expect(low).toBeLessThanOrEqual(open!);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/special.test.tsx > candle variants reject the actual invalid OHLC state before native geometry
+AssertionError: expected <div …(4)><div …(1)></div></div> to be null
+
+- Expected:
+null
+
++ Received:
+<div
+  class="relative w-full rain-chart-special-plot"
+  data-rain-id="ui-chart-candlestick"
+  data-slot="chart-root"
+  style="aspect-ratio: 2 / 1; touch-action: none; height: 280px;"
+>
+  <div
+    style="width: 100%; height: 100%;"
+  />
+</div>
+
+ ❯ apps/playground/src/docs/components/chart-variants/special.test.tsx:195:81
+    193|   const { invalidExampleError } = await import("../chart-data");
+    194|   const view = render(<SpecialVariant {...props} variantId="candlestic…
+    195|   expect(view.container.querySelector('[data-rain-id="ui-chart-candles…
+       |                                                                                 ^
+    196|   expect(view.container.textContent).toContain("已拒绝无效数据");
+    197|   expect(view.container.textContent).toContain(invalidExampleError("ca…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/special.test.tsx > the dense candle date reader follows the same raw OHLC identity through a value update
+TestingLibraryElementError: Unable to find an accessible element with the role "combobox" and name "读取日期"
+
+Here are the accessible roles:
+
+  button:
+
+  Name "上涨 / 平盘":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-chart-legend-button"[39m
+    [33mstyle[39m=[32m"opacity: 1;"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "下跌":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-chart-legend-button"[39m
+    [33mstyle[39m=[32m"opacity: 1;"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"rain-chart-note"[39m
+  [36m/>[39m
+
+  --------------------------------------------------group:
+
+  Name "":
+  [36m<details[39m
+    [33mclass[39m=[32m"rain-chart-data"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  table:
+
+  Name "示例精确数据":
+  [36m<table />[39m
+
+  --------------------------------------------------
+  caption:
+
+  Name "示例精确数据":
+  [36m<caption />[39m
+
+  --------------------------------------------------
+  rowgroup:
+
+  Name "":
+  [36m<thead />[39m
+
+  Name "":
+  [36m<tbody />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "日期 开 高 低 收 方向":
+  [36m<tr />[39m
+
+  Name "9月1日 112 121 107 116 上涨":
+  [36m<tr />[39m
+
+  Name "9月2日 116 127 110 121 上涨":
+  [36m<tr />[39m
+
+  Name "9月3日 121 134 114 127 上涨":
+  [36m<tr />[39m
+
+  Name "9月4日 127 142 122 134 上涨":
+  [36m<tr />[39m
+
+  Name "9月5日 134 139 128 134 平盘":
+  [36m<tr />[39m
+
+  Name "9月6日 134 143 127 137 上涨":
+  [36m<tr />[39m
+
+  Name "9月7日 137 144 130 135 下跌":
+  [36m<tr />[39m
+
+  Name "9月8日 135 143 124 130 下跌":
+  [36m<tr />[39m
+
+  Name "9月9日 130 135 117 124 下跌":
+  [36m<tr />[39m
+
+  Name "9月10日 124 130 119 124 平盘":
+  [36m<tr />[39m
+
+  Name "9月11日 124 131 113 119 下跌":
+  [36m<tr />[39m
+
+  Name "9月12日 119 127 109 116 下跌":
+  [36m<tr />[39m
+
+  Name "9月13日 116 124 111 119 上涨":
+  [36m<tr />[39m
+
+  Name "9月14日 119 130 113 124 上涨":
+  [36m<tr />[39m
+
+  Name "9月15日 124 131 117 124 平盘":
+  [36m<tr />[39m
+
+  Name "9月16日 124 138 119 130 上涨":
+  [36m<tr />[39m
+
+  Name "9月17日 130 140 124 135 上涨":
+  [36m<tr />[39m
+
+  Name "9月18日 135 143 128 137 上涨":
+  [36m<tr />[39m
+
+  Name "9月19日 137 144 128 133 下跌":
+  [36m<tr />[39m
+
+  Name "9月20日 133 141 127 133 平盘":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "日期":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "开":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "高":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "低":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "收":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "方向":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  rowheader:
+
+  Name "9月1日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月2日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月3日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月4日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月5日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月6日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月7日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月8日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月9日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月10日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月11日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月12日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月13日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月14日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月15日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月16日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月17日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月18日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月19日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月20日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  cell:
+
+  Name "112":
+  [36m<td />[39m
+
+  Name "121":
+  [36m<td />[39m
+
+  Name "107":
+  [36m<td />[39m
+
+  Name "116":
+  [36m<td />[39m
+
+  Name "上涨":
+  [36m<td />[39m
+
+  Name "116":
+  [36m<td />[39m
+
+  Name "127":
+  [36m<td />[39m
+
+  Name "110":
+  [36m<td />[39m
+
+  Name "121":
+  [36m<td />[39m
+
+  Name "上涨":
+  [36m<td />[39m
+
+  Name "121":
+  [36m<td />[39m
+
+  Name "134":
+  [36m<td />[39m
+
+  Name "114":
+  [36m<td />[39m
+
+  Name "127":
+  [36m<td />[39m
+
+  Name "上涨":
+  [36m<td />[39m
+
+  Name "127":
+  [36m<td />[39m
+
+  Name "142":
+  [36m<td />[39m
+
+  Name "122":
+  [36m<td />[39m
+
+  Name "134":
+  [36m<td />[39m
+
+  Name "上涨":
+  [36m<td />[39m
+
+  Name "134":
+  [36m<td />[39m
+
+  Name "139":
+  [36m<td />[39m
+
+  Name "128":
+  [36m<td />[39m
+
+  Name "134":
+  [36m<td />[39m
+
+  Name "平盘":
+  [36m<td />[39m
+
+  Name "134":
+  [36m<td />[39m
+
+  Name "143":
+  [36m<td />[39m
+
+  Name "127":
+  [36m<td />[39m
+
+  Name "137":
+  [36m<td />[39m
+
+  Name "上涨":
+  [36m<td />[39m
+
+  Name "137":
+  [36m<td />[39m
+
+  Name "144":
+  [36m<td />[39m
+
+  Name "130":
+  [36m<td />[39m
+
+  Name "135":
+  [36m<td />[39m
+
+  Name "下跌":
+  [36m<td />[39m
+
+  Name "135":
+  [36m<td />[39m
+
+  Name "143":
+  [36m<td />[39m
+
+  Name "124":
+  [36m<td />[39m
+
+  Name "130":
+  [36m<td />[39m
+
+  Name "下跌":
+  [36m<td />[39m
+
+  Name "130":
+  [36m<td />[39m
+
+  Name "135":
+  [36m<td />[39m
+
+  Name "117":
+  [36m<td />[39m
+
+  Name "124":
+  [36m<td />[39m
+
+  Name "下跌":
+  [36m<td />[39m
+
+  Name "124":
+  [36m<td />[39m
+
+  Name "130":
+  [36m<td />[39m
+
+  Name "119":
+  [36m<td />[39m
+
+  Name "124":
+  [36m<td />[39m
+
+  Name "平盘":
+  [36m<td />[39m
+
+  Name "124":
+  [36m<td />[39m
+
+  Name "131":
+  [36m<td />[39m
+
+  Name "113":
+  [36m<td />[39m
+
+  Name "119":
+  [36m<td />[39m
+
+  Name "下跌":
+  [36m<td />[39m
+
+  Name "119":
+  [36m<td />[39m
+
+  Name "127":
+  [36m<td />[39m
+
+  Name "109":
+  [36m<td />[39m
+
+  Name "116":
+  [36m<td />[39m
+
+  Name "下跌":
+  [36m<td />[39m
+
+  Name "116":
+  [36m<td />[39m
+
+  Name "124":
+  [36m<td />[39m
+
+  Name "111":
+  [36m<td />[39m
+
+  Name "119":
+  [36m<td />[39m
+
+  Name "上涨":
+  [36m<td />[39m
+
+  Name "119":
+  [36m<td />[39m
+
+  Name "130":
+  [36m<td />[39m
+
+  Name "113":
+  [36m<td />[39m
+
+  Name "124":
+  [36m<td />[39m
+
+  Name "上涨":
+  [36m<td />[39m
+
+  Name "124":
+  [36m<td />[39m
+
+  Name "131":
+  [36m<td />[39m
+
+  Name "117":
+  [36m<td />[39m
+
+  Name "124":
+  [36m<td />[39m
+
+  Name "平盘":
+  [36m<td />[39m
+
+  Name "124":
+  [36m<td />[39m
+
+  Name "138":
+  [36m<td />[39m
+
+  Name "119":
+  [36m<td />[39m
+
+  Name "130":
+  [36m<td />[39m
+
+  Name "上涨":
+  [36m<td />[39m
+
+  Name "130":
+  [36m<td />[39m
+
+  Name "140":
+  [36m<td />[39m
+
+  Name "124":
+  [36m<td />[39m
+
+  Name "135":
+  [36m<td />[39m
+
+  Name "上涨":
+  [36m<td />[39m
+
+  Name "135":
+  [36m<td />[39m
+
+  Name "143":
+  [36m<td />[39m
+
+  Name "128":
+  [36m<td />[39m
+
+  Name "137":
+  [36m<td />[39m
+
+  Name "上涨":
+  [36m<td />[39m
+
+  Name "137":
+  [36m<td />[39m
+
+  Name "144":
+  [36m<td />[39m
+
+  Name "128":
+  [36m<td />[39m
+
+  Name "133":
+  [36m<td />[39m
+
+  Name "下跌":
+  [36m<td />[39m
+
+  Name "133":
+  [36m<td />[39m
+
+  Name "141":
+  [36m<td />[39m
+
+  Name "127":
+  [36m<td />[39m
+
+  Name "133":
+  [36m<td />[39m
+
+  Name "平盘":
+  [36m<td />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"relative w-full rain-chart-special-plot"[39m
+    [33mdata-rain-id[39m=[32m"ui-chart-candlestick"[39m
+    [33mdata-slot[39m=[32m"chart-root"[39m
+    [33mstyle[39m=[32m"aspect-ratio: 2 / 1; touch-action: none; height: 280px;"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mstyle[39m=[32m"width: 100%; height: 100%;"[39m
+    [36m/>[39m
+  [36m</div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"legend-container flex flex-col gap-2 rain-chart-legend"[39m
+  [36m>[39m
+    [36m<div>[39m
+      [36m<button[39m
+        [33mclass[39m=[32m"rain-chart-legend-button"[39m
+        [33mstyle[39m=[32m"opacity: 1;"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mstyle[39m=[32m"background: var(--chart-1);"[39m
+        [36m/>[39m
+        [0m上涨 / 平盘[0m
+      [36m</button>[39m
+    [36m</div>[39m
+    [36m<div>[39m
+      [36m<button[39m
+        [33mclass[39m=[32m"rain-chart-legend-button"[39m
+        [33mstyle[39m=[32m"opacity: 1;"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mstyle[39m=[32m"background: var(--chart-5);"[39m
+        [36m/>[39m
+        [0m下跌[0m
+      [36m</button>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+  [36m<p[39m
+    [33mclass[39m=[32m"rain-chart-note"[39m
+  [36m>[39m
+    [0m开、高、低、收为模拟指数；涨跌方向不代表业务好坏。[0m
+  [36m</p>[39m
+  [36m<details[39m
+    [33mclass[39m=[32m"rain-chart-data"[39m
+  [36m>[39m
+    [36m<summary>[39m
+      [0m查看精确数据[0m
+    [36m</summary>[39m
+    [36m<div[39m
+      [33maria-label[39m=[32m"精确数据表，可横向滚动"[39m
+      [33mtabindex[39m=[32m"0"[39m
+    [36m>[39m
+      [36m<table>[39m
+        [36m<caption>[39m
+          [0m示例精确数据[0m
+        [36m</caption>[39m
+        [36m<thead>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"col"[39m
+            [36m>[39m
+              [0m日期[0m
+            [36m</th>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"col"[39m
+            [36m>[39m
+              [0m开[0m
+            [36m</th>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"col"[39m
+            [36m>[39m
+              [0m高[0m
+            [36m</th>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"col"[39m
+            [36m>[39m
+              [0m低[0m
+            [36m</th>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"col"[39m
+            [36m>[39m
+              [0m收[0m
+            [36m</th>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"col"[39m
+            [36m>[39m
+              [0m方向[0m
+            [36m</th>[39m
+          [36m</tr>[39m
+        [36m</thead>[39m
+        [36m<tbody>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月1日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m112[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m121[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m107[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m116[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m上涨[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月2日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m116[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m127[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m110[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m121[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m上涨[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月3日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m121[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m134[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m114[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m127[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m上涨[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月4日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m127[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m142[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m122[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m134[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m上涨[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月5日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m134[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m139[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m128[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m134[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m平盘[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月6日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m134[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m143[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m127[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m137[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m上涨[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月7日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m137[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m144[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m130[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m135[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m下跌[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月8日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m135[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m143[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m124[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m130[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m下跌[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月9日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m130[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m135[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m117[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m124[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m下跌[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月10日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m124[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m130[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m119[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m124[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m平盘[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月11日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m124[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m131[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m113[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m119[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m下跌[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月12日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m119[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m127[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m109[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m116[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m下跌[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月13日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m116[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m124[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m111[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m119[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m上涨[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月14日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m119[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m130[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m113[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m124[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m上涨[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月15日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m124[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m131[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m117[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m124[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m平盘[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月16日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m124[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m138[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m119[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m130[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m上涨[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月17日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m130[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m140[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m124[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m135[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m上涨[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月18日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m135[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m143[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m128[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m137[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m上涨[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月19日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m137[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m144[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m128[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m133[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m下跌[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+          [36m<tr>[39m
+            [36m<th[39m
+              [33mscope[39m=[32m"row"[39m
+            [36m>[39m
+              [0m9月20日[0m
+            [36m</th>[39m
+            [36m<td>[39m
+              [0m133[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m141[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m127[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m133[0m
+            [36m</td>[39m
+            [36m<td>[39m
+              [0m平盘[0m
+            [36m</td>[39m
+          [36m</tr>[39m
+        [36m</tbody>[39m
+      [36m</table>[39m
+    [36m</div>[39m
+  [36m</details>[39m
+[36m</div>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/chart-variants/special.test.tsx:205:43
+    203|   const settings = { boundaryScenario: "candlestick-dense" as const };
+    204|   const view = render(<SpecialVariant {...props} variantId="candlestic…
+    205|   const selector = within(view.container).getByRole("combobox", { name…
+       |                                           ^
+    206|   const selectedTime = String(new Date(2026, 8, 5).getTime());
+    207|   fireEvent.change(selector, { target: { value: selectedTime } });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 8 passed (12)
+   Start at  14:54:25
+   Duration  3.45s (transform 887ms, setup 101ms, import 38ms, tests 2.83s, environment 392ms)
+

@@ -1,0 +1,1789 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-point-reading.test.tsx (0 test)
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx (4 tests | 3 failed) 18ms
+   × Scatter refreshes the current date's point and axes when values change without another pointer event 13ms
+   × Scatter preserves date identity when preceding dates are inserted 2ms
+   × Scatter clears an absent current date instead of binding its old index to another date 1ms
+ ❯ apps/playground/src/docs/components/chart-variants/comparison.test.tsx (15 tests | 2 failed) 2619ms
+   × third-batch Scatter provides named dense and overlap samples with an exact date reader 1542ms
+   × third-batch dual-axis Scatter retains its own units in the date reader 61ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-point-reading.test.tsx [ apps/playground/src/docs/components/chart-point-reading.test.tsx ]
+Error: Failed to resolve import "./chart-point-reading" from "apps/playground/src/docs/components/chart-point-reading.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/apps/playground/src/docs/components/chart-point-reading.test.tsx:9:45
+  14 |  }];
+  15 |  test("the private date reader offers every dense date and reads the chosen original value by keyboard", async () => {
+  16 |  	const { ChartPointReading } = await import("./chart-point-reading");
+     |                                              ^
+  17 |  	const data = Array.from({ length: 96 }, (_, index) => point(index + 1, index / 1e3));
+  18 |  	const view = render(/* @__PURE__ */ _jsxDEV(ChartPointReading, {
+ ❯ TransformPluginContext._formatLog ../../../%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/node_modules/.pnpm/vite@8.2.2_jiti@2.7.0/node_modules/vite/dist/node/chunks/node.js:31147:39
+ ❯ TransformPluginContext.error ../../../%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/node_modules/.pnpm/vite@8.2.2_jiti@2.7.0/node_modules/vite/dist/node/chunks/node.js:31144:14
+ ❯ normalizeUrl ../../../%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/node_modules/.pnpm/vite@8.2.2_jiti@2.7.0/node_modules/vite/dist/node/chunks/node.js:28083:18
+ ❯ ../../../%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/node_modules/.pnpm/vite@8.2.2_jiti@2.7.0/node_modules/vite/dist/node/chunks/node.js:28153:30
+ ❯ TransformPluginContext.transform ../../../%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/node_modules/.pnpm/vite@8.2.2_jiti@2.7.0/node_modules/vite/dist/node/chunks/node.js:28119:4
+ ❯ EnvironmentPluginContainer.transform ../../../%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/node_modules/.pnpm/vite@8.2.2_jiti@2.7.0/node_modules/vite/dist/node/chunks/node.js:30932:14
+ ❯ loadAndTransform ../../../%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/node_modules/.pnpm/vite@8.2.2_jiti@2.7.0/node_modules/vite/dist/node/chunks/node.js:20671:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/scatter-interaction.test.tsx > Scatter refreshes the current date's point and axes when values change without another pointer event
+AssertionError: expected { Object (date, value) } to be { Object (date, value) } // Object.is equality
+
+- Expected
++ Received
+
+  {
+    "date": 2026-09-01T16:00:00.000Z,
+-   "value": 7,
++   "value": 0,
+  }
+
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx:33:50
+     31|   const updated = original.map(entry => ({ ...entry, date: new Date(en…
+     32|   view.rerender({ data: updated, width: 600 });
+     33|   expect(view.result.current.tooltipData?.point).toBe(updated[1]);
+       |                                                  ^
+     34|   expect(view.result.current.tooltipData?.point.value).toBe(7);
+     35|   expect(view.result.current.tooltipData?.x).toBe(300);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  packages/ui/src/charts/scatter-interaction.test.tsx > Scatter preserves date identity when preceding dates are inserted
+AssertionError: expected { Object (date, value) } to be { Object (date, value) } // Object.is equality
+
+- Expected
++ Received
+
+  {
+    "date": 2026-09-01T16:00:00.000Z,
+-   "value": 3,
++   "value": 0,
+  }
+
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx:44:50
+     42|   const updated = [point(0, 1), ...original.map(entry => ({ ...entry, …
+     43|   view.rerender({ data: updated });
+     44|   expect(view.result.current.tooltipData?.point).toBe(updated[2]);
+       |                                                  ^
+     45|   expect(view.result.current.tooltipData?.index).toBe(2);
+     46|   expect(view.result.current.tooltipData?.x).toBe(200);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  packages/ui/src/charts/scatter-interaction.test.tsx > Scatter clears an absent current date instead of binding its old index to another date
+AssertionError: expected { point: { …(2) }, index: 1, …(2) } to be null
+
+- Expected:
+null
+
++ Received:
+{
+  "index": 1,
+  "point": {
+    "date": 2026-09-01T16:00:00.000Z,
+    "value": 0,
+  },
+  "x": 150,
+  "yPositions": {
+    "value": 100,
+  },
+}
+
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx:54:43
+     52|   inspect(view.result);
+     53|   view.rerender({ data: [original[0]!, original[2]!] });
+     54|   expect(view.result.current.tooltipData).toBeNull();
+       |                                           ^
+     55| });
+     56|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/comparison.test.tsx > third-batch Scatter provides named dense and overlap samples with an exact date reader
+TestingLibraryElementError: Unable to find an accessible element with the role "combobox" and name "散点边界样本"
+
+Here are the accessible roles:
+
+  button:
+
+  Name "参与人数 · 人":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-chart-legend-button"[39m
+    [33mstyle[39m=[32m"opacity: 1;"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "完成人数 · 人":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-chart-legend-button"[39m
+    [33mstyle[39m=[32m"opacity: 1;"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"rain-chart-note"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  group:
+
+  Name "":
+  [36m<details[39m
+    [33mclass[39m=[32m"rain-chart-data"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  table:
+
+  Name "示例精确数据":
+  [36m<table />[39m
+
+  --------------------------------------------------
+  caption:
+
+  Name "示例精确数据":
+  [36m<caption />[39m
+
+  --------------------------------------------------
+  rowgroup:
+
+  Name "":
+  [36m<thead />[39m
+
+  Name "":
+  [36m<tbody />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "日期 参与人数 · 人 完成人数 · 人":
+  [36m<tr />[39m
+
+  Name "9月1日 184 118":
+  [36m<tr />[39m
+
+  Name "9月2日 188 123":
+  [36m<tr />[39m
+
+  Name "9月3日 198 133":
+  [36m<tr />[39m
+
+  Name "9月4日 214 147":
+  [36m<tr />[39m
+
+  Name "9月5日 235 164":
+  [36m<tr />[39m
+
+  Name "9月6日 258 183":
+  [36m<tr />[39m
+
+  Name "9月7日 282 203":
+  [36m<tr />[39m
+
+  Name "9月8日 304 221":
+  [36m<tr />[39m
+
+  Name "9月9日 322 235":
+  [36m<tr />[39m
+
+  Name "9月10日 334 244":
+  [36m<tr />[39m
+
+  Name "9月11日 338 246":
+  [36m<tr />[39m
+
+  Name "9月12日 334 241":
+  [36m<tr />[39m
+
+  Name "9月13日 323 231":
+  [36m<tr />[39m
+
+  Name "9月14日 307 216":
+  [36m<tr />[39m
+
+  Name "9月15日 290 201":
+  [36m<tr />[39m
+
+  Name "9月16日 275 187":
+  [36m<tr />[39m
+
+  Name "9月17日 265 176":
+  [36m<tr />[39m
+
+  Name "9月18日 260 168":
+  [36m<tr />[39m
+
+  Name "9月19日 264 167":
+  [36m<tr />[39m
+
+  Name "9月20日 276 170":
+  [36m<tr />[39m
+
+  Name "9月21日 295 177":
+  [36m<tr />[39m
+
+  Name "9月22日 317 186":
+  [36m<tr />[39m
+
+  Name "9月23日 339 195":
+  [36m<tr />[39m
+
+  Name "9月24日 356 201":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "日期":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "参与人数 · 人":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "完成人数 · 人":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  rowheader:
+
+  Name "9月1日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月2日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月3日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月4日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月5日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月6日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月7日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月8日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月9日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月10日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月11日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月12日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月13日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月14日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月15日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月16日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月17日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月18日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月19日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月20日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月21日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月22日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月23日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月24日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  cell:
+
+  Name "184":
+  [36m<td />[39m
+
+  Name "118":
+  [36m<td />[39m
+
+  Name "188":
+  [36m<td />[39m
+
+  Name "123":
+  [36m<td />[39m
+
+  Name "198":
+  [36m<td />[39m
+
+  Name "133":
+  [36m<td />[39m
+
+  Name "214":
+  [36m<td />[39m
+
+  Name "147":
+  [36m<td />[39m
+
+  Name "235":
+  [36m<td />[39m
+
+  Name "164":
+  [36m<td />[39m
+
+  Name "258":
+  [36m<td />[39m
+
+  Name "183":
+  [36m<td />[39m
+
+  Name "282":
+  [36m<td />[39m
+
+  Name "203":
+  [36m<td />[39m
+
+  Name "304":
+  [36m<td />[39m
+
+  Name "221":
+  [36m<td />[39m
+
+  Name "322":
+  [36m<td />[39m
+
+  Name "235":
+  [36m<td />[39m
+
+  Name "334":
+  [36m<td />[39m
+
+  Name "244":
+  [36m<td />[39m
+
+  Name "338":
+  [36m<td />[39m
+
+  Name "246":
+  [36m<td />[39m
+
+  Name "334":
+  [36m<td />[39m
+
+  Name "241":
+  [36m<td />[39m
+
+  Name "323":
+  [36m<td />[39m
+
+  Name "231":
+  [36m<td />[39m
+
+  Name "307":
+  [36m<td />[39m
+
+  Name "216":
+  [36m<td />[39m
+
+  Name "290":
+  [36m<td />[39m
+
+  Name "201":
+  [36m<td />[39m
+
+  Name "275":
+  [36m<td />[39m
+
+  Name "187":
+  [36m<td />[39m
+
+  Name "265":
+  [36m<td />[39m
+
+  Name "176":
+  [36m<td />[39m
+
+  Name "260":
+  [36m<td />[39m
+
+  Name "168":
+  [36m<td />[39m
+
+  Name "264":
+  [36m<td />[39m
+
+  Name "167":
+  [36m<td />[39m
+
+  Name "276":
+  [36m<td />[39m
+
+  Name "170":
+  [36m<td />[39m
+
+  Name "295":
+  [36m<td />[39m
+
+  Name "177":
+  [36m<td />[39m
+
+  Name "317":
+  [36m<td />[39m
+
+  Name "186":
+  [36m<td />[39m
+
+  Name "339":
+  [36m<td />[39m
+
+  Name "195":
+  [36m<td />[39m
+
+  Name "356":
+  [36m<td />[39m
+
+  Name "201":
+  [36m<td />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"relative w-full rain-chart-scatter-variant"[39m
+      [33mdata-rain-id[39m=[32m"ui-chart-scatter"[39m
+      [33mdata-slot[39m=[32m"chart-root"[39m
+      [33mstyle[39m=[32m"aspect-ratio: 2 / 1; touch-action: none;"[39m
+    [36m/>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"legend-container flex flex-col gap-2 rain-chart-legend"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"rain-chart-legend-button"[39m
+          [33mstyle[39m=[32m"opacity: 1;"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mstyle[39m=[32m"background: var(--chart-1);"[39m
+          [36m/>[39m
+          [0m参与人数 · 人[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"rain-chart-legend-button"[39m
+          [33mstyle[39m=[32m"opacity: 1;"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mstyle[39m=[32m"background: var(--chart-2);"[39m
+          [36m/>[39m
+          [0m完成人数 · 人[0m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+    [36m<p[39m
+      [33mclass[39m=[32m"rain-chart-note"[39m
+    [36m>[39m
+      [0m横轴为日期，纵轴从 0 起表示非负数值。[0m
+    [36m</p>[39m
+    [36m<details[39m
+      [33mclass[39m=[32m"rain-chart-data"[39m
+    [36m>[39m
+      [36m<summary>[39m
+        [0m查看精确数据[0m
+      [36m</summary>[39m
+      [36m<div[39m
+        [33maria-label[39m=[32m"精确数据表，可横向滚动"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m>[39m
+        [36m<table>[39m
+          [36m<caption>[39m
+            [0m示例精确数据[0m
+          [36m</caption>[39m
+          [36m<thead>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"col"[39m
+              [36m>[39m
+                [0m日期[0m
+              [36m</th>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"col"[39m
+              [36m>[39m
+                [0m参与人数 · 人[0m
+              [36m</th>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"col"[39m
+              [36m>[39m
+                [0m完成人数 · 人[0m
+              [36m</th>[39m
+            [36m</tr>[39m
+          [36m</thead>[39m
+          [36m<tbody>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月1日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m184[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m118[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月2日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m188[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m123[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月3日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m198[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m133[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月4日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m214[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m147[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月5日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m235[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m164[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月6日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m258[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m183[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月7日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m282[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m203[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月8日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m304[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m221[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月9日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m322[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m235[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月10日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m334[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m244[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月11日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m338[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m246[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月12日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m334[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m241[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月13日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m323[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m231[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月14日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m307[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m216[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月15日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m290[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m201[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月16日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m275[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m187[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月17日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m265[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m176[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月18日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m260[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m168[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月19日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m264[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m167[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月20日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m276[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m170[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月21日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m295[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m177[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月22日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m317[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m186[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月23日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m339[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m195[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月24日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m356[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m201[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+          [36m</tbody>[39m
+        [36m</table>[39m
+      [36m</div>[39m
+    [36m</details>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/chart-variants/comparison.test.tsx:23:23
+     21|   const { ComparisonVariant } = await import("./comparison");
+     22|   const view = render(<ComparisonVariant {...props} variantId="scatter…
+     23|   const sample = view.getByRole("combobox", { name: "散点边界样本" });
+       |                       ^
+     24|   fireEvent.change(sample, { target: { value: "scatter-dense" } });
+     25|   expect(view.container.querySelectorAll("tbody tr")).toHaveLength(96);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/comparison.test.tsx > third-batch dual-axis Scatter retains its own units in the date reader
+TestingLibraryElementError: Unable to find an accessible element with the role "status"
+
+Here are the accessible roles:
+
+  button:
+
+  Name "参与人数 · 人":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-chart-legend-button"[39m
+    [33mstyle[39m=[32m"opacity: 1;"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "完成率 · %":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-chart-legend-button"[39m
+    [33mstyle[39m=[32m"opacity: 1;"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"rain-chart-note"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  group:
+
+  Name "":
+  [36m<details[39m
+    [33mclass[39m=[32m"rain-chart-data"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  table:
+
+  Name "示例精确数据":
+  [36m<table />[39m
+
+  --------------------------------------------------
+  caption:
+
+  Name "示例精确数据":
+  [36m<caption />[39m
+
+  --------------------------------------------------
+  rowgroup:
+
+  Name "":
+  [36m<thead />[39m
+
+  Name "":
+  [36m<tbody />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "日期 参与人数 · 人 完成率 · %":
+  [36m<tr />[39m
+
+  Name "9月1日 184 64.1":
+  [36m<tr />[39m
+
+  Name "9月2日 188 65.4":
+  [36m<tr />[39m
+
+  Name "9月3日 198 67.2":
+  [36m<tr />[39m
+
+  Name "9月4日 214 68.7":
+  [36m<tr />[39m
+
+  Name "9月5日 235 69.8":
+  [36m<tr />[39m
+
+  Name "9月6日 258 70.9":
+  [36m<tr />[39m
+
+  Name "9月7日 282 72.0":
+  [36m<tr />[39m
+
+  Name "9月8日 304 72.7":
+  [36m<tr />[39m
+
+  Name "9月9日 322 73.0":
+  [36m<tr />[39m
+
+  Name "9月10日 334 73.1":
+  [36m<tr />[39m
+
+  Name "9月11日 338 72.8":
+  [36m<tr />[39m
+
+  Name "9月12日 334 72.2":
+  [36m<tr />[39m
+
+  Name "9月13日 323 71.5":
+  [36m<tr />[39m
+
+  Name "9月14日 307 70.4":
+  [36m<tr />[39m
+
+  Name "9月15日 290 69.3":
+  [36m<tr />[39m
+
+  Name "9月16日 275 68.0":
+  [36m<tr />[39m
+
+  Name "9月17日 265 66.4":
+  [36m<tr />[39m
+
+  Name "9月18日 260 64.6":
+  [36m<tr />[39m
+
+  Name "9月19日 264 63.3":
+  [36m<tr />[39m
+
+  Name "9月20日 276 61.6":
+  [36m<tr />[39m
+
+  Name "9月21日 295 60.0":
+  [36m<tr />[39m
+
+  Name "9月22日 317 58.7":
+  [36m<tr />[39m
+
+  Name "9月23日 339 57.5":
+  [36m<tr />[39m
+
+  Name "9月24日 356 56.5":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "日期":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "参与人数 · 人":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "完成率 · %":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  rowheader:
+
+  Name "9月1日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月2日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月3日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月4日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月5日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月6日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月7日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月8日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月9日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月10日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月11日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月12日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月13日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月14日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月15日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月16日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月17日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月18日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月19日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月20日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月21日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月22日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月23日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "9月24日":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  cell:
+
+  Name "184":
+  [36m<td />[39m
+
+  Name "64.1":
+  [36m<td />[39m
+
+  Name "188":
+  [36m<td />[39m
+
+  Name "65.4":
+  [36m<td />[39m
+
+  Name "198":
+  [36m<td />[39m
+
+  Name "67.2":
+  [36m<td />[39m
+
+  Name "214":
+  [36m<td />[39m
+
+  Name "68.7":
+  [36m<td />[39m
+
+  Name "235":
+  [36m<td />[39m
+
+  Name "69.8":
+  [36m<td />[39m
+
+  Name "258":
+  [36m<td />[39m
+
+  Name "70.9":
+  [36m<td />[39m
+
+  Name "282":
+  [36m<td />[39m
+
+  Name "72.0":
+  [36m<td />[39m
+
+  Name "304":
+  [36m<td />[39m
+
+  Name "72.7":
+  [36m<td />[39m
+
+  Name "322":
+  [36m<td />[39m
+
+  Name "73.0":
+  [36m<td />[39m
+
+  Name "334":
+  [36m<td />[39m
+
+  Name "73.1":
+  [36m<td />[39m
+
+  Name "338":
+  [36m<td />[39m
+
+  Name "72.8":
+  [36m<td />[39m
+
+  Name "334":
+  [36m<td />[39m
+
+  Name "72.2":
+  [36m<td />[39m
+
+  Name "323":
+  [36m<td />[39m
+
+  Name "71.5":
+  [36m<td />[39m
+
+  Name "307":
+  [36m<td />[39m
+
+  Name "70.4":
+  [36m<td />[39m
+
+  Name "290":
+  [36m<td />[39m
+
+  Name "69.3":
+  [36m<td />[39m
+
+  Name "275":
+  [36m<td />[39m
+
+  Name "68.0":
+  [36m<td />[39m
+
+  Name "265":
+  [36m<td />[39m
+
+  Name "66.4":
+  [36m<td />[39m
+
+  Name "260":
+  [36m<td />[39m
+
+  Name "64.6":
+  [36m<td />[39m
+
+  Name "264":
+  [36m<td />[39m
+
+  Name "63.3":
+  [36m<td />[39m
+
+  Name "276":
+  [36m<td />[39m
+
+  Name "61.6":
+  [36m<td />[39m
+
+  Name "295":
+  [36m<td />[39m
+
+  Name "60.0":
+  [36m<td />[39m
+
+  Name "317":
+  [36m<td />[39m
+
+  Name "58.7":
+  [36m<td />[39m
+
+  Name "339":
+  [36m<td />[39m
+
+  Name "57.5":
+  [36m<td />[39m
+
+  Name "356":
+  [36m<td />[39m
+
+  Name "56.5":
+  [36m<td />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"relative w-full rain-chart-scatter-variant"[39m
+      [33mdata-rain-id[39m=[32m"ui-chart-scatter"[39m
+      [33mdata-slot[39m=[32m"chart-root"[39m
+      [33mstyle[39m=[32m"aspect-ratio: 2 / 1; touch-action: none;"[39m
+    [36m/>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"legend-container flex flex-col gap-2 rain-chart-legend"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"rain-chart-legend-button"[39m
+          [33mstyle[39m=[32m"opacity: 1;"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mstyle[39m=[32m"background: var(--chart-1);"[39m
+          [36m/>[39m
+          [0m参与人数 · 人[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"rain-chart-legend-button"[39m
+          [33mstyle[39m=[32m"opacity: 1;"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mstyle[39m=[32m"background: var(--chart-2);"[39m
+          [36m/>[39m
+          [0m完成率 · %[0m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+    [36m<p[39m
+      [33mclass[39m=[32m"rain-chart-note"[39m
+    [36m>[39m
+      [0m横轴为日期，纵轴从 0 起表示非负数值。[0m
+      [0m左轴：参与人数 · 人；右轴：完成率 · %。[0m
+    [36m</p>[39m
+    [36m<details[39m
+      [33mclass[39m=[32m"rain-chart-data"[39m
+    [36m>[39m
+      [36m<summary>[39m
+        [0m查看精确数据[0m
+      [36m</summary>[39m
+      [36m<div[39m
+        [33maria-label[39m=[32m"精确数据表，可横向滚动"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m>[39m
+        [36m<table>[39m
+          [36m<caption>[39m
+            [0m示例精确数据[0m
+          [36m</caption>[39m
+          [36m<thead>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"col"[39m
+              [36m>[39m
+                [0m日期[0m
+              [36m</th>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"col"[39m
+              [36m>[39m
+                [0m参与人数 · 人[0m
+              [36m</th>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"col"[39m
+              [36m>[39m
+                [0m完成率 · %[0m
+              [36m</th>[39m
+            [36m</tr>[39m
+          [36m</thead>[39m
+          [36m<tbody>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月1日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m184[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m64.1[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月2日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m188[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m65.4[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月3日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m198[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m67.2[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月4日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m214[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m68.7[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月5日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m235[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m69.8[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月6日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m258[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m70.9[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月7日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m282[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m72.0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月8日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m304[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m72.7[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月9日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m322[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m73.0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月10日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m334[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m73.1[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月11日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m338[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m72.8[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月12日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m334[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m72.2[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月13日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m323[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m71.5[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月14日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m307[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m70.4[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月15日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m290[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m69.3[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月16日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m275[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m68.0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月17日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m265[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m66.4[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月18日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m260[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m64.6[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月19日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m264[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m63.3[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月20日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m276[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m61.6[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月21日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m295[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m60.0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月22日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m317[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m58.7[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月23日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m339[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m57.5[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m9月24日[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m356[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m56.5[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+          [36m</tbody>[39m
+        [36m</table>[39m
+      [36m</div>[39m
+    [36m</details>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/chart-variants/comparison.test.tsx:41:15
+     39|   const { ComparisonVariant } = await import("./comparison");
+     40|   const view = render(<ComparisonVariant {...props} variantId="scatter…
+     41|   expect(view.getByRole("status")).toHaveTextContent("参与人数");
+       |               ^
+     42|   expect(view.getByRole("status")).toHaveTextContent("人");
+     43|   expect(view.getByRole("status")).toHaveTextContent("完成率 100 %");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  5 failed | 14 passed (19)
+   Start at  14:53:03
+   Duration  3.52s (transform 1.09s, setup 546ms, import 243ms, tests 2.64s, environment 1.68s)
+

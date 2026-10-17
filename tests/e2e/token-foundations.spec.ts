@@ -71,7 +71,8 @@ test("typography fields override the full preset in computed CSS and Equal resol
   await page.getByRole("combobox", { name: "字号", exact: true }).selectOption("24");
   await page.getByRole("combobox", { name: "行高", exact: true }).selectOption("32");
   const value = sample.locator('[data-slot="statistic-value"]');
-  for (const size of ["15", "14", "13", "12", "11", "10", "9", "40"]) {
+  for (const excluded of ["32", "36", "40"]) await expect(page.getByRole("combobox", { name: "字号", exact: true }).locator(`option[value="${excluded}"]`)).toHaveCount(0);
+  for (const size of ["15", "14", "13", "12", "11", "10", "9", "28"]) {
     await page.getByRole("combobox", { name: "字号", exact: true }).selectOption(size);
     await expect(value).toBeVisible();
     await expect(value).toHaveCSS("font-size", `${size}px`);
@@ -86,6 +87,11 @@ test("typography fields override the full preset in computed CSS and Equal resol
   await expect(value).toHaveCSS("line-height", "20px");
   await page.getByRole("combobox", { name: "行高", exact: true }).selectOption("equal");
   await expect(value).toHaveCSS("line-height", "14px");
+  for (const presetName of ["ui-default", "reading-default"]) {
+    await page.getByRole("combobox", { name: "排版方案" }).selectOption(presetName);
+    await page.getByRole("combobox", { name: "字号", exact: true }).selectOption("40");
+    await expect(sample).toHaveCSS("font-size", "40px");
+  }
 });
 
 test("color facts display in scope and local Alpha replacement paints 20 percent without leaking", async ({ page }) => {

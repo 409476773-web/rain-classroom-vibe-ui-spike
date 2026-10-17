@@ -258,7 +258,14 @@ describe("token-contract", () => {
           name,
           normalizeColorCss(value),
         ]),
-      ), "action-primary-text": "rgb(15 85 223)" },
+      ), "action-primary-text": "rgb(15 85 223)", ...Object.fromEntries(
+        Object.entries(semanticColorAliases)
+          .filter(([name]) => name.includes("switch-"))
+          .map(([name, value]) => [
+            name.replace("--rain-color-", ""),
+            normalizeColorCss(resolveReferenceVariables(value, references)),
+          ]),
+      ) },
     );
     expect(cssTokenValues("radius"), "CSS radii drifted from TS").toEqual(
       radiusTokens,

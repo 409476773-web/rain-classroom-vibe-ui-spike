@@ -1,0 +1,119 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-chart-profit-loss"
+name: "盈亏线 ProfitLossLine"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "react-only"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/charts/vendor/charts/profit-loss-line.tsx"
+styleSourcePath: "packages/ui/src/charts/styles.css"
+sourceVersion: "bklit@5d699897b2dde26374cf15501dbaadbc52cea982/rain-local-2026-10-08"
+description: "图表：0基准两侧的正负变化、过零连续性与分段色彩。"
+useWhen:
+  - "相对明确0基准的正负时间变化。"
+doNotUseWhen:
+  - "只按前后涨跌派色；独立挂载ProfitLossLine而未注册LineChart值域。"
+anatomy:
+  - "宿主标题/单位、原生图形、精确读数/数据表。"
+parts:
+  - "LineChart"
+  - "Line"
+  - "ProfitLossLine"
+  - "ProfitLossLegendHoverProvider"
+  - "Grid"
+  - "XAxis"
+  - "YAxis"
+  - "ChartTooltip"
+props:
+  - "有序date与有限正负值；LineChart中同dataKey的Line注册值域，再以ProfitLossLine绘制分段。"
+  - "positiveColor/negativeColor、curve/fadeEdges配置原生线，Grid highlightRowValues=[0]明确基准；tooltip/图例沿用相同正负分界。"
+slots:
+  - "原生children/提示render回调；宿主布局、业务筛选及数据表。"
+variants:
+  - "连续过零的正负分段"
+states:
+  - "正常、悬停/焦点、更新/重播；动效/减少动效分别检查。"
+  - "全0有效；无效日期和非有限值拒绝；缺测停止绘制。"
+  - "空/无效状态由宿主先校验并说明，非通用数据适配器。"
+dependencies:
+  - "React/React DOM、Rain Foundations；实际固定npm及类型依赖见registry/charts.json。"
+tokens:
+  - "Rain表面、文字、网格、提示、指示器和Focus角色，公共规则见packages/ui/src/charts/README.md。"
+  - "sign正负角色；zero-row和tooltip同源，不能沿用类别色当成正负。"
+layoutConstraints:
+  - "默认320px高，零线不依赖红绿判断；正负号和精确表保留。"
+  - ".rain-chart为独立样式作用域，需可测量尺寸；不依赖实验页祖先或全局Bklit reset。"
+compositionRules:
+  - "0是基准、正负是相对变化；非负含0，颜色不等于业务成功/错误。"
+  - "保留Bklit原生Parts与默认展示强度；数据/单位/分母与色标、提示和表值一致。"
+allowedModifications:
+  - "通过原生Props/Parts选择已列配方、尺寸、标签、单位及受控状态；宿主拥有数据校验。"
+restrictedModifications:
+  - "不改全局Token、品牌主蓝或偷偷扩大到未支持数据合同；不从vendor私有路径绕过公共入口。"
+accessibility:
+  - "宿主提供标题、单位、文本状态和精确数据表；图例可用renderItem接入button焦点。"
+  - "原生hover不代表所有点键盘可达；真实读屏/物理触屏/完整对比度未登记通过。"
+examples:
+  - "/#chart-profit-loss"
+  - "apps/playground/src/docs/components/chart-examples.tsx"
+  - "apps/playground/src/docs/components/chart-data.ts"
+  - "apps/playground/src/docs/components/chart-variants/trend.tsx"
+  - "apps/prototype/bklit-catalog.html#chart-profit-loss"
+recipes:
+  - "sign"
+defaultRecipe: "sign"
+antiPatterns:
+  - "只按前后涨跌派色；独立挂载ProfitLossLine而未注册LineChart值域。"
+relatedComponents:
+  - "ui-chart-line"
+  - "ui-chart-candlestick"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Figma MbWg1ft5zk1JRQiQ6dS30e / 2901:130074 图表分类参考；设计稿配色与渐变提炼，不要求逐像素复制。"
+    - "docs/plans/2026-10-07-chart-reference-recipes-design.md"
+  externalReferences:
+    - "https://github.com/bklit/bklit-ui/tree/5d699897b2dde26374cf15501dbaadbc52cea982/packages/ui/src/charts"
+  retainedTraits:
+    - "Bklit原生图形、Compound API、默认运动与交互表现。"
+  redesignedTraits:
+    - "Rain配色/渐变、字体职责、浅辅助文字、Regular图例和必要轴距；源码必要补丁见source-lock。"
+  intentionallyNotInherited:
+    - "Bklit全局reset和默认石灰色组；未复制业务Mock为UI依赖。"
+figmaMapping:
+  status: "reference-only"
+  fileKey: "MbWg1ft5zk1JRQiQ6dS30e"
+  nodeId: "2901:130074"
+  codeConnect: "not-established"
+sourceEvidence:
+  - "packages/ui/src/charts/vendor/source-lock.json"
+  - "evidence/runtime/bklit-rain-catalog/p0/source-audit.md"
+  - "evidence/runtime/bklit-rain-catalog/verification.md"
+migrationNotes:
+  - "本地共享候选；未发布、未写回Figma、未迁移Rain Classic或生产业务。"
+  - "共同安装、数据状态和升级合同见packages/ui/src/charts/README.md；用途选择见docs/ai/charts.md。"
+verification:
+  automated: "scoped-passed"
+  independentReview: "scoped-passed"
+  humanGate: "awaiting-user-review"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/bklit-rain-catalog/verification.md"
+
+variantCoverage:
+  sourceReference: "apps/playground/src/docs/components/chart-variants/reference.json"
+  plan: "docs/plans/2026-10-08-chart-variants-implementation-plan.md"
+  count: 1
+  implementation: "completed"
+  automatedVerification: "scoped-passed-170-directory"
+  evidence: "evidence/runtime/chart-variants/run-_tv8jhva/verification.md"
+  perVariantEvidence: "evidence/runtime/chart-variants/run-_tv8jhva/per-variant-results.json"
+  visualHumanGate: "awaiting-user-review"
+  ids:
+    - "line-profit-loss"
+  callContract:
+    - "保留唯一line-profit-loss来源项、原零线与跨零分段/语义色/精确读数。"
+  limitations:
+    - "属于Line来源家族，仍保留现有独立Rain入口；不是新Registry资产。"

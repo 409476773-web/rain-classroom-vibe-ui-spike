@@ -1,0 +1,77 @@
+
+Running 7 tests using 1 worker
+
+(node:56757) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/chart-business-embedding.spec.ts:4:1 › standard bars and mini charts fit real hosts, preserve their scale and expose equivalent readings (1.8s)
+  ✓  2 tests/e2e/chart-business-embedding.spec.ts:29:1 › 40-row updates preserve SVG IDs and portal tooltip escapes the scrolling table (2.1s)
+  ✓  3 tests/e2e/chart-business-embedding.spec.ts:44:1 › stationary hover does not retain stale values after a host update (1.1s)
+  ✓  4 tests/e2e/chart-business-motion.spec.ts:2:1 › normal bar updates and sorting keep the same keyed geometry and continue through intermediate values (6.1s)
+  ✘  5 tests/e2e/chart-business-motion.spec.ts:14:1 › horizontal stacked segments retain distinct origins through entry and updates (2.9s)
+(node:56800) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  6 tests/e2e/chart-business-motion.spec.ts:26:1 › mini pie updates retain the mounted sector and pass through intermediate geometry (4.2s)
+(node:56807) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  7 tests/e2e/chart-business-motion.spec.ts:34:1 › normal progress updates pass through intermediate arc geometry (4.0s)
+
+
+  1) tests/e2e/chart-business-motion.spec.ts:14:1 › horizontal stacked segments retain distinct origins through entry and updates 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 40.88703155517578
+    Received: 0
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   40.88703155517578
+
+      17 |   const rects=stack.locator('g[class^="bar-series-"] rect'); await expect(rects).toHaveCount(15); await page.waitForTimeout(1800);
+      18 |   const geometry=()=>rects.evaluateAll(nodes=>[0,5,10].map(index=>{const box=(nodes[index] as SVGGraphicsElement).getBBox();return {x:box.x,width:box.width};}));
+    > 19 |   const before=await geometry(); expect(before[1]!.x).toBeCloseTo(before[0]!.x+before[0]!.width,0); expect(before[2]!.x).toBeCloseTo(before[1]!.x+before[1]!.width,0);
+         |                                                       ^
+      20 |   await page.getByRole('button',{name:'更新数据',exact:true}).click(); await page.waitForTimeout(160); const middle=await geometry();
+      21 |   expect(middle[0]!.width).toBeGreaterThan(before[0]!.width); expect(middle[1]!.x).toBeGreaterThan(before[1]!.x);
+      22 |   expect(Math.abs(middle[1]!.x-middle[0]!.width)).toBeLessThan(2); expect(Math.abs(middle[2]!.x-middle[1]!.x-middle[1]!.width)).toBeLessThan(2);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-motion.spec.ts:19:55
+
+    Error Context: evidence/runtime/chart-business-expansion/browser-results/chart-business-motion-hori-0b1e5-s-through-entry-and-updates/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-business-expansion/browser-results/chart-business-motion-hori-0b1e5-s-through-entry-and-updates/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-business-expansion/browser-results/chart-business-motion-hori-0b1e5-s-through-entry-and-updates/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-business-motion.spec.ts:26:1 › mini pie updates retain the mounted sector and pass through intermediate geometry 
+
+    Error: expect(received).not.toBe(expected) // Object.is equality
+
+    Expected: not "M-17.971,-0.225A1,1,0,0,1,-18.956,-1.293A19,19,0,0,1,18.985,-0.745A1,1,0,0,1,17.97,0.295L0,0Z"
+
+      29 |   await path.evaluate(node=>node.setAttribute('data-test-owned-sector','first')); const initial=await path.getAttribute('d');
+      30 |   await page.getByRole('button',{name:'更新数据',exact:true}).click(); await page.waitForTimeout(140); const middle=await path.getAttribute('d');
+    > 31 |   await page.waitForTimeout(1000); const end=await path.getAttribute('d'); expect(middle).not.toBe(initial); expect(middle).not.toBe(end);
+         |                                                                                                                                 ^
+      32 |   await expect(page.locator('[data-test-owned-sector="first"]')).toHaveCount(1);
+      33 | });
+      34 | test('normal progress updates pass through intermediate arc geometry',async({page})=>{
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-motion.spec.ts:31:129
+
+    Error Context: evidence/runtime/chart-business-expansion/browser-results/chart-business-motion-mini-2ee29-rough-intermediate-geometry/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-business-expansion/browser-results/chart-business-motion-mini-2ee29-rough-intermediate-geometry/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-business-expansion/browser-results/chart-business-motion-mini-2ee29-rough-intermediate-geometry/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/chart-business-motion.spec.ts:14:1 › horizontal stacked segments retain distinct origins through entry and updates 
+    tests/e2e/chart-business-motion.spec.ts:26:1 › mini pie updates retain the mounted sector and pass through intermediate geometry 
+  5 passed (23.8s)

@@ -1,0 +1,45 @@
+/* P4 local presentation: shares BM-D state, controls, chart engine and statistics. */
+.bm-d[data-presentation="comparison"] .bm-d-header-inner,
+.bm-d[data-presentation="comparison"] .bm-d-content { max-width: 1360px; }
+.bm-d[data-presentation="comparison"] .bm-d-header-inner { min-height: 72px; }
+.bm-d[data-presentation="comparison"] .bm-d-content { padding-top: var(--rain-space-24); }
+.bm-d[data-presentation="comparison"] .bm-d-metrics { padding: var(--rain-space-12) var(--rain-space-8); }
+.bm-d[data-presentation="comparison"] .bm-d-statistic + .bm-d-statistic { border-inline-start: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-4); }
+.bm-d[data-presentation="comparison"] .bm-d-statistic [data-slot="value"] { font-size: var(--rain-font-size-20); line-height: var(--rain-line-height-28); }
+.bm-d[data-presentation="comparison"] .bm-d-report-layout { grid-template-columns: minmax(0, 1fr) 320px; gap: var(--rain-space-20); align-items: stretch; }
+.bm-d[data-presentation="comparison"] .bm-d-trend { padding: var(--rain-space-24); }
+.bm-d[data-presentation="comparison"] .bm-d-chart { height: 248px; margin-top: var(--rain-space-8); }
+.bm-d[data-presentation="comparison"] .bm-d-observations { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: var(--rain-space-32); padding: var(--rain-space-24); }
+.bm-d[data-presentation="comparison"] .bm-d-readout { color: var(--rain-category-text-neutral-3); font-size: var(--rain-font-size-13); }
+.bm-d[data-presentation="comparison"] .report-a-scope,
+.bm-d[data-presentation="comparison"] .report-a-note { color: var(--rain-category-text-neutral-4); font-size: var(--rain-font-size-13); line-height: var(--rain-line-height-20); }
+.bm-d[data-presentation="comparison"] .report-a-scope { margin-top: calc(0px - var(--rain-space-8)); }
+.report-a-comparison { padding: var(--rain-space-24); background: var(--rain-category-background-neutral-1); border-radius: var(--rain-radius-8); }
+.report-a-comparison > .report-a-note { margin-top: var(--rain-space-8); }
+.report-a-comparison-rows { display: grid; gap: var(--rain-space-32); margin-block: var(--rain-space-32); }
+.report-a-comparison-label { display: flex; justify-content: space-between; align-items: baseline; gap: var(--rain-space-12); }
+.report-a-comparison-label strong { font-family: var(--rain-font-data); font-size: var(--rain-font-size-20); line-height: var(--rain-line-height-28); }
+.report-a-unit { margin-inline-start: var(--rain-space-4); font-family: var(--rain-font-ui); font-size: var(--rain-font-size-13); color: var(--rain-category-text-neutral-3); }
+.report-a-bar { height: var(--rain-space-8); border-radius: var(--rain-radius-4); background: var(--rain-category-background-neutral-3); margin-block: var(--rain-space-12) var(--rain-space-8); overflow: hidden; }
+.report-a-bar > span { display: block; height: 100%; border-radius: inherit; background: currentColor; }
+.report-a-comparison-help { color: var(--rain-category-text-neutral-3); font-size: var(--rain-font-size-13); line-height: var(--rain-line-height-20); }
+.bm-d[data-presentation="comparison"] .bm-d-footer { font-size: var(--rain-font-size-13); color: var(--rain-category-text-neutral-4); }
+.bm-d[data-presentation="comparison"] .bm-d-footer > p + p { margin-top: var(--rain-space-8); }
+@media (max-width: 1000px) {
+  .bm-d[data-presentation="comparison"] .bm-d-report-layout { grid-template-columns: minmax(0, 1fr); }
+  .report-a-comparison-rows { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-block: var(--rain-space-24); }
+}
+@media (max-width: 640px) {
+  .bm-d[data-presentation="comparison"] .bm-d-content { padding-top: var(--rain-space-16); }
+  .bm-d[data-presentation="comparison"] .bm-d-trend,
+  .bm-d[data-presentation="comparison"] .bm-d-observations,
+  .report-a-comparison { padding: var(--rain-space-16); }
+  .bm-d[data-presentation="comparison"] .bm-d-observations,
+  .report-a-comparison-rows { grid-template-columns: minmax(0, 1fr); }
+  .bm-d[data-presentation="comparison"] .bm-d-statistic + .bm-d-statistic { border-inline-start: 0; }
+  .bm-d[data-presentation="comparison"] .bm-d-chart { height: 232px; }
+}
+@media (forced-colors: active) {
+  .report-a-bar { border: var(--rain-line-thickness-1) solid CanvasText; }
+  .report-a-bar > span { background: CanvasText; forced-color-adjust: none; }
+}

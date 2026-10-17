@@ -1,0 +1,46 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/recipes/navigation-w6/replay-pin-review02.test.tsx (2 tests | 2 failed) 159ms
+     × accepts a pointer click on the toolbar pin without dismissing its temporary panel first 131ms
+     × retains the temporary index when available width cannot fit the requested pinned panel 27ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/recipes/navigation-w6/replay-pin-review02.test.tsx > G3 review 02: replay pin activation > accepts a pointer click on the toolbar pin without dismissing its temporary panel first
+Error: expect(element).toBeInTheDocument()
+
+element could not be found in the document
+ ❯ apps/playground/src/recipes/navigation-w6/replay-pin-review02.test.tsx:14:17
+     12|     const pin = screen.getByRole('button', { name: '固定知识索引' });
+     13|     fireEvent.pointerDown(pin);
+     14|     expect(pin).toBeInTheDocument();
+       |                 ^
+     15|     fireEvent.click(pin);
+     16|     expect(panel).toHaveAttribute('data-temporary', 'false');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/playground/src/recipes/navigation-w6/replay-pin-review02.test.tsx > G3 review 02: replay pin activation > retains the temporary index when available width cannot fit the requested pinned panel
+Error: expect(element).toHaveAttribute("data-temporary", "true") // element.getAttribute("data-temporary") === "true"
+
+Expected the element to have attribute:
+  data-temporary="true"
+Received:
+  data-temporary="false"
+ ❯ apps/playground/src/recipes/navigation-w6/replay-pin-review02.test.tsx:29:19
+     27|     const panel = container.querySelector('.rain-workspace__region[dat…
+     28|     expect(panel).toHaveAttribute('data-forced', 'true');
+     29|     expect(panel).toHaveAttribute('data-temporary', 'true');
+       |                   ^
+     30|     expect(panel).toBeVisible();
+     31|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  00:36:09
+   Duration  1.55s (transform 467ms, setup 99ms, import 834ms, tests 159ms, environment 370ms)
+

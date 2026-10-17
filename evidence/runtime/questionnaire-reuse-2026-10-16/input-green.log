@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/questionnaire/questionnaire-reuse.test.tsx (23 tests | 1 failed) 2079ms
+     × uses the shared card surface for default choices while retaining the engine's label root 35ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/questionnaire/questionnaire-reuse.test.tsx > Questionnaire shared control compatibility > uses the shared card surface for default choices while retaining the engine's label root
+Error: expect(element).toHaveClass("rain-selection-card rain-selection-card__selection rain-radio")
+
+Expected the element to have class:
+  rain-selection-card rain-selection-card__selection rain-radio
+Received:
+  rain-questionnaire__choice relative flex min-w-0 items-start
+ ❯ packages/ui/src/questionnaire/questionnaire-reuse.test.tsx:67:34
+     65|     const choice = screen.getByRole("radio", { name: "选项 A" });
+     66|     expect(choice.parentElement!.tagName).toBe("LABEL");
+     67|     expect(choice.parentElement).toHaveClass("rain-selection-card", "r…
+       |                                  ^
+     68|     expect(choice.nextElementSibling).toHaveAttribute("data-slot", "ca…
+     69|     expect(screen.getByRole("radio", { name: "禁用 B" })).toBeDisabled();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 29 passed (30)
+   Start at  21:00:03
+   Duration  3.46s (transform 616ms, setup 364ms, import 861ms, tests 3.32s, environment 1.27s)
+

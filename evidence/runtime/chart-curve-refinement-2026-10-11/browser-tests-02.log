@@ -1,0 +1,175 @@
+
+Running 14 tests using 1 worker
+
+(node:96254) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/e2e/chart-curve-refinement.spec.ts:75:3 › 1440px no-preference › default line, area and composed retain reads, geometry and state behavior (34.0s)
+  ✓   2 tests/e2e/chart-curve-refinement.spec.ts:100:3 › 1440px no-preference › representative official area, dual-axis line and markers keep their actual native path and interactions (18.4s)
+  ✓   3 tests/e2e/chart-curve-refinement.spec.ts:116:3 › 1440px no-preference › mini line and area retain both native sizes, shared readings, states and replay (34.8s)
+  ✓   4 tests/e2e/chart-curve-refinement.spec.ts:75:3 › 1440px reduce › default line, area and composed retain reads, geometry and state behavior (13.8s)
+  ✓   5 tests/e2e/chart-curve-refinement.spec.ts:100:3 › 1440px reduce › representative official area, dual-axis line and markers keep their actual native path and interactions (8.4s)
+  ✓   6 tests/e2e/chart-curve-refinement.spec.ts:116:3 › 1440px reduce › mini line and area retain both native sizes, shared readings, states and replay (10.7s)
+  ✓   7 tests/e2e/chart-curve-refinement.spec.ts:75:3 › 390px no-preference › default line, area and composed retain reads, geometry and state behavior (34.2s)
+  ✓   8 tests/e2e/chart-curve-refinement.spec.ts:100:3 › 390px no-preference › representative official area, dual-axis line and markers keep their actual native path and interactions (17.9s)
+  ✓   9 tests/e2e/chart-curve-refinement.spec.ts:116:3 › 390px no-preference › mini line and area retain both native sizes, shared readings, states and replay (34.7s)
+  ✓  10 tests/e2e/chart-curve-refinement.spec.ts:75:3 › 390px reduce › default line, area and composed retain reads, geometry and state behavior (14.9s)
+  ✓  11 tests/e2e/chart-curve-refinement.spec.ts:100:3 › 390px reduce › representative official area, dual-axis line and markers keep their actual native path and interactions (8.4s)
+  ✓  12 tests/e2e/chart-curve-refinement.spec.ts:116:3 › 390px reduce › mini line and area retain both native sizes, shared readings, states and replay (10.4s)
+  ✘  13 tests/e2e/chart-curve-refinement.spec.ts:139:30 › 1440px reduce: category area curves retain all original points, exact tables and missing boundaries (5.7s)
+(node:1537) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  14 tests/e2e/chart-curve-refinement.spec.ts:139:30 › 390px reduce: category area curves retain all original points, exact tables and missing boundaries (5.9s)
+
+
+  1) tests/e2e/chart-curve-refinement.spec.ts:139:30 › 1440px reduce: category area curves retain all original points, exact tables and missing boundaries 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 9
+    + Received  + 9
+
+      Array [
+        Array [
+          "第1天",
+          "2026-12-30",
+          "2026-12-23",
+    -     "24",
+    -     "20",
+    +     "32",
+    +     "28",
+        ],
+        Array [
+          "第2天",
+          "2026-12-31",
+          "2026-12-24",
+    -     "36",
+    -     "28",
+    +     "缺测",
+    +     "缺测",
+        ],
+        Array [
+          "第3天",
+          "2027-01-01",
+          "2026-12-25",
+    -     "30",
+    -     "34",
+    +     "26",
+    +     "42",
+        ],
+        Array [
+          "第4天",
+          "2027-01-02",
+          "2026-12-26",
+    -     "52",
+    -     "40",
+    +     "44",
+    +     "36",
+        ],
+        Array [
+          "第5天",
+          "2027-01-03",
+          "无观测日期",
+    -     "48",
+    +     "60",
+          "缺测",
+        ],
+      ]
+
+      147 |    const fixture=await raw(id,revision,state),current=await idle(host,true);expect(current.finite).toBe(true);expect(current.documentWidth).toBeLessThanOrEqual(width+1);expect(current.paths).toHaveLength(fixture.series.length);
+      148 |    const expectedRows=fixture.rows.map((row:any)=>[row.label,...(id==='period'?[row.currentDate??'无观测日期',row.previousDate??'无观测日期']:[]),...fixture.series.map((series:any)=>row[series.key]===null?'缺测':String(row[series.key]))]);
+    > 149 |    expect(await host.locator('tbody tr').evaluateAll(rows=>rows.map(row=>[...row.querySelectorAll('th,td')].map(cell=>cell.textContent?.trim())))).toEqual(expectedRows);
+          |                                                                                                                                                    ^
+      150 |    for(const [index,path]of current.paths.entries()){
+      151 |     const sourceCount=fixture.rows.filter((row:any)=>row[fixture.series[index].key]!==null).length;expect((path.d.match(/[MCL]/gi)??[]).length,`${id} ${state}: actual native stroke retains every non-null original point`).toBe(sourceCount);expect(path.xMonotone).toBe(true);
+      152 |     if(state==='zero')expect(path.extrema).toBe(0);if(state==='missing'&&id!=='period')expect(path.subpaths).toBe(2);
+        at take (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:149:148)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:156:16
+
+    Error Context: evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-02/results/chart-curve-refinement-144-6e4be-bles-and-missing-boundaries/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-02/results/chart-curve-refinement-144-6e4be-bles-and-missing-boundaries/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-02/results/chart-curve-refinement-144-6e4be-bles-and-missing-boundaries/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-curve-refinement.spec.ts:139:30 › 390px reduce: category area curves retain all original points, exact tables and missing boundaries 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 9
+    + Received  + 9
+
+      Array [
+        Array [
+          "第1天",
+          "2026-12-30",
+          "2026-12-23",
+    -     "24",
+    -     "20",
+    +     "32",
+    +     "28",
+        ],
+        Array [
+          "第2天",
+          "2026-12-31",
+          "2026-12-24",
+    -     "36",
+    -     "28",
+    +     "缺测",
+    +     "缺测",
+        ],
+        Array [
+          "第3天",
+          "2027-01-01",
+          "2026-12-25",
+    -     "30",
+    -     "34",
+    +     "26",
+    +     "42",
+        ],
+        Array [
+          "第4天",
+          "2027-01-02",
+          "2026-12-26",
+    -     "52",
+    -     "40",
+    +     "44",
+    +     "36",
+        ],
+        Array [
+          "第5天",
+          "2027-01-03",
+          "无观测日期",
+    -     "48",
+    +     "60",
+          "缺测",
+        ],
+      ]
+
+      147 |    const fixture=await raw(id,revision,state),current=await idle(host,true);expect(current.finite).toBe(true);expect(current.documentWidth).toBeLessThanOrEqual(width+1);expect(current.paths).toHaveLength(fixture.series.length);
+      148 |    const expectedRows=fixture.rows.map((row:any)=>[row.label,...(id==='period'?[row.currentDate??'无观测日期',row.previousDate??'无观测日期']:[]),...fixture.series.map((series:any)=>row[series.key]===null?'缺测':String(row[series.key]))]);
+    > 149 |    expect(await host.locator('tbody tr').evaluateAll(rows=>rows.map(row=>[...row.querySelectorAll('th,td')].map(cell=>cell.textContent?.trim())))).toEqual(expectedRows);
+          |                                                                                                                                                    ^
+      150 |    for(const [index,path]of current.paths.entries()){
+      151 |     const sourceCount=fixture.rows.filter((row:any)=>row[fixture.series[index].key]!==null).length;expect((path.d.match(/[MCL]/gi)??[]).length,`${id} ${state}: actual native stroke retains every non-null original point`).toBe(sourceCount);expect(path.xMonotone).toBe(true);
+      152 |     if(state==='zero')expect(path.extrema).toBe(0);if(state==='missing'&&id!=='period')expect(path.subpaths).toBe(2);
+        at take (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:149:148)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:156:16
+
+    Error Context: evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-02/results/chart-curve-refinement-390-031c8-bles-and-missing-boundaries/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-02/results/chart-curve-refinement-390-031c8-bles-and-missing-boundaries/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-02/results/chart-curve-refinement-390-031c8-bles-and-missing-boundaries/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/chart-curve-refinement.spec.ts:139:30 › 1440px reduce: category area curves retain all original points, exact tables and missing boundaries 
+    tests/e2e/chart-curve-refinement.spec.ts:139:30 › 390px reduce: category area curves retain all original points, exact tables and missing boundaries 
+  12 passed (4.2m)

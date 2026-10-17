@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/chart-motion.test.tsx (1 test | 1 failed) 12ms
+   × reduced-motion chart positions update immediately without spring lag 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/chart-motion.test.tsx > reduced-motion chart positions update immediately without spring lag
+AssertionError: expected +0 to be 80 // Object.is equality
+
+- Expected
++ Received
+
+- 80
++ 0
+
+ ❯ packages/ui/src/charts/chart-motion.test.tsx:9:32
+      7|   const { result } = renderHook(() => useChartSpring(0, { stiffness: 1…
+      8|   act(() => result.current.set(80));
+      9|   expect(result.current.get()).toBe(80);
+       |                                ^
+     10|   vi.unstubAllGlobals();
+     11| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  00:03:54
+   Duration  969ms (transform 24ms, setup 163ms, import 111ms, tests 12ms, environment 584ms)
+

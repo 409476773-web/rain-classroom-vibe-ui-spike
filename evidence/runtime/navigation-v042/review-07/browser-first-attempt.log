@@ -1,0 +1,36 @@
+
+Running 4 tests using 1 worker
+
+(node:96486) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-v042.spec.ts:3:1 › G1 review-07 standard tags, concise toolbar and aligned metadata (30.1s)
+(node:97249) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/e2e/navigation-v042.spec.ts:107:1 › R2 range dropdown remains searchable and keyboard operable at 420px viewport height (1.5s)
+  ✓  3 tests/e2e/navigation-v042.spec.ts:303:1 › G1 review-03 More reports hidden classes and opens an anchored standard dropdown (1.8s)
+  ✓  4 tests/e2e/navigation-v042.spec.ts:416:1 › G1 review-05 uses standard Tree geometry and a compact pale More arrow (1.4s)
+
+
+  1) tests/e2e/navigation-v042.spec.ts:3:1 › G1 review-07 standard tags, concise toolbar and aligned metadata 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.press: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('.rain-navigation-scope-dropdown').getByRole('textbox', { name: '搜索班级', exact: true })
+
+
+      39 |   expect(paint.icon).toBe('rgb(184, 194, 216)');expect(paint.background).toBe('rgba(85, 112, 244, 0.06)');expect(paint.text).not.toBe(paint.icon);
+      40 |   await page.screenshot({path:`${evidence}/dropdown-1129.png`});
+    > 41 |   await dropdown.getByRole('textbox',{name:'搜索班级',exact:true}).press('Escape');
+         |                                                                ^
+      42 |   await page.getByLabel('画板宽度',{exact:true}).selectOption('1200');
+      43 |   const narrower=await measure();aligned(narrower);
+      44 |   await root.screenshot({path:`${evidence}/resource-tree-1200.png`});
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042.spec.ts:41:64
+
+    Error Context: evidence/runtime/navigation-v042/test-artifacts/navigation-v042-G1-review--b4c19-oolbar-and-aligned-metadata/error-context.md
+
+  1 failed
+    tests/e2e/navigation-v042.spec.ts:3:1 › G1 review-07 standard tags, concise toolbar and aligned metadata 
+  3 passed (35.7s)

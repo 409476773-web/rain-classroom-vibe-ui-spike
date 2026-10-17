@@ -1,0 +1,677 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: select.spec.ts >> implemented Select placeholders and option descriptions preserve real permissions in light
+- Location: tests/e2e/select.spec.ts:9:49
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - heading "light · outlined · 24px · 实施后" [level=2] [ref=e5]
+    - generic [ref=e6]:
+      - generic [ref=e7]: normal
+      - combobox "outlined 24 normal" [ref=e10] [cursor=pointer]:
+        - generic [ref=e11]: 请选择课程
+      - textbox [ref=e17]
+    - generic [ref=e18]:
+      - generic [ref=e19]: multiple
+      - combobox "outlined 24 multiple" [ref=e22] [cursor=pointer]:
+        - generic [ref=e23]: 请选择课程
+      - textbox [ref=e29]
+    - generic [ref=e30]:
+      - generic [ref=e31]: searchable
+      - combobox "outlined 24 searchable" [ref=e34] [cursor=pointer]:
+        - generic [ref=e35]: 请选择课程
+      - textbox [ref=e41]
+    - generic [ref=e42]:
+      - generic [ref=e43]: searchable-multiple
+      - combobox "outlined 24 searchable-multiple" [ref=e46] [cursor=pointer]:
+        - generic [ref=e47]: 请选择课程
+      - textbox [ref=e53]
+    - generic [ref=e54]:
+      - generic [ref=e55]: warning
+      - combobox "outlined 24 warning" [ref=e58] [cursor=pointer]:
+        - generic [ref=e59]: 请选择课程
+      - textbox [ref=e65]
+    - generic [ref=e66]:
+      - generic [ref=e67]: error
+      - combobox "outlined 24 error" [invalid] [ref=e70] [cursor=pointer]:
+        - generic [ref=e71]: 请选择课程
+      - textbox [ref=e77]
+    - generic [ref=e78]:
+      - generic [ref=e79]: readonly
+      - combobox "outlined 24 readonly" [disabled] [ref=e82]:
+        - generic [ref=e83]: 请选择课程
+      - textbox [ref=e88]
+    - generic [ref=e89]:
+      - generic [ref=e90]: disabled
+      - combobox "outlined 24 disabled" [disabled] [ref=e93]:
+        - generic [ref=e94]: 请选择课程
+      - textbox [disabled] [ref=e99]
+    - generic [ref=e101]:
+      - generic [ref=e102]: outlined 24 inherited-disabled
+      - combobox "描边输入" [disabled] [ref=e105]:
+        - generic [ref=e106]: 请选择课程
+      - textbox [disabled] [ref=e111]
+    - generic [ref=e112]:
+      - generic [ref=e113]: loading
+      - combobox "outlined 24 loading" [ref=e116] [cursor=pointer]:
+        - generic [ref=e117]: 请选择课程
+      - textbox [ref=e123]
+  - generic [ref=e124]:
+    - heading "light · outlined · 28px · 实施后" [level=2] [ref=e125]
+    - generic [ref=e126]:
+      - generic [ref=e127]: normal
+      - combobox "outlined 28 normal" [ref=e130] [cursor=pointer]:
+        - generic [ref=e131]: 请选择课程
+      - textbox [ref=e137]
+    - generic [ref=e138]:
+      - generic [ref=e139]: multiple
+      - combobox "outlined 28 multiple" [ref=e142] [cursor=pointer]:
+        - generic [ref=e143]: 请选择课程
+      - textbox [ref=e149]
+    - generic [ref=e150]:
+      - generic [ref=e151]: searchable
+      - combobox "outlined 28 searchable" [ref=e154] [cursor=pointer]:
+        - generic [ref=e155]: 请选择课程
+      - textbox [ref=e161]
+    - generic [ref=e162]:
+      - generic [ref=e163]: searchable-multiple
+      - combobox "outlined 28 searchable-multiple" [ref=e166] [cursor=pointer]:
+        - generic [ref=e167]: 请选择课程
+      - textbox [ref=e173]
+    - generic [ref=e174]:
+      - generic [ref=e175]: warning
+      - combobox "outlined 28 warning" [ref=e178] [cursor=pointer]:
+        - generic [ref=e179]: 请选择课程
+      - textbox [ref=e185]
+    - generic [ref=e186]:
+      - generic [ref=e187]: error
+      - combobox "outlined 28 error" [invalid] [ref=e190] [cursor=pointer]:
+        - generic [ref=e191]: 请选择课程
+      - textbox [ref=e197]
+    - generic [ref=e198]:
+      - generic [ref=e199]: readonly
+      - combobox "outlined 28 readonly" [disabled] [ref=e202]:
+        - generic [ref=e203]: 请选择课程
+      - textbox [ref=e208]
+    - generic [ref=e209]:
+      - generic [ref=e210]: disabled
+      - combobox "outlined 28 disabled" [disabled] [ref=e213]:
+        - generic [ref=e214]: 请选择课程
+      - textbox [disabled] [ref=e219]
+    - generic [ref=e221]:
+      - generic [ref=e222]: outlined 28 inherited-disabled
+      - combobox "outlined 28 inherited-disabled" [disabled] [ref=e225]:
+        - generic [ref=e226]: 请选择课程
+      - textbox [disabled] [ref=e231]
+    - generic [ref=e232]:
+      - generic [ref=e233]: loading
+      - combobox "outlined 28 loading" [ref=e236] [cursor=pointer]:
+        - generic [ref=e237]: 请选择课程
+      - textbox [ref=e243]
+  - generic [ref=e244]:
+    - heading "light · outlined · 32px · 实施后" [level=2] [ref=e245]
+    - generic [ref=e246]:
+      - generic [ref=e247]: normal
+      - combobox "outlined 32 normal" [ref=e250] [cursor=pointer]:
+        - generic [ref=e251]: 请选择课程
+      - textbox [ref=e257]
+    - generic [ref=e258]:
+      - generic [ref=e259]: multiple
+      - combobox "outlined 32 multiple" [ref=e262] [cursor=pointer]:
+        - generic [ref=e263]: 请选择课程
+      - textbox [ref=e269]
+    - generic [ref=e270]:
+      - generic [ref=e271]: searchable
+      - combobox "outlined 32 searchable" [ref=e274] [cursor=pointer]:
+        - generic [ref=e275]: 请选择课程
+      - textbox [ref=e281]
+    - generic [ref=e282]:
+      - generic [ref=e283]: searchable-multiple
+      - combobox "outlined 32 searchable-multiple" [ref=e286] [cursor=pointer]:
+        - generic [ref=e287]: 请选择课程
+      - textbox [ref=e293]
+    - generic [ref=e294]:
+      - generic [ref=e295]: warning
+      - combobox "outlined 32 warning" [ref=e298] [cursor=pointer]:
+        - generic [ref=e299]: 请选择课程
+      - textbox [ref=e305]
+    - generic [ref=e306]:
+      - generic [ref=e307]: error
+      - combobox "outlined 32 error" [invalid] [ref=e310] [cursor=pointer]:
+        - generic [ref=e311]: 请选择课程
+      - textbox [ref=e317]
+    - generic [ref=e318]:
+      - generic [ref=e319]: readonly
+      - combobox "outlined 32 readonly" [disabled] [ref=e322]:
+        - generic [ref=e323]: 请选择课程
+      - textbox [ref=e328]
+    - generic [ref=e329]:
+      - generic [ref=e330]: disabled
+      - combobox "outlined 32 disabled" [disabled] [ref=e333]:
+        - generic [ref=e334]: 请选择课程
+      - textbox [disabled] [ref=e339]
+    - generic [ref=e341]:
+      - generic [ref=e342]: outlined 32 inherited-disabled
+      - combobox "outlined 32 inherited-disabled" [disabled] [ref=e345]:
+        - generic [ref=e346]: 请选择课程
+      - textbox [disabled] [ref=e351]
+    - generic [ref=e352]:
+      - generic [ref=e353]: loading
+      - combobox "outlined 32 loading" [ref=e356] [cursor=pointer]:
+        - generic [ref=e357]: 请选择课程
+      - textbox [ref=e363]
+  - generic [ref=e364]:
+    - heading "light · outlined · 36px · 实施后" [level=2] [ref=e365]
+    - generic [ref=e366]:
+      - generic [ref=e367]: normal
+      - combobox "outlined 36 normal" [ref=e370] [cursor=pointer]:
+        - generic [ref=e371]: 请选择课程
+      - textbox [ref=e377]
+    - generic [ref=e378]:
+      - generic [ref=e379]: multiple
+      - combobox "outlined 36 multiple" [ref=e382] [cursor=pointer]:
+        - generic [ref=e383]: 请选择课程
+      - textbox [ref=e389]
+    - generic [ref=e390]:
+      - generic [ref=e391]: searchable
+      - combobox "outlined 36 searchable" [ref=e394] [cursor=pointer]:
+        - generic [ref=e395]: 请选择课程
+      - textbox [ref=e401]
+    - generic [ref=e402]:
+      - generic [ref=e403]: searchable-multiple
+      - combobox "outlined 36 searchable-multiple" [ref=e406] [cursor=pointer]:
+        - generic [ref=e407]: 请选择课程
+      - textbox [ref=e413]
+    - generic [ref=e414]:
+      - generic [ref=e415]: warning
+      - combobox "outlined 36 warning" [ref=e418] [cursor=pointer]:
+        - generic [ref=e419]: 请选择课程
+      - textbox [ref=e425]
+    - generic [ref=e426]:
+      - generic [ref=e427]: error
+      - combobox "outlined 36 error" [invalid] [ref=e430] [cursor=pointer]:
+        - generic [ref=e431]: 请选择课程
+      - textbox [ref=e437]
+    - generic [ref=e438]:
+      - generic [ref=e439]: readonly
+      - combobox "outlined 36 readonly" [disabled] [ref=e442]:
+        - generic [ref=e443]: 请选择课程
+      - textbox [ref=e448]
+    - generic [ref=e449]:
+      - generic [ref=e450]: disabled
+      - combobox "outlined 36 disabled" [disabled] [ref=e453]:
+        - generic [ref=e454]: 请选择课程
+      - textbox [disabled] [ref=e459]
+    - generic [ref=e461]:
+      - generic [ref=e462]: outlined 36 inherited-disabled
+      - combobox "outlined 36 inherited-disabled" [disabled] [ref=e465]:
+        - generic [ref=e466]: 请选择课程
+      - textbox [disabled] [ref=e471]
+    - generic [ref=e472]:
+      - generic [ref=e473]: loading
+      - combobox "outlined 36 loading" [ref=e476] [cursor=pointer]:
+        - generic [ref=e477]: 请选择课程
+      - textbox [ref=e483]
+  - generic [ref=e484]:
+    - heading "light · filled · 24px · 实施后" [level=2] [ref=e485]
+    - generic [ref=e486]:
+      - generic [ref=e487]: normal
+      - combobox "filled 24 normal" [ref=e490] [cursor=pointer]:
+        - generic [ref=e491]: 请选择课程
+      - textbox [ref=e497]
+    - generic [ref=e498]:
+      - generic [ref=e499]: multiple
+      - combobox "filled 24 multiple" [ref=e502] [cursor=pointer]:
+        - generic [ref=e503]: 请选择课程
+      - textbox [ref=e509]
+    - generic [ref=e510]:
+      - generic [ref=e511]: searchable
+      - combobox "filled 24 searchable" [ref=e514] [cursor=pointer]:
+        - generic [ref=e515]: 请选择课程
+      - textbox [ref=e521]
+    - generic [ref=e522]:
+      - generic [ref=e523]: searchable-multiple
+      - combobox "filled 24 searchable-multiple" [ref=e526] [cursor=pointer]:
+        - generic [ref=e527]: 请选择课程
+      - textbox [ref=e533]
+    - generic [ref=e534]:
+      - generic [ref=e535]: warning
+      - combobox "filled 24 warning" [ref=e538] [cursor=pointer]:
+        - generic [ref=e539]: 请选择课程
+      - textbox [ref=e545]
+    - generic [ref=e546]:
+      - generic [ref=e547]: error
+      - combobox "filled 24 error" [invalid] [ref=e550] [cursor=pointer]:
+        - generic [ref=e551]: 请选择课程
+      - textbox [ref=e557]
+    - generic [ref=e558]:
+      - generic [ref=e559]: readonly
+      - combobox "filled 24 readonly" [disabled] [ref=e562]:
+        - generic [ref=e563]: 请选择课程
+      - textbox [ref=e568]
+    - generic [ref=e569]:
+      - generic [ref=e570]: disabled
+      - combobox "filled 24 disabled" [disabled] [ref=e573]:
+        - generic [ref=e574]: 请选择课程
+      - textbox [disabled] [ref=e579]
+    - generic [ref=e581]:
+      - generic [ref=e582]: filled 24 inherited-disabled
+      - combobox "filled 24 inherited-disabled" [disabled] [ref=e585]:
+        - generic [ref=e586]: 请选择课程
+      - textbox [disabled] [ref=e591]
+    - generic [ref=e592]:
+      - generic [ref=e593]: loading
+      - combobox "filled 24 loading" [ref=e596] [cursor=pointer]:
+        - generic [ref=e597]: 请选择课程
+      - textbox [ref=e603]
+  - generic [ref=e604]:
+    - heading "light · filled · 28px · 实施后" [level=2] [ref=e605]
+    - generic [ref=e606]:
+      - generic [ref=e607]: normal
+      - combobox "filled 28 normal" [ref=e610] [cursor=pointer]:
+        - generic [ref=e611]: 请选择课程
+      - textbox [ref=e617]
+    - generic [ref=e618]:
+      - generic [ref=e619]: multiple
+      - combobox "filled 28 multiple" [ref=e622] [cursor=pointer]:
+        - generic [ref=e623]: 请选择课程
+      - textbox [ref=e629]
+    - generic [ref=e630]:
+      - generic [ref=e631]: searchable
+      - combobox "filled 28 searchable" [ref=e634] [cursor=pointer]:
+        - generic [ref=e635]: 请选择课程
+      - textbox [ref=e641]
+    - generic [ref=e642]:
+      - generic [ref=e643]: searchable-multiple
+      - combobox "filled 28 searchable-multiple" [ref=e646] [cursor=pointer]:
+        - generic [ref=e647]: 请选择课程
+      - textbox [ref=e653]
+    - generic [ref=e654]:
+      - generic [ref=e655]: warning
+      - combobox "filled 28 warning" [ref=e658] [cursor=pointer]:
+        - generic [ref=e659]: 请选择课程
+      - textbox [ref=e665]
+    - generic [ref=e666]:
+      - generic [ref=e667]: error
+      - combobox "filled 28 error" [invalid] [ref=e670] [cursor=pointer]:
+        - generic [ref=e671]: 请选择课程
+      - textbox [ref=e677]
+    - generic [ref=e678]:
+      - generic [ref=e679]: readonly
+      - combobox "filled 28 readonly" [disabled] [ref=e682]:
+        - generic [ref=e683]: 请选择课程
+      - textbox [ref=e688]
+    - generic [ref=e689]:
+      - generic [ref=e690]: disabled
+      - combobox "filled 28 disabled" [disabled] [ref=e693]:
+        - generic [ref=e694]: 请选择课程
+      - textbox [disabled] [ref=e699]
+    - generic [ref=e701]:
+      - generic [ref=e702]: filled 28 inherited-disabled
+      - combobox "filled 28 inherited-disabled" [disabled] [ref=e705]:
+        - generic [ref=e706]: 请选择课程
+      - textbox [disabled] [ref=e711]
+    - generic [ref=e712]:
+      - generic [ref=e713]: loading
+      - combobox "filled 28 loading" [ref=e716] [cursor=pointer]:
+        - generic [ref=e717]: 请选择课程
+      - textbox [ref=e723]
+  - generic [ref=e724]:
+    - heading "light · filled · 32px · 实施后" [level=2] [ref=e725]
+    - generic [ref=e726]:
+      - generic [ref=e727]: normal
+      - combobox "filled 32 normal" [ref=e730] [cursor=pointer]:
+        - generic [ref=e731]: 请选择课程
+      - textbox [ref=e737]
+    - generic [ref=e738]:
+      - generic [ref=e739]: multiple
+      - combobox "filled 32 multiple" [ref=e742] [cursor=pointer]:
+        - generic [ref=e743]: 请选择课程
+      - textbox [ref=e749]
+    - generic [ref=e750]:
+      - generic [ref=e751]: searchable
+      - combobox "filled 32 searchable" [ref=e754] [cursor=pointer]:
+        - generic [ref=e755]: 请选择课程
+      - textbox [ref=e761]
+    - generic [ref=e762]:
+      - generic [ref=e763]: searchable-multiple
+      - combobox "filled 32 searchable-multiple" [ref=e766] [cursor=pointer]:
+        - generic [ref=e767]: 请选择课程
+      - textbox [ref=e773]
+    - generic [ref=e774]:
+      - generic [ref=e775]: warning
+      - combobox "filled 32 warning" [ref=e778] [cursor=pointer]:
+        - generic [ref=e779]: 请选择课程
+      - textbox [ref=e785]
+    - generic [ref=e786]:
+      - generic [ref=e787]: error
+      - combobox "filled 32 error" [invalid] [ref=e790] [cursor=pointer]:
+        - generic [ref=e791]: 请选择课程
+      - textbox [ref=e797]
+    - generic [ref=e798]:
+      - generic [ref=e799]: readonly
+      - combobox "filled 32 readonly" [disabled] [ref=e802]:
+        - generic [ref=e803]: 请选择课程
+      - textbox [ref=e808]
+    - generic [ref=e809]:
+      - generic [ref=e810]: disabled
+      - combobox "filled 32 disabled" [disabled] [ref=e813]:
+        - generic [ref=e814]: 请选择课程
+      - textbox [disabled] [ref=e819]
+    - generic [ref=e821]:
+      - generic [ref=e822]: filled 32 inherited-disabled
+      - combobox "filled 32 inherited-disabled" [disabled] [ref=e825]:
+        - generic [ref=e826]: 请选择课程
+      - textbox [disabled] [ref=e831]
+    - generic [ref=e832]:
+      - generic [ref=e833]: loading
+      - combobox "filled 32 loading" [ref=e836] [cursor=pointer]:
+        - generic [ref=e837]: 请选择课程
+      - textbox [ref=e843]
+  - generic [ref=e844]:
+    - heading "light · filled · 36px · 实施后" [level=2] [ref=e845]
+    - generic [ref=e846]:
+      - generic [ref=e847]: normal
+      - combobox "filled 36 normal" [ref=e850] [cursor=pointer]:
+        - generic [ref=e851]: 请选择课程
+      - textbox [ref=e857]
+    - generic [ref=e858]:
+      - generic [ref=e859]: multiple
+      - combobox "filled 36 multiple" [ref=e862] [cursor=pointer]:
+        - generic [ref=e863]: 请选择课程
+      - textbox [ref=e869]
+    - generic [ref=e870]:
+      - generic [ref=e871]: searchable
+      - combobox "filled 36 searchable" [ref=e874] [cursor=pointer]:
+        - generic [ref=e875]: 请选择课程
+      - textbox [ref=e881]
+    - generic [ref=e882]:
+      - generic [ref=e883]: searchable-multiple
+      - combobox "filled 36 searchable-multiple" [ref=e886] [cursor=pointer]:
+        - generic [ref=e887]: 请选择课程
+      - textbox [ref=e893]
+    - generic [ref=e894]:
+      - generic [ref=e895]: warning
+      - combobox "filled 36 warning" [ref=e898] [cursor=pointer]:
+        - generic [ref=e899]: 请选择课程
+      - textbox [ref=e905]
+    - generic [ref=e906]:
+      - generic [ref=e907]: error
+      - combobox "filled 36 error" [invalid] [ref=e910] [cursor=pointer]:
+        - generic [ref=e911]: 请选择课程
+      - textbox [ref=e917]
+    - generic [ref=e918]:
+      - generic [ref=e919]: readonly
+      - combobox "filled 36 readonly" [disabled] [ref=e922]:
+        - generic [ref=e923]: 请选择课程
+      - textbox [ref=e928]
+    - generic [ref=e929]:
+      - generic [ref=e930]: disabled
+      - combobox "filled 36 disabled" [disabled] [ref=e933]:
+        - generic [ref=e934]: 请选择课程
+      - textbox [disabled] [ref=e939]
+    - generic [ref=e941]:
+      - generic [ref=e942]: filled 36 inherited-disabled
+      - combobox "filled 36 inherited-disabled" [disabled] [ref=e945]:
+        - generic [ref=e946]: 请选择课程
+      - textbox [disabled] [ref=e951]
+    - generic [ref=e952]:
+      - generic [ref=e953]: loading
+      - combobox "filled 36 loading" [ref=e956] [cursor=pointer]:
+        - generic [ref=e957]: 请选择课程
+      - textbox [ref=e963]
+  - generic [ref=e964]:
+    - heading "light · underlined · 24px · 实施后" [level=2] [ref=e965]
+    - generic [ref=e966]:
+      - generic [ref=e967]: normal
+      - combobox "underlined 24 normal" [ref=e970] [cursor=pointer]:
+        - generic [ref=e971]: 请选择课程
+      - textbox [ref=e977]
+    - generic [ref=e978]:
+      - generic [ref=e979]: multiple
+      - combobox "underlined 24 multiple" [ref=e982] [cursor=pointer]:
+        - generic [ref=e983]: 请选择课程
+      - textbox [ref=e989]
+    - generic [ref=e990]:
+      - generic [ref=e991]: searchable
+      - combobox "underlined 24 searchable" [ref=e994] [cursor=pointer]:
+        - generic [ref=e995]: 请选择课程
+      - textbox [ref=e1001]
+    - generic [ref=e1002]:
+      - generic [ref=e1003]: searchable-multiple
+      - combobox "underlined 24 searchable-multiple" [ref=e1006] [cursor=pointer]:
+        - generic [ref=e1007]: 请选择课程
+      - textbox [ref=e1013]
+    - generic [ref=e1014]:
+      - generic [ref=e1015]: warning
+      - combobox "underlined 24 warning" [ref=e1018] [cursor=pointer]:
+        - generic [ref=e1019]: 请选择课程
+      - textbox [ref=e1025]
+    - generic [ref=e1026]:
+      - generic [ref=e1027]: error
+      - combobox "underlined 24 error" [invalid] [ref=e1030] [cursor=pointer]:
+        - generic [ref=e1031]: 请选择课程
+      - textbox [ref=e1037]
+    - generic [ref=e1038]:
+      - generic [ref=e1039]: readonly
+      - combobox "underlined 24 readonly" [disabled] [ref=e1042]:
+        - generic [ref=e1043]: 请选择课程
+      - textbox [ref=e1048]
+    - generic [ref=e1049]:
+      - generic [ref=e1050]: disabled
+      - combobox "underlined 24 disabled" [disabled] [ref=e1053]:
+        - generic [ref=e1054]: 请选择课程
+      - textbox [disabled] [ref=e1059]
+    - generic [ref=e1061]:
+      - generic [ref=e1062]: underlined 24 inherited-disabled
+      - combobox "underlined 24 inherited-disabled" [disabled] [ref=e1065]:
+        - generic [ref=e1066]: 请选择课程
+      - textbox [disabled] [ref=e1071]
+    - generic [ref=e1072]:
+      - generic [ref=e1073]: loading
+      - combobox "underlined 24 loading" [ref=e1076] [cursor=pointer]:
+        - generic [ref=e1077]: 请选择课程
+      - textbox [ref=e1083]
+  - generic [ref=e1084]:
+    - heading "light · underlined · 28px · 实施后" [level=2] [ref=e1085]
+    - generic [ref=e1086]:
+      - generic [ref=e1087]: normal
+      - combobox "underlined 28 normal" [ref=e1090] [cursor=pointer]:
+        - generic [ref=e1091]: 请选择课程
+      - textbox [ref=e1097]
+    - generic [ref=e1098]:
+      - generic [ref=e1099]: multiple
+      - combobox "underlined 28 multiple" [ref=e1102] [cursor=pointer]:
+        - generic [ref=e1103]: 请选择课程
+      - textbox [ref=e1109]
+    - generic [ref=e1110]:
+      - generic [ref=e1111]: searchable
+      - combobox "underlined 28 searchable" [ref=e1114] [cursor=pointer]:
+        - generic [ref=e1115]: 请选择课程
+      - textbox [ref=e1121]
+    - generic [ref=e1122]:
+      - generic [ref=e1123]: searchable-multiple
+      - combobox "underlined 28 searchable-multiple" [ref=e1126] [cursor=pointer]:
+        - generic [ref=e1127]: 请选择课程
+      - textbox [ref=e1133]
+    - generic [ref=e1134]:
+      - generic [ref=e1135]: warning
+      - combobox "underlined 28 warning" [ref=e1138] [cursor=pointer]:
+        - generic [ref=e1139]: 请选择课程
+      - textbox [ref=e1145]
+    - generic [ref=e1146]:
+      - generic [ref=e1147]: error
+      - combobox "underlined 28 error" [invalid] [ref=e1150] [cursor=pointer]:
+        - generic [ref=e1151]: 请选择课程
+      - textbox [ref=e1157]
+    - generic [ref=e1158]:
+      - generic [ref=e1159]: readonly
+      - combobox "underlined 28 readonly" [disabled] [ref=e1162]:
+        - generic [ref=e1163]: 请选择课程
+      - textbox [ref=e1168]
+    - generic [ref=e1169]:
+      - generic [ref=e1170]: disabled
+      - combobox "underlined 28 disabled" [disabled] [ref=e1173]:
+        - generic [ref=e1174]: 请选择课程
+      - textbox [disabled] [ref=e1179]
+    - generic [ref=e1181]:
+      - generic [ref=e1182]: underlined 28 inherited-disabled
+      - combobox "underlined 28 inherited-disabled" [disabled] [ref=e1185]:
+        - generic [ref=e1186]: 请选择课程
+      - textbox [disabled] [ref=e1191]
+    - generic [ref=e1192]:
+      - generic [ref=e1193]: loading
+      - combobox "underlined 28 loading" [ref=e1196] [cursor=pointer]:
+        - generic [ref=e1197]: 请选择课程
+      - textbox [ref=e1203]
+  - generic [ref=e1204]:
+    - heading "light · underlined · 32px · 实施后" [level=2] [ref=e1205]
+    - generic [ref=e1206]:
+      - generic [ref=e1207]: normal
+      - combobox "underlined 32 normal" [ref=e1210] [cursor=pointer]:
+        - generic [ref=e1211]: 请选择课程
+      - textbox [ref=e1217]
+    - generic [ref=e1218]:
+      - generic [ref=e1219]: multiple
+      - combobox "underlined 32 multiple" [ref=e1222] [cursor=pointer]:
+        - generic [ref=e1223]: 请选择课程
+      - textbox [ref=e1229]
+    - generic [ref=e1230]:
+      - generic [ref=e1231]: searchable
+      - combobox "underlined 32 searchable" [ref=e1234] [cursor=pointer]:
+        - generic [ref=e1235]: 请选择课程
+      - textbox [ref=e1241]
+    - generic [ref=e1242]:
+      - generic [ref=e1243]: searchable-multiple
+      - combobox "underlined 32 searchable-multiple" [ref=e1246] [cursor=pointer]:
+        - generic [ref=e1247]: 请选择课程
+      - textbox [ref=e1253]
+    - generic [ref=e1254]:
+      - generic [ref=e1255]: warning
+      - combobox "underlined 32 warning" [ref=e1258] [cursor=pointer]:
+        - generic [ref=e1259]: 请选择课程
+      - textbox [ref=e1265]
+    - generic [ref=e1266]:
+      - generic [ref=e1267]: error
+      - combobox "underlined 32 error" [invalid] [ref=e1270] [cursor=pointer]:
+        - generic [ref=e1271]: 请选择课程
+      - textbox [ref=e1277]
+    - generic [ref=e1278]:
+      - generic [ref=e1279]: readonly
+      - combobox "underlined 32 readonly" [disabled] [ref=e1282]:
+        - generic [ref=e1283]: 请选择课程
+      - textbox [ref=e1288]
+    - generic [ref=e1289]:
+      - generic [ref=e1290]: disabled
+      - combobox "underlined 32 disabled" [disabled] [ref=e1293]:
+        - generic [ref=e1294]: 请选择课程
+      - textbox [disabled] [ref=e1299]
+    - generic [ref=e1301]:
+      - generic [ref=e1302]: underlined 32 inherited-disabled
+      - combobox "underlined 32 inherited-disabled" [disabled] [ref=e1305]:
+        - generic [ref=e1306]: 请选择课程
+      - textbox [disabled] [ref=e1311]
+    - generic [ref=e1312]:
+      - generic [ref=e1313]: loading
+      - combobox "underlined 32 loading" [ref=e1316] [cursor=pointer]:
+        - generic [ref=e1317]: 请选择课程
+      - textbox [ref=e1323]
+  - generic [ref=e1324]:
+    - heading "light · underlined · 36px · 实施后" [level=2] [ref=e1325]
+    - generic [ref=e1326]:
+      - generic [ref=e1327]: normal
+      - combobox "underlined 36 normal" [ref=e1330] [cursor=pointer]:
+        - generic [ref=e1331]: 请选择课程
+      - textbox [ref=e1337]
+    - generic [ref=e1338]:
+      - generic [ref=e1339]: multiple
+      - generic [ref=e1340]:
+        - combobox "underlined 36 multiple" [expanded] [ref=e1342] [cursor=pointer]:
+          - generic [ref=e1343]: 请选择课程
+        - listbox "选项" [ref=e1352]:
+          - generic [ref=e1353]:
+            - option "可选课程" [active] [ref=e1354] [cursor=pointer]:
+              - generic [ref=e1355]:
+                - generic [ref=e1356]: 可选课程
+                - generic [ref=e1357]: 普通未选说明
+            - option "已有课程" [ref=e1359] [cursor=pointer]:
+              - generic [ref=e1360]:
+                - generic [ref=e1361]: 已有课程
+                - generic [ref=e1362]: 选中后保留品牌说明
+            - option "暂不可选" [disabled] [ref=e1364]:
+              - generic [ref=e1365]:
+                - generic [ref=e1366]: 暂不可选
+                - generic [ref=e1367]: 禁用说明保留原色
+      - textbox [ref=e1371]
+    - generic [ref=e1372]:
+      - generic [ref=e1373]: searchable
+      - combobox "underlined 36 searchable" [ref=e1376] [cursor=pointer]:
+        - generic [ref=e1377]: 请选择课程
+      - textbox [ref=e1383]
+    - generic [ref=e1384]:
+      - generic [ref=e1385]: searchable-multiple
+      - combobox "underlined 36 searchable-multiple" [ref=e1388] [cursor=pointer]:
+        - generic [ref=e1389]: 请选择课程
+      - textbox [ref=e1395]
+    - generic [ref=e1396]:
+      - generic [ref=e1397]: warning
+      - combobox "underlined 36 warning" [ref=e1400] [cursor=pointer]:
+        - generic [ref=e1401]: 请选择课程
+      - textbox [ref=e1407]
+    - generic [ref=e1408]:
+      - generic [ref=e1409]: error
+      - combobox "underlined 36 error" [invalid] [ref=e1412] [cursor=pointer]:
+        - generic [ref=e1413]: 请选择课程
+      - textbox [ref=e1419]
+    - generic [ref=e1420]:
+      - generic [ref=e1421]: readonly
+      - combobox "underlined 36 readonly" [disabled] [ref=e1424]:
+        - generic [ref=e1425]: 请选择课程
+      - textbox [ref=e1430]
+    - generic [ref=e1431]:
+      - generic [ref=e1432]: disabled
+      - combobox "underlined 36 disabled" [disabled] [ref=e1435]:
+        - generic [ref=e1436]: 请选择课程
+      - textbox [disabled] [ref=e1441]
+    - generic [ref=e1443]:
+      - generic [ref=e1444]: underlined 36 inherited-disabled
+      - combobox "underlined 36 inherited-disabled" [disabled] [ref=e1447]:
+        - generic [ref=e1448]: 请选择课程
+      - textbox [disabled] [ref=e1453]
+    - generic [ref=e1454]:
+      - generic [ref=e1455]: loading
+      - combobox "underlined 36 loading" [ref=e1458] [cursor=pointer]:
+        - generic [ref=e1459]: 请选择课程
+      - textbox [ref=e1465]
+  - generic [ref=e1466]:
+    - generic [ref=e1467]:
+      - generic [ref=e1468]:
+        - combobox "保留计数" [ref=e1469] [cursor=pointer]:
+          - generic "可选课程、已有课程" [ref=e1471]: 已选 2 项
+        - button "清除保留计数" [ref=e1474] [cursor=pointer]
+      - generic [ref=e1480]: 已选：可选课程、已有课程
+    - textbox [ref=e1481]
+    - generic [ref=e1482]:
+      - generic [ref=e1483]:
+        - generic "已有课程" [ref=e1486]:
+          - button "移除 已有课程" [ref=e1489] [cursor=pointer]
+        - combobox "保留标签" [ref=e1492] [cursor=pointer]
+        - button "清除保留标签" [ref=e1497] [cursor=pointer]
+      - generic [ref=e1500]: 已选：已有课程
+    - textbox [ref=e1501]
+```

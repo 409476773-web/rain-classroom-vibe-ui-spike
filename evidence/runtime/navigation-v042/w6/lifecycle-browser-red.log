@@ -1,0 +1,92 @@
+
+Running 2 tests using 1 worker
+
+(node:25089) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-v042-w6.spec.ts:24:1 › consumer deactivation clears temporary workspace and focus sessions while preserving business drafts (5.7s)
+(node:25134) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/navigation-v042-w6.spec.ts:41:1 › consumer deactivation closes portaled scope search and retains host draft (6.0s)
+
+
+  1) tests/e2e/navigation-v042-w6.spec.ts:24:1 › consumer deactivation clears temporary workspace and focus sessions while preserving business drafts 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-scene="E4"]').locator('[data-region-id="knowledge-index"].rain-workspace__region')
+    Expected: "false"
+    Received: "true"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for locator('[data-scene="E4"]').locator('[data-region-id="knowledge-index"].rain-workspace__region')
+        14 × locator resolved to <div data-side="end" aria-label="知识索引" data-mode="hidden" data-forced="false" data-temporary="true" data-region-id="knowledge-index" id="_r_1c_-workspace-knowledge-index" class="rain-workspace__region w6-pane">…</div>
+           - unexpected value "true"
+
+
+      29 |  await page.evaluate(()=>{window.location.hash='E1';});
+      30 |  await expect(root).toBeHidden();
+    > 31 |  await expect(root.locator('[data-region-id="knowledge-index"].rain-workspace__region')).toHaveAttribute('data-temporary','false');
+         |                                                                                          ^
+      32 |  await page.getByRole('link',{name:'课程资源',exact:true}).focus();
+      33 |  await page.keyboard.press('Escape');
+      34 |  await expect(page.getByRole('link',{name:'课程资源',exact:true})).toBeFocused();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:31:90
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-4224c--preserving-business-drafts/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-4224c--preserving-business-drafts/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-4224c--preserving-business-drafts/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-4224c--preserving-business-drafts/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/navigation-v042-w6.spec.ts:41:1 › consumer deactivation closes portaled scope search and retains host draft 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('textbox', { name: '搜索范围' })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByRole('textbox', { name: '搜索范围' })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      45 |  await expect(page.getByRole('textbox',{name:'搜索范围'})).toBeVisible();
+      46 |  await page.evaluate(()=>{window.location.hash='E2';});
+    > 47 |  await expect(page.getByRole('textbox',{name:'搜索范围'})).toHaveCount(0);
+         |                                                        ^
+      48 |  await page.evaluate(()=>{window.location.hash='E1';});
+      49 |  await expect(root.getByRole('textbox',{name:'资源说明草稿'})).toHaveValue('跨页面保留的说明');
+      50 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:47:56
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-c0b6c-arch-and-retains-host-draft/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-c0b6c-arch-and-retains-host-draft/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-c0b6c-arch-and-retains-host-draft/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-c0b6c-arch-and-retains-host-draft/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/navigation-v042-w6.spec.ts:24:1 › consumer deactivation clears temporary workspace and focus sessions while preserving business drafts 
+    tests/e2e/navigation-v042-w6.spec.ts:41:1 › consumer deactivation closes portaled scope search and retains host draft 

@@ -1,0 +1,936 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/recipes/navigation-w6/grading-replay-review01.test.tsx (5 tests | 5 failed) 430ms
+     × uses the public integer score control and prevents explicit saves for an invalid score 35ms
+     × changes the queue role without duplicating the two identity navigators or mixing drafts 287ms
+     × keeps an incomplete numeric edit from leaking into another question 32ms
+     × plays, pauses, and seeks the mock replay without starting on hover 37ms
+     × pauses a deactivated scene while retaining time, chapter and notes 37ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/recipes/navigation-w6/grading-replay-review01.test.tsx > G3 review 01: grading and replay task continuity > uses the public integer score control and prevents explicit saves for an invalid score
+Error: expect(received).toHaveAttribute()
+
+received value must be an HTMLElement or an SVGElement.
+Received has type:  Null
+Received has value: null
+ ❯ apps/playground/src/recipes/navigation-w6/grading-replay-review01.test.tsx:14:73
+     12|   it('uses the public integer score control and prevents explicit save…
+     13|     const { container } = render(<GradingWorkbench viewportWidth={1440…
+     14|     expect(container.querySelector('[data-rain-id="ui-input-number"]')…
+       |                                                                         ^
+     15|     const score = screen.getByRole('spinbutton', { name: '本题分数' });
+     16|     expect(score).toHaveAttribute('aria-valuemin', '0');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  apps/playground/src/recipes/navigation-w6/grading-replay-review01.test.tsx > G3 review 01: grading and replay task continuity > changes the queue role without duplicating the two identity navigators or mixing drafts
+TestingLibraryElementError: Unable to find an accessible element with the role "group" and name "当前题目选择"
+
+Here are the accessible roles:
+
+  list:
+
+  Name "":
+  [36m<ul[39m
+    [33mclass[39m=[32m"rain-navigation-family__track"[39m
+    [33mdata-slot[39m=[32m"track"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  listitem:
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rain-navigation-family__item"[39m
+    [33mdata-active[39m=[32m"false"[39m
+    [33mdata-slot[39m=[32m"item"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rain-navigation-family__item"[39m
+    [33mdata-active[39m=[32m"true"[39m
+    [33mdata-slot[39m=[32m"item"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rain-navigation-family__item"[39m
+    [33mdata-active[39m=[32m"false"[39m
+    [33mdata-slot[39m=[32m"item"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "第1题":
+  [36m<button[39m
+    [33maria-describedby[39m=[32m"_r_h_-q1-description"[39m
+    [33maria-label[39m=[32m"第1题"[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mclass[39m=[32m"rain-navigation-family__entry"[39m
+    [33mdata-slot[39m=[32m"entry"[39m
+    [33mtitle[39m=[32m"第1题"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "第2题":
+  [36m<button[39m
+    [33maria-describedby[39m=[32m"_r_h_-q2-description"[39m
+    [33maria-label[39m=[32m"第2题"[39m
+    [33maria-pressed[39m=[32m"true"[39m
+    [33mclass[39m=[32m"rain-navigation-family__entry"[39m
+    [33mdata-slot[39m=[32m"entry"[39m
+    [33mtitle[39m=[32m"第2题"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "第3题":
+  [36m<button[39m
+    [33maria-describedby[39m=[32m"_r_h_-q3-description"[39m
+    [33maria-label[39m=[32m"第3题"[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mclass[39m=[32m"rain-navigation-family__entry"[39m
+    [33mdata-slot[39m=[32m"entry"[39m
+    [33mtitle[39m=[32m"第3题"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<div[39m
+  [33maria-label[39m=[32m"当前批改对象"[39m
+  [33mclass[39m=[32m"rain-navigation-family rain-object-navigator"[39m
+  [33mdata-appearance[39m=[32m"queue"[39m
+  [33mdata-content[39m=[32m"identity"[39m
+  [33mdata-rain-id[39m=[32m"ui-object-navigator"[39m
+  [33mdata-slot[39m=[32m"root"[39m
+  [33mrole[39m=[32m"group"[39m
+[36m>[39m
+  [36m<ul[39m
+    [33mclass[39m=[32m"rain-navigation-family__track"[39m
+    [33mdata-slot[39m=[32m"track"[39m
+  [36m>[39m
+    [36m<li[39m
+      [33mclass[39m=[32m"rain-navigation-family__item"[39m
+      [33mdata-active[39m=[32m"false"[39m
+      [33mdata-slot[39m=[32m"item"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"rain-navigation-family__row"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-describedby[39m=[32m"_r_h_-q1-description"[39m
+          [33maria-label[39m=[32m"第1题"[39m
+          [33maria-pressed[39m=[32m"false"[39m
+          [33mclass[39m=[32m"rain-navigation-family__entry"[39m
+          [33mdata-slot[39m=[32m"entry"[39m
+          [33mtitle[39m=[32m"第1题"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"rain-navigation-family__content"[39m
+            [33mdata-slot[39m=[32m"content"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"rain-navigation-family__label"[39m
+              [33mdata-slot[39m=[32m"label"[39m
+            [36m>[39m
+              [0m第1题[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"rain-navigation-family__description"[39m
+              [33mdata-slot[39m=[32m"description"[39m
+              [33mid[39m=[32m"_r_h_-q1-description"[39m
+            [36m>[39m
+              [0m建立可检验假设 · 20分[0m
+            [36m</span>[39m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</li>[39m
+    [36m<li[39m
+      [33mclass[39m=[32m"rain-navigation-family__item"[39m
+      [33mdata-active[39m=[32m"true"[39m
+      [33mdata-slot[39m=[32m"item"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"rain-navigation-family__row"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-describedby[39m=[32m"_r_h_-q2-description"[39m
+          [33maria-label[39m=[32m"第2题"[39m
+          [33maria-pressed[39m=[32m"true"[39m
+          [33mclass[39m=[32m"rain-navigation-family__entry"[39m
+          [33mdata-slot[39m=[32m"entry"[39m
+          [33mtitle[39m=[32m"第2题"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"rain-navigation-family__content"[39m
+            [33mdata-slot[39m=[32m"content"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"rain-navigation-family__label"[39m
+              [33mdata-slot[39m=[32m"label"[39m
+            [36m>[39m
+              [0m第2题[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"rain-navigation-family__description"[39m
+              [33mdata-slot[39m=[32m"description"[39m
+              [33mid[39m=[32m"_r_h_-q2-description"[39m
+            [36m>[39m
+              [0m设计控制变量 · 20分[0m
+            [36m</span>[39m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</li>[39m
+    [36m<li[39m
+      [33mclass[39m=[32m"rain-navigation-family__item"[39m
+      [33mdata-active[39m=[32m"false"[39m
+      [33mdata-slot[39m=[32m"item"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"rain-navigation-family__row"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-describedby[39m=[32m"_r_h_-q3-description"[39m
+          [33maria-label[39m=[32m"第3题"[39m
+          [33maria-pressed[39m=[32m"false"[39m
+          [33mclass[39m=[32m"rain-navigation-family__entry"[39m
+          [33mdata-slot[39m=[32m"entry"[39m
+          [33mtitle[39m=[32m"第3题"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"rain-navigation-family__content"[39m
+            [33mdata-slot[39m=[32m"content"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"rain-navigation-family__label"[39m
+              [33mdata-slot[39m=[32m"label"[39m
+            [36m>[39m
+              [0m第3题[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"rain-navigation-family__description"[39m
+              [33mdata-slot[39m=[32m"description"[39m
+              [33mid[39m=[32m"_r_h_-q3-description"[39m
+            [36m>[39m
+              [0m解释实验结果 · 20分[0m
+            [36m</span>[39m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</li>[39m
+  [36m</ul>[39m
+[36m</div>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/recipes/navigation-w6/grading-replay-review01.test.tsx:39:26
+     37|     fireEvent.change(screen.getByRole('textbox', { name: '评分评语' }), { …
+     38|     fireEvent.click(screen.getByRole('radio', { name: '按题' }));
+     39|     expect(within(queue).getByRole('group', { name: '当前题目选择' })).toBeV…
+       |                          ^
+     40|     expect(within(queue).queryByRole('group', { name: '当前学生选择' })).not…
+     41|     fireEvent.click(within(screen.getByRole('group', { name: '当前学生选择' …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  apps/playground/src/recipes/navigation-w6/grading-replay-review01.test.tsx > G3 review 01: grading and replay task continuity > keeps an incomplete numeric edit from leaking into another question
+Error: expect(element).toBeDisabled()
+
+Received element is not disabled:
+  <button
+  class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:shadow-rain-button-focus-primary h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-on-color-foreground bg-rain-button-primary border-rain-action-ghost hover:bg-rain-button-primary-hover active:bg-rain-button-primary-pressed active:border-rain-button-strong-brand-border"
+  data-density="default"
+  data-focus="control"
+  data-rain-id="ui-button"
+  data-size="medium"
+  data-slot="root"
+  data-state="default"
+  data-tone="default"
+  data-variant="primary"
+  type="button"
+/>
+ ❯ apps/playground/src/recipes/navigation-w6/grading-replay-review01.test.tsx:53:60
+     51|     const score = screen.getByRole('spinbutton', { name: '本题分数' });
+     52|     fireEvent.change(score, { target: { value: '-' } });
+     53|     expect(screen.getByRole('button', { name: '保存本地草稿' })).toBeDisable…
+       |                                                            ^
+     54|     fireEvent.click(within(screen.getByRole('group', { name: '当前题目选择' …
+     55|     expect(screen.getByRole('spinbutton', { name: '本题分数' })).toHaveVal…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  apps/playground/src/recipes/navigation-w6/grading-replay-review01.test.tsx > G3 review 01: grading and replay task continuity > plays, pauses, and seeks the mock replay without starting on hover
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "播放回放"
+
+Here are the accessible roles:
+
+  banner:
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"w6-workspace-toolbar"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  strong:
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "当前模拟播放时间":
+  [36m<strong[39m
+    [33maria-label[39m=[32m"当前模拟播放时间"[39m
+    [33mdata-testid[39m=[32m"playback-time"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "临时查看知识索引":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"_r_u_-workspace-knowledge-index"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-label[39m=[32m"临时查看知识索引"[39m
+    [33mclass[39m=[32m"rain-workspace__restore "[39m
+    [33mdata-active[39m=[32m"false"[39m
+    [33mdata-mode[39m=[32m"hidden"[39m
+    [33mdata-workspace-action[39m=[32m"restore"[39m
+    [33mtitle[39m=[32m"显示知识索引"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "进入专注":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-small-height min-w-rain-button-small-min-width px-rain-button-small-padding-inline gap-rain-button-gap rounded-rain-button-small text-rain-button-small text-rain-button-tertiary-text bg-rain-action-ghost border-rain-button-tertiary-border hover:bg-rain-button-tertiary-hover active:bg-rain-button-tertiary-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"small"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"tertiary"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "模拟前进10秒":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-small-height min-w-rain-button-small-min-width px-rain-button-small-padding-inline gap-rain-button-gap rounded-rain-button-small text-rain-button-small text-rain-button-tertiary-text bg-rain-action-ghost border-rain-button-tertiary-border hover:bg-rain-button-tertiary-hover active:bg-rain-button-tertiary-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"small"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"tertiary"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "讲稿 00:00":
+  [36m<button[39m
+    [33maria-label[39m=[32m"讲稿 00:00"[39m
+    [33maria-pressed[39m=[32m"true"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "讲稿 01:15":
+  [36m<button[39m
+    [33maria-label[39m=[32m"讲稿 01:15"[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "讲稿 02:10":
+  [36m<button[39m
+    [33maria-label[39m=[32m"讲稿 02:10"[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "讲稿 04:00":
+  [36m<button[39m
+    [33maria-label[39m=[32m"讲稿 04:00"[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  article:
+
+  Name "":
+  [36m<article[39m
+    [33mclass[39m=[32m"w6-main w6-replay-main"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  region:
+
+  Name "模拟课堂媒体":
+  [36m<section[39m
+    [33maria-label[39m=[32m"模拟课堂媒体"[39m
+    [33mclass[39m=[32m"w6-player"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "从校园观察到研究设计":
+  [36m<h1 />[39m
+
+  Name "课堂讲稿":
+  [36m<h2 />[39m
+
+  --------------------------------------------------
+  group:
+
+  Name "课堂讲稿定位":
+  [36m<div[39m
+    [33maria-label[39m=[32m"课堂讲稿定位"[39m
+    [33mclass[39m=[32m"w6-transcript"[39m
+    [33mrole[39m=[32m"group"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  time:
+
+  Name "":
+  [36m<time />[39m
+
+  Name "":
+  [36m<time />[39m
+
+  Name "":
+  [36m<time />[39m
+
+  Name "":
+  [36m<time />[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "回放笔记":
+  [36m<input[39m
+    [33maria-label[39m=[32m"回放笔记"[39m
+    [33mclass[39m=[32m"rain-input__control min-w-0 w-full flex-1 border-none bg-transparent p-rain-0 text-inherit outline-none placeholder:text-rain-category-text-neutral-5 disabled:cursor-not-allowed disabled:placeholder:text-rain-category-text-neutral-6"[39m
+    [33mdata-slot[39m=[32m"control"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"rain-workspace w6-workspace"[39m
+      [33mdata-focused[39m=[32m"false"[39m
+      [33mdata-preferences-pending[39m=[32m"false"[39m
+      [33mdata-rain-id[39m=[32m"layout-workspace"[39m
+      [33mdata-rain-id-consumer[39m=[32m"local-navigation-w6-e4"[39m
+      [33mdata-viewport-width[39m=[32m"1440"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"w6-workspace-toolbar"[39m
+      [36m>[39m
+        [36m<strong>[39m
+          [0m校园微气候调查 · 课堂回放[0m
+        [36m</strong>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"w6-actions"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33maria-controls[39m=[32m"_r_u_-workspace-knowledge-index"[39m
+            [33maria-expanded[39m=[32m"false"[39m
+            [33maria-label[39m=[32m"临时查看知识索引"[39m
+            [33mclass[39m=[32m"rain-workspace__restore "[39m
+            [33mdata-active[39m=[32m"false"[39m
+            [33mdata-mode[39m=[32m"hidden"[39m
+            [33mdata-workspace-action[39m=[32m"restore"[39m
+            [33mtitle[39m=[32m"显示知识索引"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0m知识索引[0m
+          [36m</button>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-small-height min-w-rain-button-small-min-width px-rain-button-small-padding-inline gap-rain-button-gap rounded-rain-button-small text-rain-button-small text-rain-button-tertiary-text bg-rain-action-ghost border-rain-button-tertiary-border hover:bg-rain-button-tertiary-hover active:bg-rain-button-tertiary-pressed"[39m
+            [33mdata-density[39m=[32m"default"[39m
+            [33mdata-focus[39m=[32m"control"[39m
+            [33mdata-rain-id[39m=[32m"ui-button"[39m
+            [33mdata-size[39m=[32m"small"[39m
+            [33mdata-slot[39m=[32m"root"[39m
+            [33mdata-state[39m=[32m"default"[39m
+            [33mdata-tone[39m=[32m"default"[39m
+            [33mdata-variant[39m=[32m"tertiary"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"flex-initial min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-rain-button-tertiary-text"[39m
+              [33mdata-slot[39m=[32m"label"[39m
+            [36m>[39m
+              [0m进入专注[0m
+            [36m</span>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"rain-workspace__flow"[39m
+        [33mdata-slot[39m=[32m"workspace-flow"[39m
+      [36m>[39m
+        [36m<article[39m
+          [33mclass[39m=[32m"w6-main w6-replay-main"[39m
+        [36m>[39m
+          [36m<section[39m
+            [33maria-label[39m=[32m"模拟课堂媒体"[39m
+            [33mclass[39m=[32m"w6-player"[39m
+          [36m>[39m
+            [36m<p>[39m
+              [0m课堂板书 · 控制变量与证据[0m
+            [36m</p>[39m
+            [36m<h1>[39m
+              [0m从校园观察到研究设计[0m
+            [36m</h1>[39m
+            [36m<p>[39m
+              [0m提出问题 → 收集证据 → 设计实验 → 解释结果[0m
+            [36m</p>[39m
+            [36m<span>[39m
+              [0m脱敏课堂画面 · 模拟媒体[0m
+            [36m</span>[39m
+          [36m</section>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"w6-playbar"[39m
+          [36m>[39m
+            [36m<strong[39m
+              [33maria-label[39m=[32m"当前模拟播放时间"[39m
+              [33mdata-testid[39m=[32m"playback-time"[39m
+            [36m>[39m
+              [0m00:00[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m/ 05:00[0m
+            [36m</span>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-small-height min-w-rain-button-small-min-width px-rain-button-small-padding-inline gap-rain-button-gap rounded-rain-button-small text-rain-button-small text-rain-button-tertiary-text bg-rain-action-ghost border-rain-button-tertiary-border hover:bg-rain-button-tertiary-hover active:bg-rain-button-tertiary-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"default"[39m
+              [33mdata-variant[39m=[32m"tertiary"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"flex-initial min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-rain-button-tertiary-text"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m模拟前进10秒[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<span>[39m
+              [0m仅点击讲稿或知识节点定位[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<h2>[39m
+            [0m课堂讲稿[0m
+          [36m</h2>[39m
+          [36m<div[39m
+            [33maria-label[39m=[32m"课堂讲稿定位"[39m
+            [33mclass[39m=[32m"w6-transcript"[39m
+            [33mrole[39m=[32m"group"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-label[39m=[32m"讲稿 00:00"[39m
+              [33maria-pressed[39m=[32m"true"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<time>[39m
+   ...
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/recipes/navigation-w6/grading-replay-review01.test.tsx:64:28
+     62|     render(<ReplayWorkbench viewportWidth={1440} />);
+     63|     vi.useFakeTimers();
+     64|     fireEvent.click(screen.getByRole('button', { name: '播放回放' }));
+       |                            ^
+     65|     act(() => vi.advanceTimersByTime(2000));
+     66|     expect(screen.getByTestId('playback-time')).toHaveTextContent('00:…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  apps/playground/src/recipes/navigation-w6/grading-replay-review01.test.tsx > G3 review 01: grading and replay task continuity > pauses a deactivated scene while retaining time, chapter and notes
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "播放回放"
+
+Here are the accessible roles:
+
+  banner:
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"w6-workspace-toolbar"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  strong:
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "当前模拟播放时间":
+  [36m<strong[39m
+    [33maria-label[39m=[32m"当前模拟播放时间"[39m
+    [33mdata-testid[39m=[32m"playback-time"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "临时查看知识索引":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"_r_11_-workspace-knowledge-index"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-label[39m=[32m"临时查看知识索引"[39m
+    [33mclass[39m=[32m"rain-workspace__restore "[39m
+    [33mdata-active[39m=[32m"false"[39m
+    [33mdata-mode[39m=[32m"hidden"[39m
+    [33mdata-workspace-action[39m=[32m"restore"[39m
+    [33mtitle[39m=[32m"显示知识索引"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "进入专注":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-small-height min-w-rain-button-small-min-width px-rain-button-small-padding-inline gap-rain-button-gap rounded-rain-button-small text-rain-button-small text-rain-button-tertiary-text bg-rain-action-ghost border-rain-button-tertiary-border hover:bg-rain-button-tertiary-hover active:bg-rain-button-tertiary-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"small"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"tertiary"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "模拟前进10秒":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-small-height min-w-rain-button-small-min-width px-rain-button-small-padding-inline gap-rain-button-gap rounded-rain-button-small text-rain-button-small text-rain-button-tertiary-text bg-rain-action-ghost border-rain-button-tertiary-border hover:bg-rain-button-tertiary-hover active:bg-rain-button-tertiary-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"small"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"tertiary"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "讲稿 00:00":
+  [36m<button[39m
+    [33maria-label[39m=[32m"讲稿 00:00"[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "讲稿 01:15":
+  [36m<button[39m
+    [33maria-label[39m=[32m"讲稿 01:15"[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "讲稿 02:10":
+  [36m<button[39m
+    [33maria-label[39m=[32m"讲稿 02:10"[39m
+    [33maria-pressed[39m=[32m"true"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "讲稿 04:00":
+  [36m<button[39m
+    [33maria-label[39m=[32m"讲稿 04:00"[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "清除回放笔记":
+  [36m<button[39m
+    [33maria-label[39m=[32m"清除回放笔记"[39m
+    [33mclass[39m=[32m"rain-input__clear inline-flex size-full items-center justify-center rounded-rain-4 border-none bg-transparent p-rain-0 cursor-pointer text-rain-category-icon-neutral-3 hover:text-rain-category-icon-neutral-2 active:text-rain-category-icon-neutral-1"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-slot[39m=[32m"clear-action"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  article:
+
+  Name "":
+  [36m<article[39m
+    [33mclass[39m=[32m"w6-main w6-replay-main"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  region:
+
+  Name "模拟课堂媒体":
+  [36m<section[39m
+    [33maria-label[39m=[32m"模拟课堂媒体"[39m
+    [33mclass[39m=[32m"w6-player"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "从校园观察到研究设计":
+  [36m<h1 />[39m
+
+  Name "课堂讲稿":
+  [36m<h2 />[39m
+
+  --------------------------------------------------
+  group:
+
+  Name "课堂讲稿定位":
+  [36m<div[39m
+    [33maria-label[39m=[32m"课堂讲稿定位"[39m
+    [33mclass[39m=[32m"w6-transcript"[39m
+    [33mrole[39m=[32m"group"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  time:
+
+  Name "":
+  [36m<time />[39m
+
+  Name "":
+  [36m<time />[39m
+
+  Name "":
+  [36m<time />[39m
+
+  Name "":
+  [36m<time />[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "回放笔记":
+  [36m<input[39m
+    [33maria-label[39m=[32m"回放笔记"[39m
+    [33mclass[39m=[32m"rain-input__control min-w-0 w-full flex-1 border-none bg-transparent p-rain-0 text-inherit outline-none placeholder:text-rain-category-text-neutral-5 disabled:cursor-not-allowed disabled:placeholder:text-rain-category-text-neutral-6"[39m
+    [33mdata-slot[39m=[32m"control"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"记录测量高度"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"rain-workspace w6-workspace"[39m
+      [33mdata-focused[39m=[32m"false"[39m
+      [33mdata-preferences-pending[39m=[32m"false"[39m
+      [33mdata-rain-id[39m=[32m"layout-workspace"[39m
+      [33mdata-rain-id-consumer[39m=[32m"local-navigation-w6-e4"[39m
+      [33mdata-viewport-width[39m=[32m"1440"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"w6-workspace-toolbar"[39m
+      [36m>[39m
+        [36m<strong>[39m
+          [0m校园微气候调查 · 课堂回放[0m
+        [36m</strong>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"w6-actions"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33maria-controls[39m=[32m"_r_11_-workspace-knowledge-index"[39m
+            [33maria-expanded[39m=[32m"false"[39m
+            [33maria-label[39m=[32m"临时查看知识索引"[39m
+            [33mclass[39m=[32m"rain-workspace__restore "[39m
+            [33mdata-active[39m=[32m"false"[39m
+            [33mdata-mode[39m=[32m"hidden"[39m
+            [33mdata-workspace-action[39m=[32m"restore"[39m
+            [33mtitle[39m=[32m"显示知识索引"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0m知识索引[0m
+          [36m</button>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-small-height min-w-rain-button-small-min-width px-rain-button-small-padding-inline gap-rain-button-gap rounded-rain-button-small text-rain-button-small text-rain-button-tertiary-text bg-rain-action-ghost border-rain-button-tertiary-border hover:bg-rain-button-tertiary-hover active:bg-rain-button-tertiary-pressed"[39m
+            [33mdata-density[39m=[32m"default"[39m
+            [33mdata-focus[39m=[32m"control"[39m
+            [33mdata-rain-id[39m=[32m"ui-button"[39m
+            [33mdata-size[39m=[32m"small"[39m
+            [33mdata-slot[39m=[32m"root"[39m
+            [33mdata-state[39m=[32m"default"[39m
+            [33mdata-tone[39m=[32m"default"[39m
+            [33mdata-variant[39m=[32m"tertiary"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"flex-initial min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-rain-button-tertiary-text"[39m
+              [33mdata-slot[39m=[32m"label"[39m
+            [36m>[39m
+              [0m进入专注[0m
+            [36m</span>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"rain-workspace__flow"[39m
+        [33mdata-slot[39m=[32m"workspace-flow"[39m
+      [36m>[39m
+        [36m<article[39m
+          [33mclass[39m=[32m"w6-main w6-replay-main"[39m
+        [36m>[39m
+          [36m<section[39m
+            [33maria-label[39m=[32m"模拟课堂媒体"[39m
+            [33mclass[39m=[32m"w6-player"[39m
+          [36m>[39m
+            [36m<p>[39m
+              [0m课堂板书 · 控制变量与证据[0m
+            [36m</p>[39m
+            [36m<h1>[39m
+              [0m从校园观察到研究设计[0m
+            [36m</h1>[39m
+            [36m<p>[39m
+              [0m提出问题 → 收集证据 → 设计实验 → 解释结果[0m
+            [36m</p>[39m
+            [36m<span>[39m
+              [0m脱敏课堂画面 · 模拟媒体[0m
+            [36m</span>[39m
+          [36m</section>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"w6-playbar"[39m
+          [36m>[39m
+            [36m<strong[39m
+              [33maria-label[39m=[32m"当前模拟播放时间"[39m
+              [33mdata-testid[39m=[32m"playback-time"[39m
+            [36m>[39m
+              [0m02:10[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m/ 05:00[0m
+            [36m</span>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-small-height min-w-rain-button-small-min-width px-rain-button-small-padding-inline gap-rain-button-gap rounded-rain-button-small text-rain-button-small text-rain-button-tertiary-text bg-rain-action-ghost border-rain-button-tertiary-border hover:bg-rain-button-tertiary-hover active:bg-rain-button-tertiary-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"default"[39m
+              [33mdata-variant[39m=[32m"tertiary"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"flex-initial min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-rain-button-tertiary-text"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m模拟前进10秒[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<span>[39m
+              [0m仅点击讲稿或知识节点定位[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<h2>[39m
+            [0m课堂讲稿[0m
+          [36m</h2>[39m
+          [36m<div[39m
+            [33maria-label[39m=[32m"课堂讲稿定位"[39m
+            [33mclass[39m=[32m"w6-transcript"[39m
+            [33mrole[39m=[32m"group"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-label[39m=[32m"讲稿 00:00"[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<time>[39m
+ ...
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/recipes/navigation-w6/grading-replay-review01.test.tsx:82:28
+     80|     fireEvent.click(screen.getByRole('button', { name: '讲稿 02:10' }));
+     81|     vi.useFakeTimers();
+     82|     fireEvent.click(screen.getByRole('button', { name: '播放回放' }));
+       |                            ^
+     83|     act(() => vi.advanceTimersByTime(1000));
+     84|     rerender(<ReplayWorkbench viewportWidth={1440} active={false} />);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  23:30:07
+   Duration  1.90s (transform 511ms, setup 97ms, import 894ms, tests 430ms, environment 379ms)
+

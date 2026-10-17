@@ -1,0 +1,58 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/date-picker/date-picker.test.tsx (31 tests | 2 failed) 10381ms
+   × previews range validity with endpoint times and duration constraints 245ms
+   × waits for custom duration composition to finish without intercepting IME Enter 326ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/date-picker/date-picker.test.tsx > previews range validity with endpoint times and duration constraints
+Error: expect(element).toHaveClass("rain-calendar__preview-invalid")
+
+Expected the element to have class:
+  rain-calendar__preview-invalid
+Received:
+  rdp-day rain-calendar__day rdp-today rain-calendar__today rain-calendar__preview rdp-selected rdp-range_start rain-calendar__range-start
+ ❯ packages/ui/src/date-picker/date-picker.test.tsx:379:33
+    377|   await user.click(screen.getByRole("textbox", { name: "结束日期" }));
+    378|   fireEvent.mouseEnter(day(12));
+    379|   expect(day(12).closest("td")).toHaveClass("rain-calendar__preview-in…
+       |                                 ^
+    380|   fireEvent.change(screen.getByRole("textbox", { name: "开始小时" }), { ta…
+    381|   fireEvent.mouseEnter(day(12));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/ui/src/date-picker/date-picker.test.tsx > waits for custom duration composition to finish without intercepting IME Enter
+Error: expect(element).toBeDisabled()
+
+Received element is not disabled:
+  <button
+  class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-small-height min-w-rain-button-small-min-width px-rain-button-small-padding-inline gap-rain-button-gap rounded-rain-button-small text-rain-button-small text-rain-button-secondary-text bg-rain-button-secondary border-rain-button-secondary-border hover:bg-rain-button-secondary-hover active:bg-rain-button-secondary-pressed active:border-rain-button-strong-brand-border"
+  data-density="compact"
+  data-focus="control"
+  data-rain-id="ui-button"
+  data-size="small"
+  data-slot="root"
+  data-state="default"
+  data-tone="default"
+  data-variant="secondary"
+  type="button"
+/>
+ ❯ packages/ui/src/date-picker/date-picker.test.tsx:394:56
+    392|   fireEvent.compositionStart(input);
+    393|   fireEvent.change(input, { target: { value: "120" } });
+    394|   expect(screen.getByRole("button", { name: "应用时长" })).toBeDisabled();
+       |                                                        ^
+    395|   const imeEnter = new KeyboardEvent("keydown", { key: "Enter", keyCod…
+    396|   fireEvent(input, imeEnter);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 29 passed (31)
+   Start at  14:51:13
+   Duration  14.68s (transform 325ms, setup 211ms, import 3.33s, tests 10.38s, environment 651ms)
+

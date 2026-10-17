@@ -1,0 +1,78 @@
+[WebServer] (node:30316) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:30326) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:30581) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/conversation-composer.spec.ts:29:1 › layout motion can reverse and immediate editing preserves long draft position (3.4s)
+(node:30712) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [narrow] › tests/e2e/conversation-composer.spec.ts:29:1 › layout motion can reverse and immediate editing preserves long draft position (3.0s)
+
+
+  1) [desktop] › tests/e2e/conversation-composer.spec.ts:29:1 › layout motion can reverse and immediate editing preserves long draft position 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    94
+
+      56 |   await form.getByRole('button',{name:'收起输入框',exact:true}).click();
+      57 |   await expect(shell).toHaveAttribute('data-resizing','false');
+    > 58 |   expect(await editor.evaluate(node=>{const input=node as HTMLTextAreaElement;return input.value.slice(0,input.selectionEnd).split('\n').length*parseFloat(getComputedStyle(input).lineHeight)-input.scrollTop-input.clientHeight;})).toBeLessThanOrEqual(1);
+         |                                                                                                                                                                                                                                       ^
+      59 |   expect(await editor.evaluate(node=>(node as HTMLTextAreaElement).selectionEnd)).toBe(middleCursor);
+      60 | });
+      61 | test('narrow recovery cards leave room for names and retry returns focus before the action disappears',async({page},info)=>{
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts:58:231
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-06/middle-caret-check/results/conversation-composer-layo-bc404-eserves-long-draft-position-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/conversation-composer-2026-10-15/run-06/middle-caret-check/results/conversation-composer-layo-bc404-eserves-long-draft-position-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-06/middle-caret-check/results/conversation-composer-layo-bc404-eserves-long-draft-position-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/conversation-composer-2026-10-15/run-06/middle-caret-check/results/conversation-composer-layo-bc404-eserves-long-draft-position-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [narrow] › tests/e2e/conversation-composer.spec.ts:29:1 › layout motion can reverse and immediate editing preserves long draft position 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    94
+
+      56 |   await form.getByRole('button',{name:'收起输入框',exact:true}).click();
+      57 |   await expect(shell).toHaveAttribute('data-resizing','false');
+    > 58 |   expect(await editor.evaluate(node=>{const input=node as HTMLTextAreaElement;return input.value.slice(0,input.selectionEnd).split('\n').length*parseFloat(getComputedStyle(input).lineHeight)-input.scrollTop-input.clientHeight;})).toBeLessThanOrEqual(1);
+         |                                                                                                                                                                                                                                       ^
+      59 |   expect(await editor.evaluate(node=>(node as HTMLTextAreaElement).selectionEnd)).toBe(middleCursor);
+      60 | });
+      61 | test('narrow recovery cards leave room for names and retry returns focus before the action disappears',async({page},info)=>{
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts:58:231
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-06/middle-caret-check/results/conversation-composer-layo-bc404-eserves-long-draft-position-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/conversation-composer-2026-10-15/run-06/middle-caret-check/results/conversation-composer-layo-bc404-eserves-long-draft-position-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-06/middle-caret-check/results/conversation-composer-layo-bc404-eserves-long-draft-position-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/conversation-composer-2026-10-15/run-06/middle-caret-check/results/conversation-composer-layo-bc404-eserves-long-draft-position-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/e2e/conversation-composer.spec.ts:29:1 › layout motion can reverse and immediate editing preserves long draft position 
+    [narrow] › tests/e2e/conversation-composer.spec.ts:29:1 › layout motion can reverse and immediate editing preserves long draft position 

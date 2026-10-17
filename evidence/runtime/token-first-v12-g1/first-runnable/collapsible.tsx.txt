@@ -1,0 +1,23 @@
+// Adapted directly from shadcn-ui/ui@3ba91b1, MIT; local-experiment.
+// Pristine sources, full Nova styles and license: evidence/runtime/token-first-v12-g1/source-lock.json.
+"use client"
+
+import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible"
+
+function Collapsible({ ...props }: CollapsiblePrimitive.Root.Props) {
+  return <CollapsiblePrimitive.Root data-rain-id="local-g1-collapsible" data-slot="collapsible" {...props} />
+}
+
+function CollapsibleTrigger({ ...props }: CollapsiblePrimitive.Trigger.Props) {
+  return (
+    <CollapsiblePrimitive.Trigger data-slot="collapsible-trigger" data-focus="control" {...props} />
+  )
+}
+
+function CollapsibleContent({ ...props }: CollapsiblePrimitive.Panel.Props) {
+  return (
+    <CollapsiblePrimitive.Panel data-slot="collapsible-content" {...props} />
+  )
+}
+
+export { Collapsible, CollapsibleTrigger, CollapsibleContent }

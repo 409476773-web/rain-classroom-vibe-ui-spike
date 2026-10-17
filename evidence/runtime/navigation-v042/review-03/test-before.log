@@ -1,0 +1,74 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/navigation/navigation.test.tsx (8 tests | 2 failed) 291ms
+   × counts hidden classes and searches all scopes in an anchored nonmodal dropdown 45ms
+   × omits More when all classes are visible and recomputes the hidden count after a limit change 17ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/navigation/navigation.test.tsx > counts hidden classes and searches all scopes in an anchored nonmodal dropdown
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  197
+Received:
+  更多班级
+ ❯ packages/ui/src/navigation/navigation.test.tsx:31:16
+     29|   expect(screen.getAllByRole("tab")).toHaveLength(4);
+     30|   const more = screen.getByRole("button", { name: "更多班级" });
+     31|   expect(more).toHaveTextContent("197");
+       |                ^
+     32|   fireEvent.click(more);
+     33|   expect(await screen.findByRole("dialog")).not.toHaveAttribute("aria-…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/ui/src/navigation/navigation.test.tsx > omits More when all classes are visible and recomputes the hidden count after a limit change
+AssertionError: expected <button type="button" …(10)>…(1)</button> to be null
+
+- Expected:
+null
+
++ Received:
+<button
+  aria-expanded="false"
+  aria-haspopup="dialog"
+  aria-label="更多班级"
+  class="rain-scope-navigation__more"
+  data-base-ui-click-trigger=""
+  data-focus="control"
+  data-rain-id="ui-dialog"
+  data-slot="trigger"
+  id="base-ui-_r_2o_"
+  tabindex="0"
+  type="button"
+>
+  更多班级 
+  <span
+    aria-hidden="true"
+    class="rain-icon"
+    data-icon="icon/arrow-down"
+    data-icon-color-mode="host"
+    data-icon-rendering="svg-mask"
+    data-rain-id="icon"
+    style="mask-image: url(\"data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20clip-path='url(%23clip0_63_76)'%3e%3cmask%20id='mask0_63_76'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='2'%20y='6'%20width='20'%20height='12'%3e%3cmask%20id='mask1_63_76'%20style='mask-type:luminance'%20maskUnits='userSpaceOnUse'%20x='0'%20y='0'%20width='24'%20height='24'%3e%3cpath%20d='M24%200H0V24H24V0Z'%20fill='white'/%3e%3c/mask%3e%3cg%20mask='url(%23mask1_63_76)'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M10.8686%2017.4485C11.4935%2018.0733%2012.5065%2018.0733%2013.1314%2017.4485L20.9095%209.67034C21.5344%209.0455%2021.5344%208.03243%2020.9095%207.40759C20.2847%206.78275%2019.2716%206.78275%2018.6468%207.40759L12%2014.0544L5.3532%207.40759C4.72836%206.78275%203.71529%206.78275%203.09045%207.40759C2.46562%208.03243%202.46562%209.0455%203.09045%209.67034L10.8686%2017.4485Z'%20fill='%231D2129'/%3e%3c/g%3e%3c/mask%3e%3cg%20mask='url(%23mask0_63_76)'%3e%3crect%20width='24'%20height='24'%20fill='%231D2129'/%3e%3c/g%3e%3c/g%3e%3cdefs%3e%3cclipPath%20id='clip0_63_76'%3e%3crect%20width='24'%20height='24'%20fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e\"); -webkit-mask-image: url(\"data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20clip-path='url(%23clip0_63_76)'%3e%3cmask%20id='mask0_63_76'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='2'%20y='6'%20width='20'%20height='12'%3e%3cmask%20id='mask1_63_76'%20style='mask-type:luminance'%20maskUnits='userSpaceOnUse'%20x='0'%20y='0'%20width='24'%20height='24'%3e%3cpath%20d='M24%200H0V24H24V0Z'%20fill='white'/%3e%3c/mask%3e%3cg%20mask='url(%23mask1_63_76)'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M10.8686%2017.4485C11.4935%2018.0733%2012.5065%2018.0733%2013.1314%2017.4485L20.9095%209.67034C21.5344%209.0455%2021.5344%208.03243%2020.9095%207.40759C20.2847%206.78275%2019.2716%206.78275%2018.6468%207.40759L12%2014.0544L5.3532%207.40759C4.72836%206.78275%203.71529%206.78275%203.09045%207.40759C2.46562%208.03243%202.46562%209.0455%203.09045%209.67034L10.8686%2017.4485Z'%20fill='%231D2129'/%3e%3c/g%3e%3c/mask%3e%3cg%20mask='url(%23mask0_63_76)'%3e%3crect%20width='24'%20height='24'%20fill='%231D2129'/%3e%3c/g%3e%3c/g%3e%3cdefs%3e%3cclipPath%20id='clip0_63_76'%3e%3crect%20width='24'%20height='24'%20fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e\");"
+  />
+</button>
+
+ ❯ packages/ui/src/navigation/navigation.test.tsx:88:54
+     86| it("omits More when all classes are visible and recomputes the hidden …
+     87|   const { rerender } = render(<ScopeNavigation items={scopes.slice(0,3…
+     88|   expect(screen.queryByRole('button',{name:'更多班级'})).toBeNull();
+       |                                                      ^
+     89|   rerender(<ScopeNavigation items={scopes} value="class-200" visibleLi…
+     90|   expect(screen.getByRole('button',{name:'更多班级'})).toHaveTextContent('…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 6 passed (8)
+   Start at  23:39:25
+   Duration  1.56s (transform 191ms, setup 168ms, import 432ms, tests 291ms, environment 574ms)
+

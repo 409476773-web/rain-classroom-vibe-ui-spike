@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+(node:70735) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-business-sizes.spec.ts:171:1 › business hosts keep nearby readings, right aligned table counts and common card baselines (1.1s)
+
+
+  1) tests/e2e/chart-business-sizes.spec.ts:171:1 › business hosts keep nearby readings, right aligned table counts and common card baselines 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    2
+
+      194 |   const difference = Math.max(...baselines.map(value => value.baseline)) - Math.min(...baselines.map(value => value.baseline));
+      195 |   await writeFile(`${evidence}/host-readings.json`, JSON.stringify({baselines,difference,tableReadings,footerReading},null,2));
+    > 196 |   expect(difference).toBeLessThanOrEqual(1);
+          |                      ^
+      197 | });
+      198 |
+      199 | test("embedded unavailable states have one reading and large ranking numbers keep their own column",async({page})=>{
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-sizes.spec.ts:196:22
+
+    Error Context: evidence/runtime/chart-mini-typography-feedback-2026-10-09/host-browser-results/chart-business-sizes-busin-59d36-s-and-common-card-baselines/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-mini-typography-feedback-2026-10-09/host-browser-results/chart-business-sizes-busin-59d36-s-and-common-card-baselines/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-mini-typography-feedback-2026-10-09/host-browser-results/chart-business-sizes-busin-59d36-s-and-common-card-baselines/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-business-sizes.spec.ts:171:1 › business hosts keep nearby readings, right aligned table counts and common card baselines 

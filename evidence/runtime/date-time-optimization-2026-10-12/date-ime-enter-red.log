@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/date-picker/date-picker.test.tsx (29 tests | 1 failed | 28 skipped) 399ms
+   × does not parse, navigate or commit complete intermediate text during composition 398ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/date-picker/date-picker.test.tsx > does not parse, navigate or commit complete intermediate text during composition
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ packages/ui/src/date-picker/date-picker.test.tsx:360:37
+    358|   const imeEnter = new KeyboardEvent("keydown", { key: "Enter", keyCod…
+    359|   fireEvent(dateInput, imeEnter);
+    360|   expect(imeEnter.defaultPrevented).toBe(false);
+       |                                     ^
+    361|   fireEvent.compositionEnd(dateInput);
+    362|   expect(confirm()).toBeEnabled();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 28 skipped (29)
+   Start at  14:40:00
+   Duration  3.46s (transform 230ms, setup 98ms, import 2.50s, tests 399ms, environment 371ms)
+

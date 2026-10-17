@@ -1,0 +1,99 @@
+
+Running 4 tests using 1 worker
+
+(node:66638) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-business-category.spec.ts:7:3 › reduce: category business examples keep identity, units and original period dates (6.0s)
+(node:67050) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/chart-business-category.spec.ts:7:3 › no-preference: category business examples keep identity, units and original period dates (6.0s)
+(node:67087) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 tests/e2e/chart-business-category.spec.ts:68:1 › missing categories keep discontinuous paths during updates and period tooltip shows both dates (7.0s)
+  ✓  4 tests/e2e/chart-business-category.spec.ts:129:1 › long categories fit a narrow page through deliberate horizontal scrolling (1.1s)
+
+
+  1) tests/e2e/chart-business-category.spec.ts:7:3 › reduce: category business examples keep identity, units and original period dates 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 4
+    + Received  + 4
+
+      Array [
+    -   0.62,
+    -   0.71,
+    -   0.78,
+    -   0.86,
+    +   NaN,
+    +   NaN,
+    +   NaN,
+    +   NaN,
+      ]
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      24 |       const height = Number(bar.getAttribute("height"));
+      25 |       return Number((height / (Number(bar.getAttribute("y")) + height)).toFixed(2));
+    > 26 |     }))).toEqual([.62, .71, .78, .86]);
+         |          ^
+      27 |     if (motion === "reduce") {
+      28 |       await mkdir(evidence, { recursive: true });
+      29 |       await page.screenshot({ path: `${evidence}/desktop.png`, fullPage: true });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-category.spec.ts:26:10
+
+    Error Context: evidence/runtime/chart-business-expansion/p3/feedback-2026-10-09/browser-results-final/chart-business-category-re-b1dd3-s-and-original-period-dates/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-business-expansion/p3/feedback-2026-10-09/browser-results-final/chart-business-category-re-b1dd3-s-and-original-period-dates/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-business-expansion/p3/feedback-2026-10-09/browser-results-final/chart-business-category-re-b1dd3-s-and-original-period-dates/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-business-category.spec.ts:7:3 › no-preference: category business examples keep identity, units and original period dates 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 4
+    + Received  + 4
+
+      Array [
+    -   0.62,
+    -   0.71,
+    -   0.78,
+    -   0.86,
+    +   NaN,
+    +   NaN,
+    +   NaN,
+    +   NaN,
+      ]
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      24 |       const height = Number(bar.getAttribute("height"));
+      25 |       return Number((height / (Number(bar.getAttribute("y")) + height)).toFixed(2));
+    > 26 |     }))).toEqual([.62, .71, .78, .86]);
+         |          ^
+      27 |     if (motion === "reduce") {
+      28 |       await mkdir(evidence, { recursive: true });
+      29 |       await page.screenshot({ path: `${evidence}/desktop.png`, fullPage: true });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-category.spec.ts:26:10
+
+    Error Context: evidence/runtime/chart-business-expansion/p3/feedback-2026-10-09/browser-results-final/chart-business-category-no-9fd89-s-and-original-period-dates/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-business-expansion/p3/feedback-2026-10-09/browser-results-final/chart-business-category-no-9fd89-s-and-original-period-dates/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-business-expansion/p3/feedback-2026-10-09/browser-results-final/chart-business-category-no-9fd89-s-and-original-period-dates/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/chart-business-category.spec.ts:7:3 › reduce: category business examples keep identity, units and original period dates 
+    tests/e2e/chart-business-category.spec.ts:7:3 › no-preference: category business examples keep identity, units and original period dates 
+  2 passed (21.7s)

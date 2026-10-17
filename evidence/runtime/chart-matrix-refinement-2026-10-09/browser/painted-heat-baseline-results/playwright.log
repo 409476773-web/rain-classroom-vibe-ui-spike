@@ -1,0 +1,44 @@
+(node:84348) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-business-matrix-refinement.spec.ts:328:1 › heat readout tone follows the painted light-to-dark and dark-to-light fill without a plate (5.7s)
+
+
+  1) tests/e2e/chart-business-matrix-refinement.spec.ts:328:1 › heat readout tone follows the painted light-to-dark and dark-to-light fill without a plate 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-matrix-example="course-count"] [data-rain-id="ui-chart-matrix"]').locator('[data-slot="cell"]')
+    Expected: 36
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-matrix-example="course-count"] [data-rain-id="ui-chart-matrix"]').locator('[data-slot="cell"]')
+        14 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      12 |   await page.emulateMedia({ reducedMotion: reduced ? "reduce" : "no-preference" });
+      13 |   await page.goto("/#chart-business");
+    > 14 |   await expect(matrix(page, "course-count").locator('[data-slot="cell"]')).toHaveCount(36);
+         |                                                                            ^
+      15 | }
+      16 | async function equalColumns(chart: Locator, size: number) {
+      17 |   const widths = await chart.locator("tbody tr").first().locator('[data-slot="cell"]').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().width));
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-matrix-refinement.spec.ts:14:76)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-matrix-refinement.spec.ts:329:3
+
+    Error Context: evidence/runtime/chart-matrix-refinement-2026-10-09/browser/painted-heat-baseline-results/chart-business-matrix-refi-87951--light-fill-without-a-plate/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-matrix-refinement-2026-10-09/browser/painted-heat-baseline-results/chart-business-matrix-refi-87951--light-fill-without-a-plate/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-matrix-refinement-2026-10-09/browser/painted-heat-baseline-results/chart-business-matrix-refi-87951--light-fill-without-a-plate/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-business-matrix-refinement.spec.ts:328:1 › heat readout tone follows the painted light-to-dark and dark-to-light fill without a plate 
+

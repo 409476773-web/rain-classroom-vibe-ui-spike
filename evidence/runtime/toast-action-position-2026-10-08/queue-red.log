@@ -1,0 +1,35 @@
+
+Running 1 test using 1 worker
+
+(node:67359) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/toast-action-position.spec.ts:42:1 › top queue expands downward, pauses on focus and closes only the selected toast (6.5s)
+
+
+  1) tests/e2e/toast-action-position.spec.ts:42:1 › top queue expands downward, pauses on focus and closes only the selected toast 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      50 |     const boxes = await expanded.evaluateAll(els => els.map(el => ({ top: el.getBoundingClientRect().top, bottom: el.getBoundingClientRect().bottom })).sort((a, b) => a.top - b.top));
+      51 |     return Math.abs((boxes[0]?.top ?? 0) - 24) < 1 && boxes.every((box, index) => !index || box.top >= boxes[index - 1].bottom + 11);
+    > 52 |   }).toBe(true);
+         |      ^
+      53 |   await page.keyboard.press("F6");
+      54 |   await page.mouse.move(1, 1);
+      55 |   await expect.poll(() => page.locator('.rain-g2-toast-viewport').evaluate(el => el.contains(document.activeElement))).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/toast-action-position.spec.ts:52:6
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/toast-action-position-2026-10-08/test-results/toast-action-position-top--c6556-ses-only-the-selected-toast/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/toast-action-position-2026-10-08/test-results/toast-action-position-top--c6556-ses-only-the-selected-toast/error-context.md
+
+  1 failed
+    tests/e2e/toast-action-position.spec.ts:42:1 › top queue expands downward, pauses on focus and closes only the selected toast 

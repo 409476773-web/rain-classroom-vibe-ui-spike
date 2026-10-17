@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'.',testMatch:['navigation-v042-review09-r1-r3.spec.ts'],workers:1,reporter:'list',outputDir:'../../evidence/runtime/navigation-v042/w5/review-09-all-scenes/r1-r3/test-artifacts',use:{baseURL:'http://127.0.0.1:5198',viewport:{width:1680,height:1080},locale:'zh-CN',deviceScaleFactor:1,contextOptions:{reducedMotion:'reduce'}}});

@@ -1,0 +1,241 @@
+
+Running 12 tests using 1 worker
+
+(node:81120) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:87:1 › Brush keyboard endpoints synchronize native handles, exact rows, captured range and reset (3.0s)
+  ✘   2 [chromium-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset (3.9s)
+(node:82251) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [chromium-390] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:87:1 › Brush keyboard endpoints synchronize native handles, exact rows, captured range and reset (2.3s)
+  ✘   4 [chromium-390] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset (3.5s)
+(node:83770) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [firefox-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:87:1 › Brush keyboard endpoints synchronize native handles, exact rows, captured range and reset (3.5s)
+  ✘   6 [firefox-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset (3.8s)
+(node:84529) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [firefox-390] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:87:1 › Brush keyboard endpoints synchronize native handles, exact rows, captured range and reset (3.0s)
+  ✘   8 [firefox-390] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset (3.6s)
+(node:85650) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [webkit-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:87:1 › Brush keyboard endpoints synchronize native handles, exact rows, captured range and reset (3.1s)
+  ✘  10 [webkit-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset (4.4s)
+(node:86417) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [webkit-390] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:87:1 › Brush keyboard endpoints synchronize native handles, exact rows, captured range and reset (2.7s)
+  ✘  12 [webkit-390] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset (3.8s)
+
+
+  1) [chromium-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 483.1034482758621
+    Received: 487.1034482814496
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   4.000000005587481
+
+      116 |   await expect.poll(async () => Number(await start.inputValue())).toBeGreaterThan(5);
+      117 |   const panned = await exactWindow(page, card, baseline, "real pointer selection pan"); expect(panned.to).toBeGreaterThan(20); expect(panned.extent.x).toBeGreaterThan(selected.extent.x);
+    > 118 |   expect(panned.extent.width).toBeCloseTo(selected.extent.width, 0); await capturedRange(page, card, panned.from, panned.to, false); await reset(page, card, baseline, original.width);
+          |                               ^
+      119 |   expect(await native.evaluate(node => node.isConnected && node === node.closest('[data-chart-variant]')!.querySelector(".visx-brush"))).toBe(true);
+      120 |   observations.get(page)!.checks.push({ nativeRetained: true }); await card.screenshot({ path: info.outputPath("pointer-reset-card.png") });
+      121 |   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(info.project.use.viewport!.width + 1);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:118:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-chromium-1440/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-chromium-1440/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-chromium-1440/trace.zip
+    Usage:
+
+        npx playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-chromium-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium-390] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 151.0344827586207
+    Received: 155.03448279693487
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   4.00000003831417
+
+      116 |   await expect.poll(async () => Number(await start.inputValue())).toBeGreaterThan(5);
+      117 |   const panned = await exactWindow(page, card, baseline, "real pointer selection pan"); expect(panned.to).toBeGreaterThan(20); expect(panned.extent.x).toBeGreaterThan(selected.extent.x);
+    > 118 |   expect(panned.extent.width).toBeCloseTo(selected.extent.width, 0); await capturedRange(page, card, panned.from, panned.to, false); await reset(page, card, baseline, original.width);
+          |                               ^
+      119 |   expect(await native.evaluate(node => node.isConnected && node === node.closest('[data-chart-variant]')!.querySelector(".visx-brush"))).toBe(true);
+      120 |   observations.get(page)!.checks.push({ nativeRetained: true }); await card.screenshot({ path: info.outputPath("pointer-reset-card.png") });
+      121 |   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(info.project.use.viewport!.width + 1);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:118:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-chromium-390/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-chromium-390/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-chromium-390/trace.zip
+    Usage:
+
+        npx playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-chromium-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [firefox-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 483.1034482758621
+    Received: 487.10344828144963
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   4.0000000055875375
+
+      116 |   await expect.poll(async () => Number(await start.inputValue())).toBeGreaterThan(5);
+      117 |   const panned = await exactWindow(page, card, baseline, "real pointer selection pan"); expect(panned.to).toBeGreaterThan(20); expect(panned.extent.x).toBeGreaterThan(selected.extent.x);
+    > 118 |   expect(panned.extent.width).toBeCloseTo(selected.extent.width, 0); await capturedRange(page, card, panned.from, panned.to, false); await reset(page, card, baseline, original.width);
+          |                               ^
+      119 |   expect(await native.evaluate(node => node.isConnected && node === node.closest('[data-chart-variant]')!.querySelector(".visx-brush"))).toBe(true);
+      120 |   observations.get(page)!.checks.push({ nativeRetained: true }); await card.screenshot({ path: info.outputPath("pointer-reset-card.png") });
+      121 |   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(info.project.use.viewport!.width + 1);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:118:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-firefox-1440/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-firefox-1440/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-firefox-1440/trace.zip
+    Usage:
+
+        npx playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-firefox-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [firefox-390] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 151.0344827586207
+    Received: 155.03448279693487
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   4.00000003831417
+
+      116 |   await expect.poll(async () => Number(await start.inputValue())).toBeGreaterThan(5);
+      117 |   const panned = await exactWindow(page, card, baseline, "real pointer selection pan"); expect(panned.to).toBeGreaterThan(20); expect(panned.extent.x).toBeGreaterThan(selected.extent.x);
+    > 118 |   expect(panned.extent.width).toBeCloseTo(selected.extent.width, 0); await capturedRange(page, card, panned.from, panned.to, false); await reset(page, card, baseline, original.width);
+          |                               ^
+      119 |   expect(await native.evaluate(node => node.isConnected && node === node.closest('[data-chart-variant]')!.querySelector(".visx-brush"))).toBe(true);
+      120 |   observations.get(page)!.checks.push({ nativeRetained: true }); await card.screenshot({ path: info.outputPath("pointer-reset-card.png") });
+      121 |   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(info.project.use.viewport!.width + 1);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:118:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-firefox-390/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-firefox-390/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-firefox-390/trace.zip
+    Usage:
+
+        npx playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-firefox-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [webkit-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 483.1034482758621
+    Received: 487.10344828144963
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   4.0000000055875375
+
+      116 |   await expect.poll(async () => Number(await start.inputValue())).toBeGreaterThan(5);
+      117 |   const panned = await exactWindow(page, card, baseline, "real pointer selection pan"); expect(panned.to).toBeGreaterThan(20); expect(panned.extent.x).toBeGreaterThan(selected.extent.x);
+    > 118 |   expect(panned.extent.width).toBeCloseTo(selected.extent.width, 0); await capturedRange(page, card, panned.from, panned.to, false); await reset(page, card, baseline, original.width);
+          |                               ^
+      119 |   expect(await native.evaluate(node => node.isConnected && node === node.closest('[data-chart-variant]')!.querySelector(".visx-brush"))).toBe(true);
+      120 |   observations.get(page)!.checks.push({ nativeRetained: true }); await card.screenshot({ path: info.outputPath("pointer-reset-card.png") });
+      121 |   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(info.project.use.viewport!.width + 1);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:118:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-webkit-1440/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-webkit-1440/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-webkit-1440/trace.zip
+    Usage:
+
+        npx playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-webkit-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [webkit-390] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 151.0344827586207
+    Received: 155.03448279693487
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   4.00000003831417
+
+      116 |   await expect.poll(async () => Number(await start.inputValue())).toBeGreaterThan(5);
+      117 |   const panned = await exactWindow(page, card, baseline, "real pointer selection pan"); expect(panned.to).toBeGreaterThan(20); expect(panned.extent.x).toBeGreaterThan(selected.extent.x);
+    > 118 |   expect(panned.extent.width).toBeCloseTo(selected.extent.width, 0); await capturedRange(page, card, panned.from, panned.to, false); await reset(page, card, baseline, original.width);
+          |                               ^
+      119 |   expect(await native.evaluate(node => node.isConnected && node === node.closest('[data-chart-variant]')!.querySelector(".visx-brush"))).toBe(true);
+      120 |   observations.get(page)!.checks.push({ nativeRetained: true }); await card.screenshot({ path: info.outputPath("pointer-reset-card.png") });
+      121 |   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(info.project.use.viewport!.width + 1);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:118:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-webkit-390/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-webkit-390/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-webkit-390/trace.zip
+    Usage:
+
+        npx playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/run-01/test-results/brush-Brush-real-multi-mov-b4093-erve-exact-window-and-reset-webkit-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6 failed
+    [chromium-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset 
+    [chromium-390] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset 
+    [firefox-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset 
+    [firefox-390] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset 
+    [webkit-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset 
+    [webkit-390] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/brush-next/brush.spec.ts:99:1 › Brush real multi-move resize and selection pan preserve exact window and reset 
+  6 passed (46.4s)

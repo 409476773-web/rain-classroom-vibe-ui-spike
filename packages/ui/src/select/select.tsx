@@ -58,6 +58,8 @@ interface SelectBaseProps extends Pick<AriaAttributes,
   disabled?: boolean;
   readOnly?: boolean;
   required?: boolean;
+  name?: string;
+  form?: string;
   id?: string;
   placeholder?: string;
   clearable?: boolean;
@@ -381,7 +383,8 @@ const SelectControl = forwardRef<SelectHandle, SelectProps>(function SelectContr
       owner.dispatchEvent(new view.FocusEvent("focusout", { bubbles: true, relatedTarget: owner.ownerDocument.activeElement }));
     });
   }, open, onOpenChange: requestOpen, value: props.multiple ? [...values] : values[0] ?? null,
-    onValueChange: acceptValue, multiple: Boolean(props.multiple), disabled, readOnly };
+    onValueChange: acceptValue, multiple: Boolean(props.multiple), disabled, readOnly,
+    name: props.name, form: props.form, required: Boolean(props.name && (props.required || field?.required)) };
   return props.searchable ? <Combobox.Root<SelectValue, boolean> {...shared}
     items={candidates.filter((option) => !blocked(option)).map((option) => option.value)} filter={null}
     itemToStringLabel={(value) => metadata.get(value)?.label ?? String(value)} autoHighlight loopFocus={false}

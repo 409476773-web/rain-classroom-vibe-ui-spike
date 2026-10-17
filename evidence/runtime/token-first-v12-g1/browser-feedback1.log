@@ -1,0 +1,34 @@
+
+Running 4 tests using 1 worker
+
+(node:40723) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/token-first-g1.spec.ts:8:1 › G1 rendered text, control boundaries, focus and native accessibility modes (423ms)
+  ✓  2 tests/e2e/token-first-g1.spec.ts:50:1 › G1 toolbar dimensions, filtering, keyboard and sibling isolation (387ms)
+  ✘  3 tests/e2e/token-first-g1.spec.ts:82:1 › G1 cards, local menu paint, nested portal, dynamic theme and focus return (374ms)
+(node:40739) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 tests/e2e/token-first-g1.spec.ts:129:1 › G1 built layouts: two directions each, narrow windows, chart data and fonts (999ms)
+
+
+  1) tests/e2e/token-first-g1.spec.ts:82:1 › G1 cards, local menu paint, nested portal, dynamic theme and focus return 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 28
+    Received:    32
+
+      103 |   await expect(cards.first().getByText(/先明确研究对象/)).toBeHidden();
+      104 |   await answer.press("Enter"); await expect(cards.first().getByText(/先明确研究对象/)).toBeVisible();
+    > 105 |   for (const button of await cards.first().getByRole("button").all()) expect((await button.boundingBox())!.height).toBeLessThanOrEqual(28);
+          |                                                                                                                    ^
+      106 |   const groupBox = (await cards.first().locator('.g1-card-grid').boundingBox())!;
+      107 |   const answerBox = (await cards.first().locator('.g1-example').boundingBox())!;
+      108 |   expect(answerBox.x).toBe(groupBox.x); expect(answerBox.width).toBe(groupBox.width);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/token-first-g1.spec.ts:105:116
+
+    Error Context: test-results/token-first-g1-G1-cards-lo-07529-amic-theme-and-focus-return/error-context.md
+
+  1 failed
+    tests/e2e/token-first-g1.spec.ts:82:1 › G1 cards, local menu paint, nested portal, dynamic theme and focus return 
+  3 passed (3.0s)

@@ -1,0 +1,432 @@
+--- before/packages/ui/src/charts/network/network-geometry.ts
++++ after/packages/ui/src/charts/network/network-geometry.ts
+@@ -63,17 +63,49 @@
+     placed.push(node.labelBox);
+   }
+   const positions = new Map(nodes.map(node => [node.id, node]));
++  type Side = "left" | "right" | "top" | "bottom";
++  const normals: Record<Side, Point> = { left: { x: -1, y: 0 }, right: { x: 1, y: 0 }, top: { x: 0, y: -1 }, bottom: { x: 0, y: 1 } };
++  const alternatePorts: [Side, Side][] = [["top", "top"], ["bottom", "bottom"], ["right", "right"], ["left", "left"], ["top", "bottom"], ["bottom", "top"]];
++  function preferredPorts(edge: typeof model.edges[number]): [Side, Side] {
++    const a = positions.get(edge.source)!, b = positions.get(edge.target)!;
++    if (Math.abs(b.x - a.x) >= 180) return b.x > a.x ? ["right", "left"] : ["left", "right"];
++    if (Math.abs(b.y - a.y) >= 76) return b.y > a.y ? ["bottom", "top"] : ["top", "bottom"];
++    return (a.y + b.y) / 2 < height / 2 ? ["top", "top"] : ["bottom", "bottom"];
++  }
++  const portCache = new Map<string, Point>();
++  function cardPort(node: typeof nodes[number], edge: typeof model.edges[number], side: Side) {
++    const key = JSON.stringify([node.id, edge.id, side]), cached = portCache.get(key);
++    if (cached) return cached;
++    const horizontal = side === "left" || side === "right", axis = horizontal ? "y" : "x";
++    const connections = model.edges.filter(link => (link.source === node.id || link.target === node.id) && (link.id === edge.id || preferredPorts(link)[link.source === node.id ? 0 : 1] === side));
++    const other = (link: typeof edge) => positions.get(link.source === node.id ? link.target : link.source)!;
++    connections.sort((a, b) => other(a)[axis] - other(b)[axis] || a.id.localeCompare(b.id));
++    const offset = connections.length < 2 ? 0 : (connections.findIndex(link => link.id === edge.id) / (connections.length - 1) - .5) * (horizontal ? 28 : 96);
++    const normal = normals[side], gap = node.id === edge.target && edge.directed ? 5 : 3;
++    const distance = (horizontal ? node.body.width : node.body.height) / 2 + gap;
++    const result = { x: node.x + normal.x * distance + (horizontal ? 0 : offset), y: node.y + normal.y * distance + (horizontal ? offset : 0) };
++    portCache.set(key, result);
++    return result;
++  }
+   type Curve = { start: Point; c1: Point; c2: Point; end: Point };
+   const point = (curve: Curve, t: number) => {
+     const s = 1 - t;
+     return { x: s ** 3 * curve.start.x + 3 * s ** 2 * t * curve.c1.x + 3 * s * t ** 2 * curve.c2.x + t ** 3 * curve.end.x, y: s ** 3 * curve.start.y + 3 * s ** 2 * t * curve.c1.y + 3 * s * t ** 2 * curve.c2.y + t ** 3 * curve.end.y };
+   };
+-  function curve(edge: typeof model.edges[number], bend1: number, bend2: number): Curve {
++  function curve(edge: typeof model.edges[number], bend1: number, bend2: number, portChoice = 0): Curve {
+     const a = positions.get(edge.source)!, b = positions.get(edge.target)!;
+     const dx = b.x - a.x, dy = b.y - a.y, length = Math.hypot(dx, dy) || 1;
+     const direction = edge.source < edge.target ? 1 : -1;
+     const nx = -dy / length * direction, ny = dx / length * direction;
+     const first = edge.source < edge.target ? bend1 : bend2, second = edge.source < edge.target ? bend2 : bend1;
++    if (structured) {
++      const [sourceSide, targetSide] = portChoice ? alternatePorts[portChoice - 1]! : preferredPorts(edge);
++      const start = cardPort(a, edge, sourceSide), end = cardPort(b, edge, targetSide);
++      const sourceNormal = normals[sourceSide], targetNormal = normals[targetSide];
++      const opposing = sourceNormal.x === -targetNormal.x && sourceNormal.y === -targetNormal.y;
++      const arm = opposing ? Math.max(8, Math.min(100, Math.hypot(end.x - start.x, end.y - start.y) * .35)) : Math.max(32, Math.min(100, length * .25));
++      return { start, end, c1: { x: start.x + sourceNormal.x * Math.max(8, arm + first), y: start.y + sourceNormal.y * Math.max(8, arm + first) }, c2: { x: end.x + targetNormal.x * Math.max(8, arm + second), y: end.y + targetNormal.y * Math.max(8, arm + second) } };
++    }
+     const c1 = { x: a.x + dx / 3 + nx * (first + edge.lane * 44), y: a.y + dy / 3 + ny * (first + edge.lane * 44) };
+     const c2 = { x: b.x - dx / 3 + nx * (second + edge.lane * 44), y: b.y - dy / 3 + ny * (second + edge.lane * 44) };
+     function port(node: typeof nodes[number], control: Point, arrow: boolean) {
+@@ -92,7 +124,8 @@
+       if (p.x < 4 || p.x > width - 4 || p.y < 4 || p.y > height - 4) collisions += 4;
+       for (const node of nodes) {
+         if (segmentHits(previous, p, node.labelBox, 3)) collisions++;
+-        if (node.id !== edge.source && node.id !== edge.target && segmentHits(previous, p, node.body, 5)) collisions += 2;
++        const endpoint = node.id === edge.source || node.id === edge.target;
++        if ((structured || !endpoint) && segmentHits(previous, p, node.body, endpoint ? 0 : 5)) collisions += 2;
+       }
+       previous = p;
+     }
+@@ -110,20 +143,22 @@
+     const length = Math.hypot(b.x - a.x, b.y - a.y);
+     const normalX = -(b.y - a.y) * (edge.source < edge.target ? 1 : -1), normalY = (b.x - a.x) * (edge.source < edge.target ? 1 : -1);
+     const outward = normalX * ((a.x + b.x) / 2 - width / 2) + normalY * ((a.y + b.y) / 2 - height / 2) < 0 ? -1 : 1;
+-    const preferred = group.length > 1 ? 0 : outward * Math.min(56, length * .09);
++    const preferred = structured || group.length > 1 ? 0 : outward * Math.min(56, length * .09);
+     const candidates = [preferred, 0, 24, -24, 48, -48, 88, -88, 136, -136, 200, -200, 280, -280, 380, -380].map(bend => [bend, bend] as const);
+     candidates.push([88, -88], [-88, 88], [160, -160], [-160, 160], [240, -240], [-240, 240]);
+     for (const bend of [48, -48, 88, -88, 136, -136, 200, -200, 280, -280]) candidates.push([0, bend], [bend, 0]);
+     const midpoints: Point[] = [];
+     for (const item of group) {
+-      const cost = (bends: readonly [number, number]) => {
++      type Candidate = readonly [number, number, number?];
++      const cost = (bends: Candidate) => {
+         const candidate = curve(item, ...bends), middle = point(candidate, .5);
+         const duplicate = midpoints.some(p => Math.hypot(p.x - middle.x, p.y - middle.y) < 12);
+-        return score(candidate, item) + (duplicate ? 1000000 : 0) + Math.abs(bends[0] - preferred) + Math.abs(bends[1] - preferred) + (bends[0] !== bends[1] ? 100 : 0);
++        return score(candidate, item) + (duplicate ? 1000000 : 0) + Math.abs(bends[0] - preferred) + Math.abs(bends[1] - preferred) + (bends[0] !== bends[1] ? 100 : 0) + (bends[2] ? 80 : 0);
+       };
+-      let chosen = candidates[0]!, bestCost = cost(chosen);
+-      const consider = (candidate: readonly [number, number]) => { const value = cost(candidate); if (value < bestCost) { chosen = candidate; bestCost = value; } };
++      let chosen: Candidate = candidates[0]!, bestCost = cost(chosen);
++      const consider = (candidate: Candidate) => { const value = cost(candidate); if (value < bestCost) { chosen = candidate; bestCost = value; } };
+       for (const candidate of candidates.slice(1)) consider(candidate);
++      if (structured && bestCost >= 10000) for (let port = 1; port <= alternatePorts.length; port++) for (const candidate of candidates) consider([candidate[0], candidate[1], port]);
+       if (bestCost >= 10000) {
+         const detours = [0, 32, -32, 64, -64, 96, -96, 128, -128, 160, -160, 208, -208, 256, -256, 320, -320, 400, -400];
+         for (const first of detours) for (const second of detours) consider([first, second]);
+--- before/packages/ui/src/charts/network/network-geometry.test.ts
++++ after/packages/ui/src/charts/network/network-geometry.test.ts
+@@ -39,7 +39,7 @@
+           for (const node of geometry.nodes) {
+             const box = node.labelBox;
+             expect(p.x > box.x && p.x < box.x + box.width && p.y > box.y && p.y < box.y + box.height, `${fixture.id}/${edge.id} crosses ${node.id} label`).toBe(false);
+-            if (node.id === edge.source || node.id === edge.target) continue;
++            if (variant === "glow" && (node.id === edge.source || node.id === edge.target)) continue;
+             if (variant === "glow") expect(Math.hypot(p.x - node.x, p.y - node.y), `${fixture.id}/${edge.id} crosses ${node.id}`).toBeGreaterThanOrEqual(24);
+             else expect(p.x > node.body.x && p.x < node.body.x + node.body.width && p.y > node.body.y && p.y < node.body.y + node.body.height, `${fixture.id}/${edge.id} crosses ${node.id}`).toBe(false);
+           }
+--- before/packages/ui/src/charts/network/network-chart.tsx
++++ after/packages/ui/src/charts/network/network-chart.tsx
+@@ -45,6 +45,8 @@
+   const activeId = [hoveredId, focusedId, selectedId].find(id => id && nodes.some(node => node.id === id));
+   const adjacent = new Set(activeId ? [activeId, ...edges.filter(edge => edge.source === activeId || edge.target === activeId).flatMap(edge => [edge.source, edge.target])] : []);
+   const transition = { ...DEFAULT_CHART_ENTER_TRANSITION, duration: reduced ? 0 : .24 };
++  // Card-face changes cannot safely interpolate through the card interior.
++  const geometryTransition = variant === "structured" ? { duration: 0 } : transition;
+   useEffect(() => {
+     if (!container.current) return;
+     setNarrow(container.current.clientWidth <= 620);
+@@ -78,11 +80,11 @@
+           {geometry.edges.map(edge => {
+             const index = relationIndex.get(edge.relation)!, entry = relations[index]!;
+             const highlighted = !activeId || edge.source === activeId || edge.target === activeId;
+-            return <motion.path key={`${variant}-${edge.id}`} data-network-edge={edge.id} data-highlighted={highlighted} fill="none" stroke={color(entry, index)} strokeWidth={activeId && highlighted ? 1.55 : 1.15} strokeDasharray={dash(entry, index)} strokeLinecap="round" markerEnd={edge.directed ? `url(#${instanceId}-arrow-${index})` : undefined} initial={false} animate={{ d: edge.d, opacity: highlighted ? .85 : .13 }} transition={transition} />;
++            return <motion.path key={`${variant}-${edge.id}`} data-network-edge={edge.id} data-highlighted={highlighted} fill="none" stroke={color(entry, index)} strokeWidth={activeId && highlighted ? 1.55 : 1.15} strokeDasharray={dash(entry, index)} strokeLinecap="round" markerEnd={edge.directed ? `url(#${instanceId}-arrow-${index})` : undefined} initial={false} animate={{ d: edge.d, opacity: highlighted ? .85 : .13 }} transition={{ ...transition, d: geometryTransition }} />;
+           })}
+           {geometry.nodes.map(node => {
+             const index = categoryIndex.get(node.category)!, entry = categories[index]!;
+-            return <motion.g key={node.id} data-network-node={node.id} data-x={node.x} data-y={node.y} data-highlighted={!activeId || adjacent.has(node.id)} data-selected={selectedId === node.id} initial={false} animate={{ x: node.x, y: node.y, opacity: !activeId || adjacent.has(node.id) ? 1 : .3 }} transition={transition} onMouseEnter={() => setHoveredId(node.id)} onMouseLeave={() => setHoveredId(null)} onClick={() => select(node)}>
++            return <motion.g key={`${variant}-${node.id}`} data-network-node={node.id} data-x={node.x} data-y={node.y} data-highlighted={!activeId || adjacent.has(node.id)} data-selected={selectedId === node.id} initial={false} animate={{ x: node.x, y: node.y, opacity: !activeId || adjacent.has(node.id) ? 1 : .3 }} transition={{ ...transition, x: geometryTransition, y: geometryTransition }} onMouseEnter={() => setHoveredId(node.id)} onMouseLeave={() => setHoveredId(null)} onClick={() => select(node)}>
+               <title>{nodes.find(entry => entry.id === node.id)!.label}，{entry.label}</title>
+               {variant === "structured" ? <>
+                 <rect data-slot="node-core" x={node.body.x - node.x} y={node.body.y - node.y} width={node.body.width} height={node.body.height} rx="6" fill="var(--chart-tooltip-background)" stroke={selectedId === node.id ? color(entry, index) : "var(--chart-marker-border)"} />
+--- before/apps/playground/src/docs/components/chart-business/network-examples.tsx
++++ after/apps/playground/src/docs/components/chart-business/network-examples.tsx
+@@ -13,9 +13,26 @@
+ function NetworkExample({ fixture, relation, recipe, variant, reduced }: { fixture: ReturnType<typeof makeNetworkFixtures>[number]; relation: string; recipe: RainChartRecipe; variant: NetworkChartVariant; reduced: boolean }) {
+   const [selectedId, setSelectedId] = useState<string | null>(null);
+   const prepared = useMemo(() => {
+-    try { return { nodes: layoutNetwork(fixture.nodes, fixture.edges).nodes, error: undefined }; }
++    try {
++      const model = layoutNetwork(fixture.nodes, fixture.edges);
++      if (variant === "glow") return { nodes: model.nodes, error: undefined };
++      const sources = new Set(model.edges.map(edge => edge.source)), targets = new Set(model.edges.map(edge => edge.target));
++      const mapping = model.edges.length > 0 && model.edges.every(edge => edge.directed) && model.nodes.every(node => sources.has(node.id) !== targets.has(node.id));
++      const columns = mapping ? [model.nodes.filter(node => sources.has(node.id)), model.nodes.filter(node => targets.has(node.id))] : fixture.categories.map(category => model.nodes.filter(node => node.category === category.id)).filter(column => column.length);
++      if (columns.flat().length !== model.nodes.length) throw new Error("网络节点类别配置缺失或重复");
++      if (mapping) for (let pass = 0; pass < 2; pass++) for (const [index, column] of columns.entries()) {
++        const opposite = columns[1 - index]!;
++        const rank = (node: NetworkNode) => {
++          const neighbors = model.edges.filter(edge => edge.source === node.id || edge.target === node.id).map(edge => opposite.findIndex(other => other.id === (edge.source === node.id ? edge.target : edge.source)));
++          return neighbors.reduce((sum, value) => sum + value, 0) / neighbors.length;
++        };
++        column.sort((a, b) => rank(a) - rank(b) || a.id.localeCompare(b.id));
++      }
++      else for (const column of columns) column.sort((a, b) => a.y - b.y || a.id.localeCompare(b.id));
++      return { nodes: columns.flatMap((column, index) => column.map((node, row) => ({ ...node, x: columns.length < 2 ? .5 : .1 + index * .8 / (columns.length - 1), y: column.length < 2 ? .5 : .1 + row * .8 / (column.length - 1) }))), error: undefined };
++    }
+     catch (cause) { return { nodes: [], error: cause instanceof Error ? cause.message : "无效网络数据" }; }
+-  }, [fixture]);
++  }, [fixture, variant]);
+   const { error } = prepared;
+   useEffect(() => { if (error) setSelectedId(null); }, [error]);
+   const filtered = useMemo(() => filterNetwork(prepared.nodes, fixture.edges, relation), [prepared.nodes, fixture.edges, relation]);
+@@ -26,7 +43,7 @@
+     {error ? <p className="rain-network-state" role="alert">已拒绝无效数据：{error}</p> : <>
+       <NetworkChart variant={variant} data-recipe={recipe} nodes={filtered.nodes} edges={filtered.edges} categories={fixture.categories.map((category, index) => ({ ...category, color: `var(--chart-${index + 1})` }))} relations={fixture.relations.map((item, index) => ({ ...item, color: `var(--chart-${index + 1})`, lineStyle: (["solid", "dashed", "dotted"] as const)[index % 3] }))} caption={fixture.title} reducedMotion={reduced} onNodeSelect={node => setSelectedId(node?.id ?? null)} />
+       {filtered.nodes.length > 0 && <p className="rain-network-feedback" role="status">{selected ? `已选择：${selected.label}` : "选择节点查看关联详情；也可通过节点列表操作。"}</p>}
+-      <p className="rain-network-note">当前 {filtered.nodes.length} 个节点、{filtered.edges.length} 条关系 · 示例数据。节点位置只帮助阅读连接，距离不表示相关度。</p>
++      <p className="rain-network-note">当前 {filtered.nodes.length} 个节点、{filtered.edges.length} 条关系 · 示例数据。节点位置只帮助阅读连接，距离不表示相关度。{variant === "structured" && " 分组列不表示先修阶段。"}</p>
+     </>}
+   </section>;
+ }
+--- before/apps/playground/src/docs/components/chart-business/network-examples.test.tsx
++++ after/apps/playground/src/docs/components/chart-business/network-examples.test.tsx
+@@ -28,11 +28,16 @@
+   expect(view.container.querySelector(".rain-network")).toBeNull();
+ });
+ 
+-test("four business references retain equivalent precise node and edge tables", () => {
+-  const view = render(<NetworkExamples reduced />);
++test.each(["glow", "structured"] as const)("%s: four business references retain equivalent precise node and edge tables", variant => {
++  const view = render(<NetworkExamples variant={variant} reduced />);
+   expect(view.getAllByRole("table", { hidden:true })).toHaveLength(8);
+   for (const reference of ["CH-065", "CH-070", "CH-083", "CH-086"]) expect(view.getByText(reference)).toBeInTheDocument();
+   expect(view.getAllByRole("table", { hidden:true }).some(table => within(table).queryAllByText("程序设计基础").length > 0)).toBe(true);
++  for (const fixture of makeNetworkFixtures()) {
++    const section = view.container.querySelector(`[data-network-example="${fixture.id}"]`)!;
++    expect([...section.querySelectorAll("[data-network-node]")].map(node => node.getAttribute("data-network-node")).sort()).toEqual(fixture.nodes.map(node => node.id).sort());
++    expect([...section.querySelectorAll("[data-network-edge]")].map(edge => edge.getAttribute("data-network-edge")).sort()).toEqual(fixture.edges.map(edge => edge.id).sort());
++  }
+ });
+ 
+ test("invalid observations fail visibly per instance instead of crashing the page", () => {
+@@ -69,6 +74,14 @@
+   view.rerender(<NetworkExamples fixtureId="elements" variant="structured" recipe="category-wide" reduced />);
+   expect(view.container.querySelector(".rain-network")).toHaveAttribute("data-variant", "structured");
+   expect(view.container.querySelector(".rain-network__detail")).toHaveAttribute("data-selected-node", "derivative");
++  const structuredNodes = [...view.container.querySelectorAll("[data-network-node]")];
++  const x = (id: string) => Number(structuredNodes.find(node => node.getAttribute("data-network-node") === id)!.getAttribute("data-x"));
++  expect(new Set(structuredNodes.map(node => node.getAttribute("data-x"))).size).toBe(2);
++  for (const source of ["guide", "reading", "case", "quiz", "lab"]) for (const target of ["function", "derivative", "integral"]) expect(x(target) - x(source)).toBeGreaterThan(300);
++  const structuredPosition = [x("derivative"), Number(structuredNodes.find(node => node.getAttribute("data-network-node") === "derivative")!.getAttribute("data-y"))];
++  view.rerender(<NetworkExamples fixtureId="elements" variant="structured" relation="examines" recipe="category-near" reduced />);
++  const structuredFiltered = view.container.querySelector('[data-network-node="derivative"]')!;
++  expect([Number(structuredFiltered.getAttribute("data-x")), Number(structuredFiltered.getAttribute("data-y"))]).toEqual(structuredPosition);
+   view.rerender(<NetworkExamples fixtureId="elements" variant="glow" relation="examines" recipe="category-wide" reduced />);
+   const filtered = view.container.querySelector('[data-network-node="derivative"]')!;
+   expect([filtered.getAttribute("data-x"), filtered.getAttribute("data-y")]).toEqual(position);
+--- before/tests/e2e/chart-business-network.spec.ts
++++ after/tests/e2e/chart-business-network.spec.ts
+@@ -3,7 +3,7 @@
+ import { makeNetworkFixtures } from "../../apps/playground/src/docs/components/chart-business/network-data";
+ import { measureColorContrast, type ColorValue } from "../../packages/foundations/src/color-registry";
+ 
+-const evidence = "evidence/runtime/chart-network-visual-refinement-2026-10-09/browser";
++const evidence = "evidence/runtime/chart-network-structured-feedback-2026-10-10/browser";
+ const fixtures = makeNetworkFixtures();
+ 
+ async function geometryAudit(chart: Locator, links: { id: string; source: string; target: string }[]) {
+@@ -26,7 +26,7 @@
+         for (const node of nodes) {
+           if (contains(p, node.label)) hits.add(`${id}/${node.id}/label`);
+           if (node.id === link.source || node.id === link.target) {
+-            if (variant === "structured" && (step === 0 || step === 400) && contains(p, node.body)) hits.add(`${id}/${node.id}/port`);
++            if (variant === "structured" && contains(p, node.body)) hits.add(`${id}/${node.id}/endpoint-card`);
+             continue;
+           }
+           if (variant === "structured" ? contains(p, node.body) : Math.hypot(p.x - node.body.x - node.body.width / 2, p.y - node.body.y - node.body.height / 2) < node.body.width / 2) hits.add(`${id}/${node.id}/body`);
+@@ -205,21 +205,33 @@
+     await expect(chart.locator(".rain-network")).toHaveAttribute("data-variant", "structured");
+     await expect(chart.getByRole("region", { name:"节点详情" })).toHaveAttribute("data-selected-node", "database");
+     expect((await geometryAudit(chart, course.edges)).hits).toEqual([]);
++    const structuredPositions = await chart.locator("[data-network-node]").evaluateAll(nodes => Object.fromEntries(nodes.map(node => [node.getAttribute("data-network-node"), [node.getAttribute("data-x"), node.getAttribute("data-y")]])));
+     await page.getByRole("combobox", { name:"网络图表配色" }).selectOption("category-wide");
+     await page.getByRole("combobox", { name:"网络关系类型" }).selectOption("supports");
+     await expect(chart.getByRole("region", { name:"节点详情" })).toHaveAttribute("data-selected-node", "database");
+     const remaining = await chart.locator("[data-network-node]").evaluateAll(nodes => nodes.map(node => ({ id: node.getAttribute("data-network-node")!, position: [node.getAttribute("data-x"), node.getAttribute("data-y")] })));
+-    for (const node of remaining) expect(node.position).toEqual(positions[node.id]);
++    for (const node of remaining) expect(node.position).toEqual(structuredPositions[node.id]);
+     await page.getByRole("radiogroup", { name:"呈现样式" }).getByText("柔光网络", { exact:true }).click();
+     await expect(chart.locator(".rain-network")).toHaveAttribute("data-recipe", "category-wide");
+     await expect(chart.getByRole("region", { name:"节点详情" })).toHaveAttribute("data-selected-node", "database");
++    const restored = await chart.locator("[data-network-node]").evaluateAll(nodes => nodes.map(node => ({id:node.getAttribute("data-network-node")!,position:[node.getAttribute("data-x"),node.getAttribute("data-y")]})));
++    for (const node of restored) expect(node.position).toEqual(positions[node.id]);
+     await page.getByRole("combobox", { name:"网络关系类型" }).selectOption("all");
+     await chart.getByRole("button", { name:"清除节点选择" }).click();
++    const facts = [];
++    for (const fixture of fixtures) {
++      await page.getByRole("combobox", { name:"网络业务场景" }).selectOption(fixture.id);
++      await page.getByRole("radiogroup", { name:"呈现样式" }).getByText("结构化关系", {exact:true}).click();
++      const example = page.locator(`[data-network-example="${fixture.id}"]`);
++      const audit = await geometryAudit(example, fixture.edges);
++      expect(audit.hits, `${fixture.id}/structured/normal`).toEqual([]);
++      facts.push({fixture:fixture.id,state:"normal",...audit});
++      await example.screenshot({path:`${evidence}/network-${fixture.id}-structured-normal-${motion}.png`});
++    }
+     await page.getByRole("button", { name:"更新数据", exact:true }).click();
+     await page.getByRole("button", { name:"更新数据", exact:true }).click();
+     await page.getByRole("combobox", { name:"网络数据状态" }).selectOption("long");
+     await page.waitForTimeout(400);
+-    const facts = [];
+     for (const fixture of fixtures) {
+       await page.getByRole("combobox", { name:"网络业务场景" }).selectOption(fixture.id);
+       const example = page.locator(`[data-network-example="${fixture.id}"]`);
+@@ -233,7 +245,7 @@
+       }
+     }
+     await mkdir(evidence, { recursive:true });
+-    await writeFile(`${evidence}/network-real-geometry-${motion}.json`, JSON.stringify({ scope:"actual SVG text/card bounds; 401 arc-length samples per edge; long/revision2/both styles", facts }, null, 2));
++    await writeFile(`${evidence}/network-real-geometry-${motion}.json`, JSON.stringify({ scope:"actual SVG text/card bounds including the source and target card interior; 401 arc-length samples per edge; normal structured and long/revision2/both styles", facts }, null, 2));
+     await page.setViewportSize({ width:390, height:844 });
+     await page.getByRole("combobox", { name:"网络业务场景" }).selectOption("courses");
+     const narrow = page.locator('[data-network-example="courses"]');
+--- before/packages/ui/src/charts/network/README.md
++++ after/packages/ui/src/charts/network/README.md
+@@ -28,22 +28,24 @@
+ | `categories` | `{id,label,color?}[]`，唯一非空ID与名称；每个节点的category必须命中。未设颜色时按声明顺序取`--chart-1…`，宿主保持类别顺序或显式按ID指定颜色。 |
+ | `relations` | 同类别配置，另有`lineStyle?: "solid" \| "dashed" \| "dotted"`；每条边的relation必须命中。箭头由边的directed决定，线型不推断方向。 |
+ | `caption` | 图表名称，同时用于图示、完整关系列表、节点/关系精确表名称。 |
+-| `variant` | `"glow" \| "structured"`，默认`glow`。柔光圆点与结构化名称卡使用同一节点位置、关系方向和选择身份；与`data-recipe`配色独立。 |
++| `variant` | `"glow" \| "structured"`，默认`glow`。柔光圆点与结构化名称卡按传入坐标呈现，保留关系方向和选择身份；与`data-recipe`配色独立。 |
+ | `reducedMotion` | 显式减少运动；系统减少运动仍独立生效，过渡即时完成。 |
+ | `onNodeSelect` | 鼠标点击图形或列表按钮/Enter选择同一节点，回传原始节点；清除选择或当前输入移除选中节点时回传null。 |
+ | `className`, `style`及普通根div属性 | 宿主控制容器与局部配方；根保留`.rain-chart`及`data-rain-id="ui-chart-network"`。 |
+ | `layoutNetwork(nodes, edges)` | 校验图结构，按ID确定顺序。成对的`0…1`坐标原样保留；其他坐标单位整体拟合。无坐标用稳定的自然环绕位置，至少5节点且最大邻接数不少于3时将一个连接较多的节点放在内部。返回带x/y的节点及带lane的边，不修改输入、不启动力导循环。 |
+ 
+-默认柔光网络沿用原稿的实色中心向透明外缘渐变，普通节点没有深色描边，名称置于节点外。结构化关系用名称卡和类别色点，保持自由分布的位置，不把有向关系自动解释成阶段或层级。类别图例与关系图例分别表达；关系使用颜色、实/虚/点线和小型开放箭头。选中节点使用类别色轮廓。
++默认柔光网络沿用原稿的实色中心向透明外缘渐变，普通节点没有深色描边，名称置于节点外。结构化关系用名称卡和类别色点，宿主应为卡片留出连线空间；不把有向关系自动解释成阶段或层级。类别图例与关系图例分别表达；关系使用颜色、实/虚/点线和小型开放箭头。选中节点使用类别色轮廓。
+ 
+-连线根据节点形状、名称边界和同节点对的独立路径选择浅弧或绕行曲线，端点停在节点外。反向、平行和无向关系仍是独立记录，不合并成虚构路径。权重只在详情和精确表展示，线宽、距离及节点面积不编码权重；位置不能解释为相关度、掌握程度或业务优先级。
++连线根据节点形状、名称边界和同节点对的独立路径选择浅弧或绕行曲线，端点停在节点外。结构化曲线使用卡片侧边端口与朝外的控制点，分开同侧的多条线，并把来源、目标卡片内部纳入避让。反向、平行和无向关系仍是独立记录，不合并成虚构路径。权重只在详情和精确表展示，线宽、距离及节点面积不编码权重；位置不能解释为相关度、掌握程度或业务优先级。
+ 
+ SVG为装饰图形；具名节点按钮提供键盘和触屏等价选择。指向图形或聚焦列表突出相邻节点与边，选中后保留详情与“清除节点选择”；不相邻项淡化。精确表包括节点名称/类别/ID和关系来源/目标/类型/方向/原始读数。图中文字按估算字宽截短并最多分成两行，按钮、详情和表格保留全文。没有节点时显示状态，不创造关系；单节点可以选择并明确“暂无相邻关系”。
+ 
+-宿主应先对完整数据调用`layoutNetwork`再筛选，保留节点位置；未经固定坐标的任意输入变化仍可能改变回退布局。悬停、选择和换色不重算几何。数据更新沿用240ms Motion过渡；切换样式时节点形状和连线端口同时更新，避免沿旧圆点路径穿过新卡片。配色和样式切换不清除选中ID；当前输入隐藏选中节点后清除选择。每实例箭头和渐变通过useId隔离，没有额外筛选引擎、重播API或图编辑操作。
++宿主应先对完整数据调用`layoutNetwork`并准备当前样式的位置，再筛选，保留该样式的节点位置；未经固定坐标的任意输入变化仍可能改变回退布局。悬停、选择和换色不重算几何。柔光数据更新沿用240ms Motion过渡；结构化的节点位置与边路径即时同步更新，避免端口换侧时插值穿进卡片，高亮透明度仍使用短过渡。切换样式时节点形状和连线端口同时更新。配色和样式切换不清除选中ID；当前输入隐藏选中节点后清除选择。每实例箭头和渐变通过useId隔离，没有额外筛选引擎、重播API或图编辑操作。
+ 
+ Playground `/#chart-network`与独立原型`/bklit-catalog.html#chart-network`复用四组Mock：CH-065教学元素与知识点、CH-070知识点关联、CH-083课程先修/相似、CH-086理论实践反馈环路。业务页关系筛选、状态、更新、呈现样式和配色由宿主拥有；下载包含当前配置、真实fixture与样式，不导入旧G2原型。旧下载配置省略variant时仍使用glow。原17 Bklit和170官网变体身份保留，Network是第19个入口的Rain本地增量。
+ 
++两种样式的业务数据相同，宿主分别准备完整布局。柔光保留已确认的自然错位位置；结构化的纯来源→目标映射使用两侧排列，其余图按已声明的节点类别分列。分组列不表示先修阶段，跨列、同列、反向和反馈关系全部保留。切回柔光恢复原来的位置。
++
+ 当前四组样本为8—11节点、10—19条边，坐标视框960×560。容器宽度不超过620px时隐藏缩小的图示，改用包含全部关系的文字列表，节点选择、详情和精确表继续可用；恢复宽容器时重新显示图示。不会静默删边。
+ 
+-几何使用有限候选曲线，已检查这四组样本的正常/长名称、三个更新版本及两种样式。它不能保证任意密集、重叠坐标、特殊字体或大量节点的布局最优及完整避让；大规模输入需要另行引入图布局引擎和验证。没有拖拽编辑、缩放或物理布局。当前结果见[视觉调整证据](../../../../../evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md)，初始交付见[P4证据](../../../../../evidence/runtime/chart-business-expansion/p4/verification.md)。实施视觉审阅、完整对比度、真实Safari/VoiceOver、物理触屏、forced-colors、深色主题及生产数据验证仍独立待办。
++几何使用有限候选曲线，已检查这四组样本的正常/长名称、三个更新版本及两种样式。它不能保证任意密集、重叠坐标、特殊字体或大量节点的布局最优及完整避让；大规模输入需要另行引入图布局引擎和验证。没有拖拽编辑、缩放或物理布局。当前结果见[结构化反馈证据](../../../../../evidence/runtime/chart-network-structured-feedback-2026-10-10/verification.md)，此前记录见[视觉调整证据](../../../../../evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md)与[P4证据](../../../../../evidence/runtime/chart-business-expansion/p4/verification.md)。2026-10-10用户确认当前柔光视图；结构化实施视觉审阅、完整对比度、真实Safari/VoiceOver、物理触屏、forced-colors、深色主题及生产数据验证仍独立待办。
+--- before/manifests/ui/chart-network.yaml
++++ after/manifests/ui/chart-network.yaml
+@@ -35,7 +35,7 @@
+ slots:
+   - "关系筛选、数据状态和请求由宿主在图外组合；组件内保留节点选择列表、详情和精确读数。"
+ variants:
+-  - "柔光网络glow：实色中心渐隐、外置名称、普通节点无深色描边；结构化关系structured：名称卡和类别色点，使用同一节点位置与关系身份。"
++  - "柔光网络glow：实色中心渐隐、外置名称、普通节点无深色描边；结构化关系structured：名称卡和类别色点，按传入坐标呈现，关系身份一致。"
+   - "有向/无向、节点类别、独立实/虚/点线关系、同节点对的多关系弧线与多节点环路。"
+   - "成对0至1坐标原样保留，其他坐标单位整体拟合；无坐标使用确定的自然环绕布局，连接较多的单个节点可位于内部。不修改原数据。"
+ states:
+@@ -50,11 +50,13 @@
+ layoutConstraints:
+   - "当前四组Mock为8至11节点、10至19边；视框960×560、圆半径24 SVG单位、结构化卡144×44。容器宽度不超过620px时显示全部关系列表，保留选择、详情和精确表。"
+   - "图中名称按估算字宽截短并最多分为两行，按钮/详情/表格保留全文。有限曲线候选避让节点与名称，不保证任意密集、重叠坐标或特殊字体的最优和完整避让。"
++  - "结构化使用卡片侧边端口与朝外控制点，同侧关系分开接入；来源与目标卡片内部均纳入曲线避让。"
+ compositionRules:
+   - "categories与relations按稳定ID显式配置颜色或保持声明顺序，筛选不按当前节点顺序重配身份色。"
+   - "权重只作详情/表格原始读数，线宽、距离和圆面积不表达权重，未提供不补0。"
+-  - "宿主先验证完整原始结构并计算位置再筛选，不让筛选遮掩未知端点或重新拟合节点；悬停、选择和换色不重算几何。"
+-  - "样式切换保持选中ID和节点位置，形状与边端口同时更新；常规数据更新保留既有短过渡。"
++  - "宿主先验证完整原始结构并准备当前样式完整位置再筛选，不让筛选遮掩未知端点或重新拟合节点；悬停、选择和换色不重算几何。"
++  - "业务宿主柔光保留自然错位布局；结构化纯来源→目标映射使用两侧，其余按声明节点类别分列。分组列不表示先修阶段，全部关系保留；切回柔光恢复原位置。"
++  - "样式切换保持选中ID，形状与边端口同时更新；柔光数据更新保留短过渡，结构化节点位置与边路径即时同步，避免端口换侧插值穿进卡片，高亮透明度仍有短过渡。"
+   - "Playground /#chart-network展示四组业务样本及真实下载；原17 Bklit、Matrix及170官网身份保持。"
+ allowedModifications:
+   - "宿主提供节点/边、类别/关系配置、有限成对坐标、caption、呈现样式、局部配方及关系筛选输入。"
+@@ -65,7 +67,7 @@
+   - "SVG aria-hidden；具名Rain Button节点列表可聚焦，Enter/Space通过原生按钮选择，aria-pressed表达选择，与鼠标图形点击同详情。"
+   - "邻接聚焦与选择独立，具名详情区域提供方向、类型和原始读数；节点/边语义Table保留caption与行标题。"
+   - "窄屏全部关系列表保留方向和类型；精确TableScrollArea支持左右键横滚，长名保留全文，图形方向同时在表格文字表达。"
+-  - "useId隔离多实例marker/gradient；正常短过渡、系统或显式reduce即时完成，无常驻模拟。"
++  - "useId隔离多实例marker/gradient；柔光几何与两样式高亮使用短过渡，结构化几何、系统或显式reduce即时完成，无常驻模拟。"
+   - "真实Safari/VoiceOver、物理触屏、forced-colors、深色与完整对比度尚未完成验证；自动检查不代替这些Gate。"
+ examples:
+   - "apps/playground/src/docs/components/chart-business/network-examples.tsx"
+@@ -109,8 +111,9 @@
+   - "Rain本地共享候选；原17 Bklit加Matrix/Network为19入口，170官网集合不变；未发布、未迁移、未写Figma。"
+ verification:
+   automated: "scoped-passed"
+-  scope: "2026-10-10 visual refinement: initial 9 files/87 unit passed; latest 8 files/82 network-related unit plus 4 manifest/catalog/CSS checks and 7 Chromium network browser tests passed; latest UI typecheck and Prototype typecheck/build passed. Playground runtime typecheck excluding tests and Vite bundle passed; standard build blocked by one out-of-scope g3-component-pages.test.tsx type error. Snapshot consumption: 19 Registry closures, 170 official variants type/build and 50 business downloads including 16 network settings type/build/browser passed. Later shared vendor choropleth source-hash check failed after concurrent source changes; not repaired in this scope. Whole-repository verification not claimed."
+-  independentReview: "read-only-48-graph-geometry-and-raw-callback-review; three-findings-repaired-with-regressions"
+-  humanGate: "awaiting-user-review"
++  scope: "2026-10-10 structured feedback: 9 files/95 scoped unit and 7 Chromium browser tests passed, including full endpoint-card interiors and instant port-face update regression; 24 glow geometry snapshots unchanged. UI typecheck and both Playground/Prototype standard builds passed. 19 Registry closures, 170 official variants type/build and 66 business downloads including 16 network settings type/build/browser passed using installed dependency cache. Previous out-of-scope snapshot blockers are no longer present in these current checks. Whole-repository verification not claimed."
++  independentReview: "read-only-96-structured-filtered-graphs-84-boundaries-576-host-configurations-20-state-switches-and-final-transition-diff; no-blocking-findings"
++  humanGate: "glow-accepted-structured-awaiting-user-review"
++  glowVisualHumanGate: "passed-current-view-only; user-2026-10-10-confirmed"
+   contrastAcceptance: "not-granted"
+-  evidence: "evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md"
++  evidence: "evidence/runtime/chart-network-structured-feedback-2026-10-10/verification.md"
+--- before/status/current-phase.yaml
++++ after/status/current-phase.yaml
+@@ -3065,9 +3073,26 @@
+       baseline: "../evidence/runtime/chart-network-visual-refinement-2026-10-09/baseline.md"
+       verification: "../evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md"
+       previewUrl: "http://127.0.0.1:5173/#chart-network"
+-      visualHumanGate: "awaiting-implementation-review"
++      visualHumanGate: "glow-accepted-structured-awaiting-review"
+       contrastAcceptance: "not-granted"
+       publicationFigmaMigrationGit: "not-performed"
++      structuredFeedback20261010:
++        authorization: "explicit-user-structured-layout-and-line-feedback"
++        userStatement: "确定。现在‘柔光网格’没问题。但是‘结构化关系’如果用类似的排列方式，连线容易出现问题"
++        workMode: "system-mode-unpublished-candidate-increment"
++        scope: "structured-only-grouped-card-layout-face-ports-outward-controls-endpoint-interior-avoidance-and-synchronous-geometry-updates; preserve-accepted-glow"
++        implementation: "completed-local-technical-delivery"
++        automatedVerification: "9-files-95-scoped-unit; 7-network-Chromium-browser; UI-typecheck; Playground-and-Prototype-standard-builds; 19-registry-closures; 170-official-type-build; 66-business-downloads-including-16-network-type-build-browser-passed"
++        glowRegression: "24-normal-long-revision0-1-2-four-fixture-geometry-snapshots-byte-identical"
++        independentReview: "read-only-96-structured-filtered-graphs-84-boundaries-576-host-configurations-20-state-switches-and-final-transition-diff; no-blocking-findings"
++        plan: "../docs/plans/2026-10-10-network-structured-feedback.md"
++        baseline: "../evidence/runtime/chart-network-structured-feedback-2026-10-10/baseline.md"
++        verification: "../evidence/runtime/chart-network-structured-feedback-2026-10-10/verification.md"
++        previewUrl: "http://127.0.0.1:5173/#chart-network"
++        glowVisualHumanGate: "passed-current-view-only; user-confirmed-2026-10-10"
++        structuredVisualHumanGate: "awaiting-user-review"
++        contrastAcceptance: "not-granted"
++        publicationFigmaMigrationGit: "not-performed"
+ 
+   mapIncrement20261009:
+     authorization: "explicit-user-continue-next-stage"
+--- before/packages/ui/src/charts/network/network-chart.test.tsx
++++ after/packages/ui/src/charts/network/network-chart.test.tsx
+@@ -1,4 +1,4 @@
+-import { fireEvent, render, within } from "@testing-library/react";
++import { fireEvent, render, waitFor, within } from "@testing-library/react";
+ import { expect, test } from "vitest";
+ import { NetworkChart, type NetworkChartProps } from "./network-chart";
+ 
+@@ -9,6 +9,18 @@
+   nodes: [{ id: "a", label: "高等数学", category: "course" }, { id: "b", label: "概率统计", category: "course" }, { id: "c", label: "随机变量", category: "knowledge" }],
+   edges: [{ id: "ab", source: "a", target: "b", relation: "before", directed: true }, { id: "ba", source: "b", target: "a", relation: "similar", directed: false, value: 0 }, { id: "bc", source: "b", target: "c", relation: "before", directed: true }],
+ };
++
++test("structured filtering changes the port face without morphing its endpoint through the card", async () => {
++  const nodes = ["a", "b", "c"].map((id, index) => ({ id, label: id, category: "course", x: .5, y: .1 + index * .4 }));
++  const edges = [{ id: "ac", source: "a", target: "c", relation: "before", directed: true }];
++  const view = render(<NetworkChart {...props} nodes={nodes} edges={edges} variant="structured" reducedMotion={false} />);
++  const sourceX = Number(view.container.querySelector('[data-network-node="a"]')!.getAttribute("data-x"));
++  const startX = () => Number(view.container.querySelector('[data-network-edge="ac"]')!.getAttribute("d")!.match(/-?\d+(?:\.\d+)?/g)![0]);
++  expect(view.container.querySelector(".rain-network")).toHaveAttribute("data-reduced-motion", "false");
++  expect(startX()).not.toBe(sourceX);
++  view.rerender(<NetworkChart {...props} nodes={nodes.filter(node => node.id !== "b")} edges={edges} variant="structured" reducedMotion={false} />);
++  await waitFor(() => expect(startX()).toBe(sourceX), { timeout: 80, interval: 5 });
++});
+ 
+ test("direction, line style and exact readings accompany an operable node list", () => {
+   const view = render(<NetworkChart {...props} />);
+--- /dev/null
++++ after/docs/plans/2026-10-10-network-structured-feedback.md
+@@ -0,0 +1,13 @@
++# Network structured feedback
++
++Goal: fix the structured cards' cramped links and corner hooks from the user's 2026-10-10 screenshot. The user accepted the current glow view; preserve it exactly. System Mode, existing unpublished candidate; no new dependency or public API.
++
++Root cause: circular-node spacing and center-based Bézier controls are reused for wide rectangles. A control may lie inside its endpoint card, causing a backward tangent or a path through that card. Previous checks tested foreign cards and endpoints only, missing the interior of source/target cards.
++
++Design: shared structured geometry uses explicit card-face ports and outward controls, including endpoint-card avoidance. The example host prepares its complete graph before filtering: pure directed source-to-target mappings use two sides; graphs with feedback or mixed links group by their existing node categories. These columns are reading groups, not inferred dependency stages. Keep every edge, direction, original value, selection, palette and filter; restore the accepted coordinates when switching back to glow. Change card glyph and path together when changing style; update structured position/path synchronously on data changes because interpolating between different card faces crosses the card interior. Keep opacity and glow transitions.
++
++Scope: private geometry/tests, component glyph/geometry transition and regression, example host/tests, browser checks, README/Manifest/phase and separate feedback evidence. Fixtures, public exports, palette, glow geometry and unrelated work are protected. Ten current targets copied before their respective edits to `/tmp/rain-network-structured-20261010-before`.
++
++Methods: D02 for card alignment and enough line space, I02 for truthful independent relations/direction, D05 for the existing narrow complete-list mode. Validate actual source and target card interiors and normal/long, updates, parallel/reverse paths, selection/filter stability and real SVG fonts. Compare all 24 accepted glow geometries before/after byte-for-byte. Large arbitrary graphs and full accessibility/contrast remain independent gates.
++
++Delivery: implemented and checked locally. Failed-first layout/endpoint checks and the port-face interpolation regression now pass; final 95 scoped unit, 7 Chromium browser, UI typecheck, both standard application builds, 19 Registry closures, 170 official variants and 66 business downloads (16 Network) passed. See `evidence/runtime/chart-network-structured-feedback-2026-10-10/verification.md`. Current glow view accepted; structured visual review pending. No publication, Figma, migration or Git operation.
+--- before/evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md
++++ after/evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md
+@@ -46,3 +46,6 @@
+ - Safari/VoiceOver、物理触屏、forced-colors、深色主题：未完成验证。
+ - 未做全仓库验收、Figma写入、发布、迁移、Git提交或推送。共享工作区已有其他工作，保留其变化。
+ 
++## 2026-10-10反馈后的核验范围修正
++
++用户确认当前柔光视图，指出结构化沿用相似排列时的连线问题。上述旧几何检查对来源/目标卡片仅检查端点，没有检查曲线进入端点卡片内部的情况，因此不能作为全部卡片内部无穿越的证据。新一轮扩展到整条曲线相对所有卡片的检查，并修正卡片排列、侧边端口和端口换侧的插值；见[独立反馈记录](../chart-network-structured-feedback-2026-10-10/verification.md)。本节保留前次快照结果；前次Playground类型错误和vendor哈希失败不代表新一轮的当前状态。

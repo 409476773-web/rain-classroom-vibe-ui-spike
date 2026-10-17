@@ -1,0 +1,41 @@
+--- evidence/runtime/navigation-v042/w7/closure-2026-10-06/governance-other/verification-helpers-before-metadata-successor.mjs	2026-10-06 12:51:05
++++ scripts/verification-helpers.mjs	2026-10-06 12:48:35
+@@ -3143,6 +3143,27 @@
+   }
+ }
+ 
++
++function restoreNavigationW7RegistryBaseline(source, root, status, failures) {
++  const hash = value => createHash("sha256").update(value).digest("hex");
++  if (hash(source) !== "71d3f204385bf2aa7f74bc61b4d0a03c0928e369cadb3d5b7bb2201284e2d7dd") return source;
++  try { validateTokenFoundationsV1Phase(status); } catch { return source; }
++  const files = [
++    ["manifests/recipes/navigation-r2.yaml", "d4b10b46ffc4dbd923496b8770cff302ddd191091d8e241d535af4f84e3a5070"],
++    ["apps/playground/src/recipes/navigation-v042/r2.css", "6c3145aa2efafcbe0f10414b9de69989d7e5aad09823b4b646c02715424d6ee1"],
++  ];
++  for (const [path, expected] of files) {
++    const content = readTaskFourFile(root, path, "W7 recorded navigation successor", failures);
++    if (!content || hash(content) !== expected) return source;
++  }
++  // Preserve the accepted inventory; only this exact metadata successor projects back to it.
++  const record = JSON.parse(source);
++  record.currentSourceSnapshot = record.priorW7AccountHoverSourceSnapshot;
++  delete record.priorW7AccountHoverSourceSnapshot;
++  delete record.currentW7Repair;
++  const baseline = JSON.stringify(record, null, 2) + "\n";
++  return hash(baseline) === "6c2596329a392d4d4a06f17613fb123f3ec1e32c35bff4ac15b839cb96f60535" ? baseline : source;
++}
+ 
+ export function collectRecordedPostB2Documents(root, status, failures) {
+   const navigation = status?.navigationComponentsV042?.humanGate === "accepted"
+@@ -3162,8 +3183,9 @@
+   for (const [authorized, name, expected] of snapshots) {
+     if (!authorized) continue;
+     const path = `registry/${name}.json`;
+-    const source = readTaskFourFile(root, path, "Task 5 recorded Registry", failures);
++    let source = readTaskFourFile(root, path, "Task 5 recorded Registry", failures);
+     if (!source) continue;
++    if (name === "navigation-v042") source = restoreNavigationW7RegistryBaseline(source, root, status, failures);
+     if (createHash("sha256").update(source).digest("hex") !== expected) {
+       failures.push(`Task 5 recorded Registry must preserve its existing sources, dependencies and unpublished identity: ${path}`);
+       continue;

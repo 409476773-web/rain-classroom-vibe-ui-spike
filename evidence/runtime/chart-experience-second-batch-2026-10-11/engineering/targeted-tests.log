@@ -1,0 +1,69 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-token-foundations.test.ts (20 tests | 1 failed) 8906ms
+     × reports actual user-accepted danger Primary text shortfalls instead of claiming readability passed 8061ms
+ ❯ scripts/asset-index.test.ts (3 tests | 2 failed) 1376ms
+   × limits generation-quality authorization without changing previous decisions 10ms
+   × keeps the asset index traceable, current and separate from local experiments and acceptance 636ms
+
+ Test Files  2 failed | 2 passed (4)
+      Tests  3 failed | 26 passed (29)
+   Start at  13:45:30
+   Duration  13.84s (transform 580ms, setup 399ms, import 986ms, tests 10.86s, environment 1.23s)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/asset-index.test.ts > limits generation-quality authorization without changing previous decisions
+AssertionError: expected [Function] to not throw an error but 'Error: Invalid Token Foundations V1 h…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged"
+
+ ❯ scripts/asset-index.test.ts:25:66
+     23| it("limits generation-quality authorization without changing previous …
+     24|   const phase = helpers.parseYamlSubset(readFileSync(resolve(root, "st…
+     25|   expect(() => helpers.getValidatedTailwindB2History(phase)).not.toThr…
+       |                                                                  ^
+     26|   for (const change of [
+     27|     { scope: "all-components" }, { humanGate: "accepted" },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  scripts/asset-index.test.ts > keeps the asset index traceable, current and separate from local experiments and acceptance
+Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged
+ ❯ fail scripts/verification-helpers.mjs:2666:30
+    2664|
+    2665| export function getValidatedTailwindB2History(status) {
+    2666|   const fail = () => { throw new Error("Invalid Token Foundations V1 h…
+       |                              ^
+    2667|   const history = status?.phaseHistory?.tailwindB2;
+    2668|   if (status?.currentPhase?.id !== "token-foundations-v1" || !history
+ ❯ Module.getValidatedTailwindB2History scripts/verification-helpers.mjs:2721:67
+ ❯ scripts/asset-index.test.ts:102:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  scripts/verify-token-foundations.test.ts > Token Foundations consumption verification > reports actual user-accepted danger Primary text shortfalls instead of claiming readability passed
+AssertionError: expected [] to have a length of 8 but got +0
+
+- Expected
++ Received
+
+- 8
++ 0
+
+ ❯ scripts/verify-token-foundations.test.ts:35:51
+     33|   it("reports actual user-accepted danger Primary text shortfalls inst…
+     34|     const result = verifyTokenFoundations() as any;
+     35|     expect(result.acceptedTextContrastExceptions).toHaveLength(8);
+       |                                                   ^
+     36|     for (const exception of result.acceptedTextContrastExceptions) {
+     37|       expect(exception.recipeId).toMatch(/^button-primary-danger-(defa…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+

@@ -1,0 +1,109 @@
+
+Running 3 tests using 1 worker
+
+(node:63018) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/toast-action-position.spec.ts:11:3 › toast is top-centered with a subdued text action: light-desktop (6.5s)
+(node:63030) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/toast-action-position.spec.ts:11:3 › toast is top-centered with a subdued text action: dark-narrow (6.2s)
+(node:63053) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/e2e/toast-action-position.spec.ts:42:1 › top queue expands downward, pauses on focus and closes only the selected toast (6.9s)
+
+
+  1) tests/e2e/toast-action-position.spec.ts:11:3 › toast is top-centered with a subdued text action: light-desktop 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 24
+    Received: 914
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   890
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      15 |     await page.getByRole("button", { name: "成功提示", exact: true }).click();
+      16 |     const toast = page.locator('[data-rain-id="ui-toast"]').filter({ hasText: "设置已保存" });
+    > 17 |     await expect.poll(async () => (await toast.boundingBox())?.y).toBeCloseTo(24, 0);
+         |                                                                   ^
+      18 |     const box = (await toast.boundingBox())!;
+      19 |     expect(box.x + box.width / 2).toBeCloseTo(settings.width / 2, 0);
+      20 |     expect(box.x).toBeGreaterThanOrEqual(16);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/toast-action-position.spec.ts:17:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/toast-action-position-2026-10-08/test-results/toast-action-position-toas-f7924-d-text-action-light-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/toast-action-position-2026-10-08/test-results/toast-action-position-toas-f7924-d-text-action-light-desktop/error-context.md
+
+  2) tests/e2e/toast-action-position.spec.ts:11:3 › toast is top-centered with a subdued text action: dark-narrow 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 24
+    Received: 758
+
+    Expected precision:    0
+    Expected difference: < 0.5
+    Received difference:   734
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      15 |     await page.getByRole("button", { name: "成功提示", exact: true }).click();
+      16 |     const toast = page.locator('[data-rain-id="ui-toast"]').filter({ hasText: "设置已保存" });
+    > 17 |     await expect.poll(async () => (await toast.boundingBox())?.y).toBeCloseTo(24, 0);
+         |                                                                   ^
+      18 |     const box = (await toast.boundingBox())!;
+      19 |     expect(box.x + box.width / 2).toBeCloseTo(settings.width / 2, 0);
+      20 |     expect(box.x).toBeGreaterThanOrEqual(16);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/toast-action-position.spec.ts:17:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/toast-action-position-2026-10-08/test-results/toast-action-position-toas-c4ad5-ued-text-action-dark-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/toast-action-position-2026-10-08/test-results/toast-action-position-toas-c4ad5-ued-text-action-dark-narrow/error-context.md
+
+  3) tests/e2e/toast-action-position.spec.ts:42:1 › top queue expands downward, pauses on focus and closes only the selected toast 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator: locator('[data-rain-id="ui-toast"]').filter({ hasText: '队列通知 4' })
+    Expected: focused
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for locator('[data-rain-id="ui-toast"]').filter({ hasText: '队列通知 4' })
+        11 × locator resolved to <div tabindex="0" role="dialog" data-type="info" data-expanded="" data-slot="toast" aria-modal="false" data-focus="control" class="rain-g2-toast" data-rain-id="ui-toast" aria-labelledby="_r_2_" aria-describedby="_r_3_">…</div>
+           - unexpected value "inactive"
+        - locator resolved to <div tabindex="0" role="dialog" data-type="info" data-slot="toast" aria-modal="false" data-focus="control" data-ending-style="" class="rain-g2-toast" data-rain-id="ui-toast" aria-labelledby="_r_2_" aria-describedby="_r_3_">…</div>
+        - unexpected value "inactive"
+
+
+      53 |   await page.keyboard.press("F6");
+      54 |   await page.mouse.move(1, 1);
+    > 55 |   await expect(front).toBeFocused();
+         |                       ^
+      56 |   await page.waitForTimeout(4200);
+      57 |   await expect(page.getByText("队列通知 4", { exact: true })).toBeVisible();
+      58 |   await page.screenshot({ path: `${captures}/expanded-queue.png` });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/toast-action-position.spec.ts:55:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/toast-action-position-2026-10-08/test-results/toast-action-position-top--c6556-ses-only-the-selected-toast/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/toast-action-position-2026-10-08/test-results/toast-action-position-top--c6556-ses-only-the-selected-toast/error-context.md
+
+  3 failed
+    tests/e2e/toast-action-position.spec.ts:11:3 › toast is top-centered with a subdued text action: light-desktop 
+    tests/e2e/toast-action-position.spec.ts:11:3 › toast is top-centered with a subdued text action: dark-narrow 
+    tests/e2e/toast-action-position.spec.ts:42:1 › top queue expands downward, pauses on focus and closes only the selected toast 

@@ -1,0 +1,50 @@
+
+Running 2 tests using 1 worker
+
+(node:9336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/chart-trend-motion.spec.ts:151:1 › trend motion: legend visibility updates pinned readings and keeps one series visible (4.0s)
+  ✘  2 tests/e2e/chart-trend-motion.spec.ts:238:1 › trend motion: a pinned marker stays on the live native curve throughout a data morph (5.9s)
+
+
+  1) tests/e2e/chart-trend-motion.spec.ts:238:1 › trend motion: a pinned marker stays on the live native curve throughout a data morph 
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 2
+    Received:   2
+
+      331 |   await testInfo.attach("marker-native-morph", { path: evidencePath, contentType: "application/json" });
+      332 |   expect(visibleFrames.length).toBeGreaterThanOrEqual(10);
+    > 333 |   expect(movingPaths).toBeGreaterThan(2);
+          |                       ^
+      334 |   expect(Math.max(...markerYs) - Math.min(...markerYs)).toBeGreaterThan(1);
+      335 |   expect(maximumDistance).toBeLessThanOrEqual(1.5);
+      336 |   await expect(overlay).toHaveAttribute("data-pinned", "true");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-trend-motion.spec.ts:333:23
+
+    attachment #1: marker-native-morph (application/json) ──────────────────────────────────────────
+    evidence/runtime/chart-trend-motion/marker-test-results/chart-trend-motion-trend-m-6051e-rve-throughout-a-data-morph/attachments/marker-native-morph-3d8771255410b34d97e4d386d3e9623c2b26d585.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-trend-motion/marker-test-results/chart-trend-motion-trend-m-6051e-rve-throughout-a-data-morph/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: video (video/webm) ──────────────────────────────────────────────────────────────
+    evidence/runtime/chart-trend-motion/marker-test-results/chart-trend-motion-trend-m-6051e-rve-throughout-a-data-morph/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-trend-motion/marker-test-results/chart-trend-motion-trend-m-6051e-rve-throughout-a-data-morph/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-trend-motion/marker-test-results/chart-trend-motion-trend-m-6051e-rve-throughout-a-data-morph/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-trend-motion/marker-test-results/chart-trend-motion-trend-m-6051e-rve-throughout-a-data-morph/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-trend-motion.spec.ts:238:1 › trend motion: a pinned marker stays on the live native curve throughout a data morph 
+  1 passed (10.9s)

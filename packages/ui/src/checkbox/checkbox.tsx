@@ -1,10 +1,11 @@
 import { Fragment, forwardRef, useId, useImperativeHandle, useLayoutEffect, useRef, useState, type ReactNode, type FieldsetHTMLAttributes, type InputHTMLAttributes } from "react";
 import { useDensity } from "@rain-next/foundations";
-import { CheckBoldIcon } from "../icons/check-bold";
-import { MinusBoldIcon } from "../icons/minus-bold";
 import { getRainLocalRecipePart, type RainLocalRecipe } from "../recipes/local-recipe";
 import { useDefaultReset } from "../utils/use-default-reset";
 import { rainCn } from "../utils/rain-class-names";
+import { SelectionControlContent, SelectionControlSurface } from "../selection-control/selection-control";
+
+export { CheckboxIndicator } from "../selection-control/selection-control";
 
 export type CheckboxPart = "root" | "input" | "control" | "label" | "description";
 type CheckboxRecipe = RainLocalRecipe<CheckboxPart, "ui-checkbox">;
@@ -32,15 +33,6 @@ function assertValues(value: unknown): asserts value is readonly string[] {
 }
 
 
-/** Internal passive visual shared by native controls and menus; no input or interaction state. */
-export function CheckboxIndicator({ checked, indeterminate = false, className }: { checked: boolean; indeterminate?: boolean; className?: string }) {
-  return <span data-slot="canvas" className="flex h-rain-24 w-rain-24 flex-none items-center justify-center" aria-hidden="true">
-      <span data-slot="control" className={rainCn("inline-flex h-rain-16 w-rain-16 flex-none box-border items-center justify-center rounded-rain-4 border-solid border-rain-line-1", className)}>
-        {indeterminate ? <MinusBoldIcon className="h-rain-10 w-rain-10" /> : checked ? <CheckBoldIcon className="h-rain-10 w-rain-10" /> : null}
-      </span>
-    </span>;
-}
-
 /** Internal card composition seam; not exported by the public UI entry. */
 export const CheckboxControl = forwardRef<HTMLInputElement, CheckboxProps & { renderContent?: (ids: { labelId: string; descriptionId: string }) => ReactNode }>(function CheckboxControl({
   checked, defaultChecked, onCheckedChange, label, description, indeterminate = false, value = "on",
@@ -51,7 +43,6 @@ export const CheckboxControl = forwardRef<HTMLInputElement, CheckboxProps & { re
   const controlled = checked !== undefined, selected = controlled ? checked : internalChecked;
   const present = useRef({ selected, indeterminate });
   const unavailable = disabled || ariaDisabled === true || ariaDisabled === "true";
-  const state = indeterminate ? "mixed" : selected ? "checked" : "unchecked";
   useImperativeHandle(forwardedRef, () => ref.current!, []);
   useLayoutEffect(() => {
     present.current = { selected, indeterminate };
@@ -65,10 +56,10 @@ export const CheckboxControl = forwardRef<HTMLInputElement, CheckboxProps & { re
     || (defaultChecked !== undefined && typeof defaultChecked !== "boolean") || typeof indeterminate !== "boolean"
     || (controlled && (typeof checked !== "boolean" || typeof onCheckedChange !== "function"))) throw new Error("Checkbox requires valid labels, value and checked state.");
   if (controlled && defaultChecked !== undefined) throw new Error("Checkbox cannot combine checked and defaultChecked.");
-  return <label data-rain-id="ui-checkbox" data-slot="root" data-density={density} data-state={state}
-    data-disabled={unavailable} data-rain-state={unavailable ? "disabled" : state} data-local-recipe={localRecipe?.id}
-    className={rainCn("rain-checkbox relative inline-flex min-w-rain-0 max-w-full items-start gap-rain-8 align-middle font-rain-ui cursor-pointer has-[:disabled]:cursor-not-allowed", className, getRainLocalRecipePart(localRecipe, "root"))}>
-    <input {...inputProps} ref={ref} type="checkbox" value={value} checked={selected} disabled={unavailable}
+  return <SelectionControlSurface state={{ kind: "checkbox", checked: selected, disabled: unavailable, indeterminate }}
+    labelProps={{ "data-density": density, "data-local-recipe": localRecipe?.id, className: rainCn(className, getRainLocalRecipePart(localRecipe, "root")) }}
+    indicatorClassName={getRainLocalRecipePart(localRecipe, "control")}
+    input={<input {...inputProps} ref={ref} type="checkbox" value={value} checked={selected} disabled={unavailable}
       aria-disabled={unavailable || undefined} aria-checked={indeterminate ? "mixed" : selected}
       aria-labelledby={inputProps["aria-labelledby"] ?? (inputProps["aria-label"] ? undefined : `${generated}-label`)}
       aria-describedby={ids(inputProps["aria-describedby"], description && `${generated}-description`)}
@@ -85,13 +76,11 @@ export const CheckboxControl = forwardRef<HTMLInputElement, CheckboxProps & { re
         }
         if (!controlled) setInternalChecked(input.checked);
         onCheckedChange?.(input.checked);
-      }} />
-    <CheckboxIndicator checked={selected} indeterminate={indeterminate} className={getRainLocalRecipePart(localRecipe, "control")} />
-    {renderContent ? renderContent({ labelId: `${generated}-label`, descriptionId: `${generated}-description` }) : (label || description) && <span data-slot="content" className="flex min-w-rain-0 flex-col gap-rain-4 break-words">
-      {label && <span id={`${generated}-label`} data-slot="label" className={rainCn("text-rain-size-15 leading-rain-24 font-rain-semibold", getRainLocalRecipePart(localRecipe, "label"))}>{label}</span>}
-      {description && <span id={`${generated}-description`} data-slot="description" className={rainCn("text-rain-size-13 leading-rain-22 font-rain-regular", getRainLocalRecipePart(localRecipe, "description"))}>{description}</span>}
-    </span>}
-  </label>;
+      }} />}>
+    {renderContent ? renderContent({ labelId: `${generated}-label`, descriptionId: `${generated}-description` }) :
+      <SelectionControlContent label={label} description={description} labelId={`${generated}-label`} descriptionId={`${generated}-description`}
+        labelClassName={getRainLocalRecipePart(localRecipe, "label")} descriptionClassName={getRainLocalRecipePart(localRecipe, "description")} />}
+  </SelectionControlSurface>;
 });
 CheckboxControl.displayName = "CheckboxControl";
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => <CheckboxControl {...props} ref={ref} />);

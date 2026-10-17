@@ -1,0 +1,331 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: inside-labels.spec.ts >> inside labels retain geometry, native naming and actions in dark
+- Location: tests/e2e/inside-labels.spec.ts:8:49
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - heading "outlined 28px" [level=2] [ref=e5]
+    - generic [ref=e8]:
+      - generic "资料名称" [ref=e9]
+      - textbox "资料名称" [ref=e11]:
+        - /placeholder: 输入资料名称
+        - text: 已有资料
+    - generic [ref=e16]:
+      - generic "查找资料" [ref=e17]
+      - textbox "查找资料" [ref=e21]:
+        - /placeholder: 输入资料名称
+      - button "搜索" [ref=e24] [cursor=pointer]
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - generic "发布状态" [ref=e30]
+          - combobox "发布状态" [ref=e32] [cursor=pointer]:
+            - generic "设计课" [ref=e34]
+          - button "清除发布状态" [ref=e36] [cursor=pointer]
+        - generic [ref=e42]: 已选：设计课
+      - textbox [ref=e43]: a
+    - generic [ref=e45]:
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - generic "教学班名称" [ref=e48]
+          - combobox "教学班名称" [ref=e50] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e52]:
+              - generic [ref=e53]: 设计课、观察课
+              - generic [ref=e54]: "+1"
+          - button "清除教学班名称" [ref=e56] [cursor=pointer]
+        - generic [ref=e62]: 已选：设计课、观察课、实践课
+      - textbox [ref=e63]
+    - generic [ref=e65]:
+      - generic [ref=e66]:
+        - generic [ref=e67]:
+          - generic "计数班级" [ref=e68]
+          - combobox "计数班级" [ref=e70] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e72]: 已选 3 项
+          - button "清除计数班级" [ref=e75] [cursor=pointer]
+        - generic [ref=e81]: 已选：设计课、观察课、实践课
+      - textbox [ref=e82]
+  - generic [ref=e83]:
+    - heading "outlined 32px" [level=2] [ref=e84]
+    - generic [ref=e87]:
+      - generic "资料名称" [ref=e88]
+      - textbox "资料名称" [ref=e90]:
+        - /placeholder: 输入资料名称
+    - generic [ref=e95]:
+      - generic "查找资料" [ref=e96]
+      - textbox "查找资料" [ref=e100]:
+        - /placeholder: 输入资料名称
+      - button "搜索" [ref=e103] [cursor=pointer]
+    - generic [ref=e106]:
+      - generic [ref=e108]:
+        - generic "发布状态" [ref=e109]
+        - combobox "发布状态" [ref=e111] [cursor=pointer]:
+          - generic [ref=e112]: 请选择
+      - textbox [ref=e118]
+    - generic [ref=e120]:
+      - generic [ref=e122]:
+        - generic "教学班名称" [ref=e123]
+        - combobox "教学班名称" [ref=e125] [cursor=pointer]:
+          - generic [ref=e126]: 请选择
+      - textbox [ref=e132]
+    - generic [ref=e134]:
+      - generic [ref=e135]:
+        - generic [ref=e136]:
+          - generic "计数班级" [ref=e137]
+          - combobox "计数班级" [ref=e139] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e141]: 已选 3 项
+          - button "清除计数班级" [ref=e144] [cursor=pointer]
+        - generic [ref=e150]: 已选：设计课、观察课、实践课
+      - textbox [ref=e151]
+  - generic [ref=e152]:
+    - heading "filled 28px" [level=2] [ref=e153]
+    - generic [ref=e156]:
+      - generic "资料名称" [ref=e157]
+      - textbox "资料名称" [ref=e159]:
+        - /placeholder: 输入资料名称
+        - text: 已有资料
+    - generic [ref=e164]:
+      - generic "查找资料" [ref=e165]
+      - textbox "查找资料" [ref=e169]:
+        - /placeholder: 输入资料名称
+      - button "搜索" [ref=e172] [cursor=pointer]
+    - generic [ref=e175]:
+      - generic [ref=e176]:
+        - generic [ref=e177]:
+          - generic "发布状态" [ref=e178]
+          - combobox "发布状态" [ref=e180] [cursor=pointer]:
+            - generic "设计课" [ref=e182]
+          - button "清除发布状态" [ref=e184] [cursor=pointer]
+        - generic [ref=e190]: 已选：设计课
+      - textbox [ref=e191]: a
+    - generic [ref=e193]:
+      - generic [ref=e194]:
+        - generic [ref=e195]:
+          - generic "教学班名称" [ref=e196]
+          - combobox "教学班名称" [ref=e198] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e200]:
+              - generic [ref=e201]: 设计课、观察课
+              - generic [ref=e202]: "+1"
+          - button "清除教学班名称" [ref=e204] [cursor=pointer]
+        - generic [ref=e210]: 已选：设计课、观察课、实践课
+      - textbox [ref=e211]
+    - generic [ref=e213]:
+      - generic [ref=e214]:
+        - generic [ref=e215]:
+          - generic "计数班级" [ref=e216]
+          - combobox "计数班级" [ref=e218] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e220]: 已选 3 项
+          - button "清除计数班级" [ref=e223] [cursor=pointer]
+        - generic [ref=e229]: 已选：设计课、观察课、实践课
+      - textbox [ref=e230]
+  - generic [ref=e231]:
+    - heading "filled 32px" [level=2] [ref=e232]
+    - generic [ref=e235]:
+      - generic "资料名称" [ref=e236]
+      - textbox "资料名称" [ref=e238]:
+        - /placeholder: 输入资料名称
+        - text: 已有资料
+    - generic [ref=e243]:
+      - generic "查找资料" [ref=e244]
+      - textbox "查找资料" [ref=e248]:
+        - /placeholder: 输入资料名称
+      - button "搜索" [ref=e251] [cursor=pointer]
+    - generic [ref=e254]:
+      - generic [ref=e255]:
+        - generic [ref=e256]:
+          - generic "发布状态" [ref=e257]
+          - combobox "发布状态" [ref=e259] [cursor=pointer]:
+            - generic "设计课" [ref=e261]
+          - button "清除发布状态" [ref=e263] [cursor=pointer]
+        - generic [ref=e269]: 已选：设计课
+      - textbox [ref=e270]: a
+    - generic [ref=e272]:
+      - generic [ref=e273]:
+        - generic [ref=e274]:
+          - generic "教学班名称" [ref=e275]
+          - combobox "教学班名称" [ref=e277] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e279]:
+              - generic [ref=e280]: 设计课、观察课
+              - generic [ref=e281]: "+1"
+          - button "清除教学班名称" [ref=e283] [cursor=pointer]
+        - generic [ref=e289]: 已选：设计课、观察课、实践课
+      - textbox [ref=e290]
+    - generic [ref=e292]:
+      - generic [ref=e293]:
+        - generic [ref=e294]:
+          - generic "计数班级" [ref=e295]
+          - combobox "计数班级" [ref=e297] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e299]: 已选 3 项
+          - button "清除计数班级" [ref=e302] [cursor=pointer]
+        - generic [ref=e308]: 已选：设计课、观察课、实践课
+      - textbox [ref=e309]
+  - generic [ref=e310]:
+    - heading "underlined 28px" [level=2] [ref=e311]
+    - generic [ref=e314]:
+      - generic "资料名称" [ref=e315]
+      - textbox "资料名称" [ref=e317]:
+        - /placeholder: 输入资料名称
+        - text: 已有资料
+    - generic [ref=e322]:
+      - generic "查找资料" [ref=e323]
+      - textbox "查找资料" [ref=e327]:
+        - /placeholder: 输入资料名称
+      - button "搜索" [ref=e330] [cursor=pointer]
+    - generic [ref=e333]:
+      - generic [ref=e334]:
+        - generic [ref=e335]:
+          - generic "发布状态" [ref=e336]
+          - combobox "发布状态" [ref=e338] [cursor=pointer]:
+            - generic "设计课" [ref=e340]
+          - button "清除发布状态" [ref=e342] [cursor=pointer]
+        - generic [ref=e348]: 已选：设计课
+      - textbox [ref=e349]: a
+    - generic [ref=e351]:
+      - generic [ref=e352]:
+        - generic [ref=e353]:
+          - generic "教学班名称" [ref=e354]
+          - combobox "教学班名称" [ref=e356] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e358]:
+              - generic [ref=e359]: 设计课、观察课
+              - generic [ref=e360]: "+1"
+          - button "清除教学班名称" [ref=e362] [cursor=pointer]
+        - generic [ref=e368]: 已选：设计课、观察课、实践课
+      - textbox [ref=e369]
+    - generic [ref=e371]:
+      - generic [ref=e372]:
+        - generic [ref=e373]:
+          - generic "计数班级" [ref=e374]
+          - combobox "计数班级" [ref=e376] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e378]: 已选 3 项
+          - button "清除计数班级" [ref=e381] [cursor=pointer]
+        - generic [ref=e387]: 已选：设计课、观察课、实践课
+      - textbox [ref=e388]
+  - generic [ref=e389]:
+    - heading "underlined 32px" [level=2] [ref=e390]
+    - generic [ref=e393]:
+      - generic "资料名称" [ref=e394]
+      - textbox "资料名称" [ref=e396]:
+        - /placeholder: 输入资料名称
+        - text: 已有资料
+    - generic [ref=e401]:
+      - generic "查找资料" [ref=e402]
+      - textbox "查找资料" [ref=e406]:
+        - /placeholder: 输入资料名称
+      - button "搜索" [ref=e409] [cursor=pointer]
+    - generic [ref=e412]:
+      - generic [ref=e413]:
+        - generic [ref=e414]:
+          - generic "发布状态" [ref=e415]
+          - combobox "发布状态" [ref=e417] [cursor=pointer]:
+            - generic "设计课" [ref=e419]
+          - button "清除发布状态" [ref=e421] [cursor=pointer]
+        - generic [ref=e427]: 已选：设计课
+      - textbox [ref=e428]: a
+    - generic [ref=e430]:
+      - generic [ref=e431]:
+        - generic [ref=e432]:
+          - generic "教学班名称" [ref=e433]
+          - combobox "教学班名称" [ref=e435] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e437]:
+              - generic [ref=e438]: 设计课、观察课
+              - generic [ref=e439]: "+1"
+          - button "清除教学班名称" [ref=e441] [cursor=pointer]
+        - generic [ref=e447]: 已选：设计课、观察课、实践课
+      - textbox [ref=e448]
+    - generic [ref=e450]:
+      - generic [ref=e451]:
+        - generic [ref=e452]:
+          - generic "计数班级" [ref=e453]
+          - combobox "计数班级" [ref=e455] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e457]: 已选 3 项
+          - button "清除计数班级" [ref=e460] [cursor=pointer]
+        - generic [ref=e466]: 已选：设计课、观察课、实践课
+      - textbox [ref=e467]
+  - generic [ref=e468]:
+    - generic [ref=e469]:
+      - generic [ref=e470]: 普通表单
+      - textbox "普通表单" [ref=e472]: 保留上方标题
+    - generic [ref=e474]:
+      - generic [ref=e475]: 原有标签
+      - generic [ref=e476]:
+        - generic [ref=e477]:
+          - generic [ref=e478]:
+            - generic "设计课" [ref=e480]:
+              - button "移除 设计课" [ref=e483] [cursor=pointer]
+            - generic "观察课" [ref=e487]:
+              - button "移除 观察课" [ref=e490] [cursor=pointer]
+          - combobox "原有标签" [ref=e493] [cursor=pointer]
+          - button "清除原有标签" [ref=e498] [cursor=pointer]
+        - generic [ref=e501]: 已选：设计课、观察课
+      - textbox [ref=e502]
+    - generic [ref=e506]:
+      - generic "资料名称" [ref=e507]
+      - textbox "资料名称" [ref=e509]:
+        - /placeholder: 输入资料名称
+        - text: 已有资料
+    - generic [ref=e512]:
+      - generic [ref=e513]:
+        - generic [ref=e514]:
+          - generic "发布状态" [ref=e515]
+          - combobox "发布状态" [disabled] [ref=e517]:
+            - generic "设计课" [ref=e519]
+        - generic [ref=e523]: 已选：设计课
+      - textbox [ref=e524]: a
+    - generic [ref=e528]:
+      - generic "资料名称" [ref=e529]
+      - textbox "资料名称" [disabled] [ref=e531]:
+        - /placeholder: 输入资料名称
+        - text: 已有资料
+    - generic [ref=e534]:
+      - generic [ref=e535]:
+        - generic [ref=e536]:
+          - generic "发布状态" [ref=e537]
+          - combobox "发布状态" [disabled] [ref=e539]:
+            - generic "设计课" [ref=e541]
+        - generic [ref=e545]: 已选：设计课
+      - textbox [disabled] [ref=e546]: a
+  - generic [ref=e547]:
+    - generic [ref=e550]:
+      - generic "特别长的课程资料筛选字段标题" [ref=e551]: "*"
+      - textbox "特别长的课程资料筛选字段标题" [ref=e554]: 值仍然可见
+    - generic [ref=e557]:
+      - generic [ref=e558]:
+        - generic [ref=e559]:
+          - generic "特别长的课程资料筛选字段标题" [ref=e560]: "*"
+          - combobox "特别长的课程资料筛选字段标题" [ref=e563] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e565]:
+              - generic [ref=e566]: 设计课
+              - generic [ref=e567]: "+2"
+          - button "清除特别长的课程资料筛选字段标题" [ref=e569] [cursor=pointer]
+        - generic [ref=e575]: 已选：设计课、观察课、实践课
+      - textbox [ref=e576]
+    - generic [ref=e579]:
+      - generic "特别长的课程资料筛选字段标题" [ref=e580]: "*"
+      - textbox "特别长的课程资料筛选字段标题" [ref=e583]: 值仍然可见
+    - generic [ref=e586]:
+      - generic [ref=e587]:
+        - generic [ref=e588]:
+          - generic "特别长的课程资料筛选字段标题" [ref=e589]: "*"
+          - combobox "特别长的课程资料筛选字段标题" [ref=e592] [cursor=pointer]:
+            - generic "设计课、观察课、实践课" [ref=e594]:
+              - generic [ref=e595]: 设计课
+              - generic [ref=e596]: "+2"
+          - button "清除特别长的课程资料筛选字段标题" [ref=e598] [cursor=pointer]
+        - generic [ref=e604]: 已选：设计课、观察课、实践课
+      - textbox [ref=e605]
+```

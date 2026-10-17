@@ -1,0 +1,32 @@
+--- before/packages/ui/src/charts/styles.css
++++ packages/ui/src/charts/styles.css
+@@ -1,6 +1,6 @@
+ @import "./utilities.generated.css";
+ 
+-.rain-chart.rain-network { min-width:0; }
++.rain-chart.rain-network { position:relative; min-width:0; }
+ .rain-chart .rain-network__legends, .rain-chart .rain-network__legends > div { display:flex; align-items:center; flex-wrap:wrap; gap:8px 20px; }
+ .rain-chart .rain-network__legends { margin:16px 0; gap:12px 32px; }
+ .rain-chart .rain-network__legends span { display:inline-flex; align-items:center; gap:6px; }
+@@ -12,7 +12,12 @@
+ .rain-chart .rain-network__nodes button { height:auto; min-height:32px; max-width:100%; white-space:normal; overflow-wrap:anywhere; text-align:left; }
+ .rain-chart .rain-network__nodes button [data-slot="label"] { white-space:normal; overflow:visible; text-overflow:clip; }
+ .rain-chart .rain-network__nodes [aria-pressed="true"] { font-weight:600; outline:1px solid currentColor; }
+-.rain-chart .rain-network__detail { margin:16px 0; padding:16px; border:1px solid currentColor; border-radius:8px; }
++.rain-chart .rain-network__detail-slot { height:144px; margin:16px 0; }
++.rain-chart .rain-network__detail { display:grid; grid-template-columns:minmax(160px, 1fr) 3fr; gap:20px; height:100%; box-sizing:border-box; padding:16px; overflow:auto; border:1px solid currentColor; border-radius:8px; }
++.rain-chart .rain-network__detail p, .rain-chart .rain-network__detail ul { margin:4px 0 8px; }
++.rain-chart .rain-network__detail-empty { display:flex; align-items:center; height:100%; margin:0; }
++.rain-chart .rain-network__preview { max-width:260px; padding:12px 16px; overflow-wrap:anywhere; font:400 14px/20px var(--rain-font-ui); }
++.rain-chart .rain-network__preview p { margin:4px 0 0; }
+ .rain-chart .rain-network__detail h4 { margin:0; }
+ .rain-chart .rain-network__detail li { overflow-wrap:anywhere; }
+ .rain-chart .rain-network__data summary { cursor:pointer; width:fit-content; }
+@@ -23,6 +28,7 @@
+ .rain-chart .rain-network__relations [data-highlighted="false"] { opacity:.35; }
+ .rain-chart.rain-network[data-narrow="true"] .rain-network__scroll { display:none; }
+ .rain-chart.rain-network[data-narrow="true"] .rain-network__relations { display:block; }
++.rain-chart.rain-network[data-narrow="true"] .rain-network__detail { grid-template-columns:1fr; gap:8px; }
+ 
+ .rain-chart .rain-data-bar { display: inline-block; position: relative; width: 100%; height: 8px; overflow: hidden; vertical-align: middle; border-radius: 999px; background: var(--chart-no-data); }
+ .rain-chart .rain-data-bar__fill { display: block; width: 100%; height: 100%; border-radius: inherit; background: var(--chart-1); }

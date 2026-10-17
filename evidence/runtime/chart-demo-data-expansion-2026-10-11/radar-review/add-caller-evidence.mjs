@@ -1,0 +1,12 @@
+import { createHash } from "node:crypto";
+import { readFile, writeFile } from "node:fs/promises";
+const run = "evidence/runtime/chart-demo-data-expansion-2026-10-11";
+const file = "apps/playground/src/docs/components/chart-examples.tsx";
+const slice = source => source.slice(source.indexOf("function RadialExample("), source.indexOf("function FunnelExample("));
+const before = slice(await readFile(`${run}/before/${file}`, "utf8"));
+const current = slice(await readFile(file, "utf8"));
+const facts = JSON.parse(await readFile(`${run}/radar-review/facts.json`, "utf8"));
+facts.callerEvidence = { function: "RadialExample", unchangedSinceBaseline: before === current, beforeSha256: createHash("sha256").update(before).digest("hex"), currentSha256: createHash("sha256").update(current).digest("hex") };
+if (!facts.callerEvidence.unchangedSinceBaseline) throw new Error("RadialExample caller changed since this round's baseline");
+await writeFile(`${run}/radar-review/facts.json`, JSON.stringify(facts, null, 2));
+console.log(JSON.stringify(facts.callerEvidence, null, 2));

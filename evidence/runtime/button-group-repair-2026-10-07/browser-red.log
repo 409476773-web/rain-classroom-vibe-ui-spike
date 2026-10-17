@@ -1,0 +1,96 @@
+
+Running 3 tests using 1 worker
+
+(node:14313) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/button-group-repair.spec.ts:8:1 › joined buttons retain only the outside corners across themes and densities (569ms)
+(node:14318) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/e2e/button-group-repair.spec.ts:34:1 › the vertical divider consumes one pixel and solely owns its seam (558ms)
+(node:14323) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [chromium] › tests/e2e/button-group-repair.spec.ts:47:1 › attached text shares the button typography, outside corner and height (560ms)
+
+
+  1) [chromium] › tests/e2e/button-group-repair.spec.ts:8:1 › joined buttons retain only the outside corners across themes and densities 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "0px"
+    Received: "6px"
+
+      17 |       }));
+      18 |       expect(styles).toHaveLength(3);
+    > 19 |       expect(styles[0]?.tr).toBe("0px");
+         |                             ^
+      20 |       expect(styles[0]?.br).toBe("0px");
+      21 |       expect(styles[0]?.tl).toBe("6px");
+      22 |       expect(styles[1]?.tl).toBe("0px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts:19:29
+
+    Error Context: evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-joined-f41ce-across-themes-and-densities-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-joined-f41ce-across-themes-and-densities-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-joined-f41ce-across-themes-and-densities-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/e2e/button-group-repair.spec.ts:34:1 › the vertical divider consumes one pixel and solely owns its seam 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 9
+
+      38 |   }));
+      39 |   expect(geometry).toHaveLength(3);
+    > 40 |   expect(geometry[1]?.h).toBe(1);
+         |                          ^
+      41 |   expect(geometry[0]?.bottomBorder).toBe("0px");
+      42 |   expect(geometry[2]?.topBorder).toBe("0px");
+      43 |   expect(geometry[1]?.y).toBe(geometry[0]?.bottom);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts:40:26
+
+    Error Context: evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-the-ve-81f93-el-and-solely-owns-its-seam-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-the-ve-81f93-el-and-solely-owns-its-seam-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-the-ve-81f93-el-and-solely-owns-its-seam-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › tests/e2e/button-group-repair.spec.ts:47:1 › attached text shares the button typography, outside corner and height 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "14px"
+    Received: "16px"
+
+      52 |       const s=getComputedStyle(child);return {font:s.fontSize,line:s.lineHeight,radius:s.borderRadius,height:child.getBoundingClientRect().height};
+      53 |     }));
+    > 54 |     expect(styles[0]?.font).toBe(styles[1]?.font);
+         |                             ^
+      55 |     expect(styles[0]?.line).toBe(styles[1]?.line);
+      56 |     expect(styles[0]?.height).toBe(styles[1]?.height);
+      57 |     expect(styles[0]?.radius).toBe("6px 0px 0px 6px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts:54:29
+
+    Error Context: evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-attach-b6fb9-y-outside-corner-and-height-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-attach-b6fb9-y-outside-corner-and-height-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-attach-b6fb9-y-outside-corner-and-height-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [chromium] › tests/e2e/button-group-repair.spec.ts:8:1 › joined buttons retain only the outside corners across themes and densities 
+    [chromium] › tests/e2e/button-group-repair.spec.ts:34:1 › the vertical divider consumes one pixel and solely owns its seam 
+    [chromium] › tests/e2e/button-group-repair.spec.ts:47:1 › attached text shares the button typography, outside corner and height 

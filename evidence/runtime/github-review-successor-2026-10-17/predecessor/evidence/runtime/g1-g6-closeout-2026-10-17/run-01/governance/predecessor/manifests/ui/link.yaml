@@ -1,0 +1,76 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-link"
+name: "Link"
+category: "ui"
+assetIdentity: "local-experiment"
+maturity: "prototype-ready"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/link/link.tsx"
+styleSourcePath: "packages/ui/src/styles.css"
+sourceVersion: "current-workspace; RN-13 baseline records source SHA-256"
+publication: "unpublished"
+description: "既有原型的原生链接与新标签提示；不进入默认候选检索。"
+useWhen:
+  - "维护已有原型的真实导航或正文链接。"
+doNotUseWhen:
+  - "执行动作使用Button variant=text，不使用href模拟动作。"
+anatomy:
+  - "Root / Label / NewTabHint"
+parts:
+  - "root"
+  - "label"
+  - "new-tab-hint"
+props:
+  - "href:string与children必填；appearance=standalone|inline，默认standalone。"
+  - "原生a属性与ref透传；类型不开放role、disabled、loading、tone。"
+slots:
+  - "children：可读链接内容。"
+variants:
+  - "standalone / inline"
+states:
+  - "default / hover / pressed / focus-visible"
+dependencies:
+  - "React、Foundations useDensity、UI styles.css与Focus。"
+tokens:
+  - "既有--rain-link-color与action hover/pressed别名；不是Button Token Recipe迁移。"
+layoutConstraints:
+  - "standalone单行；inline继承正文排版并允许换行。"
+compositionRules:
+  - "原生href保留浏览器导航与修饰键语义。"
+allowedModifications:
+  - "选择appearance、导航目标、文字和可访问属性。"
+restrictedModifications:
+  - "不得因TextButton验收而声称Link完成独立视觉或颜色验收。"
+accessibility:
+  - "target=_blank大小写不敏感，合并去重noopener/noreferrer，并显示新标签提示。"
+  - "存在自定义名称时合并提示aria-describedby；普通名称不重复播报提示。"
+  - "保留共享Focus、forced-colors与reduced-motion。"
+examples:
+  - "docs/audits/2026-09-12-core-ui-contracts.md"
+recipes: []
+antiPatterns:
+  - "通过链接提交表单，或添加按钮角色和禁用伪状态。"
+relatedComponents:
+  - "Button / LinkTag"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "docs/plans/2026-09-03-text-button-design.md"
+  externalReferences:
+    - "原生HTML anchor导航语义。"
+  retainedTraits:
+    - "雨课堂链接颜色与正文行内导航。"
+  redesignedTraits:
+    - "既有React实现的新标签提示与描述关联。"
+  intentionallyNotInherited:
+    - "未将动作按钮与导航合并为同一语义。"
+figmaMapping:
+  status: "not-mapped"
+migrationNotes:
+  - "仅补现有本地合同，不新增TextButton同义组件。"
+verification:
+  automated: "not-run"
+  humanGate: "not-evaluated"
+  contrastAcceptance: "not-granted"
+  evidence: "docs/verification/2026-09-03-text-button-implementation.md"

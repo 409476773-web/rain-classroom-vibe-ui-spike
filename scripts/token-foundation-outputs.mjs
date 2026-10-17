@@ -1,3 +1,5 @@
+import { getAlertColorConsumers } from "./alert.mjs";
+import { tooltipTokens } from "../packages/foundations/src/tooltip-token-contract.ts";
 import { getPaginationColorConsumers } from "./pagination-color-consumers.mjs";
 import { overlayColors, dialogGeometryTokens } from "../packages/foundations/src/overlay-token-contract.ts";
 import { tabsSizeTokens, tabsSizeClassNames, tabsTwoLineSizeTokens, tabsTwoLineSizeClassNames } from "../packages/foundations/src/tabs-token-contract.ts";
@@ -18,7 +20,7 @@ export function getTokenFoundationOutputs() {
   const linkAlias = { "--rain-link-color": "var(--rain-color-action-primary-text)" };
   const variables = { ...legacyComponentTokenAliases, ...legacyPaintAliases, ...semanticColorAliases, ...semanticColorRoleAliases, ...linkAlias, ...getButtonColorVariables(), ...iconButtonComponentTokenAliases };
   const colorThemes = { light: {}, dark: {} };
-  Object.assign(variables, dialogGeometryTokens);
+  Object.assign(variables, dialogGeometryTokens, tooltipTokens);
   for (const [name, colors] of Object.entries(overlayColors)) {
     const variable = `--rain-overlay-${name}`;
     variables[variable] = colorToCss(colors.light);
@@ -426,13 +428,419 @@ export function getBmBColorConsumers() {
 }
 
 
+// G4 reuses existing Category identities; registration does not grant contrast acceptance.
+export function getG4ColorConsumers() {
+  const evidenceRef = "docs/plans/2026-10-11-g4-components.md", parents = ["Background/Neutral/1", "Background/Neutral/2", "Background/Neutral/3"];
+  const use = (tokenId, content, recipeId, interaction = "non-interactive") => ({ tokenId, content, recipeId, evidenceRef,
+    role: tokenId.split("/")[0].toLowerCase(), property: /^(Background|Fill)\//.test(tokenId) ? "background-color" : tokenId.startsWith("Border/") ? "border-color" : "color",
+    context: "component-recipe", interaction, critical: ["text", "meaningful-icon", "essential-boundary"].includes(content),
+    ...(tokenId.includes("/Brand/") ? { brandIntent: "action" } : {}),
+  });
+  const definition = {
+    root: "text-rain-category-text-neutral-2", outline: "border-rain-category-border-neutral-3 bg-rain-category-background-neutral-1",
+    muted: "bg-rain-category-background-neutral-2", title: "text-rain-category-text-neutral-1",
+    description: "text-rain-category-text-neutral-3", footer: "text-rain-category-text-neutral-3",
+    mediaIcon: "border-rain-category-border-neutral-3 bg-rain-category-background-neutral-1 text-rain-category-icon-neutral-3",
+  };
+  const recipes = [
+    ...["default", "outline", "muted"].flatMap(variant => [
+      ["root", "Text/Neutral/2"], ["title", "Text/Neutral/1"], ["description", "Text/Neutral/3"], ["footer", "Text/Neutral/3"],
+    ].map(([part, token]) => ({ id: `g4-item-${variant}-${part}`, state: "default", foreground: use(token, "text", `g4-item-${variant}-${part}`),
+      ...(variant === "default" ? {} : { background: use(variant === "outline" ? "Background/Neutral/1" : "Background/Neutral/2", "surface", `g4-item-${variant}`) }),
+      ...(variant === "outline" ? { boundary: use("Border/Neutral/3", "decorative", "g4-item-outline") } : {}),
+    }))),
+    ...[["hover", "Fill/Neutral/Alpha/4"], ["active", "Fill/Neutral/Alpha/3"]].flatMap(([state, background]) => [
+      ["root", "Text/Neutral/2"], ["title", "Text/Neutral/1"], ["description", "Text/Neutral/3"], ["footer", "Text/Neutral/3"],
+    ].map(([part, token]) => ({ id: `g4-item-${state}-${part}`, state, foreground: use(token, "text", `g4-item-${state}-${part}`, "interactive"), background: use(background, "surface", `g4-item-${state}`, "interactive") }))),
+    { id: "g4-item-media-icon", state: "default", foreground: use("Icon/Neutral/3", "meaningful-icon", "g4-item-media-icon"),
+      background: use("Background/Neutral/1", "surface", "g4-item-media-icon"), boundary: use("Border/Neutral/3", "decorative", "g4-item-media-icon") },
+  ];
+  const colorRecipeConsumers = [{ filePath: "packages/ui/src/item/item.tsx", symbol: "itemPaints", kind: "static", definition,
+    scope: '[data-rain-id="ui-item"]', foregroundContent: "text-and-meaningful-icon", parentSurfaces: parents, recipes },
+    { filePath: "packages/ui/src/progress/progress.tsx", symbol: "progressPaints", kind: "static",
+      definition: { root: "text-rain-category-text-neutral-1", value: "text-rain-category-text-neutral-2", track: "bg-rain-category-fill-neutral-solid-4", indicator: "bg-rain-category-fill-brand-solid-2" },
+      scope: '[data-rain-id="ui-progress"]', foregroundContent: "text-and-progress", parentSurfaces: parents,
+      recipes: [
+        ...[["root", "Text/Neutral/1"], ["value", "Text/Neutral/2"]].map(([part, token]) => ({ id: `g4-progress-${part}`, state: "default", foreground: use(token, "text", `g4-progress-${part}`) })),
+        { id: "g4-progress-track", state: "default", foreground: use("Fill/Neutral/Solid/4", "surface", "g4-progress-track") },
+        { id: "g4-progress-indicator", state: "default", foreground: use("Fill/Brand/Solid/2", "surface", "g4-progress-indicator"), background: use("Fill/Neutral/Solid/4", "surface", "g4-progress-indicator"), requiredStateContrast: 3 },
+      ],
+    }];
+  const rows = [
+    ["packages/ui/src/item/item.css", ".rain-item__description > a", "color", "Text/Brand/1", "text", "interactive", parents],
+    ["packages/ui/src/item/item.css", ".rain-item:is(a[href], button:not(:disabled)):hover", "background-color", "Fill/Neutral/Alpha/4", "surface", "interactive", parents],
+    ["packages/ui/src/item/item.css", ".rain-item:is(a[href], button:not(:disabled)):active", "background-color", "Fill/Neutral/Alpha/3", "surface", "interactive", parents],
+    ...[
+      [".g4-doc-panel", "background", "Background/Neutral/1", "surface"],
+      [".g4-doc-panel", "color", "Text/Neutral/1", "text"],
+      [".g4-doc-panel", "border", "Border/Neutral/3", "decorative"],
+      [".g4-doc-example-code > summary", "color", "Text/Brand/1", "text", "interactive"],
+      [".g4-doc-muted, .g4-doc-type-spec", "color", "Text/Neutral/4", "text"],
+      [".g4-doc-body, .g4-doc-feedback, .g4-doc-resource-footer, .g4-doc-read-state", "color", "Text/Neutral/3", "text"],
+      [".g4-doc-type-row + .g4-doc-type-row", "border-block-start", "Border/Neutral/3", "decorative"],
+      [".g4-doc-resource-header", "border-block-end", "Border/Neutral/3", "decorative"],
+      [".g4-doc-file", "background", "Background/Neutral/2", "surface"],
+      [".g4-doc-file", "color", "Icon/Neutral/3", "meaningful-icon"],
+      [".g4-doc-link-icon", "color", "Icon/Neutral/3", "meaningful-icon", "interactive"],
+      [".g4-doc-read-state > .rain-icon", "color", "Icon/Green/1", "meaningful-icon"],
+      [".g4-doc-resource-footer", "border-block-start", "Border/Neutral/3", "decorative"],
+      [".g4-doc-task-feedback", "color", "Text/Neutral/3", "text"],
+      ['.g4-doc-task-feedback[data-kind="error"]', "color", "Text/Red/1", "text"],
+      ['.g4-doc-task-feedback[data-kind="complete"] > .rain-icon', "color", "Icon/Green/1", "meaningful-icon"],
+    ].map(([selector, property, tokenId, content, interaction = "non-interactive"]) => ["apps/playground/src/docs/components/g4-component-pages.css", selector, property, tokenId, content, interaction, [selector === ".g4-doc-file" && property === "color" ? "Background/Neutral/2" : "Background/Neutral/1"]]),
+  ];
+  return { colorRecipeConsumers, colorCssConsumers: rows.map(([filePath, selector, property, tokenId, content, interaction, parentSurfaces]) => ({
+    filePath, selector, property, parentSurfaces, value: `${property.startsWith("border") && property !== "border-color" ? "var(--rain-line-thickness-1) solid " : ""}var(${colorTokenOutputs.find(entry => entry.id === tokenId).variable})`,
+    use: { ...use(tokenId, content, filePath.includes("/item/") ? "g4-item" : filePath.includes("/progress/") ? "g4-progress" : "g4-playground", interaction),
+      ...(filePath.startsWith("apps/") ? { evidenceRef: selector === ".g4-doc-link-icon" ? "docs/plans/2026-10-11-g4-sizing-and-icons.md" : "docs/plans/2026-10-11-g4-visual-refinement.md" } : {}), ...(tokenId === "Text/Neutral/4" ? { critical: false } : {}) },
+  })) };
+}
+
 function getComponentColorConsumers() {
   const inputs = getInputColorConsumers(), icons = getIconButtonColorConsumers(), questions = getQuestionNumberColorConsumers(), options = getOptionButtonColorConsumers(), optionContent = getOptionButtonContentColorConsumers();
   const tags = getTagColorConsumers(), tagThree = getTagBatchThreeColorConsumers(), selects = getSelectColorConsumers();
   return {
     colorRecipeConsumers: [...inputs.colorRecipeConsumers, ...icons.colorRecipeConsumers, ...questions.colorRecipeConsumers, ...options.colorRecipeConsumers, ...optionContent, ...tags.colorRecipeConsumers, ...getTagDomainColorConsumers(), ...tagThree.colorRecipeConsumers, ...selects.colorRecipeConsumers, ...getTabsColorConsumers(), ...getCardColorConsumers().colorRecipeConsumers, ...getTableRn08ColorConsumers(), ...getEmptyColorConsumers(), ...getPaginationColorConsumers().colorRecipeConsumers],
-    colorCssConsumers: [...inputs.colorCssConsumers, ...icons.colorCssConsumers, ...questions.colorCssConsumers, ...options.colorCssConsumers, ...getQuestionOptionSizeReviewColorConsumers(), ...tags.colorCssConsumers, ...tagThree.colorCssConsumers, ...selects.colorCssConsumers, ...getCheckboxColorConsumers(), ...getRadioColorConsumers(), ...getSelectionCardColorConsumers(), ...getSelectionPatternColorConsumers(), ...getDropdownFamilyColorConsumers(), ...getTabsPageColorConsumers(), ...getCardColorConsumers().colorCssConsumers, ...getDialogColorConsumers(), ...getLayoutsColorConsumers(), ...getPaginationColorConsumers().colorCssConsumers, ...getMaterialRecipeColorConsumers(), ...getBmBColorConsumers()],
+    colorCssConsumers: [...getAlertColorConsumers(), ...inputs.colorCssConsumers, ...icons.colorCssConsumers, ...questions.colorCssConsumers, ...options.colorCssConsumers, ...getQuestionOptionSizeReviewColorConsumers(), ...tags.colorCssConsumers, ...tagThree.colorCssConsumers, ...selects.colorCssConsumers, ...getCheckboxColorConsumers(), ...getRadioColorConsumers(), ...getSelectionCardColorConsumers(), ...getSelectionPatternColorConsumers(), ...getDropdownFamilyColorConsumers(), ...getTabsPageColorConsumers(), ...getCardColorConsumers().colorCssConsumers, ...getDialogColorConsumers(), ...getTreeColorConsumers(), ...getManageTreeColorConsumers(), ...getTreePageColorConsumers(), ...getLayoutsColorConsumers(), ...getPaginationColorConsumers().colorCssConsumers, ...getMaterialRecipeColorConsumers(), ...getBmBColorConsumers(), ...getChartColorConsumers()],
   };
+}
+
+// Fixed-source Bklit bindings are chart-local recipes, never new public Tokens.
+// The finite ledger keeps physical CSS declarations separate from the actual reading/paint role.
+export function getChartColorConsumers() {
+  const shared = "packages/ui/src/charts/styles.css", examples = "apps/playground/src/docs/components/chart-examples.css";
+  const page = "apps/playground/src/docs/components/chart-page.css", catalog = "apps/prototype/src/scenarios/bklit-validation/catalog.css";
+  const evidenceRef = "packages/ui/src/charts/README.md", sourceCommit = "5d699897b2dde26374cf15501dbaadbc52cea982";
+  const white = ["Background/Neutral/1"], pageSurface = ["Background/Neutral/2"];
+  const metadata = { scope: "bklit-rain-charts", supportedThemes: ["light"], darkAcceptance: "not-granted", contrastReview: "pending-review",
+    contrastMeasurementScope: "full-opacity-against-declared-opaque-surfaces; graph-overlap-gradients-and-faded-states-await-runtime-review", sourceCommit, evidenceRef };
+  const use = (tokenId, content, interaction = "non-interactive", critical = content === "text", recipeId = "chart-rain-base") => ({
+    tokenId, property: tokenId.startsWith("Text/") ? "color" : tokenId.startsWith("Border/") ? "border-color" : "background-color",
+    content, role: tokenId.split("/")[0].toLowerCase(), context: "component-recipe", interaction, critical, recipeId, evidenceRef,
+    ...(tokenId.includes("/Brand/") ? { brandIntent: "action" } : {}),
+  });
+  const direct = (filePath, selector, property, tokenId, content, parents = white, interaction = "non-interactive", critical = content === "text", template = "VAR") => ({
+    ...metadata, filePath, selector, property, value: template.replace("VAR", `var(${colorTokenOutputs.find(entry => entry.id === tokenId).variable})`),
+    parentSurfaces: parents, use: use(tokenId, content, interaction, critical),
+  });
+  const native = (filePath, selector, property, value, bindingKind, extra = {}) => ({
+    ...metadata, filePath, selector, property, value, nativeBinding: { kind: bindingKind, ...extra },
+  });
+  const business = consumer => ({ ...consumer, scope: "rain-chart-business" });
+  const rows = [
+    // Native aliases have their own consumer role; weak grid strokes are decorative, brush handles are essential boundaries.
+    ...[
+      ["--background", "Background/Neutral/1", "surface"], ["--foreground", "Text/Neutral/1", "text"],
+      ["--border", "Border/Neutral/4", "decorative"], ["--muted", "Background/Neutral/2", "surface"],
+      ["--muted-foreground", "Text/Neutral/4", "text", ["Background/Neutral/2"], false],
+      ["--chart-background", "Background/Neutral/3", "surface"], ["--chart-foreground", "Text/Neutral/2", "text"],
+      ["--chart-foreground-muted", "Text/Neutral/4", "text", white, false],
+      ["--chart-label", "Text/Neutral/4", "text", white, true],
+      ["--chart-grid", "Border/Neutral/4", "decorative"], ["--chart-crosshair", "Border/Neutral/1", "essential-boundary"],
+      ["--chart-brush-border", "Border/Neutral/3", "essential-boundary"],
+      ["--chart-tooltip-muted", "Text/Neutral/4", "text", white, false],
+      ["--chart-indicator-color", "Text/Neutral/2", "text"], ["--chart-indicator-secondary-color", "Background/Neutral/3", "surface"],
+      ["--chart-marker-background", "Background/Neutral/2", "surface"], ["--chart-marker-border", "Border/Neutral/3", "essential-boundary"],
+      ["--chart-marker-foreground", "Text/Neutral/2", "text", ["Background/Neutral/2"]],
+      ["--chart-marker-badge-background", "Background/Neutral/3", "surface"],
+      ["--chart-marker-badge-foreground", "Text/Neutral/2", "text", ["Background/Neutral/3"]],
+      ["--chart-scale-pattern-color", "Border/Neutral/2", "essential-boundary"], ["--chart-no-data", "Background/Neutral/3", "surface"],
+      ["--color-zinc-500", "Text/Neutral/4", "text", white, false], ["--color-zinc-900", "Text/Neutral/1", "text"],
+      ["--color-zinc-100", "Background/Neutral/2", "surface"], ["--color-white", "Background/Neutral/1", "surface"],
+      ["--chart-neutral", "Text/Neutral/4", "text", white, false],
+    ].map(([property, tokenId, content, parents = white, critical = content === "text"]) => direct(shared, ".rain-chart", property, tokenId, content, parents, content === "essential-boundary" ? "interactive" : "non-interactive", critical)),
+    direct(shared, ".rain-chart .sankey-nodes text", "fill", "Text/Neutral/4", "text", white, "non-interactive", true),
+    { ...direct(shared, ".rain-chart", "--chart-label-inverse", "OnColor/1", "text", [], "non-interactive", true),
+      use: { ...use("OnColor/1", "text", "non-interactive", true), role: "text", property: "color", onColor: true },
+      runtimeParentSurfaces: ["--chart-1", "--chart-2", "--chart-3", "--chart-4", "--chart-5"],
+      contrastMeasurementScope: "inverse-text-against-runtime-sector-fills; measured-in-feedback-2026-10-08; no-opaque-Foundation-parent-assumed" },
+    direct(shared, '.rain-chart [data-rain-id="ui-chart-funnel"] .font-semibold.text-foreground', "color", "Text/Neutral/4", "text", white, "non-interactive", true),
+    ...[
+      [".rain-chart-center-value", "color", "Text/Neutral/1", "large-text"],
+      [".rain-chart .rain-chart-sunburst-title", "color", "Text/Neutral/1", "text"],
+      [".rain-chart-center-label", "color", "Text/Neutral/4", "text"], [".rain-chart-note", "color", "Text/Neutral/4", "text"],
+      [".rain-chart-empty", "color", "Text/Neutral/4", "text"],
+      [".rain-chart-data :is(th,td)", "border-bottom", "Border/Neutral/4", "decorative", "1px solid VAR"],
+      [".rain-chart-data summary", "color", "Text/Neutral/3", "text", "VAR", "interactive"],
+      [".rain-chart-data caption", "color", "Text/Neutral/4", "text"],
+      [".rain-chart :is(button,select):where(:not([data-rain-id]))", "color", "Text/Neutral/3", "text", "VAR", "interactive"],
+      [".rain-chart :is(button,select):where(:not([data-rain-id]))", "background", "Background/Neutral/1", "surface"],
+      [".rain-chart :is(button,select):where(:not([data-rain-id]))", "border", "Border/Neutral/3", "essential-boundary", "1px solid VAR", "interactive"],
+    ].map(([selector, property, tokenId, content, template = "VAR", interaction = "non-interactive"]) => direct(examples, selector, property, tokenId, content, white, interaction, content === "text" || content === "large-text", template)),
+    ...[
+      [".rain-chart-doc-controls label, .rain-chart-source label", "color", "Text/Neutral/4", "text", "VAR", "interactive"],
+      [".rain-chart-doc-controls select, .rain-chart-source select", "color", "Text/Neutral/3", "text", "VAR", "interactive"],
+      [".rain-chart-doc-controls select, .rain-chart-source select", "background", "Background/Neutral/1", "surface"],
+      [".rain-chart-doc-controls select, .rain-chart-source select", "border", "Border/Neutral/3", "essential-boundary", "1px solid VAR", "interactive"],
+      [".rain-chart-source summary", "color", "Text/Neutral/3", "text", "VAR", "interactive"],
+    ].map(([selector, property, tokenId, content, template = "VAR", interaction = "non-interactive"]) => direct(page, selector, property, tokenId, content, white, interaction, content === "text", template)),
+    ...[
+      ["body", "background", "Background/Neutral/2", "surface"], [".rain-chart-catalog", "color", "Text/Neutral/1", "text"],
+      [".rain-chart-catalog__intro p", "color", "Text/Neutral/4", "text"],
+      [".rain-chart-catalog nav a", "color", "Text/Neutral/3", "text", "VAR", "interactive"],
+      [".rain-chart-catalog nav a[aria-current]", "background", "Background/Neutral/3", "surface"],
+      [".rain-chart-catalog :is(button,select)", "color", "Text/Neutral/2", "text", "VAR", "interactive", white],
+      [".rain-chart-catalog :is(button,select)", "background", "Background/Neutral/1", "surface"],
+      [".rain-chart-catalog :is(button,select)", "border", "Border/Neutral/3", "essential-boundary", "1px solid VAR", "interactive", white],
+      [".rain-chart-catalog label", "color", "Text/Neutral/4", "text", "VAR", "interactive"],
+      [".rain-chart-catalog__preview", "background", "Background/Neutral/1", "surface"],
+      [".rain-chart-catalog__preview", "border", "Border/Neutral/4", "decorative", "1px solid VAR"],
+      [".rain-chart-catalog__description", "color", "Text/Neutral/3", "text"],
+      [".rain-chart-catalog__note", "color", "Text/Neutral/4", "text"],
+      [".rain-chart-catalog summary", "color", "Text/Neutral/3", "text", "VAR", "interactive"],
+      [".rain-chart-catalog th, .rain-chart-catalog td", "border-bottom", "Border/Neutral/4", "decorative", "1px solid VAR"],
+      [".rain-chart-catalog pre", "background", "Background/Neutral/2", "surface"],
+      [".rain-chart-catalog__status", "color", "Text/Neutral/4", "text"],
+    ].map(([selector, property, tokenId, content, template = "VAR", interaction = "non-interactive", parents = pageSurface]) => direct(catalog, selector, property, tokenId, content, parents, interaction, content === "text", template)),
+    ...[
+      [".rain-chart-catalog a", "color", "Text/Brand/2", "text", pageSurface, "action"],
+      [".rain-chart-catalog nav a[aria-current]", "color", "Text/Brand/2", "text", ["Background/Neutral/3"], "selected"],
+      [".rain-chart-catalog button:hover", "border-color", "Border/Brand/1", "essential-boundary", white, "action"],
+    ].map(([selector, property, tokenId, content, parents, brandIntent]) => {
+      const consumer = direct(catalog, selector, property, tokenId, content, parents, "interactive", true);
+      return { ...consumer, use: { ...consumer.use, brandIntent } };
+    }),
+  ];
+  const palettes = [
+    [".rain-chart", ["#5074ff", "#895aff", "#8a7cfc", "#509cff", "#30b3ff"], ["#8a7cfc", "#86b0ff"]],
+    ['.rain-chart[data-recipe="category-wide"]', ["#236eff", "#675fff", "#01adc3", "#ff6cc4", "#f57e58"], ["#01adc3", "#22cadf"]],
+    ['.rain-chart[data-recipe="category-solid"]', ["#4661fe", "#8848ff", "#37b5ce", "#658cff", "#bfa5ff"], ["var(--chart-3)", "var(--chart-3)"]],
+    ['.rain-chart[data-recipe="monochrome-blue"]', ["#6288C7", "#3F5D91", "#91B0E1", "#BFD3F2", "#E5EEFC"], ["var(--chart-1)", "var(--chart-3)"]],
+  ];
+  for (const [selector, series, bar] of palettes) {
+    for (let index = 0; index < series.length; index++) rows.push(native(shared, selector, `--rain-local-chart-series-${index + 1}`, series[index], "local-data-palette", { dataRole: "category", minimum: 3, parentSurfaces: white }));
+    for (const [index, part] of ["top", "bottom"].entries()) rows.push(native(shared, selector, `--rain-local-chart-bar-${part}`, bar[index], bar[index].startsWith("#") ? "local-data-palette" : "scoped-data-alias", { dataRole: "gradient-endpoint", minimum: 3, parentSurfaces: white }));
+  }
+  for (const [index, value] of ["#f5f4ff", "#dfe1ff", "#a1a9ff", "#7c7dfd", "#4a31d1"].entries()) {
+    const local = `--rain-local-chart-scale-0${index + 1}`;
+    rows.push(native(shared, ".rain-chart", local, value, "local-data-palette", { dataRole: "intensity", minimum: 3, parentSurfaces: white }));
+    rows.push(native(shared, ".rain-chart", `--chart-scale-0${index + 1}`, `var(${local})`, "scoped-data-alias", { dataRole: "intensity" }));
+  }
+  for (const [sign, value] of [["positive", "#30a87b"], ["negative", "#ed6b70"]]) rows.push(native(shared, ".rain-chart", `--rain-local-chart-${sign}`, value, "local-data-palette", { dataRole: "sign", minimum: 3, parentSurfaces: white }));
+  for (const [index, series] of [5, 4, 3, 1, 2].entries()) rows.push(native(shared, '.rain-chart[data-recipe="monochrome-blue"]', `--rain-local-chart-scale-0${index + 1}`, `var(--rain-local-chart-series-${series})`, "scoped-data-alias", { dataRole: "intensity" }));
+  for (let index = 1; index <= 5; index++) rows.push(native(shared, ".rain-chart", `--chart-${index}`, `var(--rain-local-chart-series-${index})`, "scoped-data-alias", { dataRole: "category" }));
+  for (const [property, value] of [
+    ["--chart-line-primary", "var(--chart-1)"], ["--chart-line-secondary", "var(--chart-2)"],
+    ["--chart-positive", "var(--rain-local-chart-positive)"], ["--chart-negative", "var(--rain-local-chart-negative)"],
+    ["--color-emerald-500", "var(--rain-local-chart-positive)"], ["--color-red-500", "var(--rain-local-chart-negative)"],
+    ["--chart-segment-background", "color-mix(in srgb, var(--chart-1) 6%, transparent)"],
+    ["--chart-segment-line", "color-mix(in srgb, var(--chart-1) 25%, transparent)"],
+  ]) rows.push(native(shared, ".rain-chart", property, value, "scoped-data-alias", { dataRole: property.includes("segment") ? "segment-emphasis" : "series-or-sign" }));
+  for (const [property, value, tokenId, content, parents = white, interaction = "non-interactive", critical = content === "text"] of [
+    ["--popover", "var(--background)", "Background/Neutral/1", "surface"], ["--popover-foreground", "var(--foreground)", "Text/Neutral/1", "text"],
+    ["--chart-tooltip-background", "var(--background)", "Background/Neutral/1", "surface"], ["--chart-tooltip-foreground", "var(--foreground)", "Text/Neutral/1", "text"],
+    ["--legend", "var(--background)", "Background/Neutral/1", "surface"],
+    ["--legend-foreground", "var(--chart-label)", "Text/Neutral/5", "text", [...white, ...pageSurface], "interactive", true],
+    ["--legend-muted", "var(--muted)", "Background/Neutral/2", "surface"],
+    ["--legend-muted-foreground", "var(--muted-foreground)", "Text/Neutral/4", "text", [...white, ...pageSurface], "interactive", true],
+    ["--legend-track", "var(--border)", "Border/Neutral/4", "essential-boundary", [...white, ...pageSurface], "interactive", false],
+    ["--color-muted", "var(--muted)", "Background/Neutral/2", "surface"],
+    ["--color-chart-label", "var(--chart-label)", "Text/Neutral/5", "text"],
+    ["color", "var(--foreground)", "Text/Neutral/1", "text"],
+  ]) rows.push(native(shared, ".rain-chart", property, value, "scoped-token-alias", { use: use(tokenId, content, interaction, critical), parentSurfaces: parents }));
+  for (const [selector, property, value, tokenId, content] of [
+    [".rain-chart .rain-data-bar", "background", "var(--chart-no-data)", "Background/Neutral/3", "surface"],
+    ['.rain-chart .rain-data-bar[data-state="missing"]', "background", "repeating-linear-gradient(135deg, var(--chart-no-data), var(--chart-no-data) 3px, transparent 3px, transparent 6px)", "Background/Neutral/3", "surface"],
+    ['.rain-chart .rain-data-bar[data-state="invalid"], .rain-chart .rain-data-bar[data-state="overflow"]', "outline", "1px dashed var(--chart-marker-border)", "Border/Neutral/3", "essential-boundary"],
+  ]) rows.push(business(native(shared, selector, property, value, "scoped-token-alias", { use: use(tokenId, content), parentSurfaces: white })));
+  rows.push(business(native(shared, ".rain-chart .rain-data-bar__fill", "background", "var(--chart-1)", "scoped-data-alias", { dataRole: "quantity" })));
+  const businessCss = "apps/playground/src/docs/components/chart-business/chart-business.css";
+  for (const [selector, property, tokenId, content] of [
+    [".rain-business-bar-plot", "--chart-label", "Text/Neutral/3", "text"],
+    [".rain-business-ranking__label", "color", "Text/Neutral/3", "text"],
+    [".rain-business-controls select", "border", "Border/Neutral/3", "essential-boundary"],
+    [".rain-business-controls select", "background", "Background/Neutral/1", "surface"],
+    [".rain-business-note", "color", "Text/Neutral/4", "text"],
+    [".rain-business-reading small, .rain-business-number small", "color", "Text/Neutral/4", "text"],
+    [".rain-business-mini-gallery__group", "border-bottom", "Border/Neutral/4", "decorative"],
+    [".rain-business-mini-gallery__group h3", "color", "Text/Neutral/2", "text"],
+    [".rain-business-mini-gallery figcaption", "color", "Text/Neutral/3", "text"],
+    [".rain-business-mini-gallery__description", "color", "Text/Neutral/3", "text"],
+    [".rain-business-mini-state", "color", "Text/Neutral/3", "text"],
+    [".rain-business-cards p", "color", "Text/Neutral/4", "text"],
+    [".rain-business-table-scroll", "border", "Border/Neutral/4", "decorative"],
+    [".rain-business-table thead", "background", "Background/Neutral/2", "surface"],
+    [".rain-business-detail", "border", "Border/Neutral/3", "decorative"],
+    [".rain-business-detail", "background", "Background/Neutral/2", "surface"],
+    [".rain-business-course-list li", "border-bottom", "Border/Neutral/4", "decorative"],
+    [".rain-business-course-list span", "color", "Text/Neutral/3", "text"],
+  ]) rows.push(business(direct(businessCss, selector, property, tokenId, content, white, content === "essential-boundary" ? "interactive" : "non-interactive", content === "text", property.startsWith("border") ? "1px solid VAR" : "VAR")));
+  const networkCss = "apps/playground/src/docs/components/chart-business/network-page.css";
+  for (const [selector, property, tokenId, content] of [
+    [".rain-network-controls select", "border", "Border/Neutral/3", "essential-boundary"],
+    [".rain-network-controls select", "background", "Background/Neutral/1", "surface"],
+    [".rain-network-status, .rain-network-note, .rain-network-feedback", "color", "Text/Neutral/3", "text"],
+    [".rain-network-example", "--chart-label", "Text/Neutral/3", "text"],
+    [".rain-network-example", "border-top", "Border/Neutral/4", "decorative"],
+    [".rain-network-example h2", "color", "Text/Neutral/2", "text"],
+    [".rain-network-reference", "color", "Text/Neutral/4", "text"],
+    [".rain-network-description", "color", "Text/Neutral/3", "text"],
+    [".rain-network-state", "border", "Border/Neutral/4", "decorative"],
+    [".rain-network-state", "color", "Text/Neutral/3", "text"],
+  ]) rows.push(business(direct(networkCss, selector, property, tokenId, content, white, content === "essential-boundary" ? "interactive" : "non-interactive", content === "text", property.startsWith("border") ? "1px solid VAR" : "VAR")));
+  rows.push(business(native(networkCss, ".rain-network-controls select:focus-visible", "outline", "var(--rain-focus-width) solid var(--rain-focus-control)", "foundation-focus", { use: { ...use("Border/Brand/1", "essential-boundary", "interactive", true, "chart-rain-focus"), property: "outline-color" }, parentSurfaces: white })));
+  rows.push(business(native(networkCss, ".rain-network-controls select:focus-visible", "box-shadow", "0 0 0 3px var(--rain-focus-control-halo)", "foundation-focus", { use: use("Fill/Brand/Alpha/3", "surface", "interactive", false, "chart-rain-focus-halo"), parentSurfaces: white })));
+  const chinaCss = "apps/playground/src/docs/components/chart-business/china-region-page.css";
+  for (const [selector, property, tokenId, content] of [
+    [".rain-china-controls select", "border", "Border/Neutral/3", "essential-boundary"],
+    [".rain-china-controls select", "background", "Background/Neutral/1", "surface"],
+    [".rain-china-status, .rain-china-note", "color", "Text/Neutral/3", "text"],
+    [".rain-china-example", "border-top", "Border/Neutral/4", "decorative"],
+    [".rain-china-example h2", "color", "Text/Neutral/2", "text"],
+    [".rain-china-reference", "color", "Text/Neutral/3", "text"],
+    [".rain-china-state", "color", "Text/Neutral/3", "text"],
+    [".rain-china-state", "background", "Background/Neutral/1", "surface"],
+    [".rain-china-canvas:has([data-map-active=\"true\"]) .rain-china-state", "background", "Fill/Neutral/Alpha/2", "surface"],
+    [".rain-china-map-controls", "border", "Border/Neutral/4", "decorative"],
+    [".rain-china-map-controls", "background", "Background/Neutral/1", "surface"],
+    [".rain-china-scale", "color", "Text/Neutral/3", "text"],
+    [".rain-china-scale i", "border", "Border/Neutral/4", "decorative"],
+    [".rain-china-reading", "border-top", "Border/Neutral/4", "decorative"],
+    [".rain-china-reading", "border-bottom", "Border/Neutral/4", "decorative"],
+    [".rain-china-reading", "color", "Text/Neutral/3", "text"],
+    [".rain-china-detail", "color", "Text/Neutral/3", "text"],
+    [".rain-china-detail h3", "color", "Text/Neutral/2", "text"],
+    [".rain-china-source-line", "color", "Text/Neutral/3", "text"],
+    [".rain-china-unmatched", "color", "Text/Neutral/3", "text"],
+    [".rain-china-data", "color", "Text/Neutral/3", "text"],
+    [".rain-china-demo", "color", "Text/Neutral/3", "text"],
+  ]) rows.push(business(direct(chinaCss, selector, property, tokenId, content, white, content === "essential-boundary" ? "interactive" : "non-interactive", content === "text", property.startsWith("border") || property === "outline" ? "1px solid VAR" : "VAR")));
+  for (const [selector, variable] of [[".rain-china-controls select:focus-visible", "--rain-focus-control"], [".rain-china-data summary:focus-visible", "--rain-focus-item"]]) {
+    rows.push(business(native(chinaCss, selector, "outline", `var(--rain-focus-width) solid var(${variable})`, "foundation-focus", { use: { ...use("Border/Brand/1", "essential-boundary", "interactive", true, "chart-rain-focus"), property: "outline-color" }, parentSurfaces: white })));
+  }
+  rows.push(business(native(chinaCss, ".rain-china-controls select:focus-visible", "box-shadow", "0 0 0 3px var(--rain-focus-control-halo)", "foundation-focus", { use: use("Fill/Brand/Alpha/3", "surface", "interactive", false, "chart-rain-focus-halo"), parentSurfaces: white })));
+  const categoryCss = "apps/playground/src/docs/components/chart-business/category-page.css";
+  for (const [selector, property, tokenId, content] of [
+    [".rain-category-controls select", "border", "Border/Neutral/3", "essential-boundary"],
+    [".rain-category-controls select", "background", "Background/Neutral/1", "surface"],
+    [".rain-category-status", "color", "Text/Neutral/3", "text"],
+    [".rain-category-example", "--chart-label", "Text/Neutral/3", "text"],
+    [".rain-category-example", "border-top", "Border/Neutral/4", "decorative"],
+    [".rain-category-example h2", "color", "Text/Neutral/2", "text"],
+    [".rain-category-reference", "color", "Text/Neutral/4", "text"],
+    [".rain-category-description", "color", "Text/Neutral/3", "text"],
+    [".rain-category-data summary", "color", "Text/Neutral/3", "text"],
+    [".rain-category-state", "border", "Border/Neutral/4", "decorative"],
+    [".rain-category-state", "color", "Text/Neutral/3", "text"],
+  ]) rows.push(business(direct(categoryCss, selector, property, tokenId, content, white, content === "essential-boundary" ? "interactive" : "non-interactive", content === "text", property.startsWith("border") ? "1px solid VAR" : "VAR")));
+  const categoryFocus = ".rain-category-controls select:focus-visible, .rain-category-scroll:focus-visible, .rain-category-data summary:focus-visible";
+  rows.push(business(native(categoryCss, categoryFocus, "outline", "var(--rain-focus-width) solid var(--rain-focus-control)", "foundation-focus", { use: { ...use("Border/Brand/1", "essential-boundary", "interactive", true, "chart-rain-focus"), property: "outline-color" }, parentSurfaces: white })));
+  rows.push(business(native(categoryCss, categoryFocus, "box-shadow", "0 0 0 3px var(--rain-focus-control-halo)", "foundation-focus", { use: use("Fill/Brand/Alpha/3", "surface", "interactive", false, "chart-rain-focus-halo"), parentSurfaces: white })));
+  const matrixCss = "packages/ui/src/charts/matrix/matrix.css";
+  for (const [selector, property, value, tokenId, content] of [
+    [".rain-chart.rain-matrix", "color", "var(--chart-foreground,var(--rain-category-text-neutral-2))", "Text/Neutral/2", "text"],
+    [".rain-chart.rain-matrix th", "color", "var(--chart-foreground,var(--rain-category-text-neutral-2))", "Text/Neutral/2", "text"],
+    ['.rain-chart.rain-matrix th[data-active="true"]', "color", "var(--chart-foreground)", "Text/Neutral/2", "text"],
+    [".rain-chart.rain-matrix .rain-matrix__row-heading", "background", "var(--background,var(--rain-category-background-neutral-1))", "Background/Neutral/1", "surface"],
+    [".rain-chart.rain-matrix .rain-matrix__missing", "background", "repeating-linear-gradient(135deg,var(--chart-no-data,var(--rain-category-background-neutral-3)),var(--chart-no-data,var(--rain-category-background-neutral-3)) 3px,transparent 3px,transparent 6px)", "Background/Neutral/3", "surface"],
+    [".rain-chart.rain-matrix .rain-matrix__not-applicable", "border", "var(--rain-line-thickness-1) dashed var(--chart-grid,var(--rain-category-border-neutral-4))", "Border/Neutral/4", "decorative"],
+    [".rain-chart.rain-matrix .rain-matrix__symbol text", "fill", "currentColor", "OnColor/1", "text"],
+    [".rain-chart.rain-matrix [data-slot=\"reading-container\"]", "color", "var(--rain-category-text-neutral-1)", "Text/Neutral/1", "text"],
+    [".rain-chart.rain-matrix [data-tone=\"light\"]", "color", "var(--rain-category-oncolor-1)", "OnColor/1", "text"],
+    ['.rain-chart.rain-matrix[data-variant="bubble"] .rain-matrix__symbol [data-slot="reading-container"]', "color", "var(--rain-category-oncolor-1)", "OnColor/1", "text"],
+    [".rain-chart.rain-matrix [data-slot=\"zero-mark\"]", "fill", "var(--chart-no-data,var(--rain-category-background-neutral-3))", "Background/Neutral/3", "surface"],
+    [".rain-chart.rain-matrix .rain-matrix__color-probe--dark", "color", "var(--rain-category-text-neutral-1)", "Text/Neutral/1", "text"],
+    [".rain-chart.rain-matrix .rain-matrix__color-probe--light", "color", "var(--rain-category-oncolor-1)", "OnColor/1", "text"],
+  ]) rows.push(business(native(matrixCss,selector,property,value,"scoped-token-alias", tokenId.startsWith("OnColor/")
+    ? {use:{...use(tokenId,content),role:"text",property:property === "fill" ? "fill" : "color",onColor:true},parentSurfaces:[],runtimeParentSurfaces:["--chart-scale-01","--chart-scale-02","--chart-scale-03","--chart-scale-04","--chart-scale-05"],contrastMeasurementScope:"actual-cell-fill-including-interpolated-colors-and-transitions; no-reading-backplate; human-contrast-gate-pending"}
+    : {use:use(tokenId,content),parentSurfaces:white,...(selector.includes('reading-container') ? {runtimeParentSurfaces:["--chart-scale-01","--chart-scale-02","--chart-scale-03","--chart-scale-04","--chart-scale-05"],contrastMeasurementScope:"actual-cell-fill-including-interpolated-colors-and-transitions; no-reading-backplate; human-contrast-gate-pending"} : {})})));
+  rows.push(business(native(matrixCss,'.rain-chart.rain-matrix th[data-active="true"]',"background","linear-gradient(var(--chart-segment-background),var(--chart-segment-background)),var(--background,var(--rain-category-background-neutral-1))","scoped-data-alias",{dataRole:"matrix-active-axis",runtimeParentSurfaces:["--background"],contrastMeasurementScope:"active-axis-data-tint-on-opaque-surface-with-header-text; human-contrast-gate-pending"})));
+  for (const [selector,value] of [
+    [".rain-chart.rain-matrix .rain-matrix__scroll:focus-visible","var(--rain-focus-width) solid var(--rain-focus-control)"],
+    ['.rain-chart.rain-matrix td[data-active="true"]',"var(--rain-line-thickness-1) solid var(--rain-focus-item)"],
+    ['.rain-chart.rain-matrix .rain-matrix__legend [role="button"]:focus-visible',"var(--rain-focus-width) solid var(--rain-focus-item)"],
+    ['.rain-chart.rain-matrix .rain-matrix__legend-range[data-active="true"]',"var(--rain-line-thickness-2) solid var(--rain-focus-item)"],
+  ]) rows.push(business(native(matrixCss,selector,"outline",value,"foundation-focus",{use:{...use("Border/Brand/1","essential-boundary","interactive",true),property:"outline-color"},parentSurfaces:white,runtimeParentSurfaces:["--chart-scale-01","--chart-scale-02","--chart-scale-03","--chart-scale-04","--chart-scale-05"],contrastMeasurementScope:"active-cell-and-legend-boundaries-against-actual-fill; human-contrast-gate-pending"})));
+  for (const [selector, property, value] of [
+    [".rain-chart.rain-matrix .rain-matrix__heat","background","Canvas"],
+    [".rain-chart.rain-matrix .rain-matrix__heat","border","var(--rain-line-thickness-1) solid CanvasText"],
+    [".rain-chart.rain-matrix circle","fill","CanvasText"],
+    ['.rain-chart.rain-matrix .rain-matrix__heat [data-slot="reading-container"]',"color","CanvasText"],
+    ['.rain-chart.rain-matrix[data-variant="bubble"] .rain-matrix__symbol [data-slot="reading-container"]',"color","Canvas"],
+  ]) rows.push({...business(native(matrixCss,selector,property,value,"forced-colors-data",{runtimeReview:"pending-review"})),media:"@media (forced-colors:active)"});
+  rows.push(native(examples, ".rain-chart-gauge", "--chart-5", "var(--chart-2)", "scoped-data-alias", { dataRole: "gauge-native-compatibility" }));
+  for (const [filePath, selector, parents] of [
+    [shared, ".rain-chart :is(button,a,select,summary,[tabindex]):focus-visible", white],
+    [page, ".rain-chart-source :is(a,button,select,summary):focus-visible, .rain-chart-doc-controls select:focus-visible", white],
+    [catalog, ".rain-chart-catalog :is(button,select,a,summary):focus-visible", [...white, ...pageSurface]],
+  ]) {
+    rows.push(native(filePath, selector, "outline", "var(--rain-focus-width) solid var(--rain-focus-control)", "foundation-focus", { use: { ...use("Border/Brand/1", "essential-boundary", "interactive", true, "chart-rain-focus"), property: "outline-color" }, parentSurfaces: parents }));
+    rows.push(native(filePath, selector, "box-shadow", "0 0 0 3px var(--rain-focus-control-halo)", "foundation-focus", { use: use("Fill/Brand/Alpha/3", "surface", "interactive", false, "chart-rain-focus-halo"), parentSurfaces: parents }));
+    rows.push({ ...native(filePath, selector, "outline", "2px solid CanvasText", "forced-colors-focus", { runtimeReview: "pending-review" }), media: "@media (forced-colors: active)" });
+  }
+  return rows;
+}
+
+export function getTreeColorConsumers() {
+  const filePath = "packages/ui/src/tree/tree.css";
+  const rows = [
+    [".rain-tree", "color", "Text/Neutral/1", "text"],
+    ['.rain-tree-node:hover > .rain-tree-row', "background", "Fill/Neutral/Alpha/6", "surface"],
+    ['[data-rain-theme="dark"] .rain-tree-node[data-selected="true"] > .rain-tree-row', "background", "Fill/Brand/Solid/4", "surface"],
+    ['[data-rain-theme="dark"] .rain-tree[data-selection-appearance="inset"] .rain-tree-node[data-selected="true"] > .rain-tree-row::before', "background", "Fill/Brand/Solid/4", "surface"],
+    ['.rain-tree-node [data-slot="description"]', "color", "Text/Neutral/6", "text"],
+    ['.rain-tree-node [data-slot="meta"], .rain-tree-node [data-slot="meta-mobile"]', "color", "Text/Neutral/6", "text"],
+    [".rain-tree-expander, .rain-tree-drag-handle", "color", "Icon/Neutral/4", "meaningful-icon"],
+    ['.rain-tree-node:is(:hover, :focus-within, :has([data-slot="drop-indicator"])) :is([data-slot="description"], [data-slot="meta"], [data-slot="meta-mobile"])', "color", "Text/Neutral/4", "text"],
+    ['.rain-tree-node:is(:hover, :focus-within, :has([data-slot="drop-indicator"])) :is(.rain-tree-expander, .rain-tree-drag-handle)', "color", "Icon/Neutral/3", "meaningful-icon"],
+    ['.rain-tree-node :is(.rain-tree-expander, .rain-tree-drag-handle):is(:hover, :focus-visible)', "color", "Icon/Neutral/2", "meaningful-icon"],
+    [".rain-tree-expander:hover, .rain-tree-drag-handle:hover", "background", "Fill/Neutral/Alpha/3", "surface"],
+    ['.rain-tree-node [data-slot="title"] mark', "background", "Fill/Brand/Alpha/3", "surface"],
+    [".rain-tree-connector, .rain-tree-ancestor-line, .rain-tree-outgoing-line", "background", "Border/Neutral/3", "decorative"],
+    [".rain-tree-connector::after", "background", "Border/Neutral/3", "decorative"],
+    ['.rain-tree[data-line-style="dotted"] :is(.rain-tree-connector, .rain-tree-ancestor-line, .rain-tree-outgoing-line)', "background", "Border/Neutral/3", "decorative", "repeating-linear-gradient(to bottom, VAR 0 2px, transparent 2px 4px)"],
+    ['.rain-tree[data-line-style="dotted"] .rain-tree-connector::after', "background", "Border/Neutral/3", "decorative", "repeating-linear-gradient(to right, VAR 0 2px, transparent 2px 4px)"],
+    ['.rain-tree [data-slot="drop-indicator"]', "background", "Fill/Brand/Solid/2", "surface"],
+    ['.rain-tree [data-slot="drop-indicator"][data-placement="inside"]', "border", "Border/Brand/3", "decorative", "1px solid VAR"],
+    ['.rain-tree [data-slot="drop-indicator"][data-placement="inside"]', "background", "Fill/Brand/Alpha/4", "surface"],
+    ['.rain-tree-node[data-selected="true"] [data-slot="title"]', "color", "Text/Brand/1", "text"],
+  ];
+  return rows.map(([selector, property, tokenId, content, template = "VAR"]) => ({
+    filePath, selector, property,
+    value: template.replace("VAR", `var(${colorTokenOutputs.find(entry => entry.id === tokenId).variable})`),
+    parentSurfaces: ["Background/Neutral/1", "Background/Neutral/2"],
+    ...(["Text/Neutral/6", "Icon/Neutral/4"].includes(tokenId) ? { contrastReview: "pending-review" } : {}),
+    use: { tokenId, property: property === "background" ? "background-color" : property === "border" ? "border-color" : property, content, role: tokenId.split("/")[0].toLowerCase(),
+      context: "component-recipe", interaction: content === "meaningful-icon" ? "interactive" : "non-interactive",
+      critical: content === "text" || content === "meaningful-icon", ...(tokenId.includes('/Brand/') ? { brandIntent: selector.includes('data-selected') ? "selected" : "active" } : {}),
+      recipeId: "tree-layout-a", evidenceRef: "docs/plans/2026-09-25-tree-implementation-rules.md" },
+  }));
+}
+
+export function getManageTreeColorConsumers() {
+  const filePath = "apps/playground/src/patterns/manage-tree/manage-tree.css";
+  const rows = [
+    [".rain-manage-tree", "color", "Text/Neutral/1", "text"],
+    ['.rain-manage-tree [data-slot="conflict"]', "border", "Border/Neutral/2", "decorative", "1px solid VAR"],
+    ['.rain-manage-tree [data-slot="conflict"]', "background", "Background/Neutral/1", "surface"],
+  ];
+  return rows.map(([selector, property, tokenId, content, template = "VAR"]) => ({
+    filePath, selector, property, value: template.replace("VAR", `var(${colorTokenOutputs.find(entry => entry.id === tokenId).variable})`),
+    parentSurfaces: ["Background/Neutral/1", "Background/Neutral/2"],
+    use: { tokenId, property: property === "background" ? "background-color" : property === "border" ? "border-color" : property,
+      content, role: tokenId.split("/")[0].toLowerCase(), context: "local-recipe", interaction: "non-interactive",
+      critical: content === "text", recipeId: "manage-tree-pattern", evidenceRef: "docs/plans/2026-09-25-tree-implementation-rules.md" },
+  }));
+}
+
+export function getTreePageColorConsumers() {
+  const filePath = "apps/playground/src/docs/components/tree-page.css";
+  const rows = [
+    [".tree-page", "color", "Text/Neutral/1", "text"],
+    [".tree-page__header a", "color", "Text/Brand/1", "text"],
+    [".tree-page__header p, .tree-page__panel > p", "color", "Text/Neutral/3", "text"],
+    [".tree-page__panel", "border", "Border/Neutral/2", "decorative", "1px solid VAR"],
+    [".tree-page__panel", "background", "Background/Neutral/1", "surface"],
+    [".tree-page__manage-link", "color", "Text/Brand/1", "text"],
+    [".tree-state-copy", "color", "Text/Neutral/3", "text"],
+  ];
+  return rows.map(([selector, property, tokenId, content, template = "VAR"]) => ({
+    filePath, selector, property, value: template.replace("VAR", `var(${colorTokenOutputs.find(entry => entry.id === tokenId).variable})`),
+    parentSurfaces: ["Background/Neutral/1", "Background/Neutral/2"],
+    use: { tokenId, property: property === "background" ? "background-color" : property === "border" ? "border-color" : property,
+      content, role: tokenId.split("/")[0].toLowerCase(), context: "local-recipe", interaction: "non-interactive",
+      critical: content === "text", ...(tokenId.includes('/Brand/') ? { brandIntent: "action" } : {}), recipeId: "tree-playground", evidenceRef: "docs/plans/2026-09-25-tree-implementation-rules.md" },
+  }));
 }
 
 export function getTabsColorConsumers() {

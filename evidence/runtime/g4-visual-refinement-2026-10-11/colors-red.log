@@ -1,0 +1,78 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g4-visual-refinement.test.ts (9 tests | 2 failed | 7 skipped) 53ms
+     × checks every actual document paint and only its exact native forced-color fallbacks 47ms
+     × cannot recategorize necessary error text or broaden native system colors 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g4-visual-refinement.test.ts > G4 feedback document paints > checks every actual document paint and only its exact native forced-color fallbacks
+AssertionError: expected [ …(31) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-panel background",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-panel color",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-panel border",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-muted, .g4-doc-type-spec color",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-body, .g4-doc-feedback, .g4-doc-resource-footer, .g4-doc-read-state color",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-type-row + .g4-doc-type-row border-block-start",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-resource-header border-block-end",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-file background",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-file color",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-read-state > .rain-icon color",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-resource-footer border-block-start",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-task-feedback color",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-task-feedback[data-kind=\"error\"] color",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/g4-component-pages.css: .g4-doc-task-feedback[data-kind=\"complete\"] > .rain-icon color",
++   "Missing registered CSS paint: apps/playground/src/docs/components/g4-component-pages.css .g4-doc-copy > .rain-type-ui-caption, .g4-doc-copy > .rain-type-ui-supporting, .g4-doc-statistic > p color",
++   "Missing registered CSS paint: apps/playground/src/docs/components/g4-component-pages.css .g4-doc-feedback color",
++   "Missing registered CSS paint: apps/playground/src/docs/components/g4-component-pages.css .g4-doc-statistic color",
++   "Missing registered CSS paint: apps/playground/src/docs/components/g4-component-pages.css .g4-doc-detail background",
++   "Category/local colors require registered Token consumer metadata: apps/playground/src/docs/components/g4-component-pages.css",
++   "Raw/private or unregistered Category/display color in apps/playground/src/docs/components/g4-component-pages.css",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/g4-component-pages.css: background: var(--rain-category-background-neutral-1)",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/g4-component-pages.css: color: var(--rain-category-text-neutral-1)",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/g4-component-pages.css: color: var(--rain-category-text-neutral-4)",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/g4-component-pages.css: color: var(--rain-category-text-neutral-3)",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/g4-component-pages.css: background: var(--rain-category-background-neutral-2)",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/g4-component-pages.css: color: var(--rain-category-icon-neutral-3)",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/g4-component-pages.css: color: var(--rain-category-icon-green-1)",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/g4-component-pages.css: color: var(--rain-category-text-red-1)",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/g4-component-pages.css: border-color: CanvasText",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/g4-component-pages.css: color: CanvasText",
++   "Unregistered border color in apps/playground/src/docs/components/g4-component-pages.css: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3)",
++ ]
+
+ ❯ scripts/g4-visual-refinement.test.ts:128:136
+    126|   };
+    127|   it("checks every actual document paint and only its exact native for…
+    128|     expect(validateRegisteredRecipeColors({ filePath, source: readFile…
+       |                                                                                                                                        ^
+    129|   });
+    130|   it("cannot recategorize necessary error text or broaden native syste…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/g4-visual-refinement.test.ts > G4 feedback document paints > cannot recategorize necessary error text or broaden native system colors
+TypeError: Cannot read properties of undefined (reading 'use')
+ ❯ scripts/g4-visual-refinement.test.ts:132:18
+    130|   it("cannot recategorize necessary error text or broaden native syste…
+    131|     const value = outputs(), error = value.colorCssConsumers.find((row…
+    132|     expect(error.use.content).toBe("text"); expect(error.use.critical)…
+       |                  ^
+    133|     error.use.content = "decorative"; error.use.critical = false;
+    134|     const source = readFileSync(join(root, filePath), "utf8");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 7 skipped (9)
+   Start at  21:55:19
+   Duration  1.13s (transform 314ms, setup 132ms, import 421ms, tests 53ms, environment 434ms)
+

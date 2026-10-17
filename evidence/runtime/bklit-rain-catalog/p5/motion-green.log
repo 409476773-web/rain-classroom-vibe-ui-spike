@@ -1,0 +1,70 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/chart-motion.test.tsx (1 test | 1 failed) 15ms
+   × reduced-motion chart positions update immediately without spring lag 14ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/chart-motion.test.tsx > reduced-motion chart positions update immediately without spring lag
+AssertionError: expected +0 to be 80 // Object.is equality
+
+- Expected
++ Received
+
+- 80
++ 0
+
+ ❯ packages/ui/src/charts/chart-motion.test.tsx:9:32
+      7|   const { result } = renderHook(() => useChartSpring(0, { stiffness: 1…
+      8|   act(() => result.current.set(80));
+      9|   expect(result.current.get()).toBe(80);
+       |                                ^
+     10|   vi.unstubAllGlobals();
+     11| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯ Uncaught Exception ⎯⎯⎯⎯⎯
+Error: There was an error during concurrent rendering but React was able to recover by instead synchronously rendering the entire root.
+ ❯ throwException node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:9634:9
+ ❯ throwAndUnwindWorkLoop node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:17717:11
+ ❯ renderRootSync node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:17447:19
+ ❯ performWorkOnRoot node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:16504:11
+ ❯ performWorkOnRootViaSchedulerTask node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:18957:7
+ ❯ flushActQueue node_modules/.pnpm/react@19.2.8/node_modules/react/cjs/react.development.js:590:34
+ ❯ process.env.NODE_ENV.exports.act node_modules/.pnpm/react@19.2.8/node_modules/react/cjs/react.development.js:884:10
+ ❯ node_modules/.pnpm/@testing-library+react@16.3.3_@testing-library+dom@10.4.1_@types+react-dom@19.2.5_@type_c38086125510dbe15bc748c691246c8e/node_modules/@testing-library/react/dist/act-compat.js:46:25
+ ❯ renderRoot node_modules/.pnpm/@testing-library+react@16.3.3_@testing-library+dom@10.4.1_@types+react-dom@19.2.5_@type_c38086125510dbe15bc748c691246c8e/node_modules/@testing-library/react/dist/pure.js:198:26
+ ❯ render node_modules/.pnpm/@testing-library+react@16.3.3_@testing-library+dom@10.4.1_@types+react-dom@19.2.5_@type_c38086125510dbe15bc748c691246c8e/node_modules/@testing-library/react/dist/pure.js:300:10
+
+This error originated in "packages/ui/src/charts/chart-motion.test.tsx" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "reduced-motion chart positions update immediately without spring lag". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+Caused by: TypeError: motionMediaQuery.addEventListener is not a function
+ ❯ initPrefersReducedMotion ../../../%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/node_modules/.pnpm/motion-dom@12.43.0/node_modules/motion-dom/dist/es/render/utils/reduced-motion/index.mjs:11:26
+ ❯ useReducedMotion ../../../%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/node_modules/.pnpm/framer-motion@12.43.0_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion.mjs:36:42
+ ❯ useChartSpring packages/ui/src/charts/vendor/charts/motion-utils.ts:10:19
+ ❯ packages/ui/src/charts/chart-motion.test.tsx:7:39
+ ❯ TestComponent node_modules/.pnpm/@testing-library+react@16.3.3_@testing-library+dom@10.4.1_@types+react-dom@19.2.5_@type_c38086125510dbe15bc748c691246c8e/node_modules/@testing-library/react/dist/pure.js:339:27
+ ❯ Object.react_stack_bottom_frame node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:25904:20
+ ❯ renderWithHooks node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:7662:22
+ ❯ updateFunctionComponent node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:10166:19
+ ❯ beginWork node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:11778:18
+ ❯ runWithFiberInDEV node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:874:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+     Errors  1 error
+   Start at  00:14:01
+   Duration  681ms (transform 25ms, setup 97ms, import 100ms, tests 15ms, environment 380ms)
+

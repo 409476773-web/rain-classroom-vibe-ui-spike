@@ -1,0 +1,140 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+
+id: "ui-button"
+name: "Button"
+category: "ui"
+assetIdentity: "local-experiment"
+maturity: "prototype-ready"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/button/button.tsx"
+styleSourcePath: "packages/ui/src/button/button.styles.ts"
+publication: "unpublished"
+
+description: "Triggers one immediate action while keeping hierarchy and dangerous intent independent."
+useWhen:
+  - "A user must trigger a form, toolbar, or page action."
+  - "The action needs an explicit primary, secondary, tertiary, or text hierarchy."
+doNotUseWhen:
+  - "Navigation should use Link."
+  - "An icon-only action should use IconButton."
+  - "A complete confirmation flow belongs to a Dialog or application pattern."
+
+anatomy:
+  - "Root"
+  - "LeadingIcon"
+  - "Label"
+  - "TrailingIcon"
+  - "LoadingIndicator"
+parts:
+  - "root"
+  - "leading-icon"
+  - "label"
+  - "trailing-icon"
+  - "loading-indicator"
+
+props:
+  - "variant"
+  - "tone"
+  - "size"
+  - "block"
+  - "loading"
+  - "loadingLabel"
+  - "leadingIcon"
+  - "trailingIcon"
+  - "className"
+  - "localRecipe"
+  - "native button props"
+variants:
+  ordinary:
+    - "primary"
+    - "secondary"
+    - "tertiary"
+  text:
+    - "text"
+tones:
+  ordinary:
+    - "default"
+    - "danger"
+  text:
+    - "default"
+    - "brand"
+    - "danger"
+sizes:
+  ordinary:
+    - "mini"
+    - "small"
+    - "medium"
+    - "large"
+    - "xl"
+  text:
+    - "small"
+    - "compact"
+    - "regular"
+states:
+  - "default"
+  - "loading"
+  - "disabled"
+densities:
+  compactDefault: "small"
+  defaultDefault: "medium"
+  textCompactDefault: "compact"
+  textDefaultDefault: "regular"
+
+tokens:
+  - "--rain-button-*"
+  - "--rain-color-surface-panel"
+compositionRules:
+  - "Hierarchy and dangerous intent remain separate axes."
+  - "Visible text is required; icon-only actions are not Button."
+  - "Loading remains focusable, exposes aria-busy and aria-disabled, and blocks repeated activation."
+  - "Native disabled takes precedence over loading."
+  - "className is layout-only; governed visual changes use a named Local Recipe."
+allowedModifications:
+  - "Change visible label and registered leading or trailing icon."
+  - "Choose an existing variant, tone, size, or explicit block layout."
+  - "Use a feature-scoped named Local Recipe for declared Parts."
+restrictedModifications:
+  - "Do not introduce business state or navigation semantics."
+  - "Do not use Tailwind defaults, arbitrary visual values, private reference Tokens, or important overrides."
+  - "Do not change the managed Master for a page-local request."
+accessibility:
+  - "Uses a native button and forwards native attributes and ref."
+  - "Keyboard activation uses Enter and Space."
+  - "Keyboard Focus uses a thin Border/Brand/1 outline and a Fill/Brand/Alpha/3 outer halo; Forced Colors remains visible."
+  - "Loading remains focusable and prevents duplicate activation."
+visualLineage:
+  rainClassicReferences:
+    - "Rain Classic Button and TextButton"
+  externalReferences:
+    - "shadcn-style source ownership and CVA composition only"
+  retainedTraits:
+    - "Three hierarchy levels"
+    - "Independent dangerous intent"
+    - "Five ordinary sizes and separate compact text sizes"
+    - "Canonical Rain loading artwork"
+  redesignedTraits:
+    - "Tailwind-first static class composition"
+  intentionallyNotInherited:
+    - "Tailwind default palette, radius, shadow, and typography"
+lifecycle:
+  implementation: "tailwind-first-cva-local-recipe"
+  automatedVerification: "task-7-passed"
+  ordinaryHumanGate: "accepted"
+  textHumanGate: "accepted"
+tokenMigration:
+  source: "packages/foundations/src/button-token-contract.ts"
+  design: "docs/plans/2026-09-05-size-density-first-recipes.md"
+  implementation: "completed"
+  automatedVerification: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  reviewRoute: "#button-tokens"
+  focusHumanGate: "accepted"
+  decisions:
+    - "Danger Primary uses Fill/Red/Solid/2 and OnColor foregrounds; hover deepens the existing red source. Its text contrast exception was explicitly accepted by the user."
+    - "Ordinary Loading fades only backgrounds and borders to 0.82; foregrounds retain their original tone."
+    - "Ordinary Disabled retains each tone with original group opacity: primary 0.3, secondary and tertiary 0.4."
+    - "Eight complete size recipes and explicit Size precedence are preserved."
+    - "Dual-icon buttons retain the leading color and use a quieter same-family trailing icon; single icons retain their existing role."
+    - "Button and TextButton follow the global keyboard Focus colors: Border/Brand/1 with Fill/Brand/Alpha/3, 1px outline at offset 0px. Their outer shadows retain primary 4px, secondary/tertiary 3px and text 3px. Forced Colors uses a 2px CanvasText outline at offset 2px without a shadow."

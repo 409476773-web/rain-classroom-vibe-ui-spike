@@ -1,0 +1,77 @@
+--- run-coverage.py
++++ run-coverage-chunked.py
+@@ -1,12 +1,13 @@
+ """Local experiment: incremental receipts with one coverage review in an ephemeral read-only thread.
+ 
+-Usage: python3 -B run-coverage.py CONTEXT OUT PROMPT IMAGE IMAGE
++Usage: python3 -B run-coverage-chunked.py CONTEXT OUT PROMPT IMAGE IMAGE
+ No model/effort override; no reasoning events or command-output bodies are exported.
+ """
+ import hashlib
+ import json
+ import mimetypes
+ import queue
++import re
+ import subprocess
+ import sys
+ import threading
+@@ -40,6 +41,16 @@
+ def image_inputs(images):
+     return [{'type': 'localImage', 'path': str(path)} for path in images]
+ 
++
++
++
++def matching_source_lines(source_lines, output):
++    candidates = set()
++    for line in output.splitlines():
++        line = line.strip()
++        candidates.add(line)
++        candidates.add(re.sub(r'^\d+[:\t]\s*', '', line))
++    return source_lines & candidates
+ 
+ 
+ def validate_receipt(value):
+@@ -97,6 +108,8 @@
+     designer = skill.parent / 'references/designer.md'
+     source_paths = {'skill': skill, 'designer': designer, 'guide': context / 'docs/ai/prototype-design.md'}
+     source_texts = {name: path.read_text().strip() for name, path in source_paths.items()}
++    source_lines = {name: {line.strip() for line in text.splitlines() if line.strip()} for name, text in source_texts.items()}
++    seen_source_lines = {name: set() for name in source_texts}
+     prompt = prompt_path.read_text()
+     metadata = []
+     for path in images:
+@@ -111,6 +124,8 @@
+                'requestedReadOnly': {'ephemeral': True, 'sandbox': 'read-only', 'approvalPolicy': 'never',
+                                      'networkAccess': False},
+                'readEvidence': {name: {'fullTextInCommandOutput': False, 'itemIds': [],
++                                      'fullTextAcrossCommandOutputs': False, 'lineMatchItemIds': [],
++                                      'expectedUniqueNonblankLines': len(source_lines[name]), 'matchedUniqueNonblankLines': 0,
+                                       'strippedTextSha256': hashlib.sha256(text.encode()).hexdigest(),
+                                       'fileSha256': hashlib.sha256(source_paths[name].read_bytes()).hexdigest()}
+                                 for name, text in source_texts.items()},
+@@ -178,6 +193,15 @@
+                         if text and text in command_output:
+                             summary['readEvidence'][name]['fullTextInCommandOutput'] = True
+                             summary['readEvidence'][name]['itemIds'].append(item.get('id'))
++                        matched = matching_source_lines(source_lines[name], command_output)
++                        if matched:
++                            seen_source_lines[name].update(matched)
++                            evidence = summary['readEvidence'][name]
++                            evidence['lineMatchItemIds'].append(item.get('id'))
++                            evidence['matchedUniqueNonblankLines'] = len(seen_source_lines[name])
++                            evidence['fullTextAcrossCommandOutputs'] = seen_source_lines[name] == source_lines[name]
++                            evidence['unmatchedNonblankLineNumbers'] = [number for number, line in enumerate(text.splitlines(), 1)
++                                if line.strip() and line.strip() not in seen_source_lines[name]]
+         if event.get('method') == 'turn/completed' and params.get('threadId') == root_id:
+             turn_completions[params['turn']['id']] = params['turn']
+         return event
+@@ -267,7 +291,7 @@
+                        threadSettings={key: thread.get(key) for key in ['approvalPolicy', 'sandbox', 'reasoningEffort']})
+         summary['preparation'] = run_stage('prepare', [{'type': 'text', 'text': prompt},
+             {'type': 'skill', 'name': 'rain-designer', 'path': str(skill)}], 4)
+-        if not all(item['fullTextInCommandOutput'] for item in summary['readEvidence'].values()):
++        if not all(item['fullTextAcrossCommandOutputs'] for item in summary['readEvidence'].values()):
+             raise RuntimeError('preparation ended without full-text reading evidence for all three documents')
+         next_prompt = prompt_path.with_name('next-prompt.txt').read_text()
+         summary['receipts'] = []

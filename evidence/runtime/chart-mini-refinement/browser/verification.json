@@ -1,0 +1,48 @@
+{
+  "scope": "Local Chromium mini refinement; targeted cases from three Playwright configurations",
+  "finalAffectedRuns": { "businessCases": 3, "standardRingCases": 2, "passed": true, "exitCode": 0 },
+  "finalFooterReadingRun": { "businessCases": 1, "passed": true, "exitCode": 0, "fontSize": "18px", "lineHeight": "22px", "fontFamily": "\"LINE Seed JP App_OTF\", \"SF Pro Rounded\", ui-rounded, sans-serif", "cardBaselineDifferencePx": 0 },
+  "results": {
+    "chart-business.config.ts": {
+      "uniqueCasesVerified": 23,
+      "passed": true,
+      "runs": "Full 21-case run passed, then new unavailable/ranking and fresh reduced SVG cases passed; changed center, standard host and ordinary maximum hover cases were retested. The existing host case was last retested for footer 18px/22px Data font after the title selector was narrowed."
+    },
+    "bklit-catalog.config.ts": {
+      "uniqueCasesVerified": 20,
+      "passed": true,
+      "runs": "Five mini cases plus fifteen standard line/area/bar/pie/ring viewport cases; eighteen initially passed, then standard ring 900/390px passed after the measured-size readiness fix."
+    },
+    "charts-playground.config.ts": {
+      "uniqueCasesVerified": 6,
+      "passed": true,
+      "runs": "Full six-case run passed after native origin filtering preserved the existing seventeen native entries and fifteen native monochrome entries."
+    }
+  },
+  "evidence": {
+    "viewports": "sizes/gallery-1440.json, sizes/gallery-916.json, sizes/gallery-390.json",
+    "zoom": "sizes/page-zoom-200.json, sizes/text-only-200.json",
+    "hover": "sizes/radial-hover.json and hover-kind-size.png",
+    "hostReadings": "sizes/host-readings.json, sizes/unavailable-readings.json",
+    "rankingTextStress": "sizes/ranking-integer.json",
+    "batch": "embedding/batch-facts.json",
+    "performance": "embedding/performance.json",
+    "motion": "motion/pie-compact.json, motion/pie-comfortable.json, motion/arc-compact.json, motion/arc-comfortable.json",
+    "catalog": "catalog/mini/*-facts.json",
+    "playground": "playground/entry-facts.json"
+  },
+  "checks": {
+    "focusedStrictTypecheck": "Passed using the repository node-runtime declarations and the five owned browser test/config files.",
+    "wholeProjectTestsTypecheck": "Attempt reported four unrelated existing errors: two toast role-option types and two chart feedback reducedMotion configuration types. Those files were not changed."
+  },
+  "limits": [
+    "Chromium only; Safari, Firefox and assistive technology were not tested.",
+    "200% uses Chromium device metrics: 1440 physical pixels mapped to 720 CSS pixels with scale factor 2. Native browser-menu zoom and OS text settings were not operated.",
+    "Independent text enlargement doubles caption and progress font size and line height; it is a controlled layout stress test.",
+    "Reduced motion is tested from a fresh page. Dynamic OS preference changes are not a supported result of this verification.",
+    "Frame intervals and long tasks are a 900ms local update sample. Observed approximately 132/133ms long tasks prevent any sustained 60fps claim.",
+    "Large ranking number stress changes only DOM text. It does not claim chart ratios or business data bindings for that injected number.",
+    "Ring data updates retain the existing spring and stabilize in roughly 1.9s in the measured poll; the 650ms mini setting controls entry timing.",
+    "No human visual gate, Git/Figma write, publication or business migration is implied."
+  ]
+}

@@ -1,0 +1,242 @@
+
+Running 6 tests using 1 worker
+
+(node:40407) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow (17.2s)
+(node:41214) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-390] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow (9.9s)
+(node:41673) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [firefox-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow (20.2s)
+(node:42098) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [firefox-390] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow (19.3s)
+(node:42893) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 [webkit-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow (20.0s)
+(node:43299) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  6 [webkit-390] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow (18.4s)
+
+
+  1) [chromium-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-rain-id="chart-network"]').locator('svg').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-network"]').locator('svg').first()
+
+
+      16 |       const host = page.locator(`[data-rain-id="chart-${entry.id}"]`);
+      17 |       if (entry.id === "matrix") await expect(host.locator('[data-rain-id="ui-chart-matrix"]').first()).toBeVisible();
+    > 18 |       else await expect(host.locator("svg").first()).toBeVisible();
+         |                                                      ^
+      19 |       const summaries = host.locator("summary").filter({ hasText: "查看精确数据" });
+      20 |       for (let index = 0; index < await summaries.count(); index++) await summaries.nth(index).click();
+      21 |       await expect(host.locator("tbody tr").first()).toBeVisible();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:18:54
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-chromium-1440/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-chromium-1440/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-chromium-1440/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-chromium-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium-390] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow 
+
+    Error: locator.allTextContents: Execution context was destroyed, most likely because of a navigation
+
+      20 |       for (let index = 0; index < await summaries.count(); index++) await summaries.nth(index).click();
+      21 |       await expect(host.locator("tbody tr").first()).toBeVisible();
+    > 22 |       const rows = await host.locator("tbody tr").allTextContents();
+         |                                                   ^
+      23 |       expect(rows.length).toBeGreaterThan(0);
+      24 |       expect(rows.join(" ")).not.toMatch(/NaN|Infinity|undefined/);
+      25 |       const invalidGeometry = await host.locator("svg [d],svg [points],svg [transform],svg [cx],svg [x]").evaluateAll(nodes => nodes.flatMap(node => [...node.attributes].filter(attribute => /^(d|points|transform|cx|cy|x|y|width|height|r)$/.test(attribute.name) && /NaN|Infinity|undefined/.test(attribute.value)).map(attribute => ({ tag: node.tagName, name: attribute.name, value: attribute.value }))));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:22:51
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-chromium-390/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-chromium-390/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-chromium-390/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-chromium-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [firefox-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-rain-id="chart-network"]').locator('svg').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-network"]').locator('svg').first()
+
+
+      16 |       const host = page.locator(`[data-rain-id="chart-${entry.id}"]`);
+      17 |       if (entry.id === "matrix") await expect(host.locator('[data-rain-id="ui-chart-matrix"]').first()).toBeVisible();
+    > 18 |       else await expect(host.locator("svg").first()).toBeVisible();
+         |                                                      ^
+      19 |       const summaries = host.locator("summary").filter({ hasText: "查看精确数据" });
+      20 |       for (let index = 0; index < await summaries.count(); index++) await summaries.nth(index).click();
+      21 |       await expect(host.locator("tbody tr").first()).toBeVisible();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:18:54
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-firefox-1440/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-firefox-1440/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-firefox-1440/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-firefox-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [firefox-390] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-rain-id="chart-network"]').locator('svg').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-network"]').locator('svg').first()
+
+
+      16 |       const host = page.locator(`[data-rain-id="chart-${entry.id}"]`);
+      17 |       if (entry.id === "matrix") await expect(host.locator('[data-rain-id="ui-chart-matrix"]').first()).toBeVisible();
+    > 18 |       else await expect(host.locator("svg").first()).toBeVisible();
+         |                                                      ^
+      19 |       const summaries = host.locator("summary").filter({ hasText: "查看精确数据" });
+      20 |       for (let index = 0; index < await summaries.count(); index++) await summaries.nth(index).click();
+      21 |       await expect(host.locator("tbody tr").first()).toBeVisible();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:18:54
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-firefox-390/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-firefox-390/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-firefox-390/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-firefox-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [webkit-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-rain-id="chart-network"]').locator('svg').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-network"]').locator('svg').first()
+
+
+      16 |       const host = page.locator(`[data-rain-id="chart-${entry.id}"]`);
+      17 |       if (entry.id === "matrix") await expect(host.locator('[data-rain-id="ui-chart-matrix"]').first()).toBeVisible();
+    > 18 |       else await expect(host.locator("svg").first()).toBeVisible();
+         |                                                      ^
+      19 |       const summaries = host.locator("summary").filter({ hasText: "查看精确数据" });
+      20 |       for (let index = 0; index < await summaries.count(); index++) await summaries.nth(index).click();
+      21 |       await expect(host.locator("tbody tr").first()).toBeVisible();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:18:54
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-webkit-1440/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-webkit-1440/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-webkit-1440/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-webkit-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [webkit-390] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-rain-id="chart-network"]').locator('svg').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-network"]').locator('svg').first()
+
+
+      16 |       const host = page.locator(`[data-rain-id="chart-${entry.id}"]`);
+      17 |       if (entry.id === "matrix") await expect(host.locator('[data-rain-id="ui-chart-matrix"]').first()).toBeVisible();
+    > 18 |       else await expect(host.locator("svg").first()).toBeVisible();
+         |                                                      ^
+      19 |       const summaries = host.locator("summary").filter({ hasText: "查看精确数据" });
+      20 |       for (let index = 0; index < await summaries.count(); index++) await summaries.nth(index).click();
+      21 |       await expect(host.locator("tbody tr").first()).toBeVisible();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:18:54
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-webkit-390/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-webkit-390/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-webkit-390/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-01/test-results/cross-engine-all-nineteen--3d066-a-without-document-overflow-webkit-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6 failed
+    [chromium-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow 
+    [chromium-390] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow 
+    [firefox-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow 
+    [firefox-390] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow 
+    [webkit-1440] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow 
+    [webkit-390] › evidence/runtime/chart-closeout-2026-10-11/quality/core/cross-engine.spec.ts:7:1 › all nineteen current default chart entries render finite geometry and expose exact data without document overflow 

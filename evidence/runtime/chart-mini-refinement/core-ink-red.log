@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx (25 tests | 1 failed) 393ms
+   × 100 percent ink moves outside when its corners cross the circular inner area despite fitting the diameter 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > 100 percent ink moves outside when its corners cross the circular inner area despite fitting the diameter
+Error: expect(element).toHaveAttribute("data-placement", "outside") // element.getAttribute("data-placement") === "outside"
+
+Expected the element to have attribute:
+  data-placement="outside"
+Received:
+  data-placement="center"
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:246:19
+    244|   expect(reading.getBoundingClientRect().width).toBeLessThan(56);
+    245|   expect(reading.getBoundingClientRect().height).toBeLessThan(56);
+    246|   expect(reading).toHaveAttribute("data-placement","outside");
+       |                   ^
+    247|   expect(ink.measureText).toHaveBeenCalledWith("100%");
+    248|   expect(view.getAllByText("100%")).toHaveLength(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 24 passed (25)
+   Start at  01:13:11
+   Duration  2.07s (transform 729ms, setup 104ms, import 1.04s, tests 393ms, environment 426ms)
+

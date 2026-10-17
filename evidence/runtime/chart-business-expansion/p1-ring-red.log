@@ -1,0 +1,57 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/ring-compact.test.tsx (5 tests | 5 failed) 32ms
+   × compact padding preserves readable ring geometry and defaults remain compatible 24ms
+   × invalid compact padding -1 is rejected 3ms
+   × invalid compact padding NaN is rejected 2ms
+   × invalid compact padding Infinity is rejected 2ms
+   × invalid compact padding 24 is rejected 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/ring-compact.test.tsx > compact padding preserves readable ring geometry and defaults remain compatible
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  22
+Received:
+  16
+ ❯ packages/ui/src/charts/ring-compact.test.tsx:12:38
+     10| test("compact padding preserves readable ring geometry and defaults re…
+     11|   const view = render(<RingChart data={data} size={48} baseInnerRadius…
+     12|   expect(view.getByTestId("radius")).toHaveTextContent("22");
+       |                                      ^
+     13|   view.rerender(<RingChart data={data} size={48} baseInnerRadius={18} …
+     14|   expect(Number(view.getByTestId("radius").textContent)).toBeCloseTo(1…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  packages/ui/src/charts/ring-compact.test.tsx > invalid compact padding -1 is rejected
+ FAIL  packages/ui/src/charts/ring-compact.test.tsx > invalid compact padding NaN is rejected
+ FAIL  packages/ui/src/charts/ring-compact.test.tsx > invalid compact padding Infinity is rejected
+ FAIL  packages/ui/src/charts/ring-compact.test.tsx > invalid compact padding 24 is rejected
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ packages/ui/src/charts/ring-compact.test.tsx:17:98
+     15| });
+     16| test.each([-1, NaN, Infinity, 24])("invalid compact padding %s is reje…
+     17|   expect(() => render(<RingChart data={data} size={48} padding={paddin…
+       |                                                                                                  ^
+     18| });
+     19|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  22:19:28
+   Duration  731ms (transform 119ms, setup 99ms, import 149ms, tests 32ms, environment 365ms)
+

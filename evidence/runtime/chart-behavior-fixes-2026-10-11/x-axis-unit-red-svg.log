@@ -1,0 +1,32 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx (13 tests | 1 failed) 119ms
+   × the SVG viewport is limited by its actual container while measured coordinates catch up 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > the SVG viewport is limited by its actual container while measured coordinates catch up
+AssertionError: expected '' to be '100%' // Object.is equality
+
+- Expected
++ Received
+
+- 100%
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:204:36
+    202|   const chart = fixture();
+    203|   expect(chart.svg.getAttribute("width")).toBe("600");
+    204|   expect(chart.svg.style.maxWidth).toBe("100%");
+       |                                    ^
+    205|   chart.update({ width: 390 });
+    206|   expect(chart.svg.getAttribute("width")).toBe("390");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 passed (13)
+   Start at  12:28:50
+   Duration  961ms (transform 143ms, setup 99ms, import 284ms, tests 119ms, environment 371ms)
+

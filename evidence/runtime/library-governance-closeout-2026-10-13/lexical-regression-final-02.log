@@ -1,0 +1,50 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-tailwind-b2.test.ts (182 tests | 1 failed | 181 skipped) 71776ms
+     × emits only Rain utilities or the current explicit structural allowlist from real sources 17549ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > emits only Rain utilities or the current explicit structural allowlist from real sources
+AssertionError: unexpected non-Rain utilities: 15s;transition-duration:.15s}.duration-200, 2s;transition-duration:.2s}.duration-500, 65em}.text-\[10px\], 75rem\)\], 875rem\)\], \@container\/chart-center, \[--color\:var\(--muted-foreground\)\], \[--shimmering-color\:var\(--foreground\)\], aspect-\[21\/16\], basis-full, focus\:outline-none:focus, h-\[16\%\], ms-auto, sticky, text-\[0\.65em\], w-\[16\%\]: expected [ …(16) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "15s;transition-duration:.15s}.duration-200",
++   "2s;transition-duration:.2s}.duration-500",
++   "65em}.text-\\[10px\\]",
++   "75rem\\)\\]",
++   "875rem\\)\\]",
++   "\\@container\\/chart-center",
++   "\\[--color\\:var\\(--muted-foreground\\)\\]",
++   "\\[--shimmering-color\\:var\\(--foreground\\)\\]",
++   "aspect-\\[21\\/16\\]",
++   "basis-full",
++   "focus\\:outline-none:focus",
++   "h-\\[16\\%\\]",
++   "ms-auto",
++   "sticky",
++   "text-\\[0\\.65em\\]",
++   "w-\\[16\\%\\]",
++ ]
+
+ ❯ scripts/verify-tailwind-b2.test.ts:3427:103
+    3425|         !currentStructuralAllowlist.has(normalizeUtility(utility)) &&
+    3426|         !unusedScannerOutput.has(utility) && !scopedOutput.has(utility…
+    3427|       expect(unexpectedUtilities, `unexpected non-Rain utilities: ${un…
+       |                                                                                                       ^
+    3428|     } finally {
+    3429|       rmSync(outputRoot, { recursive: true, force: true });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 181 skipped (182)
+   Start at  00:17:00
+   Duration  73.16s (transform 432ms, setup 156ms, import 566ms, tests 71.78s, environment 569ms)
+

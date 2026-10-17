@@ -1,11 +1,25 @@
+import { prepareQuestionnaireReuseColors } from "./questionnaire-reuse-governance.mjs";
+import { getG6SourceBindings, getQuestionnaireCloseoutRoot, withSourceBindingTraversal } from "./verification-helpers.mjs";
+import { verifyG6ColorConsumers, g6ColorSourcePaths } from "./g6-color-consumers.mjs";
+import { getButtonGroupRepairSourceBindings, getG23DocumentationSourceBindings, hasButtonGroupRepairAuthorization, hasG123PlaygroundAssetizationAuthorization, hasG23FamilyVisualRefinementAuthorization, hasG23RemainingVisualRefinementAuthorization, hasSheetTaskRefinementAuthorization } from "./verification-helpers.mjs";
+import { getRecordedNavigationSourceBindings, getLibraryGovernanceCloseoutSourceBindings, hasTreeAuthorization } from "./verification-helpers.mjs";
+import { navigationColorSourceAudit } from "./navigation-w7-colors.mjs";
+import { getG4SourceBindings, g4ComponentFiles, hasG4ComponentsAuthorization, hasG4VisualRefinementAuthorization, hasG4SizingReviewAuthorization } from "./verification-helpers.mjs";
+import { getG4ColorConsumers } from "./token-foundation-outputs.mjs";
+import { getG5ColorConsumers, verifyG5ColorSources, prepareG5NativePaints, resolveG5ConsumerPaint } from "./g5-color-consumers.mjs";
+import { hasG5ComponentsAuthorization, g5ComponentFiles, hasDateTimeOptimizationAuthorization, dateTimeOptimizationFiles, hasDatePickerUxRefinementAuthorization, datePickerUxRefinementFiles, hasDatePickerVisualFeedbackAuthorization, datePickerVisualFeedbackFiles, hasSliderRefinementAuthorization, sliderRefinementFiles } from "./verification-helpers.mjs";
+import { prepareAlertSource } from "./alert.mjs";
+import { hasAlertAuthorization } from "./verification-helpers.mjs";
+import { hasTooltipAuthorization } from "./verification-helpers.mjs";
 import { getInputNumberColorConsumers, prepareInputNumberSource } from "./input-number.mjs";
 import { hasInputNumberAuthorization } from "./verification-helpers.mjs";
+import { hasTokenFirstV12Authorization, hasTokenFirstV12G1NextAuthorization, hasRecordedPostB2Refinement } from "./verification-helpers.mjs";
 import { hasGenerationQualityAuthorization, hasM2Authorization, hasDialogRefinementAuthorization } from "./verification-helpers.mjs";
 import { hasAvatarFamilyAuthorization } from "./verification-helpers.mjs";
 import { getAvatarColorConsumers, prepareAvatarSource } from "./avatar-family.mjs";
 import { overlayColors } from "../packages/foundations/src/overlay-token-contract.ts";
 import { hasBmBRn10Authorization } from "./verification-helpers.mjs";
-import { getBmBColorConsumers } from "./token-foundation-outputs.mjs";
+import { getBmBColorConsumers, getChartColorConsumers, getTreeColorConsumers } from "./token-foundation-outputs.mjs";
 import { getPaginationColorConsumers, paginationColorSourcePaths } from "./pagination-color-consumers.mjs";
 import { hasEmptyRefinementAuthorization, hasInsideFieldLabelsAuthorization, hasTableVisualRefinementAuthorization, hasTablePaginationReplacementAuthorization, hasTableRn08Authorization } from "./verification-helpers.mjs";
 import { getEmptyColorConsumers, getTableRn08ColorConsumers } from "./token-foundation-outputs.mjs";
@@ -36,6 +50,252 @@ const consumerDirectory = "apps/playground/src/docs/token-foundations/";
 const strings = (value) => typeof value === "string" ? [value] : value && typeof value === "object" ? Object.values(value).flatMap(strings) : [];
 const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const categorySource = /\b(?:bg|text|border|outline|ring)-rain-(?:category|local)-|--rain-(?:category|local)-[a-z0-9]|token-classes\.generated|\b(?:colorTokenOutputs|localColorRecipeOutput)\b/;
+export const recordedPaintProperty = /^(?:color|background(?:-color|-image|-blend-mode)?|border(?:-(?:color|top|bottom|left|right|inline(?:-start|-end)?|block(?:-start|-end)?)(?:-color)?)?|outline(?:-color)?|column-rule(?:-color)?|text-(?:shadow|decoration(?:-color)?|emphasis(?:-color)?)|box-shadow|fill(?:-opacity)?|stroke(?:-opacity)?|stop-(?:color|opacity)|accent-color|caret-color|opacity|filter|backdrop-filter|mask(?:-image|-border|-mode|-composite)?)$/;
+export function collectRecordedJsxPaints(filePath, source) {
+  const parsed = parseSync(filePath, source), inventory = [], counts = new Map();
+  if (parsed.errors.length) throw new Error("Recorded paint source cannot be parsed: " + filePath);
+  const paintKey = key => key.startsWith("--") || recordedPaintProperty.test(key.replace(/[A-Z]/g, letter => "-" + letter.toLowerCase()))
+    || /(?:Color|Fill|Stroke|Opacity|Background)$/.test(key) || /^bodyPattern(?:Positive|Negative)$/.test(key);
+  const add = (node, property, value) => {
+    const sourceFragment = source.slice(node.start, node.end), key = JSON.stringify([property, sourceFragment]);
+    const occurrence = (counts.get(key) ?? 0) + 1; counts.set(key, occurrence);
+    inventory.push({ sourceFragment, property, value: source.slice(value.start, value.end), occurrence });
+  };
+  const visit = node => {
+    if (!node || typeof node !== "object") return;
+    if (node.type === "JSXAttribute" && typeof node.name.name === "string" && paintKey(node.name.name) && node.value) add(node, node.name.name, node.value);
+    if (node.type === "Property" && paintKey(node.key.name ?? String(node.key.value))) add(node, node.key.name ?? String(node.key.value), node.value);
+    if (node.type === "AssignmentExpression" && node.left.type === "MemberExpression" && paintKey(node.left.property.name ?? String(node.left.property.value))) add(node, node.left.property.name ?? String(node.left.property.value), node.right);
+    if (node.type === "CallExpression" && node.callee.type === "MemberExpression" && ["setAttribute", "setAttributeNS", "attr"].includes(node.callee.property.name)) {
+      const index = node.callee.property.name === "setAttributeNS" ? 1 : 0, property = node.arguments[index]?.value;
+      if (typeof property === "string" && paintKey(property) && node.arguments[index + 1]) add(node, property, node.arguments[index + 1]);
+    }
+    if (node.type === "Literal" && typeof node.value === "string" && /rain-(?:category|local)-|token-classes\.generated|var\(--(?:chart|report)-/.test(node.value)
+      || node.type === "TemplateElement" && /rain-(?:category|local)-/.test(node.value.raw)
+      || node.type === "Identifier" && /^(?:colorTokenOutputs|localColorRecipeOutput)$/.test(node.name)) add(node, "token-reference", node);
+    for (const child of Object.values(node)) if (child && typeof child === "object") Array.isArray(child) ? child.forEach(visit) : visit(child);
+  };
+  visit(parsed.program);
+  return inventory;
+}
+const recordedPaintPath = "evidence/runtime/library-governance-closeout-2026-10-13/paint-observations.json";
+export function getLibraryPaintObservations(root = process.cwd()) {
+  if (!existsSync(join(root, recordedPaintPath))) return null;
+  getLibraryGovernanceCloseoutSourceBindings(root);
+  const source = readFileSync(join(root, recordedPaintPath), "utf8");
+  if (createHash("sha256").update(source).digest("hex") !== "139f0790547812d8299ba14c6226c46a285ad0c8940163eb8dd29ea60fb9f0e8") throw new Error("Recorded paint roles, values or original thresholds changed");
+  const record = JSON.parse(source);
+  for (const file of [...record.localSources, ...record.inlineSources]) {
+    if (createHash("sha256").update(readFileSync(join(root, file.filePath))).digest("hex") !== file.sha256) throw new Error("Recorded paint source changed: " + file.filePath);
+  }
+  const additions = getG6SourceBindings(root)?.closeoutSuccessor?.paintObservations;
+  return additions ? { ...record, localSources: [...record.localSources, ...additions.localSources], inlineSources: [...record.inlineSources, ...additions.inlineSources] } : record;
+}
+
+export function validateRecordedPaintSource(file, source) {
+  const failures = [], found = [], counts = new Map(), declared = [...file.inventory, ...(file.opacityInventory ?? [])];
+  if (createHash("sha256").update(source).digest("hex") !== file.sha256) return ["Recorded paint source changed: " + file.filePath];
+  if (file.kind === "finite-jsx-paints") {
+    const key = row => JSON.stringify([row.sourceFragment, row.property, row.value, row.occurrence]);
+    if (JSON.stringify(collectRecordedJsxPaints(file.filePath, source).map(key)) !== JSON.stringify(file.inventory.map(key))) failures.push("Recorded JSX paints differ from their exact property/expression/occurrence inventory");
+    return failures;
+  }
+  const walk = (css, frames = []) => {
+    for (const { header, body } of parseTopLevelCssBlocks(css, "Recorded paint declarations", failures)) {
+      if (header.startsWith("@") && body.includes("{")) { walk(body, [...frames, header]); continue; }
+      for (const line of body.split(";")) {
+        const colon = line.indexOf(":"), property = line.slice(0, colon).trim(), value = line.slice(colon + 1).trim();
+        if (colon < 0 || !property.startsWith("--") && !recordedPaintProperty.test(property)) continue;
+        if (property.startsWith("--") && !/(?:--rain-category-|--rain-local-|--report-class-|#|rgb|hsl|oklch|color\()/i.test(value)) continue;
+        const key = JSON.stringify([frames, header, property]), occurrence = (counts.get(key) ?? 0) + 1; counts.set(key, occurrence);
+        found.push(JSON.stringify([frames, header, property, value, occurrence]));
+      }
+    }
+  };
+  walk(source.replace(/^\s*@(import|source)\b[^;]*;\s*$/gm, ""));
+  const expected = declared.map(row => JSON.stringify([row.frames, row.selector, row.property, row.value, row.occurrence]));
+  if (JSON.stringify(found.sort()) !== JSON.stringify(expected.sort())) failures.push("Recorded paint declarations differ from their exact frame/selector/property/value/occurrence inventory");
+  return failures;
+}
+
+// One documented bugfix successor; the immutable baseline remains the inventory authority.
+export function projectNavigationAccountHoverSource(filePath, source) {
+  if (filePath !== "apps/playground/src/recipes/navigation-v042/r2.css") return source;
+  const hash = value => createHash("sha256").update(value).digest("hex");
+  const before = "c81cbfe619065408231f7ff039c4d235f3f0b221fb85e426f503037951eb1ae0";
+  if (hash(source) === before) return source;
+  const line = '.rain-workspace.nv42-r2 .rain-workspace__region[data-region-id="global"] .nv42-account:enabled:not([aria-disabled="true"]):hover,\n';
+  if (hash(source) !== "6c3145aa2efafcbe0f10414b9de69989d7e5aad09823b4b646c02715424d6ee1" || source.split(line).length !== 2 || hash(source.replace(line, "")) !== before) throw new Error("Navigation R2 successor must be only the exact account-hover repair");
+  return source.replace(line, "");
+}
+
+// Finite metadata integrity only; this never masks source or grants colour conformance.
+export function getNavigationColorConsumerRegistration(root = process.cwd()) {
+  const directory = "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-06/";
+  const ledgerPath = `${directory}navigation-color-consumers.json`;
+  const locked = (path, hash) => {
+    const source = readFileSync(join(root, path), "utf8");
+    if (createHash("sha256").update(source).digest("hex") !== hash) throw new Error(`Navigation consumer integrity: changed ${path}`);
+    return JSON.parse(source);
+  };
+  const ledger = locked(ledgerPath, "dafd3516d33b9dd6e92ea433a13fd31b8b4d08d8bf49357242c1243f96d72dee");
+  const inventory = locked(`${directory}navigation-color-consumers-source.json`, "b7003e6b49533e1d6d94da0aaaf354601531faf9b441c171c54b4db39e443e8f");
+  const phase = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8"));
+  validateTokenFoundationsV1Phase(phase);
+  const navigationSuccessor = getRecordedNavigationSourceBindings(root, phase);
+  const successorPaints = navigationSuccessor ? getLibraryPaintObservations(root)?.navigationAdditions ?? [] : [];
+  if (phase.navigationComponentsV042?.humanGate !== "accepted" || phase.navigationComponentsV042W6W8?.authorization !== "authorized") throw new Error("Navigation consumer registration requires its existing scoped authorization");
+  const humanReview = locked(ledger.humanReview.path, ledger.humanReview.sha256);
+  const freeze = locked(ledger.sourceFreezeMatch.path, ledger.sourceFreezeMatch.sha256);
+  const failures = [], declarations = [], sources = new Map(), matched = [], unlisted = [], sourceSuccessors = [];
+  const occurrences = new Map();
+  for (const file of ledger.sourceFiles) {
+    const current = readFileSync(join(root, file.path), "utf8");
+    const source = projectNavigationAccountHoverSource(file.path, current);
+    const actual = createHash("sha256").update(source).digest("hex"), binding = navigationSuccessor?.sourceFiles[file.path];
+    if (actual !== file.sha256 && !(binding?.before === file.sha256 && binding.after === actual)) throw new Error(`Navigation consumer source integrity: ${file.path}`);
+    if (actual !== file.sha256 && source === current) sourceSuccessors.push({ filePath: file.path, beforeSHA: file.sha256, currentSHA: actual, scope: "recorded-navigation-playground-refinement", humanReview: "not-inherited-from-baseline" });
+    if (source !== current) sourceSuccessors.push({ filePath: file.path, beforeSHA: file.sha256, currentSHA: createHash("sha256").update(current).digest("hex"), evidence: "evidence/runtime/navigation-v042/w7/closure-2026-10-06/account-hover-adoption.json", scope: "R2 global-region enabled account hover only", tokenId: "Fill/Neutral/Alpha/6", property: "background", content: "surface", interaction: "interactive", critical: false, status: "pending-parent-and-state-evidence", humanReview: "not-inherited-from-baseline" });
+    sources.set(file.path, source);
+    if (!Object.hasOwn(freeze.filesSha256, file.path)) unlisted.push(file.path);
+    else if (freeze.filesSha256[file.path] === file.sha256) matched.push(file.path);
+    else throw new Error(`Navigation consumer freeze mismatch: ${file.path}`);
+    if (!file.path.endsWith(".css")) continue;
+    // Only recorded import/source directives are removed from this parser input; all paints remain.
+    const directives = source.match(/^\s*@(import|source)\b[^;]*;\s*$/gm)?.map(line => line.trim()) ?? [];
+    if (JSON.stringify(directives) !== JSON.stringify(file.directives)) throw new Error(`Navigation consumer directives: ${file.path}`);
+    const walk = (css, frames = []) => {
+      for (const { header, body } of parseTopLevelCssBlocks(css, file.path, failures)) {
+        if (header.startsWith("@")) { walk(body, [...frames, header]); continue; }
+        for (const declaration of body.split(";")) {
+          const colon = declaration.indexOf(":"), property = declaration.slice(0, colon).trim();
+          if (colon < 0 || (!property.startsWith("--") && !recordedPaintProperty.test(property))) continue;
+          const key = JSON.stringify([file.path, frames, header, property]);
+          const occurrence = (occurrences.get(key) ?? 0) + 1; occurrences.set(key, occurrence);
+          declarations.push({ filePath: file.path, frames, selector: header, property, value: declaration.slice(colon + 1).trim(), occurrence });
+        }
+      }
+    };
+    walk(source.replace(/^\s*@(import|source)\b[^;]*;\s*$/gm, ""));
+  }
+  const key = row => JSON.stringify([row.filePath, row.frames, row.selector, row.property, row.value, row.occurrence]);
+  const additionKeys = new Set(successorPaints.map(key));
+  if (failures.length || JSON.stringify(declarations.filter(row => !additionKeys.has(key(row))).map(key)) !== JSON.stringify(inventory.inventory.map(key))
+    || JSON.stringify(declarations.filter(row => additionKeys.has(key(row))).map(key)) !== JSON.stringify(successorPaints.map(key))) throw new Error("Navigation consumer authored declarations differ from exact file/frame/selector/property/value/occurrence inventory");
+  const paints = declarations.filter(row => !row.property.startsWith("--"));
+  if (JSON.stringify(paints.filter(row => !additionKeys.has(key(row))).map(key)) !== JSON.stringify(ledger.cssConsumers.map(key))) throw new Error("Navigation consumer paints must match each registered occurrence once");
+  for (const row of ledger.inlineConsumers) if (sources.get(row.filePath)?.split(row.sourceFragment).length !== 2) throw new Error(`Navigation consumer inline paint occurrence: ${row.id}`);
+  if (JSON.stringify(matched) !== JSON.stringify(ledger.sourceFreezeMatch.matchedSourceFiles) || JSON.stringify(unlisted) !== JSON.stringify(ledger.sourceFreezeMatch.unlistedSourceFiles)) throw new Error("Navigation consumer freeze scope changed; gallery samples require their separate G1 scope");
+  const pendingGroups = new Map();
+  for (const row of ledger.unresolvedPaints) {
+    if (!pendingGroups.has(row.groupingHint)) pendingGroups.set(row.groupingHint, []);
+    pendingGroups.get(row.groupingHint).push(row.declarationId);
+  }
+  return {
+    status: "metadata-registered", automatedConformance: "unproved", evidence: ledgerPath,
+    sourceFiles: sources.size, cssPaintOccurrences: paints.length, bindingDeclarations: declarations.length - paints.length,
+    inlinePaints: ledger.inlineConsumers.length, noPaintOccurrences: ledger.cssConsumers.filter(row => row.registrationStatus === "exact-native-nonpaint").length,
+    pendingPaints: ledger.unresolvedPaints.length,
+    sourceSuccessors, successorPaints, totalPendingPaintUses: ledger.unresolvedPaints.length + sourceSuccessors.length + successorPaints.filter(row => row.status !== "non-color-font-alias").length,
+    registeredSourcePaths: ledger.sourceFiles.map(file => file.path), inventoryScope: "Immutable baseline; exact successor uses are reported separately",
+    pendingGroups: [...pendingGroups].map(([reason, declarationIds]) => ({ reason, declarationIds, status: "pending-evidence", evidence: ledgerPath })),
+    humanReview: { status: humanReview.status, scope: humanReview.scope, snapshotId: humanReview.snapshotId, automaticConformance: humanReview.automatedConformance, evidence: ledger.humanReview.path },
+    sourceFreezeBinding: { baselineMatched: matched.length, currentExact: matched.length - sourceSuccessors.length, unlisted, evidence: ledger.sourceFreezeMatch.path, unlistedScope: "Separate earlier G1 gallery scope; not review02 runtime scope" },
+  };
+}
+
+
+// Relocation changes filenames/selectors only: all inherited color roles, surfaces and minima come from the frozen ledgers.
+const g123ColorRegistrationPath = "evidence/runtime/g123-playground-2026-10-07/color-consumers.json";
+function getG123ColorRegistration(root) {
+  const phase = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8"));
+  if (!hasG123PlaygroundAssetizationAuthorization(phase)) throw new Error("G1–G3 color relocation requires its exact current candidate authorization");
+  const source = readFileSync(join(root, g123ColorRegistrationPath), "utf8");
+  if (createHash("sha256").update(source).digest("hex") !== "a64ade992dc869f4d4687e1f98e813635b326874214176be7a594083f9cf92c7") throw new Error("G1–G3 color registration roles, surfaces or source inventory changed");
+  const registration = JSON.parse(source);
+  const successor = hasG23FamilyVisualRefinementAuthorization(phase) ? getG23DocumentationSourceBindings(root, phase) : null;
+  const navigation = getRecordedNavigationSourceBindings(root, phase);
+  for (const [file, expected] of Object.entries(registration.sourceFiles)) {
+    const binding = successor?.sourceFiles[file];
+    const actual = createHash("sha256").update(readFileSync(join(root, file))).digest("hex"), prior = binding?.after ?? expected, next = navigation?.sourceFiles[file];
+    if (binding && binding.before !== expected || actual !== prior && !(next?.before === prior && next.after === actual)) throw new Error(`G1–G3 color successor source changed: ${file}`);
+  }
+  if (successor) {
+    const directory = hasSheetTaskRefinementAuthorization(phase) ? phase.componentRefinements.sheetTaskRefinement.feedbackRefinement ? "sheet-feedback-2026-10-09" : "sheet-task-refinement-2026-10-09" : hasG23RemainingVisualRefinementAuthorization(phase) ? "g2-g3-remaining-families-2026-10-08" : "g2-g3-family-refinement-2026-10-08";
+    const current = JSON.parse(readFileSync(join(root, `evidence/runtime/${directory}/doc-color-consumers.json`), "utf8"));
+    const files = new Set(current.documentation.map(row => row.filePath));
+    registration.documentation = registration.documentation.filter(row => !files.has(row.filePath)).concat(current.documentation);
+  }
+  return registration;
+}
+export function getG123PlaygroundDocumentationColorConsumers(root = process.cwd()) {
+  return getG123ColorRegistration(root).documentation;
+}
+const buttonGroupDocFile = "apps/playground/src/docs/components/button-group-page.css";
+export function getButtonGroupRepairDocumentationColorConsumers(root = process.cwd()) {
+  const phase = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8"));
+  getButtonGroupRepairSourceBindings(root, phase);
+  const style = phase.componentRefinements.buttonGroupRepair.styleRefinement;
+  const sizes = phase.componentRefinements.buttonGroupRepair.sizeRefinement;
+  const path = sizes ? "evidence/runtime/button-group-sizes-2026-10-08/doc-color-consumers.json" : style ? "evidence/runtime/button-group-style-2026-10-08/doc-color-consumers.json" : "evidence/runtime/button-group-repair-2026-10-07/doc-color-consumers.json";
+  const source = readFileSync(join(root, path), "utf8");
+  const checksum = sizes ? "2fcd528704084d286c8d50cfa1eb2055cd0b9981688bb8a045d0eec13d90a961" : style ? "1fc5dd9d316a3b38cae670004c4bd49fc64620c466ef83a1a90aa4b44fc5695f" : "81f40a669b3e922aa6bae3316a456fb407e9b1cfda0043ba39046db50722ec06";
+  if (createHash("sha256").update(source).digest("hex") !== checksum) throw new Error("Button Group dark documentation colors require their recorded roles and surfaces");
+  const registration = JSON.parse(source);
+  if (sizes) {
+    // Sizes add layout only: projecting its one CSS hash must restore every prior paint/role/parent byte.
+    const predecessor = JSON.parse(readFileSync(join(root, "evidence/runtime/button-group-style-2026-10-08/doc-color-consumers.json"), "utf8"));
+    const projection = structuredClone(registration);
+    projection.sourceFiles[buttonGroupDocFile] = predecessor.sourceFiles[buttonGroupDocFile];
+    if (createHash("sha256").update(JSON.stringify(projection, null, 2) + "\n").digest("hex") !== "1fc5dd9d316a3b38cae670004c4bd49fc64620c466ef83a1a90aa4b44fc5695f") throw new Error("Button Group sizes must retain the prior paint roles, parent surfaces and thresholds");
+  }
+  const successor = hasG23FamilyVisualRefinementAuthorization(phase) ? getG23DocumentationSourceBindings(root, phase) : null;
+  for (const [file, expected] of Object.entries(registration.sourceFiles)) {
+    const binding = successor?.sourceFiles[file];
+    if (binding && binding.before !== expected || createHash("sha256").update(readFileSync(join(root, file))).digest("hex") !== (binding?.after ?? expected)) throw new Error(`Button Group dark documentation source changed: ${file}`);
+  }
+  return registration.documentation;
+}
+function relocateG1ColorConsumers(root) {
+  const registration = getG123ColorRegistration(root);
+  const ledgers = {
+    "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/g1-current-color-consumers.json": "18b32a4fdba51cb57ecd98493888a7993a485dde1e31459727783da314c33079",
+    "evidence/runtime/token-first-v12-g1-next/color-consumers.json": "293cc3c76df55727bf81e90f8f4d63aed275d7e5cbc15637cf7a2bbab9f633b3",
+  };
+  const originals = Object.fromEntries(Object.entries(ledgers).map(([file, expected]) => {
+    const source = readFileSync(join(root, file), "utf8");
+    if (createHash("sha256").update(source).digest("hex") !== expected) throw new Error(`Immutable G1 color roles changed: ${file}`);
+    return [file, JSON.parse(source)];
+  }));
+  return registration.relocations.map(({ filePath, selector, property, value, origin }) => {
+    const original = originals[origin.ledger]?.[origin.index];
+    if (!original || original.property !== property || original.value !== value
+      || !(original.selector === selector || selector.split(", ").every(part => original.selector.split(", ").includes(part)))) throw new Error("G1 relocation must retain every original role and unchanged paint");
+    return { ...original, filePath, selector, diagnosticSelector: original.selector, contrastReview: "pending-review" };
+  });
+}
+
+// Finite G1 consumer evidence; shared token outputs and thresholds stay unchanged.
+export function getTokenFirstV12ColorConsumers(root = process.cwd()) {
+  const phase = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8"));
+  if (!hasTokenFirstV12Authorization(phase)) throw new Error("G1 colors require the scoped v1.2 authorization");
+  const source = readFileSync(join(root, "evidence/runtime/token-first-v12-g1/color-consumers.json"), "utf8");
+  if (createHash("sha256").update(source).digest("hex") !== "92180ad08a576ff61797862702d4f2f323e40ecb26f5014e839465451c62910c") throw new Error("G1 color evidence differs from its fixed roles, surfaces or scope");
+  const records = JSON.parse(source);
+  const currentPath = "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/g1-current-color-consumers.json";
+  if (phase.componentRefinements.tokenFirstV12.humanGate === "accepted" && existsSync(join(root, currentPath))) {
+    const current = readFileSync(join(root, currentPath), "utf8");
+    if (createHash("sha256").update(current).digest("hex") !== "18b32a4fdba51cb57ecd98493888a7993a485dde1e31459727783da314c33079"
+      || createHash("sha256").update(readFileSync(join(root, "apps/prototype/src/scenarios/token-first-g1/page.css"))).digest("hex") !== "f9505208cab71c7c76257e5619a06c63c417d2b08b60c8b6ee0317907d83352d" && !hasG123PlaygroundAssetizationAuthorization(phase)) throw new Error("Current G1 color ledger or its accepted CSS source changed");
+    records.splice(0, records.length, ...JSON.parse(current));
+  }
+  if (hasTokenFirstV12G1NextAuthorization(phase)) {
+    const next = readFileSync(join(root, "evidence/runtime/token-first-v12-g1-next/color-consumers.json"), "utf8");
+    if (createHash("sha256").update(next).digest("hex") !== "293cc3c76df55727bf81e90f8f4d63aed275d7e5cbc15637cf7a2bbab9f633b3") throw new Error("G1 next colors differ from their fixed roles or scope");
+    records.push(...JSON.parse(next));
+  }
+  return hasG123PlaygroundAssetizationAuthorization(phase) ? relocateG1ColorConsumers(root) : records;
+}
 
 // This snapshot locks only two local CSS consumers, including real text/data-graphic roles.
 export function getM2ColorConsumers(root = process.cwd()) {
@@ -81,6 +341,13 @@ export function getM2ColorConsumers(root = process.cwd()) {
       records[0] = JSON.parse(workbench);
     }
   }
+  const reportA = phase.componentRefinements?.tokenFirstV12?.reportRefinement;
+  if (reportA) {
+    if (reportA.authorization !== "authorized" || reportA.scope !== "selected-report-a-local-presentation-and-color-evidence") throw new Error("Report A colors require their scoped authorization");
+    const source = readFileSync(join(root, "evidence/runtime/learning-report-a/color-consumers.json"), "utf8");
+    if (createHash("sha256").update(source).digest("hex") !== "474b17b0cde174eb8e040390ad938e63942138e6ca18b492df81a906ddf2cc79") throw new Error("Report A color metadata differs from its scoped roles and thresholds");
+    records.push(JSON.parse(source));
+  }
   return records.flatMap(({ filePath, scope, recipeId, paints }) => paints.map(({ tokenId, content, interaction, critical, brandIntent, minimumContrast, ...paint }) => ({
     filePath, scope, ...paint, minimumContrast,
     value: `${paint.property.startsWith("border") ? "var(--rain-line-thickness-1) solid " : ""}var(${colorTokenOutputs.find(entry => entry.id === tokenId).variable})`,
@@ -88,14 +355,35 @@ export function getM2ColorConsumers(root = process.cwd()) {
     // It does not add SVG properties to the public Category API.
     use: { tokenId, role: tokenId.split("/")[0].toLowerCase(), content,
       property: paint.property === "background" ? "background-color" : paint.property.startsWith("border") || (paint.property === "stroke" && tokenId.startsWith("Border/")) ? "border-color" : ["stroke", "fill"].includes(paint.property) ? "color" : paint.property,
-      context: "local-recipe", recipeId, evidenceRef: phase.componentRefinements?.generationQuality && filePath.includes("/bm-d/") ? "docs/plans/2026-09-15-rain-generation-quality-improvement.md" : "docs/plans/2026-09-15-m2-workbench-report.md", interaction, critical,
+      context: "local-recipe", recipeId, evidenceRef: recipeId === "learning-report-a" ? "docs/plans/2026-09-19-learning-report-a.md" : phase.componentRefinements?.generationQuality && filePath.includes("/bm-d/") ? "docs/plans/2026-09-15-rain-generation-quality-improvement.md" : "docs/plans/2026-09-15-m2-workbench-report.md", interaction, critical,
       ...(brandIntent ? { brandIntent } : {}),
     },
   })));
 }
 
-export function validateTabsPaintRouting(source) {
+export function validateTabsPaintRouting(source, root = process.cwd()) {
   try {
+    // Project only the accepted navigation metadata wrappers back to the original paint contract.
+    // The original routing hash below remains authoritative; this adds no current-source hash exception.
+    if (source.includes('descriptionId?: string')) {
+      const status = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8"));
+      validateTokenFoundationsV1Phase(status);
+      if (status.navigationComponentsV042?.humanGate !== "accepted"
+        || status.navigationComponentsV042W6W8?.authorization !== "authorized") throw new Error("Unapproved Tabs successor");
+      const projection = [
+        ['labelRef, descriptionId }: { item: TabsItem;', 'labelRef }: { item: TabsItem;'],
+        ['labelRef?: React.RefObject<HTMLSpanElement | null>; descriptionId?: string }) {', 'labelRef?: React.RefObject<HTMLSpanElement | null> }) {'],
+        ['  const { appearance, part, iconColumn, props } = useTabs();', '  const { appearance, part, iconColumn } = useTabs();'],
+        ['  const label = <span ref={props.visualPreset ? undefined : labelRef} data-part="label" data-slot="label" data-label={props.visualPreset ? item.label : undefined} className={rainCn("rain-tabs__label", paints.label, part("label"))}>{props.visualPreset ? <span ref={labelRef}>{item.label}</span> : item.label}</span>;\n', ''],
+        ['      {props.visualPreset === "navigation-browser" && item.description ? <span className="rain-navigation__identity"><span id={descriptionId} data-part="description" className={rainCn("rain-navigation__description", part("description"))}>{item.description}</span>{label}</span> : label}', '      <span ref={labelRef} data-part="label" data-slot="label" className={rainCn("rain-tabs__label", paints.label, part("label"))}>{item.label}</span>'],
+        ['      {count && <span data-part="count" data-slot="count" aria-hidden="true" className={rainCn("rain-tabs__count", paints.count, part("count"))}>{props.visualPreset ? item.count : count.display}</span>}', '      {count && <span data-part="count" data-slot="count" aria-hidden="true" className={rainCn("rain-tabs__count", paints.count, part("count"))}>{count.display}</span>}'],
+        ['      <TabParts item={item} selected={selected} labelRef={labelRef} descriptionId={descriptionId} />', '      <TabParts item={item} selected={selected} labelRef={labelRef} />'],
+      ];
+      for (const [accepted, previous] of projection) {
+        if (source.split(accepted).length !== 2) throw new Error("Tabs successor must occur exactly once");
+        source = source.replace(accepted, previous);
+      }
+    }
     const program = parseSync('tabs.tsx', source).program, names = ['TabParts', 'MoreParts'];
     const clean = value => Array.isArray(value) ? value.map(clean) : value && typeof value === 'object'
       ? Object.fromEntries(Object.entries(value).filter(([key]) => !['start', 'end', 'loc', 'raw', 'comments'].includes(key)).map(([key, entry]) => [key, clean(entry)])) : value;
@@ -130,11 +418,64 @@ export function prepareDialogLayoutSource(filePath, source, status) {
   return source;
 }
 
+// G3's two component-local variables are geometry, never color aliases.
+function prepareG3NativeGeometry(source, failures) {
+  const expected = [
+    [".rain-sheet", "--rain-local-g3-sheet-size", "min(420px, 100vw)"],
+    ['.rain-sheet[data-side="right"]', "width", "var(--rain-local-g3-sheet-size)"],
+    ['.rain-sheet[data-side="left"]', "width", "var(--rain-local-g3-sheet-size)"],
+    [".rain-sidebar", "--rain-local-g3-sidebar-width", "256px"],
+    [".rain-sidebar", "width", "var(--rain-local-g3-sidebar-width)"],
+    [".rain-sidebar", "flex", "0 0 var(--rain-local-g3-sidebar-width)"],
+  ];
+  const counts = expected.map(() => 0);
+  const uncommented = source.replace(/\/\*[\s\S]*?\*\//g, comment => " ".repeat(comment.length));
+  const masked = uncommented.replace(/([^{}]+)\{([^{}]*)\}/g, (block, header, body) => block.replace(body, body.replace(/([\w-]+)\s*:\s*([^;{}]+);/g, (declaration, property, value) => {
+    const index = expected.findIndex(entry => entry[0] === header.trim().replace(/\s+/g, " ") && entry[1] === property && entry[2] === value.trim());
+    if (index < 0) return declaration;
+    counts[index]++;
+    return " ".repeat(declaration.length);
+  })));
+  if (counts.some(count => count !== 1) || /--rain-local-g3-(?:sheet-size|sidebar-width)/.test(masked)) failures.push("G3 geometry must retain its two exact definitions and four owned width/flex uses; it cannot carry paint");
+  return masked;
+}
+
+// These panel edges use the existing Dialog decorative-border contract; scrollbar track and backdrop are surfaces.
+function getG3NativeColorConsumers(status) {
+  const remaining = hasG23RemainingVisualRefinementAuthorization(status);
+  const boundary = remaining ? "Border/Neutral/3" : "Border/Neutral/2";
+  return [
+    ['.rain-scroll-area-scrollbar[data-hovering], .rain-scroll-area-scrollbar[data-scrolling]', "background-color", remaining ? "Fill/Neutral/Alpha/6" : "Fill/Neutral/Alpha/2", "surface"],
+    [".rain-sheet", "border-color", boundary, "decorative"],
+    ['.rain-sheet[data-side="right"]', "border-inline-start", boundary, "decorative"],
+    ['.rain-sheet[data-side="left"]', "border-inline-end", boundary, "decorative"],
+    ['.rain-sheet[data-side="top"]', "border-block-end", boundary, "decorative"],
+    ['.rain-sheet[data-side="bottom"]', "border-block-start", boundary, "decorative"],
+    ...(hasSheetTaskRefinementAuthorization(status) ? [[".rain-sheet-footer", "border-block-start", "Border/Neutral/3", "decorative"]] : []),
+    ...(remaining ? [
+      [".rain-g3-menu-item", "color", "Text/Neutral/1", "text"],
+      [".rain-g3-menu-item[data-disabled]", "color", "Text/Neutral/6", "disabled"],
+      [".rain-g3-menu-separator", "border-block-start", "Border/Neutral/3", "decorative"],
+    ] : [[".rain-sheet-backdrop", "background-color", "Fill/Neutral/Alpha/5", "surface"]]),
+  ].map(([selector, property, tokenId, content]) => ({
+    filePath: "packages/ui/src/styles.css", selector, property,
+    value: `${property.startsWith("border-") && property !== "border-color" ? "var(--rain-line-thickness-1) solid " : ""}var(${colorTokenOutputs.find(entry => entry.id === tokenId).variable})`,
+    parentSurfaces: content === "surface" ? ["Background/Neutral/1", "Background/Neutral/2", "Background/Neutral/3"] : ["Background/Neutral/1"],
+    use: { tokenId, role: tokenId.split("/")[0].toLowerCase(), property: property === "color" ? "color" : content === "decorative" ? "border-color" : "background-color", content,
+      context: "component-recipe", interaction: content === "text" ? "interactive" : "non-interactive", critical: content === "text", recipeId: "token-first-g3-native", evidenceRef: remaining ? "docs/plans/2026-10-08-g2-g3-remaining-families.md" : "docs/plans/2026-09-22-token-first-g3.md" },
+  }));
+}
+
 /** RN-06 runtime variables describe geometry only; no general custom-property or paint exemption. */
 export function validateLayoutsRuntimeGeometry({ filePath, source, status }) {
   const ownsGeometry = ["packages/layouts/src/layout.tsx", "packages/layouts/src/layout.css"].includes(filePath);
   if (!ownsGeometry) return source.includes("--rain-layout-") ? [`RN-06 runtime geometry cannot escape its two owned sources: ${filePath}`] : [];
   if (!hasLayoutsV1Authorization(status)) return ["RN-06 runtime geometry requires its exact authorization"];
+  if (filePath === "packages/layouts/src/layout.css" && source.startsWith("@import './workspace.css';\n")
+    && status?.navigationComponentsV042?.humanGate === "accepted") {
+    try { validateTokenFoundationsV1Phase(status); source = source.slice("@import './workspace.css';\n".length); }
+    catch { return ["Workspace CSS import requires its exact accepted navigation scope"]; }
+  }
   const failures = [];
   const values = {
     "--rain-layout-gap": "compositionSpaceTokens[gap]", "--rain-layout-columns": "columns",
@@ -182,11 +523,25 @@ export function validateLayoutsRuntimeGeometry({ filePath, source, status }) {
 }
 
 /** @param {{filePath: string, source: string, outputs?: ReturnType<typeof getTokenFoundationOutputs>, root?: string, pendingContrastFindings?: any[], pendingEligibilityFindings?: any[], scopedEligibilityDecisions?: any[]}} options */
-export function validateRegisteredRecipeColors({ filePath, source, outputs = getTokenFoundationOutputs(), root = process.cwd(), pendingContrastFindings = [], pendingEligibilityFindings = [], scopedEligibilityDecisions = [] }) {
-  source = prepareDialogLayoutSource(filePath, source, existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {});
+export function validateRegisteredRecipeColors(options) {
+  return withSourceBindingTraversal(options.root ?? process.cwd(), () => validateRegisteredRecipeColorsInTraversal(options));
+}
+
+function validateRegisteredRecipeColorsInTraversal({ filePath, source, outputs = getTokenFoundationOutputs(), root = process.cwd(), pendingContrastFindings = [], pendingEligibilityFindings = [], scopedEligibilityDecisions = [] }) {
   const failures = [], ranges = [];
+  source = prepareQuestionnaireReuseColors(filePath, source, filePath === "packages/ui/src/styles.css" ? getQuestionnaireCloseoutRoot(root) : root, failures, pendingContrastFindings);
+  source = prepareDialogLayoutSource(filePath, source, existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {});
   source = prepareInputNumberSource(filePath, source, existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {}, failures);
   source = prepareAvatarSource(filePath, source, existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {}, failures);
+  const alertPhase = existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {};
+  source = prepareAlertSource(filePath, source, alertPhase, failures);
+  const g3NativeAuthorized = filePath === "packages/ui/src/styles.css" && hasRecordedPostB2Refinement(alertPhase, "tokenFirstV12G3");
+  if (g3NativeAuthorized) source = prepareG3NativeGeometry(source, failures);
+  if (g3NativeAuthorized && hasG23RemainingVisualRefinementAuthorization(alertPhase)) {
+    const rule = ".rain-sheet-backdrop { background-color:var(--rain-overlay-focus); }";
+    if (source.split(rule).length !== 2) failures.push("Sheet must retain its exact existing focus mask consumer");
+    else source = source.replace(rule, " ".repeat(rule.length));
+  }
   if (filePath === "packages/ui/src/dialog/dialog.css") {
     const phase = existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {};
     if (!hasDialogRefinementAuthorization(phase)) failures.push("Dedicated Dialog masks require the exact refinement authorization");
@@ -197,9 +552,77 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
     }
   }
 
-  if (filePath === 'packages/ui/src/tabs/tabs.tsx') failures.push(...validateTabsPaintRouting(source));
+  if (filePath === 'packages/ui/src/tabs/tabs.tsx') failures.push(...validateTabsPaintRouting(source, root));
   const recipes = outputs.colorRecipeConsumers.filter((entry) => entry.filePath === filePath);
-  const cssConsumers = outputs.colorCssConsumers.filter((entry) => entry.filePath === filePath);
+  const registeredCssConsumers = outputs.colorCssConsumers.filter((entry) => entry.filePath === filePath);
+  if (filePath === "packages/ui/src/tree/tree.css" && (!hasTreeAuthorization(alertPhase)
+    || JSON.stringify(registeredCssConsumers) !== JSON.stringify(getTreeColorConsumers()))) failures.push("Tree colors must retain their exact authorized selectors, roles, surfaces and original thresholds");
+  const originalG5Scope = [...g5ComponentFiles.application, ...g5ComponentFiles.ui].includes(filePath);
+  const dateTimeScope = [...dateTimeOptimizationFiles.application, ...dateTimeOptimizationFiles.ui].includes(filePath);
+  const uxScope = [...datePickerUxRefinementFiles.application, ...datePickerUxRefinementFiles.ui].includes(filePath);
+  const sliderScope = [...sliderRefinementFiles.application, ...sliderRefinementFiles.ui].includes(filePath);
+  const visualScope = [...datePickerVisualFeedbackFiles.application, ...datePickerVisualFeedbackFiles.ui].includes(filePath);
+  const g5Scope = originalG5Scope || dateTimeScope || uxScope || sliderScope || visualScope;
+  const g5Authorized = g5Scope && hasG5ComponentsAuthorization(alertPhase) && (originalG5Scope && !Object.hasOwn(alertPhase?.componentRefinements ?? {}, "dateTimeOptimization") || hasDateTimeOptimizationAuthorization(alertPhase) && (originalG5Scope || dateTimeScope || uxScope && hasDatePickerUxRefinementAuthorization(alertPhase) || sliderScope && hasSliderRefinementAuthorization(alertPhase) || visualScope && hasDatePickerVisualFeedbackAuthorization(alertPhase)));
+  if (g5Scope) {
+    const expected = getG5ColorConsumers(root);
+    if (!g5Authorized || recipes.length || JSON.stringify(registeredCssConsumers) !== JSON.stringify(expected.colorCssConsumers.filter(entry => entry.filePath === filePath))) return ["G5 colors require the exact finite ledger, existing palette, reading roles and parent surfaces"];
+    try { source = prepareG5NativePaints(filePath, source, root); }
+    catch (error) { return [error.message]; }
+  }
+  const g4Scope = [...g4ComponentFiles.application, ...g4ComponentFiles.ui].includes(filePath);
+  const g4Authorized = g4Scope && hasG4ComponentsAuthorization(alertPhase);
+  if (g4Scope) {
+    const expected = getG4ColorConsumers();
+    if (!g4Authorized || JSON.stringify(recipes) !== JSON.stringify(expected.colorRecipeConsumers.filter(entry => entry.filePath === filePath))
+      || JSON.stringify(registeredCssConsumers) !== JSON.stringify(expected.colorCssConsumers.filter(entry => entry.filePath === filePath))) return ["G4 colors require exact candidate authorization, existing palette, reading roles and parent surfaces"];
+  }
+  const expectedChart = getChartColorConsumers().filter(entry => entry.filePath === filePath);
+  const chartScope = expectedChart.length > 0;
+  const chartPhase = alertPhase.bklitRainCharts;
+  const chartAuthorized = chartScope && chartPhase?.authorization === "authorized-full-plan-implementation"
+    && chartPhase.plan === "../docs/plans/2026-10-07-bklit-rain-catalog-plan.md"
+    && chartPhase.scope === "17-native-bklit-chart-entries-rain-theme-recipes-library-docs-and-independent-consumption";
+  if (chartScope) {
+    if (!chartAuthorized) return ["Chart color registration requires the exact chart task authorization, plan and scope"];
+    if (expectedChart.some(entry => entry.scope === "rain-chart-business")) {
+      const expansion = alertPhase.chartBusinessExpansion;
+      if (expansion?.authorization !== "authorized-full-plan-implementation" || expansion.plan !== "../docs/plans/2026-10-08-chart-business-expansion-implementation-plan.md"
+        || expansion.scope !== "P1-bars-mini-embedding; P2-category-matrix; P3-categorical-composed-period-recipes; P4-relationship-network; P5-China-province-city-drilldown") return ["Chart business colors require the exact expansion authorization, plan and scope"];
+    }
+    if (recipes.length || JSON.stringify(registeredCssConsumers) !== JSON.stringify(expectedChart)) return ["Chart colors require the exact declaration ledger, native aliases, reading roles and parent surfaces"];
+    try {
+      const lock = JSON.parse(readFileSync(join(root, "packages/ui/src/charts/vendor/source-lock.json"), "utf8"));
+      if (lock.repository !== "https://github.com/bklit/bklit-ui" || lock.commit !== expectedChart[0].sourceCommit) throw new Error("fixed upstream source mismatch");
+    } catch (error) { return [`Chart source lock must retain its registered upstream: ${error.message}`]; }
+    source = prepareChartNativeCss(filePath, source, expectedChart, failures);
+  }
+  const cssConsumers = registeredCssConsumers.filter(entry => !chartAuthorized || !entry.nativeBinding);
+  const buttonGroupDocAuthorized = filePath === buttonGroupDocFile && hasButtonGroupRepairAuthorization(alertPhase);
+  if (filePath === buttonGroupDocFile) {
+    try {
+      if (!buttonGroupDocAuthorized || recipes.length || JSON.stringify(cssConsumers) !== JSON.stringify(getButtonGroupRepairDocumentationColorConsumers(root))) return ["Button Group documentation colors require exact authorization, reading roles, criticality and parent surfaces"];
+    } catch (error) { return [error.message]; }
+  }
+  if (["apps/prototype/src/scenarios/token-first-g1/page.css", "apps/prototype/src/scenarios/token-first-g1/next.css"].includes(filePath)
+    || hasG123PlaygroundAssetizationAuthorization(alertPhase) && ["accordion", "collapsible", "resizable"].some(name => filePath === `packages/ui/src/${name}/${name}.css`)) {
+    try {
+      if (recipes.length || JSON.stringify(cssConsumers) !== JSON.stringify(getTokenFirstV12ColorConsumers(root).filter(entry => entry.filePath === filePath))) {
+        return ["G1 colors require exact authorization, selectors, roles and actual parent surfaces"];
+      }
+    } catch (error) { return [error.message]; }
+  }
+  if (hasG123PlaygroundAssetizationAuthorization(alertPhase) && filePath === "apps/playground/src/docs/components/g3-component-pages.css") {
+    const widths = hasG23FamilyVisualRefinementAuthorization(alertPhase) ? /--rain-local-g3-sidebar-width:\s*(?:(?:220|164)px|100%);/g : /--rain-local-g3-sidebar-width:\s*(?:220|164)px;/g;
+    source = source.replace(widths, "");
+  }
+  if (hasG123PlaygroundAssetizationAuthorization(alertPhase) && (["apps/playground/src/docs/components/g3-component-pages.css", "apps/playground/src/docs/components/navigation-doc-pages.css"].includes(filePath)
+    || hasG23FamilyVisualRefinementAuthorization(alertPhase) && ["apps/playground/src/docs/components/component-doc.css", "apps/playground/src/docs/components/toggle-group-page.css"].includes(filePath)
+    || hasG23RemainingVisualRefinementAuthorization(alertPhase) && ["apps/playground/src/docs/components/skeleton-page.css", "apps/playground/src/docs/components/breadcrumb-page.css"].includes(filePath))) {
+    try {
+      if (recipes.length || JSON.stringify(cssConsumers) !== JSON.stringify(getG123PlaygroundDocumentationColorConsumers(root).filter(entry => entry.filePath === filePath))) return ["G1–G3 documentation colors require exact roles, criticality, parent surfaces and thresholds"];
+    } catch (error) { return [error.message]; }
+  }
   const expectedNumber = getInputNumberColorConsumers().filter(entry => entry.filePath === filePath);
   if (expectedNumber.length && (recipes.length || JSON.stringify(cssConsumers) !== JSON.stringify(expectedNumber))) failures.push("InputNumber colors must retain exact roles and surfaces");
   const expectedAvatar = getAvatarColorConsumers().filter(entry => entry.filePath === filePath);
@@ -339,6 +762,7 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
     && hasSelectRefinementAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")));
   if (selectScope && (!selectAuthorized || JSON.stringify(recipes) !== JSON.stringify(expectedSelect.colorRecipeConsumers.filter((entry) => entry.filePath === filePath))
     || JSON.stringify(cssConsumers.filter((entry) => !checkboxCss.includes(entry) && !radioCss.includes(entry) && !selectionCardCss.includes(entry))) !== JSON.stringify(expectedSelect.colorCssConsumers.filter((entry) => entry.filePath === filePath)))) failures.push("Select and shared field color metadata must retain their exact authorization, surfaces, content roles and thresholds");
+  if (g3NativeAuthorized) cssConsumers.push(...getG3NativeColorConsumers(alertPhase));
   const selectFocusUse = (use) => selectAuthorized && use.evidenceRef === "docs/plans/2026-09-08-input-select-field-recipes-design.md"
     && /^field-focus-(?:default|warning|error)-(?:line|readonly)$/.test(use.recipeId ?? "") && use.content === "essential-boundary";
   const inputVisualRevisionAuthorized = inputAuthorized && Boolean(inputPhase.componentRefinements.input.visualRevision);
@@ -358,6 +782,61 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
       || (use.recipeId === "input-clear-0-underlined-error" && use.tokenId === "Icon/Neutral/3" && use.content === "meaningful-icon"));
   const optionContentSymbols = ["optionFeedbackControlColors"];
   const checkColor = (use, label, pendingReview = false) => {
+    const g1Candidate = pendingReview && hasG123PlaygroundAssetizationAuthorization(alertPhase)
+      && [["token-first-g1", "docs/plans/2026-09-19-token-first-v12-g1.md"], ["token-first-g1-next", "docs/plans/2026-09-20-token-first-g1-next.md"]].some(([recipe, evidence]) => use.recipeId === recipe && use.evidenceRef === evidence);
+    if (g1Candidate) {
+      try { validateColorUse(use); } catch (error) {
+        if (!/^Insufficient contrast:/.test(error.message) && error.message !== "Weak Neutral needs non-critical, non-interactive content") failures.push(`${label}: ${error.message}`);
+      }
+      const foreground = resolveColor(use.tokenId, use.theme);
+      const actual = measureColorContrast({ ...foreground, alpha: (use.alpha === undefined ? foreground.alpha : use.alpha / 100) * (use.componentOpacity ?? 1) }, resolveColorSurface(use.parentSurfaceId, use.theme, use.parentBackgroundId));
+      const minimum = use.content === "text" ? 4.5 : ["large-text", "meaningful-icon", "essential-boundary"].includes(use.content) ? 3 : 0;
+      const finding = { status: "measured-failure-pending-review", acceptedException: false, filePath, consumer: label, recipeId: use.recipeId, tokenId: use.tokenId,
+        content: use.content, interaction: use.interaction, critical: use.critical, theme: use.theme, parentSurfaceId: use.parentSurfaceId,
+        parentBackgroundId: use.parentBackgroundId ?? null, alpha: use.alpha ?? foreground.alpha * 100, alphaOperation: use.alphaOperation ?? "token-alpha", componentOpacity: use.componentOpacity ?? 1,
+        actual, minimum, meetsMinimum: actual >= minimum, evidenceRef: use.evidenceRef,
+        humanReview: "original-G1-acceptance-not-inherited-by-shared-relocation", measurementScope: "declared-parent-stack; runtime-cascade-not-inferred" };
+      if (actual < minimum) pendingContrastFindings.push(finding);
+      const token = colorRegistry.find(entry => entry.id === use.tokenId), profile = colorCategoryProfiles.find(entry => entry.id === token.profileId);
+      if (profile.weakIds.includes(use.tokenId) && (use.interaction !== "non-interactive" || use.critical !== false)) pendingEligibilityFindings.push({ ...finding, reason: "Weak Neutral needs non-critical, non-interactive content" });
+      return;
+    }
+    const treeUse = filePath === "packages/ui/src/tree/tree.css" && hasTreeAuthorization(alertPhase) && use.recipeId === "tree-layout-a"
+      && use.evidenceRef === "docs/plans/2026-09-25-tree-implementation-rules.md" && ["Background/Neutral/1", "Background/Neutral/2"].includes(use.parentSurfaceId);
+    const treeIdle = treeUse && pendingReview && (use.tokenId === "Text/Neutral/6" && use.content === "text" || use.tokenId === "Icon/Neutral/4" && use.content === "meaningful-icon");
+    const treeHoverText = treeUse && use.tokenId === "Text/Neutral/4" && use.content === "text" && use.critical === true;
+    if (treeIdle || treeHoverText) {
+      const actual = measureColorContrast(resolveColor(use.tokenId, use.theme), resolveColorSurface(use.parentSurfaceId, use.theme));
+      const minimum = use.content === "text" ? 4.5 : 3;
+      const finding = { status: "pending-review", acceptedException: false, filePath, consumer: label, recipeId: use.recipeId,
+        tokenId: use.tokenId, content: use.content, interaction: use.interaction, critical: use.critical, theme: use.theme,
+        parentSurfaceId: use.parentSurfaceId, actual, minimum, evidenceRef: use.evidenceRef, measurementScope: "declared-static-parent; interaction-runtime-stack-not-inferred" };
+      const token = colorRegistry.find(entry => entry.id === use.tokenId), profile = colorCategoryProfiles.find(entry => entry.id === token.profileId);
+      if (profile.weakIds.includes(use.tokenId) && (use.interaction !== "non-interactive" || use.critical !== false)) pendingEligibilityFindings.push({ ...finding, reason: "Weak Neutral needs non-critical, non-interactive content" });
+      if (treeIdle && actual < minimum) pendingContrastFindings.push(finding);
+      try { validateColorUse(use); } catch (error) {
+        if (!(treeIdle && /^Insufficient contrast:/.test(error.message)) && error.message !== "Weak Neutral needs non-critical, non-interactive content") failures.push(`${label}: ${error.message}`);
+      }
+      return;
+    }
+    // Registration does not grant readability acceptance: retain real text/boundary thresholds and weak-content eligibility.
+    if ((chartAuthorized || g5Authorized) && pendingReview) {
+      try { validateColorUse(use); }
+      catch (error) {
+        if (!/^Insufficient contrast:/.test(error.message) && error.message !== "Weak Neutral needs non-critical, non-interactive content") failures.push(`${label}: ${error.message}`);
+      }
+      const actual = measureColorContrast(g5Authorized ? resolveG5ConsumerPaint(use) : resolveColor(use.tokenId, use.theme), resolveColorSurface(use.parentSurfaceId, use.theme, use.parentBackgroundId));
+      const minimum = use.content === "text" ? 4.5 : ["large-text", "meaningful-icon", "essential-boundary"].includes(use.content) ? 3 : 0;
+      const finding = { status: "pending-review", acceptedException: false, filePath, consumer: label, recipeId: use.recipeId, tokenId: use.tokenId,
+        content: use.content, interaction: use.interaction, critical: use.critical, theme: use.theme, parentSurfaceId: use.parentSurfaceId,
+        parentBackgroundId: use.parentBackgroundId ?? null, actual, minimum, evidenceRef: use.evidenceRef,
+        contrastMeasurementScope: g5Authorized ? "declared-opacity-and-parent-surfaces; inherited-field-paints-retain-existing-findings" : expectedChart[0].contrastMeasurementScope };
+      const token = colorRegistry.find(entry => entry.id === use.tokenId), profile = colorCategoryProfiles.find(entry => entry.id === token.profileId);
+      if (profile.weakIds.includes(use.tokenId) && !["decorative", "disabled"].includes(use.content)
+        && (use.interaction !== "non-interactive" || use.critical !== false)) pendingEligibilityFindings.push({ ...finding, reason: "Weak Neutral needs non-critical, non-interactive content" });
+      if (actual < minimum) pendingContrastFindings.push(finding);
+      return;
+    }
     const bmBHint = pendingReview && filePath === "apps/prototype/src/scenarios/bm-b/page.css"
       && label === `.bm-b-hint color ${use.theme} Background/Neutral/1` && use.recipeId === "bm-b-textbook-dialog"
       && use.tokenId === "Text/Neutral/5" && use.content === "text" && use.interaction === "non-interactive" && use.critical === false
@@ -401,6 +880,17 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
     catch (error) {
       const insufficient = error.message.match(/^Insufficient contrast: ([0-9.]+) < ([0-9.]+)$/);
       if (insideLabel && (insufficient || error.message === "Weak Neutral needs non-critical, non-interactive content")) { /* Both findings are measured and recorded above without rounding. */ }
+      else if (pendingReview && insufficient && hasAlertAuthorization(alertPhase)
+        && filePath === "packages/ui/src/alert/alert.css" && label.startsWith(".rain-alert[data-tone=")
+        && use.recipeId === "alert" && use.content === "text" && use.context === "component-recipe"
+        && use.evidenceRef === "docs/plans/2026-09-20-alert.md"
+        && ["Brand", "Green", "Orange", "Red"].some(family => use.tokenId === `Text/${family}/1`
+          && use.parentSurfaceId === (family === "Brand" ? "Fill/Brand/Alpha/4" : `Fill/${family}/Alpha/2`))) pendingContrastFindings.push({
+          status: "pending-review", acceptedException: false, filePath, recipeId: use.recipeId, tokenId: use.tokenId, content: use.content,
+          theme: use.theme, parentSurfaceId: use.parentSurfaceId, parentBackgroundId: use.parentBackgroundId,
+          actual: measureColorContrast(resolveColor(use.tokenId, use.theme), resolveColorSurface(use.parentSurfaceId, use.theme, use.parentBackgroundId)),
+          minimum: 4.5, evidenceRef: use.evidenceRef,
+        });
       else if (pendingReview && insufficient && filePath === "packages/ui/src/status-indicator/status-indicator.css"
         && use.recipeId === "avatar-family" && use.tokenId === "OnColor/1" && use.content === "meaningful-icon"
         && use.evidenceRef === "docs/plans/2026-09-16-avatar-family-design-and-construction.md"
@@ -439,12 +929,59 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
       } else if (!((inputPlaceholder || dropdownDescription || tableHeader) && error.message === "Weak Neutral needs non-critical, non-interactive content")) failures.push(`${label}: ${error.message}`);
     }
   };
-  const checkUse = (use, parents, label, pendingReview = false, parentBackgrounds = [use.parentBackgroundId]) => {
+  const checkUse = (use, parents, label, pendingReview = false, parentBackgrounds = [use.parentBackgroundId], parentSurfaceAlphaOverrides = {}) => {
     if (!existsSync(join(root, use.evidenceRef?.split("#")[0] ?? ""))) failures.push(`Missing color consumer evidence: ${label}`);
-    for (const theme of ["light", "dark"]) for (const parent of parents) for (const parentBackgroundId of parentBackgrounds) {
-      checkColor({ ...use, theme, parentSurfaceId: parent, ...(parentBackgroundId ? { parentBackgroundId } : {}) }, `${label} ${theme} ${parent}`, pendingReview);
+    // This exact dark selector does not paint light mode; its frozen metadata keeps the same 4.5 text minimum.
+    for (const theme of chartAuthorized ? ["light"] : buttonGroupDocAuthorized && use.recipeId !== "button-group-style-doc" ? ["dark"] : ["light", "dark"]) for (const parent of parents) for (const parentBackgroundId of parentBackgrounds) {
+      const actualUse = { ...use, theme, parentSurfaceId: parent, ...(parentBackgroundId ? { parentBackgroundId } : {}) };
+      const paintLabel = `${label} ${theme} ${parent}`;
+      if (parentSurfaceAlphaOverrides[parent]) {
+        // ponytail: only this frozen G1 card's 5% surface; deeper or other local stacks need a reviewed ledger.
+        if (filePath !== "apps/prototype/src/scenarios/token-first-g1/page.css" || parent !== "Fill/Neutral/Alpha/6"
+          || JSON.stringify(parentSurfaceAlphaOverrides[parent]) !== JSON.stringify({ alpha: 5, alphaOperation: "replace" }) || !parentBackgroundId) {
+          failures.push(`${paintLabel}: unregistered parent surface Alpha`); continue;
+        }
+        try { validateColorUse(actualUse); }
+        catch (error) {
+          if (!/^Insufficient contrast:/.test(error.message) && error.message !== "Weak Neutral needs non-critical, non-interactive content") failures.push(`${paintLabel}: ${error.message}`);
+        }
+        const surface = resolveColor(parent, theme), base = resolveColorSurface(parentBackgroundId, theme);
+        const background = { rgb: surface.rgb.map((channel, index) => channel * .05 + base.rgb[index] * .95), alpha: 1 };
+        const foreground = resolveColor(use.tokenId, theme);
+        const actual = measureColorContrast({ ...foreground, alpha: (use.alpha === undefined ? foreground.alpha : use.alpha / 100) * (use.componentOpacity ?? 1) }, background);
+        const minimum = use.content === "text" ? 4.5 : ["large-text", "meaningful-icon", "essential-boundary"].includes(use.content) ? 3 : 0;
+        const g1Pending = pendingReview && hasG123PlaygroundAssetizationAuthorization(alertPhase) && ["token-first-g1", "token-first-g1-next"].includes(use.recipeId);
+        const finding = { status: "measured-failure-pending-review", acceptedException: false, filePath, consumer: paintLabel, recipeId: use.recipeId,
+          tokenId: use.tokenId, content: use.content, interaction: use.interaction, critical: use.critical, theme, parentSurfaceId: parent,
+          parentBackgroundId, actual, minimum, meetsMinimum: actual >= minimum, evidenceRef: use.evidenceRef,
+          measurementScope: "declared-five-percent-parent-stack; runtime-cascade-not-inferred", humanReview: "original-G1-acceptance-not-inherited" };
+        if (actual < minimum) {
+          if (g1Pending) pendingContrastFindings.push(finding);
+          else failures.push(`${paintLabel}: Insufficient contrast: ${actual.toFixed(2)} < ${minimum}`);
+        }
+        const profile = colorCategoryProfiles.find(entry => entry.id === colorRegistry.find(entry => entry.id === use.tokenId).profileId);
+        if (profile.weakIds.includes(use.tokenId) && !["decorative", "disabled"].includes(use.content) && (use.interaction !== "non-interactive" || use.critical !== false)) {
+          if (g1Pending) pendingEligibilityFindings.push({ ...finding, reason: "Weak Neutral needs non-critical, non-interactive content" });
+          else failures.push(`${paintLabel}: Weak Neutral needs non-critical, non-interactive content`);
+        }
+      } else checkColor(actualUse, paintLabel, pendingReview);
     }
   };
+  if (chartAuthorized) for (const consumer of expectedChart.filter(entry => entry.nativeBinding)) {
+    const binding = consumer.nativeBinding;
+    if (binding.use) checkUse(binding.use, binding.parentSurfaces, `${consumer.selector} ${consumer.property}`, true);
+    if (binding.kind === "local-data-palette") {
+      const rgb = [1, 3, 5].map(offset => Number.parseInt(consumer.value.slice(offset, offset + 2), 16));
+      for (const parentSurfaceId of binding.parentSurfaces) {
+        const actual = measureColorContrast({ rgb, alpha: 1 }, resolveColorSurface(parentSurfaceId, "light"));
+        if (actual < binding.minimum) pendingContrastFindings.push({ status: "pending-review", acceptedException: false,
+          measurementOnly: true, filePath, recipeId: `chart-rain-${binding.dataRole}`, consumer: `${consumer.selector} ${consumer.property}`,
+          recipeSelector: consumer.selector, localVariable: consumer.property, tokenId: null,
+          dataRole: binding.dataRole, content: "data-graphic", theme: "light", parentSurfaceId, actual,
+          minimum: binding.minimum, evidenceRef: consumer.evidenceRef, reason: "Chart-local data paint against its opaque surface; full graph and gradient readability review remains open" });
+      }
+    }
+  }
   if (paginationAuthorized) for (const consumer of paginationMetadata.inlineConsumers.filter(entry => entry.filePath === filePath)) {
     checkUse(consumer.use, consumer.parentSurfaces, consumer.scope, true);
     maskPaginationSource(consumer);
@@ -489,7 +1026,7 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
         const from = consumer.kind === "cva" ? "class-variance-authority" : "@rain-next/ui";
         if (consumer.kind !== "static" && (init?.type !== "CallExpression" || init.callee?.name !== callee
           || !imports.some((entry) => entry.source.value === from && entry.specifiers.some((part) => part.imported?.name === callee && part.local.name === callee)))) throw new Error("Registered recipe must use its declared recipe factory");
-        if (consumer.kind === "static" && !paginationAuthorized && !(emptyAuthorized && consumer.symbol === "emptyPaints") && !(tableAuthorized && consumer.symbol === "tablePaints") && !(cardAuthorized && consumer.symbol === "cardPaints") && !questionNumberAuthorized && !optionButtonAuthorized && !(inputAuthorized && Object.hasOwn(inputConsumerContent, consumer.symbol))
+        if (consumer.kind === "static" && !(g4Authorized && ["itemPaints", "progressPaints"].includes(consumer.symbol)) && !paginationAuthorized && !(emptyAuthorized && consumer.symbol === "emptyPaints") && !(tableAuthorized && consumer.symbol === "tablePaints") && !(cardAuthorized && consumer.symbol === "cardPaints") && !questionNumberAuthorized && !optionButtonAuthorized && !(inputAuthorized && Object.hasOwn(inputConsumerContent, consumer.symbol))
           && !(tabsAuthorized && consumer.symbol === "tabsPaints") && !selectAuthorized && !(tagThreeAuthorized && consumer.symbol === "tagSelectPaints") && !(tagDomainAuthorized && ["tagStatusPaints", "tagDomainPaints"].includes(consumer.symbol)) && !(tagAuthorized && ["tagColorPaints", "tagSolidPaints"].includes(consumer.symbol))) throw new Error("Static color recipe requires its exact component authorization");
         if (optionContentSymbols.includes(consumer.symbol) && (!optionButtonContentAuthorized || consumer.refinement !== "option-button-content")) throw new Error("OptionButton content color recipe requires its separate exact authorization");
         if (consumer.refinement === "option-button-content" && !optionContentSymbols.includes(consumer.symbol)) throw new Error("OptionButton content authorization cannot expand the accepted selection recipes");
@@ -598,8 +1135,8 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
       if (optionReview && JSON.stringify(consumer.recipes.map(({ state, presentation }) => `${state}:${presentation}`)) !== JSON.stringify(["correct:label", "correct:symbol", "wrong:label", "wrong:symbol"])) failures.push("OptionButton review must retain both text and meaningful-icon presentations for each result");
       for (const recipe of consumer.recipes) {
         const paginationIconReview = paginationAuthorized && paginationMetadataMatches && consumer.symbol === "paginationIconClassName";
-        const foregroundContent = paginationIconReview ? "meaningful-icon" : inputReview ? inputConsumerContent[consumer.symbol] : optionReview ? (recipe.presentation === "symbol" ? "meaningful-icon" : "text") : consumer.kind === "static" && consumer.symbol !== "questionNumberMarkerColors" ? "text" : "meaningful-icon";
-        if (consumer.kind === "static" && consumer.foregroundContent !== (optionReview ? "text-and-meaningful-icon" : foregroundContent)) failures.push(`Static color recipe must preserve its declared text or meaningful-icon role: ${consumer.symbol}`);
+        const foregroundContent = g4Authorized && ["itemPaints", "progressPaints"].includes(consumer.symbol) ? recipe.foreground.content : paginationIconReview ? "meaningful-icon" : inputReview ? inputConsumerContent[consumer.symbol] : optionReview ? (recipe.presentation === "symbol" ? "meaningful-icon" : "text") : consumer.kind === "static" && consumer.symbol !== "questionNumberMarkerColors" ? "text" : "meaningful-icon";
+        if (consumer.kind === "static" && !g4Authorized && consumer.foregroundContent !== (optionReview ? "text-and-meaningful-icon" : foregroundContent)) failures.push(`Static color recipe must preserve its declared text or meaningful-icon role: ${consumer.symbol}`);
         if (recipe.foreground.content !== (recipe.state === "disabled" ? "disabled" : foregroundContent)) failures.push(`Registered foreground must keep its real content contrast: ${recipe.id}`);
         const pendingReview = ["pending-review", "declared-review"].includes(consumer.contrastReview) && (tableVisualAuthorized || paginationAuthorized || inputReview || questionNumberAuthorized || (optionButtonContentAuthorized && optionReview));
         for (const theme of ["light", "dark"]) for (const parent of tableVisualAuthorized && recipe.parentSurfaces ? recipe.parentSurfaces : consumer.parentSurfaces) {
@@ -609,6 +1146,12 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
           if (recipe.boundary) checkColor({ ...recipe.boundary, theme, parentSurfaceId: parent }, label, pendingReview);
           checkColor({ ...recipe.foreground, theme, parentSurfaceId: recipe.background?.tokenId ?? parent,
             ...(recipe.background ? { parentBackgroundId: parent } : {}) }, label, pendingReview);
+          if (g4Authorized && consumer.symbol === "progressPaints" && recipe.id === "g4-progress-indicator") {
+            for (const adjacentSurface of [recipe.background.tokenId, parent]) {
+              const actual = measureColorContrast(resolveColor(recipe.foreground.tokenId, theme), resolveColorSurface(adjacentSurface, theme, parent));
+              if (recipe.requiredStateContrast !== 3 || actual < 3) failures.push(`${label} ${adjacentSurface}: necessary progress indicator contrast ${actual.toFixed(3)} < 3`);
+            }
+          }
         }
         if (!existsSync(join(root, recipe.foreground.evidenceRef.split("#")[0]))) failures.push(`Missing color consumer evidence: ${recipe.id}`);
       }
@@ -620,11 +1163,11 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
     for (const block of uncommented.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
       const selector = block[1].trim().replace(/\s+/g, " ");
       const bodyStart = block.index + block[0].indexOf("{") + 1;
-      for (const declaration of block[2].matchAll(/([a-z-]+)\s*:\s*([^;{}]+);/g)) {
+      for (const declaration of block[2].matchAll(chartAuthorized ? /(--[a-z0-9-]+|[a-z-]+)\s*:\s*([^;{}]+);/g : /([a-z-]+)\s*:\s*([^;{}]+);/g)) {
         const property = declaration[1], value = declaration[2].trim();
         if (!categorySource.test(value)) continue;
-        const consumer = cssConsumers.find((entry) => entry.selector === selector && entry.property === property && entry.value === value);
-        if (!consumer || found.has(consumer)) { failures.push(`Unregistered Category CSS paint ${filePath}: ${selector} ${property}`); continue; }
+        const consumer = cssConsumers.find((entry) => !found.has(entry) && entry.selector === selector && entry.property === property && entry.value === value);
+        if (!consumer) { failures.push(`Unregistered Category CSS paint ${filePath}: ${selector} ${property}`); continue; }
         found.add(consumer);
         const output = colorTokenOutputs.find((entry) => entry.id === consumer.use.tokenId);
         if (consumer.sourceAlias) {
@@ -636,7 +1179,7 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
         } else if (!output || !value.includes(`var(${output.variable})`)) failures.push(`Category CSS source mismatch: ${selector} ${property}`);
         if (property.startsWith("--rain-local-") && (!output || consumer.use.alphaOperation !== "replace"
           || value !== `rgb(from var(${output.variable}) r g b / ${consumer.use.alpha}%)`)) failures.push(`Category CSS local Alpha mismatch: ${selector} ${property}`);
-        checkUse(consumer.use, consumer.parentSurfaces, `${selector} ${property}`, ["pending-review", "declared-review"].includes(consumer.contrastReview), consumer.parentBackgrounds);
+        checkUse(consumer.use, consumer.parentSurfaces, `${consumer.diagnosticSelector ?? selector} ${property}`, ["pending-review", "declared-review"].includes(consumer.contrastReview), consumer.parentBackgrounds, consumer.parentSurfaceAlphaOverrides);
         if (selectAuthorized) for (const recipe of consumer.focusPairs ?? []) for (const theme of ["light", "dark"]) for (const parent of consumer.parentSurfaces) {
           const actual = measureSelectColorRecipe(recipe, theme, parent).textContrast;
           if (actual < 3) pendingContrastFindings.push({ status: "pending-review", acceptedException: false, filePath, recipeId: recipe.id, part: recipe.part,
@@ -648,23 +1191,101 @@ export function validateRegisteredRecipeColors({ filePath, source, outputs = get
     }
     for (const consumer of cssConsumers) if (!found.has(consumer)) failures.push(`Missing registered CSS paint: ${filePath} ${consumer.selector} ${consumer.property}`);
   }
+  if (filePath === "apps/playground/src/docs/components/g4-component-pages.tsx" && hasG4SizingReviewAuthorization(alertPhase)) {
+    const example = source.match(/const itemLinkCode = `([^`]+)`;/);
+    const host = '<ItemMedia className="text-rain-category-icon-neutral-3"><ArrowRightIcon aria-hidden="true" /></ItemMedia>';
+    if (!example || example[1].includes("${") || example[1].split(host).length !== 2
+      || !example[1].includes('import { ArrowRightIcon } from "@rain-next/ui/icons/arrow-right";')) failures.push("G4 copied navigation example must retain the exact formal arrow and Category color on its ItemMedia host");
+    else {
+      const paint = "text-rain-category-icon-neutral-3", start = example.index + example[0].indexOf(paint);
+      // This exact color is displayed source text; live page paints still require their own ledger.
+      ranges.push([start, start + paint.length]);
+    }
+  }
   let unregistered = source;
   for (const [start, end] of ranges.sort((a, b) => b[0] - a[0])) unregistered = unregistered.slice(0, start) + " ".repeat(end - start) + unregistered.slice(end);
   if (categorySource.test(unregistered)) failures.push(`Category/local colors require registered Token consumer metadata: ${filePath}`);
   // UI native rules have an exact B2 exception validator; this pass verifies every Category paint in that file.
   if (filePath.endsWith(".css") && !(filePath === "packages/ui/src/styles.css" && selectAuthorized)) {
-    if (dropdownFamilyAuthorized || expectedDialog.length) unregistered = prepareOverlayNativeCss(filePath, unregistered, failures);
+    if (g4Authorized || dropdownFamilyAuthorized || expectedDialog.length || (hasG123PlaygroundAssetizationAuthorization(alertPhase) && filePath === "packages/ui/src/resizable/resizable.css") || ["apps/prototype/src/scenarios/token-first-g1/page.css", "apps/prototype/src/scenarios/token-first-g1/next.css", "apps/prototype/src/scenarios/bm-d/report-a.css"].includes(filePath)) unregistered = prepareOverlayNativeCss(filePath, unregistered, failures, alertPhase);
     failures.push(...validateTokenConsumerCss({ filePath, source: unregistered }));
   }
   return [...new Set(failures)];
 }
 
+// Mask only one exact registered declaration at a time. Changed values/scopes/duplicates stay failures.
+function prepareChartNativeCss(filePath, source, ledger, failures) {
+  const native = ledger.filter(entry => entry.nativeBinding), found = new Set();
+  if (filePath === "packages/ui/src/charts/styles.css") {
+    const sharedImport = '@import "./utilities.generated.css";';
+    if (!source.startsWith(sharedImport) || source.split(sharedImport).length !== 2) failures.push("Chart CSS requires exactly its shared generated utility import");
+    else source = source.slice(sharedImport.length);
+  }
+  const walk = (css, media = "") => parseTopLevelCssBlocks(css, "Chart native CSS", failures).map(({ header, body }) => {
+    if (header.startsWith("@media")) return `${header} {${walk(body, header)}}`;
+    if (header.startsWith("@")) { failures.push(`Unregistered chart color at-rule: ${header}`); return `${header} {${body}}`; }
+    const masked = body.replace(/(--[a-z0-9-]+|[a-z-]+)\s*:\s*([^;{}]+);/g, (declaration, property, raw) => {
+      const value = raw.trim();
+      const consumer = native.find(entry => !found.has(entry) && entry.selector === header && entry.property === property
+        && entry.value === value && (entry.media ?? "") === media);
+      if (consumer) { found.add(consumer); return " ".repeat(declaration.length); }
+      if (media && categorySource.test(value)) failures.push(`Chart Category paints must retain their registered light scope: ${header} ${property} ${media}`);
+      if (property.startsWith("--") && (/^--(?:rain-local-chart-|chart-|color-|legend(?:-|$)|background$|foreground$|border$|muted(?:-|$)|popover(?:-|$))/.test(property)
+        || /var\(--(?:rain-local-chart-|chart-|legend(?:-|\))|background\)|foreground\)|border\)|muted(?:-|\))|popover(?:-|\)))/.test(value))
+        && !(header === ".rain-chart" && property === "--chart-axis-label-gap" && value === "var(--rain-space-20)" && !media)
+        && !ledger.some(entry => !entry.nativeBinding && entry.selector === header && entry.property === property && entry.value === value && !media)) {
+        failures.push(`Unregistered chart native binding: ${filePath} ${header} ${property}`);
+      }
+      return declaration;
+    });
+    return `${header} {${masked}}`;
+  }).join("\n");
+  const prepared = walk(source);
+  for (const consumer of native) if (!found.has(consumer)) failures.push(`Missing or changed chart native binding: ${filePath} ${consumer.selector} ${consumer.property}`);
+  return prepared;
+}
+
 // Only native system paints and the existing Dialog shadow; every Category paint is checked above.
-function prepareOverlayNativeCss(filePath, source, failures) {
+function prepareOverlayNativeCss(filePath, source, failures, status = null) {
   const walk = (css, media = "") => parseTopLevelCssBlocks(css, "Dropdown native CSS", failures).map(({ header, body }) => {
     if (header.startsWith("@media")) return `${header} {${walk(body, header)}}`;
+    if (header.startsWith("@layer")) return `${header} {${walk(body, media)}}`;
     const masked = body.replace(/([a-z-]+)\s*:\s*([^;{}]+);/g, (declaration, property, raw) => {
       const value = raw.trim();
+      if (filePath === "apps/playground/src/docs/components/g4-component-pages.css" && hasG4SizingReviewAuthorization(status) && media === "@media (forced-colors:active)"
+        && header === ".g4-doc-link-icon" && property === "color" && value === "inherit") return "";
+      if (filePath === "apps/playground/src/docs/components/g4-component-pages.css" && hasG4VisualRefinementAuthorization(status) && media === "@media (forced-colors:active)"
+        && value === "CanvasText" && (
+          header === ".g4-doc-panel, .g4-doc-resource-header, .g4-doc-resource-footer, .g4-doc-type-row" && property === "border-color"
+          || header === '.g4-doc-file, .g4-doc-read-state > .rain-icon, .g4-doc-task-feedback, .g4-doc-task-feedback[data-kind="error"], .g4-doc-task-feedback[data-kind="complete"] > .rain-icon' && property === "color"
+        )) return "";
+      if (filePath === "packages/ui/src/item/item.css" && !media
+        && header === ".rain-item:focus-visible, .rain-item__description > a:focus-visible" && property === "outline"
+        && value === "var(--rain-focus-width) solid var(--rain-focus-item)") return "";
+      if (media === "@media (forced-colors: active)" && (
+        filePath === "packages/ui/src/progress/progress.css" && (header === ".rain-progress-track" && ["background-color:Canvas", "outline:var(--rain-line-thickness-1) solid CanvasText"].includes(`${property}:${value}`)
+          || header === ".rain-progress-indicator" && property === "background-color" && value === "Highlight")
+        || filePath === "packages/ui/src/item/item.css" && [
+          [".rain-item", "color", "CanvasText"],
+          ['.rain-item[data-variant="outline"], .rain-item__media[data-variant="icon"]', "border-color", "CanvasText"],
+          [".rain-item__title, .rain-item__description, .rain-item__footer, .rain-item__media", "color", "CanvasText"],
+          [".rain-item:is(a[href]), .rain-item__description > a", "color", "LinkText"],
+          [".rain-item:focus-visible, .rain-item__description > a:focus-visible", "outline-color", "Highlight"],
+        ].some(([selector, paint, color]) => header === selector && property === paint && value === color)
+      )) return "";
+      if (filePath === "packages/ui/src/resizable/resizable.css" && media === "@media (forced-colors: active)"
+        && ((header === ".rain-g1-resizable-grip" && property === "background" && value === "ButtonText")
+          || (header === ".rain-g1-resizable-handle:focus-visible" && property === "outline" && value === "2px solid Highlight"))) return "";
+      if (filePath === "apps/prototype/src/scenarios/token-first-g1/next.css" && media === "@media (forced-colors: active)"
+        && ((header === ".rain-g1-tooltip" && ["background:Canvas", "color:CanvasText", "border-color:CanvasText"].includes(`${property}:${value}`))
+          || (header === ".rain-g1-resizable-grip" && property === "background" && value === "ButtonText")
+          || (header === ".g1 .rain-g1-resizable-handle:focus-visible" && property === "outline" && value === "2px solid Highlight"))) return "";
+      if (filePath === "apps/prototype/src/scenarios/bm-d/report-a.css" && media === "@media (forced-colors: active)"
+        && ((header === ".report-a-bar" && property === "border" && value === "var(--rain-line-thickness-1) solid CanvasText")
+          || (header === ".report-a-bar > span" && property === "background" && value === "CanvasText"))) return "";
+      if (filePath === "apps/prototype/src/scenarios/token-first-g1/page.css" && media === "@media (forced-colors: active)"
+        && ['.rain-g1-switch', '.rain-g1-switch[data-checked]', '.rain-g1-switch-thumb', '.rain-g1-switch[data-checked] .rain-g1-switch-thumb', '.rain-g1-switch[data-disabled]'].includes(header)
+        && ["background:Canvas", "background:Highlight", "background:ButtonText", "background:HighlightText", "border-color:ButtonText", "border-color:GrayText"].includes(`${property}:${value}`)) return "";
       if (media === "@media (forced-colors: active)" && (
         (filePath === "packages/ui/src/dialog/dialog.css" && ((header === ".rain-dialog" && ["background-color:Canvas", "color:CanvasText", "border-color:ButtonText", "box-shadow:none"].includes(`${property}:${value}`))
           || (header === ".rain-dialog-title, .rain-dialog-description" && property === "color" && value === "CanvasText")
@@ -942,6 +1563,19 @@ export function validateTokenConsumerSource({ filePath, source, outputs = getTok
   return [...new Set(failures)];
 }
 
+export function validateTooltipCss(source, status) {
+  const failures = [];
+  if (!hasTooltipAuthorization(status)) failures.push("Tooltip requires its explicit Classic and Token authorization");
+  for (const declaration of ["background: var(--rain-tooltip-background);", "color: var(--rain-tooltip-foreground);"]) {
+    if (source.split(declaration).length !== 2) failures.push(`Tooltip requires one fixed paint: ${declaration}`);
+    source = source.replace(declaration, "");
+  }
+  const forced = '@media (forced-colors: active) {\n  .rain-tooltip { background: Canvas; color: CanvasText; border: var(--rain-line-thickness-1) solid CanvasText; }\n  .rain-tooltip-arrow { background: CanvasText; }\n}';
+  if (!source.includes(forced)) failures.push("Tooltip must retain its exact forced-colors fallback");
+  source = source.replace(forced, "");
+  return [...failures, ...validateTokenConsumerCss({ filePath: "packages/ui/src/tooltip/tooltip.css", source })];
+}
+
 export function validateTokenConsumerCss({ filePath, source, outputs = getTokenFoundationOutputs() }) {
   const authored = source.replace(/\/\* token-foundations-v1:scoped-color:start[^]*?\/\* token-foundations-v1:scoped-color:end \*\//g, "").replace(/\/\*[^]*?\*\//g, "");
   const failures = [];
@@ -974,6 +1608,7 @@ function sourceFiles(root, directory) {
   if (!existsSync(join(root, directory))) return [];
   return readdirSync(join(root, directory), { withFileTypes: true }).flatMap((entry) => {
     const path = `${directory.replace(/\/$/, "")}/${entry.name}`;
+    if (["apps/prototype/dist-bklit-catalog", "apps/prototype/dist-bklit-validation", "apps/prototype/dist-chart-validation"].includes(path)) return [];
     if (entry.isSymbolicLink() || ["dist", "node_modules", ".git"].includes(entry.name)) return [];
     return entry.isDirectory() ? sourceFiles(root, path) : /\.(?:tsx?|css)$/.test(path) && !/\.(?:test|generated)\./.test(path) ? [path] : [];
   });
@@ -1042,8 +1677,27 @@ export function prepareDropdownColorReview({ manifest, source }) {
   return { failures, source: maskedSource, consumers, lifecycle: manifest.lifecycle };
 }
 
-export function verifyTokenFoundations({ root = process.cwd() } = {}) {
+export function verifyTokenFoundations(options = {}) {
+  return withSourceBindingTraversal(options.root ?? process.cwd(), () => verifyTokenFoundationsInTraversal(options));
+}
+function verifyTokenFoundationsInTraversal({ root = process.cwd() } = {}) {
   const failures = [], outputs = getTokenFoundationOutputs();
+  let phase = {};
+  try { phase = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")); }
+  catch (error) { failures.push(`Token phase authorization cannot be checked: ${error.message}`); }
+  let paintObservations;
+  try { paintObservations = getLibraryPaintObservations(root); } catch (error) { failures.push(error.message); }
+  const pendingPaintObservations = [];
+  let navigationConsumerRegistration = null;
+  try {
+    const phasePath = join(root, "status/current-phase.yaml");
+    if (existsSync(phasePath) && phase.navigationComponentsV042W6W8) {
+      navigationConsumerRegistration = getNavigationColorConsumerRegistration(root);
+      const ledger = JSON.parse(readFileSync(join(root, "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-06/navigation-color-consumers.json"), "utf8"));
+      navigationConsumerRegistration.sourceAudit = { ...navigationColorSourceAudit(ledger, { ...navigationConsumerRegistration }),
+        status: "frozen-ledger-authored-role-diagnostics-only", currentDomAndContracts: "not-inherited; current anatomy, content and painted parents remain unproved" };
+    }
+  } catch (error) { failures.push(`Navigation consumer registration: ${error.message}`); }
   const exceptionCandidates = [], acceptedTextContrastExceptions = [], acceptedComponentContrastExceptions = [], pendingContrastFindings = [], pendingEligibilityFindings = [], scopedEligibilityDecisions = [];
   const bridgePath = join(root, "packages/foundations/src/tailwind-theme.css");
   const buttonBridge = existsSync(bridgePath) ? readFileSync(bridgePath, "utf8") : "";
@@ -1070,7 +1724,7 @@ export function verifyTokenFoundations({ root = process.cwd() } = {}) {
   }
   if (exceptionCandidates.length) {
     try {
-      const status = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8"));
+      const status = phase;
       validateTokenFoundationsV1Phase(status);
       if (!status.tokenRefinements?.buttonTokenMigration?.contrastException) throw new Error("Missing the explicit user decision");
       acceptedTextContrastExceptions.push(...exceptionCandidates);
@@ -1088,7 +1742,7 @@ export function verifyTokenFoundations({ root = process.cwd() } = {}) {
   let dropdownReview;
   const dropdownCssPath = "apps/playground/src/experiments/headless/review.css";
   try {
-    if (hasDropdownBatchOneAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")))) {
+    if (hasDropdownBatchOneAuthorization(phase)) {
       dropdownReview = prepareDropdownColorReview({
         manifest: JSON.parse(readFileSync(join(root, "apps/playground/src/experiments/headless/manifest.json"), "utf8")),
         source: readFileSync(join(root, dropdownCssPath), "utf8"),
@@ -1098,24 +1752,70 @@ export function verifyTokenFoundations({ root = process.cwd() } = {}) {
     }
   } catch (error) { failures.push(`Dropdown color comparison cannot be checked: ${error.message}`); }
   try {
-    if (hasM2Authorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")))) outputs.colorCssConsumers.push(...getM2ColorConsumers(root));
+    if (hasM2Authorization(phase)) outputs.colorCssConsumers.push(...getM2ColorConsumers(root));
   } catch (error) { failures.push(`M2 color registration cannot be checked: ${error.message}`); }
-  if (existsSync(join(root, "status/current-phase.yaml")) && hasAvatarFamilyAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")))) outputs.colorCssConsumers.push(...getAvatarColorConsumers());
-  if (existsSync(join(root, "status/current-phase.yaml")) && hasInputNumberAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")))) outputs.colorCssConsumers.push(...getInputNumberColorConsumers());
-  const registeredRecipePaths = new Set([...outputs.colorRecipeConsumers, ...outputs.colorCssConsumers].map((entry) => entry.filePath).concat(paginationColorSourcePaths));
+  try {
+    if (hasTokenFirstV12Authorization(phase)) outputs.colorCssConsumers.push(...getTokenFirstV12ColorConsumers(root));
+  } catch (error) { failures.push(`G1 color registration cannot be checked: ${error.message}`); }
+  try {
+    if (hasG123PlaygroundAssetizationAuthorization(phase)) outputs.colorCssConsumers.push(...getG123PlaygroundDocumentationColorConsumers(root));
+  } catch (error) { failures.push(`G1–G3 documentation color registration cannot be checked: ${error.message}`); }
+  try {
+    if (hasButtonGroupRepairAuthorization(phase)) outputs.colorCssConsumers.push(...getButtonGroupRepairDocumentationColorConsumers(root));
+  } catch (error) { failures.push(`Button Group dark documentation color registration: ${error.message}`); }
+  if (existsSync(join(root, "status/current-phase.yaml")) && hasAvatarFamilyAuthorization(phase)) outputs.colorCssConsumers.push(...getAvatarColorConsumers());
+  if (existsSync(join(root, "status/current-phase.yaml")) && hasInputNumberAuthorization(phase)) outputs.colorCssConsumers.push(...getInputNumberColorConsumers());
+  const g4Authorized = existsSync(join(root, "status/current-phase.yaml")) && hasG4ComponentsAuthorization(phase);
+  const g5Authorized = existsSync(join(root, "status/current-phase.yaml")) && hasG5ComponentsAuthorization(phase);
+  let g6Colors;
+  if (phase?.componentRefinements?.g6Components) {
+    try {
+      getG6SourceBindings(root, phase);
+      g6Colors = verifyG6ColorConsumers(root);
+      pendingContrastFindings.push(...g6Colors.pendingContrastFindings);
+      pendingEligibilityFindings.push(...g6Colors.pendingEligibilityFindings);
+      pendingPaintObservations.push(...g6Colors.pendingPaintObservations);
+    } catch (error) { failures.push(`G6 finite color source registration: ${error.message}`); }
+  }
+
+  if (g5Authorized) {
+    try { outputs.colorCssConsumers.push(...verifyG5ColorSources(root).colorCssConsumers); }
+    catch (error) { failures.push(`G5 color source registration: ${error.message}`); }
+  }
+  if (g4Authorized) {
+    try { getG4SourceBindings(root, phase); }
+    catch (error) { failures.push(`G4 source registration cannot be checked: ${error.message}`); }
+    const g4 = getG4ColorConsumers();
+    outputs.colorRecipeConsumers.push(...g4.colorRecipeConsumers);
+    outputs.colorCssConsumers.push(...g4.colorCssConsumers);
+  }
+  const registeredRecipePaths = new Set([...outputs.colorRecipeConsumers, ...outputs.colorCssConsumers].map((entry) => entry.filePath).concat(paginationColorSourcePaths,
+    g4Authorized ? [...g4ComponentFiles.ui, ...g4ComponentFiles.application].filter(file => /\.(?:tsx|css)$/.test(file) && !file.endsWith(".test.tsx")) : [],
+    g5Authorized ? [...g5ComponentFiles.ui, ...g5ComponentFiles.application, ...(hasDateTimeOptimizationAuthorization(phase) ? [...dateTimeOptimizationFiles.ui, ...dateTimeOptimizationFiles.application] : []), ...(hasDatePickerUxRefinementAuthorization(phase) ? [...datePickerUxRefinementFiles.ui, ...datePickerUxRefinementFiles.application] : []), ...(hasSliderRefinementAuthorization(phase) ? [...sliderRefinementFiles.ui, ...sliderRefinementFiles.application] : []), ...(hasDatePickerVisualFeedbackAuthorization(phase) ? [...datePickerVisualFeedbackFiles.ui, ...datePickerVisualFeedbackFiles.application] : [])].filter(file => /\.(?:tsx|css)$/.test(file) && !file.endsWith(".test.tsx")) : []));
   for (const filePath of registeredRecipePaths) if (!existsSync(join(root, filePath))) failures.push(`Missing consumer source: ${filePath}`);
   for (const filePath of [...sourceFiles(root, "apps"), ...sourceFiles(root, "packages/ui/src"), ...sourceFiles(root, "packages/layouts/src")]) {
     if (filePath.startsWith(consumerDirectory)) continue;
-    const source = prepareDialogLayoutSource(filePath, readFileSync(join(root, filePath), "utf8"), existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {});
-    failures.push(...validateLayoutsRuntimeGeometry({ filePath, source, status: existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {} }));
+    const source = prepareDialogLayoutSource(filePath, readFileSync(join(root, filePath), "utf8"), existsSync(join(root, "status/current-phase.yaml")) ? phase : {});
+    const recordedPaints = paintObservations?.localSources.find(file => file.filePath === filePath)
+      ?? paintObservations?.inlineSources.find(file => file.kind === "finite-jsx-paints" && file.filePath === filePath);
+    if (recordedPaints) {
+      failures.push(...validateButtonAliasSource(source, buttonBridge, outputs).map(failure => `${filePath}: ${failure}`));
+      failures.push(...validateRecordedPaintSource(recordedPaints, source));
+      pendingPaintObservations.push(...recordedPaints.inventory.map(row => ({ ...row, filePath })), ...(recordedPaints.opacityInventory ?? []).map(row => ({ ...row, filePath })));
+      continue;
+    }
+    if (g6Colors && (g6Colors.currentColorSourcePaths ?? g6ColorSourcePaths).includes(filePath)) {
+      // Current additions above retain exact source inventories as unproved observations.
+      // The sealed historical G6/Carousel/Drawer measurements remain separately reported.
+      continue;
+    }
+    if (filePath === "packages/ui/src/tooltip/tooltip.css") failures.push(...validateTooltipCss(source, phase));
+    failures.push(...validateLayoutsRuntimeGeometry({ filePath, source, status: existsSync(join(root, "status/current-phase.yaml")) ? phase : {} }));
     failures.push(...validateButtonAliasSource(source, buttonBridge, outputs).map((failure) => `${filePath}: ${failure}`));
     if (registeredRecipePaths.has(filePath) || filePath === "packages/ui/src/tabs/tabs.tsx") failures.push(...validateRegisteredRecipeColors({ filePath, source: filePath === dropdownCssPath && dropdownReview ? dropdownReview.source : source, outputs, root, pendingContrastFindings, pendingEligibilityFindings, scopedEligibilityDecisions }));
-    else if (categorySource.test(source)) failures.push(`Category/local colors require registered Token consumer metadata: ${filePath}`);
+    else if (categorySource.test(source) && !navigationConsumerRegistration?.registeredSourcePaths.includes(filePath)) failures.push(`Category/local colors require registered Token consumer metadata: ${filePath}`);
     if (/(?:bg|text)-rain-swatch-|\.display(?:Foreground)?ClassName\b/.test(source) || outputs.displayConsumers.some((entry) => entry.className && source.includes(entry.className))) failures.push(`Display-only colors cannot be consumed outside the registered documentation scope: ${filePath}`);
   }
-  let phase = {};
-  try { phase = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")); }
-  catch (error) { failures.push(`Token phase authorization cannot be checked: ${error.message}`); }
   for (const [label, prefix, review, authorized] of [
     ["QuestionNumber", "question-number-", phase.componentRefinements?.questionNumber, hasQuestionNumberRefinementAuthorization(phase)],
     ["OptionButton content", "option-button-content-", phase.componentRefinements?.optionButton?.contentRefinement, hasOptionButtonContentRefinementAuthorization(phase)],
@@ -1176,12 +1876,26 @@ export function verifyTokenFoundations({ root = process.cwd() } = {}) {
     if (!hasDropdownFamilyAuthorization(phase) || review?.implementation === "completed" || review?.independentReview === "passed"
       || review?.contrastAcceptance !== "not-granted") failures.push("Dropdown public color findings remain pending in their own scope; no clean review or contrast acceptance may be claimed");
   }
-  return { failures: [...new Set(failures)], consumerFiles: files.length + registeredRecipePaths.size, acceptedTextContrastExceptions, acceptedComponentContrastExceptions, pendingContrastFindings, pendingEligibilityFindings, scopedEligibilityDecisions };
+  return { failures: [...new Set(failures)], consumerFiles: files.length + registeredRecipePaths.size, acceptedTextContrastExceptions, acceptedComponentContrastExceptions, pendingContrastFindings, pendingEligibilityFindings, pendingPaintObservations, scopedEligibilityDecisions, navigationConsumerRegistration };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const result = verifyTokenFoundations();
-  for (const [label, prefix] of [["BM-B hint", "bm-b-textbook-dialog"], ["QuestionNumber", "question-number-"], ["OptionButton content", "option-button-content-"], ["Input", "input-"], ["Inside field label", "input-inside-label-"], ["Tag", "tag-"], ["Select", "select-"], ["Shared field", "field-"], ["Dropdown comparison", "dropdown-"], ["Dropdown public", "menu-public-"], ["Pagination", "pagination-"], ["Table", "table-"]]) {
+  const unknown = result.pendingPaintObservations.length + (result.navigationConsumerRegistration?.totalPendingPaintUses ?? 0);
+  console.log(`Color conformance: ${result.pendingContrastFindings.length ? "failed-with-unproved" : unknown ? "unproved" : "declared-checks-only"}; ${result.pendingContrastFindings.length} known below-threshold findings, ${result.pendingEligibilityFindings.length} eligibility findings, ${unknown} authored observations awaiting actual content/parent/state evidence. Registration does not grant accessibility, human review or publication.`);
+  const navigationRoles = result.navigationConsumerRegistration?.sourceAudit?.categoryFailures ?? [];
+  if (navigationRoles.length) console.log(`Navigation authored-role review remains pending: ${navigationRoles.length} category/role conflicts; exact source registration does not make these eligible uses.`);
+  const g1Contrast = result.pendingContrastFindings.filter(row => /^token-first-g1/.test(row.recipeId)).length;
+  const g1Eligibility = result.pendingEligibilityFindings.filter(row => /^token-first-g1/.test(row.recipeId)).length;
+  if (g1Contrast || g1Eligibility) console.log(`G1 shared relocation remains pending: ${g1Contrast} measured failures and ${g1Eligibility} eligibility findings; original G1 visual/contrast decisions remain scoped and are not inherited.`);
+  const treeContrast = result.pendingContrastFindings.filter(row => row.recipeId === "tree-layout-a").length;
+  const treeEligibility = result.pendingEligibilityFindings.filter(row => row.recipeId === "tree-layout-a").length;
+  if (treeContrast || treeEligibility) console.log(`Tree review remains pending: ${treeContrast} measured contrast findings and ${treeEligibility} color-family eligibility findings; thresholds and critical/interactive roles remain unchanged.`);
+  for (const [label, prefix] of [["Navigation documentation", "apps/playground/src/docs/components/navigation-doc-pages.css"], ["Report A V2", "apps/prototype/src/scenarios/bm-d/report-a.css"]]) {
+    const count = result.pendingPaintObservations.filter(row => row.filePath === prefix).length;
+    if (count) console.log(`${label} paint review remains pending: ${count} exact authored declarations; actual painted parents, gradients and states remain unproved, no contrast acceptance granted.`);
+  }
+  for (const [label, prefix] of [["BM-B hint", "bm-b-textbook-dialog"], ["QuestionNumber", "question-number-"], ["OptionButton content", "option-button-content-"], ["Input", "input-"], ["Inside field label", "input-inside-label-"], ["Tag", "tag-"], ["Select", "select-"], ["Shared field", "field-"], ["Dropdown comparison", "dropdown-"], ["Dropdown public", "menu-public-"], ["Pagination", "pagination-"], ["Table", "table-"], ["Rain charts", "chart-"]]) {
     const matches = entry => entry.recipeId.startsWith(prefix) && (prefix !== "input-" || !entry.recipeId.startsWith("input-inside-label-"));
     const count = result.pendingContrastFindings.filter(matches).length;
     if (count) console.log(`${label} contrast review remains pending: ${count} declared foreground/boundary combinations below minimum; these are findings, not accepted exceptions or readability passes.`);
@@ -1194,5 +1908,5 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     console.log(`User-accepted text contrast exception: ${exception.recipeId} ${exception.theme} ${exception.parentId} ${exception.part}: ${exception.actual.toFixed(3)} < ${exception.minimum} (${exception.decisionSource}).`);
   }
   if (result.failures.length) { console.error(result.failures.join("\n")); process.exitCode = 1; }
-  else console.log(`Token Foundations verified: generated facts and ${result.consumerFiles} consumer files; ${result.acceptedTextContrastExceptions.length} user-accepted text contrast exceptions${result.acceptedTextContrastExceptions.length ? " remain below 4.5:1 (not readability passes)" : ""}.`);
+  else console.log(`Token Foundations registration/source checks verified: generated facts and ${result.consumerFiles} consumer files; known color failures and unproved combinations remain separate. ${result.acceptedTextContrastExceptions.length} user-accepted text contrast exceptions${result.acceptedTextContrastExceptions.length ? " remain below 4.5:1 (not readability passes)" : ""}.`);
 }

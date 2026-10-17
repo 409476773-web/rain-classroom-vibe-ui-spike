@@ -1,0 +1,142 @@
+
+Running 10 tests using 1 worker
+
+(node:34968) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [existing-R2] › tests/e2e/navigation-v042-review09-r1-r3.spec.ts:4:2 › R2 1200 content filter native radio supports vertical and horizontal keyboard (1.3s)
+  ✓   2 [existing-R2] › tests/e2e/navigation-v042-review09-r1-r3.spec.ts:13:2 › R2 1200 compact platform icons have Rain hover and focus Tooltip (1.3s)
+  ✓   3 [existing-R2] › tests/e2e/navigation-v042-review09-r1-r3.spec.ts:4:2 › R2 1440 content filter native radio supports vertical and horizontal keyboard (1.1s)
+  ✓   4 [existing-R2] › tests/e2e/navigation-v042-review09-r1-r3.spec.ts:13:2 › R2 1440 compact platform icons have Rain hover and focus Tooltip (1.3s)
+  ✓   5 [existing-R2] › tests/e2e/navigation-v042-review09-r1-r3.spec.ts:4:2 › R2 1600 content filter native radio supports vertical and horizontal keyboard (1.2s)
+  ✓   6 [existing-R2] › tests/e2e/navigation-v042-review09-r1-r3.spec.ts:13:2 › R2 1600 compact platform icons have Rain hover and focus Tooltip (1.4s)
+  ✓   7 [existing-R2] › tests/e2e/navigation-v042-review09-r1-r3.spec.ts:29:1 › R2 field dialog Escape returns focus to its original Tree node and preserves edit mode (1.2s)
+(node:34995) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 [hierarchy] › evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/r2-hierarchy.spec.ts:3:38 › R2 1200 hierarchy keeps component paint, geometry, and existing actions (2.2s)
+(node:35001) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 [hierarchy] › evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/r2-hierarchy.spec.ts:3:38 › R2 1440 hierarchy keeps component paint, geometry, and existing actions (2.1s)
+(node:35013) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  10 [hierarchy] › evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/r2-hierarchy.spec.ts:3:38 › R2 1600 hierarchy keeps component paint, geometry, and existing actions (2.1s)
+
+
+  1) [hierarchy] › evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/r2-hierarchy.spec.ts:3:38 › R2 1200 hierarchy keeps component paint, geometry, and existing actions 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.nv42-r2').first().getByRole('status')
+    Expected substring: "预览学生端：本地演示"
+    Error: strict mode violation: locator('.nv42-r2').first().getByRole('status') resolved to 2 elements:
+        1) <span role="status" class="sr-only" aria-live="polite"></span> aka getByRole('tree', { name: '课程内容编辑树' }).getByRole('status')
+        2) <div role="status" class="nv42-toast">…</div> aka getByText('预览学生端：本地演示，未连接真实服务。')
+
+    Call log:
+      - Expect "toContainText" with timeout 6000ms
+      - waiting for locator('.nv42-r2').first().getByRole('status')
+
+
+      16 |   await page.mouse.move(1700,1050);await focus.focus();expect(await focus.evaluate(el=>getComputedStyle(el).outlineWidth)).toBe('2px');
+      17 |   await focus.click();await expect(root.getByRole('button',{name:'退出专注',exact:true})).toBeVisible();await root.getByRole('button',{name:'退出专注',exact:true}).click();
+    > 18 |   await preview.click();await expect(root.getByRole('status')).toContainText('预览学生端：本地演示');await root.getByRole('button',{name:'关闭提示',exact:true}).click();await expect(root.getByRole('status')).toHaveCount(0);
+         |                                                                ^
+      19 |   await root.getByRole('button',{name:'隐藏课程导航',exact:true}).last().click();await expect(root.locator('.nv42-context')).not.toBeVisible();await root.getByRole('button',{name:'恢复课程导航',exact:true}).click();await expect(root.locator('.nv42-context')).toBeVisible();
+      20 |   await root.locator('.nv42-term').click();await expect(page.getByRole('menuitem',{name:'2026 秋季学期',exact:true})).toBeVisible();await page.keyboard.press('Escape');await expect(root.locator('.nv42-term')).toBeFocused();
+      21 |   await expect(root.getByRole('button',{name:'退出编辑',exact:true})).toBeVisible();await expect(root.getByRole('button',{name:'保存草稿',exact:true})).toHaveAttribute('data-variant','primary');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/r2-hierarchy.spec.ts:18:64
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/test-artifacts-final-verified/r2-hierarchy-R2-1200-hiera-9eb46-ometry-and-existing-actions-hierarchy/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/test-artifacts-final-verified/r2-hierarchy-R2-1200-hiera-9eb46-ometry-and-existing-actions-hierarchy/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/test-artifacts-final-verified/r2-hierarchy-R2-1200-hiera-9eb46-ometry-and-existing-actions-hierarchy/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/test-artifacts-final-verified/r2-hierarchy-R2-1200-hiera-9eb46-ometry-and-existing-actions-hierarchy/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [hierarchy] › evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/r2-hierarchy.spec.ts:3:38 › R2 1440 hierarchy keeps component paint, geometry, and existing actions 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.nv42-r2').first().getByRole('status')
+    Expected substring: "预览学生端：本地演示"
+    Error: strict mode violation: locator('.nv42-r2').first().getByRole('status') resolved to 2 elements:
+        1) <span role="status" class="sr-only" aria-live="polite"></span> aka getByRole('tree', { name: '课程内容编辑树' }).getByRole('status')
+        2) <div role="status" class="nv42-toast">…</div> aka getByText('预览学生端：本地演示，未连接真实服务。')
+
+    Call log:
+      - Expect "toContainText" with timeout 6000ms
+      - waiting for locator('.nv42-r2').first().getByRole('status')
+
+
+      16 |   await page.mouse.move(1700,1050);await focus.focus();expect(await focus.evaluate(el=>getComputedStyle(el).outlineWidth)).toBe('2px');
+      17 |   await focus.click();await expect(root.getByRole('button',{name:'退出专注',exact:true})).toBeVisible();await root.getByRole('button',{name:'退出专注',exact:true}).click();
+    > 18 |   await preview.click();await expect(root.getByRole('status')).toContainText('预览学生端：本地演示');await root.getByRole('button',{name:'关闭提示',exact:true}).click();await expect(root.getByRole('status')).toHaveCount(0);
+         |                                                                ^
+      19 |   await root.getByRole('button',{name:'隐藏课程导航',exact:true}).last().click();await expect(root.locator('.nv42-context')).not.toBeVisible();await root.getByRole('button',{name:'恢复课程导航',exact:true}).click();await expect(root.locator('.nv42-context')).toBeVisible();
+      20 |   await root.locator('.nv42-term').click();await expect(page.getByRole('menuitem',{name:'2026 秋季学期',exact:true})).toBeVisible();await page.keyboard.press('Escape');await expect(root.locator('.nv42-term')).toBeFocused();
+      21 |   await expect(root.getByRole('button',{name:'退出编辑',exact:true})).toBeVisible();await expect(root.getByRole('button',{name:'保存草稿',exact:true})).toHaveAttribute('data-variant','primary');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/r2-hierarchy.spec.ts:18:64
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/test-artifacts-final-verified/r2-hierarchy-R2-1440-hiera-331f1-ometry-and-existing-actions-hierarchy/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/test-artifacts-final-verified/r2-hierarchy-R2-1440-hiera-331f1-ometry-and-existing-actions-hierarchy/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/test-artifacts-final-verified/r2-hierarchy-R2-1440-hiera-331f1-ometry-and-existing-actions-hierarchy/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/test-artifacts-final-verified/r2-hierarchy-R2-1440-hiera-331f1-ometry-and-existing-actions-hierarchy/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [hierarchy] › evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/r2-hierarchy.spec.ts:3:38 › R2 1600 hierarchy keeps component paint, geometry, and existing actions 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.nv42-r2').first().getByRole('status')
+    Expected substring: "预览学生端：本地演示"
+    Error: strict mode violation: locator('.nv42-r2').first().getByRole('status') resolved to 2 elements:
+        1) <span role="status" class="sr-only" aria-live="polite"></span> aka getByRole('tree', { name: '课程内容编辑树' }).getByRole('status')
+        2) <div role="status" class="nv42-toast">…</div> aka getByText('预览学生端：本地演示，未连接真实服务。')
+
+    Call log:
+      - Expect "toContainText" with timeout 6000ms
+      - waiting for locator('.nv42-r2').first().getByRole('status')
+
+
+      16 |   await page.mouse.move(1700,1050);await focus.focus();expect(await focus.evaluate(el=>getComputedStyle(el).outlineWidth)).toBe('2px');
+      17 |   await focus.click();await expect(root.getByRole('button',{name:'退出专注',exact:true})).toBeVisible();await root.getByRole('button',{name:'退出专注',exact:true}).click();
+    > 18 |   await preview.click();await expect(root.getByRole('status')).toContainText('预览学生端：本地演示');await root.getByRole('button',{name:'关闭提示',exact:true}).click();await expect(root.getByRole('status')).toHaveCount(0);
+         |                                                                ^
+      19 |   await root.getByRole('button',{name:'隐藏课程导航',exact:true}).last().click();await expect(root.locator('.nv42-context')).not.toBeVisible();await root.getByRole('button',{name:'恢复课程导航',exact:true}).click();await expect(root.locator('.nv42-context')).toBeVisible();
+      20 |   await root.locator('.nv42-term').click();await expect(page.getByRole('menuitem',{name:'2026 秋季学期',exact:true})).toBeVisible();await page.keyboard.press('Escape');await expect(root.locator('.nv42-term')).toBeFocused();
+      21 |   await expect(root.getByRole('button',{name:'退出编辑',exact:true})).toBeVisible();await expect(root.getByRole('button',{name:'保存草稿',exact:true})).toHaveAttribute('data-variant','primary');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/r2-hierarchy.spec.ts:18:64
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/test-artifacts-final-verified/r2-hierarchy-R2-1600-hiera-3d5d2-ometry-and-existing-actions-hierarchy/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/test-artifacts-final-verified/r2-hierarchy-R2-1600-hiera-3d5d2-ometry-and-existing-actions-hierarchy/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/test-artifacts-final-verified/r2-hierarchy-R2-1600-hiera-3d5d2-ometry-and-existing-actions-hierarchy/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/test-artifacts-final-verified/r2-hierarchy-R2-1600-hiera-3d5d2-ometry-and-existing-actions-hierarchy/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [hierarchy] › evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/r2-hierarchy.spec.ts:3:38 › R2 1200 hierarchy keeps component paint, geometry, and existing actions 
+    [hierarchy] › evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/r2-hierarchy.spec.ts:3:38 › R2 1440 hierarchy keeps component paint, geometry, and existing actions 
+    [hierarchy] › evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/r2/r2-hierarchy.spec.ts:3:38 › R2 1600 hierarchy keeps component paint, geometry, and existing actions 
+  7 passed (16.8s)

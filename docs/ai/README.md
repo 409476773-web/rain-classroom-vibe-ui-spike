@@ -1,15 +1,21 @@
 # Rain 按需使用入口
 
+导航 v0.4.2 候选：按需读 [UI 选择](navigation-v042-w3.md)、[可恢复工作区](navigation-workspaces-v042.md)、[R4–R6 与独立消费](navigation-v042-w5.md)。仓库内 [实施](skills/rain-navigation-implementation/SKILL.md) / [组合](skills/rain-navigation-composition/SKILL.md) Skill 未全局安装；G2/G3 与发布分别登记。
+
 适用范围：当前本地工作区的原型与候选源码。先遵守根 [AGENTS](../../AGENTS.md)；本页用于减少重复加载，不能替代当前任务的阶段、来源与验证边界。
 
 ## 找到需要的资产
 
-生成或改造页面，先读 [原型设计入口](prototype-design.md)。该短入口及[大表单组合](form-composition.md)随当前 Starter 导出；组件合同、参考图片与最小来源记录一并保留。它不依赖本次聊天，使用者仍须按条件判断并检查实际页面。
+设计或改造组件、模块、页面，使用 [Rain Designer](../../.agents/skills/rain-designer/SKILL.md)及其设计指南，并读取[原型设计入口](prototype-design.md)核对本库品牌、组件合同与真实 API。先理解当前任务与信息关系，再选择适合的资产；已读内容直接复用。[原设计经验库](information-design.md)仅在需要具体案例或追溯来源时按需阅读。有可复用的新经验及实际证据时，按当前授权记录；局部选择不升级为全库规则。当前学习报告 V2 的局部确认见[用户确认](../../evidence/runtime/learning-report-a/v2-feedback/verification.md)，与下方历史 BM-D 原入口区分。
+
+当前 Starter 随附 Rain Designer、原型设计入口、原设计经验库及[大表单组合](form-composition.md)，并保留相关组件合同、表单参考图片与最小来源记录。方法库的全部原始案例不随附，缺失材料不能当成已读取证据。使用者无需本次聊天即可读取方法，仍须按条件判断并检查实际页面；不在多个入口间重复启动设计流程。
 
 ### 先按页面任务找到组合
 
 | 页面任务 | 先看的组合与边界 |
 | --- | --- |
+| A1 页面/内容导航、A4 连体页签、公共资源与 200 班级、R2 编辑工作区 | [导航 v0.4.2 候选指南](navigation-v042.md)及[本地源码登记](../../registry/navigation-v042.json)：W0–W2 首片，G1限定视觉accepted、未发布；公共候选与可复制 R2 的状态分别记录。索引当前可生成并校验；早期 ui-command 缺 Registry 的阻断属于历史状态 |
+| 跨模块导航、课程范围、命令与陌生业务再组合 | [G3 v0.3 本地候选](../../apps/prototype/src/scenarios/token-first-g3/rebuild/README.md)：12 组合、可运行完整页、隔离与运行证据；视觉 pending-review，未进入公共资产索引 |
 | 查找、比较、选择并批量处理同类资料 | [BM-A 现有组合](../../apps/prototype/src/scenarios/bm-a/page.tsx)及[列表校准说明](list-composition.md)：截图、源码、保持关系、可调部分和状态集中阅读。新校准版仍待视觉审阅，不继承原 BM-A 的确认 |
 | 编辑包含多个分区的长表单 | 先读[大表单组合](form-composition.md)，再读命中的 BM-B 源码和状态合同：参考内容分组、固定操作区和草稿处理，不机械复制全部分区 |
 
@@ -39,9 +45,12 @@
 | 展开、收起与图标操作 | [IconButton](../../manifests/ui/icon-button.yaml)与[图标选择](icon-selection.md)；宿主提供可访问名称和真实展开状态，需要显式文案时保留文字 |
 | 分组、间距、主从区域 | [Layout 用法](../audits/2026-09-13-layouts-usage.md)，再查命中的 Stack / Inline / Grid / Split 合同 |
 | 独立内容对象 | [Card](../../manifests/ui/card.yaml)；默认20px内边距与既有Parts/Recipe，不把Card当作所有布局的容器 |
+| 标签、字段、可输入候选、连续值与日期 | [G5按用途入口](g5-components.md)：八项能力、五个新增资产，含作业设置与教学筛选可操作样例 |
+| 媒体、附件、抽屉、轮播、会话与问答 | [G6按用途入口](g6-components.md)：12 项能力，包含 11 项公共 UI 候选和 1 项 Data Table 配方；各自来源、真实消费及验收边界独立 |
 | 输入与校验展示 | [FormItem](../../manifests/ui/form-item.yaml)、[Input](../../manifests/ui/input.yaml)；长文本用[Textarea](../../manifests/ui/textarea.yaml)，由宿主拥有草稿、校验和提交 |
 | 对话框与确认 | [Dialog](../../manifests/ui/dialog.yaml)、[AlertDialog](../../manifests/ui/alert-dialog.yaml)；复用既有焦点、关闭与嵌套浮层行为 |
 | 数据表 | [Table](../../manifests/ui/table.yaml)、[Pagination](../../manifests/ui/pagination.yaml)、[Empty](../../manifests/ui/empty.yaml)；业务处理见BM-A |
+| 按业务问题选择图表、查看实例与接入 | [图表选择与接入](charts.md)：从比较、趋势、构成、目标、矩阵、关系和地域问题选型，保留 AI／开发完整接入路径；[能力清单](chart-capabilities.md)覆盖 19 个候选入口，技术验证与用户确认分范围记录 |
 
 ## 先组织任务，再组合页面
 
@@ -103,3 +112,11 @@ RN-15的M1 BM-A/B限定本地试用入口见[一页体验说明](trial-guide.md)
 - RN-14限定的六轮改造与独立消费检查已通过；没有对照实验，效率、token及真实用户修正成本仍为 `not-measured`。RN-15修复了完整基线新核出的16项测试失败及3处测试类型声明错误，旧批次失败日志仍保留。C/D 的后续技术与设计状态见上方独立入口；没有包/Registry发布、Figma写入或业务迁移。
 
 本批范围与验证见 [RN-13计划](../plans/2026-09-15-rn13-asset-index.md)和[验证记录](../../evidence/runtime/rn13-asset-index/verification.md)。
+
+- [导航 v0.4.2 W3 消费合同](navigation-v042-w3.md)：NavigationList/ObjectNavigator/SegmentedControl、C/W样本及R1/R3；G1保留，W3–W5 candidate13运行视觉/组合accepted，G3独立。
+
+- [W6 独立消费](navigation-v042-w6.md)：E1–E6 新业务宿主、来源/实例 patch 与候选边界；新组合视觉待人工审阅。
+
+
+导航W6–W8当前交付、版本及迁移边界见[导航v0.4.2交付说明](navigation-v042-handoff.md)；G3与全项目质量门仍按独立证据开放。
+

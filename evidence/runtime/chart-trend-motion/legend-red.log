@@ -1,0 +1,53 @@
+
+Running 1 test using 1 worker
+
+(node:99960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-trend-motion.spec.ts:148:1 › trend motion: legend visibility updates pinned readings and keeps one series visible (11.1s)
+
+
+  1) tests/e2e/chart-trend-motion.spec.ts:148:1 › trend motion: legend visibility updates pinned readings and keeps one series visible 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[aria-labelledby="trend-sample-title"]').locator('.trend-guides > g[clip-path] > path')
+    Expected: 3
+    Received: 6
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[aria-labelledby="trend-sample-title"]').locator('.trend-guides > g[clip-path] > path')
+        14 × locator resolved to 6 elements
+           - unexpected value "6"
+
+
+      158 |   const areas = sample.locator(".trend-materials > g[mask] path");
+      159 |   const currentColor = await sample.locator('[data-testid="trend-marker"][data-series="本期"] circle').first().getAttribute("stroke");
+    > 160 |   await expect(lines).toHaveCount(3);
+          |                       ^
+      161 |   await expect(areas).toHaveCount(3);
+      162 |   await expect(current).toHaveAttribute("aria-pressed", "true");
+      163 |   await expect(previous).toHaveAttribute("aria-pressed", "true");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-trend-motion.spec.ts:160:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-trend-motion/legend-red-results/chart-trend-motion-trend-m-5bf97-nd-keeps-one-series-visible/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    evidence/runtime/chart-trend-motion/legend-red-results/chart-trend-motion-trend-m-5bf97-nd-keeps-one-series-visible/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-trend-motion/legend-red-results/chart-trend-motion-trend-m-5bf97-nd-keeps-one-series-visible/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-trend-motion/legend-red-results/chart-trend-motion-trend-m-5bf97-nd-keeps-one-series-visible/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-trend-motion/legend-red-results/chart-trend-motion-trend-m-5bf97-nd-keeps-one-series-visible/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-trend-motion.spec.ts:148:1 › trend motion: legend visibility updates pinned readings and keeps one series visible 

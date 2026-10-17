@@ -1,0 +1,137 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/conversation-composer/conversation-composer.test.tsx (32 tests | 3 failed) 990ms
+   × blocks sending during local attachment removal and recovers when it is rejected 24ms
+   × blocks sending during local attachment removal and recovers when it is declined 20ms
+   × keeps a new local removal pending when an older conversation removal finishes 32ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/conversation-composer/conversation-composer.test.tsx > blocks sending during local attachment removal and recovers when it is rejected
+ FAIL  packages/ui/src/conversation-composer/conversation-composer.test.tsx > blocks sending during local attachment removal and recovers when it is declined
+AssertionError: expected "vi.fn()" to not be called at all, but actually been called 1 times
+
+Received:
+
+  1st vi.fn() call:
+
+    Array []
+
+
+Number of calls: 1
+
+ ❯ packages/ui/src/conversation-composer/conversation-composer.test.tsx:186:22
+    184|   await user.click(removeButton);
+    185|   fireEvent.submit(screen.getByRole("form"));
+    186|   expect(submit).not.toHaveBeenCalled();
+       |                      ^
+    187|   expect(screen.getByRole("button",{name:"发送"})).toBeDisabled();
+    188|   expect(removeButton).toBeDisabled();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  packages/ui/src/conversation-composer/conversation-composer.test.tsx > keeps a new local removal pending when an older conversation removal finishes
+TestingLibraryElementError: Unable to find an element with the text: 正在移除…. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<form[39m
+      [33maria-label[39m=[32m"发送消息"[39m
+      [33mclass[39m=[32m"rain-composer "[39m
+      [33mdata-layout[39m=[32m"compact"[39m
+      [33mdata-rain-id[39m=[32m"recipe-conversation-composer"[39m
+      [33mdata-slot[39m=[32m"root"[39m
+      [33mdata-surface[39m=[32m"gray"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"rain-composer__context"[39m
+        [33mdata-slot[39m=[32m"context"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33maria-label[39m=[32m"本次资料，共 1 项"[39m
+          [33mclass[39m=[32m"rain-composer__materials"[39m
+          [33mrole[39m=[32m"group"[39m
+          [33mtabindex[39m=[32m"0"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"rain-composer__file"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"rain-attachment rain-composer__material"[39m
+              [33mdata-orientation[39m=[32m"horizontal"[39m
+              [33mdata-rain-id[39m=[32m"ui-attachment"[39m
+              [33mdata-size[39m=[32m"sm"[39m
+              [33mdata-slot[39m=[32m"attachment"[39m
+              [33mdata-state[39m=[32m"done"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"rain-icon"[39m
+                [33mdata-icon[39m=[32m"icon/file"[39m
+                [33mdata-icon-color-mode[39m=[32m"host"[39m
+                [33mdata-icon-rendering[39m=[32m"svg-mask"[39m
+                [33mdata-rain-id[39m=[32m"icon"[39m
+                [33mstyle[39m=[32m"width: 20px; height: 20px; mask-image: url(\"data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_53_44'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='2'%20y='2'%20width='20'%20height='20'%3e%3cpath%20d='M19.25%202C20.3546%202%2021.25%202.89543%2021.25%204V20C21.25%2021.1046%2020.3546%2022%2019.25%2022H4.75C3.64543%2022%202.75%2021.1046%202.75%2020V4C2.75%202.89543%203.64543%202%204.75%202H19.25ZM4.75%2020H19.25V4H4.75V20ZM10.3496%2014.5C10.9019%2014.5%2011.3496%2014.9477%2011.3496%2015.5C11.3496%2016.0523%2010.9019%2016.5%2010.3496%2016.5H7.34961C6.79749%2016.4998%206.34961%2016.0522%206.34961%2015.5C6.34961%2014.9478%206.79749%2014.5002%207.34961%2014.5H10.3496ZM16.3496%2011C16.9019%2011%2017.3496%2011.4477%2017.3496%2012C17.3496%2012.5523%2016.9019%2013%2016.3496%2013H7.34961C6.7975%2012.9998%206.34963%2012.5521%206.34961%2012C6.34961%2011.4478%206.79749%2011.0002%207.34961%2011H16.3496ZM13.0498%207.5C13.6021%207.5%2014.0498%207.94772%2014.0498%208.5C14.0498%209.05228%2013.6021%209.5%2013.0498%209.5H7.34961C6.79749%209.4998%206.34961%209.05216%206.34961%208.5C6.34961%207.94784%206.79749%207.5002%207.34961%207.5H13.0498Z'%20fill='%231D2129'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_53_44)'%3e%3crect%20width='24'%20height='24'%20fill='%231D2129'/%3e%3c/g%3e%3c/svg%3e\"); -webkit-mask-image: url(\"data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_53_44'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='2'%20y='2'%20width='20'%20height='20'%3e%3cpath%20d='M19.25%202C20.3546%202%2021.25%202.89543%2021.25%204V20C21.25%2021.1046%2020.3546%2022%2019.25%2022H4.75C3.64543%2022%202.75%2021.1046%202.75%2020V4C2.75%202.89543%203.64543%202%204.75%202H19.25ZM4.75%2020H19.25V4H4.75V20ZM10.3496%2014.5C10.9019%2014.5%2011.3496%2014.9477%2011.3496%2015.5C11.3496%2016.0523%2010.9019%2016.5%2010.3496%2016.5H7.34961C6.79749%2016.4998%206.34961%2016.0522%206.34961%2015.5C6.34961%2014.9478%206.79749%2014.5002%207.34961%2014.5H10.3496ZM16.3496%2011C16.9019%2011%2017.3496%2011.4477%2017.3496%2012C17.3496%2012.5523%2016.9019%2013%2016.3496%2013H7.34961C6.7975%2012.9998%206.34963%2012.5521%206.34961%2012C6.34961%2011.4478%206.79749%2011.0002%207.34961%2011H16.3496ZM13.0498%207.5C13.6021%207.5%2014.0498%207.94772%2014.0498%208.5C14.0498%209.05228%2013.6021%209.5%2013.0498%209.5H7.34961C6.79749%209.4998%206.34961%209.05216%206.34961%208.5C6.34961%207.94784%206.79749%207.5002%207.34961%207.5H13.0498Z'%20fill='%231D2129'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_53_44)'%3e%3crect%20width='24'%20height='24'%20fill='%231D2129'/%3e%3c/g%3e%3c/svg%3e\");"[39m
+              [36m/>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"rain-attachment__content"[39m
+                [33mdata-slot[39m=[32m"attachment-content"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"rain-attachment__title"[39m
+                  [33mdata-slot[39m=[32m"attachment-title"[39m
+                  [33mtitle[39m=[32m"课堂.txt"[39m
+                [36m>[39m
+                  [0m课堂.txt[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"rain-attachment__description rain-composer__source"[39m
+                  [33mdata-slot[39m=[32m"attachment-description"[39m
+                [36m>[39m
+                  [0m本地文件[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<button[39m
+                [33maria-label[39m=[32m"查看资料 课堂.txt"[39m
+                [33mclass[39m=[32m"rain-attachment__trigger"[39m
+                [33mdata-focus[39m=[32m"control"[39m
+                [33mdata-slot[39m=[32m"attachment-trigger"[39m
+                [33mtitle[39m=[32m"课堂.txt"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m/>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"rain-attachment__actions"[39m
+                [33mdata-slot[39m=[32m"attachment-actions"[39m
+              [36m>[39m
+                [36m<button[39m
+                  [33maria-label[39m=[32m"移除资料 课堂.txt"[39m
+                  [33mclass[39m=[32m"rain-icon-button box-border relative inline-flex flex-none items-center justify-center p-rain-0 border-none overflow-visible align-middle appearance-none select-none isolate transition-colors duration-rain-icon-button ease-rain-icon-button focus-visible:outline-solid motion-reduce:transition-none text-rain-category-icon-neutral-2 bg-rain-action-ghost cursor-pointer hover:bg-rain-category-fill-neutral-alpha-3 active:bg-rain-category-fill-neutral-alpha-2 size-rain-icon-button-control-28 rounded-rain-6"[39m
+                  [33mdata-density[39m=[32m"default"[39m
+                  [33mdata-feedback[39m=[32m"interactive"[39m
+                  [33mdata-focus[39m=[32m"control"[39m
+                  [33mdata-highlight[39m=[32m"none"[39m
+                  [33mdata-rain-id[39m=[32m"ui-icon-button"[39m
+                  [33mdata-rain-state[39m=[32m"default"[39m
+...
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ packages/ui/src/conversation-composer/conversation-composer.test.tsx:210:17
+    208|   await act(async()=>finishOld(false));
+    209|   expect(screen.queryByText("移除未完成，请重试。")).toBeNull();
+    210|   expect(screen.getByText("正在移除…")).toBeVisible();
+       |                 ^
+    211|   expect(screen.getByRole("button",{name:"发送"})).toBeDisabled();
+    212|   expect(screen.getByRole("button",{name:"移除资料 课堂.txt"})).toBeDisabled…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 29 passed (32)
+   Start at  00:40:18
+   Duration  2.10s (transform 295ms, setup 110ms, import 524ms, tests 990ms, environment 384ms)
+

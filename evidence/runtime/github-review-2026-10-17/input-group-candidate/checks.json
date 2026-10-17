@@ -1,0 +1,47 @@
+{
+  "scope": "independent P6 copy candidate; no full workspace claims",
+  "results": [
+    {
+      "name": "g5-component-pages-test",
+      "command": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "apps/playground/src/docs/components/g5-component-pages.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=evidence/g5-component-pages-results.json"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 7.58,
+      "log": "evidence/g5-component-pages-test.log"
+    },
+    {
+      "name": "playground-typecheck",
+      "command": [
+        "pnpm",
+        "--dir",
+        "apps/playground",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 1.57,
+      "log": "evidence/playground-typecheck.log"
+    },
+    {
+      "name": "playground-build",
+      "command": [
+        "pnpm",
+        "--dir",
+        "apps/playground",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 3.26,
+      "log": "evidence/playground-build.log"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "assetIdentity": "independent-static-simulation-holdout",
+  "frozen": true,
+  "scoringVersion": 1,
+  "scope": "仅依据固定截图的可见信息关系；不评交互、业务逻辑、响应式或真实产品可访问性验收。",
+  "allowedInputs": [
+    "fixtures/rain.css",
+    "fixtures/render.mjs"
+  ],
+  "noPreviousReviewOrSkillInputs": true,
+  "renderContract": {
+    "width": 1024,
+    "height": 800,
+    "dpr": 1,
+    "zoom": 1,
+    "theme": "light",
+    "font": "PingFang SC",
+    "fontFilesDistributed": false
+  },
+  "geometryPolicy": "几何、自检和色值仅确认植入及渲染条件，不代表视觉通过。独立评审需实际查看PNG并描述对象与关系。",
+  "cases": [
+    {
+      "file": "schedule.html",
+      "png": "schedule.png",
+      "expectedDecision": "revise",
+      "task": "按时间找到三项课堂活动并确认教室。",
+      "seededDefects": [
+        {
+          "id": "H-S1",
+          "objects": [
+            "11:10 – 11:40",
+            "成果交流",
+            "小组实验的准备说明"
+          ],
+          "relationship": "第3项时间应与第3项成果交流活动配对，但时间列使用固定行高，第2活动因说明增高后，第3时间仍停留在小组实验块内部的纵向位置。",
+          "visibleImpact": "快速扫描时无法稳定把11:10–11:40与下方成果交流对应，时间与活动的同行关系断开。",
+          "requiredFinding": "指出第3个时间与成果交流错位或错误靠近上一项说明；仅说间距不统一不计命中。",
+          "acceptableCorrection": "让时间与各自活动共用行高度或置于各自活动内部，保留第2项确有说明而增高的合理差异。",
+          "implantCheckOnly": "time-three.y 位于 event-two 的内部，且早于 event-three.y 至少40px。"
+        },
+        {
+          "id": "H-S2",
+          "objects": [
+            "实验演示",
+            "地点 · 实验楼 302"
+          ],
+          "relationship": "第1项活动的必要教室信息使用了禁用文字色，而其他教室使用可读的次级文字色；该活动并未禁用或取消。",
+          "visibleImpact": "同为需确认的上课地点，第1项显著淡化，降低读取和确认教室的可靠性。",
+          "requiredFinding": "指出第一项实验楼302的地点文字过淡或被呈现为禁用，且关联到找教室任务；泛称所有小字应加粗不计命中。",
+          "acceptableCorrection": "恢复与其他活动地点一致、可读的次级文字色，保留标题与地点的层级。",
+          "implantCheckOnly": "room-one 的计算颜色等于 Rain 禁用文字色，仍在视口内。"
+        }
+      ],
+      "notDefects": [
+        "小组实验因为多两行需带物品说明而更高",
+        "活动标题比地点更强的正常层级",
+        "没有交互控件：本页是静态安排摘要"
+      ],
+      "score": {
+        "eachSeededDefect": 1,
+        "maximum": 2,
+        "falsePositive": "额外修改合理差异或要求无依据的交互计误报；建议必须在可见证据范围内。"
+      }
+    },
+    {
+      "file": "task-tree.html",
+      "png": "task-tree.png",
+      "expectedDecision": "keep",
+      "task": "理解父级阶段与子任务归属，并找到仍在进行的任务。",
+      "seededDefects": [],
+      "preserveDifferences": [
+        {
+          "id": "H-T1",
+          "objects": [
+            "收集资料 / 整理成果",
+            "拍摄植物照片 / 记录观察数据 / 整理植物分类 / 撰写观察报告"
+          ],
+          "relationship": "阶段标题与带竖线的子任务列表形成父子层级，子任务文字进一步向右缩进。",
+          "mustPreserve": "不得为了横向对齐而把子任务全部拉到阶段标题起点，或去掉能明确归属的层级表达。"
+        },
+        {
+          "id": "H-T2",
+          "objects": [
+            "已完成阶段和任务",
+            "进行中阶段和撰写观察报告"
+          ],
+          "relationship": "已完成用绿色完成标识与较弱的可读文本，进行中用蓝色状态与较强任务名；各状态同时有文字说明。",
+          "mustPreserve": "保留状态文字与合理视觉区别；不得为了颜色、图标或字重统一而抹掉完成/进行中差异。"
+        }
+      ],
+      "score": {
+        "correctKeep": 1,
+        "preservesHierarchy": 1,
+        "preservesStatus": 1,
+        "maximum": 3,
+        "falsePositive": "将合理缩进、状态色或当前任务字重判定为缺陷；无明确可见依据要求重做排布。"
+      }
+    }
+  ]
+}

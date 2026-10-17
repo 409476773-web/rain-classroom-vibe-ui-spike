@@ -1,0 +1,46 @@
+.data-table-recipe { width: 100%; min-width: 0; }
+.data-table-controls { min-width: 0; margin: 0; padding: 0; border: 0; }
+.data-table-search { flex: 1 1 260px; min-width: 0; }
+.data-table-search [data-rain-id="ui-search-input"] { width: 100%; }
+.data-table-filter { flex: 0 1 200px; min-width: 0; }
+/* Keep the desktop rows stable; narrow containers wrap complete control groups. */
+.data-table-toolbar { container-type: inline-size; }
+.data-table-view { flex: none; }
+.material-view-start { border-start-end-radius: 0; border-end-end-radius: 0; }
+.material-view-end { border-start-start-radius: 0; border-end-start-radius: 0; }
+.data-table-view button + button { margin-inline-start: -1px; }
+.data-table-view button[aria-pressed="true"], .data-table-view button:focus-visible { z-index: 1; }
+.data-table-query { flex: 1; min-width: 0; }
+.data-table-query > button { flex: none; }
+.data-table-batch-actions { flex: none; margin-inline-start: auto; }
+.data-table-result-info, .data-table-display-tools { flex: none; }
+.data-table-result-info > span, .data-table-batch-actions > span { white-space: nowrap; }
+.data-table-actions-row { min-height: 44px; }
+.data-table-refresh { position: relative; }
+.data-table-refresh-hint { pointer-events: none; container-type: normal; display: none; position: absolute; top: 100%; left: 0; width: max-content; z-index: 10; }
+.data-table-refresh:hover .data-table-refresh-hint, .data-table-refresh:focus-within .data-table-refresh-hint { display: block; }
+.data-table-notice > .rain-card { container-type: normal; }
+.data-table-notice { position: fixed; z-index: 20; inset-inline-end: 24px; bottom: 24px; max-width: calc(100vw - 48px); }
+@container (max-width: 960px) {
+  .data-table-result-tools { flex-wrap: wrap; }
+}
+@container (max-width: 760px) {
+  .data-table-query-row, .data-table-query, .data-table-actions-row { flex-wrap: wrap; }
+  .data-table-query { flex-basis: 100%; }
+  .data-table-batch-actions, .data-table-result-info { flex-wrap: wrap; max-width: 100%; }
+  .data-table-result-tools { min-width: 0; max-width: 100%; }
+  .data-table-batch-actions > span { flex-basis: 100%; text-align: end; }
+  .data-table-search { flex-basis: 100%; }
+  .data-table-filter { flex-basis: 200px; }
+}
+.data-table-grid { min-width: 760px; }
+.data-table-grid [data-slot="cell"]:nth-child(2) { width: 36%; min-width: 220px; overflow-wrap: anywhere; }
+.data-table-grid [data-slot="cell"]:not(:nth-child(2)) { white-space: nowrap; }
+.data-table-note { font-size: var(--rain-font-size-13); line-height: var(--rain-line-height-22); }
+.data-table-toolbar [data-slot="result-count"], .data-table-toolbar [data-slot="selected-count"] { font-size: var(--rain-font-size-14); }
+.data-table-recipe p { margin: 0; }
+.data-table-recipe summary { cursor: pointer; }
+.data-table-consumer { max-width: 1200px; margin-inline: auto; }
+/* Local recipe paints: exact consumers and states are registered in token-foundation-outputs.mjs. */
+.data-table-recipe .material-card[data-selected="true"] { background-color: var(--rain-category-fill-brand-alpha-4); }
+.data-table-recipe .data-table-metadata { color: var(--rain-category-text-neutral-4); }

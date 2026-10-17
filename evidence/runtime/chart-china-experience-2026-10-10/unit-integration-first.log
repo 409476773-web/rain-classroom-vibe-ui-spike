@@ -1,0 +1,194 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx (17 tests | 3 failed) 3214ms
+   × map exploration offers a compact region picker instead of a permanently expanded button grid 506ms
+   × national loading becomes 34 real provincial buttons and a same-value precise table 103ms
+   × nation to Guangdong to Guangzhou detail and return preserves the independent layer 80ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > map exploration offers a compact region picker instead of a permanently expanded button grid
+Error: expect(element).toHaveAttribute("aria-expanded", "false") // element.getAttribute("aria-expanded") === "false"
+
+Expected the element to have attribute:
+  aria-expanded="false"
+Received:
+  aria-expanded="true"
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx:34:18
+     32|   const picker = await regionButton(view, /^选择地区$/);
+     33|   await waitFor(() => expect(picker).toBeEnabled());
+     34|   expect(picker).toHaveAttribute("aria-expanded", "false");
+       |                  ^
+     35|   expect(view.queryByRole("list", { name: "地区列表" })).toBeNull();
+     36|   fireEvent.click(picker);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > national loading becomes 34 real provincial buttons and a same-value precise table
+TestingLibraryElementError: Unable to find an element with the text: CH-117. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div[39m
+    [33mdata-base-ui-inert[39m=[32m""[39m
+  [36m>[39m
+    [36m<section[39m
+      [33mclass[39m=[32m"rain-china-example rain-chart"[39m
+      [33mdata-china-layer[39m=[32m"national"[39m
+      [33mdata-local-recipe[39m=[32m"china-map-experience-2026-10-10"[39m
+      [33mdata-recipe[39m=[32m"monochrome-blue"[39m
+      [33mdata-revision[39m=[32m"0"[39m
+      [33mdata-state[39m=[32m"normal"[39m
+    [36m>[39m
+      [36m<header>[39m
+        [36m<h2>[39m
+          [0m全国[0m
+          [0m · 地区参与人数[0m
+        [36m</h2>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"rain-china-reference"[39m
+        [36m>[39m
+          [0mCH-117[0m
+          [0m · 示例数据[0m
+        [36m</span>[39m
+      [36m</header>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"rain-china-navigation"[39m
+      [36m>[39m
+        [36m<nav[39m
+          [33maria-label[39m=[32m"当前地图层级"[39m
+          [33mclass[39m=[32m"rain-breadcrumb relative min-w-0 font-rain-ui text-rain-size-13 leading-rain-18 text-rain-category-text-neutral-4"[39m
+          [33mdata-rain-id[39m=[32m"ui-breadcrumb"[39m
+          [33mdata-size[39m=[32m"13"[39m
+          [33mdata-slot[39m=[32m"root"[39m
+        [36m>[39m
+          [36m<ol[39m
+            [33mclass[39m=[32m"rain-breadcrumb-list flex min-w-0 items-center p-rain-0 m-rain-0 list-none"[39m
+            [33mdata-slot[39m=[32m"list"[39m
+          [36m>[39m
+            [36m<li[39m
+              [33mclass[39m=[32m"rain-breadcrumb-item inline-flex min-w-0 items-center"[39m
+              [33mdata-slot[39m=[32m"item"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33maria-current[39m=[32m"page"[39m
+                [33mclass[39m=[32m"rain-breadcrumb-control relative min-w-0 rounded-rain-6 px-rain-4 font-rain-ui font-rain-regular no-underline outline-none rain-breadcrumb-text text-rain-category-text-neutral-1"[39m
+                [33mdata-slot[39m=[32m"page"[39m
+                [33mdata-state[39m=[32m"current"[39m
+                [33mdata-trigger-disabled[39m=[32m""[39m
+                [33mid[39m=[32m"base-ui-_r_2u_"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+              [36m>[39m
+                [0m全国[0m
+              [36m</span>[39m
+            [36m</li>[39m
+          [36m</ol>[39m
+        [36m</nav>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mdata-base-ui-focus-guard[39m=[32m""[39m
+          [33mstyle[39m=[32m"clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"[39m
+          [33mtabindex[39m=[32m"0"[39m
+        [36m/>[39m
+        [36m<button[39m
+          [33maria-controls[39m=[32m"_r_2v_"[39m
+          [33maria-expanded[39m=[32m"true"[39m
+          [33maria-haspopup[39m=[32m"dialog"[39m
+          [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-small-height min-w-rain-button-small-min-width px-rain-button-small-padding-inline gap-rain-button-gap rounded-rain-button-small text-rain-button-small text-rain-button-tertiary-text bg-rain-action-ghost border-rain-button-tertiary-border hover:bg-rain-button-tertiary-hover active:bg-rain-button-tertiary-pressed"[39m
+          [33mdata-base-ui-click-trigger[39m=[32m""[39m
+          [33mdata-density[39m=[32m"default"[39m
+          [33mdata-focus[39m=[32m"control"[39m
+          [33mdata-popup-open[39m=[32m""[39m
+          [33mdata-pressed[39m=[32m""[39m
+          [33mdata-rain-id[39m=[32m"ui-button"[39m
+          [33mdata-size[39m=[32m"small"[39m
+          [33mdata-slot[39m=[32m"root"[39m
+          [33mdata-state[39m=[32m"default"[39m
+          [33mdata-tone[39m=[32m"default"[39m
+          [33mdata-variant[39m=[32m"tertiary"[39m
+          [33mid[39m=[32m"base-ui-_r_30_"[39m
+          [33mtabindex[39m=[32m"0"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"flex-initial min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-rain-button-tertiary-text"[39m
+            [33mdata-slot[39m=[32m"label"[39m
+          [36m>[39m
+            [0m选择地区[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mdata-base-ui-focus-guard[39m=[32m""[39m
+          [33mstyle[39m=[32m"clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"[39m
+          [33mtabindex[39m=[32m"0"[39m
+        [36m/>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mdata-base-ui-focus-guard[39m=[32m""[39m
+          [33mdata-type[39m=[32m"outside"[39m
+          [33mstyle[39m=[32m"clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"[39m
+          [33mtabindex[39m=[32m"0"[39m
+        [36m/>[39m
+        [36m<span[39m
+          [33maria-owns[39m=[32m"_r_37_"[39m
+          [33mstyle[39m=[32m"clip-path: inset(50%); position: fixed; top: 0px; left: 0px;"[39m
+        [36m/>[39m
+        [36m<span[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mdata-base-ui-focus-guard[39m=[32m""[39m
+          [33mdata-type[39m=[32m"outside"[39m
+          [33mstyle[39m=[32m"clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"[39m
+          [33mtabindex[39m=[32m"0"[39m
+        [36m/>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33maria-busy[39m=[32m"false"[39m
+        [33mclass[39m=[32m"rain-china-canvas"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"rain-china-layer"[39m
+          [33mdata-map-active[39m=[32m"true"[39m
+          [33mdata-map-layer[39m=[32m"national"[39m
+          [33mstyle[39m=[32m"pointer-events: auto; transform-origin: 50% 50%; opacity...
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx:77:15
+     75|   await regionButton(view, /^广东省$/);
+     76|   expect(regionList(view).getAllByRole("button")).toHaveLength(34);
+     77|   expect(view.getByText("CH-117")).toBeInTheDocument();
+       |               ^
+     78|   await waitFor(() => expect(view.container.querySelector("svg")).toHa…
+     79|   await waitFor(() => expect(view.container.querySelectorAll(".choropl…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > nation to Guangdong to Guangzhou detail and return preserves the independent layer
+TypeError: Cannot read properties of undefined (reading 'properties')
+ ❯ valueOf apps/playground/src/docs/components/chart-business/china-region-examples.tsx:12:64
+     10| export type ChinaChartSettings = { provinceId: string | null; selected…
+     11| type Navigation = Pick<ChinaChartSettings, "provinceId" | "selectedId"…
+     12| const valueOf = (feature: ChoroplethFeature) => typeof feature.propert…
+       |                                                                ^
+     13| const levelName = { province: "省级", prefecture: "地级", county: "县级" } a…
+     14| const centre: ChinaMapFocus = { x: .5, y: .5, direction: "in" };
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.tsx:110:103
+ ❯ ChinaRegionExamples apps/playground/src/docs/components/chart-business/china-region-examples.tsx:106:85
+ ❯ Object.react_stack_bottom_frame node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:25904:20
+ ❯ renderWithHooks node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:7662:22
+ ❯ updateFunctionComponent node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:10166:19
+ ❯ beginWork node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:11778:18
+ ❯ runWithFiberInDEV node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:874:13
+ ❯ performUnitOfWork node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  3 failed | 18 passed (21)
+   Start at  11:02:21
+   Duration  6.01s (transform 1.73s, setup 214ms, import 2.61s, tests 3.66s, environment 780ms)
+

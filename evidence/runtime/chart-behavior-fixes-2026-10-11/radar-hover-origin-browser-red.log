@@ -1,0 +1,66 @@
+
+Running 2 tests using 1 worker
+
+(node:39066) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-radar-hover-origin.spec.ts:62:3 › reduced radar focus preserves the original screen transform in all seven hosts at 1440 (5.3s)
+(node:39076) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/chart-radar-hover-origin.spec.ts:62:3 › reduced radar focus preserves the original screen transform in all seven hosts at 390 (5.1s)
+
+
+  1) tests/e2e/chart-radar-hover-origin.spec.ts:62:3 › reduced radar focus preserves the original screen transform in all seven hosts at 1440 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "fill-box"
+    Received: "view-box"
+
+       97 |                 const old = expected.focused.groups[index]!;
+       98 |                 expect([group.d, group.points, group.fill, group.fillOpacity, group.stroke, group.strokeWidth, group.filter, group.opacity]).toEqual([old.d, old.points, old.fill, old.fillOpacity, old.stroke, old.strokeWidth, old.filter, old.opacity]);
+    >  99 |                 expect(group.transformBox).toBe(old.transformBox);
+          |                                            ^
+      100 |                 expect(group.transformOrigin).toBe(old.transformOrigin);
+      101 |                 for (const key of ["a", "b", "c", "d", "e", "f"] as const) expect(group.relativeScreenCTM![key]).toBeCloseTo(old.relativeScreenCTM![key], 3);
+      102 |               }
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-radar-hover-origin.spec.ts:99:44
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar-hover-origin/results/red/chart-radar-hover-origin-r-5e29a--in-all-seven-hosts-at-1440/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar-hover-origin/results/red/chart-radar-hover-origin-r-5e29a--in-all-seven-hosts-at-1440/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar-hover-origin/results/red/chart-radar-hover-origin-r-5e29a--in-all-seven-hosts-at-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-radar-hover-origin.spec.ts:62:3 › reduced radar focus preserves the original screen transform in all seven hosts at 390 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "fill-box"
+    Received: "view-box"
+
+       97 |                 const old = expected.focused.groups[index]!;
+       98 |                 expect([group.d, group.points, group.fill, group.fillOpacity, group.stroke, group.strokeWidth, group.filter, group.opacity]).toEqual([old.d, old.points, old.fill, old.fillOpacity, old.stroke, old.strokeWidth, old.filter, old.opacity]);
+    >  99 |                 expect(group.transformBox).toBe(old.transformBox);
+          |                                            ^
+      100 |                 expect(group.transformOrigin).toBe(old.transformOrigin);
+      101 |                 for (const key of ["a", "b", "c", "d", "e", "f"] as const) expect(group.relativeScreenCTM![key]).toBeCloseTo(old.relativeScreenCTM![key], 3);
+      102 |               }
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-radar-hover-origin.spec.ts:99:44
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar-hover-origin/results/red/chart-radar-hover-origin-r-49e0b-m-in-all-seven-hosts-at-390/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar-hover-origin/results/red/chart-radar-hover-origin-r-49e0b-m-in-all-seven-hosts-at-390/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar-hover-origin/results/red/chart-radar-hover-origin-r-49e0b-m-in-all-seven-hosts-at-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/chart-radar-hover-origin.spec.ts:62:3 › reduced radar focus preserves the original screen transform in all seven hosts at 1440 
+    tests/e2e/chart-radar-hover-origin.spec.ts:62:3 › reduced radar focus preserves the original screen transform in all seven hosts at 390 

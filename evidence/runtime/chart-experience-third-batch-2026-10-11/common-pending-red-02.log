@@ -1,0 +1,43 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/chart-interaction-lifecycle.test.tsx (1 test | 1 failed) 14ms
+   × disabling interaction cancels a pending tooltip before it can commit 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/chart-interaction-lifecycle.test.tsx > disabling interaction cancels a pending tooltip before it can commit
+AssertionError: expected { point: { …(2) }, index: 1, …(2) } to be null
+
+- Expected:
+null
+
++ Received:
+{
+  "index": 1,
+  "point": {
+    "date": 2026-09-01T16:00:00.000Z,
+    "value": 0,
+  },
+  "x": 150,
+  "yPositions": {
+    "value": 100,
+  },
+}
+
+ ❯ packages/ui/src/charts/chart-interaction-lifecycle.test.tsx:27:43
+     25|   view.rerender({canInteract:false});
+     26|   act(()=>{for(const [id,callback] of [...frames]){frames.delete(id);c…
+     27|   expect(view.result.current.tooltipData).toBeNull();expect(commits.ev…
+       |                                           ^
+     28| });
+     29|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  15:08:12
+   Duration  718ms (transform 99ms, setup 97ms, import 147ms, tests 14ms, environment 373ms)
+

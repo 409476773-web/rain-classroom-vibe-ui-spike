@@ -1,0 +1,355 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx (20 tests | 16 failed) 299ms
+   × compact mini columns preserve a common scale and avoid standard plot height 52ms
+   × comfortable mini columns preserve a common scale and avoid standard plot height 21ms
+   × compact zero columns keep the slot and draw no fabricated height 8ms
+   × comfortable zero columns keep the slot and draw no fabricated height 23ms
+   × compact segments render actual thin tracks and preserve zero or subpixel parts 21ms
+   × comfortable segments render actual thin tracks and preserve zero or subpixel parts 22ms
+   × compact variants retain their slots in empty, missing, zero and invalid states 1ms
+   × comfortable variants retain their slots in empty, missing, zero and invalid states 1ms
+   × compact pie, donut, line and area paths are finite at their own declared size 32ms
+   × comfortable pie, donut, line and area paths are finite at their own declared size 24ms
+   × compact progress keeps a circular bottom-opening 225 degree arc at 0, 50 and 100 percent 3ms
+   × comfortable progress keeps a circular bottom-opening 225 degree arc at 0, 50 and 100 percent 2ms
+   × compact full ring retains its specified inner and outer radii 2ms
+   × comfortable full ring retains its specified inner and outer radii 2ms
+   × comfortable progress moves the same readable node outside after text grows and restores it when it fits 4ms
+   × the gallery compares all nine chart kinds in adjacent compact and comfortable figures 7ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 16 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > compact mini columns preserve a common scale and avoid standard plot height
+AssertionError: expected [ +0, 18, 36 ] to deeply equal [ +0, 14, 28 ]
+
+- Expected
++ Received
+
+  [
+    0,
+-   14,
+-   28,
++   18,
++   36,
+  ]
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:61:81
+     59|   await waitFor(() => expect(view.container.querySelectorAll('g[class^…
+     60|   const height = size === "compact" ? 28 : 42;
+     61|   expect(bars(view.container).map(rect => Number(rect.getAttribute("he…
+       |                                                                                 ^
+     62|   expect(bars(view.container).map(rect => Number(rect.getAttribute("y"…
+     63|   expectSlot(view.container,"columns",size,size === "compact" ? 96 : 1…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > comfortable mini columns preserve a common scale and avoid standard plot height
+AssertionError: expected [ +0, 18, 36 ] to deeply equal [ +0, 21, 42 ]
+
+- Expected
++ Received
+
+  [
+    0,
+-   21,
+-   42,
++   18,
++   36,
+  ]
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:61:81
+     59|   await waitFor(() => expect(view.container.querySelectorAll('g[class^…
+     60|   const height = size === "compact" ? 28 : 42;
+     61|   expect(bars(view.container).map(rect => Number(rect.getAttribute("he…
+       |                                                                                 ^
+     62|   expect(bars(view.container).map(rect => Number(rect.getAttribute("y"…
+     63|   expectSlot(view.container,"columns",size,size === "compact" ? 96 : 1…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > compact zero columns keep the slot and draw no fabricated height
+Error: expect(element).toHaveAttribute("data-size", "compact") // element.getAttribute("data-size") === "compact"
+
+Expected the element to have attribute:
+  data-size="compact"
+Received:
+  null
+ ❯ expectSlot apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:52:16
+     50| function expectSlot(container: HTMLElement, kind: string, size: string…
+     51|   const root = container.querySelector(`[data-mini-kind="${kind}"]`)!;
+     52|   expect(root).toHaveAttribute("data-size", size);
+       |                ^
+     53|   expect(root).toHaveAttribute("data-mini-state", state);
+     54|   expect(root.querySelector(".rain-business-mini-slot")).toHaveStyle({…
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:94:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > comfortable zero columns keep the slot and draw no fabricated height
+Error: expect(element).toHaveAttribute("data-size", "comfortable") // element.getAttribute("data-size") === "comfortable"
+
+Expected the element to have attribute:
+  data-size="comfortable"
+Received:
+  null
+ ❯ expectSlot apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:52:16
+     50| function expectSlot(container: HTMLElement, kind: string, size: string…
+     51|   const root = container.querySelector(`[data-mini-kind="${kind}"]`)!;
+     52|   expect(root).toHaveAttribute("data-size", size);
+       |                ^
+     53|   expect(root).toHaveAttribute("data-mini-state", state);
+     54|   expect(root.querySelector(".rain-business-mini-slot")).toHaveStyle({…
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:94:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > compact segments render actual thin tracks and preserve zero or subpixel parts
+AssertionError: expected [ 8, 8, 8 ] to deeply equal [ 6, 6, 6 ]
+
+- Expected
++ Received
+
+  [
+-   6,
+-   6,
+-   6,
++   8,
++   8,
++   8,
+  ]
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:102:81
+    100|   const width = size === "compact" ? 120 : 160;
+    101|   const thickness = size === "compact" ? 6 : 8;
+    102|   expect(bars(view.container).map(rect => Number(rect.getAttribute("he…
+       |                                                                                 ^
+    103|   expect(bars(view.container).map(rect => Number(rect.getAttribute("rx…
+    104|   expect(Number(bars(view.container)[0]!.getAttribute("width"))).toBe(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > comfortable segments render actual thin tracks and preserve zero or subpixel parts
+AssertionError: expected 0.012 to be close to 0.016, received difference is 0.004, but expected 0.000005
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:105:66
+    103|   expect(bars(view.container).map(rect => Number(rect.getAttribute("rx…
+    104|   expect(Number(bars(view.container)[0]!.getAttribute("width"))).toBe(…
+    105|   expect(Number(bars(view.container)[1]!.getAttribute("width"))).toBeC…
+       |                                                                  ^
+    106|   expect(bars(view.container).reduce((sum,rect) => sum + Number(rect.g…
+    107|   expectSlot(view.container,"segments",size,width,size === "compact" ?…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > compact variants retain their slots in empty, missing, zero and invalid states
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > comfortable variants retain their slots in empty, missing, zero and invalid states
+Error: expect(received).toHaveAttribute()
+
+received value must be an HTMLElement or an SVGElement.
+Received has type:  Null
+Received has value: null
+ ❯ expectSlot apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:52:16
+     50| function expectSlot(container: HTMLElement, kind: string, size: string…
+     51|   const root = container.querySelector(`[data-mini-kind="${kind}"]`)!;
+     52|   expect(root).toHaveAttribute("data-size", size);
+       |                ^
+     53|   expect(root).toHaveAttribute("data-mini-state", state);
+     54|   expect(root.querySelector(".rain-business-mini-slot")).toHaveStyle({…
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:118:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > compact pie, donut, line and area paths are finite at their own declared size
+Error: expect(element).toHaveAttribute("data-size", "compact") // element.getAttribute("data-size") === "compact"
+
+Expected the element to have attribute:
+  data-size="compact"
+Received:
+  null
+ ❯ expectSlot apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:52:16
+     50| function expectSlot(container: HTMLElement, kind: string, size: string…
+     51|   const root = container.querySelector(`[data-mini-kind="${kind}"]`)!;
+     52|   expect(root).toHaveAttribute("data-size", size);
+       |                ^
+     53|   expect(root).toHaveAttribute("data-mini-state", state);
+     54|   expect(root.querySelector(".rain-business-mini-slot")).toHaveStyle({…
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:138:39
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > comfortable pie, donut, line and area paths are finite at their own declared size
+Error: expect(element).toHaveAttribute("data-size", "comfortable") // element.getAttribute("data-size") === "comfortable"
+
+Expected the element to have attribute:
+  data-size="comfortable"
+Received:
+  null
+ ❯ expectSlot apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:52:16
+     50| function expectSlot(container: HTMLElement, kind: string, size: string…
+     51|   const root = container.querySelector(`[data-mini-kind="${kind}"]`)!;
+     52|   expect(root).toHaveAttribute("data-size", size);
+       |                ^
+     53|   expect(root).toHaveAttribute("data-mini-state", state);
+     54|   expect(root.querySelector(".rain-business-mini-slot")).toHaveStyle({…
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:138:39
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > compact progress keeps a circular bottom-opening 225 degree arc at 0, 50 and 100 percent
+Error: expect(element).toHaveAttribute("data-size", "compact") // element.getAttribute("data-size") === "compact"
+
+Expected the element to have attribute:
+  data-size="compact"
+Received:
+  null
+ ❯ expectSlot apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:52:16
+     50| function expectSlot(container: HTMLElement, kind: string, size: string…
+     51|   const root = container.querySelector(`[data-mini-kind="${kind}"]`)!;
+     52|   expect(root).toHaveAttribute("data-size", size);
+       |                ^
+     53|   expect(root).toHaveAttribute("data-mini-state", state);
+     54|   expect(root.querySelector(".rain-business-mini-slot")).toHaveStyle({…
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:151:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > comfortable progress keeps a circular bottom-opening 225 degree arc at 0, 50 and 100 percent
+Error: expect(element).toHaveAttribute("data-size", "comfortable") // element.getAttribute("data-size") === "comfortable"
+
+Expected the element to have attribute:
+  data-size="comfortable"
+Received:
+  null
+ ❯ expectSlot apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:52:16
+     50| function expectSlot(container: HTMLElement, kind: string, size: string…
+     51|   const root = container.querySelector(`[data-mini-kind="${kind}"]`)!;
+     52|   expect(root).toHaveAttribute("data-size", size);
+       |                ^
+     53|   expect(root).toHaveAttribute("data-mini-state", state);
+     54|   expect(root.querySelector(".rain-business-mini-slot")).toHaveStyle({…
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:151:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > compact full ring retains its specified inner and outer radii
+Error: expect(element).toHaveAttribute("data-size", "compact") // element.getAttribute("data-size") === "compact"
+
+Expected the element to have attribute:
+  data-size="compact"
+Received:
+  null
+ ❯ expectSlot apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:52:16
+     50| function expectSlot(container: HTMLElement, kind: string, size: string…
+     51|   const root = container.querySelector(`[data-mini-kind="${kind}"]`)!;
+     52|   expect(root).toHaveAttribute("data-size", size);
+       |                ^
+     53|   expect(root).toHaveAttribute("data-mini-state", state);
+     54|   expect(root.querySelector(".rain-business-mini-slot")).toHaveStyle({…
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:170:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > comfortable full ring retains its specified inner and outer radii
+Error: expect(element).toHaveAttribute("data-size", "comfortable") // element.getAttribute("data-size") === "comfortable"
+
+Expected the element to have attribute:
+  data-size="comfortable"
+Received:
+  null
+ ❯ expectSlot apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:52:16
+     50| function expectSlot(container: HTMLElement, kind: string, size: string…
+     51|   const root = container.querySelector(`[data-mini-kind="${kind}"]`)!;
+     52|   expect(root).toHaveAttribute("data-size", size);
+       |                ^
+     53|   expect(root).toHaveAttribute("data-mini-state", state);
+     54|   expect(root.querySelector(".rain-business-mini-slot")).toHaveStyle({…
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:170:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > comfortable progress moves the same readable node outside after text grows and restores it when it fits
+TestingLibraryElementError: Unable to find an element with the text: 25%. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33maria-hidden[39m=[32m"true"[39m
+      [33mclass[39m=[32m"rain-business-radial"[39m
+      [33mdata-mini-kind[39m=[32m"arc"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"relative flex items-center justify-center"[39m
+        [33mdata-rain-id[39m=[32m"ui-chart-ring"[39m
+        [33mdata-slot[39m=[32m"chart-root"[39m
+        [33mstyle[39m=[32m"width: 48px; height: 48px;"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"grid"[39m
+          [33mstyle[39m=[32m"grid-template-columns: 1fr; grid-template-rows: 1fr; width: 48px; height: 48px;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mheight[39m=[32m"48"[39m
+            [33mstyle[39m=[32m"grid-area: 1 / 1; contain: layout style paint;"[39m
+            [33mwidth[39m=[32m"48"[39m
+          [36m>[39m
+            [36m<g[39m
+              [33mclass[39m=[32m"visx-group"[39m
+              [33mtransform[39m=[32m"translate(24, 24)"[39m
+            [36m>[39m
+              [36m<g[39m
+                [33mstyle[39m=[32m"cursor: pointer; transform-origin: 0px 0px; filter: none;"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M15.646,11.367A2.5,2.5,0,0,1,15.994,15.106A22,22,0,1,1,15.994,-15.106A2.5,2.5,0,0,1,15.646,-11.367L15.646,-11.367A2.5,2.5,0,0,1,12.359,-11.673A17,17,0,1,0,12.359,11.673A2.5,2.5,0,0,1,15.646,11.367Z"[39m
+                  [33mfill[39m=[32m"var(--border)"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M15.646,11.367A2.5,2.5,0,0,1,15.994,15.106A22,22,0,0,1,-4.06,21.622A2.5,2.5,0,0,1,-5.976,18.393L-5.976,18.393A2.5,2.5,0,0,1,-3.137,16.708A17,17,0,0,0,12.359,11.673A2.5,2.5,0,0,1,15.646,11.367Z"[39m
+                  [33mfill[39m=[32m"var(--chart-1)"[39m
+                [36m/>[39m
+              [36m</g>[39m
+            [36m</g>[39m
+          [36m</svg>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:183:24
+    181|   });
+    182|   const view = render(<MiniProgress value={20} maxValue={80} size="com…
+    183|   const reading = view.getByText("25%").parentElement!;
+       |                        ^
+    184|   expect(reading).toHaveAttribute("data-placement","center");
+    185|   expect(reading.closest('[aria-hidden="true"]')).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/16]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-examples.test.tsx > the gallery compares all nine chart kinds in adjacent compact and comfortable figures
+AssertionError: expected <figure>…(2)</figure>
+…(4) to have a length of 18 but got 5
+
+- Expected
++ Received
+
+- 18
++ 5
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-examples.test.tsx:199:53
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/16]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  16 failed | 4 passed (20)
+   Start at  00:55:09
+   Duration  2.08s (transform 863ms, setup 98ms, import 1.21s, tests 299ms, environment 382ms)
+

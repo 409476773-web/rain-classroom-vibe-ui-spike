@@ -1,0 +1,65 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g4-components-governance.test.ts (5 tests | 4 failed) 18ms
+     × permits only the explicit scope while preserving prior records 8ms
+     × rejects broadened sources and transferred publication, visual or contrast acceptance 3ms
+     × cannot claim completion without scoped checks and independent review 2ms
+     × requires the single explicit page source and keeps old scan directives unchanged 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g4-components-governance.test.ts > G4 finite candidate authorization > permits only the explicit scope while preserving prior records
+TypeError: hasG4ComponentsAuthorization is not a function
+ ❯ scripts/g4-components-governance.test.ts:28:12
+     26|   it("permits only the explicit scope while preserving prior records",…
+     27|     const phase = authorized(), before = baseline();
+     28|     expect(hasG4ComponentsAuthorization(phase)).toBe(true);
+       |            ^
+     29|     delete phase.componentRefinements.g4Components;
+     30|     expect(phase).toEqual(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  scripts/g4-components-governance.test.ts > G4 finite candidate authorization > rejects broadened sources and transferred publication, visual or contrast acceptance
+TypeError: hasG4ComponentsAuthorization is not a function
+ ❯ scripts/g4-components-governance.test.ts:37:14
+     35|       const phase = authorized();
+     36|       phase.componentRefinements.g4Components[field] = value;
+     37|       expect(hasG4ComponentsAuthorization(phase), field).toBe(false);
+       |              ^
+     38|     }
+     39|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  scripts/g4-components-governance.test.ts > G4 finite candidate authorization > cannot claim completion without scoped checks and independent review
+TypeError: hasG4ComponentsAuthorization is not a function
+ ❯ scripts/g4-components-governance.test.ts:43:12
+     41|     const phase = authorized(), record = phase.componentRefinements.g4…
+     42|     record.implementation = "completed";
+     43|     expect(hasG4ComponentsAuthorization(phase)).toBe(false);
+       |            ^
+     44|     record.automatedVerification = "passed-scoped";
+     45|     expect(hasG4ComponentsAuthorization(phase)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  scripts/g4-components-governance.test.ts > G4 finite candidate authorization > requires the single explicit page source and keeps old scan directives unchanged
+TypeError: validateG4SourceDirectives is not a function
+ ❯ scripts/g4-components-governance.test.ts:53:12
+     51|     const directive = '@source "./docs/components/g4-component-pages.t…
+     52|     const valid = source.replace('@source inline("text-rain-action-pri…
+     53|     expect(validateG4SourceDirectives(source, authorized())).not.toEqu…
+       |            ^
+     54|     expect(validateG4SourceDirectives(valid, authorized())).toEqual([]…
+     55|     expect(validateG4SourceDirectives(valid + '\n@source "./docs/compo…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 1 passed (5)
+   Start at  19:54:43
+   Duration  947ms (transform 268ms, setup 101ms, import 366ms, tests 18ms, environment 376ms)
+

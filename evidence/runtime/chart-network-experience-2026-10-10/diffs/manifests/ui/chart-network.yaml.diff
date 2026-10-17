@@ -1,0 +1,65 @@
+--- before/manifests/ui/chart-network.yaml
++++ manifests/ui/chart-network.yaml
+@@ -12,14 +12,14 @@
+ styleSourcePath: "packages/ui/src/charts/styles.css"
+ sourceOrigin: "rain-local"
+ sourceVersion: "rain-local-2026-10-10"
+-description: "自然错位的柔光网络与结构化名称卡可切换，配色独立；节点类别、边类型与方向分别表达，保留相邻聚焦、选择详情、完整关系列表及精确表。"
++description: "柔光网络与结构化名称卡可安全过渡；连续节点/连线命中、就近读数、临时预览与固定详情、进入视野后出场，保留稳定筛选路径及精确表。"
+ useWhen:
+   - "教学元素与知识点、知识点先备/迁移、课程先修/相似或理论实践联动，需要读取明确连接和方向。"
+ doNotUseWhen:
+   - "需要守恒流量和权重带宽时使用Sankey；普通产业卡片或概念示意不自动解释成网络。"
+   - "需要图编辑器、力导模拟、拖拽缩放，或任意密集/重叠/千节点输入的完整自动布局保证。"
+ anatomy:
+-  - "ui-chart-network根、图表标题、节点/关系图例、自适应SVG、原稿式实心等边三角箭头与径向渐变或名称卡、窄屏完整关系列表、可操作节点列表、选择详情和清除按钮、节点/关系精确Table。"
++  - "ui-chart-network根、图表标题、节点/关系图例、自适应SVG、原稿式实心等边三角箭头与径向渐变或名称卡、连续命中区与就近读数浮层、窄屏完整关系列表、可操作节点列表、固定高度选择详情和清除按钮、节点/关系精确Table。"
+ parts:
+   - "NetworkChart"
+   - "layoutNetwork"
+@@ -40,9 +40,10 @@
+   - "成对0至1坐标原样保留，其他坐标单位整体拟合；无坐标使用确定的自然环绕布局，连接较多的单个节点可位于内部。不修改原数据。"
+ states:
+   - "正常、空节点、单节点无边、长名、非法结构拒绝；非法状态由宿主显示错误。"
+-  - "指向、列表聚焦、选中、邻接强调、筛选隐藏选中节点后的清除、reduce即时终态。"
++  - "节点/边预览、列表聚焦、固定节点详情、邻接强调、Escape/空白清除、筛选隐藏选中节点后的清除、reduce即时终态。"
++  - "首次进入视野后节点先入、连线后接；子集保留原几何、消失项淡出；几何切换等待连线淡出和节点实际完成后重接，连续输入以最新目标为准。"
+ dependencies:
+-  - "React/React DOM、既有motion/react与Bklit DEFAULT_CHART_ENTER_TRANSITION；没有新安装依赖或常驻力导模拟。"
++  - "React/React DOM、既有motion/react的动画控制/可见性/进出与Bklit TooltipBox；没有新安装依赖或常驻力导模拟。"
+   - "直接复用Rain Button与Table：button.styles/local-recipe/rain-class-names/table.styles/table.css；既有class-variance-authority@0.7.1与tailwind-merge。"
+   - "Rain Foundations、Tailwind桥接/源码扫描、UI根styles及其实际CSS/资产闭包，charts独立样式。"
+ tokens:
+@@ -66,9 +67,9 @@
+   - "不以新增本地图型冒充Bklit官网变体或写入vendor上游来源锁。"
+ accessibility:
+   - "SVG aria-hidden；具名Rain Button节点列表可聚焦，Enter/Space通过原生按钮选择，aria-pressed表达选择，与鼠标图形点击同详情。"
+-  - "邻接聚焦与选择独立，具名详情区域提供方向、类型和原始读数；节点/边语义Table保留caption与行标题。"
++  - "临时预览与固定选择独立；节点按钮aria-describedby关联具名浮层，Escape关闭；具名详情提供方向、类型和原始读数，节点/边语义Table保留caption与行标题。"
+   - "窄屏全部关系列表保留方向和类型；精确TableScrollArea支持左右键横滚，长名保留全文，图形方向同时在表格文字表达。"
+-  - "useId隔离多实例marker/gradient；柔光几何与两样式高亮使用短过渡，结构化几何、系统或显式reduce即时完成，无常驻模拟。"
++  - "useId隔离多实例marker/gradient/tooltip；两样式可见几何使用安全分段过渡，隐藏图示、系统或显式reduce即时完成；卸载/新输入停止旧连线动画，无常驻模拟。"
+   - "真实Safari/VoiceOver、物理触屏、forced-colors、深色与完整对比度尚未完成验证；自动检查不代替这些Gate。"
+ examples:
+   - "apps/playground/src/docs/components/chart-business/network-examples.tsx"
+@@ -109,13 +110,14 @@
+   - "evidence/runtime/chart-business-expansion/p4/verification.md"
+   - "evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md"
+   - "evidence/runtime/chart-network-arrow-feedback-2026-10-10/verification.md"
++  - "evidence/runtime/chart-network-experience-2026-10-10/verification.md"
+ migrationNotes:
+   - "Rain本地共享候选；原17 Bklit加Matrix/Network为19入口，170官网集合不变；未发布、未迁移、未写Figma。"
+ verification:
+-  automated: "network-scoped-passed; broader-checks-blocked-outside-network"
+-  scope: "2026-10-10 arrow feedback: 7 files/83 Network-scoped unit and 7 Chromium browser tests passed; layout/geometry/host/fixtures unchanged by protected hashes. UI typecheck, Prototype standard build, Playground runtime typecheck and Vite build passed. Playground standard build blocked by 3 China test typing errors; broader 95-unit run has 93 passes and 2 China color/export failures. 19 Registry closures, 170 official variants type/build and 16 Network download closures passed using installed dependency cache; full business download type/build/browser not reached because China export closure failed. Whole-repository verification not claimed."
+-  independentReview: "prior-structured-review-only; arrow-source-and-browser-appearance-reviewed-locally"
+-  humanGate: "glow-layout-and-material-accepted; revised-arrows-and-structured-awaiting-user-review"
+-  glowVisualHumanGate: "passed-layout-and-node-material-only; arrow-feedback-open"
++  automated: "local-experience-verification-completed; whole-repository-not-claimed"
++  scope: "2026-10-10 experience: 8 files/93 scoped unit/color/export/contract checks, 10 Chromium browser cases including visible transition-frame collision checks, UI typecheck and both standard host builds passed. 19 Registry closures, 170 official variants type/build and 66 business downloads including 16 Network type/build/browser passed using installed dependency cache. Whole-tests typecheck reports 4 diagnostics outside Network (Toast tests and two legacy chart-feedback configs); no Network diagnostics. Hashes are in the evidence record."
++  independentReview: "prior-structured-review-only; current-local-source-and-automated-browser-review"
++  humanGate: "revised-interaction-and-motion-awaiting-user-review"
++  glowVisualHumanGate: "prior-layout-and-material-accepted; new-motion-pending"
+   contrastAcceptance: "not-granted"
+-  evidence: "evidence/runtime/chart-network-arrow-feedback-2026-10-10/verification.md"
++  evidence: "evidence/runtime/chart-network-experience-2026-10-10/verification.md"

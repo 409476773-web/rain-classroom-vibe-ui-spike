@@ -1,0 +1,1446 @@
+{
+  "config": {
+    "argv": [
+      "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/.pnpm/@playwright+test@1.62.1/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "tests/e2e/chart-feedback.config.ts",
+      "--output",
+      "evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results",
+      "--reporter=json"
+    ],
+    "configFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback.config.ts",
+    "rootDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "chart-feedback-*.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "chart-feedback-legend-tooltip.spec.ts",
+      "file": "chart-feedback-legend-tooltip.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "chart labels stay horizontal at 1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3521,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:34.993Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fbbdd2da748b02bd90b-13bdb19e94df8cb4a3b5",
+          "file": "chart-feedback-legend-tooltip.spec.ts",
+          "line": 13,
+          "column": 3
+        },
+        {
+          "title": "ring progress keeps labels and series color at 1280",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2074,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[1mMatcher error\u001b[22m: \u001b[31mreceived\u001b[39m value must be a number or bigint\n\nReceived has value: \u001b[31mundefined\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[1mMatcher error\u001b[22m: \u001b[31mreceived\u001b[39m value must be a number or bigint\n\nReceived has value: \u001b[31mundefined\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:51:31",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                      "column": 31,
+                      "line": 51
+                    },
+                    "snippet": "  49 |           track: track ? getComputedStyle(track).backgroundColor : \"\", fill: fill ? getComputedStyle(fill).backgroundColor : \"\" };\n  50 |       });\n> 51 |       expect(geometry.height).toBeLessThanOrEqual(8);\n     |                               ^\n  52 |       expect(geometry.rounded).toBeGreaterThanOrEqual(3);\n  53 |       expect(geometry.fill).not.toBe(\"rgb(0, 128, 0)\");\n  54 |       expect(geometry.fill).not.toBe(geometry.track);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                        "column": 31,
+                        "line": 51
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[1mMatcher error\u001b[22m: \u001b[31mreceived\u001b[39m value must be a number or bigint\n\nReceived has value: \u001b[31mundefined\u001b[39m\n\n  49 |           track: track ? getComputedStyle(track).backgroundColor : \"\", fill: fill ? getComputedStyle(fill).backgroundColor : \"\" };\n  50 |       });\n> 51 |       expect(geometry.height).toBeLessThanOrEqual(8);\n     |                               ^\n  52 |       expect(geometry.rounded).toBeGreaterThanOrEqual(3);\n  53 |       expect(geometry.fill).not.toBe(\"rgb(0, 128, 0)\");\n  54 |       expect(geometry.fill).not.toBe(geometry.track);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:51:31"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:38.660Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-legend-tool-aef8f-ls-and-series-color-at-1280/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-legend-tool-aef8f-ls-and-series-color-at-1280/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                    "column": 31,
+                    "line": 51
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8fbbdd2da748b02bd90b-8c832aaa6453909fa655",
+          "file": "chart-feedback-legend-tooltip.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "map hover tooltip has compact padded content within the plot at 1280",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2429,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m14\u001b[39m\nReceived:    \u001b[31m16\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m14\u001b[39m\nReceived:    \u001b[31m16\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:79:26",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                      "column": 26,
+                      "line": 79
+                    },
+                    "snippet": "  77 |       return { font: parseFloat(getComputedStyle(node).fontSize), insetLeft: text.left - box.left, insetTop: text.top - box.top };\n  78 |     });\n> 79 |     expect(metrics.font).toBeLessThanOrEqual(14);\n     |                          ^\n  80 |     expect(metrics.insetLeft).toBeGreaterThanOrEqual(8);\n  81 |     expect(metrics.insetTop).toBeGreaterThanOrEqual(8);\n  82 |     const box = await tooltip.boundingBox(), plot = await card.locator(\".rain-chart-plot\").boundingBox();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                        "column": 26,
+                        "line": 79
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m14\u001b[39m\nReceived:    \u001b[31m16\u001b[39m\n\n  77 |       return { font: parseFloat(getComputedStyle(node).fontSize), insetLeft: text.left - box.left, insetTop: text.top - box.top };\n  78 |     });\n> 79 |     expect(metrics.font).toBeLessThanOrEqual(14);\n     |                          ^\n  80 |     expect(metrics.insetLeft).toBeGreaterThanOrEqual(8);\n  81 |     expect(metrics.insetTop).toBeGreaterThanOrEqual(8);\n  82 |     const box = await tooltip.boundingBox(), plot = await card.locator(\".rain-chart-plot\").boundingBox();\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:79:26"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:41.263Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-legend-tool-30b65-ent-within-the-plot-at-1280/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-legend-tool-30b65-ent-within-the-plot-at-1280/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                    "column": 26,
+                    "line": 79
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8fbbdd2da748b02bd90b-23c12cf0a7cf4a146d2a",
+          "file": "chart-feedback-legend-tooltip.spec.ts",
+          "line": 63,
+          "column": 3
+        },
+        {
+          "title": "chart labels stay horizontal at 1311",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2917,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:44.548Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fbbdd2da748b02bd90b-2a22a122b90decd019f2",
+          "file": "chart-feedback-legend-tooltip.spec.ts",
+          "line": 13,
+          "column": 3
+        },
+        {
+          "title": "ring progress keeps labels and series color at 1311",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1370,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[1mMatcher error\u001b[22m: \u001b[31mreceived\u001b[39m value must be a number or bigint\n\nReceived has value: \u001b[31mundefined\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[1mMatcher error\u001b[22m: \u001b[31mreceived\u001b[39m value must be a number or bigint\n\nReceived has value: \u001b[31mundefined\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:51:31",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                      "column": 31,
+                      "line": 51
+                    },
+                    "snippet": "  49 |           track: track ? getComputedStyle(track).backgroundColor : \"\", fill: fill ? getComputedStyle(fill).backgroundColor : \"\" };\n  50 |       });\n> 51 |       expect(geometry.height).toBeLessThanOrEqual(8);\n     |                               ^\n  52 |       expect(geometry.rounded).toBeGreaterThanOrEqual(3);\n  53 |       expect(geometry.fill).not.toBe(\"rgb(0, 128, 0)\");\n  54 |       expect(geometry.fill).not.toBe(geometry.track);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                        "column": 31,
+                        "line": 51
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[1mMatcher error\u001b[22m: \u001b[31mreceived\u001b[39m value must be a number or bigint\n\nReceived has value: \u001b[31mundefined\u001b[39m\n\n  49 |           track: track ? getComputedStyle(track).backgroundColor : \"\", fill: fill ? getComputedStyle(fill).backgroundColor : \"\" };\n  50 |       });\n> 51 |       expect(geometry.height).toBeLessThanOrEqual(8);\n     |                               ^\n  52 |       expect(geometry.rounded).toBeGreaterThanOrEqual(3);\n  53 |       expect(geometry.fill).not.toBe(\"rgb(0, 128, 0)\");\n  54 |       expect(geometry.fill).not.toBe(geometry.track);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:51:31"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:47.628Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-legend-tool-7883d-ls-and-series-color-at-1311/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-legend-tool-7883d-ls-and-series-color-at-1311/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                    "column": 31,
+                    "line": 51
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8fbbdd2da748b02bd90b-ffcac523a4cac8e09cc5",
+          "file": "chart-feedback-legend-tooltip.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "map hover tooltip has compact padded content within the plot at 1311",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2927,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m14\u001b[39m\nReceived:    \u001b[31m16\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m14\u001b[39m\nReceived:    \u001b[31m16\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:79:26",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                      "column": 26,
+                      "line": 79
+                    },
+                    "snippet": "  77 |       return { font: parseFloat(getComputedStyle(node).fontSize), insetLeft: text.left - box.left, insetTop: text.top - box.top };\n  78 |     });\n> 79 |     expect(metrics.font).toBeLessThanOrEqual(14);\n     |                          ^\n  80 |     expect(metrics.insetLeft).toBeGreaterThanOrEqual(8);\n  81 |     expect(metrics.insetTop).toBeGreaterThanOrEqual(8);\n  82 |     const box = await tooltip.boundingBox(), plot = await card.locator(\".rain-chart-plot\").boundingBox();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                        "column": 26,
+                        "line": 79
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m14\u001b[39m\nReceived:    \u001b[31m16\u001b[39m\n\n  77 |       return { font: parseFloat(getComputedStyle(node).fontSize), insetLeft: text.left - box.left, insetTop: text.top - box.top };\n  78 |     });\n> 79 |     expect(metrics.font).toBeLessThanOrEqual(14);\n     |                          ^\n  80 |     expect(metrics.insetLeft).toBeGreaterThanOrEqual(8);\n  81 |     expect(metrics.insetTop).toBeGreaterThanOrEqual(8);\n  82 |     const box = await tooltip.boundingBox(), plot = await card.locator(\".rain-chart-plot\").boundingBox();\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:79:26"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:49.426Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-legend-tool-f9e21-ent-within-the-plot-at-1311/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-legend-tool-f9e21-ent-within-the-plot-at-1311/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                    "column": 26,
+                    "line": 79
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8fbbdd2da748b02bd90b-8da7e1228bebd8aa37db",
+          "file": "chart-feedback-legend-tooltip.spec.ts",
+          "line": 63,
+          "column": 3
+        },
+        {
+          "title": "chart labels stay horizontal at 390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2419,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:53.013Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fbbdd2da748b02bd90b-72e1e21c9ea317670444",
+          "file": "chart-feedback-legend-tooltip.spec.ts",
+          "line": 13,
+          "column": 3
+        },
+        {
+          "title": "ring progress keeps labels and series color at 390",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1132,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[1mMatcher error\u001b[22m: \u001b[31mreceived\u001b[39m value must be a number or bigint\n\nReceived has value: \u001b[31mundefined\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[1mMatcher error\u001b[22m: \u001b[31mreceived\u001b[39m value must be a number or bigint\n\nReceived has value: \u001b[31mundefined\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:51:31",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                      "column": 31,
+                      "line": 51
+                    },
+                    "snippet": "  49 |           track: track ? getComputedStyle(track).backgroundColor : \"\", fill: fill ? getComputedStyle(fill).backgroundColor : \"\" };\n  50 |       });\n> 51 |       expect(geometry.height).toBeLessThanOrEqual(8);\n     |                               ^\n  52 |       expect(geometry.rounded).toBeGreaterThanOrEqual(3);\n  53 |       expect(geometry.fill).not.toBe(\"rgb(0, 128, 0)\");\n  54 |       expect(geometry.fill).not.toBe(geometry.track);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                        "column": 31,
+                        "line": 51
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[1mMatcher error\u001b[22m: \u001b[31mreceived\u001b[39m value must be a number or bigint\n\nReceived has value: \u001b[31mundefined\u001b[39m\n\n  49 |           track: track ? getComputedStyle(track).backgroundColor : \"\", fill: fill ? getComputedStyle(fill).backgroundColor : \"\" };\n  50 |       });\n> 51 |       expect(geometry.height).toBeLessThanOrEqual(8);\n     |                               ^\n  52 |       expect(geometry.rounded).toBeGreaterThanOrEqual(3);\n  53 |       expect(geometry.fill).not.toBe(\"rgb(0, 128, 0)\");\n  54 |       expect(geometry.fill).not.toBe(geometry.track);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:51:31"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:55.539Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-legend-tool-d0637-els-and-series-color-at-390/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-legend-tool-d0637-els-and-series-color-at-390/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                    "column": 31,
+                    "line": 51
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8fbbdd2da748b02bd90b-749c64ef4a288ab099c6",
+          "file": "chart-feedback-legend-tooltip.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "map hover tooltip has compact padded content within the plot at 390",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2042,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m14\u001b[39m\nReceived:    \u001b[31m16\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m14\u001b[39m\nReceived:    \u001b[31m16\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:79:26",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                      "column": 26,
+                      "line": 79
+                    },
+                    "snippet": "  77 |       return { font: parseFloat(getComputedStyle(node).fontSize), insetLeft: text.left - box.left, insetTop: text.top - box.top };\n  78 |     });\n> 79 |     expect(metrics.font).toBeLessThanOrEqual(14);\n     |                          ^\n  80 |     expect(metrics.insetLeft).toBeGreaterThanOrEqual(8);\n  81 |     expect(metrics.insetTop).toBeGreaterThanOrEqual(8);\n  82 |     const box = await tooltip.boundingBox(), plot = await card.locator(\".rain-chart-plot\").boundingBox();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                        "column": 26,
+                        "line": 79
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m14\u001b[39m\nReceived:    \u001b[31m16\u001b[39m\n\n  77 |       return { font: parseFloat(getComputedStyle(node).fontSize), insetLeft: text.left - box.left, insetTop: text.top - box.top };\n  78 |     });\n> 79 |     expect(metrics.font).toBeLessThanOrEqual(14);\n     |                          ^\n  80 |     expect(metrics.insetLeft).toBeGreaterThanOrEqual(8);\n  81 |     expect(metrics.insetTop).toBeGreaterThanOrEqual(8);\n  82 |     const box = await tooltip.boundingBox(), plot = await card.locator(\".rain-chart-plot\").boundingBox();\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:79:26"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:57.106Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-legend-tool-61495-tent-within-the-plot-at-390/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-legend-tool-61495-tent-within-the-plot-at-390/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts",
+                    "column": 26,
+                    "line": 79
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8fbbdd2da748b02bd90b-88f82312a4f54e004b03",
+          "file": "chart-feedback-legend-tooltip.spec.ts",
+          "line": 63,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "chart-feedback-material.spec.ts",
+      "file": "chart-feedback-material.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "playground uses coordinated materials and light auxiliary hatching at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 3501,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:34.983Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1234b2a23aac3866c635-c710d61a640414abc5d7",
+          "file": "chart-feedback-material.spec.ts",
+          "line": 8,
+          "column": 37
+        },
+        {
+          "title": "playground uses coordinated materials and light auxiliary hatching at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2647,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:38.640Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1234b2a23aac3866c635-1c4a564a6b8a5985adec",
+          "file": "chart-feedback-material.spec.ts",
+          "line": 8,
+          "column": 37
+        },
+        {
+          "title": "prototype uses coordinated materials and light auxiliary hatching at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2186,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:41.297Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1234b2a23aac3866c635-608ae334f5b2fa2800a4",
+          "file": "chart-feedback-material.spec.ts",
+          "line": 8,
+          "column": 37
+        },
+        {
+          "title": "prototype uses coordinated materials and light auxiliary hatching at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2230,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:43.489Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1234b2a23aac3866c635-68215fdfcd54289ae766",
+          "file": "chart-feedback-material.spec.ts",
+          "line": 8,
+          "column": 37
+        }
+      ]
+    },
+    {
+      "title": "chart-feedback-radial.spec.ts",
+      "file": "chart-feedback-radial.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "playground radial readings and material fixes at 1280",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 3177,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m311.34375\u001b[39m\nReceived:   \u001b[31m311.34375\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m311.34375\u001b[39m\nReceived:   \u001b[31m311.34375\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts:71:32",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts",
+                      "column": 32,
+                      "line": 71
+                    },
+                    "snippet": "  69 |     });\n  70 |     expect(layout.direction).toBe(\"row\");\n> 71 |     expect(layout.label!.left).toBeGreaterThan(layout.value!.right);\n     |                                ^\n  72 |     expect(layout.label!.top).toBeLessThan(layout.value!.bottom);\n  73 |     facts.push({ id: \"gauge-linear-label-below\", notches, ...layout });\n  74 |     await gauge.screenshot({ path: `${evidence}/${site.name}-gauge-linear-${width}.png` });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts",
+                        "column": 32,
+                        "line": 71
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m311.34375\u001b[39m\nReceived:   \u001b[31m311.34375\u001b[39m\n\n  69 |     });\n  70 |     expect(layout.direction).toBe(\"row\");\n> 71 |     expect(layout.label!.left).toBeGreaterThan(layout.value!.right);\n     |                                ^\n  72 |     expect(layout.label!.top).toBeLessThan(layout.value!.bottom);\n  73 |     facts.push({ id: \"gauge-linear-label-below\", notches, ...layout });\n  74 |     await gauge.screenshot({ path: `${evidence}/${site.name}-gauge-linear-${width}.png` });\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts:71:32"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:45.737Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-radial-play-92e33--and-material-fixes-at-1280/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-radial-play-92e33--and-material-fixes-at-1280/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts",
+                    "column": 32,
+                    "line": 71
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "263f99240cfcb2450752-fbcdb0dfcc5c580a7445",
+          "file": "chart-feedback-radial.spec.ts",
+          "line": 9,
+          "column": 3
+        },
+        {
+          "title": "playground radial readings and material fixes at 390",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 2833,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m192.34375\u001b[39m\nReceived:   \u001b[31m192.34375\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m192.34375\u001b[39m\nReceived:   \u001b[31m192.34375\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts:71:32",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts",
+                      "column": 32,
+                      "line": 71
+                    },
+                    "snippet": "  69 |     });\n  70 |     expect(layout.direction).toBe(\"row\");\n> 71 |     expect(layout.label!.left).toBeGreaterThan(layout.value!.right);\n     |                                ^\n  72 |     expect(layout.label!.top).toBeLessThan(layout.value!.bottom);\n  73 |     facts.push({ id: \"gauge-linear-label-below\", notches, ...layout });\n  74 |     await gauge.screenshot({ path: `${evidence}/${site.name}-gauge-linear-${width}.png` });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts",
+                        "column": 32,
+                        "line": 71
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m192.34375\u001b[39m\nReceived:   \u001b[31m192.34375\u001b[39m\n\n  69 |     });\n  70 |     expect(layout.direction).toBe(\"row\");\n> 71 |     expect(layout.label!.left).toBeGreaterThan(layout.value!.right);\n     |                                ^\n  72 |     expect(layout.label!.top).toBeLessThan(layout.value!.bottom);\n  73 |     facts.push({ id: \"gauge-linear-label-below\", notches, ...layout });\n  74 |     await gauge.screenshot({ path: `${evidence}/${site.name}-gauge-linear-${width}.png` });\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts:71:32"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:49.797Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-radial-play-c6f19-s-and-material-fixes-at-390/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-radial-play-c6f19-s-and-material-fixes-at-390/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts",
+                    "column": 32,
+                    "line": 71
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "263f99240cfcb2450752-0d797ebdfb0c5a201e8d",
+          "file": "chart-feedback-radial.spec.ts",
+          "line": 9,
+          "column": 3
+        },
+        {
+          "title": "prototype radial readings and material fixes at 1280",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 2163,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m501.34375\u001b[39m\nReceived:   \u001b[31m501.34375\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m501.34375\u001b[39m\nReceived:   \u001b[31m501.34375\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts:71:32",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts",
+                      "column": 32,
+                      "line": 71
+                    },
+                    "snippet": "  69 |     });\n  70 |     expect(layout.direction).toBe(\"row\");\n> 71 |     expect(layout.label!.left).toBeGreaterThan(layout.value!.right);\n     |                                ^\n  72 |     expect(layout.label!.top).toBeLessThan(layout.value!.bottom);\n  73 |     facts.push({ id: \"gauge-linear-label-below\", notches, ...layout });\n  74 |     await gauge.screenshot({ path: `${evidence}/${site.name}-gauge-linear-${width}.png` });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts",
+                        "column": 32,
+                        "line": 71
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m501.34375\u001b[39m\nReceived:   \u001b[31m501.34375\u001b[39m\n\n  69 |     });\n  70 |     expect(layout.direction).toBe(\"row\");\n> 71 |     expect(layout.label!.left).toBeGreaterThan(layout.value!.right);\n     |                                ^\n  72 |     expect(layout.label!.top).toBeLessThan(layout.value!.bottom);\n  73 |     facts.push({ id: \"gauge-linear-label-below\", notches, ...layout });\n  74 |     await gauge.screenshot({ path: `${evidence}/${site.name}-gauge-linear-${width}.png` });\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts:71:32"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:53.678Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-radial-prot-03df5--and-material-fixes-at-1280/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-radial-prot-03df5--and-material-fixes-at-1280/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts",
+                    "column": 32,
+                    "line": 71
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "263f99240cfcb2450752-2867f1658b31d53979fb",
+          "file": "chart-feedback-radial.spec.ts",
+          "line": 9,
+          "column": 3
+        },
+        {
+          "title": "prototype radial readings and material fixes at 390",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 2323,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m192.34375\u001b[39m\nReceived:   \u001b[31m192.34375\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m192.34375\u001b[39m\nReceived:   \u001b[31m192.34375\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts:71:32",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts",
+                      "column": 32,
+                      "line": 71
+                    },
+                    "snippet": "  69 |     });\n  70 |     expect(layout.direction).toBe(\"row\");\n> 71 |     expect(layout.label!.left).toBeGreaterThan(layout.value!.right);\n     |                                ^\n  72 |     expect(layout.label!.top).toBeLessThan(layout.value!.bottom);\n  73 |     facts.push({ id: \"gauge-linear-label-below\", notches, ...layout });\n  74 |     await gauge.screenshot({ path: `${evidence}/${site.name}-gauge-linear-${width}.png` });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts",
+                        "column": 32,
+                        "line": 71
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m192.34375\u001b[39m\nReceived:   \u001b[31m192.34375\u001b[39m\n\n  69 |     });\n  70 |     expect(layout.direction).toBe(\"row\");\n> 71 |     expect(layout.label!.left).toBeGreaterThan(layout.value!.right);\n     |                                ^\n  72 |     expect(layout.label!.top).toBeLessThan(layout.value!.bottom);\n  73 |     facts.push({ id: \"gauge-linear-label-below\", notches, ...layout });\n  74 |     await gauge.screenshot({ path: `${evidence}/${site.name}-gauge-linear-${width}.png` });\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts:71:32"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:56.795Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-radial-prot-cc055-s-and-material-fixes-at-390/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-radial-prot-cc055-s-and-material-fixes-at-390/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-radial.spec.ts",
+                    "column": 32,
+                    "line": 71
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "263f99240cfcb2450752-df59d156f6265c1f8884",
+          "file": "chart-feedback-radial.spec.ts",
+          "line": 9,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "chart-feedback-structure.spec.ts",
+      "file": "chart-feedback-structure.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "calendar month, quarter and weekday labels occupy separate aligned tracks at 1280px",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2150,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m258.609375\u001b[39m\nReceived:    \u001b[31m252.609375\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m258.609375\u001b[39m\nReceived:    \u001b[31m252.609375\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts:17:24",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts",
+                      "column": 24,
+                      "line": 17
+                    },
+                    "snippet": "  15 |   await expect(month).toBeVisible(); await expect(quarter).toBeVisible();\n  16 |   const monthBox = (await month.boundingBox())!, quarterBox = (await quarter.boundingBox())!;\n> 17 |   expect(quarterBox.y).toBeGreaterThanOrEqual(monthBox.y + monthBox.height + 2);\n     |                        ^\n  18 |   const labels = await root.locator(\"span\").evaluateAll(nodes => nodes.filter(node => /^(M|W|F)$/.test(node.textContent ?? \"\")).map(node => { const r = node.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; }).sort((a, b) => a.top - b.top));\n  19 |   expect(labels).toHaveLength(3);\n  20 |   for (let index = 1; index < labels.length; index++) expect(labels[index]!.top).toBeGreaterThanOrEqual(labels[index - 1]!.bottom);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts",
+                        "column": 24,
+                        "line": 17
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m258.609375\u001b[39m\nReceived:    \u001b[31m252.609375\u001b[39m\n\n  15 |   await expect(month).toBeVisible(); await expect(quarter).toBeVisible();\n  16 |   const monthBox = (await month.boundingBox())!, quarterBox = (await quarter.boundingBox())!;\n> 17 |   expect(quarterBox.y).toBeGreaterThanOrEqual(monthBox.y + monthBox.height + 2);\n     |                        ^\n  18 |   const labels = await root.locator(\"span\").evaluateAll(nodes => nodes.filter(node => /^(M|W|F)$/.test(node.textContent ?? \"\")).map(node => { const r = node.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; }).sort((a, b) => a.top - b.top));\n  19 |   expect(labels).toHaveLength(3);\n  20 |   for (let index = 1; index < labels.length; index++) expect(labels[index]!.top).toBeGreaterThanOrEqual(labels[index - 1]!.bottom);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts:17:24"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:05:59.761Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-structure-c-a90f0-te-aligned-tracks-at-1280px/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-structure-c-a90f0-te-aligned-tracks-at-1280px/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts",
+                    "column": 24,
+                    "line": 17
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "4608f215fad7492a7983-792cd7f46600c8838528",
+          "file": "chart-feedback-structure.spec.ts",
+          "line": 7,
+          "column": 39
+        },
+        {
+          "title": "calendar month, quarter and weekday labels occupy separate aligned tracks at 880px",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1809,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m259.046875\u001b[39m\nReceived:    \u001b[31m253.046875\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m259.046875\u001b[39m\nReceived:    \u001b[31m253.046875\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts:17:24",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts",
+                      "column": 24,
+                      "line": 17
+                    },
+                    "snippet": "  15 |   await expect(month).toBeVisible(); await expect(quarter).toBeVisible();\n  16 |   const monthBox = (await month.boundingBox())!, quarterBox = (await quarter.boundingBox())!;\n> 17 |   expect(quarterBox.y).toBeGreaterThanOrEqual(monthBox.y + monthBox.height + 2);\n     |                        ^\n  18 |   const labels = await root.locator(\"span\").evaluateAll(nodes => nodes.filter(node => /^(M|W|F)$/.test(node.textContent ?? \"\")).map(node => { const r = node.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; }).sort((a, b) => a.top - b.top));\n  19 |   expect(labels).toHaveLength(3);\n  20 |   for (let index = 1; index < labels.length; index++) expect(labels[index]!.top).toBeGreaterThanOrEqual(labels[index - 1]!.bottom);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts",
+                        "column": 24,
+                        "line": 17
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m259.046875\u001b[39m\nReceived:    \u001b[31m253.046875\u001b[39m\n\n  15 |   await expect(month).toBeVisible(); await expect(quarter).toBeVisible();\n  16 |   const monthBox = (await month.boundingBox())!, quarterBox = (await quarter.boundingBox())!;\n> 17 |   expect(quarterBox.y).toBeGreaterThanOrEqual(monthBox.y + monthBox.height + 2);\n     |                        ^\n  18 |   const labels = await root.locator(\"span\").evaluateAll(nodes => nodes.filter(node => /^(M|W|F)$/.test(node.textContent ?? \"\")).map(node => { const r = node.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; }).sort((a, b) => a.top - b.top));\n  19 |   expect(labels).toHaveLength(3);\n  20 |   for (let index = 1; index < labels.length; index++) expect(labels[index]!.top).toBeGreaterThanOrEqual(labels[index - 1]!.bottom);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts:17:24"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:06:02.463Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-structure-c-45cbc-ate-aligned-tracks-at-880px/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-structure-c-45cbc-ate-aligned-tracks-at-880px/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts",
+                    "column": 24,
+                    "line": 17
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "4608f215fad7492a7983-a0cf732829b57bbcf3de",
+          "file": "chart-feedback-structure.spec.ts",
+          "line": 7,
+          "column": 39
+        },
+        {
+          "title": "calendar month, quarter and weekday labels occupy separate aligned tracks at 390px",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2130,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m258.71875\u001b[39m\nReceived:    \u001b[31m252.71875\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m258.71875\u001b[39m\nReceived:    \u001b[31m252.71875\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts:17:24",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts",
+                      "column": 24,
+                      "line": 17
+                    },
+                    "snippet": "  15 |   await expect(month).toBeVisible(); await expect(quarter).toBeVisible();\n  16 |   const monthBox = (await month.boundingBox())!, quarterBox = (await quarter.boundingBox())!;\n> 17 |   expect(quarterBox.y).toBeGreaterThanOrEqual(monthBox.y + monthBox.height + 2);\n     |                        ^\n  18 |   const labels = await root.locator(\"span\").evaluateAll(nodes => nodes.filter(node => /^(M|W|F)$/.test(node.textContent ?? \"\")).map(node => { const r = node.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; }).sort((a, b) => a.top - b.top));\n  19 |   expect(labels).toHaveLength(3);\n  20 |   for (let index = 1; index < labels.length; index++) expect(labels[index]!.top).toBeGreaterThanOrEqual(labels[index - 1]!.bottom);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts",
+                        "column": 24,
+                        "line": 17
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m258.71875\u001b[39m\nReceived:    \u001b[31m252.71875\u001b[39m\n\n  15 |   await expect(month).toBeVisible(); await expect(quarter).toBeVisible();\n  16 |   const monthBox = (await month.boundingBox())!, quarterBox = (await quarter.boundingBox())!;\n> 17 |   expect(quarterBox.y).toBeGreaterThanOrEqual(monthBox.y + monthBox.height + 2);\n     |                        ^\n  18 |   const labels = await root.locator(\"span\").evaluateAll(nodes => nodes.filter(node => /^(M|W|F)$/.test(node.textContent ?? \"\")).map(node => { const r = node.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; }).sort((a, b) => a.top - b.top));\n  19 |   expect(labels).toHaveLength(3);\n  20 |   for (let index = 1; index < labels.length; index++) expect(labels[index]!.top).toBeGreaterThanOrEqual(labels[index - 1]!.bottom);\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts:17:24"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:06:04.912Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-structure-c-313ae-ate-aligned-tracks-at-390px/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-variants/feedback-2026-10-08/feedback-final-results/chart-feedback-structure-c-313ae-ate-aligned-tracks-at-390px/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-structure.spec.ts",
+                    "column": 24,
+                    "line": 17
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "4608f215fad7492a7983-60b9b1318dcd33bd1652",
+          "file": "chart-feedback-structure.spec.ts",
+          "line": 7,
+          "column": 39
+        },
+        {
+          "title": "the default geographic example renders actual world outlines at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1112,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:06:07.662Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4608f215fad7492a7983-e932126a41337541dfd6",
+          "file": "chart-feedback-structure.spec.ts",
+          "line": 32,
+          "column": 39
+        },
+        {
+          "title": "the default geographic example renders actual world outlines at 880px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1074,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:06:08.891Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4608f215fad7492a7983-ff11c008a441d9cbd4b7",
+          "file": "chart-feedback-structure.spec.ts",
+          "line": 32,
+          "column": 39
+        },
+        {
+          "title": "the default geographic example renders actual world outlines at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1085,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:06:09.971Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4608f215fad7492a7983-d31da886335224497939",
+          "file": "chart-feedback-structure.spec.ts",
+          "line": 32,
+          "column": 39
+        },
+        {
+          "title": "sunburst starts with a title and uses the existing Breadcrumb after drill at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2282,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:06:11.063Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4608f215fad7492a7983-8b45609f7dfa07fc358d",
+          "file": "chart-feedback-structure.spec.ts",
+          "line": 45,
+          "column": 39
+        },
+        {
+          "title": "sunburst starts with a title and uses the existing Breadcrumb after drill at 880px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1658,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:06:13.354Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4608f215fad7492a7983-652a677991aa0e77d1ad",
+          "file": "chart-feedback-structure.spec.ts",
+          "line": 45,
+          "column": 39
+        },
+        {
+          "title": "sunburst starts with a title and uses the existing Breadcrumb after drill at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2604,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T09:06:15.024Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4608f215fad7492a7983-2d903176b2328a21f2d4",
+          "file": "chart-feedback-structure.spec.ts",
+          "line": 45,
+          "column": 39
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-08T09:05:34.725Z",
+    "duration": 42986.424999999996,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 13,
+    "flaky": 0
+  }
+}

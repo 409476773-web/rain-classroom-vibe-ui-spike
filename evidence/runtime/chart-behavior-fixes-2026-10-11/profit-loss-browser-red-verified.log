@@ -1,0 +1,162 @@
+
+Running 4 tests using 1 worker
+
+(node:6168) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 1440px no-preference (6.9s)
+(node:6594) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 1440px reduce (6.8s)
+(node:8472) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 390px no-preference (9.0s)
+(node:9950) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 390px reduce (6.9s)
+
+
+  1) tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 1440px no-preference 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-rain-id="chart-profit-loss"]').locator('[data-slot="profit-loss-line"] path')
+    Expected: 2
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-profit-loss"]').locator('[data-slot="profit-loss-line"] path')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      89 |         await expect(rows.locator("td")).toHaveText(profile.values.map(String));
+      90 |         await expect(rows.locator("th")).toHaveText(profile.values.map((_, index) => `9月${index + 1}日`));
+    > 91 |         await expect(paths).toHaveCount(profile.positive.length);
+         |                             ^
+      92 |         await expect.poll(async () => {
+      93 |           const segments = await readSegments(paths);
+      94 |           const size = await svg.evaluate(node => ({ width: Number(node.getAttribute("width")), height: Number(node.getAttribute("height")) }));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-profit-loss-zero.spec.ts:91:29
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/profit-loss-red-verified-results/chart-profit-loss-zero--Pr-31de7-tip-at-1440px-no-preference/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/profit-loss-red-verified-results/chart-profit-loss-zero--Pr-31de7-tip-at-1440px-no-preference/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/profit-loss-red-verified-results/chart-profit-loss-zero--Pr-31de7-tip-at-1440px-no-preference/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 1440px reduce 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-rain-id="chart-profit-loss"]').locator('[data-slot="profit-loss-line"] path')
+    Expected: 2
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-profit-loss"]').locator('[data-slot="profit-loss-line"] path')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      89 |         await expect(rows.locator("td")).toHaveText(profile.values.map(String));
+      90 |         await expect(rows.locator("th")).toHaveText(profile.values.map((_, index) => `9月${index + 1}日`));
+    > 91 |         await expect(paths).toHaveCount(profile.positive.length);
+         |                             ^
+      92 |         await expect.poll(async () => {
+      93 |           const segments = await readSegments(paths);
+      94 |           const size = await svg.evaluate(node => ({ width: Number(node.getAttribute("width")), height: Number(node.getAttribute("height")) }));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-profit-loss-zero.spec.ts:91:29
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/profit-loss-red-verified-results/chart-profit-loss-zero--Pr-a4e5e-nd-tooltip-at-1440px-reduce/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/profit-loss-red-verified-results/chart-profit-loss-zero--Pr-a4e5e-nd-tooltip-at-1440px-reduce/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/profit-loss-red-verified-results/chart-profit-loss-zero--Pr-a4e5e-nd-tooltip-at-1440px-reduce/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 390px no-preference 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-rain-id="chart-profit-loss"]').locator('[data-slot="profit-loss-line"] path')
+    Expected: 2
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-profit-loss"]').locator('[data-slot="profit-loss-line"] path')
+        13 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      89 |         await expect(rows.locator("td")).toHaveText(profile.values.map(String));
+      90 |         await expect(rows.locator("th")).toHaveText(profile.values.map((_, index) => `9月${index + 1}日`));
+    > 91 |         await expect(paths).toHaveCount(profile.positive.length);
+         |                             ^
+      92 |         await expect.poll(async () => {
+      93 |           const segments = await readSegments(paths);
+      94 |           const size = await svg.evaluate(node => ({ width: Number(node.getAttribute("width")), height: Number(node.getAttribute("height")) }));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-profit-loss-zero.spec.ts:91:29
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/profit-loss-red-verified-results/chart-profit-loss-zero--Pr-2b893-ltip-at-390px-no-preference/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/profit-loss-red-verified-results/chart-profit-loss-zero--Pr-2b893-ltip-at-390px-no-preference/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/profit-loss-red-verified-results/chart-profit-loss-zero--Pr-2b893-ltip-at-390px-no-preference/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 390px reduce 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-rain-id="chart-profit-loss"]').locator('[data-slot="profit-loss-line"] path')
+    Expected: 2
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-profit-loss"]').locator('[data-slot="profit-loss-line"] path')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      89 |         await expect(rows.locator("td")).toHaveText(profile.values.map(String));
+      90 |         await expect(rows.locator("th")).toHaveText(profile.values.map((_, index) => `9月${index + 1}日`));
+    > 91 |         await expect(paths).toHaveCount(profile.positive.length);
+         |                             ^
+      92 |         await expect.poll(async () => {
+      93 |           const segments = await readSegments(paths);
+      94 |           const size = await svg.evaluate(node => ({ width: Number(node.getAttribute("width")), height: Number(node.getAttribute("height")) }));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-profit-loss-zero.spec.ts:91:29
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/profit-loss-red-verified-results/chart-profit-loss-zero--Pr-9c7c4-and-tooltip-at-390px-reduce/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/profit-loss-red-verified-results/chart-profit-loss-zero--Pr-9c7c4-and-tooltip-at-390px-reduce/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/profit-loss-red-verified-results/chart-profit-loss-zero--Pr-9c7c4-and-tooltip-at-390px-reduce/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 1440px no-preference 
+    tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 1440px reduce 
+    tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 390px no-preference 
+    tests/e2e/chart-profit-loss-zero.spec.ts:43:3 › [ProfitLossZero] real exact-zero readings, sign geometry and tooltip at 390px reduce 

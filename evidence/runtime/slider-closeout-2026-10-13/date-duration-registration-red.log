@@ -1,0 +1,57 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g5-color-consumers.test.ts (6 tests | 2 failed | 4 skipped) 5570ms
+   × registers the existing DatePicker duration recipe without changing its inherited paints 2971ms
+   × rejects duration recipe mutations and Category paints outside that exact declaration 2598ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g5-color-consumers.test.ts > registers the existing DatePicker duration recipe without changing its inherited paints
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "Category/local colors require registered Token consumer metadata: packages/ui/src/date-picker/date-picker.tsx",
++ ]
+
+ ❯ scripts/g5-color-consumers.test.ts:60:73
+     58|   const filePath = "packages/ui/src/date-picker/date-picker.tsx", sour…
+     59|   const outputs = getTokenFoundationOutputs(); outputs.colorCssConsume…
+     60|   expect(validateRegisteredRecipeColors({ filePath, source, outputs })…
+       |                                                                         ^
+     61| });
+     62|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/g5-color-consumers.test.ts > rejects duration recipe mutations and Category paints outside that exact declaration
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "Category/local colors require registered Token consumer metadata: packages/ui/src/date-picker/date-picker.tsx",
++ ]
+
+ ❯ scripts/g5-color-consumers.test.ts:66:73
+     64|   const filePath = "packages/ui/src/date-picker/date-picker.tsx", sour…
+     65|   const outputs = getTokenFoundationOutputs(); outputs.colorCssConsume…
+     66|   expect(validateRegisteredRecipeColors({ filePath, source, outputs })…
+       |                                                                         ^
+     67|   const caller = '<Button variant="tertiary" size="mini" localRecipe={…
+     68|   expect(source).toContain(caller);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 4 skipped (6)
+   Start at  16:25:12
+   Duration  6.89s (transform 362ms, setup 152ms, import 482ms, tests 5.57s, environment 593ms)
+

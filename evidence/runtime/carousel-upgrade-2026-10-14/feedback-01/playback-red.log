@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/carousel/carousel.upgrade.test.tsx (27 tests | 1 failed | 26 skipped) 218ms
+     × shows the accepted visible playback labels as playback intent changes 217ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/carousel/carousel.upgrade.test.tsx > Carousel upgrade with real Embla > shows the accepted visible playback labels as playback intent changes
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  继续播放
+Received:
+
+ ❯ packages/ui/src/carousel/carousel.upgrade.test.tsx:238:21
+    236|     await timedFixture({ playback: { mode: "autoplay", delay: 1000, st…
+    237|     const control = screen.getByRole("button", { name: "继续播放" });
+    238|     expect(control).toHaveTextContent("继续播放");
+       |                     ^
+    239|     fireEvent.click(control);
+    240|     expect(control).toHaveTextContent("暂停播放");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 26 skipped (27)
+   Start at  18:32:22
+   Duration  990ms (transform 123ms, setup 143ms, import 24ms, tests 218ms, environment 519ms)
+

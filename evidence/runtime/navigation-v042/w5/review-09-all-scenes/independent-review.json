@@ -1,0 +1,217 @@
+{
+  "kind": "Review09-independent-read-only-review",
+  "createdAt": "2026-10-03T07:54:37.054139+00:00",
+  "author": "/root/review07_r1_r3",
+  "scope": [
+    "Root shared NavigationList Tooltip and feature platform icon centering",
+    "R4/R5/R6 changes",
+    "S1–S6 wrapper changes"
+  ],
+  "excludedFromIndependentConclusion": [
+    "My own R1/R2/R3 source fixes and palette mapping; referenced only as reused runtime host for shared navigation inspection"
+  ],
+  "sourceReview": "pass",
+  "blockingFindings": [],
+  "sourceHashes": {
+    "packages/ui/src/navigation/navigation-families.tsx": "74ea3796b3062d546279dc6912b2e67c0ccb148cfcff042fd6c13721bd94c62d",
+    "packages/ui/src/navigation/navigation-families.test.tsx": "a691bc9588f0060a0316a8891a9501e75a2626e687c1cc11a95585eeff079318",
+    "packages/ui/src/tooltip/tooltip.tsx": "d23bc3d21c01ae7686eea781d0ee6fcb5d561f26f4d76529b410221fba8b1fb9",
+    "apps/playground/src/recipes/navigation-v042/platform-navigation.css": "fbf4401f3aca13ed35f4a25307103bda07cc90c52e51b2d9167540bfbb50c3a4",
+    "apps/playground/src/recipes/navigation-v042/r4-r6.tsx": "58f12cdd823520ced1b771d21450bf4db90daf11091e1c2ac41d5a92fb4b7cf1",
+    "apps/playground/src/recipes/navigation-v042/r4-r6.css": "6668b862954b17e6045d1ebc98e53589411e50f0e767d1f1b7f52a6c7d896864",
+    "apps/playground/src/recipes/navigation-v042/r4-r6.test.tsx": "96f69342ac75ef74b735f2689f77ecba052ff2a9da7002131934a535ef916d83",
+    "apps/playground/src/recipes/navigation-v042/workspace-states.tsx": "2ce36e6841aa141623ab3626091570cf91b8608f6d9dfe9af65b24e445bd122a",
+    "apps/playground/src/recipes/navigation-v042/workspace-states.css": "2ddd49ba5675dab132b24751376587f31321104f14dd556f8a7d83a334300a4e",
+    "apps/playground/src/recipes/navigation-v042/workspace-states.test.tsx": "680cd0c2de7fee6c5b5ecadc9d55fdb234b34d9d69b8fb442c45c24af5008a65"
+  },
+  "checks": [
+    {
+      "area": "NavigationList native behavior",
+      "result": "pass",
+      "evidence": [
+        "packages/ui/src/navigation/navigation-families.tsx:94",
+        "packages/ui/src/navigation/navigation-families.tsx:97",
+        "packages/ui/src/navigation/navigation-families.tsx:102",
+        "packages/ui/src/navigation/navigation-families.test.tsx:8"
+      ],
+      "reason": "Tooltip wraps the existing anchor. Enabled href/current/name unchanged; disabled href removed/tabIndex -1/aria-disabled and preventDefault preserved; route callback guard rejects Ctrl/Meta/Shift/Alt and non-left activation. Existing item description ID is retained and Tooltip merges its own ID via the accepted component. No native title for icons; inset title retained."
+    },
+    {
+      "area": "NavigationList Tooltip behavior",
+      "result": "pass",
+      "evidence": [
+        "packages/ui/src/tooltip/tooltip.tsx:36",
+        "packages/ui/src/tooltip/tooltip.tsx:51",
+        "independent-runtime-final/facts.json"
+      ],
+      "reason": "Existing Tooltip right portal, Rain component rendering, pointer and real keyboard focus, Escape retaining focus verified. Accepted Tooltip source itself is unchanged by this review."
+    },
+    {
+      "area": "Platform centering boundary",
+      "result": "pass",
+      "evidence": [
+        "apps/playground/src/recipes/navigation-v042/platform-navigation.css:27",
+        "independent-runtime-final/facts.json"
+      ],
+      "reason": "Selector restricts justify-content:center to icons NavigationList entries inside nv43-platform/nv5-platform/nv44-global recipe regions. Expanded entries, classroom/object queues and public geometry are untouched. Independent live compact target40px, leading18px, centerDelta0."
+    },
+    {
+      "area": "R4 search count and empty feedback",
+      "result": "pass",
+      "evidence": [
+        "apps/playground/src/recipes/navigation-v042/r4-r6.tsx:115",
+        "apps/playground/src/recipes/navigation-v042/r4-r6.tsx:126",
+        "r4-r6/empty-after-results.json",
+        "independent-runtime-final/facts.json"
+      ],
+      "reason": "Filtered students count uses visible.length / students.length; ObjectNavigator existing emptyLabel distinguishes searched groups/students. Filtered-out current object passes null to navigator while detail/draft state retained, avoiding unavailable-object duplicate. Independent no-match0/6 thenclear6 plus draft retention verified."
+    },
+    {
+      "area": "R6 Empty/group suppression",
+      "result": "pass",
+      "evidence": [
+        "apps/playground/src/recipes/navigation-v042/r4-r6.tsx:168",
+        "apps/playground/src/recipes/navigation-v042/r4-r6.tsx:169",
+        "apps/playground/src/recipes/navigation-v042/r4-r6.tsx:170",
+        "independent-runtime-final/facts.json"
+      ],
+      "reason": "One aggregate query predicate renders existing Empty/EmptyTitle only on zero match. Nonzero results omit empty navigations and their section headers; default empty query restores normal groups. Independent search/clear preserves the form draft."
+    },
+    {
+      "area": "S1/S2/S6 live identity",
+      "result": "pass",
+      "evidence": [
+        "apps/playground/src/recipes/navigation-v042/workspace-states.tsx:118",
+        "apps/playground/src/recipes/navigation-v042/workspace-states.tsx:119",
+        "independent-runtime-final/facts.json"
+      ],
+      "reason": "All non-S5 scenes use existing recipe identity callback. Independent professional navigation, knowledge Tree selection, replay event seek984 and scrub1100 propagate immediately to RestoreBar."
+    },
+    {
+      "area": "S5 feedback and default hover",
+      "result": "pass",
+      "evidence": [
+        "apps/playground/src/recipes/navigation-v042/workspace-states.tsx:74",
+        "apps/playground/src/recipes/navigation-v042/workspace-states.tsx:80",
+        "apps/playground/src/recipes/navigation-v042/workspace-states.tsx:86",
+        "apps/playground/src/recipes/navigation-v042/workspace-states.tsx:123",
+        "independent-runtime-final/facts.json"
+      ],
+      "reason": "Version/notification/help entry callbacks write only local notice state; visible status respects existing document draft ownership. Restore default resets hover false alongside existing SWITCH_CONTEXT action, leaving draft unchanged."
+    }
+  ],
+  "independentRuntime": {
+    "casesPassed": 7,
+    "casesTotal": 7,
+    "pageErrors": 0,
+    "facts": "independent-runtime-final/facts.json",
+    "script": "independent-runtime-corrected.mjs",
+    "log": "independent-runtime-corrected.log",
+    "viewport": {
+      "width": 1760,
+      "height": 1100
+    },
+    "note": "Targeted independent sampling only; does not repeat the whole owner matrix."
+  },
+  "ownerEvidenceReview": {
+    "r4r6": {
+      "29BrowserCases": true,
+      "9EmptyCases": true,
+      "63ChangedPaintNodes0GeometryDifferences": true,
+      "sourceHashesMatch": true,
+      "noClaimOfR6GuiInverse": "README and report explicitly limit actual inverse browser evidence to S6; R6 direct inverse prop remains not-run"
+    },
+    "states": {
+      "sourceHashesMatch": true,
+      "counts": {
+        "matrixCases": 27,
+        "widthSceneCases": 21,
+        "shortHeightCases": 6,
+        "hoverCases": 7,
+        "checks": 425,
+        "failedChecks": 0,
+        "caseFailures": 0,
+        "canonicalScreens": 82,
+        "unitPassed": 14,
+        "unitFailed": 0
+      },
+      "approved": false,
+      "humanGate": "pending-G2-review",
+      "retention": "27 matrix cases +7 final hover cases; final hover reset code does not change previously captured disabled-hover paint. Canonical report explicitly documents final S5 replacement and retained failed locator attempts."
+    },
+    "classification": "No false product defect or unsupported acceptance claim identified in the reviewed owner reports."
+  },
+  "attemptNotes": [
+    "First independent browser launch hit macOS sandbox MachPort permission. Approved existing headless runtime retry succeeded; initial diagnostic retained in independent-runtime.log.",
+    "Initial independent R6 input locator used 学习反馈 instead of actual accessible name 你希望我们改进的地方; corrected script/final folder passes. This was a reviewer locator error, not a product defect."
+  ],
+  "closureGateProtectionReview": {
+    "state": "passed",
+    "independentMetadataChecks": 378,
+    "independentMetadataErrors": [],
+    "facts": "independent-metadata-check.json",
+    "protectionFacts": "independent-protection-check.json",
+    "registrationCounts": {
+      "updatedRegistries": 4,
+      "updatedCandidateManifests": 10,
+      "checkedCandidateManifests": 12,
+      "unchangedLayoutManifestsWithinChecks": 2,
+      "registryHashEntries": 67,
+      "uniqueRegistrySourceFiles": 41,
+      "existingFeatureTokenAliases": 122,
+      "acceptedAndFoundationFilesByteUnchanged": 71
+    },
+    "closures": {
+      "businessLocal": 14,
+      "R2Local": 9,
+      "R2Pattern": 4,
+      "optionalGalleryLocal": 4,
+      "physicalNavigationList": 14,
+      "physicalObjectNavigator": 14,
+      "physicalSegmentedControl": 14
+    },
+    "dependencyReview": "Existing Tooltip, Empty, SegmentedControl, RadioGroup and ManageTree registry items/manifests/dependency paths exist; actual hashes and physical relative-import closure files checked. Accepted dependency sources and Gate records unchanged.",
+    "historyReview": "All pre-existing Registry/Manifest review history fields checked equal; original G1 sourceSnapshot and acceptance/source hashes/native CSS registration preserved; Review08 current source locks preserved as prior09 history, old evidence bytes unchanged.",
+    "gateReview": "Live current-phase plus workpack progress/G2-review09/CHANGELOG maintain scoped historical G1 accepted, current candidate09 pending G2, G3 pending; W6 partial preparation and W7/W8 incomplete remain distinct. No invented Human Gate, publication or contrast acceptance.",
+    "protectionReview": {
+      "repoFilesBefore": 17919,
+      "workpackFilesBefore": 254,
+      "independentlyHashedAllOldFiles": true,
+      "changedAndAddedMatchRootAuthorizedFinalReport": true,
+      "deleted": 0,
+      "oldEvidenceUnchanged": true,
+      "frozenReferenceUnchanged": true,
+      "branchUnchanged": true,
+      "headUnchanged": true,
+      "rootProtectionRecordedAt": "2026-10-03T08:00:01.838776+00:00"
+    },
+    "rootValidationReviewed": {
+      "focusedUnitPassed": 117,
+      "playgroundTypecheckedBuildPassed": true,
+      "browserCases": 115,
+      "uniqueBrowserContractsPassed": 113,
+      "captureOnlySkipped": 2,
+      "initialPassed": 110,
+      "initialDriverFailures": 3,
+      "correctedDriverRerunPassed": 3,
+      "productionUnchangedForDriverCorrection": true,
+      "existingWholeTestProjectTypeErrors": 7,
+      "newWholeTestProjectTypeErrors": 0,
+      "note": "Root final evidence reviewed; broad suites not duplicated by this independent reviewer."
+    },
+    "notes": [
+      "10 updated candidate manifests versus12 checked assets is intentional: two unchanged Layout manifests also checked.",
+      "Source review excludes reviewer-owned R1–R3 implementation; independent metadata/protection checks cover its registration and history integrity."
+    ]
+  },
+  "notVerified": [
+    "My own R1–R3 is not independently reviewed here",
+    "No new Human G2 acceptance",
+    "Fullcontrast, VoiceOver or broad assistive-technology review",
+    "Safari/Firefox or hardware performance",
+    "Real services/publication/Figma/Git"
+  ],
+  "mutations": "Only new Review09 independent evidence; no production source, registry, manifest, phase, previous evidence or baseline modified",
+  "finalizedAt": "2026-10-03T08:03:38.070451+00:00",
+  "overallIndependentResult": "passed-with-existing-whole-test-project-typecheck-limitation-and-pending-human-G2"
+}

@@ -1,0 +1,94 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-skeleton"
+name: "Skeleton"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/loading/loading.tsx"
+styleSourcePath: "packages/ui/src/loading/loading.css"
+sourceVersion: "local-2026-10-07"
+description: "装饰性的占位骨架，尺寸由宿主对齐真实内容。"
+useWhen:
+  - "已知最终内容结构，加载时保持同一几何和阅读位置。"
+doNotUseWhen:
+  - "无稳定内容结构时使用 Spinner；不可把Skeleton当成实际内容。"
+anatomy:
+  - "skeleton"
+parts:
+  - "skeleton"
+props:
+  - "className 与原生 div 属性；宿主控制宽高和排布"
+  - "aria-hidden 固定true，加载状态由宿主单独公告"
+  - "没有共享行数、比例或业务字段"
+slots:
+  - "children 与可访问名称由宿主提供；Skeleton为装饰性空节点。"
+variants:
+  - "沿用已审阅G2默认视觉；方向、尺寸与variant只按当前源码选择。"
+states:
+  - "加载中；reduced-motion关闭动画。"
+dependencies:
+  - "React"
+  - "@rain-next/foundations"
+  - "Rain Tokens"
+  - "rainCn"
+tokens:
+  - "现有Rain语义颜色、尺寸、圆角、间距、Focus与Motion；没有新增Token。"
+layoutConstraints:
+  - "Skeleton没有固有宽高，宿主必须对齐真实内容几何。"
+compositionRules:
+  - "只处理通用状态和行为，宿主拥有业务数据、持久化、权限、路由和请求。"
+  - "加载文字独立提供，不把占位符内容暴露给辅助技术。"
+allowedModifications:
+  - "内容、可访问名称、受控状态、源码已提供的Props及宿主className局部Recipe。"
+restrictedModifications:
+  - "不得改变共享Token、Base UI键盘/计时/队列规则或引入业务接口。"
+accessibility:
+  - "aria-hidden=true；宿主用aria-busy/status公告加载与完成。"
+  - "reduced-motion与forced-colors沿用既有G2合同；对比度接受独立记录。"
+examples:
+  - "apps/playground/src/docs/components/skeleton-page.tsx"
+  - "apps/prototype/src/scenarios/token-first-g2/page.tsx"
+recipes:
+  - "已审阅G2页面局部规格保持在prototype，不扩展共享视觉矩阵。"
+antiPatterns:
+  - "把场景视觉确认推导为系统批准、对比度接受、发布或业务迁移。"
+relatedComponents:
+  - "ui-spinner"
+  - "ui-skeleton"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "已确认Rain Button几何、品牌状态与官方图标；G2 Figma Global Message反馈家族。"
+  externalReferences:
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; MIT"
+    - "Base UI 1.8.0"
+  retainedTraits:
+    - "保留G2当前视觉及Base UI状态/键盘/队列，源码进入共享候选。"
+  redesignedTraits: []
+  intentionallyNotInherited:
+    - "shadcn默认品牌视觉或未使用的完整API。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/token-first-v12-g2/source-lock.json"
+  - "evidence/runtime/token-first-v12-g2/verification.md"
+sourceHumanGate: "accepted-g2-current-runtime-visual-only-2026-09-22"
+migrationNotes: "2026-10-07用户授权已有成果沉淀；原五入口re-export共享源码。旧场景视觉Gate保留，本轮独立页Gate待审。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-unit-typecheck-build-and-30-route-browser-passed"
+  evidence: "evidence/runtime/g123-playground-2026-10-07/verification.md"
+  independentReview: "passed-scoped-source-contract-review"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+cssExceptions:
+  - selector: ".rain-g2-skeleton"
+    reason: "保留来源已审阅shimmer色 rgb(105 119 141 / 4% / 0%) 和几何；目前无等值公开语义Token，不能静默改色。"
+    scope: "此组件加载动效"
+    source: "apps/prototype/src/scenarios/token-first-g2/components.css; prior accepted G2"
+    tokenUse: "radius4; motion suppressed by prefers-reduced-motion"
+    validation: "浏览器验证动画、占位尺寸及reduced-motion；新入口对比度尚未接受。"

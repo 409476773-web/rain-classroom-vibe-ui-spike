@@ -1,0 +1,282 @@
+
+Running 9 tests using 1 worker
+
+(node:80974) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-feedback-legend-tooltip.spec.ts:13:3 › chart labels stay horizontal at 1280 (1.2s)
+(node:81353) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/chart-feedback-legend-tooltip.spec.ts:32:3 › ring progress keeps labels and series color at 1280 (1.0s)
+(node:81358) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/e2e/chart-feedback-legend-tooltip.spec.ts:61:3 › map hover tooltip has compact padded content within the plot at 1280 (2.1s)
+(node:81363) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/e2e/chart-feedback-legend-tooltip.spec.ts:13:3 › chart labels stay horizontal at 1311 (1.0s)
+(node:81373) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 tests/e2e/chart-feedback-legend-tooltip.spec.ts:32:3 › ring progress keeps labels and series color at 1311 (991ms)
+(node:81747) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  6 tests/e2e/chart-feedback-legend-tooltip.spec.ts:61:3 › map hover tooltip has compact padded content within the plot at 1311 (2.1s)
+(node:81752) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  7 tests/e2e/chart-feedback-legend-tooltip.spec.ts:13:3 › chart labels stay horizontal at 390 (1.1s)
+(node:81761) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  8 tests/e2e/chart-feedback-legend-tooltip.spec.ts:32:3 › ring progress keeps labels and series color at 390 (937ms)
+(node:82075) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  9 tests/e2e/chart-feedback-legend-tooltip.spec.ts:61:3 › map hover tooltip has compact padded content within the plot at 390 (1.9s)
+
+
+  1) tests/e2e/chart-feedback-legend-tooltip.spec.ts:13:3 › chart labels stay horizontal at 1280 ───
+
+    Error: bar: 参与人数 · 人
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 6
+
+      22 |         const label = key.locator("span").filter({ hasText: /\S/ }).first();
+      23 |         const reading = await singleLineText(label);
+    > 24 |         expect(reading.lines, `${entry}: ${await label.textContent()}`).toBe(1);
+         |                                                                         ^
+      25 |         expect(reading.width).toBeGreaterThan(reading.font * 2);
+      26 |       }
+      27 |       await example.screenshot({ path: test.info().outputPath(`${entry}-${width}.png`) });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:24:73
+
+    Error Context: evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-8fa9f-els-stay-horizontal-at-1280/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-8fa9f-els-stay-horizontal-at-1280/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-8fa9f-els-stay-horizontal-at-1280/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-feedback-legend-tooltip.spec.ts:32:3 › ring progress keeps labels and series color at 1280 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 4
+
+      38 |       const button = card.getByRole("button").filter({ hasText: label });
+      39 |       await expect(button).toBeVisible();
+    > 40 |       expect((await singleLineText(button.getByText(label, { exact: true }))).lines).toBe(1);
+         |                                                                                      ^
+      41 |       const progress = card.getByRole("progressbar", { name: `${label}进度`, exact: true });
+      42 |       await expect(progress).toHaveAttribute("aria-valuenow", String(value));
+      43 |       await expect(progress).toHaveAttribute("aria-valuemax", String(max));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:40:86
+
+    Error Context: evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-aef8f-ls-and-series-color-at-1280/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-aef8f-ls-and-series-color-at-1280/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-aef8f-ls-and-series-color-at-1280/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/chart-feedback-legend-tooltip.spec.ts:61:3 › map hover tooltip has compact padded content within the plot at 1280 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 14
+    Received:    16
+
+      75 |       return { font: parseFloat(getComputedStyle(node).fontSize), insetLeft: text.left - box.left, insetTop: text.top - box.top };
+      76 |     });
+    > 77 |     expect(metrics.font).toBeLessThanOrEqual(14);
+         |                          ^
+      78 |     expect(metrics.insetLeft).toBeGreaterThanOrEqual(8);
+      79 |     expect(metrics.insetTop).toBeGreaterThanOrEqual(8);
+      80 |     const box = await tooltip.boundingBox(), plot = await card.locator(".rain-chart-plot").boundingBox();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:77:26
+
+    Error Context: evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-30b65-ent-within-the-plot-at-1280/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-30b65-ent-within-the-plot-at-1280/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-30b65-ent-within-the-plot-at-1280/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/chart-feedback-legend-tooltip.spec.ts:13:3 › chart labels stay horizontal at 1311 ───
+
+    Error: bar: 参与人数 · 人
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 6
+
+      22 |         const label = key.locator("span").filter({ hasText: /\S/ }).first();
+      23 |         const reading = await singleLineText(label);
+    > 24 |         expect(reading.lines, `${entry}: ${await label.textContent()}`).toBe(1);
+         |                                                                         ^
+      25 |         expect(reading.width).toBeGreaterThan(reading.font * 2);
+      26 |       }
+      27 |       await example.screenshot({ path: test.info().outputPath(`${entry}-${width}.png`) });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:24:73
+
+    Error Context: evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-4061c-els-stay-horizontal-at-1311/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-4061c-els-stay-horizontal-at-1311/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-4061c-els-stay-horizontal-at-1311/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/e2e/chart-feedback-legend-tooltip.spec.ts:32:3 › ring progress keeps labels and series color at 1311 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 4
+
+      38 |       const button = card.getByRole("button").filter({ hasText: label });
+      39 |       await expect(button).toBeVisible();
+    > 40 |       expect((await singleLineText(button.getByText(label, { exact: true }))).lines).toBe(1);
+         |                                                                                      ^
+      41 |       const progress = card.getByRole("progressbar", { name: `${label}进度`, exact: true });
+      42 |       await expect(progress).toHaveAttribute("aria-valuenow", String(value));
+      43 |       await expect(progress).toHaveAttribute("aria-valuemax", String(max));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:40:86
+
+    Error Context: evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-7883d-ls-and-series-color-at-1311/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-7883d-ls-and-series-color-at-1311/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-7883d-ls-and-series-color-at-1311/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) tests/e2e/chart-feedback-legend-tooltip.spec.ts:61:3 › map hover tooltip has compact padded content within the plot at 1311 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 14
+    Received:    16
+
+      75 |       return { font: parseFloat(getComputedStyle(node).fontSize), insetLeft: text.left - box.left, insetTop: text.top - box.top };
+      76 |     });
+    > 77 |     expect(metrics.font).toBeLessThanOrEqual(14);
+         |                          ^
+      78 |     expect(metrics.insetLeft).toBeGreaterThanOrEqual(8);
+      79 |     expect(metrics.insetTop).toBeGreaterThanOrEqual(8);
+      80 |     const box = await tooltip.boundingBox(), plot = await card.locator(".rain-chart-plot").boundingBox();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:77:26
+
+    Error Context: evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-f9e21-ent-within-the-plot-at-1311/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-f9e21-ent-within-the-plot-at-1311/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-f9e21-ent-within-the-plot-at-1311/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) tests/e2e/chart-feedback-legend-tooltip.spec.ts:13:3 › chart labels stay horizontal at 390 ────
+
+    Error: bar: 参与人数 · 人
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 6
+
+      22 |         const label = key.locator("span").filter({ hasText: /\S/ }).first();
+      23 |         const reading = await singleLineText(label);
+    > 24 |         expect(reading.lines, `${entry}: ${await label.textContent()}`).toBe(1);
+         |                                                                         ^
+      25 |         expect(reading.width).toBeGreaterThan(reading.font * 2);
+      26 |       }
+      27 |       await example.screenshot({ path: test.info().outputPath(`${entry}-${width}.png`) });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:24:73
+
+    Error Context: evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-0cd55-bels-stay-horizontal-at-390/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-0cd55-bels-stay-horizontal-at-390/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-0cd55-bels-stay-horizontal-at-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) tests/e2e/chart-feedback-legend-tooltip.spec.ts:32:3 › ring progress keeps labels and series color at 390 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 4
+
+      38 |       const button = card.getByRole("button").filter({ hasText: label });
+      39 |       await expect(button).toBeVisible();
+    > 40 |       expect((await singleLineText(button.getByText(label, { exact: true }))).lines).toBe(1);
+         |                                                                                      ^
+      41 |       const progress = card.getByRole("progressbar", { name: `${label}进度`, exact: true });
+      42 |       await expect(progress).toHaveAttribute("aria-valuenow", String(value));
+      43 |       await expect(progress).toHaveAttribute("aria-valuemax", String(max));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:40:86
+
+    Error Context: evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-d0637-els-and-series-color-at-390/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-d0637-els-and-series-color-at-390/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-d0637-els-and-series-color-at-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) tests/e2e/chart-feedback-legend-tooltip.spec.ts:61:3 › map hover tooltip has compact padded content within the plot at 390 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 14
+    Received:    16
+
+      75 |       return { font: parseFloat(getComputedStyle(node).fontSize), insetLeft: text.left - box.left, insetTop: text.top - box.top };
+      76 |     });
+    > 77 |     expect(metrics.font).toBeLessThanOrEqual(14);
+         |                          ^
+      78 |     expect(metrics.insetLeft).toBeGreaterThanOrEqual(8);
+      79 |     expect(metrics.insetTop).toBeGreaterThanOrEqual(8);
+      80 |     const box = await tooltip.boundingBox(), plot = await card.locator(".rain-chart-plot").boundingBox();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-feedback-legend-tooltip.spec.ts:77:26
+
+    Error Context: evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-61495-tent-within-the-plot-at-390/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-61495-tent-within-the-plot-at-390/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/red-results/chart-feedback-legend-tool-61495-tent-within-the-plot-at-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9 failed
+    tests/e2e/chart-feedback-legend-tooltip.spec.ts:13:3 › chart labels stay horizontal at 1280 ────
+    tests/e2e/chart-feedback-legend-tooltip.spec.ts:32:3 › ring progress keeps labels and series color at 1280 
+    tests/e2e/chart-feedback-legend-tooltip.spec.ts:61:3 › map hover tooltip has compact padded content within the plot at 1280 
+    tests/e2e/chart-feedback-legend-tooltip.spec.ts:13:3 › chart labels stay horizontal at 1311 ────
+    tests/e2e/chart-feedback-legend-tooltip.spec.ts:32:3 › ring progress keeps labels and series color at 1311 
+    tests/e2e/chart-feedback-legend-tooltip.spec.ts:61:3 › map hover tooltip has compact padded content within the plot at 1311 
+    tests/e2e/chart-feedback-legend-tooltip.spec.ts:13:3 › chart labels stay horizontal at 390 ─────
+    tests/e2e/chart-feedback-legend-tooltip.spec.ts:32:3 › ring progress keeps labels and series color at 390 
+    tests/e2e/chart-feedback-legend-tooltip.spec.ts:61:3 › map hover tooltip has compact padded content within the plot at 390 

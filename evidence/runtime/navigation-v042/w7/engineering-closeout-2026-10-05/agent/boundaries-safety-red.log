@@ -1,0 +1,69 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-boundaries-navigation.test.ts (15 tests | 4 failed) 16214ms
+     ✓ accepts the current finite registered sources without treating archived copies as live code  976ms
+     ✓ rejects an unknown live source: unapproved-navigation.ts  857ms
+     ✓ rejects an unknown live source: apps/playground/src/recipes/navigation-v042/unapproved.tsx  1028ms
+     ✓ rejects an unknown live source: packages/ui/src/navigation/unapproved.ts  939ms
+     ✓ rejects an unknown live source: packages/layouts/src/unapproved.ts  942ms
+     ✓ rejects an unknown live source: tests/e2e/unapproved-navigation.spec.ts  720ms
+     ✓ rejects an unapproved Headless module even inside a registered G3 wrapper  634ms
+     ✓ rejects Foundations importing UI through a known source  607ms
+     ✓ rejects an unauthorized direct package dependency  594ms
+     ✓ retains the exact historical evidence allowlist  556ms
+     × rejects self-registration through an altered inventory: registry/navigation-v042.json 552ms
+     × rejects self-registration through an altered inventory: evidence/runtime/navigation-v042/w6/review-02/final-source.json 559ms
+     × rejects self-registration through an altered inventory: evidence/runtime/navigation-v042/w7/regression-map.json 554ms
+     × rejects a registered runtime importing executable code from the docs data domain 557ms
+     ✓ does not switch to the data/source domain when the accepted parent phase is invalid 253ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects self-registration through an altered inventory: registry/navigation-v042.json
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects self-registration through an altered inventory: evidence/runtime/navigation-v042/w6/review-02/final-source.json
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects self-registration through an altered inventory: evidence/runtime/navigation-v042/w7/regression-map.json
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ scripts/verify-boundaries-navigation.test.ts:138:29
+    136|     try {
+    137|       const result = mutate(inventory, JSON.stringify(document), `inve…
+    138|       expect(result.status).toBe(1);
+       |                             ^
+    139|       expect(result.output).toMatch(/recorded Registry|accepted invent…
+    140|     } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects a registered runtime importing executable code from the docs data domain
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ scripts/verify-boundaries-navigation.test.ts:152:29
+    150|     try {
+    151|       const result = mutate(runtime, `${readFileSync(join(fixtureRoot,…
+    152|       expect(result.status).toBe(1);
+       |                             ^
+    153|       expect(result.output).toMatch(/unregistered.*import|import.*data…
+    154|     } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 11 passed (15)
+   Start at  00:45:23
+   Duration  16.51s (transform 29ms, setup 158ms, import 20ms, tests 16.21s, environment 0ms)
+
+JSON report written to /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundaries-safety-red-results.json

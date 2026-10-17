@@ -1,0 +1,25 @@
+--- apps/playground/src/docs/components/chart-business/china-region-map.tsx:before
++++ apps/playground/src/docs/components/chart-business/china-region-map.tsx:after
+@@ -106,10 +106,20 @@
+         if (group) group.style.transition = reduced ? "none" : "transform 240ms cubic-bezier(.2,.7,.2,1)";
+       }
+     };
++    const pageScroll = (event: globalThis.PointerEvent) => event.pointerType === "touch" && pointers.current.size === 1 && (lastView.current?.matrix.scaleX ?? 1) <= 1.001;
++    const move = (event: globalThis.PointerEvent) => {
++      if (pageScroll(event)) event.stopImmediatePropagation();
++    };
++    const cancel = (event: globalThis.PointerEvent) => {
++      // Native page scrolling cancels with zero coordinates; visx must not turn that into a drag.
++      if (pageScroll(event)) { event.stopImmediatePropagation(); zoom?.dragEnd(); }
++      up(event);
++    };
+     svg.addEventListener("pointerdown", down);
++    svg.addEventListener("pointermove", move, true); svg.addEventListener("pointercancel", cancel, true);
+     window.addEventListener("pointerup", up); window.addEventListener("pointercancel", up);
+-    return () => { svg.removeEventListener("pointerdown", down); window.removeEventListener("pointerup", up); window.removeEventListener("pointercancel", up); };
+-  }, [zoom?.containerRef, reduced, setTooltipData, setHoveredFeatureIndex]);
++    return () => { svg.removeEventListener("pointerdown", down); svg.removeEventListener("pointermove", move, true); svg.removeEventListener("pointercancel", cancel, true); window.removeEventListener("pointerup", up); window.removeEventListener("pointercancel", up); };
++  }, [zoom?.containerRef, zoom?.dragEnd, reduced, setTooltipData, setHoveredFeatureIndex]);
+ 
+   const scale = zoom?.transformMatrix.scaleX ?? 1;
+   const shifted = zoom && (Math.abs(zoom.transformMatrix.translateX) > .5 || Math.abs(zoom.transformMatrix.translateY) > .5 || Math.abs(scale - 1) > .001);

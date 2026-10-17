@@ -1,0 +1,79 @@
+
+Running 4 tests using 1 worker
+
+(node:56661) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [1440-forced] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:60:1 › Line legend and native Brush preserve data with keyboard selection (2.7s)
+  ✘  2 [1440-forced] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:78:1 › Matrix single entry reveals the keyboard cell within its own scroll region (1.8s)
+(node:56671) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [390-forced] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:60:1 › Line legend and native Brush preserve data with keyboard selection (1.9s)
+  ✘  4 [390-forced] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:78:1 › Matrix single entry reveals the keyboard cell within its own scroll region (1.8s)
+
+
+  1) [1440-forced] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:78:1 › Matrix single entry reveals the keyboard cell within its own scroll region 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "rgb(0, 0, 0)"
+    Received: "rgba(5, 0, 73, 0.8)"
+
+      41 |       expect(alpha).toBeGreaterThan(0);expect(foreground.slice(0,3).some((value,index)=>Math.abs(value*alpha+background[index]!*(1-alpha)-background[index]!)>=1)).toBe(true);
+      42 |       if(css.nativeRange){expect(css.outline).toBe("auto");expect(parseFloat(css.width)).toBeGreaterThanOrEqual(1);}
+    > 43 |       else if(css.matrixScroll){expect(css.outline).toBe("solid");expect(parseFloat(css.width)).toBeGreaterThanOrEqual(1);expect(css.color).toBe(css.systemColors.text);}
+         |                                                                                                                                             ^
+      44 |       else{expect(css.outline).toBe("solid");expect(css.width).toBe("2px");expect(css.color).toBe(css.systemColors.text);expect(css.offset).toBe("2px");}
+      45 |     }
+      46 |   }return css;
+        at focus (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:43:141)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:79:254
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-05-focus/test-results/themes-Matrix-single-entry-41031-ithin-its-own-scroll-region-1440-forced/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-05-focus/test-results/themes-Matrix-single-entry-41031-ithin-its-own-scroll-region-1440-forced/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-05-focus/test-results/themes-Matrix-single-entry-41031-ithin-its-own-scroll-region-1440-forced/trace.zip
+    Usage:
+
+        npx playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-05-focus/test-results/themes-Matrix-single-entry-41031-ithin-its-own-scroll-region-1440-forced/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [390-forced] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:78:1 › Matrix single entry reveals the keyboard cell within its own scroll region 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "rgb(0, 0, 0)"
+    Received: "rgba(5, 0, 73, 0.8)"
+
+      41 |       expect(alpha).toBeGreaterThan(0);expect(foreground.slice(0,3).some((value,index)=>Math.abs(value*alpha+background[index]!*(1-alpha)-background[index]!)>=1)).toBe(true);
+      42 |       if(css.nativeRange){expect(css.outline).toBe("auto");expect(parseFloat(css.width)).toBeGreaterThanOrEqual(1);}
+    > 43 |       else if(css.matrixScroll){expect(css.outline).toBe("solid");expect(parseFloat(css.width)).toBeGreaterThanOrEqual(1);expect(css.color).toBe(css.systemColors.text);}
+         |                                                                                                                                             ^
+      44 |       else{expect(css.outline).toBe("solid");expect(css.width).toBe("2px");expect(css.color).toBe(css.systemColors.text);expect(css.offset).toBe("2px");}
+      45 |     }
+      46 |   }return css;
+        at focus (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:43:141)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:79:254
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-05-focus/test-results/themes-Matrix-single-entry-41031-ithin-its-own-scroll-region-390-forced/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-05-focus/test-results/themes-Matrix-single-entry-41031-ithin-its-own-scroll-region-390-forced/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-05-focus/test-results/themes-Matrix-single-entry-41031-ithin-its-own-scroll-region-390-forced/trace.zip
+    Usage:
+
+        npx playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-05-focus/test-results/themes-Matrix-single-entry-41031-ithin-its-own-scroll-region-390-forced/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [1440-forced] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:78:1 › Matrix single entry reveals the keyboard cell within its own scroll region 
+    [390-forced] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:78:1 › Matrix single entry reveals the keyboard cell within its own scroll region 
+  2 passed (9.1s)

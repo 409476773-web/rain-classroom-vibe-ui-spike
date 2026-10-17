@@ -1,0 +1,48 @@
+/* @rain-css-exception avatar-status-geometry: Classic status geometry with passive decorations and an external activity ring. */
+.rain-status-indicator {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; flex: none; pointer-events: none;
+  inline-size: var(--rain-space-16); block-size: var(--rain-space-16); border-radius: var(--rain-radius-full);
+  color: var(--rain-category-oncolor-1); background: var(--rain-category-fill-tagslate-solid-1);
+}
+.rain-status-indicator[data-size="20"] { inline-size: var(--rain-space-20); block-size: var(--rain-space-20); }
+.rain-status-indicator[data-size="24"] { inline-size: var(--rain-space-24); block-size: var(--rain-space-24); }
+.rain-status-indicator > span { display: flex; inline-size: var(--rain-space-12); block-size: var(--rain-space-12); }
+.rain-status-indicator[data-size="20"] > span { inline-size: var(--rain-space-14); block-size: var(--rain-space-14); }
+.rain-status-indicator[data-size="24"] > span { inline-size: var(--rain-space-16); block-size: var(--rain-space-16); }
+.rain-status-indicator > span > [data-rain-id="icon"] { inline-size: 100%; block-size: 100%; }
+.rain-status-indicator[data-tone="info"] { background: var(--rain-category-fill-brand-solid-2); }
+.rain-status-indicator[data-tone="success"] { background: var(--rain-category-fill-tagclassroom-solid-1); }
+.rain-status-indicator[data-tone="warning"] { background: var(--rain-category-fill-tagcourseware-solid-1); }
+.rain-status-indicator[data-tone="danger"] { background: var(--rain-category-fill-red-solid-2); }
+.rain-status-indicator-group { display: inline-flex; position: absolute; inset-block-end: calc(-1 * var(--rain-space-4)); inset-inline-end: 0; pointer-events: none; }
+.rain-status-indicator-group > .rain-status-indicator:first-child { z-index: 2; }
+.rain-status-indicator-group > .rain-status-indicator + .rain-status-indicator { z-index: 1; margin-inline-start: calc(-1 * var(--rain-space-4)); }
+.rain-status-indicator-group:has(> [data-size="20"]:first-child) > .rain-status-indicator + .rain-status-indicator { margin-inline-start: calc(-1 * var(--rain-space-6)); }
+.rain-status-indicator-group:has(> [data-size="24"]:first-child) > .rain-status-indicator + .rain-status-indicator { margin-inline-start: calc(-1 * var(--rain-space-8)); }
+.rain-status-indicator-group[data-position="bottom-start"] { inset-inline-start: 0; inset-inline-end: auto; }
+.rain-status-indicator-group[data-position="bottom-center"] { inset-inline: 0; justify-content: center; }
+.rain-avatar:has(> .rain-activity-overlay:not([hidden])) > .rain-status-indicator-group { display: none; }
+.rain-activity-overlay {
+  position: absolute; inset: 0; display: grid; place-items: center; border-radius: inherit; pointer-events: none;
+  background: var(--rain-overlay-focus); backdrop-filter: blur(var(--rain-space-2));
+}
+.rain-activity-overlay[hidden] { display: none; }
+.rain-activity-overlay > [data-slot="indicator"] { display: flex; }
+.rain-avatar[data-size="24"] > .rain-activity-overlay .rain-status-indicator { inline-size: var(--rain-space-16); block-size: var(--rain-space-16); }
+.rain-avatar[data-size="24"] > .rain-activity-overlay .rain-status-indicator > span { inline-size: var(--rain-space-12); block-size: var(--rain-space-12); }
+.rain-activity-overlay[data-ring="true"]::after { content: ""; position: absolute; inset: calc(-1 * var(--rain-space-4)); border: var(--rain-space-2) solid var(--rain-category-border-brand-1); border-radius: inherit; }
+.rain-avatar[data-shape="square"] > .rain-activity-overlay::after { border-radius: var(--rain-radius-8); }
+/* @rain-css-exception avatar-status-motion: rotate the glyph only or pulse the external ring, never both. */
+.rain-activity-overlay[data-motion="rotate"] [data-rain-id="icon"] { animation: rain-avatar-rotate .8s linear infinite; }
+.rain-activity-overlay[data-motion="pulse"]::after { animation: rain-avatar-pulse 1.6s ease-in-out infinite; }
+@keyframes rain-avatar-rotate { to { transform: rotate(360deg); } }
+@keyframes rain-avatar-pulse { 50% { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) {
+  .rain-activity-overlay[data-motion] [data-rain-id="icon"], .rain-activity-overlay[data-motion]::after { animation: none; }
+}
+/* @rain-css-exception avatar-status-forced-colors: system colors retain glyphs, external activity and independent host focus. */
+@media (forced-colors: active) {
+  .rain-status-indicator[data-tone] { color: CanvasText; background: Canvas; outline: var(--rain-line-thickness-1) solid CanvasText; }
+  .rain-activity-overlay { background: Canvas; }
+  .rain-activity-overlay[data-ring="true"]::after { border-color: Highlight; }
+}

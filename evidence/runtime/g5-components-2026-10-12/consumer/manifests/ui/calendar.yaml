@@ -1,0 +1,94 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-calendar"
+name: "Calendar"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/calendar/calendar.tsx"
+styleSourcePath: "packages/ui/src/calendar/calendar.css"
+sourceVersion: "local-2026-10-12"
+description: "中文周一日历、日期网格与单日或区间选择。"
+useWhen:
+  - "直接选择日期或为DatePicker提供日期网格。"
+doNotUseWhen:
+  - "自由文本解析、排班、复杂时区。"
+anatomy:
+  - "DayPicker Root / Month / Caption / Grid / DayButton"
+  - "Rain Select年月 / IconButton导航"
+parts:
+  - "DayPicker Root / Month / Caption / Grid / DayButton"
+  - "Rain Select年月 / IconButton导航"
+props:
+  - "DayPicker9.13.2 mode=single|range / selected / onSelect / disabled / defaultMonth / month。"
+  - "中文周一；fixedWeeks/showOutsideDays默认；captionLayout=dropdown；animate默认true。"
+slots: []
+variants:
+  - "Rain local recipe"
+states:
+  - "default"
+  - "disabled"
+  - "focus-visible"
+dependencies:
+  - "react"
+  - "react-day-picker@9.13.2"
+  - "Button / IconButton / Select"
+tokens:
+  - "Text/Neutral/1/4/6"
+  - "Text/Brand/1"
+  - "Fill/Brand/Alpha/4"
+  - "Fill/Brand/Solid/2"
+  - "Oncolor/1"
+  - "Motion/Region/220ms"
+layoutConstraints:
+  - "宽度由宿主提供；保留区域密度与窄屏布局。"
+compositionRules:
+  - "翻月 IconButton 使用图标库 arrow-left / arrow-right 线性图标。"
+  - "保留版本匹配的8动画类及caption animationend清理。"
+  - "Calendar本体不拥有提交状态。"
+allowedModifications:
+  - "宿主内容、className、既有variant；数据与保存由宿主拥有。"
+restrictedModifications:
+  - "不硬编码颜色或构建第二字段状态/浮层引擎。"
+accessibility:
+  - "DayPicker网格、roving focus、键盘、禁用与区间状态保留。"
+  - "内部年月隔离外层FormItem；减少动态效果关闭animate。"
+examples:
+  - "#calendar"
+recipes:
+  - "G5可操作表单与筛选样例"
+antiPatterns:
+  - "自由文本解析、排班、复杂时区。"
+relatedComponents:
+  - "FormItem"
+  - "Input"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Rain字段、菜单、图标与Token体系"
+  externalReferences:
+    - "shadcn Base UI / Nova at locked commit"
+  retainedTraits:
+    - "成熟来源部件与引擎语义/生命周期"
+  redesignedTraits:
+    - "Rain现有Token绑定与局部动效"
+  intentionallyNotInherited:
+    - "上游默认palette与cn"
+figmaMapping:
+  status: "reference-only"
+source:
+  repository: "https://github.com/shadcn-ui/ui"
+  commit: "3ba91b1cc83e1bbe4ab35a422ff2a694849c5048"
+  license: "MIT"
+  evidence: "evidence/runtime/g5-components-2026-10-12/source-lock.json"
+migrationNotes:
+  - "固定来源适配；未发布候选，人工视觉与对比度验收单独记录。"
+verification:
+  automated: "scoped-passed"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/g5-components-2026-10-12/verification.md"

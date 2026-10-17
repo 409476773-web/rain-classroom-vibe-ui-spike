@@ -1,0 +1,67 @@
+/* Recipe-only geometry: density and media orientation do not change the Attachment parts. */
+@layer base {
+  .rain-attachment-list { container-type: inline-size; display: flex; flex-direction: column; gap: var(--rain-space-8); min-width: 0; }
+  .rain-attachment-list[data-layout="wrap"] { flex-flow: row wrap; }
+  .rain-attachment-list[data-layout="wrap"] > .rain-attachment-list__item { flex: 1 1 calc(50% - var(--rain-space-8)); max-width: 100%; min-width: min(240px, 100%); }
+  .rain-attachment-list[data-layout="grid"] { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr)); gap: var(--rain-space-16); }
+  .rain-attachment-list__item { min-width: 0; }
+  .rain-attachment-list__card.rain-attachment { display: grid; grid-template-columns: var(--rain-space-32) minmax(0, 1fr) auto; align-items: center; width: 100%; min-height: calc(var(--rain-space-28) * 2); box-sizing: border-box; padding: var(--rain-space-6) var(--rain-space-12); gap: 0 var(--rain-space-8); border: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-8); }
+  .rain-attachment-list__card.rain-attachment[data-surface="filled"] { background: var(--rain-category-background-neutral-2); border-color: transparent; }
+  .rain-attachment-list__card.rain-attachment > .rain-attachment__media { width: var(--rain-space-32); height: var(--rain-space-32); background: var(--rain-category-background-neutral-2); opacity: 1; color: var(--rain-category-icon-neutral-2); border-radius: var(--rain-radius-4); }
+  .rain-attachment-list__card.rain-attachment:has(> :where(.rain-attachment__media[data-variant="image"])) { grid-template-columns: var(--rain-space-40) minmax(0, 1fr) auto; }
+  .rain-attachment-list__card.rain-attachment > .rain-attachment__media[data-variant="image"] { width: var(--rain-space-40); height: var(--rain-space-40); }
+  .rain-attachment-list__card.rain-attachment[data-surface="filled"] > .rain-attachment__media { background: var(--rain-category-background-neutral-1); }
+  .rain-attachment-list__card.rain-attachment > .rain-attachment__media > :is(svg, .rain-icon) { width: var(--rain-icon-size-24); height: var(--rain-icon-size-24); }
+  .rain-attachment-list__card .rain-attachment__content { min-width: 0; }
+  .rain-attachment-list__card.rain-attachment .rain-attachment__title { display: flex; font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-20); color: var(--rain-category-text-neutral-1); background: none; -webkit-text-fill-color: currentColor; animation: none; }
+  .rain-attachment-list__card .rain-attachment__content[data-compact-draft] { display: flex; align-items: center; gap: var(--rain-space-8); }
+  .rain-attachment-list__card .rain-attachment__content[data-compact-draft] .rain-attachment__title { flex: 1 1 0; min-width: 0; }
+  .rain-attachment-list__card .rain-attachment__content[data-compact-draft] .rain-attachment__description { flex: none; white-space: nowrap; }
+  .rain-attachment-list__basename { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .rain-attachment-list__extension { flex: none; }
+  .rain-attachment-list__card.rain-attachment .rain-attachment__description { margin-top: 0; font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); color: var(--rain-category-text-neutral-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rain-attachment-list__card .rain-attachment__actions { display: flex; gap: var(--rain-space-4); align-items: center; max-width: 100%; }
+  .rain-attachment-list__state { display: flex; align-items: center; justify-content: center; width: var(--rain-space-16); color: var(--rain-category-icon-neutral-2); }
+  .rain-attachment-list__state > .rain-icon { width: var(--rain-icon-size-16); height: var(--rain-icon-size-16); }
+  .rain-attachment-list__state[data-tone="error"], .rain-attachment-list__card [data-tone="error"] { color: var(--rain-category-text-red-1); }
+  .rain-attachment-list__transfer { display: flex; align-items: center; gap: var(--rain-space-8); min-height: var(--rain-space-20); color: var(--rain-category-text-neutral-3); font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); }
+  .rain-attachment-list__transfer > span { flex: none; }
+  .rain-attachment-list__progress.rain-progress { flex: 0 0 calc(var(--rain-space-32) * 2); width: calc(var(--rain-space-32) * 2); gap: 0; }
+  .rain-attachment-list__progress.rain-progress > .rain-progress-track { height: var(--rain-space-4); }
+  .rain-attachment-list__input { display: none; }
+  .rain-attachment-list__message, .rain-attachment-list__error { margin: 0; font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); overflow-wrap: anywhere; }
+  .rain-attachment-list__message { color: var(--rain-category-text-neutral-3); }
+  .rain-attachment-list__error { color: var(--rain-category-text-red-1); }
+  .rain-attachment-list__card .rain-attachment__description[data-replacement] { display: flex; align-items: center; gap: var(--rain-space-8); }
+  .rain-attachment-list__replacement-copy { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .rain-attachment-list__card .rain-attachment__description[data-replacement] > .rain-attachment-list__transfer { flex: none; }
+  .rain-attachment-list__details p { overflow-wrap: anywhere; margin: var(--rain-space-4) 0 0; }
+  .rain-attachment-list__card.rain-attachment[data-size="sm"] { padding-block: var(--rain-space-2); min-height: var(--rain-space-40); grid-template-columns: var(--rain-space-24) minmax(0, 1fr) auto; }
+  .rain-attachment-list__card.rain-attachment[data-size="sm"] .rain-attachment__title { line-height: var(--rain-line-height-18); }
+  .rain-attachment-list__card.rain-attachment[data-size="sm"] .rain-attachment__description { line-height: var(--rain-line-height-16); }
+  .rain-attachment-list__card.rain-attachment[data-size="sm"] .rain-attachment-list__transfer { min-height: var(--rain-space-16); line-height: var(--rain-line-height-16); }
+  .rain-attachment-list__card.rain-attachment[data-size="sm"] > .rain-attachment__media { width: var(--rain-space-24); height: var(--rain-space-24); }
+  .rain-attachment-list__card.rain-attachment[data-size="sm"] > .rain-attachment__media > :is(svg, .rain-icon) { width: var(--rain-icon-size-20); height: var(--rain-icon-size-20); }
+  .rain-attachment-list__card.rain-attachment[data-orientation="vertical"] { width: 100%; grid-template-columns: minmax(0, 1fr) auto; align-content: start; padding: 0; overflow: hidden; gap: 0; height: 100%; }
+  .rain-attachment-list__card.rain-attachment[data-orientation="vertical"] > .rain-attachment__media { grid-column: 1 / -1; width: calc(100% - var(--rain-space-12) * 2); height: auto; aspect-ratio: 16 / 9; margin: var(--rain-space-12) var(--rain-space-12) 0; border-radius: var(--rain-radius-6); }
+  .rain-attachment-list__card.rain-attachment[data-orientation="vertical"] > .rain-attachment__media > img { aspect-ratio: 16 / 9; }
+  .rain-attachment-list__card.rain-attachment[data-orientation="vertical"] > .rain-attachment__content { width: 100%; padding: var(--rain-space-8) 0 var(--rain-space-12) var(--rain-space-12); grid-column: 1; box-sizing: border-box; }
+  .rain-attachment-list__card.rain-attachment[data-orientation="vertical"] > .rain-attachment__actions { position: relative; inset: auto; grid-column: 2; align-self: end; justify-content: flex-end; padding: 0 var(--rain-space-8) var(--rain-space-6) var(--rain-space-4); min-height: var(--rain-space-32); }
+  .rain-attachment-list__play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--rain-category-oncolor-1); }
+  .rain-attachment-list__play > .rain-icon { width: var(--rain-icon-size-32); height: var(--rain-icon-size-32); filter: drop-shadow(0 1px 2px var(--rain-category-icon-neutral-1)); }
+}
+@media (max-width: 480px) {
+  .rain-attachment-list[data-layout="wrap"] > .rain-attachment-list__item { flex-basis: 100%; }
+}
+@media (forced-colors: active) {
+  .rain-attachment-list__card.rain-attachment, .rain-attachment-list__card.rain-attachment[data-surface="filled"] { background: Canvas; border-color: CanvasText; }
+  .rain-attachment-list__error, .rain-attachment-list__message, .rain-attachment-list__state { color: CanvasText; }
+}
+
+@layer utilities {
+  .rain-attachment-list__transfer .rain-progress-track { height: var(--rain-space-4); }
+}
+
+@container (max-width: 440px) {
+  .rain-attachment-list__card .rain-attachment__content[data-compact-draft] .rain-attachment__description { display: none; }
+}

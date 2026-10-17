@@ -309,7 +309,8 @@ export function buildIconArtifacts(inventory, root = rootDirectory) {
   }
   files.set("packages/ui/src/icons/catalog.generated.ts", `// Generated. Import only in a full-library browser, never a single-icon consumer.\nimport type { IconAsset } from "../icon/icon";\nexport const iconPreviews: readonly IconAsset[] = [\n${previewLines.join("\n")}\n];\n`);
   files.set("packages/foundations/src/icons/catalog.generated.ts", `// Generated metadata only. No runtime graph or UI dependency.\nexport interface IconCatalogEntry {\n  readonly assetId: string; readonly name: string; readonly slug: string; readonly exportName: string | null; readonly importPath: string | null;\n  readonly colorMode: "host" | "intrinsic"; readonly rendering: "svg-mask" | "png-mask" | "image" | null; readonly availability: "available" | "source-unavailable"; readonly sourceIssue?: string;\n  readonly source: { readonly fileKey: string; readonly nodeId: string; readonly componentKey: string | null; readonly url: string; readonly kind?: \"non-component\"; readonly foregroundNodeId?: string };\n  readonly usageStatus: "default" | "explicit" | "unconfirmed"; readonly keywords: readonly string[];\n}\nexport const iconCatalog: readonly IconCatalogEntry[] = ${JSON.stringify(catalog, null, 2)};\n`);
-  files.set("packages/ui/package.json", json({ ...uiPackage, exports }));
+  const exportOrder = [...Object.keys(uiPackage.exports).filter(name => Object.hasOwn(exports, name)), ...Object.keys(exports).filter(name => !Object.hasOwn(uiPackage.exports, name))];
+  files.set("packages/ui/package.json", json({ ...uiPackage, exports: Object.fromEntries(exportOrder.map(name => [name, exports[name]])) }));
   foundationPackage.exports["./icons/icon-contract"] = "./src/icons/icon-contract.ts";
   foundationPackage.exports["./icons/semantic-rules"] = "./src/icons/semantic-rules.generated.ts";
   foundationPackage.exports["./icons/catalog"] = "./src/icons/catalog.generated.ts";

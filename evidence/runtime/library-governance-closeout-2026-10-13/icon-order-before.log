@@ -1,0 +1,59 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/library-governance-closeout.test.ts (9 tests | 1 failed | 8 skipped) 663ms
+   × keeps existing public export order while regenerating icon artifacts 662ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/library-governance-closeout.test.ts > keeps existing public export order while regenerating icon artifacts
+AssertionError: expected '{\n  "name": "@rain-next/ui",\n  "ver…' to be '{\n  "name": "@rain-next/ui",\n  "ver…' // Object.is equality
+
+- Expected
++ Received
+
+@@ -4,10 +4,12 @@
+    "private": true,
+    "type": "module",
+    "exports": {
+      ".": "./src/index.ts",
+      "./styles.css": "./src/styles.css",
++     "./charts": "./src/charts/index.ts",
++     "./charts/styles.css": "./src/charts/styles.css",
+      "./icon": "./src/icon/icon.tsx",
+      "./icons/catalog": "./src/icons/catalog.generated.ts",
+      "./icons/ability-assessment": "./src/icons/ability-assessment.tsx",
+      "./icons/ability-development": "./src/icons/ability-development.tsx",
+      "./icons/ability-graph": "./src/icons/ability-graph.tsx",
+@@ -904,13 +906,11 @@
+      "./icons/zoom-in": "./src/icons/zoom-in.tsx",
+      "./icons/zoom-in-filled": "./src/icons/zoom-in-filled.tsx",
+      "./icons/zoom-out": "./src/icons/zoom-out.tsx",
+      "./icons/zoom-out-filled": "./src/icons/zoom-out-filled.tsx",
+      "./icons/grading-pending": "./src/icons/grading-pending.tsx",
+-     "./icons/grading-reviewed": "./src/icons/grading-reviewed.tsx",
+-     "./charts": "./src/charts/index.ts",
+-     "./charts/styles.css": "./src/charts/styles.css"
++     "./icons/grading-reviewed": "./src/icons/grading-reviewed.tsx"
+    },
+    "scripts": {
+      "build": "tsc --noEmit --project tsconfig.json",
+      "typecheck": "tsc --noEmit --project tsconfig.json"
+    },
+
+ ❯ scripts/library-governance-closeout.test.ts:18:49
+     16| it("keeps existing public export order while regenerating icon artifac…
+     17|   const files = buildIconArtifacts(buildInventory());
+     18|   expect(files.get("packages/ui/package.json")).toBe(readFileSync("pac…
+       |                                                 ^
+     19| });
+     20|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  22:40:05
+   Duration  2.02s (transform 378ms, setup 170ms, import 502ms, tests 663ms, environment 589ms)
+

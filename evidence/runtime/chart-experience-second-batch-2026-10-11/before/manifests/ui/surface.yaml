@@ -1,0 +1,71 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-surface"
+name: "Surface"
+category: "ui"
+assetIdentity: "local-experiment"
+maturity: "prototype-ready"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/surface/surface.tsx"
+styleSourcePath: "packages/ui/src/styles.css"
+sourceVersion: "current-workspace; RN-13 baseline records source SHA-256"
+publication: "unpublished"
+description: "既有原型的表面色与边框容器；不进入默认候选检索。"
+useWhen:
+  - "维护已有原型的page、panel或raised表面。"
+doNotUseWhen:
+  - "空间编排使用Layout；独立内容对象使用Card。"
+anatomy:
+  - "Root"
+parts:
+  - "root"
+props:
+  - "as=div|main|section|article|aside，默认div。"
+  - "variant=panel|page|raised，默认panel；原生HTML属性和ref透传。"
+slots:
+  - "children"
+variants:
+  - "panel / page / raised"
+states:
+  - "static"
+dependencies:
+  - "React与UI styles.css，视觉依赖Foundations。"
+tokens:
+  - "既有--rain-color-surface-*、--rain-color-border-*、--rain-radius-8。"
+layoutConstraints:
+  - "不负责宽度、内边距、滚动或响应式；raised不提供阴影。"
+compositionRules:
+  - "宿主选择语义元素并拥有业务状态；不默认嵌套多层表面。"
+allowedModifications:
+  - "选择既有variant与语义标签，组合内容。"
+restrictedModifications:
+  - "不借补登记迁移旧色值或增加Local Recipe API。"
+accessibility:
+  - "main、section等语义由宿主选择和命名；不创建焦点入口。"
+examples:
+  - "apps/playground/src/docs/components/core-ui-page.tsx"
+recipes: []
+antiPatterns:
+  - "将Surface当作业务状态、滚动控制器或Card的同义替代。"
+relatedComponents:
+  - "Card / Stack / Grid"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "evidence/rain-classic/reuse-matrix.yaml"
+  externalReferences: []
+  retainedTraits:
+    - "浅冷工作区与白色任务表面。"
+  redesignedTraits:
+    - "既有React原型语义标签与追踪属性。"
+  intentionallyNotInherited:
+    - "不复制Vue布局或新增表面视觉。"
+figmaMapping:
+  status: "not-mapped"
+migrationNotes:
+  - "仅记录早期本地实现，独立视觉与Token迁移尚未完成。"
+verification:
+  automated: "not-run"
+  humanGate: "not-evaluated"
+  contrastAcceptance: "not-granted"
+  evidence: "docs/audits/2026-09-12-core-ui-contracts.md"

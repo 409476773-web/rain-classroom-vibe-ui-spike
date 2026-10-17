@@ -1,0 +1,6 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({
+ testDir:'.',testMatch:['navigation-v042-review10.spec.ts','navigation-v042-review07.spec.ts','navigation-v042-w3.spec.ts','navigation-v042-w5.spec.ts','navigation-v042-r4-feedback.spec.ts','navigation-v042-review08.spec.ts','navigation-v042-review09.spec.ts','navigation-v042-review09-r1-r3.spec.ts'],
+ workers:1,reporter:'list',outputDir:'../../evidence/runtime/navigation-v042/w5/review-10-visual-hierarchy/test-artifacts',
+ use:{baseURL:'http://127.0.0.1:5198',viewport:{width:1800,height:1100},locale:'zh-CN',deviceScaleFactor:1,contextOptions:{reducedMotion:'reduce'}}
+});

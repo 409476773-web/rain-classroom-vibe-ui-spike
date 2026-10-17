@@ -1,0 +1,166 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx (10 tests | 8 failed) 67ms
+   × shrinking the plot places the existing date label at its new coordinate without a position tween 32ms
+   × expanding the plot also keeps the date label in sync with the container 5ms
+   × resize interrupts an active data-position tween and the next data update can animate again 5ms
+   × a margin change is a layout update rather than an animated data update 3ms
+   × system reduced motion makes data-position changes immediate even without a caller override 4ms
+   × a caller disabling chart animation also disables the axis position tween 3ms
+   × resizing one chart does not disable a different chart's data animation 5ms
+   × category labels retain duplicate-name identities and resize to their real point centers 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > shrinking the plot places the existing date label at its new coordinate without a position tween
+AssertionError: expected 'left 500ms cubic-bezier(0.85, 0, 0.15…' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ left 500ms cubic-bezier(0.85, 0, 0.15, 1)
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:63:33
+     61|   expect(chart.dateLabel()).toBe(tick);
+     62|   expect(tick.style.left).toBe("195px");
+     63|   expect(tick.style.transition).toBe("");
+       |                                 ^
+     64|   expect(tick).toHaveStyle({ bottom: "12px", width: "0px", display: "f…
+     65|   expect(tick.firstElementChild).toHaveClass("whitespace-nowrap", "tex…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > expanding the plot also keeps the date label in sync with the container
+AssertionError: expected 'left 500ms cubic-bezier(0.85, 0, 0.15…' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ left 500ms cubic-bezier(0.85, 0, 0.15, 1)
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:74:33
+     72|   expect(chart.dateLabel()).toBe(tick);
+     73|   expect(tick.style.left).toBe("300px");
+     74|   expect(tick.style.transition).toBe("");
+       |                                 ^
+     75| });
+     76|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > resize interrupts an active data-position tween and the next data update can animate again
+AssertionError: expected 'left 500ms cubic-bezier(0.85, 0, 0.15…' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ left 500ms cubic-bezier(0.85, 0, 0.15, 1)
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:93:33
+     91|   chart.update({ width: 390 });
+     92|   expect(tick.style.left).toBe("117.5px");
+     93|   expect(tick.style.transition).toBe("");
+       |                                 ^
+     94|   chart.update({ data: rows });
+     95|   expect(tick.style.left).toBe("195px");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > a margin change is a layout update rather than an animated data update
+AssertionError: expected 'left 500ms cubic-bezier(0.85, 0, 0.15…' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ left 500ms cubic-bezier(0.85, 0, 0.15, 1)
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:104:33
+    102|   chart.update({ margin: { left: 60, right: 40, top: 20, bottom: 30 } …
+    103|   expect(tick.style.left).toBe("310px");
+    104|   expect(tick.style.transition).toBe("");
+       |                                 ^
+    105| });
+    106|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > system reduced motion makes data-position changes immediate even without a caller override
+AssertionError: expected 'left 500ms cubic-bezier(0.85, 0, 0.15…' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ left 500ms cubic-bezier(0.85, 0, 0.15, 1)
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:112:46
+    110|   chart.update({ data: extendedRows });
+    111|   expect(chart.dateLabel().style.left).toBe("170px");
+    112|   expect(chart.dateLabel().style.transition).toBe("");
+       |                                              ^
+    113| });
+    114|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > a caller disabling chart animation also disables the axis position tween
+AssertionError: expected 'left 500ms cubic-bezier(0.85, 0, 0.15…' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ left 500ms cubic-bezier(0.85, 0, 0.15, 1)
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:119:46
+    117|   chart.update({ data: extendedRows });
+    118|   expect(chart.dateLabel().style.left).toBe("170px");
+    119|   expect(chart.dateLabel().style.transition).toBe("");
+       |                                              ^
+    120| });
+    121|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > resizing one chart does not disable a different chart's data animation
+AssertionError: expected 'left 500ms cubic-bezier(0.85, 0, 0.15…' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ left 500ms cubic-bezier(0.85, 0, 0.15, 1)
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:127:48
+    125|   resized.update({ width: 390 });
+    126|   updating.update({ data: extendedRows });
+    127|   expect(resized.dateLabel().style.transition).toBe("");
+       |                                                ^
+    128|   expect(updating.dateLabel().style.transition).toMatch(/^left 500ms /…
+    129| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > category labels retain duplicate-name identities and resize to their real point centers
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:140:63
+    138|   const expected = [40 + 310 / 6, 195, 40 + 310 * 5 / 6];
+    139|   current.forEach((node, index) => expect(Number.parseFloat(node.style…
+    140|   expect(current.every(node => node.style.transition === "")).toBe(tru…
+       |                                                               ^
+    141| });
+    142|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed | 2 passed (10)
+   Start at  12:10:14
+   Duration  914ms (transform 152ms, setup 95ms, import 300ms, tests 67ms, environment 361ms)
+

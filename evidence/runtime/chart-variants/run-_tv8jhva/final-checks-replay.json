@@ -1,0 +1,83 @@
+[
+  {
+    "label": "unit-replay",
+    "command": [
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "packages/ui/src/charts",
+      "apps/playground/src/docs/components/chart-variants",
+      "apps/playground/src/docs/components/chart-variant-gallery.test.tsx",
+      "apps/playground/src/docs/components/component-doc.test.tsx",
+      "scripts/charts.test.ts",
+      "scripts/chart-variant-parts.test.ts",
+      "scripts/chart-color-consumers.test.ts",
+      "scripts/verify-chart-variant-consumption.test.ts",
+      "--maxWorkers",
+      "1",
+      "--testTimeout",
+      "20000",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile=evidence/runtime/chart-variants/run-_tv8jhva/final-unit-replay.json"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 29.64
+  },
+  {
+    "label": "ui-types-replay",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@rain-next/ui",
+      "typecheck"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 1.02
+  },
+  {
+    "label": "playground-types-replay",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@rain-next/playground",
+      "typecheck"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 1.18
+  },
+  {
+    "label": "prototype-types-replay",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@rain-next/prototype",
+      "typecheck"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 1.49
+  },
+  {
+    "label": "playground-build-replay",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@rain-next/playground",
+      "build"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 2.57
+  },
+  {
+    "label": "prototype-build-replay",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@rain-next/prototype",
+      "build"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 2.31
+  }
+]

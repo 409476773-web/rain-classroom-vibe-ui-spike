@@ -1,0 +1,47 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-live-lifecycle.test.tsx (3 tests | 2 failed) 136ms
+   × default live pause and replay preserve the same chart, points and frozen window 109ms
+   × default live automatic offscreen and background stopping cleans only its own producer and native clock 19ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-live-lifecycle.test.tsx > default live pause and replay preserve the same chart, points and frozen window
+TypeError: Cannot read properties of null (reading 'getAttribute')
+ ❯ path apps/playground/src/docs/components/chart-live-lifecycle.test.tsx:35:87
+     33| const clockFrames = () => [...frames.values()].filter(callback => call…
+     34| const plot = (replay = 0, revision = 0) => <ChartExample id="live-line…
+     35| const path = (container: HTMLElement) => container.querySelector("path…
+       |                                                                                       ^
+     36| const rows = (container: HTMLElement) => container.querySelector("tbod…
+     37| async function visibility(visible: boolean) {
+ ❯ apps/playground/src/docs/components/chart-live-lifecycle.test.tsx:46:55
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-live-lifecycle.test.tsx > default live automatic offscreen and background stopping cleans only its own producer and native clock
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ apps/playground/src/docs/components/chart-live-lifecycle.test.tsx:66:25
+     64|   await act(async () => { await visibility(true); vi.advanceTimersByTi…
+     65|   expect(vi.getTimerCount()).toBe(1);
+     66|   expect(clockFrames()).toBe(1);
+       |                         ^
+     67|   expect(observers.length).toBeGreaterThan(0);
+     68|   const prior = rows(view.container);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  14:59:18
+   Duration  2.75s (transform 1.29s, setup 100ms, import 2.04s, tests 136ms, environment 387ms)
+

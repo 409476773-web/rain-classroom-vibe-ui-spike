@@ -1,38 +1,52 @@
-# Rain Next：2026-09-16 完整项目审阅入口
+# Rain Next：2026-10-17 组件库审核入口
 
-本次按用户“将该项目全部上传到 GitHub，后续使用 GPT 网页版审阅、审核、分析”的指令制作私有审阅快照。包含工作区中尚未提交的内容；源码、测试、文档和历史证据保持原样。三份本地工作区存在不同实现，分别保存，不将它们自动合并为一个产品版本。
+当前审核范围为本仓库 `main`；固定分支为 `review/2026-10-17-component-library`。这是用户授权的私有源码送审版本，包含已建设组件、原型、合同、测试和必要证据。2026-09-16 的分支保留历史用途，不是本轮版本。
 
-## 选择审阅范围
+## 先读这些文件
 
-| 入口 | 内容 | 原始文件数 |
-| --- | --- | ---: |
-| [`main`](https://github.com/409476773-web/rain-classroom-vibe-ui-spike/tree/main)，本次固定分支 [`review/2026-09-16-card-v2`](https://github.com/409476773-web/rain-classroom-vibe-ui-spike/tree/review/2026-09-16-card-v2) | `.worktrees/card-v2` 当前工作区；最新 V2 组件、原型、M1/M2 与生成质量工作，以此作为整体审阅入口 | 8162 |
-| [`review/2026-09-16-main-workspace`](https://github.com/409476773-web/rain-classroom-vibe-ui-spike/tree/review/2026-09-16-main-workspace) | `rain-classroom-vibe-ui-spike` 本地主工作区；包含该工作区独有的 Textarea、Pagination、Dropdown 后续修订和原始 V2 工作包 | 3792 |
-| [`review/2026-09-16-day-3-core-ui`](https://github.com/409476773-web/rain-classroom-vibe-ui-spike/tree/review/2026-09-16-day-3-core-ui) | `.worktrees/day-3-core-ui` 早期工作区，作为历史实现和设计依据 | 102 |
-| [工作区外围资料](docs/workspace-context/2026-09-16/) | 父目录的 `HANDOFF.md` 及全部 9 份 `outputs` 文件，包括颜色确认资料与上下文审阅记录 | 10 |
+1. [本轮查漏与送审报告](docs/review/2026-10-17/report.md)：实际发现、补齐、验证范围与交付限制。
+2. [README](README.md)、[AGENTS](AGENTS.md)、[SPIKE_BRIEF](SPIKE_BRIEF.md)：目标、品牌和组合约束。
+3. [原始计划](docs/review/2026-10-17/original-plan/00-START-HERE.md)、[冻结64项逐项映射](evidence/runtime/g1-g6-closeout-2026-10-17/run-01/coverage.md)、[本轮实施计划](docs/plans/2026-10-17-g1-g6-closeout-and-p5-p6.md)。
+4. [资产使用入口](docs/ai/README.md)、[生成资产索引](docs/ai/asset-index.md)、`manifests/`、`registry/`，再进入对应源码。目录能力、资产数量与展示页数量不是同一口径。
+5. [阶段状态](status/current-phase.yaml)：顶部保留早期阶段；后续 refinement 和末尾本次授权才是各批次事实。实现、自动检查、人工接受、对比度、真实设备、发布分别判断。
+6. [G1–G6原收尾证明](evidence/runtime/g1-g6-closeout-2026-10-17/run-01/verification.md)、[本轮后继验证](evidence/runtime/github-review-successor-2026-10-17/verification.md)、[当前验证结果](evidence/runtime/github-review-2026-10-17/verification.md)。旧批次数字保留原日期，不能相加或冒充本次执行。
 
-各分支应独立阅读和安装依赖，不要把不同分支中的同名实现混作同一版本。主工作区有 72 个文件未出现在 Card V2 工作区，早期工作区另有 1 个独有文件；已通过上述分支完整保留。外围 `HANDOFF.md` 的原始相对链接基于本地父目录，涉及 `rain-classroom-vibe-ui-spike/` 的内容请在主工作区审阅分支查找。
+## 本轮重点
 
-## 推荐阅读顺序
+- 冻结目录64项 = G0的18项 + G1–G6的46项，均有代码或明确组合对应。Label/Field复用FormItem，Input Group为现有控件的局部组合，Native Select兼容能力纳入Select，Data Table为表格配方。请检查实际能力，不按名称要求重复造组件。
+- 已集成用户确认的Input Group两行文案修订；没有新增独立公共导出。
+- 补齐Tag家族10份Manifest的用途与不适用检索信息，资产索引由现有生成器生成。
+- P5资源引用更新页已进入 `apps/prototype/src/scenarios/resource-update/`，复用标准Select、32px二级按钮和PDF文件类型图标。新入口 `#resource-update`；状态和保存均为本地模拟。
+- 旧封存源与原证明保持原样。本轮有限后继绑定允许上述确认修订及新的Git提交，仍检查原证明、源文件、阶段和精确Git远端。
 
-1. [README](README.md)、[AGENTS](AGENTS.md)、[SPIKE_BRIEF](SPIKE_BRIEF.md)：项目目标、视觉血缘与约束。
-2. [当前阶段](status/current-phase.yaml)：读取后续 refinement 记录，不从早期顶层状态推导全库成熟度。
-3. [资产入口](docs/ai/README.md)、[资产索引](docs/ai/asset-index.md)、[原型设计入口](docs/ai/prototype-design.md)：现有资产与使用方法。
-4. [V2 原始路线图](docs/plans/2026-09-12-rain-next-v2-roadmap.json)、[生成质量改进计划](docs/plans/2026-09-15-rain-generation-quality-improvement.md)：区分原始提案和后续执行记录。
-5. `apps/`、`packages/`、`manifests/`、`registry/`、`scripts/`、`tests/`，并对照 `evidence/` 中对应日期和范围的证据。
+## 运行和检查
 
-请将可复现缺陷、未完成能力、已接受设计和改进建议分开；意见应包含文件路径、具体位置、触发条件、影响和建议。实现、自动验证、独立审阅、Human Gate、颜色/可访问性、发布和业务迁移分别判断。
+需要Git克隆仓库；不要用无Git元数据的ZIP代替治理检查环境。Node版本见 `package.json`，pnpm为10.28.1。
 
-## 上传范围与核验边界
+```sh
+pnpm install --frozen-lockfile
+pnpm dev --port 5173 --strictPort
+# 另一个终端
+pnpm --filter @rain-next/prototype dev --port 5201 --strictPort
+```
 
-- 三份工作区均纳入 Git 已跟踪文件及未被忽略的新文件，包含本次上传前的未提交修改。
-- 排除依赖目录、构建输出、缓存、临时测试输出、Git 内部数据、系统杂项及项目既有忽略规则指定的含身份信息截图。仓库不分发字体文件。保留 `evidence/` 下已归档的截图、日志、浏览器 trace 和源码验证包，因为它们属于项目审阅证据。
-- 上传前检查文件路径、大小、符号链接、常见凭据模式，以及 ZIP/TAR 内部条目。发现的模式命中均为浏览器测试路径中的 `sk-dismissal-in-both-themes-*`，已核对为误报；未发现真实凭据。最大单文件约 10.16 MiB。
-- 上传前逐文件校验原始快照与本地来源的 SHA-256；新增内容只有本说明、外围资料副本和 README 的审阅入口链接。
-- 本次任务验证上传内容与远端读取，不重新运行应用测试或更新历史验证证据。已有通过/失败记录保留其原日期和范围，不表述为本次重新通过。
-- 此次指令授权本次私有快照提交和推送；历史文件中的 Git 未授权状态属于对应历史阶段，不据此重写历史，也不扩大为包、Registry、Figma、生产发布或业务迁移授权。
-- 本地三个开发工作区、分支和未提交修改保持原样。远端 `main` 更新到最新 Card V2 审阅快照，不代表本地开发分支已经合并或清理。
+组件页为 `http://127.0.0.1:5173/#input-group`，原型页为 `http://127.0.0.1:5201/#resource-update`、`#teacher-grading`、`#learning-report`。这些地址需审核者在自己的机器运行；GitHub不托管本地预览服务。现成画面见[本轮P5证据](evidence/runtime/github-review-2026-10-17/p5/README.md)与[P6当前复核](evidence/runtime/g1-g6-closeout-2026-10-17/run-01/p6-current-review/review.md)。历史截图中的端口仅表示当时运行环境。
 
-## 可交给 GPT 的审阅要求
+```sh
+pnpm verify:governance
+pnpm verify:icons
+pnpm typecheck
+pnpm test --maxWorkers=2
+pnpm build
+# 安装Chromium后执行现有浏览器套件
+pnpm exec playwright install chromium
+pnpm test:e2e
+```
 
-> 请审阅私有仓库 `409476773-web/rain-classroom-vibe-ui-spike`。先读取 `main` 的 `GITHUB_REVIEW.md`，确认当前分支和文件可以实际读取；以 `review/2026-09-16-card-v2` 为本次固定审阅范围，按入口说明检查另外两份分支的独有内容。基于源码、合同、路线图和实际证据，分别分析架构、组件复用、视觉体系、原型质量、可访问性、测试与治理复杂度。每项问题给出文件位置、触发条件、影响和优先级；区分可复现缺陷、历史记录、未完成能力和建议。不要把旧计划、测试通过或局部视觉验收当作全库已经完成，也不要只读 README 就声称完成全项目审查。
+完整浏览器套件可能刷新其既有输出目录；在独立克隆执行。此次实际执行命令和结果以本轮验证记录为准。
+
+## 请如何给出审核意见
+
+请先确认实际能读取本轮分支和源码，再审查架构、复用、公开API、Token视觉约束、状态完整性、键盘交互、可访问性、测试与治理成本。每项问题给出文件位置、触发步骤、影响、优先级和可验证建议。把可复现缺陷、当前未实现能力、历史记录、已接受设计与可选建议分别说明；不要仅凭README或局部画面判断全库完成。
+
+颜色/对比度、Safari/读屏/物理触控、跨机器字体、真实上传与持久化等仍按各资产证据独立判断。仓库未发布npm包、在线Registry或Figma组件，未接入生产业务。原项目没有根许可证声明；第三方许可保留其原文件，不推定整个项目可对外授权。

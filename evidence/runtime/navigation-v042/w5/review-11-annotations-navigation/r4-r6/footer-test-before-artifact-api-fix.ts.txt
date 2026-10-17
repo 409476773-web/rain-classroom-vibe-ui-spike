@@ -1,0 +1,18 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {test,expect} from '@playwright/test';
+for(const sample of ['R4','R5','R6'])for(const dark of [false,true])test(`Review11 ${sample} ${dark?'dark':'light'} account is one left button with tools right and compact tools above account`,async({page},info)=>{
+ await page.goto(`/?sample=${sample}#navigation-v042`);await page.getByRole('combobox',{name:'画板宽度'}).selectOption('1600');if(dark)await page.getByRole('checkbox',{name:'深色外框',exact:true}).check();
+ const root=page.getByTestId('candidate-canvas').locator('.rain-workspace');await expect(root).toHaveAttribute('data-viewport-width','1600');const platform=root.locator('.nv5-platform'),toggle=platform.locator('.nv5-platform-expand');await toggle.click();await expect(toggle).toHaveAttribute('aria-expanded','true');
+ const screenshotDir=path.resolve('evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/post-review-footer');await fs.mkdir(screenshotDir,{recursive:true});
+ await expect(platform.locator('.nv5-platform-content>footer>button').first()).toHaveClass(/nv5-platform-account/);
+ const account=platform.locator('.nv5-platform-account'),notify=platform.getByRole('button',{name:'通知',exact:true}),help=platform.getByRole('button',{name:'帮助',exact:true});await expect(account).toHaveJSProperty('tagName','BUTTON');await expect(account).toHaveAttribute('aria-label','当前账户：林老师');await expect(account.locator('button')).toHaveCount(0);await expect(account.locator('.nv5-platform-account-copy')).toHaveText('林老师教师工作区');
+ const a=(await account.boundingBox())!,n=(await notify.boundingBox())!,h=(await help.boundingBox())!;expect(a.x+a.width).toBeLessThanOrEqual(n.x);expect(n.x+n.width).toBeLessThanOrEqual(h.x);expect([n.width,n.height,h.width,h.height]).toEqual([28,28,28,28]);
+ await platform.screenshot({path:path.join(screenshotDir,`${sample}-${dark?'dark':'light'}-expanded.png`)});
+ await account.focus();await page.keyboard.press('Tab');await expect(notify).toBeFocused();await page.keyboard.press('Tab');await expect(help).toBeFocused();
+ await account.locator('.nv5-platform-account-copy').click();await expect(root.getByRole('status')).toContainText('账户入口示例。');await account.focus();await page.keyboard.press('Enter');await expect(root.getByRole('status')).toContainText('账户入口示例。');expect(await account.evaluate(e=>getComputedStyle(e).outlineStyle)).toBe('solid');
+ await notify.click();await expect(root.getByRole('status')).toContainText('全局通知入口示例。');await help.click();await expect(root.getByRole('status')).toContainText('导航与工作区交互示例。');
+ await toggle.click();await expect(toggle).toHaveAttribute('aria-expanded','false');await expect(account.locator('.nv5-platform-account-copy')).toHaveCount(0);const ac=(await account.boundingBox())!,nc=(await notify.boundingBox())!,hc=(await help.boundingBox())!;expect(nc.y+nc.height).toBeLessThanOrEqual(hc.y);expect(hc.y+hc.height).toBeLessThanOrEqual(ac.y);
+ await platform.screenshot({path:path.join(screenshotDir,`${sample}-${dark?'dark':'light'}-compact.png`)});
+ await info.attach('actual-footer-geometry',{body:JSON.stringify({sample,dark,expanded:{account:a,notify:n,help:h},compact:{account:ac,notify:nc,help:hc}},null,2),contentType:'application/json'});
+});

@@ -1,0 +1,89 @@
+{
+  "legacyWindowOnlyCounterexample": {
+    "before": {
+      "x": 340,
+      "y": 760,
+      "width": 938,
+      "height": 538
+    },
+    "after": {
+      "x": 280,
+      "y": 580,
+      "width": 938,
+      "height": 538
+    },
+    "missedAncestorOffsets": {
+      "scrollLeft": 60,
+      "scrollTop": 180
+    }
+  },
+  "recordedAt": "2026-10-06T03:31:52.206Z",
+  "scope": "actual extracted driver callbacks; simulated nested gallery/window scrolling, no browser/native OS",
+  "sources": [
+    {
+      "file": "tests/e2e/navigation-v042-w5.spec.ts",
+      "sourceSha256": "4160e25037032e9c3d82a10b6070086a30808dbb300d510aa88fbfb166736763",
+      "callback": "e=>{\n  const r=e.getBoundingClientRect();let x=r.x+window.scrollX,y=r.y+window.scrollY;\n  // Exclude gallery auto-scroll while retaining exact logical layout geometry.\n  for(let parent=e.parentElement;parent;parent=parent.parentElement){if(parent===document.scrollingElement)continue;x+=parent.scrollLeft;y+=parent.scrollTop;}\n  return {x,y,width:r.width,height:r.height};\n}",
+      "before": {
+        "x": 340,
+        "y": 760,
+        "width": 938,
+        "height": 538
+      },
+      "after": {
+        "x": 340,
+        "y": 760,
+        "width": 938,
+        "height": 538
+      },
+      "moved": {
+        "x": 347,
+        "y": 771,
+        "width": 938,
+        "height": 538
+      },
+      "ancestorScrollCovered": true,
+      "positionAssertionsRetained": true
+    },
+    {
+      "file": "tests/e2e/navigation-v042-w7.spec.ts",
+      "sourceSha256": "c1d8d595d886b81b2d96e0dde84c924f1cd788d42b4c970bbec7315ba5f638b9",
+      "callback": "element => {\n  const rect = element.getBoundingClientRect();\n  // Logical layout coordinates exclude browser auto-scroll, including gallery scrollers.\n  let x = rect.x + window.scrollX, y = rect.y + window.scrollY;\n  for (let parent = element.parentElement; parent; parent = parent.parentElement) {\n    if (parent === document.scrollingElement) continue;\n    x += parent.scrollLeft; y += parent.scrollTop;\n  }\n  return { x, y, width: rect.width, height: rect.height };\n}",
+      "before": {
+        "x": 340,
+        "y": 760,
+        "width": 938,
+        "height": 538
+      },
+      "after": {
+        "x": 340,
+        "y": 760,
+        "width": 938,
+        "height": 538
+      },
+      "moved": {
+        "x": 347,
+        "y": 771,
+        "width": 938,
+        "height": 538
+      },
+      "ancestorScrollCovered": true,
+      "positionAssertionsRetained": true
+    }
+  ],
+  "windowRootDoubleCountCounterexample": {
+    "correct": {
+      "x": 340,
+      "y": 760,
+      "width": 938,
+      "height": 538
+    },
+    "ifDocumentScrollingElementNotSkipped": {
+      "x": 390,
+      "y": 960,
+      "width": 938,
+      "height": 538
+    }
+  },
+  "genuineLayoutMovementStillDetected": true
+}

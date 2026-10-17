@@ -1,0 +1,1041 @@
+{
+  "schemaVersion": 1,
+  "status": "exact-source-anatomy-adjudicated-no-runtime-or-threshold-change",
+  "originalLedgerSha256": "dafd3516d33b9dd6e92ea433a13fd31b8b4d08d8bf49357242c1243f96d72dee",
+  "records": [
+    {
+      "declarationId": "nav-color-0281",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/platform-navigation.css",
+        "selector": ".rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id=\"global\"] :is(.nv42-rail-head>.nv42-icon,.nv43-platform-expand,.nv5-platform-expand,.nv44-pane-head>.nv44-icon-button)",
+        "frames": [],
+        "property": "color",
+        "value": "var(--rain-category-icon-neutral-4)",
+        "occurrence": 1,
+        "contentRole": "text",
+        "minimumContrast": 4.5,
+        "critical": true
+      },
+      "decisionStatus": "metadata-role-misclassification",
+      "sourceAnatomyRoles": "meaningful-icon/3",
+      "decision": "All four header controls have icon props/children, aria-labels and no text. Original text row remains unchanged.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/platform-navigation.css",
+          "sha256": "985a19e081d7d639ca321017d15c18096deea5fe2e3f6e3100907a278b7d2596",
+          "line": 53,
+          "fragment": ".rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id=\"global\"] :is(.nv42-rail-head>.nv42-icon,.nv43-platform-expand,.nv5-platform-expand,.nv44-pane-head>.nv44-icon-button) {",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r2.tsx",
+          "sha256": "57f08d739c56698fc12365715d74284ca3a5260dd677799adeb5dcc54e94694d",
+          "line": 66,
+          "fragment": "        <SidebarHeader className=\"nv42-rail-head\"><IconButton size=\"28/16\" localRecipe={iconRecipe} aria-label={state.session.temporary?.regionId==='global'?'关闭临时平台导航':platform==='compact'?'展开平台导航':'收起平台导航'} aria-controls={regionDomId('global')} aria-expanded={platform==='expanded'} data-workspace-action=\"restore\" icon={platform==='compact'?<ExpandIcon/>:<CollapseIcon/>} onClick={()=>dispatch(state.session.temporary?.regionId==='global'?{type:'DISMISS_TEMP',reason:'close'}:{type:platform==='expanded'?'TOGGLE_GLOBAL':'SHOW_REGION',regionId:'global',viewportWidth})}/><div className=\"nv42-brand\"><RainClassroomIcon size={23}/><strong aria-hidden={platform!=='expanded'}>雨课堂</strong></div></SidebarHeader>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r1-r3.tsx",
+          "sha256": "4190f4506f2353590b47553a3ae77d14a1321d33ca60a9589977a34935f79c29",
+          "line": 51,
+          "fragment": "    <div className=\"nv43-workspace-body\"><RecoverableRegion regionId=\"global\" className=\"nv43-platform\" data-rain-theme={workspace?.inverse?'dark':undefined}>{({effective,temporary})=>{const expanded=effective.mode==='expanded'||temporary;return <div className=\"nv43-platform-content\" data-expanded={expanded}><header className=\"nv43-platform-head\"><strong className=\"nv43-brand\"><RainClassroomIcon size={23}/>{expanded&&<span>雨课堂</span>}</strong><IconButton size=\"28/16\" localRecipe={auxiliaryIcon} className=\"nv43-platform-expand\" data-workspace-action=\"restore\" aria-label={temporary?'关闭临时平台导航':expanded?'收起平台导航':'展开平台导航'} aria-controls={regionDomId('global')} aria-expanded={expanded} icon={expanded?<CollapseIcon/>:<ExpandIcon/>} onClick={()=>dispatch(temporary?{type:'DISMISS_TEMP',reason:'close'}:{type:expanded?'TOGGLE_GLOBAL':'SHOW_REGION',regionId:'global',viewportWidth})}/></header><NavigationList items={platformItems} activeId={id==='r1'?'platform-3':'platform-2'} appearance={expanded?'inset':'icons'} aria-label=\"平台功能\" onNavigate={(_,event)=>event.preventDefault()}/><footer><Popover.Root><Popover.Trigger render={<button type=\"button\" className=\"nv43-platform-account\" aria-label=\"当前账户：林老师\"/>}><Avatar size={32} alt=\"\"/><span className=\"nv43-platform-account-copy\"><strong>林老师</strong><small>教师工作区</small></span></Popover.Trigger><Popover.Content aria-label=\"当前账户\"><p>账户入口示例。</p></Popover.Content></Popover.Root><button aria-label=\"通知\"><NotificationIcon/></button><button aria-label=\"帮助\"><HelpIcon/></button></footer></div>;}}</RecoverableRegion>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+          "sha256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+          "line": 81,
+          "fragment": "  return <RecoverableRegion regionId=\"global\" className=\"nv5-platform\" data-rain-theme={inverse?'dark':undefined}>{({effective,temporary})=>{const expanded=effective.mode==='expanded'||temporary;return <div className=\"nv5-platform-content\" data-expanded={expanded}><header className=\"nv5-platform-head\"><div className=\"nv5-brand\"><RainClassroomIcon size={23}/>{expanded&&<strong>雨课堂</strong>}</div><button className=\"nv5-platform-expand rain-workspace__restore\" data-workspace-action=\"restore\" aria-label={temporary?'关闭临时平台导航':expanded?'收起平台导航':'展开平台导航'} aria-controls={regionDomId('global')} aria-expanded={expanded} onClick={()=>dispatch(temporary?{type:'DISMISS_TEMP',reason:'close'}:{type:expanded?'TOGGLE_GLOBAL':'SHOW_REGION',regionId:'global',viewportWidth})}>{expanded?<CollapseIcon size={16}/>:<ExpandIcon size={16}/>}</button></header><NavigationList items={platformLinks} activeId={`platform-${active}`} appearance={expanded?'inset':'icons'} aria-label=\"平台功能\" onNavigate={(_,event)=>{event.preventDefault();onNotice('平台入口为本地示例。');}}/><footer><button type=\"button\" className=\"nv5-platform-account\" aria-label=\"当前账户：林老师\" onClick={()=>onNotice('账户入口示例。')}><Avatar size={32} alt=\"\" className=\"nv5-account\"/>{expanded&&<span className=\"nv5-platform-account-copy\"><strong>林老师</strong><small>教师工作区</small></span>}</button><IconButton localRecipe={auxiliaryIconRecipe} size=\"28/16\" className=\"nv5-platform-tool\" aria-label=\"通知\" icon={<NotificationIcon/>} onClick={()=>onNotice('全局通知入口示例。')}/><IconButton localRecipe={auxiliaryIconRecipe} size=\"28/16\" className=\"nv5-platform-tool\" aria-label=\"帮助\" icon={<HelpIcon/>} onClick={()=>onNotice('导航与工作区交互示例。')}/></footer></div>;}}</RecoverableRegion>;",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 55,
+          "fragment": "    {brand && !temporary ? <IconButton label={compact ? '展开平台导航' : '收起平台导航'} controls={regionDomId(regionId)} expanded={!compact} onClick={() => dispatch({ type: compact ? 'SHOW_REGION' : 'TOGGLE_GLOBAL', regionId, viewportWidth })}>{compact ? <ExpandIcon size={16}/> : <CollapseIcon size={16}/>}</IconButton>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Icon/Neutral/4",
+          "role": "icon",
+          "property": "color",
+          "content": "meaningful-icon",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": true,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-0312",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/platform-navigation.css",
+        "selector": ".rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id=\"global\"] :is(.nv42-utilities>.nv42-icon,.nv43-platform-content>footer>button:not(.nv43-platform-account),.nv5-platform-tool,.nv44-platform-utilities>.nv44-icon-button):is(:hover,:focus-visible)",
+        "frames": [],
+        "property": "color",
+        "value": "var(--rain-category-icon-neutral-2)",
+        "occurrence": 1,
+        "contentRole": "text",
+        "minimumContrast": 4.5,
+        "critical": true
+      },
+      "decisionStatus": "metadata-role-misclassification",
+      "sourceAnatomyRoles": "meaningful-icon/3",
+      "decision": "Account excluded; footer utilities render Notification/Help only.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/platform-navigation.css",
+          "sha256": "985a19e081d7d639ca321017d15c18096deea5fe2e3f6e3100907a278b7d2596",
+          "line": 120,
+          "fragment": ".rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id=\"global\"] :is(.nv42-utilities>.nv42-icon,.nv43-platform-content>footer>button:not(.nv43-platform-account),.nv5-platform-tool,.nv44-platform-utilities>.nv44-icon-button):is(:hover,:focus-visible) { background:var(--rain-local-platform-hover);color:var(--rain-category-icon-neutral-2); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r2.tsx",
+          "sha256": "57f08d739c56698fc12365715d74284ca3a5260dd677799adeb5dcc54e94694d",
+          "line": 68,
+          "fragment": "        <SidebarFooter className=\"nv42-rail-footer\"><button className=\"nv42-account\" aria-label=\"当前账户：林老师\" onClick={()=>inform('账户')}><Avatar className=\"nv42-account-avatar\" size={32} alt=\"\"/><span className=\"nv42-account-copy\"><strong>林老师</strong><small>教师工作区</small></span></button><div className=\"nv42-utilities\">{icon('通知',<NotificationIcon/>,()=>inform('通知'),'28/16')}{icon('帮助',<HelpIcon/>,()=>inform('帮助'),'28/16')}</div></SidebarFooter>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r1-r3.tsx",
+          "sha256": "4190f4506f2353590b47553a3ae77d14a1321d33ca60a9589977a34935f79c29",
+          "line": 51,
+          "fragment": "    <div className=\"nv43-workspace-body\"><RecoverableRegion regionId=\"global\" className=\"nv43-platform\" data-rain-theme={workspace?.inverse?'dark':undefined}>{({effective,temporary})=>{const expanded=effective.mode==='expanded'||temporary;return <div className=\"nv43-platform-content\" data-expanded={expanded}><header className=\"nv43-platform-head\"><strong className=\"nv43-brand\"><RainClassroomIcon size={23}/>{expanded&&<span>雨课堂</span>}</strong><IconButton size=\"28/16\" localRecipe={auxiliaryIcon} className=\"nv43-platform-expand\" data-workspace-action=\"restore\" aria-label={temporary?'关闭临时平台导航':expanded?'收起平台导航':'展开平台导航'} aria-controls={regionDomId('global')} aria-expanded={expanded} icon={expanded?<CollapseIcon/>:<ExpandIcon/>} onClick={()=>dispatch(temporary?{type:'DISMISS_TEMP',reason:'close'}:{type:expanded?'TOGGLE_GLOBAL':'SHOW_REGION',regionId:'global',viewportWidth})}/></header><NavigationList items={platformItems} activeId={id==='r1'?'platform-3':'platform-2'} appearance={expanded?'inset':'icons'} aria-label=\"平台功能\" onNavigate={(_,event)=>event.preventDefault()}/><footer><Popover.Root><Popover.Trigger render={<button type=\"button\" className=\"nv43-platform-account\" aria-label=\"当前账户：林老师\"/>}><Avatar size={32} alt=\"\"/><span className=\"nv43-platform-account-copy\"><strong>林老师</strong><small>教师工作区</small></span></Popover.Trigger><Popover.Content aria-label=\"当前账户\"><p>账户入口示例。</p></Popover.Content></Popover.Root><button aria-label=\"通知\"><NotificationIcon/></button><button aria-label=\"帮助\"><HelpIcon/></button></footer></div>;}}</RecoverableRegion>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+          "sha256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+          "line": 81,
+          "fragment": "  return <RecoverableRegion regionId=\"global\" className=\"nv5-platform\" data-rain-theme={inverse?'dark':undefined}>{({effective,temporary})=>{const expanded=effective.mode==='expanded'||temporary;return <div className=\"nv5-platform-content\" data-expanded={expanded}><header className=\"nv5-platform-head\"><div className=\"nv5-brand\"><RainClassroomIcon size={23}/>{expanded&&<strong>雨课堂</strong>}</div><button className=\"nv5-platform-expand rain-workspace__restore\" data-workspace-action=\"restore\" aria-label={temporary?'关闭临时平台导航':expanded?'收起平台导航':'展开平台导航'} aria-controls={regionDomId('global')} aria-expanded={expanded} onClick={()=>dispatch(temporary?{type:'DISMISS_TEMP',reason:'close'}:{type:expanded?'TOGGLE_GLOBAL':'SHOW_REGION',regionId:'global',viewportWidth})}>{expanded?<CollapseIcon size={16}/>:<ExpandIcon size={16}/>}</button></header><NavigationList items={platformLinks} activeId={`platform-${active}`} appearance={expanded?'inset':'icons'} aria-label=\"平台功能\" onNavigate={(_,event)=>{event.preventDefault();onNotice('平台入口为本地示例。');}}/><footer><button type=\"button\" className=\"nv5-platform-account\" aria-label=\"当前账户：林老师\" onClick={()=>onNotice('账户入口示例。')}><Avatar size={32} alt=\"\" className=\"nv5-account\"/>{expanded&&<span className=\"nv5-platform-account-copy\"><strong>林老师</strong><small>教师工作区</small></span>}</button><IconButton localRecipe={auxiliaryIconRecipe} size=\"28/16\" className=\"nv5-platform-tool\" aria-label=\"通知\" icon={<NotificationIcon/>} onClick={()=>onNotice('全局通知入口示例。')}/><IconButton localRecipe={auxiliaryIconRecipe} size=\"28/16\" className=\"nv5-platform-tool\" aria-label=\"帮助\" icon={<HelpIcon/>} onClick={()=>onNotice('导航与工作区交互示例。')}/></footer></div>;}}</RecoverableRegion>;",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 81,
+          "fragment": "function GlobalPane({ active, onActive, onNotice, inverse }: { active: string; onActive: (id: string) => void; onNotice: (message: string) => void; inverse?: boolean }) { return <RecoverableRegion regionId=\"global\" className=\"nv44-global\" data-rain-theme={inverse?'dark':undefined} header={<PaneHeader regionId=\"global\" brand/>}>{({ effective, temporary }) => <><NavigationList className=\"nv44-platform-links\" appearance={effective.mode === 'compact' && !temporary ? 'icons' : 'inset'} aria-label=\"平台导航\" activeId={active} items={platformItems} onNavigate={(id, event) => { event.preventDefault(); onActive(id); onNotice('平台入口为本地示例；当前文档与草稿保留。'); }}/><footer className=\"nv44-global-foot\"><button className=\"nv44-platform-account\" aria-label=\"当前账户：林老师\" onClick={()=>onNotice('账户为本地入口示例；未连接身份服务。')}><Avatar size={32} alt=\"\" className=\"nv44-avatar\"/><span className=\"nv44-platform-account-copy\"><strong>林老师</strong><small>教师工作区</small></span></button><div className=\"nv44-platform-utilities\"><IconButton label=\"通知\" onClick={() => onNotice('通知为本地入口示例；未读取消息服务。')}><NotificationIcon size={16}/></IconButton><IconButton label=\"帮助\" onClick={() => onNotice('当前样板支持布局恢复、工具区切换与本地草稿编辑。')}><HelpIcon size={16}/></IconButton></div></footer></>}</RecoverableRegion>; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Icon/Neutral/2",
+          "role": "icon",
+          "property": "color",
+          "content": "meaningful-icon",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": true,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-0928",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+        "selector": ".nv5-r4[data-scene=\"interaction\"] .nv5-recovery-separator",
+        "frames": [],
+        "property": "background",
+        "value": "var(--rain-category-border-neutral-3)",
+        "occurrence": 1,
+        "contentRole": "surface",
+        "minimumContrast": 0,
+        "critical": false
+      },
+      "decisionStatus": "metadata-property-role-misclassification",
+      "sourceAnatomyRoles": "decorative-boundary/0",
+      "decision": "Empty 1px i separates controls and task identity, not a surface/current/focus boundary. Border background-color is an existing permitted property.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 535,
+          "fragment": ".nv5-r4[data-scene=\"interaction\"] .nv5-recovery-separator { background:var(--rain-category-border-neutral-3); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+          "sha256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+          "line": 63,
+          "fragment": "  return <header className=\"nv5-recovery\">{spec.regions.map(item=><RegionRestoreTrigger key={item.id} regionId={item.id} onClick={item.id==='global'?event=>{event.preventDefault();dispatch(state.session.temporary?.regionId==='global'?{type:'DISMISS_TEMP',reason:'close'}:{type:effective.regions.global?.mode==='expanded'?'TOGGLE_GLOBAL':'SHOW_REGION',regionId:'global',viewportWidth});}:undefined}>{item.id==='global'?<ExpandIcon size={15}/>:item.id==='queue'?<MembersIcon size={15}/>:item.id==='review'?<EditPencilIcon size={15}/>:<FolderIcon size={15}/>}<span>{item.label}</span></RegionRestoreTrigger>)}<i className=\"nv5-recovery-separator\"/><div className=\"nv5-recovery-identity\"><strong title={title}>{title}</strong><small title={subtitle}>{subtitle}</small></div>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 24,
+          "fragment": ".nv5-recovery-separator { width:1px;height:22px;background:#e2e7ef;margin:0 2px; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Border/Neutral/3",
+          "role": "border",
+          "property": "background-color",
+          "content": "decorative",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": false,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-0944",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+        "selector": ".nv5-r4[data-scene=\"interaction\"] .nv5-brand",
+        "frames": [],
+        "property": "color",
+        "value": "var(--rain-category-icon-brand-1)",
+        "occurrence": 1,
+        "contentRole": "text",
+        "minimumContrast": 4.5,
+        "critical": true
+      },
+      "decisionStatus": "source-override-needs-runtime-confirmation",
+      "sourceAnatomyRoles": "text/4.5 + meaningful-icon/3",
+      "decision": "Brand actually contains name and logo. Shared global-platform selector specificity 0,5,0 exceeds old interaction 0,3,0 and supplies semantic platform ink; strong inherits. Do not recast as icon-only or infer winning paint from source alone.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 549,
+          "fragment": ".nv5-r4[data-scene=\"interaction\"] .nv5-brand { color:var(--rain-category-icon-brand-1); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+          "sha256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+          "line": 81,
+          "fragment": "  return <RecoverableRegion regionId=\"global\" className=\"nv5-platform\" data-rain-theme={inverse?'dark':undefined}>{({effective,temporary})=>{const expanded=effective.mode==='expanded'||temporary;return <div className=\"nv5-platform-content\" data-expanded={expanded}><header className=\"nv5-platform-head\"><div className=\"nv5-brand\"><RainClassroomIcon size={23}/>{expanded&&<strong>雨课堂</strong>}</div><button className=\"nv5-platform-expand rain-workspace__restore\" data-workspace-action=\"restore\" aria-label={temporary?'关闭临时平台导航':expanded?'收起平台导航':'展开平台导航'} aria-controls={regionDomId('global')} aria-expanded={expanded} onClick={()=>dispatch(temporary?{type:'DISMISS_TEMP',reason:'close'}:{type:expanded?'TOGGLE_GLOBAL':'SHOW_REGION',regionId:'global',viewportWidth})}>{expanded?<CollapseIcon size={16}/>:<ExpandIcon size={16}/>}</button></header><NavigationList items={platformLinks} activeId={`platform-${active}`} appearance={expanded?'inset':'icons'} aria-label=\"平台功能\" onNavigate={(_,event)=>{event.preventDefault();onNotice('平台入口为本地示例。');}}/><footer><button type=\"button\" className=\"nv5-platform-account\" aria-label=\"当前账户：林老师\" onClick={()=>onNotice('账户入口示例。')}><Avatar size={32} alt=\"\" className=\"nv5-account\"/>{expanded&&<span className=\"nv5-platform-account-copy\"><strong>林老师</strong><small>教师工作区</small></span>}</button><IconButton localRecipe={auxiliaryIconRecipe} size=\"28/16\" className=\"nv5-platform-tool\" aria-label=\"通知\" icon={<NotificationIcon/>} onClick={()=>onNotice('全局通知入口示例。')}/><IconButton localRecipe={auxiliaryIconRecipe} size=\"28/16\" className=\"nv5-platform-tool\" aria-label=\"帮助\" icon={<HelpIcon/>} onClick={()=>onNotice('导航与工作区交互示例。')}/></footer></div>;}}</RecoverableRegion>;",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/platform-navigation.css",
+          "sha256": "985a19e081d7d639ca321017d15c18096deea5fe2e3f6e3100907a278b7d2596",
+          "line": 44,
+          "fragment": ".rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id=\"global\"] :is(.nv42-brand,.nv43-brand,.nv5-brand,.nv44-brand) {",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/platform-navigation.css",
+          "sha256": "985a19e081d7d639ca321017d15c18096deea5fe2e3f6e3100907a278b7d2596",
+          "line": 47,
+          "fragment": "  color:var(--rain-local-platform-brand);white-space:nowrap;font-size:16px;line-height:24px;",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/platform-navigation.css",
+          "sha256": "985a19e081d7d639ca321017d15c18096deea5fe2e3f6e3100907a278b7d2596",
+          "line": 50,
+          "fragment": ".rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id=\"global\"] :is(.nv42-brand strong,.nv43-brand>span:not([data-rain-id=\"icon\"]),.nv5-brand strong,.nv44-brand strong) {",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Icon/Brand/1",
+          "role": "text",
+          "property": "color",
+          "content": "text",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": true,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-0946",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+        "selector": ".nv5-r4[data-scene=\"interaction\"] :is(.rain-workspace__restore,.nv5-recovery .rain-workspace__restore)",
+        "frames": [],
+        "property": "color",
+        "value": "var(--rain-category-icon-neutral-2)",
+        "occurrence": 1,
+        "contentRole": "text",
+        "minimumContrast": 4.5,
+        "critical": true
+      },
+      "decisionStatus": "real-mixed-text-icon-category-conflict",
+      "sourceAnatomyRoles": "text/4.5 + meaningful-icon/3",
+      "decision": "Recovery supplies icon plus item.label. Label is clipped only in expanded/compact; hidden restore label inherits Icon. Text/Neutral/3 matches Icon/Neutral/2 exactly in both themes: candidate container Text plus explicit child Icon can preserve pixels.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 554,
+          "fragment": ".nv5-r4[data-scene=\"interaction\"] :is(.rain-workspace__restore,.nv5-recovery .rain-workspace__restore) { color:var(--rain-category-icon-neutral-2);border-radius:var(--rain-radius-6);font-size:var(--rain-font-size-12);line-height:var(--rain-line-height-18); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+          "sha256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+          "line": 63,
+          "fragment": "  return <header className=\"nv5-recovery\">{spec.regions.map(item=><RegionRestoreTrigger key={item.id} regionId={item.id} onClick={item.id==='global'?event=>{event.preventDefault();dispatch(state.session.temporary?.regionId==='global'?{type:'DISMISS_TEMP',reason:'close'}:{type:effective.regions.global?.mode==='expanded'?'TOGGLE_GLOBAL':'SHOW_REGION',regionId:'global',viewportWidth});}:undefined}>{item.id==='global'?<ExpandIcon size={15}/>:item.id==='queue'?<MembersIcon size={15}/>:item.id==='review'?<EditPencilIcon size={15}/>:<FolderIcon size={15}/>}<span>{item.label}</span></RegionRestoreTrigger>)}<i className=\"nv5-recovery-separator\"/><div className=\"nv5-recovery-identity\"><strong title={title}>{title}</strong><small title={subtitle}>{subtitle}</small></div>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 23,
+          "fragment": ".nv5-recovery .rain-workspace__restore:is([data-mode=\"expanded\"],[data-mode=\"compact\"])>span:last-child { position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "packages/layouts/src/workspace.tsx",
+          "sha256": "c74c137303b7a283ebfbd3728f60f89ae7d90ea62e3872ce8a64aa5b10bb358c",
+          "line": 176,
+          "fragment": "    className={`rain-workspace__restore ${className ?? ''}`} data-workspace-action=\"restore\" data-mode={effective.mode} data-active={String(temporary)} aria-label={props['aria-label'] ?? label} title={props.title ?? label} aria-controls={context.regionDomId(regionId)} aria-expanded={full || temporary}",
+          "occurrences": 1,
+          "boundary": "current-source-fact-only-no-new-authorization"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Icon/Neutral/2",
+          "role": "text",
+          "property": "color",
+          "content": "text",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": true,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-0983",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+        "selector": ".nv5-r4[data-scene=\"interaction\"] .nv5-region-head",
+        "frames": [],
+        "property": "color",
+        "value": "var(--rain-category-icon-neutral-2)",
+        "occurrence": 1,
+        "contentRole": "text",
+        "minimumContrast": 4.5,
+        "critical": true
+      },
+      "decisionStatus": "metadata-container-role-needs-part-splitting",
+      "sourceAnatomyRoles": "heading text/4.5 + state text/4.5 + icons/3",
+      "decision": "strong and small have explicit more specific Text paints. Container Icon does not paint their text; Pin/Close are icon-only. Original row/threshold and actual cascade/parent evidence remain.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 596,
+          "fragment": ".nv5-r4[data-scene=\"interaction\"] .nv5-region-head { height:36px;min-height:36px;padding:0 var(--rain-space-12);background:transparent;border-color:var(--rain-category-border-neutral-3);color:var(--rain-category-icon-neutral-2);font-size:var(--rain-font-size-12);line-height:var(--rain-line-height-18); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+          "sha256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+          "line": 70,
+          "fragment": "  return <div className=\"nv5-region-head\"><strong>{label}</strong><small>{temporary?'临时':'常驻'}</small><span className=\"nv5-spacer\"/><IconButton localRecipe={auxiliaryIconRecipe} size={iconButtonSize} aria-label={`${temporary?'固定':'取消固定'}${label}`} data-workspace-action=\"pin\" icon={<PinIcon/>} onClick={()=>dispatch({type:temporary?'PIN_TEMP':'UNPIN',regionId:id,viewportWidth})}/><IconButton localRecipe={auxiliaryIconRecipe} size={iconButtonSize} aria-label={`隐藏${label}`} data-workspace-action=\"hide\" icon={<CloseIcon/>} onClick={()=>dispatch({type:'HIDE_REGION',regionId:id})}/></div>;",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 597,
+          "fragment": ".nv5-r4[data-scene=\"interaction\"] .nv5-region-head>strong { font-size:var(--rain-font-size-15);line-height:var(--rain-line-height-22);color:var(--rain-category-text-neutral-2); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 598,
+          "fragment": ".nv5-r4[data-scene=\"interaction\"] .nv5-region-head>small { font-size:var(--rain-font-size-12);color:var(--rain-category-text-neutral-3); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Icon/Neutral/2",
+          "role": "icon",
+          "property": "color",
+          "content": "meaningful-icon",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": true,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-1031",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+        "selector": ".nv5-r5 .nv5-player-controls i",
+        "frames": [],
+        "property": "background",
+        "value": "var(--rain-category-border-neutral-3)",
+        "occurrence": 1,
+        "contentRole": "surface",
+        "minimumContrast": 0,
+        "critical": false
+      },
+      "decisionStatus": "metadata-property-role-misclassification",
+      "sourceAnatomyRoles": "decorative-boundary/0",
+      "decision": "Empty i between speed and volume is a 1px noninteractive separator, not surface.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 644,
+          "fragment": ".nv5-r5 .nv5-player-controls i { background:var(--rain-category-border-neutral-3); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+          "sha256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+          "line": 147,
+          "fragment": "  return <RecipeWorkspace id=\"r5\" spec={spec} workspace={workspace} storage={storage} identity={{title:'课堂回顾 · 第九章',subtitle:`${event.title} · ${formatTime(time)} / 25:00`}}><Platform onNotice={setNotice} inverse={workspace?.inverse}/><div className=\"nv5-workbody\"><header className=\"nv5-module-header\"><button className=\"nv5-icon-button\" aria-label=\"返回课堂列表\" onClick={()=>setNotice('返回课堂列表为本地入口示例。')}><ArrowLeftIcon/></button><strong>第九章 · 戴维南定理</strong><small>课堂回顾</small><span className=\"nv5-spacer\"/><Button localRecipe={sourceButton} variant=\"tertiary\" size=\"small\" leadingIcon={<PlayIcon/>} onClick={()=>setNotice('回放管理为本地演示，当前没有真实视频资源。')}>回放管理</Button></header><div className=\"nv5-workrow\"><RecoverableRegion regionId=\"events\" className=\"nv5-events\" header={<RegionHead id=\"events\"/>} footer={<div className=\"nv5-events-footer\"><Checkbox label=\"跟随播放定位\" checked={follow} onCheckedChange={setFollow}/></div>}><div className=\"nv5-play-title\"><div className=\"nv5-between\"><h4>课堂回顾</h4><Tag size={20} color=\"neutral\">4 项</Tag></div><SegmentedControl legend=\"回顾事件类型\" name={`${instance}-filter`} options={[{value:'all',label:'全部'},{value:'slides',label:'课件'},{value:'exercise',label:'习题'}]} value={filter} onValueChange={value=>value&&setFilter(value)}/></div><ObjectNavigator aria-label=\"课堂回顾事件\" appearance=\"preview\" content=\"preview\" className=\"nv5-event-objects\" value={visible.some(item=>item.id===selected)?selected:null} onValueChange={seek} items={visible.map(item=>({id:item.id,label:item.title,meta:<><Tag className=\"nv5-event-type\" size={20} color={item.type==='课件'?'courseware':'self-test'}>{item.type}</Tag><span className=\"nv5-event-time\">{formatTime(item.time)}</span></>,preview:<SlidePreview event={item} index={replayEvents.indexOf(item)}/>}))}/></RecoverableRegion><PaneSplitter regionId=\"events\"/><section className=\"nv5-player\"><div className=\"nv5-media-top\"><span>{event.title}</span><span>模拟媒体 · 无真实视频</span></div><div className=\"nv5-slidecanvas\"><div className=\"nv5-slide\"><div className=\"nv5-slide-kicker\">RAIN CLASSROOM / PHYSICS</div><div className=\"nv5-slide-accent\"/><h2>{event.slide[0]}<br/>{event.slide[1]}</h2><p>{event.desc}</p><div className=\"nv5-slide-footer\"><span>大学物理 · 教学资料</span><span>{String(index+1).padStart(2,'0')} / 04</span></div></div></div><div className=\"nv5-player-controls\"><input type=\"range\" min={0} max={1500} aria-label=\"模拟播放位置\" value={time} onChange={event=>scrub(Number(event.target.value))}/><div className=\"nv5-between\"><div className=\"nv5-flex\"><button className=\"nv5-icon-button\" aria-label={playing?'暂停回放':'播放回放'} onClick={()=>{if(time===1500)setTime(0);setPlaying(!playing);}}>{playing?<PauseTriangleIcon/>:<PlayIcon/>}</button><span aria-label=\"回放时间\">{formatTime(time)} / 25:00</span></div><div className=\"nv5-flex\"><span>1.0 ×</span><i/><VolumeIcon size={16}/><FocusButton label=\"专注回放\"/></div></div></div></section><PaneSplitter regionId=\"knowledge\"/><RecoverableRegion regionId=\"knowledge\" className=\"nv5-knowledge\" header={<RegionHead id=\"knowledge\" iconButtonSize=\"32/14\"/>}><NavigationTabs aria-label=\"回放参考内容\" visualPreset=\"navigation-line\" value={tab} onValueChange={setTab} className=\"nv5-knowledge-tabs\" items={[{value:'knowledge',label:'知识导引',content:<div className=\"nv5-knowledge-content\"><div className=\"nv5-between\"><h4>课堂总结脑图</h4><ResourceIcon size={14}/></div><div className=\"nv5-mindmap\" role=\"img\" aria-label={`${['等效电路','分析步骤','应用边界'][mindIndex]}示意脑图`}><div>{['等效电路','分析步骤','应用边界'][mindIndex]}</div><section>{[['端口关系','等效模型','适用条件'],['确定边界','提取条件','验证结果'],['线性条件','电压电流','误差分析']][mindIndex]!.map(label=><span key={label}>{label}</span>)}</section></div><div className=\"nv5-mind-picker\"><SegmentedControl legend=\"课堂脑图\" name={`${instance}-mind`} options={['脑图 1','脑图 2','脑图 3'].map((label,i)=>({value:`mind-${i}`,label}))} value={mind} onValueChange={value=>value&&setMind(value)}/></div><h4>知识索引</h4><div className=\"nv5-timeline\">{replayEvents.map((item,i)=><button key={item.id} aria-label={`${formatTime(item.time)} ${item.slide[0]}`} aria-pressed={selected===item.id} onClick={()=>seek(item.id)}><span>{formatTime(item.time)}</span><div>{item.title}<br/><span className=\"nv5-timeline-description\">{item.desc}</span></div><span className=\"nv5-timeline-dot\" aria-hidden=\"true\"/></button>)}</div></div>},{value:'transcript',label:'讲稿',content:<div className=\"nv5-knowledge-content\"><h4>讲稿 · 当前内容</h4><p className=\"nv5-transcript\">{event.desc}<br/><br/>今天我们先从电路的结构出发，区分需要保留的信息与可以简化的部分。建立模型之后，还需要返回原条件，确认分析的边界。<br/><br/>讲稿为页面组织示例，不对应真实课堂转写。</p><button className=\"nv5-text-link\" onClick={()=>seek(selected)}>定位到 {formatTime(event.time)}<ArrowRightIcon size={14}/></button></div>}]}/></RecoverableRegion></div></div><Notice text={notice}/></RecipeWorkspace>;",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 139,
+          "fragment": ".nv5-pdf-toolbar i,.nv5-player-controls i { display:block;width:1px;height:14px;background:#dde4ef; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Border/Neutral/3",
+          "role": "border",
+          "property": "background-color",
+          "content": "decorative",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": false,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-1071",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+        "selector": ".nv5-r6 .nv5-fields>hr",
+        "frames": [],
+        "property": "background",
+        "value": "var(--rain-category-border-neutral-3)",
+        "occurrence": 2,
+        "contentRole": "surface",
+        "minimumContrast": 0,
+        "critical": false
+      },
+      "decisionStatus": "metadata-property-role-misclassification",
+      "sourceAnatomyRoles": "decorative-boundary/0",
+      "decision": "hr separates palette sections; not an input/control boundary. Border background-color is permitted.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 460,
+          "fragment": ".nv5-r6 .nv5-fields>hr { height:1px;margin:16px 0;border:0;background:#e2e5eb; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+          "sha256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+          "line": 162,
+          "fragment": "  const form=<div className=\"nv5-formwork\">{fields&&<><RecoverableRegion regionId=\"fields\" className=\"nv5-fields\" header={<RegionHead id=\"fields\"/>}><h4>表单内容</h4>{['课程信息','学习体验','建议与反馈'].map(label=><div key={label} className=\"nv5-fieldtile\"><FileIcon size={16}/>{label}</div>)}<hr/><h4>新增题目</h4>{[{kind:'文本',icon:<TextIcon size={16}/>},{kind:'单选',icon:<ResourceIcon size={16}/>},{kind:'评分',icon:<RatingStarIcon size={16}/>},{kind:'附件',icon:<FileIcon size={16}/>}].map(item=><button key={item.kind} className=\"nv5-fieldtile\" aria-label={`新增${item.kind}题`} onClick={()=>addField(item.kind)}>{item.icon}{item.kind}<span className=\"nv5-spacer\"/><span aria-hidden=\"true\">+</span></button>)}<p className=\"nv5-demo-note\">新增内容只影响当前表单示例。</p></RecoverableRegion><PaneSplitter regionId=\"fields\"/></>}<div className=\"nv5-formcanvas\"><div className=\"nv5-formpaper\"><div className=\"nv5-formcover\"><small>COURSE FEEDBACK / 2026</small><CourseIcon/></div><div className=\"nv5-formbody\"><h2>课程学习反馈</h2><p>让每一次反馈，帮助我们一起改进课堂。<br/>本地示例，反馈不会发送给教师。</p><div className=\"nv5-formfield\"><label htmlFor={`${instance}-course`}>你正在学习的课程 <span>*</span></label><Input id={`${instance}-course`} className=\"nv5-form-input\" size={36} aria-label=\"课程名称\" placeholder=\"请输入课程名称\" value={draft.course} onValueChange={course=>patch({course})}/></div><div className=\"nv5-formfield\"><RadioGroup localRecipe={sourceRadio} className=\"nv5-understanding\" name={`${instance}-understanding`} legend=\"本阶段课程内容的理解程度\" value={draft.understanding} onValueChange={understanding=>patch({understanding})} options={[{value:'understand-apply',label:'能够理解并独立应用'},{value:'understand-practice',label:'基本理解，需要更多练习'},{value:'need-explanation',label:'希望获得进一步的讲解'}]}/></div><div className=\"nv5-formfield\"><label htmlFor={`${instance}-feedback`}>你希望补充哪些内容？</label><Textarea id={`${instance}-feedback`} className=\"nv5-form-feedback\" aria-label=\"你希望我们改进的地方\" placeholder=\"写下你的具体建议…\" value={draft.feedback} onValueChange={feedback=>patch({feedback})}/></div>{draft.extras.map((field,i)=><div key={field.id} className=\"nv5-formfield\"><label htmlFor={field.id}>{field.kind}题 {i+1} <Tag size={20} color=\"neutral\">实例扩展</Tag></label><Input id={field.id} className=\"nv5-form-input\" size={36} aria-label={`新增${field.kind}题 ${i+1}`} placeholder={`${field.kind}内容的视觉占位`} value={field.value} onValueChange={value=>setDraft(previous=>({...previous,extras:previous.extras.map(item=>item.id===field.id?{...item,value}:item)}))}/></div>)}<div className=\"nv5-form-save-wrap\"><Button localRecipe={sourceButton} className=\"nv5-form-save\" size=\"small\" variant=\"primary\" onClick={()=>setNotice(mode==='edit'?'当前表单示例已本地保留，未发送反馈。':'预览已完成，未发送反馈。')}>{mode==='edit'?'本地保存示例':'完成预览'}</Button></div></div></div></div></div>;",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 460,
+          "fragment": ".nv5-r6 .nv5-fields>hr { height:1px;margin:16px 0;border:0;background:#e2e5eb; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Border/Neutral/3",
+          "role": "border",
+          "property": "background-color",
+          "content": "decorative",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": false,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-1093",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+        "selector": ".nv5-workspace:is(.nv5-r5,.nv5-r6) .nv5-source-button[data-variant=\"primary\"]",
+        "frames": [],
+        "property": "border-color",
+        "value": "var(--rain-category-fill-brand-solid-2)",
+        "occurrence": 1,
+        "contentRole": "essential-boundary",
+        "minimumContrast": 3,
+        "critical": true
+      },
+      "decisionStatus": "real-category-property-conflict-essentiality-separate",
+      "sourceAnatomyRoles": "filled shape/3; original border row/3 retained",
+      "decision": "Same-color background/border does not authorize Fill border-color. Real validator rejects border role and rejects fill role with border-color. Button primary default/hover has no border; pressed Border/Brand/1; no recipe has Fill border. Transparent 1px border candidate needs before/after pixels.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 686,
+          "fragment": ".nv5-workspace:is(.nv5-r5,.nv5-r6) .nv5-source-button[data-variant=\"primary\"] { background:var(--rain-category-fill-brand-solid-2);border-color:var(--rain-category-fill-brand-solid-2);color:var(--rain-category-oncolor-1); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+          "sha256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+          "line": 38,
+          "fragment": "const sourceButton=defineRainLocalRecipe<ButtonPart,'ui-button'>({id:'navigation-v042-w5-button',scope:'feature',origin:'ui-button',classes:{root:'nv5-source-button',label:'nv5-source-button-part','leading-icon':'nv5-source-button-part','trailing-icon':'nv5-source-button-part'},modifiedParts:['root','label','leading-icon','trailing-icon'],candidateTokens:[],promotionStatus:'not-proposed'});",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 360,
+          "fragment": ".nv5-workspace .nv5-source-button { height:30px;min-height:30px;min-width:0;padding:5px 9px;gap:7px;border:1px solid #d6deea;border-radius:5px;background:#fff;color:#566276;font-family:inherit;font-size:12px;line-height:18px;font-weight:400;box-shadow:none; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "packages/foundations/src/button-token-contract.ts",
+          "sha256": "ddaab5f1059aecd8e53f7e51e5faed5ea90fa0b4697ddebd13eb5625f4f66de8",
+          "line": 146,
+          "fragment": "  let background: string | null = null, border: string | null = text || primary ? null : danger ? \"danger-border\" : variant === \"secondary\" ? \"secondary-border\" : variant === \"tertiary\" ? \"tertiary-border\" : null;",
+          "occurrences": 1,
+          "boundary": "current-source-fact-only-no-new-authorization"
+        },
+        {
+          "path": "packages/foundations/src/button-token-contract.ts",
+          "sha256": "ddaab5f1059aecd8e53f7e51e5faed5ea90fa0b4697ddebd13eb5625f4f66de8",
+          "line": 154,
+          "fragment": "    if (pressed && (primary || variant === \"secondary\")) border = \"strong-brand-border\";",
+          "occurrences": 1,
+          "boundary": "current-source-fact-only-no-new-authorization"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Fill/Brand/Solid/2",
+          "role": "border",
+          "property": "border-color",
+          "content": "decorative",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": false,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json",
+          "brandIntent": "action"
+        },
+        {
+          "tokenId": "Fill/Brand/Solid/2",
+          "role": "fill",
+          "property": "border-color",
+          "content": "surface",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": false,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json",
+          "brandIntent": "action"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-1096",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+        "selector": ".nv5-workspace:is(.nv5-r5,.nv5-r6) .nv5-source-button[data-variant=\"primary\"]:not(:disabled):hover",
+        "frames": [],
+        "property": "border-color",
+        "value": "var(--rain-category-fill-brand-solid-1)",
+        "occurrence": 1,
+        "contentRole": "essential-boundary",
+        "minimumContrast": 3,
+        "critical": true
+      },
+      "decisionStatus": "real-category-property-conflict-essentiality-separate",
+      "sourceAnatomyRoles": "filled shape/3; original border row/3 retained",
+      "decision": "Hover has same Fill on background/border. Reclassification as decorative cannot grant Fill border-color permission; same constraints as default.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 687,
+          "fragment": ".nv5-workspace:is(.nv5-r5,.nv5-r6) .nv5-source-button[data-variant=\"primary\"]:not(:disabled):hover { background:var(--rain-category-fill-brand-solid-1);border-color:var(--rain-category-fill-brand-solid-1);color:var(--rain-category-oncolor-1); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+          "sha256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+          "line": 38,
+          "fragment": "const sourceButton=defineRainLocalRecipe<ButtonPart,'ui-button'>({id:'navigation-v042-w5-button',scope:'feature',origin:'ui-button',classes:{root:'nv5-source-button',label:'nv5-source-button-part','leading-icon':'nv5-source-button-part','trailing-icon':'nv5-source-button-part'},modifiedParts:['root','label','leading-icon','trailing-icon'],candidateTokens:[],promotionStatus:'not-proposed'});",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 360,
+          "fragment": ".nv5-workspace .nv5-source-button { height:30px;min-height:30px;min-width:0;padding:5px 9px;gap:7px;border:1px solid #d6deea;border-radius:5px;background:#fff;color:#566276;font-family:inherit;font-size:12px;line-height:18px;font-weight:400;box-shadow:none; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "packages/foundations/src/button-token-contract.ts",
+          "sha256": "ddaab5f1059aecd8e53f7e51e5faed5ea90fa0b4697ddebd13eb5625f4f66de8",
+          "line": 146,
+          "fragment": "  let background: string | null = null, border: string | null = text || primary ? null : danger ? \"danger-border\" : variant === \"secondary\" ? \"secondary-border\" : variant === \"tertiary\" ? \"tertiary-border\" : null;",
+          "occurrences": 1,
+          "boundary": "current-source-fact-only-no-new-authorization"
+        },
+        {
+          "path": "packages/foundations/src/button-token-contract.ts",
+          "sha256": "ddaab5f1059aecd8e53f7e51e5faed5ea90fa0b4697ddebd13eb5625f4f66de8",
+          "line": 154,
+          "fragment": "    if (pressed && (primary || variant === \"secondary\")) border = \"strong-brand-border\";",
+          "occurrences": 1,
+          "boundary": "current-source-fact-only-no-new-authorization"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Fill/Brand/Solid/1",
+          "role": "border",
+          "property": "border-color",
+          "content": "decorative",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": false,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json",
+          "brandIntent": "action"
+        },
+        {
+          "tokenId": "Fill/Brand/Solid/1",
+          "role": "fill",
+          "property": "border-color",
+          "content": "surface",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": false,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json",
+          "brandIntent": "action"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-1128",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+        "selector": ".nv5-r4[data-scene=\"interaction\"] .nv5-meta-divider",
+        "frames": [],
+        "property": "background",
+        "value": "var(--rain-category-border-neutral-4)",
+        "occurrence": 1,
+        "contentRole": "surface",
+        "minimumContrast": 0,
+        "critical": false
+      },
+      "decisionStatus": "metadata-property-role-misclassification",
+      "sourceAnatomyRoles": "decorative-boundary/0",
+      "decision": "aria-hidden empty i separates passive completed-group count and duration; Border divider, not surface.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+          "sha256": "59598c99cf60628b5de155116e415335b404ca442c015682d1ac2eed7e9bb82f",
+          "line": 719,
+          "fragment": ".nv5-r4[data-scene=\"interaction\"] .nv5-meta-divider { display:inline-block;flex:none;width:var(--rain-line-thickness-1);height:var(--rain-space-12);background:var(--rain-category-border-neutral-4); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+          "sha256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+          "line": 95,
+          "fragment": "const activities=[{id:'activity-debate',title:'辩论赛：大学校园是否应该免费开放',meta:<><span><b>6</b> 组已完成</span><i className=\"nv5-meta-divider\" aria-hidden=\"true\"/><span>21 分钟</span></>,progress:75},{id:'activity-presentation',title:'小组汇报：从概念到真实应用',meta:<><span><b>8</b> 组已完成</span><i className=\"nv5-meta-divider\" aria-hidden=\"true\"/><span>36 分钟</span></>,progress:100}];",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Border/Neutral/4",
+          "role": "border",
+          "property": "background-color",
+          "content": "decorative",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": false,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-1258",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/workspace-states.css",
+        "selector": ".nv44-icon-button",
+        "frames": [],
+        "property": "color",
+        "value": "var(--rain-category-icon-neutral-4)",
+        "occurrence": 1,
+        "contentRole": "text",
+        "minimumContrast": 4.5,
+        "critical": true
+      },
+      "decisionStatus": "metadata-role-misclassification",
+      "sourceAnatomyRoles": "meaningful-icon/3",
+      "decision": "All seven current private IconButton callsites supply icons only; aria-label is accessible name, not visible text. Whole source SHA fixes inventory.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.css",
+          "sha256": "ce1d47d835a666ead5488ac2d7662fc4de06289065ec7e9b5438abe8ca621ab3",
+          "line": 16,
+          "fragment": ".nv44-icon-button { width:30px;height:30px;min-width:30px;padding:6px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:var(--rain-radius-6);background:transparent;color:var(--rain-category-icon-neutral-4);line-height:18px; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 49,
+          "fragment": "function IconButton({ label, children, onClick, active = false, controls, expanded }: { label: string; children: ReactNode; onClick: () => void; active?: boolean; controls?: string; expanded?: boolean }) { return <Button variant=\"text\" size=\"small\" localRecipe={iconRecipe} title={label} aria-label={label} aria-pressed={active} aria-controls={controls} aria-expanded={expanded} data-workspace-action=\"region\" onClick={onClick}>{children}</Button>; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 55,
+          "fragment": "    {brand && !temporary ? <IconButton label={compact ? '展开平台导航' : '收起平台导航'} controls={regionDomId(regionId)} expanded={!compact} onClick={() => dispatch({ type: compact ? 'SHOW_REGION' : 'TOGGLE_GLOBAL', regionId, viewportWidth })}>{compact ? <ExpandIcon size={16}/> : <CollapseIcon size={16}/>}</IconButton>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 56,
+          "fragment": "      : <IconButton label={temporary ? `保持${pane.label}展开` : `取消${pane.label}固定`} active={temporary} onClick={() => dispatch({ type: temporary ? 'PIN_TEMP' : 'UNPIN', regionId, viewportWidth })}><PinIcon size={16}/></IconButton>}",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 57,
+          "fragment": "    <IconButton label={brand&&temporary?'关闭临时平台导航':`隐藏${pane.label}`} onClick={() => dispatch(brand&&temporary?{type:'DISMISS_TEMP',reason:'close'}:{ type: 'HIDE_REGION', regionId })}><CloseIcon size={16}/></IconButton>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 81,
+          "fragment": "function GlobalPane({ active, onActive, onNotice, inverse }: { active: string; onActive: (id: string) => void; onNotice: (message: string) => void; inverse?: boolean }) { return <RecoverableRegion regionId=\"global\" className=\"nv44-global\" data-rain-theme={inverse?'dark':undefined} header={<PaneHeader regionId=\"global\" brand/>}>{({ effective, temporary }) => <><NavigationList className=\"nv44-platform-links\" appearance={effective.mode === 'compact' && !temporary ? 'icons' : 'inset'} aria-label=\"平台导航\" activeId={active} items={platformItems} onNavigate={(id, event) => { event.preventDefault(); onActive(id); onNotice('平台入口为本地示例；当前文档与草稿保留。'); }}/><footer className=\"nv44-global-foot\"><button className=\"nv44-platform-account\" aria-label=\"当前账户：林老师\" onClick={()=>onNotice('账户为本地入口示例；未连接身份服务。')}><Avatar size={32} alt=\"\" className=\"nv44-avatar\"/><span className=\"nv44-platform-account-copy\"><strong>林老师</strong><small>教师工作区</small></span></button><div className=\"nv44-platform-utilities\"><IconButton label=\"通知\" onClick={() => onNotice('通知为本地入口示例；未读取消息服务。')}><NotificationIcon size={16}/></IconButton><IconButton label=\"帮助\" onClick={() => onNotice('当前样板支持布局恢复、工具区切换与本地草稿编辑。')}><HelpIcon size={16}/></IconButton></div></footer></>}</RecoverableRegion>; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 100,
+          "fragment": "      items={[{ value: 'start', label: '开始', content: tools }, { value: 'insert', label: '插入', content: tools }, { value: 'review', label: '审阅', content: tools }]} extraEnd={<>{temporary && <IconButton label=\"保持工具展开\" onClick={() => dispatch({ type: 'SET_RIBBON', regionId: 'ribbon', mode: 'full' })}><PinIcon size={16}/></IconButton>}<IconButton label=\"收起工具区\" onClick={() => dispatch(temporary ? { type: 'DISMISS_TEMP', reason: 'close' } : { type: 'SET_RIBBON', regionId: 'ribbon', mode: 'tabs' })}><CloseIcon size={16}/></IconButton></>}/>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Icon/Neutral/4",
+          "role": "icon",
+          "property": "color",
+          "content": "meaningful-icon",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": true,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-1261",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/workspace-states.css",
+        "selector": ".nv44-icon-button:is(:hover,:focus-visible)",
+        "frames": [],
+        "property": "color",
+        "value": "var(--rain-category-icon-neutral-2)",
+        "occurrence": 1,
+        "contentRole": "text",
+        "minimumContrast": 4.5,
+        "critical": true
+      },
+      "decisionStatus": "metadata-role-misclassification",
+      "sourceAnatomyRoles": "meaningful-icon/3",
+      "decision": "Same icon-only callsites in hover/focus; no text. Original text4.5 row unchanged.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.css",
+          "sha256": "ce1d47d835a666ead5488ac2d7662fc4de06289065ec7e9b5438abe8ca621ab3",
+          "line": 18,
+          "fragment": ".nv44-icon-button:is(:hover,:focus-visible) { background:var(--rain-category-fill-neutral-alpha-4);color:var(--rain-category-icon-neutral-2); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 49,
+          "fragment": "function IconButton({ label, children, onClick, active = false, controls, expanded }: { label: string; children: ReactNode; onClick: () => void; active?: boolean; controls?: string; expanded?: boolean }) { return <Button variant=\"text\" size=\"small\" localRecipe={iconRecipe} title={label} aria-label={label} aria-pressed={active} aria-controls={controls} aria-expanded={expanded} data-workspace-action=\"region\" onClick={onClick}>{children}</Button>; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 55,
+          "fragment": "    {brand && !temporary ? <IconButton label={compact ? '展开平台导航' : '收起平台导航'} controls={regionDomId(regionId)} expanded={!compact} onClick={() => dispatch({ type: compact ? 'SHOW_REGION' : 'TOGGLE_GLOBAL', regionId, viewportWidth })}>{compact ? <ExpandIcon size={16}/> : <CollapseIcon size={16}/>}</IconButton>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 56,
+          "fragment": "      : <IconButton label={temporary ? `保持${pane.label}展开` : `取消${pane.label}固定`} active={temporary} onClick={() => dispatch({ type: temporary ? 'PIN_TEMP' : 'UNPIN', regionId, viewportWidth })}><PinIcon size={16}/></IconButton>}",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 57,
+          "fragment": "    <IconButton label={brand&&temporary?'关闭临时平台导航':`隐藏${pane.label}`} onClick={() => dispatch(brand&&temporary?{type:'DISMISS_TEMP',reason:'close'}:{ type: 'HIDE_REGION', regionId })}><CloseIcon size={16}/></IconButton>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 81,
+          "fragment": "function GlobalPane({ active, onActive, onNotice, inverse }: { active: string; onActive: (id: string) => void; onNotice: (message: string) => void; inverse?: boolean }) { return <RecoverableRegion regionId=\"global\" className=\"nv44-global\" data-rain-theme={inverse?'dark':undefined} header={<PaneHeader regionId=\"global\" brand/>}>{({ effective, temporary }) => <><NavigationList className=\"nv44-platform-links\" appearance={effective.mode === 'compact' && !temporary ? 'icons' : 'inset'} aria-label=\"平台导航\" activeId={active} items={platformItems} onNavigate={(id, event) => { event.preventDefault(); onActive(id); onNotice('平台入口为本地示例；当前文档与草稿保留。'); }}/><footer className=\"nv44-global-foot\"><button className=\"nv44-platform-account\" aria-label=\"当前账户：林老师\" onClick={()=>onNotice('账户为本地入口示例；未连接身份服务。')}><Avatar size={32} alt=\"\" className=\"nv44-avatar\"/><span className=\"nv44-platform-account-copy\"><strong>林老师</strong><small>教师工作区</small></span></button><div className=\"nv44-platform-utilities\"><IconButton label=\"通知\" onClick={() => onNotice('通知为本地入口示例；未读取消息服务。')}><NotificationIcon size={16}/></IconButton><IconButton label=\"帮助\" onClick={() => onNotice('当前样板支持布局恢复、工具区切换与本地草稿编辑。')}><HelpIcon size={16}/></IconButton></div></footer></>}</RecoverableRegion>; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 100,
+          "fragment": "      items={[{ value: 'start', label: '开始', content: tools }, { value: 'insert', label: '插入', content: tools }, { value: 'review', label: '审阅', content: tools }]} extraEnd={<>{temporary && <IconButton label=\"保持工具展开\" onClick={() => dispatch({ type: 'SET_RIBBON', regionId: 'ribbon', mode: 'full' })}><PinIcon size={16}/></IconButton>}<IconButton label=\"收起工具区\" onClick={() => dispatch(temporary ? { type: 'DISMISS_TEMP', reason: 'close' } : { type: 'SET_RIBBON', regionId: 'ribbon', mode: 'tabs' })}><CloseIcon size={16}/></IconButton></>}/>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Icon/Neutral/2",
+          "role": "icon",
+          "property": "color",
+          "content": "meaningful-icon",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": true,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    },
+    {
+      "declarationId": "nav-color-1263",
+      "source": {
+        "filePath": "apps/playground/src/recipes/navigation-v042/workspace-states.css",
+        "selector": ".nv44-icon-button[aria-pressed=\"true\"]",
+        "frames": [],
+        "property": "color",
+        "value": "var(--rain-category-icon-brand-1)",
+        "occurrence": 1,
+        "contentRole": "text",
+        "minimumContrast": 4.5,
+        "critical": true
+      },
+      "decisionStatus": "metadata-role-misclassification",
+      "sourceAnatomyRoles": "meaningful-icon/3",
+      "decision": "Same icon-only pin/active controls. Brand active intent from aria-pressed; no text.",
+      "sourceProofs": [
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.css",
+          "sha256": "ce1d47d835a666ead5488ac2d7662fc4de06289065ec7e9b5438abe8ca621ab3",
+          "line": 19,
+          "fragment": ".nv44-icon-button[aria-pressed=\"true\"] { background:var(--rain-category-fill-brand-alpha-4);color:var(--rain-category-icon-brand-1); }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 49,
+          "fragment": "function IconButton({ label, children, onClick, active = false, controls, expanded }: { label: string; children: ReactNode; onClick: () => void; active?: boolean; controls?: string; expanded?: boolean }) { return <Button variant=\"text\" size=\"small\" localRecipe={iconRecipe} title={label} aria-label={label} aria-pressed={active} aria-controls={controls} aria-expanded={expanded} data-workspace-action=\"region\" onClick={onClick}>{children}</Button>; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 55,
+          "fragment": "    {brand && !temporary ? <IconButton label={compact ? '展开平台导航' : '收起平台导航'} controls={regionDomId(regionId)} expanded={!compact} onClick={() => dispatch({ type: compact ? 'SHOW_REGION' : 'TOGGLE_GLOBAL', regionId, viewportWidth })}>{compact ? <ExpandIcon size={16}/> : <CollapseIcon size={16}/>}</IconButton>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 56,
+          "fragment": "      : <IconButton label={temporary ? `保持${pane.label}展开` : `取消${pane.label}固定`} active={temporary} onClick={() => dispatch({ type: temporary ? 'PIN_TEMP' : 'UNPIN', regionId, viewportWidth })}><PinIcon size={16}/></IconButton>}",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 57,
+          "fragment": "    <IconButton label={brand&&temporary?'关闭临时平台导航':`隐藏${pane.label}`} onClick={() => dispatch(brand&&temporary?{type:'DISMISS_TEMP',reason:'close'}:{ type: 'HIDE_REGION', regionId })}><CloseIcon size={16}/></IconButton>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 81,
+          "fragment": "function GlobalPane({ active, onActive, onNotice, inverse }: { active: string; onActive: (id: string) => void; onNotice: (message: string) => void; inverse?: boolean }) { return <RecoverableRegion regionId=\"global\" className=\"nv44-global\" data-rain-theme={inverse?'dark':undefined} header={<PaneHeader regionId=\"global\" brand/>}>{({ effective, temporary }) => <><NavigationList className=\"nv44-platform-links\" appearance={effective.mode === 'compact' && !temporary ? 'icons' : 'inset'} aria-label=\"平台导航\" activeId={active} items={platformItems} onNavigate={(id, event) => { event.preventDefault(); onActive(id); onNotice('平台入口为本地示例；当前文档与草稿保留。'); }}/><footer className=\"nv44-global-foot\"><button className=\"nv44-platform-account\" aria-label=\"当前账户：林老师\" onClick={()=>onNotice('账户为本地入口示例；未连接身份服务。')}><Avatar size={32} alt=\"\" className=\"nv44-avatar\"/><span className=\"nv44-platform-account-copy\"><strong>林老师</strong><small>教师工作区</small></span></button><div className=\"nv44-platform-utilities\"><IconButton label=\"通知\" onClick={() => onNotice('通知为本地入口示例；未读取消息服务。')}><NotificationIcon size={16}/></IconButton><IconButton label=\"帮助\" onClick={() => onNotice('当前样板支持布局恢复、工具区切换与本地草稿编辑。')}><HelpIcon size={16}/></IconButton></div></footer></>}</RecoverableRegion>; }",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        },
+        {
+          "path": "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+          "sha256": "9300206feeb8d546294c64f685955eb9e181813a9514921d59354a7107824de6",
+          "line": 100,
+          "fragment": "      items={[{ value: 'start', label: '开始', content: tools }, { value: 'insert', label: '插入', content: tools }, { value: 'review', label: '审阅', content: tools }]} extraEnd={<>{temporary && <IconButton label=\"保持工具展开\" onClick={() => dispatch({ type: 'SET_RIBBON', regionId: 'ribbon', mode: 'full' })}><PinIcon size={16}/></IconButton>}<IconButton label=\"收起工具区\" onClick={() => dispatch(temporary ? { type: 'DISMISS_TEMP', reason: 'close' } : { type: 'SET_RIBBON', regionId: 'ribbon', mode: 'tabs' })}><CloseIcon size={16}/></IconButton></>}/>",
+          "occurrences": 1,
+          "boundary": "existing-ledger-source"
+        }
+      ],
+      "validatorUses": [
+        {
+          "tokenId": "Icon/Brand/1",
+          "role": "icon",
+          "property": "color",
+          "content": "meaningful-icon",
+          "context": "local-recipe",
+          "recipeId": "navigation-w7-source-anatomy-probe",
+          "critical": true,
+          "evidenceRef": "evidence/runtime/navigation-v042/w7/closure-2026-10-06/colors/role-anatomy-resolution.json",
+          "brandIntent": "active"
+        }
+      ],
+      "originalLedgerChanged": false,
+      "originalThresholdChanged": false,
+      "automaticConformance": "unproved"
+    }
+  ],
+  "counts": {
+    "metadata-role-misclassification": 5,
+    "metadata-property-role-misclassification": 4,
+    "source-override-needs-runtime-confirmation": 1,
+    "real-mixed-text-icon-category-conflict": 1,
+    "metadata-container-role-needs-part-splitting": 1,
+    "real-category-property-conflict-essentiality-separate": 2
+  },
+  "limits": [
+    "Original ledger and thresholds unchanged; source anatomy decisions are not accepted contrast exceptions.",
+    "Actual winning paint/state/parent/alpha/contrast requires browser evidence.",
+    "Whole-file SHA and unique full source fragments define finite facts; no broad source masking."
+  ]
+}

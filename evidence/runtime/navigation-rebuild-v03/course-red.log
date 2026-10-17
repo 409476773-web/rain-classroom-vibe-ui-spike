@@ -1,0 +1,50 @@
+
+Running 7 tests using 1 worker
+
+(node:64091) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-rebuild-course.spec.ts:3:36 › S05: source and class units preserve original shell and return context (5.7s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests/e2e/navigation-rebuild-course.spec.ts:3:36 › S05: source and class units preserve original shell and return context 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: '课程内容', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('heading', { name: '课程内容', exact: true })
+
+
+      3 | for(const recipe of ['S05','C01']) test(`${recipe}: source and class units preserve original shell and return context`,async({page})=>{
+      4 |  await page.setViewportSize({width:1440,height:900}); await page.goto(base+recipe);
+    > 5 |  await expect(page.getByRole('heading',{name:'课程内容',exact:true})).toBeVisible();
+        |                                                                   ^
+      6 |  const nav = page.getByRole('navigation',{name:recipe==='S05'?'全局导航':'顶部全局导航',exact:true});
+      7 |  await expect(nav).toBeVisible();
+      8 |  await page.getByRole('textbox',{name:'筛选学习单元'}).fill('极限');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-rebuild-course.spec.ts:5:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-course--55d85-al-shell-and-return-context/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-course--55d85-al-shell-and-return-context/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-course--55d85-al-shell-and-return-context/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-course--55d85-al-shell-and-return-context/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/navigation-rebuild-course.spec.ts:3:36 › S05: source and class units preserve original shell and return context 
+  6 did not run
+  1 error was not a part of any test, see above for details

@@ -1,0 +1,48 @@
+{
+  "scope": "Frozen DatePicker-only validation snapshot; does not validate the concurrently changing live overall chain",
+  "snapshotBindingSha256": "5ee52a7ef5d1a5390094d9545e1840c46ce51d9a3af73df10420c378ee6eb5a9",
+  "results": [
+    {
+      "check": "G5 scoped verifier",
+      "command": "RAIN_G5_EVIDENCE_DIR=<live>/isolated-validation node scripts/verify-g5-components.mjs",
+      "exitCode": 0,
+      "log": "scoped-governance.log",
+      "report": "scoped-governance.json"
+    },
+    {
+      "check": "Governance regression first concurrent attempt",
+      "exitCode": 1,
+      "passed": 55,
+      "failed": 1,
+      "reason": "One verifyG5Components test exceeded the default 5000 ms under concurrent load; independent CLI passed.",
+      "log": "scoped-governance-unit-concurrent-timeout.log"
+    },
+    {
+      "check": "Governance regression serial rerun",
+      "exitCode": 0,
+      "passed": 49,
+      "log": "scoped-governance-unit.log"
+    },
+    {
+      "check": "G4 sizing regression",
+      "exitCode": 0,
+      "passed": 7,
+      "log": "scoped-governance-sizing-unit.log"
+    },
+    {
+      "check": "Tests TypeScript project",
+      "command": "pnpm exec tsc --noEmit --project tsconfig.tests.json",
+      "exitCode": 0,
+      "log": "tests-typecheck.log",
+      "processResult": "Observed completion exit 0 from session 35487; empty log represents no diagnostics."
+    },
+    {
+      "check": "Independent source consumer typecheck/build/package",
+      "exitCode": 0,
+      "report": "consumer-validation.json",
+      "log": "consumer.log"
+    }
+  ],
+  "allFinalScopedChecksPassed": true,
+  "wholeWorkspaceChecks": "Five checks still fail; isolated snapshot log lines exactly match the prior DateTime failure logs."
+}

@@ -1,0 +1,119 @@
+[WebServer] (node:87213) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:87214) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:87216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:87222) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:87224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:87230) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/e2e/attachment-icon-feedback.spec.ts:3:1 › registered format icons stay small in both surfaces and themes (2.7s)
+  ✘  2 [desktop] › tests/e2e/attachment-icon-feedback.spec.ts:27:1 › workflow preserves thumbnail size and uses the exact color format on image failure (45.7s)
+(node:87265) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [narrow] › tests/e2e/attachment-icon-feedback.spec.ts:3:1 › registered format icons stay small in both surfaces and themes (2.1s)
+  ✘  4 [narrow] › tests/e2e/attachment-icon-feedback.spec.ts:27:1 › workflow preserves thumbnail size and uses the exact color format on image failure (45.5s)
+
+
+  1) [desktop] › tests/e2e/attachment-icon-feedback.spec.ts:27:1 › workflow preserves thumbnail size and uses the exact color format on image failure 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByText('浅灰填充', { exact: true })
+        - locator resolved to <span id="_r_1v_-label" data-slot="label" class="text-rain-size-15 leading-rain-24 font-rain-semibold">浅灰填充</span>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+          - waiting 100ms
+        82 × waiting for element to be visible, enabled and stable
+           - element is not visible
+         - retrying click action
+           - waiting 500ms
+
+
+      39 |   await expect(png).toHaveAttribute("data-icon-color-mode", "intrinsic");
+      40 |   expect((await png.boundingBox())?.width).toBe(24);
+    > 41 |   await page.getByText("浅灰填充", { exact: true }).click();
+         |                                                 ^
+      42 |   await expect(form.locator('.rain-attachment-list__card').first()).toHaveAttribute("data-surface", "filled");
+      43 |   const more = form.getByRole("button", { name: "更多操作 课程导读：从问题到证据.pdf", exact: true });
+      44 |   await more.click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-icon-feedback.spec.ts:41:49
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/attachment-visual-2026-10-16/feedback-01/browser/results/attachment-icon-feedback-w-c366a-lor-format-on-image-failure-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/attachment-visual-2026-10-16/feedback-01/browser/results/attachment-icon-feedback-w-c366a-lor-format-on-image-failure-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/attachment-visual-2026-10-16/feedback-01/browser/results/attachment-icon-feedback-w-c366a-lor-format-on-image-failure-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/attachment-visual-2026-10-16/feedback-01/browser/results/attachment-icon-feedback-w-c366a-lor-format-on-image-failure-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [narrow] › tests/e2e/attachment-icon-feedback.spec.ts:27:1 › workflow preserves thumbnail size and uses the exact color format on image failure 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByText('浅灰填充', { exact: true })
+        - locator resolved to <span id="_r_1v_-label" data-slot="label" class="text-rain-size-15 leading-rain-24 font-rain-semibold">浅灰填充</span>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+          - waiting 100ms
+        82 × waiting for element to be visible, enabled and stable
+           - element is not visible
+         - retrying click action
+           - waiting 500ms
+
+
+      39 |   await expect(png).toHaveAttribute("data-icon-color-mode", "intrinsic");
+      40 |   expect((await png.boundingBox())?.width).toBe(24);
+    > 41 |   await page.getByText("浅灰填充", { exact: true }).click();
+         |                                                 ^
+      42 |   await expect(form.locator('.rain-attachment-list__card').first()).toHaveAttribute("data-surface", "filled");
+      43 |   const more = form.getByRole("button", { name: "更多操作 课程导读：从问题到证据.pdf", exact: true });
+      44 |   await more.click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-icon-feedback.spec.ts:41:49
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/attachment-visual-2026-10-16/feedback-01/browser/results/attachment-icon-feedback-w-c366a-lor-format-on-image-failure-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/attachment-visual-2026-10-16/feedback-01/browser/results/attachment-icon-feedback-w-c366a-lor-format-on-image-failure-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/attachment-visual-2026-10-16/feedback-01/browser/results/attachment-icon-feedback-w-c366a-lor-format-on-image-failure-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/attachment-visual-2026-10-16/feedback-01/browser/results/attachment-icon-feedback-w-c366a-lor-format-on-image-failure-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/e2e/attachment-icon-feedback.spec.ts:27:1 › workflow preserves thumbnail size and uses the exact color format on image failure 
+    [narrow] › tests/e2e/attachment-icon-feedback.spec.ts:27:1 › workflow preserves thumbnail size and uses the exact color format on image failure 
+  2 passed (1.7m)

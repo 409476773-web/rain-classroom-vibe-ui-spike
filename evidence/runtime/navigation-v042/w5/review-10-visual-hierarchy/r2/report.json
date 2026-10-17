@@ -1,0 +1,1878 @@
+{
+  "scope": "Review10 R2 local recipe visual hierarchy; existing G1 lineage and Review09 behavior retained, pending human G2",
+  "workMode": "System Mode for tracked local Recipe, no shared source edits",
+  "methods": [
+    {
+      "id": "V04",
+      "use": "Separate primary content/action from auxiliary icons and incidental corner notes."
+    },
+    {
+      "id": "V05",
+      "use": "Use existing Button tertiary/text variants and Icon/Neutral Tokens while keeping native actions/focus/disabled semantics."
+    },
+    {
+      "id": "D05",
+      "use": "Measure1200/1440/1600 actual artboard and verify layout/content geometry."
+    }
+  ],
+  "confirmed": [
+    {
+      "id": "R2-neutral-action",
+      "before": "Focus action declares secondary but host root and leaf colors/border/background force private neutral paint; preview similarly masquerades as secondary with0 border.",
+      "after": "Focus uses existing tertiary; preview uses existing text variant; removes local paint/hover overrides so actual root/label/icon state comes from component. Existing32px target/10px padding/12px label preserved."
+    },
+    {
+      "id": "R2-auxiliary-icon-radius",
+      "before": "Pin/close control28px with14px icon has4px local radius overriding approved IconButton28/14 radius6; default private muted rgb98/109/125.",
+      "after": "Existing radius6 and IconNeutral4 default, IconNeutral2 hover/focus, untouched28/14 hit/icon geometry. Scope/layout chevrons/help likewise use quiet auxiliary icon Token."
+    },
+    {
+      "id": "R2-incidental-footer",
+      "before": "Both scope footer and mock-corner note share dark brown rgb140/101/52; side-navigation counts use private muted rgb98/109/125.",
+      "after": "Necessary scope note uses TextNeutral4; pure mock corner/account role/counts use TextNeutral6. Existing TextNeutral6 page explanation, TextNeutral5 editing hint and Tree metadata/current remain."
+    }
+  ],
+  "checkedNoChange": [
+    "R2 renders no table or th; Tree titles are already regular400 and selected600, connectors use existing neutral3. No table-style rule added.",
+    "Button own6px radius and ManageTree Button36px/6px radius already match existing contract.",
+    "ManageTree Add root is a meaningful secondary creation action and Save a primary action; both retain existing brand state, target and variant.",
+    "Tree current state, semantic Tags, danger/delete, errors/conflicts/Toasts and Dialog controls unchanged.",
+    "Review09 SegmentedControl native radio and compact Tooltip behavior retained."
+  ],
+  "sourceFilesChanged": [
+    "apps/playground/src/recipes/navigation-v042/r2.tsx",
+    "apps/playground/src/recipes/navigation-v042/r2.css"
+  ],
+  "sourceFilesReadOnly": [
+    "apps/playground/src/recipes/navigation-v042/course-resources.tsx"
+  ],
+  "newSharedDependencies": [],
+  "newPublicTokens": [],
+  "newBreakpoints": [],
+  "notVerified": [
+    "Human visual acceptance/G2",
+    "Fullcontrast/assistive technology/multiple browsers"
+  ],
+  "attemptNotes": [
+    "First before capture reached all six screenshots, then failed because source SHA collection resolved one parent too far. Corrected before-verified is authoritative; original attempt retained.",
+    "At 17:17 public Token names were mistakenly put into candidateTokens, which only accepts --rain-local-* candidates. Initial typecheck caught5 exact assignments; source was corrected to empty candidate arrays at17:17:53. final typecheck at17:18 passed; no final capture/browser pageerror. Intermediate HMR error may affect parallel captures before freeze; retained as failed intermediate evidence.",
+    "Initial final capture launch was denied by sandbox macOS Chromium MachPort registration. Authorized installed headless capture retry completed all widths.",
+    "First new test selection used an anchored title pattern that did not match project-prefixed titles. No tests ran; corrected filter selected7 existing and3 new R2 tests.",
+    "New hierarchy driver first used a nonexistent --rain-button-text-default shorthand; corrected to existing --rain-button-text-default-color and now asserts Token definition exists. It also replaced incorrect save/menu role assumptions with actual labels/roles before actions reached them. No production change.",
+    "A temporary inline color probe could change flex layout and remove hover. Changed probe to fixed offscreen pointer-events:none and waits for computed hover state. No production change.",
+    "Preview feedback locator initially matched both visible Toast and Tree sr-only live region. Scoped exact .nv42-toast[role=status]; final3 hierarchy cases passed. Failed attempts/traces are retained in separate folders."
+  ],
+  "status": "implemented-and-locally-verified; human G2 pending",
+  "sourceFrozenAt": "2026-10-03 17:17:53 Asia/Shanghai",
+  "beforeSourceHashes": {
+    "r2.tsx": "4a586d6d1d735410de28999a142d6fc1d0888c938ce1bfd67f5e40dbb523ee47",
+    "r2.css": "0ed4cd9e7a6e9274c189629194ef807b60d0c5dc1124a34c09eac1d3a79caeae",
+    "course-resources.tsx": "3fa367fe82d7d0c9fecc099aac0e3815445e781833450f73461c7bd9991c06b2"
+  },
+  "finalSourceHashes": {
+    "r2.tsx": "ee065dcf63cc1748bd5e276b05f95f17906b1989a90771f40271439c5ffe7c32",
+    "r2.css": "2a3601c15121f2930a84d9ccb536e14c22d0f37bedebd927d84602fcbcfb71b1",
+    "course-resources.tsx": "3fa367fe82d7d0c9fecc099aac0e3815445e781833450f73461c7bd9991c06b2"
+  },
+  "measurements": [
+    {
+      "width": 1200,
+      "parts": {
+        "focus": {
+          "before": {
+            "text": "专注内容",
+            "variant": "secondary",
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgb(255, 255, 255)",
+            "border": "rgb(225, 229, 235)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 93,
+            "h": 32,
+            "padding": "0px 10px"
+          },
+          "after": {
+            "text": "专注内容",
+            "variant": "tertiary",
+            "color": "rgb(73, 93, 135)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(16, 63, 183, 0.16)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 93,
+            "h": 32,
+            "padding": "0px 10px"
+          }
+        },
+        "preview": {
+          "before": {
+            "text": "预览学生端",
+            "variant": "secondary",
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 103,
+            "h": 32,
+            "padding": "0px 10px"
+          },
+          "after": {
+            "text": "预览学生端",
+            "variant": "text",
+            "color": "rgb(73, 93, 135)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(0, 0, 0, 0)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 103,
+            "h": 32,
+            "padding": "0px 10px"
+          }
+        },
+        "pin": {
+          "before": {
+            "text": "",
+            "variant": "fill",
+            "color": "rgb(98, 109, 125)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(98, 109, 125)",
+            "borderWidth": "0px",
+            "radius": "4px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 28,
+            "h": 28,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": "fill",
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 28,
+            "h": 28,
+            "padding": "0px"
+          }
+        },
+        "pinIcon": {
+          "before": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(98, 109, 125)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(98, 109, 125)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 14,
+            "h": 14,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 14,
+            "h": 14,
+            "padding": "0px"
+          }
+        },
+        "termIcon": {
+          "before": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(116, 133, 168)",
+            "bg": "rgb(116, 133, 168)",
+            "border": "rgb(116, 133, 168)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 12,
+            "h": 12,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgb(150, 163, 193)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 12,
+            "h": 12,
+            "padding": "0px"
+          }
+        },
+        "layoutIcon": {
+          "before": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(98, 109, 125)",
+            "bg": "rgb(98, 109, 125)",
+            "border": "rgb(98, 109, 125)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 14,
+            "h": 14,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgb(150, 163, 193)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 14,
+            "h": 14,
+            "padding": "0px"
+          }
+        },
+        "helpIcon": {
+          "before": {
+            "text": "",
+            "variant": "fill",
+            "color": "rgb(73, 93, 135)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(73, 93, 135)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 24,
+            "h": 24,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": "fill",
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 24,
+            "h": 24,
+            "padding": "0px"
+          }
+        },
+        "corner": {
+          "before": {
+            "text": "模拟数据 · 未执行发布",
+            "variant": null,
+            "color": "rgb(140, 101, 52)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(140, 101, 52)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 118.3125,
+            "h": 18,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "模拟数据 · 未执行发布",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 118.3125,
+            "h": 18,
+            "padding": "0px"
+          }
+        },
+        "scopeHint": {
+          "before": {
+            "text": "公共资源的内容可供关联班级复用。",
+            "variant": null,
+            "color": "rgb(140, 101, 52)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(140, 101, 52)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 192,
+            "h": 18,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "公共资源的内容可供关联班级复用。",
+            "variant": null,
+            "color": "rgb(86, 104, 143)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(86, 104, 143)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 192,
+            "h": 18,
+            "padding": "0px"
+          }
+        },
+        "title": {
+          "before": {
+            "text": "知识点总览",
+            "variant": null,
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "17px",
+            "lineHeight": "24px",
+            "fontWeight": "600",
+            "w": 240,
+            "h": 24,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "知识点总览",
+            "variant": null,
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "17px",
+            "lineHeight": "24px",
+            "fontWeight": "600",
+            "w": 240,
+            "h": 24,
+            "padding": "0px"
+          }
+        },
+        "description": {
+          "before": {
+            "text": "以知识点组织公共资源，在班级中安排教学。",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 240,
+            "h": 18,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "以知识点组织公共资源，在班级中安排教学。",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 240,
+            "h": 18,
+            "padding": "0px"
+          }
+        },
+        "stats": {
+          "before": {
+            "text": "7 级结构16 个内容节点36 个学习单元",
+            "variant": null,
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 275.71875,
+            "h": 20,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "7 级结构16 个内容节点36 个学习单元",
+            "variant": null,
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 275.71875,
+            "h": 20,
+            "padding": "0px"
+          }
+        },
+        "rowTitle": {
+          "before": {
+            "text": "第一章 · 函数、极限与连续",
+            "variant": null,
+            "color": "rgb(20, 35, 70)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(20, 35, 70)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "400",
+            "w": 467,
+            "h": 22,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "第一章 · 函数、极限与连续",
+            "variant": null,
+            "color": "rgb(20, 35, 70)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(20, 35, 70)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "400",
+            "w": 467,
+            "h": 22,
+            "padding": "0px"
+          }
+        },
+        "rowMeta": {
+          "before": {
+            "text": "20 个学习单元09-24 更新",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 208,
+            "h": 20,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "20 个学习单元09-24 更新",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 208,
+            "h": 20,
+            "padding": "0px"
+          }
+        },
+        "selectedRow": {
+          "before": {
+            "text": "1.2 极限与连续8 个学习单元09-24 更新8 个学习单元09-24 更新",
+            "variant": null,
+            "color": "rgb(20, 35, 70)",
+            "bg": "rgb(234, 242, 255)",
+            "border": "rgb(20, 35, 70)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 847,
+            "h": 44,
+            "padding": "0px 8px 0px 32px"
+          },
+          "after": {
+            "text": "1.2 极限与连续8 个学习单元09-24 更新8 个学习单元09-24 更新",
+            "variant": null,
+            "color": "rgb(20, 35, 70)",
+            "bg": "rgb(234, 242, 255)",
+            "border": "rgb(20, 35, 70)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 847,
+            "h": 44,
+            "padding": "0px 8px 0px 32px"
+          }
+        },
+        "addRoot": {
+          "before": {
+            "text": "添加根节点",
+            "variant": "secondary",
+            "color": "rgb(15, 85, 223)",
+            "bg": "rgb(224, 234, 255)",
+            "border": "rgb(100, 149, 255)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "600",
+            "w": 112,
+            "h": 36,
+            "padding": "0px 20px"
+          },
+          "after": {
+            "text": "添加根节点",
+            "variant": "secondary",
+            "color": "rgb(15, 85, 223)",
+            "bg": "rgb(224, 234, 255)",
+            "border": "rgb(100, 149, 255)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "600",
+            "w": 112,
+            "h": 36,
+            "padding": "0px 20px"
+          }
+        },
+        "save": {
+          "before": {
+            "text": "保存草稿",
+            "variant": "primary",
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 97, 248)",
+            "border": "rgba(0, 0, 0, 0)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "600",
+            "w": 98,
+            "h": 36,
+            "padding": "0px 20px"
+          },
+          "after": {
+            "text": "保存草稿",
+            "variant": "primary",
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 97, 248)",
+            "border": "rgba(0, 0, 0, 0)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "600",
+            "w": 98,
+            "h": 36,
+            "padding": "0px 20px"
+          }
+        }
+      },
+      "pinHover": {
+        "before": {
+          "color": "rgb(98, 109, 125)",
+          "w": 28,
+          "h": 28
+        },
+        "after": {
+          "color": "rgb(73, 93, 135)",
+          "w": 28,
+          "h": 28
+        }
+      },
+      "focusHover": {
+        "before": {
+          "color": "rgb(64, 77, 98)",
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(225, 229, 235)"
+        },
+        "after": {
+          "color": "rgb(73, 93, 135)",
+          "bg": "rgba(80, 117, 254, 0.12)",
+          "border": "rgba(16, 63, 183, 0.16)"
+        }
+      },
+      "focusRing": {
+        "before": {
+          "outline": "rgb(21, 97, 248) solid 2px",
+          "shadow": "none"
+        },
+        "after": {
+          "outline": "rgb(21, 97, 248) solid 2px",
+          "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(61, 123, 255, 0.2) 0px 0px 0px 3px"
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "width": 1440,
+      "parts": {
+        "focus": {
+          "before": {
+            "text": "专注内容",
+            "variant": "secondary",
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgb(255, 255, 255)",
+            "border": "rgb(225, 229, 235)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 93,
+            "h": 32,
+            "padding": "0px 10px"
+          },
+          "after": {
+            "text": "专注内容",
+            "variant": "tertiary",
+            "color": "rgb(73, 93, 135)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(16, 63, 183, 0.16)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 93,
+            "h": 32,
+            "padding": "0px 10px"
+          }
+        },
+        "preview": {
+          "before": {
+            "text": "预览学生端",
+            "variant": "secondary",
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 103,
+            "h": 32,
+            "padding": "0px 10px"
+          },
+          "after": {
+            "text": "预览学生端",
+            "variant": "text",
+            "color": "rgb(73, 93, 135)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(0, 0, 0, 0)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 103,
+            "h": 32,
+            "padding": "0px 10px"
+          }
+        },
+        "pin": {
+          "before": {
+            "text": "",
+            "variant": "fill",
+            "color": "rgb(98, 109, 125)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(98, 109, 125)",
+            "borderWidth": "0px",
+            "radius": "4px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 28,
+            "h": 28,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": "fill",
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 28,
+            "h": 28,
+            "padding": "0px"
+          }
+        },
+        "pinIcon": {
+          "before": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(98, 109, 125)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(98, 109, 125)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 14,
+            "h": 14,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 14,
+            "h": 14,
+            "padding": "0px"
+          }
+        },
+        "termIcon": {
+          "before": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(116, 133, 168)",
+            "bg": "rgb(116, 133, 168)",
+            "border": "rgb(116, 133, 168)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 12,
+            "h": 12,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgb(150, 163, 193)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 12,
+            "h": 12,
+            "padding": "0px"
+          }
+        },
+        "layoutIcon": {
+          "before": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(98, 109, 125)",
+            "bg": "rgb(98, 109, 125)",
+            "border": "rgb(98, 109, 125)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 14,
+            "h": 14,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgb(150, 163, 193)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 14,
+            "h": 14,
+            "padding": "0px"
+          }
+        },
+        "helpIcon": {
+          "before": {
+            "text": "",
+            "variant": "fill",
+            "color": "rgb(73, 93, 135)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(73, 93, 135)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 24,
+            "h": 24,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": "fill",
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 24,
+            "h": 24,
+            "padding": "0px"
+          }
+        },
+        "corner": {
+          "before": {
+            "text": "模拟数据 · 未执行发布",
+            "variant": null,
+            "color": "rgb(140, 101, 52)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(140, 101, 52)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 118.3125,
+            "h": 18,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "模拟数据 · 未执行发布",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 118.3125,
+            "h": 18,
+            "padding": "0px"
+          }
+        },
+        "scopeHint": {
+          "before": {
+            "text": "公共资源的内容可供关联班级复用。",
+            "variant": null,
+            "color": "rgb(140, 101, 52)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(140, 101, 52)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 192,
+            "h": 18,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "公共资源的内容可供关联班级复用。",
+            "variant": null,
+            "color": "rgb(86, 104, 143)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(86, 104, 143)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 192,
+            "h": 18,
+            "padding": "0px"
+          }
+        },
+        "title": {
+          "before": {
+            "text": "知识点总览",
+            "variant": null,
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "17px",
+            "lineHeight": "24px",
+            "fontWeight": "600",
+            "w": 240,
+            "h": 24,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "知识点总览",
+            "variant": null,
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "17px",
+            "lineHeight": "24px",
+            "fontWeight": "600",
+            "w": 240,
+            "h": 24,
+            "padding": "0px"
+          }
+        },
+        "description": {
+          "before": {
+            "text": "以知识点组织公共资源，在班级中安排教学。",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 240,
+            "h": 18,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "以知识点组织公共资源，在班级中安排教学。",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 240,
+            "h": 18,
+            "padding": "0px"
+          }
+        },
+        "stats": {
+          "before": {
+            "text": "7 级结构16 个内容节点36 个学习单元",
+            "variant": null,
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 275.71875,
+            "h": 20,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "7 级结构16 个内容节点36 个学习单元",
+            "variant": null,
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 275.71875,
+            "h": 20,
+            "padding": "0px"
+          }
+        },
+        "rowTitle": {
+          "before": {
+            "text": "第一章 · 函数、极限与连续",
+            "variant": null,
+            "color": "rgb(20, 35, 70)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(20, 35, 70)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "400",
+            "w": 691,
+            "h": 22,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "第一章 · 函数、极限与连续",
+            "variant": null,
+            "color": "rgb(20, 35, 70)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(20, 35, 70)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "400",
+            "w": 691,
+            "h": 22,
+            "padding": "0px"
+          }
+        },
+        "rowMeta": {
+          "before": {
+            "text": "20 个学习单元09-24 更新",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 216,
+            "h": 20,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "20 个学习单元09-24 更新",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 216,
+            "h": 20,
+            "padding": "0px"
+          }
+        },
+        "selectedRow": {
+          "before": {
+            "text": "1.2 极限与连续8 个学习单元09-24 更新8 个学习单元09-24 更新",
+            "variant": null,
+            "color": "rgb(20, 35, 70)",
+            "bg": "rgb(234, 242, 255)",
+            "border": "rgb(20, 35, 70)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 1079,
+            "h": 44,
+            "padding": "0px 8px 0px 32px"
+          },
+          "after": {
+            "text": "1.2 极限与连续8 个学习单元09-24 更新8 个学习单元09-24 更新",
+            "variant": null,
+            "color": "rgb(20, 35, 70)",
+            "bg": "rgb(234, 242, 255)",
+            "border": "rgb(20, 35, 70)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 1079,
+            "h": 44,
+            "padding": "0px 8px 0px 32px"
+          }
+        },
+        "addRoot": {
+          "before": {
+            "text": "添加根节点",
+            "variant": "secondary",
+            "color": "rgb(15, 85, 223)",
+            "bg": "rgb(224, 234, 255)",
+            "border": "rgb(100, 149, 255)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "600",
+            "w": 112,
+            "h": 36,
+            "padding": "0px 20px"
+          },
+          "after": {
+            "text": "添加根节点",
+            "variant": "secondary",
+            "color": "rgb(15, 85, 223)",
+            "bg": "rgb(224, 234, 255)",
+            "border": "rgb(100, 149, 255)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "600",
+            "w": 112,
+            "h": 36,
+            "padding": "0px 20px"
+          }
+        },
+        "save": {
+          "before": {
+            "text": "保存草稿",
+            "variant": "primary",
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 97, 248)",
+            "border": "rgba(0, 0, 0, 0)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "600",
+            "w": 98,
+            "h": 36,
+            "padding": "0px 20px"
+          },
+          "after": {
+            "text": "保存草稿",
+            "variant": "primary",
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 97, 248)",
+            "border": "rgba(0, 0, 0, 0)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "600",
+            "w": 98,
+            "h": 36,
+            "padding": "0px 20px"
+          }
+        }
+      },
+      "pinHover": {
+        "before": {
+          "color": "rgb(98, 109, 125)",
+          "w": 28,
+          "h": 28
+        },
+        "after": {
+          "color": "rgb(73, 93, 135)",
+          "w": 28,
+          "h": 28
+        }
+      },
+      "focusHover": {
+        "before": {
+          "color": "rgb(64, 77, 98)",
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(225, 229, 235)"
+        },
+        "after": {
+          "color": "rgb(73, 93, 135)",
+          "bg": "rgba(80, 117, 254, 0.12)",
+          "border": "rgba(16, 63, 183, 0.16)"
+        }
+      },
+      "focusRing": {
+        "before": {
+          "outline": "rgb(21, 97, 248) solid 2px",
+          "shadow": "none"
+        },
+        "after": {
+          "outline": "rgb(21, 97, 248) solid 2px",
+          "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(61, 123, 255, 0.2) 0px 0px 0px 3px"
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "width": 1600,
+      "parts": {
+        "focus": {
+          "before": {
+            "text": "专注内容",
+            "variant": "secondary",
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgb(255, 255, 255)",
+            "border": "rgb(225, 229, 235)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 93,
+            "h": 32,
+            "padding": "0px 10px"
+          },
+          "after": {
+            "text": "专注内容",
+            "variant": "tertiary",
+            "color": "rgb(73, 93, 135)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(16, 63, 183, 0.16)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 93,
+            "h": 32,
+            "padding": "0px 10px"
+          }
+        },
+        "preview": {
+          "before": {
+            "text": "预览学生端",
+            "variant": "secondary",
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 103,
+            "h": 32,
+            "padding": "0px 10px"
+          },
+          "after": {
+            "text": "预览学生端",
+            "variant": "text",
+            "color": "rgb(73, 93, 135)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(0, 0, 0, 0)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 103,
+            "h": 32,
+            "padding": "0px 10px"
+          }
+        },
+        "pin": {
+          "before": {
+            "text": "",
+            "variant": "fill",
+            "color": "rgb(98, 109, 125)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(98, 109, 125)",
+            "borderWidth": "0px",
+            "radius": "4px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 28,
+            "h": 28,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": "fill",
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 28,
+            "h": 28,
+            "padding": "0px"
+          }
+        },
+        "pinIcon": {
+          "before": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(98, 109, 125)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(98, 109, 125)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 14,
+            "h": 14,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 14,
+            "h": 14,
+            "padding": "0px"
+          }
+        },
+        "termIcon": {
+          "before": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(116, 133, 168)",
+            "bg": "rgb(116, 133, 168)",
+            "border": "rgb(116, 133, 168)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 12,
+            "h": 12,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgb(150, 163, 193)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 12,
+            "h": 12,
+            "padding": "0px"
+          }
+        },
+        "layoutIcon": {
+          "before": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(98, 109, 125)",
+            "bg": "rgb(98, 109, 125)",
+            "border": "rgb(98, 109, 125)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 14,
+            "h": 14,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": null,
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgb(150, 163, 193)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 14,
+            "h": 14,
+            "padding": "0px"
+          }
+        },
+        "helpIcon": {
+          "before": {
+            "text": "",
+            "variant": "fill",
+            "color": "rgb(73, 93, 135)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(73, 93, 135)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 24,
+            "h": 24,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "",
+            "variant": "fill",
+            "color": "rgb(150, 163, 193)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(150, 163, 193)",
+            "borderWidth": "0px",
+            "radius": "6px",
+            "fontSize": "12px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 24,
+            "h": 24,
+            "padding": "0px"
+          }
+        },
+        "corner": {
+          "before": {
+            "text": "模拟数据 · 未执行发布",
+            "variant": null,
+            "color": "rgb(140, 101, 52)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(140, 101, 52)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 118.3125,
+            "h": 18,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "模拟数据 · 未执行发布",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 118.3125,
+            "h": 18,
+            "padding": "0px"
+          }
+        },
+        "scopeHint": {
+          "before": {
+            "text": "公共资源的内容可供关联班级复用。",
+            "variant": null,
+            "color": "rgb(140, 101, 52)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(140, 101, 52)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 192,
+            "h": 18,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "公共资源的内容可供关联班级复用。",
+            "variant": null,
+            "color": "rgb(86, 104, 143)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(86, 104, 143)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 192,
+            "h": 18,
+            "padding": "0px"
+          }
+        },
+        "title": {
+          "before": {
+            "text": "知识点总览",
+            "variant": null,
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "17px",
+            "lineHeight": "24px",
+            "fontWeight": "600",
+            "w": 240,
+            "h": 24,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "知识点总览",
+            "variant": null,
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "17px",
+            "lineHeight": "24px",
+            "fontWeight": "600",
+            "w": 240,
+            "h": 24,
+            "padding": "0px"
+          }
+        },
+        "description": {
+          "before": {
+            "text": "以知识点组织公共资源，在班级中安排教学。",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 240,
+            "h": 18,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "以知识点组织公共资源，在班级中安排教学。",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "18px",
+            "fontWeight": "400",
+            "w": 240,
+            "h": 18,
+            "padding": "0px"
+          }
+        },
+        "stats": {
+          "before": {
+            "text": "7 级结构16 个内容节点36 个学习单元",
+            "variant": null,
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 275.71875,
+            "h": 20,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "7 级结构16 个内容节点36 个学习单元",
+            "variant": null,
+            "color": "rgb(64, 77, 98)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(64, 77, 98)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 275.71875,
+            "h": 20,
+            "padding": "0px"
+          }
+        },
+        "rowTitle": {
+          "before": {
+            "text": "第一章 · 函数、极限与连续",
+            "variant": null,
+            "color": "rgb(20, 35, 70)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(20, 35, 70)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "400",
+            "w": 851,
+            "h": 22,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "第一章 · 函数、极限与连续",
+            "variant": null,
+            "color": "rgb(20, 35, 70)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(20, 35, 70)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "400",
+            "w": 851,
+            "h": 22,
+            "padding": "0px"
+          }
+        },
+        "rowMeta": {
+          "before": {
+            "text": "20 个学习单元09-24 更新",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 216,
+            "h": 20,
+            "padding": "0px"
+          },
+          "after": {
+            "text": "20 个学习单元09-24 更新",
+            "variant": null,
+            "color": "rgb(160, 172, 197)",
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgb(160, 172, 197)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "12px",
+            "lineHeight": "20px",
+            "fontWeight": "400",
+            "w": 216,
+            "h": 20,
+            "padding": "0px"
+          }
+        },
+        "selectedRow": {
+          "before": {
+            "text": "1.2 极限与连续8 个学习单元09-24 更新8 个学习单元09-24 更新",
+            "variant": null,
+            "color": "rgb(20, 35, 70)",
+            "bg": "rgb(234, 242, 255)",
+            "border": "rgb(20, 35, 70)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 1239,
+            "h": 44,
+            "padding": "0px 8px 0px 32px"
+          },
+          "after": {
+            "text": "1.2 极限与连续8 个学习单元09-24 更新8 个学习单元09-24 更新",
+            "variant": null,
+            "color": "rgb(20, 35, 70)",
+            "bg": "rgb(234, 242, 255)",
+            "border": "rgb(20, 35, 70)",
+            "borderWidth": "0px",
+            "radius": "0px",
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "fontWeight": "400",
+            "w": 1239,
+            "h": 44,
+            "padding": "0px 8px 0px 32px"
+          }
+        },
+        "addRoot": {
+          "before": {
+            "text": "添加根节点",
+            "variant": "secondary",
+            "color": "rgb(15, 85, 223)",
+            "bg": "rgb(224, 234, 255)",
+            "border": "rgb(100, 149, 255)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "600",
+            "w": 112,
+            "h": 36,
+            "padding": "0px 20px"
+          },
+          "after": {
+            "text": "添加根节点",
+            "variant": "secondary",
+            "color": "rgb(15, 85, 223)",
+            "bg": "rgb(224, 234, 255)",
+            "border": "rgb(100, 149, 255)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "600",
+            "w": 112,
+            "h": 36,
+            "padding": "0px 20px"
+          }
+        },
+        "save": {
+          "before": {
+            "text": "保存草稿",
+            "variant": "primary",
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 97, 248)",
+            "border": "rgba(0, 0, 0, 0)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "600",
+            "w": 98,
+            "h": 36,
+            "padding": "0px 20px"
+          },
+          "after": {
+            "text": "保存草稿",
+            "variant": "primary",
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 97, 248)",
+            "border": "rgba(0, 0, 0, 0)",
+            "borderWidth": "1px",
+            "radius": "6px",
+            "fontSize": "14px",
+            "lineHeight": "22px",
+            "fontWeight": "600",
+            "w": 98,
+            "h": 36,
+            "padding": "0px 20px"
+          }
+        }
+      },
+      "pinHover": {
+        "before": {
+          "color": "rgb(98, 109, 125)",
+          "w": 28,
+          "h": 28
+        },
+        "after": {
+          "color": "rgb(73, 93, 135)",
+          "w": 28,
+          "h": 28
+        }
+      },
+      "focusHover": {
+        "before": {
+          "color": "rgb(64, 77, 98)",
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(225, 229, 235)"
+        },
+        "after": {
+          "color": "rgb(73, 93, 135)",
+          "bg": "rgba(80, 117, 254, 0.12)",
+          "border": "rgba(16, 63, 183, 0.16)"
+        }
+      },
+      "focusRing": {
+        "before": {
+          "outline": "rgb(21, 97, 248) solid 2px",
+          "shadow": "none"
+        },
+        "after": {
+          "outline": "rgb(21, 97, 248) solid 2px",
+          "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(61, 123, 255, 0.2) 0px 0px 0px 3px"
+        }
+      },
+      "pageErrors": []
+    }
+  ],
+  "verification": {
+    "unit": {
+      "passed": 10,
+      "log": "unit.log"
+    },
+    "playgroundTypecheck": {
+      "exitCode": 0,
+      "log": "typecheck-final.log"
+    },
+    "browserUniqueContracts": {
+      "passed": 10,
+      "existingR2": 7,
+      "newHierarchy": 3,
+      "existingFinalLog": "browser-final-verified.log",
+      "newFinalLog": "browser-contract-final.log"
+    },
+    "actualScreenshots": {
+      "widths": [
+        1200,
+        1440,
+        1600
+      ],
+      "modes": [
+        "compact",
+        "expanded"
+      ],
+      "before": "before-verified",
+      "after": "after-final",
+      "countBefore": 6,
+      "countAfter": 6,
+      "pageErrors": 0
+    },
+    "review09SourceAndEvidenceEdited": false
+  },
+  "recipeContract": {
+    "actionModifiedParts": [
+      "root",
+      "leading-icon"
+    ],
+    "iconModifiedParts": [
+      "root"
+    ],
+    "candidateTokens": [],
+    "existingDependenciesOnly": true,
+    "newLocalAliases": [],
+    "newBreakpoints": []
+  }
+}

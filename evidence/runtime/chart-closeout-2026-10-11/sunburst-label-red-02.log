@@ -1,0 +1,52 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-variants/structure.test.tsx (18 tests | 1 failed | 17 skipped) 2039ms
+   × interactive sunburst labels retain a readable halo without adding labels to other variants 2038ms
+ ❯ apps/playground/src/docs/components/chart-examples.test.tsx (28 tests | 1 failed | 27 skipped) 102ms
+   × sunburst inverse labels retain a readable halo while monochrome labels stay dark 101ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-examples.test.tsx > sunburst inverse labels retain a readable halo while monochrome labels stay dark
+Error: expect(element).toHaveStyle()
+
+- Expected
+
+- paintOrder: stroke;
+- stroke: var(--chart-scale-05);
+- strokeWidth: 2;
+ ❯ apps/playground/src/docs/components/chart-examples.test.tsx:234:19
+    232|   await waitFor(() => expect(labels().length).toBeGreaterThan(0));
+    233|   for (const label of labels()) {
+    234|     expect(label).toHaveStyle({ stroke: "var(--chart-scale-05)", strok…
+       |                   ^
+    235|   }
+    236|   view.rerender(<ChartExample id="sunburst" recipe="monochrome-blue" r…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/structure.test.tsx > interactive sunburst labels retain a readable halo without adding labels to other variants
+Error: expect(element).toHaveStyle()
+
+- Expected
+
+- paintOrder: stroke;
+- stroke: var(--chart-scale-05);
+- strokeWidth: 2;
+ ❯ apps/playground/src/docs/components/chart-variants/structure.test.tsx:148:19
+    146|   await waitFor(() => expect(labels().length).toBeGreaterThan(0));
+    147|   for (const label of labels()) {
+    148|     expect(label).toHaveStyle({ stroke: "var(--chart-scale-05)", strok…
+       |                   ^
+    149|   }
+    150|   for (const variantId of ["sunburst-patterns", "sunburst-legend"]) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 44 skipped (46)
+   Start at  17:18:08
+   Duration  2.77s (transform 2.56s, setup 223ms, import 2.15s, tests 2.14s, environment 799ms)
+

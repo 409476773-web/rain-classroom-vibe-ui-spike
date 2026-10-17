@@ -1,0 +1,46 @@
+--- Review11/apps/playground/src/recipes/navigation-v042/platform-navigation.css
++++ Review12/apps/playground/src/recipes/navigation-v042/platform-navigation.css
+@@ -83,8 +83,8 @@
+   height:40px;min-height:40px;padding:0 12px;background:transparent;
+   color:inherit;font:400 14px/20px var(--rain-font-ui);
+ }
+-.rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id="global"] :is(.rain-navigation-family__leading,.nv42-rail-links [data-slot="icon"]) { width:20px;height:20px;color:inherit; }
+-.rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id="global"] :is(.rain-navigation-family__leading,.nv42-rail-links [data-slot="icon"]) > [data-rain-id="icon"] { width:20px;height:20px;color:inherit; }
++.rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id="global"] :is(.rain-navigation-family__leading,.nv42-rail-links [data-slot="icon"]) { display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;color:inherit; }
++.rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id="global"] :is(.rain-navigation-family__leading,.nv42-rail-links [data-slot="icon"]) > [data-rain-id="icon"] { width:18px;height:18px;color:inherit; }
+ .rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id="global"] .rain-navigation-family__item[data-active="true"] .rain-navigation-family__row,
+ .rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id="global"] .nv42-rail-links>[data-slot="item"][data-active="true"] { background:var(--rain-local-platform-current);color:var(--rain-local-platform-current-ink); }
+ .rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id="global"] .rain-navigation-family__item[data-active="true"] :is(.rain-navigation-family__entry,.rain-navigation-family__leading) { background:transparent;color:inherit; }
+@@ -124,7 +124,7 @@
+ .rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__region[data-region-id="global"][data-mode="compact"]:not([data-temporary="true"]) :is(.nv42-utilities,.nv44-platform-utilities) { order:1;flex-direction:column;gap:5px; }
+ 
+ /* Keep the controller's full hit area and focus ring; only its paint is quiet. */
+-.rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__splitter::before,
++.rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__splitter::before { opacity:.4;background:var(--rain-category-border-neutral-4); }
+ .rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__splitter::after { opacity:0; }
+ .rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__splitter:is(:hover,:active,:focus-visible)::before,
+ .rain-workspace:is(.nv42-r2,.nv43-workspace,.nv5-workspace,.nv44-workspace) .rain-workspace__splitter:is(:hover,:active,:focus-visible)::after { opacity:1;background:var(--rain-category-border-brand-1); }
+
+--- Review11/apps/playground/src/recipes/navigation-v042/r4-r6.css
++++ Review12/apps/playground/src/recipes/navigation-v042/r4-r6.css
+@@ -352,7 +352,7 @@
+ .nv5-summary-tags { display:flex;gap:8px;margin-top:11px; }
+ .nv5-group-article { padding-top:2px;color:#60718b;font-size:14px;line-height:28px; }
+ .nv5-group-article>h4 { color:#364e70;font-size:14px;font-weight:600;margin-bottom:9px; }
+-.nv5-group-detail .nv5-discussion-heading { margin-top:23px;color:#364e70;font-size:14px;line-height:21px; }
++.nv5-group-detail .nv5-discussion-heading { margin-top:23px;color:#364e70;font-size:14px;line-height:21px;font-weight:var(--rain-font-weight-semibold); }
+ .nv5-discussion-heading>small { margin-left:8px;font-size:12px;color:#a1aec1;font-weight:400; }
+ .nv5-comment .nv5-between,.nv5-comment small { font-size:12px;line-height:18px; }
+ .nv5-group-detail .nv5-comment p { font-size:13px;line-height:23.4px; }
+
+--- Review11/apps/playground/src/recipes/navigation-v042/r2.tsx
++++ Review12/apps/playground/src/recipes/navigation-v042/r2.tsx
+@@ -64,7 +64,7 @@
+     <div className="nv42-workspace-body">
+       <RecoverableRegion regionId="global" className="nv42-global-region" data-rain-theme={inverse?'dark':undefined}><Sidebar aria-label="平台导航" collapsed={platform==='compact'} className="nv42-rail">
+         <SidebarHeader className="nv42-rail-head"><IconButton size="28/16" localRecipe={iconRecipe} aria-label={state.session.temporary?.regionId==='global'?'关闭临时平台导航':platform==='compact'?'展开平台导航':'收起平台导航'} aria-controls={regionDomId('global')} aria-expanded={platform==='expanded'} data-workspace-action="restore" icon={platform==='compact'?<ExpandIcon/>:<CollapseIcon/>} onClick={()=>dispatch(state.session.temporary?.regionId==='global'?{type:'DISMISS_TEMP',reason:'close'}:{type:platform==='expanded'?'TOGGLE_GLOBAL':'SHOW_REGION',regionId:'global',viewportWidth})}/><div className="nv42-brand"><RainClassroomIcon size={23}/><strong aria-hidden={platform!=='expanded'}>雨课堂</strong></div></SidebarHeader>
+-        <SidebarContent className="nv42-rail-links">{[{label:'工作台',icon:<HomeIcon size={20}/>},{label:'课程',icon:<CourseIcon size={20}/>},{label:'资源',icon:<FolderIcon size={20}/>},{label:'专业',icon:<GraduationCapIcon size={20}/>}].map(item=><Tooltip key={item.label} text={item.label} placement="right" portal disabled={platform!=='compact'}><SidebarItem href="#navigation-v042" aria-label={item.label} active={item.label==='课程'} icon={item.icon} onClick={e=>{e.preventDefault();if(item.label!=='课程')inform(item.label);}}>{item.label}</SidebarItem></Tooltip>)}</SidebarContent>
++        <SidebarContent className="nv42-rail-links">{[{label:'工作台',icon:<HomeIcon size={18}/>},{label:'课程',icon:<CourseIcon size={18}/>},{label:'资源',icon:<FolderIcon size={18}/>},{label:'专业',icon:<GraduationCapIcon size={18}/>}].map(item=><Tooltip key={item.label} text={item.label} placement="right" portal disabled={platform!=='compact'}><SidebarItem href="#navigation-v042" aria-label={item.label} active={item.label==='课程'} icon={item.icon} onClick={e=>{e.preventDefault();if(item.label!=='课程')inform(item.label);}}>{item.label}</SidebarItem></Tooltip>)}</SidebarContent>
+         <SidebarFooter className="nv42-rail-footer"><button className="nv42-account" aria-label="当前账户：林老师" onClick={()=>inform('账户')}><Avatar className="nv42-account-avatar" size={32} alt=""/><span className="nv42-account-copy"><strong>林老师</strong><small>教师工作区</small></span></button><div className="nv42-utilities">{icon('通知',<NotificationIcon/>,()=>inform('通知'),'28/16')}{icon('帮助',<HelpIcon/>,()=>inform('帮助'),'28/16')}</div></SidebarFooter>
+       </Sidebar></RecoverableRegion>
+       <div className="nv42-split">

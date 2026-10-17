@@ -1,0 +1,215 @@
+{
+  "config": {
+    "argv": [
+      "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/.pnpm/@playwright+test@1.62.1/node_modules/@playwright/test/cli.js",
+      "test",
+      "-c",
+      "tests/e2e/navigation-v042-w6-review02.config.ts",
+      "--project",
+      "firefox",
+      "--grep",
+      "800 forced",
+      "--max-failures",
+      "1",
+      "--output",
+      "evidence/runtime/navigation-v042/w6/review-02/independent/smoke04/artifacts"
+    ],
+    "configFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6-review02.config.ts",
+    "rootDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 1,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/review-02/independent/smoke04/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "navigation-v042-w6-review02.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/review-02/independent/smoke04/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "navigation-v042-w6-review02.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/review-02/independent/smoke04/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "navigation-v042-w6-review02.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../evidence/runtime/navigation-v042/w6/review-02/independent/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "navigation-v042-w6-review02.spec.ts",
+      "file": "navigation-v042-w6-review02.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "R02 E2 800 forced temporary navigation keeps main geometry and native restore focus",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2525,
+                  "error": {
+                    "message": "Error: Native Tab traversal did not reach 显示课堂活动",
+                    "stack": "Error: Native Tab traversal did not reach 显示课堂活动\n    at tabTo (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6-review02.spec.ts:61:9)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6-review02.spec.ts:250:44",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6-review02.spec.ts",
+                      "column": 9,
+                      "line": 61
+                    },
+                    "snippet": "  59 |   const context = await page.evaluate(() => ({ hasFocus: document.hasFocus(), userAgent: navigator.userAgent, url: location.href }));\n  60 |   await record('native-keyboard-focus-traversal', { key, visited, context });\n> 61 |   throw new Error(`Native ${key} traversal did not reach ${await target.getAttribute('aria-label')}`);\n     |         ^\n  62 | }\n  63 | async function surfaceProfile(surface: Locator) {\n  64 |   return surface.evaluate(element => {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6-review02.spec.ts",
+                        "column": 9,
+                        "line": 61
+                      },
+                      "message": "Error: Native Tab traversal did not reach 显示课堂活动\n\n  59 |   const context = await page.evaluate(() => ({ hasFocus: document.hasFocus(), userAgent: navigator.userAgent, url: location.href }));\n  60 |   await record('native-keyboard-focus-traversal', { key, visited, context });\n> 61 |   throw new Error(`Native ${key} traversal did not reach ${await target.getAttribute('aria-label')}`);\n     |         ^\n  62 | }\n  63 | async function surfaceProfile(surface: Locator) {\n  64 |   return surface.evaluate(element => {\n    at tabTo (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6-review02.spec.ts:61:9)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6-review02.spec.ts:250:44"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:53:36.897Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "native-keyboard-focus-traversal",
+                      "contentType": "application/json",
+                      "body": "ewogICJrZXkiOiAiVGFiIiwKICAidmlzaXRlZCI6IFsKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IiwKICAgICJURVhUQVJFQTog6K++5aCC5Y+N6aaI6I2J56i/IgogIF0sCiAgImNvbnRleHQiOiB7CiAgICAiaGFzRm9jdXMiOiB0cnVlLAogICAgInVzZXJBZ2VudCI6ICJNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMC4xNTsgcnY6MTUzLjApIEdlY2tvLzIwMTAwMTAxIEZpcmVmb3gvMTUzLjAiLAogICAgInVybCI6ICJodHRwOi8vMTI3LjAuMC4xOjUyMDQvbmF2aWdhdGlvbi12MDQyLXc2LWNvbnN1bWVyLmh0bWwjRTIiCiAgfQp9"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/review-02/independent/smoke04/artifacts/navigation-v042-w6-review0-01ae1-ry-and-native-restore-focus-firefox/test-failed-1.png"
+                    },
+                    {
+                      "name": "browser-faults",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/review-02/independent/smoke04/artifacts/navigation-v042-w6-review0-01ae1-ry-and-native-restore-focus-firefox/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/review-02/independent/smoke04/artifacts/navigation-v042-w6-review0-01ae1-ry-and-native-restore-focus-firefox/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6-review02.spec.ts",
+                    "column": 9,
+                    "line": 61
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2bbdca16e793ad34147c-1d4539e266bfa3de1fd6",
+          "file": "navigation-v042-w6-review02.spec.ts",
+          "line": 244,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "message": "\u001b[31mTesting stopped early after 1 maximum allowed failures.\u001b[39m"
+    }
+  ],
+  "stats": {
+    "startTime": "2026-10-04T16:53:36.565Z",
+    "duration": 3614.074,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

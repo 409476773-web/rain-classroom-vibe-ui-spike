@@ -1,0 +1,105 @@
+--- round7/run-receipt.py
++++ round9/run-incremental.py
+@@ -1,6 +1,6 @@
+-"""Local experiment: one public receipt turn in an ephemeral read-only thread.
+-
+-Usage: python3 -B run-receipt.py CONTEXT OUT PROMPT IMAGE IMAGE
++"""Local experiment: incremental autonomous receipts in an ephemeral read-only thread.
++
++Usage: python3 -B run-incremental.py CONTEXT OUT PROMPT IMAGE IMAGE
+ No model/effort override; no reasoning events or command-output bodies are exported.
+ """
+ import hashlib
+@@ -18,6 +18,7 @@
+ 
+ CLI = '/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex'
+ DEADLINE_SECONDS = 180
++TOTAL_BUDGET_SECONDS = 900
+ 
+ def save_json(path, value):
+     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+@@ -38,6 +39,28 @@
+ 
+ def image_inputs(images):
+     return [{'type': 'localImage', 'path': str(path)} for path in images]
++
++
++
++def validate_receipt(value):
++    if not isinstance(value, dict) or type(value.get('done')) is not bool:
++        raise ValueError('receipt must be an object with boolean done')
++    if value['done']:
++        if set(value) != {'done', 'summary'} or not isinstance(value['summary'], str) or not value['summary'].strip():
++            raise ValueError('completion requires only done and nonempty summary')
++        return value
++    fields = {'done', 'objects', 'reference', 'status', 'outcome', 'observation', 'evidence', 'limit'}
++    if set(value) != fields or any(not isinstance(value[key], str) or not value[key].strip() for key in fields - {'done'}):
++        raise ValueError('one receipt requires every text field')
++    if value['status'] not in ('已检查', '未检查') or value['outcome'] not in ('正常', '异常', '无法判断'):
++        raise ValueError('invalid status or outcome')
++    if value['status'] == '未检查' and value['outcome'] != '无法判断':
++        raise ValueError('an unchecked relation cannot be declared normal or abnormal')
++    return value
++
++
++def can_start_stage(elapsed):
++    return elapsed + DEADLINE_SECONDS <= TOTAL_BUDGET_SECONDS
+ 
+ 
+ def main():
+@@ -49,7 +72,8 @@
+         raise ValueError('invalid context or image paths')
+     skill = context / '.agents/skills/rain-designer/SKILL.md'
+     designer = skill.parent / 'references/designer.md'
+-    source_texts = {name: path.read_text().strip() for name, path in [('skill', skill), ('designer', designer)]}
++    source_paths = {'skill': skill, 'designer': designer, 'guide': context / 'docs/ai/prototype-design.md'}
++    source_texts = {name: path.read_text().strip() for name, path in source_paths.items()}
+     prompt = prompt_path.read_text()
+     metadata = []
+     for path in images:
+@@ -65,7 +89,7 @@
+                                      'networkAccess': False},
+                'readEvidence': {name: {'fullTextInCommandOutput': False, 'itemIds': [],
+                                       'strippedTextSha256': hashlib.sha256(text.encode()).hexdigest(),
+-                                      'fileSha256': hashlib.sha256((skill if name == 'skill' else designer).read_bytes()).hexdigest()}
++                                      'fileSha256': hashlib.sha256(source_paths[name].read_bytes()).hexdigest()}
+                                 for name, text in source_texts.items()},
+                'approvalOrExternalRequestsRejected': 0}
+     started = time.monotonic()
+@@ -218,10 +242,32 @@
+         summary.update(threadId=root_id, threadPath=thread['thread'].get('path'), model=thread.get('model'),
+                        reasoningEffort=thread.get('reasoningEffort'), modelProvider=thread.get('modelProvider'),
+                        threadSettings={key: thread.get(key) for key in ['approvalPolicy', 'sandbox', 'reasoningEffort']})
+-        summary['observationFindings'] = run_stage('observation', [{'type': 'text', 'text': prompt},
+-            {'type': 'skill', 'name': 'rain-designer', 'path': str(skill)}, *image_inputs(images)], 4)
+-        summary['status'] = 'completed'
+-        send('thread/unsubscribe', {'threadId': root_id}, 99)
++        summary['preparation'] = run_stage('prepare', [{'type': 'text', 'text': prompt},
++            {'type': 'skill', 'name': 'rain-designer', 'path': str(skill)}], 4)
++        if not all(item['fullTextInCommandOutput'] for item in summary['readEvidence'].values()):
++            raise RuntimeError('preparation ended without full-text reading evidence for all three documents')
++        next_prompt = prompt_path.with_name('next-prompt.txt').read_text()
++        summary['receipts'] = []
++        index = 1
++        while can_start_stage(time.monotonic() - started):
++            review = run_stage(f'receipt-{index:02d}', [{'type': 'text', 'text': next_prompt},
++                *image_inputs(images)], 10 + index)
++            receipt = validate_receipt(json.loads(review))
++            if receipt['done']:
++                summary.update(status='completed', finalFindings=receipt['summary'])
++                break
++            receipt['id'] = f'R{index:02d}'
++            summary['receipts'].append(receipt)
++            if index == 1:
++                summary['firstReceiptTotalSeconds'] = round(time.monotonic() - started, 2)
++                summary['firstReceiptStageSeconds'] = active['elapsedSeconds']
++            save_json(output / 'receipts.json', summary['receipts'])
++            save_json(output / 'progress.json', {'deliveredCount': index, 'elapsedSeconds': round(time.monotonic() - started, 2)})
++            print(json.dumps({'receiptDelivered': index, 'totalSeconds': round(time.monotonic() - started, 2)}), flush=True)
++            index += 1
++        else:
++            summary['status'] = 'budget-exhausted'
++        send('thread/unsubscribe', {'threadId': root_id}, 9999)
+     except (Exception, KeyboardInterrupt) as error:
+         summary.update(status='runner-error', error=str(error))
+     finally:

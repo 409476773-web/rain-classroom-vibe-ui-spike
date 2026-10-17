@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/charts.test.ts (5 tests | 1 failed) 52ms
+   × 17 discoverable chart entries have valid source Registry, contracts and recipes 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/charts.test.ts > 17 discoverable chart entries have valid source Registry, contracts and recipes
+AssertionError: area: expected undefined to be 'packages/ui/src/charts/vendor/charts/…' // Object.is equality
+
+- Expected:
+"packages/ui/src/charts/vendor/charts/area-chart.tsx"
+
++ Received:
+undefined
+
+ ❯ scripts/charts.test.ts:28:40
+     26|     expect(manifest.assetIdentity).toBe("registry-candidate");
+     27|     expect(manifest.publication).toBe("unpublished");
+     28|     expect(entry.sourcePath, entry.id).toBe(manifest.sourcePath);
+       |                                        ^
+     29|     expect(existsSync(resolve(root, entry.sourcePath)), entry.id).toBe…
+     30|     expect(entry.recipes).toContain(entry.defaultRecipe);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  23:24:26
+   Duration  772ms (transform 106ms, setup 94ms, import 165ms, tests 52ms, environment 371ms)
+

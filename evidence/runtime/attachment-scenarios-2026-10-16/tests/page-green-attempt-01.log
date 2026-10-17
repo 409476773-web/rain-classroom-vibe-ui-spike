@@ -1,0 +1,57 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/attachment-scenarios-demo.test.tsx (8 tests | 1 failed) 1134ms
+   × continues hidden uploads, then expands and focuses a failed attachment 216ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/attachment-scenarios-demo.test.tsx > continues hidden uploads, then expands and focuses a failed attachment
+Error: expect(element).toHaveFocus()
+
+Expected element with focus:
+  <button
+  aria-label="重试上传 小组讨论记录.md"
+  class="rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-regular-height text-rain-button-text-regular text-rain-button-text-brand bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed rain-attachment__action"
+  data-attachment-action=""
+  data-density="default"
+  data-focus="control"
+  data-rain-id="ui-button"
+  data-size="regular"
+  data-slot="root"
+  data-state="default"
+  data-tone="brand"
+  data-variant="text"
+  type="button"
+>
+  <span
+    class="min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-brand"
+    data-slot="label"
+  >
+    重试
+  </span>
+</button>
+Received element with focus:
+  <button
+  aria-label="预览 小组讨论记录.md"
+  class="rain-attachment__trigger"
+  data-focus="control"
+  data-slot="attachment-trigger"
+  type="button"
+/>
+ ❯ apps/playground/src/docs/components/attachment-scenarios-demo.test.tsx:39:76
+     37|   fireEvent.click(within(ordinary).getByRole("button", { name: "查看 2 个…
+     38|   expect(rows(ordinary)).toHaveLength(24);
+     39|   expect(within(ordinary).getByRole("button", { name: "重试上传 小组讨论记录.md"…
+       |                                                                            ^
+     40|   expect(within(ordinary).getByRole("button", { name: "重试上传 补充阅读与问题记录.…
+     41| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 passed (8)
+   Start at  15:47:04
+   Duration  5.12s (transform 876ms, setup 98ms, import 3.26s, tests 1.13s, environment 519ms)
+

@@ -1,0 +1,1049 @@
+{
+  "config": {
+    "argv": [
+      "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/.pnpm/@playwright+test@1.62.1/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "tests/e2e/navigation-v042-w6.config.ts"
+    ],
+    "configFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.config.ts",
+    "rootDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "navigation-v042-w6.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../evidence/runtime/navigation-v042/w6/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "navigation-v042-w6.spec.ts",
+      "file": "navigation-v042-w6.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "E1 source selection, all-class search and missing-current draft at 1200",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 135,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:4:67",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:4:67"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:48.638Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-c9fab-ssing-current-draft-at-1200/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-c9fab-ssing-current-draft-at-1200/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-c9fab-ssing-current-draft-at-1200/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-2ed8e4ee1ce8b2fc4637",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 3,
+          "column": 37
+        },
+        {
+          "title": "E1 source selection, all-class search and missing-current draft at 1440",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 126,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:4:67",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:4:67"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:49.149Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-16a4e-ssing-current-draft-at-1440/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-16a4e-ssing-current-draft-at-1440/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-16a4e-ssing-current-draft-at-1440/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-c6ec6e1a88ac5bbf5f53",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 3,
+          "column": 37
+        },
+        {
+          "title": "E1 source selection, all-class search and missing-current draft at 1600",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 124,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:4:67",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:4:67"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:49.619Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-fe23c-ssing-current-draft-at-1600/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-fe23c-ssing-current-draft-at-1600/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-fe23c-ssing-current-draft-at-1600/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-0c5b16339e6f02c5a081",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 3,
+          "column": 37
+        },
+        {
+          "title": "E2 activity and group details remain one stable identity",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 121,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E2\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E2\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E2\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E2\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:8:98",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E2\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E2\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:8:98"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:50.081Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E2-acti-d5c50--remain-one-stable-identity/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E2-acti-d5c50--remain-one-stable-identity/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E2-acti-d5c50--remain-one-stable-identity/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-e5637aa5c24c141a28c5",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "E3 score stays visible while keyed draft survives display and mode without implicit save",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 121,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:9:130",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:9:130"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:50.546Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E3-scor-844ef--mode-without-implicit-save/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E3-scor-844ef--mode-without-implicit-save/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E3-scor-844ef--mode-without-implicit-save/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-5567a9a95f95fe90de17",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 9,
+          "column": 1
+        },
+        {
+          "title": "E4 nonmodal temporary knowledge preserves geometry, playback and exact focus exit",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 121,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:10:123",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:10:123"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:51.011Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E4-nonm-8cd7a-ayback-and-exact-focus-exit/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E4-nonm-8cd7a-ayback-and-exact-focus-exit/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E4-nonm-8cd7a-ayback-and-exact-focus-exit/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-d3054f2e43c0969fdab4",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 10,
+          "column": 1
+        },
+        {
+          "title": "E5 instance-local density leaves B selection, draft and computed geometry unchanged",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 122,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E5\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E5\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E5\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E5\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:11:125",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E5\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E5\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:11:125"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:51.473Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E5-inst-69762-computed-geometry-unchanged/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E5-inst-69762-computed-geometry-unchanged/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E5-inst-69762-computed-geometry-unchanged/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-f5dac5936e7c2096fbc0",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 11,
+          "column": 1
+        },
+        {
+          "title": "E6 unseen review identity, two-side recovery and explicit local save at 1200",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 138,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:12:206",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:12:206"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:51.941Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-3a2f1-explicit-local-save-at-1200/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-3a2f1-explicit-local-save-at-1200/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-3a2f1-explicit-local-save-at-1200/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-27bfab4d8f0690710e3d",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 12,
+          "column": 37
+        },
+        {
+          "title": "E6 unseen review identity, two-side recovery and explicit local save at 1440",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 135,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:12:206",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:12:206"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:52.495Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-4d0d8-explicit-local-save-at-1440/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-4d0d8-explicit-local-save-at-1440/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-4d0d8-explicit-local-save-at-1440/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-d74f2aafa45534403644",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 12,
+          "column": 37
+        },
+        {
+          "title": "E6 unseen review identity, two-side recovery and explicit local save at 1600",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 122,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:12:206",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:12:206"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:52.985Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-ee817-explicit-local-save-at-1600/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-ee817-explicit-local-save-at-1600/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-ee817-explicit-local-save-at-1600/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-bd8195e6e87801bcc7f3",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 12,
+          "column": 37
+        },
+        {
+          "title": "public controls render compiled Rain styles in independent consumer",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 121,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:15:19",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:15:19"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:53.457Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-public--54700-les-in-independent-consumer/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-public--54700-les-in-independent-consumer/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-public--54700-les-in-independent-consumer/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-a52a3a4912d3b0778a72",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 14,
+          "column": 1
+        },
+        {
+          "title": "consumer deactivation clears temporary workspace and focus sessions while preserving business drafts",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 122,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:25:19",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:25:19"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:53.926Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-4224c--preserving-business-drafts/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-4224c--preserving-business-drafts/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-4224c--preserving-business-drafts/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-16775ac0728842604884",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "consumer deactivation closes portaled scope search and retains host draft",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 119,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:42:19",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                      "column": 53,
+                      "line": 2
+                    },
+                    "snippet": "  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                        "column": 53,
+                        "line": 2
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1\", waiting until \"load\"\u001b[22m\n\n\n  1 | import {test,expect,type Page} from '@playwright/test';\n> 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene=\"${id}\"]`);await expect(root).toBeVisible();return root;}\n    |                                                     ^\n  3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{\n  4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');\n  5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');\n    at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:42:19"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T16:39:54.388Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-c0b6c-arch-and-retains-host-draft/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-c0b6c-arch-and-retains-host-draft/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-c0b6c-arch-and-retains-host-draft/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts",
+                    "column": 53,
+                    "line": 2
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2170d820dafa72ebc684-6c3ab7c46184bf106157",
+          "file": "navigation-v042-w6.spec.ts",
+          "line": 41,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-04T16:39:48.340Z",
+    "duration": 6293.551,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 13,
+    "flaky": 0
+  }
+}

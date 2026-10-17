@@ -1,3 +1,4 @@
+import { tooltipTokens, tooltipTokenSource } from "../packages/foundations/src/tooltip-token-contract.ts";
 import { tabsSizeTokens, tabsTwoLineSizeTokens, tabsSizeRecipes, tabsAppearanceRecipes, tabsGeometry } from "../packages/foundations/src/tabs-token-contract.ts";
 import { inputSizeTokens, inputClearSizeToken } from "../packages/foundations/src/input-token-contract.ts";
 import { selectSizeTokens, selectValueHeightTokens, selectActionSizeToken, selectTouchTargetSizeToken } from "../packages/foundations/src/select-token-contract.ts";
@@ -66,11 +67,12 @@ export function getGeneratedTokenFiles(root = process.cwd()) {
     "manifests/contracts/token-foundations-v1.json": `${JSON.stringify({
       schemaVersion: "1.0", id: "token-foundations-v1", assetIdentity: "registry-candidate",
       publication: "not-authorized", supportedThemes: ["light", "dark"], themeScope: "category-color-tokens",
-      sourcePaths: ["packages/foundations/src/overlay-token-contract.ts", "packages/foundations/src/token-contract.ts", "packages/foundations/src/button-token-contract.ts", "packages/foundations/src/composition-contract.ts", "packages/foundations/src/icon-size-contract.ts", "packages/foundations/src/input-token-contract.ts", "packages/foundations/src/select-token-contract.ts", "packages/foundations/src/tabs-token-contract.ts", "packages/foundations/src/color-registry.ts", "packages/foundations/src/typography-contract.ts", "evidence/runtime/color-dark-theme/confirmed-input.json", "docs/plans/2026-09-06-color-dark-theme.md", "packages/foundations/src/tag-token-contract.ts", tagColorSource],
+      sourcePaths: ["packages/foundations/src/tooltip-token-contract.ts", "packages/foundations/src/overlay-token-contract.ts", "packages/foundations/src/token-contract.ts", "packages/foundations/src/button-token-contract.ts", "packages/foundations/src/composition-contract.ts", "packages/foundations/src/icon-size-contract.ts", "packages/foundations/src/input-token-contract.ts", "packages/foundations/src/select-token-contract.ts", "packages/foundations/src/tabs-token-contract.ts", "packages/foundations/src/color-registry.ts", "packages/foundations/src/typography-contract.ts", "evidence/runtime/color-dark-theme/confirmed-input.json", "docs/plans/2026-09-06-color-dark-theme.md", "packages/foundations/src/tag-token-contract.ts", tagColorSource],
       consumerPaths: ["apps/playground/src/docs/token-foundations/", "packages/ui/src/button/button.styles.ts", "packages/ui/src/button/button.tsx", "apps/playground/src/docs/components/button-token-review.tsx", ...new Set([...outputs.colorRecipeConsumers, ...outputs.colorCssConsumers].map((entry) => entry.filePath))],
       defaultConsumption: "complete-recipe-first", utilities: outputs.utilities,
       colorConsumers: outputs.colorConsumers, displayConsumers: outputs.displayConsumers,
       buttonColorRecipes: outputs.buttonColorRecipes,
+      tooltip: { source: tooltipTokenSource, contract: "packages/foundations/src/tooltip-token-contract.ts", tokens: tooltipTokens, scope: "fixed-classic-surface", consumer: "packages/ui/src/tooltip/tooltip.css", contrastAcceptance: "not-granted" },
       overlay: { source: overlayTokenSource, contract: "packages/foundations/src/overlay-token-contract.ts", none: "no-painted-backdrop", colors: overlayColors,
         cssConsumers: Object.keys(overlayColors).map(name => ({ filePath: "packages/ui/src/dialog/dialog.css", selector: `.rain-dialog-backdrop[data-mask="${name}"]`, property: "background-color", value: `var(--rain-overlay-${name})` })),
         dialogWidths, dialogGeometryTokens, contrastAcceptance: "not-granted" },

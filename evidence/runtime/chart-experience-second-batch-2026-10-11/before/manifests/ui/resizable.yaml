@@ -1,0 +1,109 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-resizable"
+name: "Resizable"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/resizable/resizable.tsx"
+styleSourcePath: "packages/ui/src/resizable/resizable.css"
+sourceVersion: "local-2026-10-07-g1-assetization"
+description: "分配相邻阅读与判断区域的空间，沿用固定分区引擎管理拖动和键盘边界。"
+useWhen:
+  - "需要用户调整的相邻阅读、预览或判断区域。"
+doNotUseWhen:
+  - "固定网格用 CSS/Layout；布局事件不用于保存或切换业务对象。"
+anatomy:
+  - "ResizablePanelGroup"
+  - "ResizablePanel"
+  - "ResizableHandle"
+parts:
+  - "ResizablePanelGroup"
+  - "ResizablePanel"
+  - "ResizableHandle"
+props:
+  - "Group: orientation=horizontal|vertical、groupRef、defaultLayout、onLayoutChange / onLayoutChanged 与 GroupProps。"
+  - "Panel: 稳定 id、defaultSize、minSize、maxSize、collapsible、collapsedSize 与 PanelProps。"
+  - "Handle: withHandle（默认不显示握柄）、disabled、aria-label 与 SeparatorProps。"
+  - "4.x 数字尺寸为像素；比例写为 55% 等字符串。groupRef.setLayout 使用 keyed percentage layout。"
+slots:
+  - "children: 由宿主提供标题、正文与业务内容。"
+variants:
+  - "horizontal"
+  - "vertical"
+  - "withHandle"
+states:
+  - "idle"
+  - "hover"
+  - "focus-visible"
+  - "dragging"
+  - "disabled separator"
+  - "horizontal/vertical"
+dependencies:
+  - "React"
+  - "@rain-next/foundations"
+  - "tailwind-merge@3.6.0"
+  - "react-resizable-panels@4.12.4"
+tokens:
+  - "--rain-category-background-neutral-2"
+  - "--rain-category-background-neutral-4"
+  - "--rain-category-icon-brand-1"
+  - "--rain-category-icon-neutral-3"
+  - "--rain-line-thickness-2"
+  - "--rain-radius-full"
+  - "--rain-space-24"
+layoutConstraints:
+  - "Group 默认占满父级高度；宿主为父级设置高度。"
+  - "面板内部滚动、最小宽高及长内容换行由宿主处理。"
+compositionRules:
+  - "Group → Panel / Handle / Panel；每个 Panel 使用稳定唯一 id。"
+  - "通过 groupRef.setLayout 恢复比例；不另写拖动状态或键盘引擎。"
+  - "业务数据、草稿、保存与权限留宿主。"
+allowedModifications:
+  - "宿主内容、现有变体、受控状态、className 与实例内局部 Recipe。"
+restrictedModifications:
+  - "不改 Foundation Token、共享视觉值或交互引擎；新能力另行审阅。"
+accessibility:
+  - "Handle 提供真实作用的 aria-label；separator 数值与键盘 Arrow/Home/End 由引擎管理。"
+  - "默认 2px 细线及 2×24px 操作标记沿用已接受 G1-next；hover/focus/active 全长反馈。"
+  - "forced-colors 保留握柄和焦点。"
+examples:
+  - "apps/playground/src/docs/components/resizable-page.tsx"
+  - "apps/prototype/src/scenarios/token-first-g1/next-samples.tsx"
+recipes:
+  - "原 G1 已接受样板保持原验收范围；本次独立文档页单独待审阅。"
+antiPatterns:
+  - "复制交互引擎；用关闭/拖动隐式清空宿主状态；仅凭历史样板接受推导公共资产已批准。"
+relatedComponents: []
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences: []
+  externalReferences:
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; MIT; original author source and Nova styles retained in sourceLock"
+    - "react-resizable-panels@4.12.4"
+  retainedTraits:
+    - "已接受 G1 局部样板的 Rain 颜色、边界、字形、密度与状态；按原选择器迁移。"
+  redesignedTraits:
+    - "仅位置与公开候选身份变化；没有新增设计方向、视觉值或交互能力。"
+  intentionallyNotInherited:
+    - "外部默认主题；原样板的局部接受不转为新共享资产的系统审核或发布。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/token-first-v12-g1-next/source-lock.json"
+migrationNotes: "旧 G1 入口 re-export 共享候选；原文与 MIT 保持可追踪。"
+humanGate: "pending-visual-review"
+contrastAcceptance: "not-granted"
+sourceAcceptance:
+  acceptedAt: "2026-09-21"
+  scope: "current-G1-next-sample-runtime-visual-only"
+  evidence: "evidence/runtime/token-first-v12-g1-next/verification.md"
+  transfersToCurrentSharedAsset: false
+verification:
+  evidence: "evidence/runtime/g123-playground-2026-10-07/verification.md"
+  automated: "scoped-unit-typecheck-build-and-30-route-browser-passed"
+  independentReview: "passed-scoped-source-contract-review"
+  humanGate: "pending-visual-review"
+  contrastAcceptance: "not-granted"

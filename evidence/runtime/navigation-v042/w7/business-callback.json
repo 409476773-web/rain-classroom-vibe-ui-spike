@@ -1,0 +1,124 @@
+{
+  "contract": "N13",
+  "recordedAt": "2026-10-04T09:41:12.312444+00:00",
+  "testFile": "apps/playground/src/recipes/navigation-v042/w7-business.test.tsx",
+  "testSha256": "50bd9d4bd1137b7323e486efb10139d8f7c102ff529cafc466bf01edf21fb801",
+  "status": "passed-exact-public-business-callback-counts",
+  "instrumentation": {
+    "boundary": "Public @rain-next/ui Button onClick passed by actual R4 grading and R6 application",
+    "targets": [
+      "本地保存草稿",
+      "本地保存示例",
+      "完成预览"
+    ],
+    "method": "Partial module proxy returns every original UI export. It forwards props/ref into actual Button and wraps only the target onClick. Counter records invocation then delegates the original real application callback. Actual WorkspaceLayout, reducers, UI, business state and save behavior are retained.",
+    "credibility": "R4 save is defined at r4-r6.tsx:122 and passed only to the actual Button at line127; there is no other invocation path in this source. R6 save/complete callbacks are inline at the actual Button at line162. Positive explicit save updates actual saved status/notice as well as producing exactly one observed invocation.",
+    "excluded": "No invented production-submit service or debug API; these application recipes have local mock save behavior."
+  },
+  "command": "./node_modules/.bin/vitest run apps/playground/src/recipes/navigation-v042/w7-business.test.tsx --maxWorkers=1 --reporter=default --reporter=json --outputFile=evidence/runtime/navigation-v042/w7/business-callback-results.json",
+  "run": {
+    "exitCode": 0,
+    "tests": 2,
+    "passed": 2,
+    "failed": 0,
+    "startLocal": "2026-10-04 17:38:43",
+    "durationSeconds": 2.69,
+    "log": "evidence/runtime/navigation-v042/w7/business-callback.log",
+    "vitestJson": "evidence/runtime/navigation-v042/w7/business-callback-results.json"
+  },
+  "cases": [
+    {
+      "actualConsumer": "R4Recipe scene grading",
+      "businessCallbackCounts": {
+        "afterAllLayoutAndDisplayEvents": 0,
+        "afterExplicitLocalSave": 1
+      },
+      "actions": [
+        "nondefault student/question selection",
+        "write keyed feedback and score",
+        "hide/show student queue",
+        "unpin review into temporary",
+        "pin review",
+        "actual separator ArrowRight +10px",
+        "switch grading method",
+        "change material font size",
+        "switch material tab",
+        "switch AI/teacher grading display",
+        "enter focus",
+        "exit focus"
+      ],
+      "retained": [
+        "A paper identity",
+        "second question identity",
+        "Ouyang Xiaoming student identity",
+        "9.2 score",
+        "keyed feedback draft"
+      ],
+      "positiveControl": "actual saved draft status plus actual local notice"
+    },
+    {
+      "actualConsumer": "R6Recipe",
+      "businessCallbackCounts": {
+        "afterAllLayoutAndDisplayEvents": 0,
+        "afterExplicitLocalSave": 1
+      },
+      "actions": [
+        "write course name and feedback",
+        "hide/show internal directory",
+        "actual separator Shift+ArrowRight +32px",
+        "unpin editing tools into temporary",
+        "pin tools",
+        "enter focus",
+        "exit focus",
+        "switch edit/preview/edit",
+        "switch form/table/board/form views"
+      ],
+      "retained": [
+        "learning feedback page identity",
+        "form view identity",
+        "course name",
+        "feedback draft"
+      ],
+      "positiveControl": "actual local saved example notice"
+    }
+  ],
+  "typecheck": {
+    "command": "./node_modules/.bin/tsc --noEmit --project tsconfig.tests.json",
+    "exitCode": 1,
+    "newTestDiagnostics": 0,
+    "remainingDiagnostics": [
+      "packages/ui/src/command/command.test.tsx(20,10): TS2322, prior baseline failure"
+    ],
+    "log": "evidence/runtime/navigation-v042/w7/business-callback-typecheck.log"
+  },
+  "initialEvidence": {
+    "rootPlacementResolutionFailure": {
+      "file": "business-callback-initial.log",
+      "json": "business-callback-initial-results.json",
+      "exitCode": 1,
+      "tests": 0,
+      "reason": "Root/tests has no React workspace dependency. Parent directed final test into Playground recipe directory; temporary helper/root test were removed."
+    },
+    "intermediateSuccessfulRun": {
+      "file": "business-callback-second.log",
+      "json": "business-callback-second-results.json",
+      "exitCode": 0,
+      "tests": 2
+    },
+    "testAuthoringCorrections": "After relocation, Testing Library ByRole options and JSX props typing were corrected; final types contain no new test diagnostic. No implementation defect or fabricated red/green cycle is claimed."
+  },
+  "readProductionSources": {
+    "apps/playground/src/recipes/navigation-v042/r4-r6.tsx": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+    "packages/ui/src/button/button.tsx": "0af8960472f99081c09e92a1fe46fe1243f4ec0df501fca9ea566a1165aa909d",
+    "packages/ui/src/index.ts": "352c65cec438127a8d482d570a19c7d8db6eb611fa2cb37b9b64f8aead123c53",
+    "packages/layouts/src/workspace.tsx": "c74c137303b7a283ebfbd3728f60f89ae7d90ea62e3872ce8a64aa5b10bb358c",
+    "packages/layouts/src/workspace-state.ts": "f41cde5f5fb26a86517021e862a8c73dc592de9f718829c7ce353c2d22e9dcc5"
+  },
+  "editScope": [
+    "new W7 test only",
+    "business-callback evidence only"
+  ],
+  "acceptedSourceEditsByThisTask": [],
+  "humanGate": "not-granted-by-this-test",
+  "mapOwner": "w7_audit: notified to replace exact-count remaining boundary with this current unit evidence while retaining separate browser state"
+}

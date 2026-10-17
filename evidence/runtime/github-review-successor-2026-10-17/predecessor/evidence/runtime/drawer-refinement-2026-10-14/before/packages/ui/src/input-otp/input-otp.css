@@ -1,0 +1,35 @@
+/* @rain-css-exception ui-input-otp: source slot geometry and caret period, painted through existing field/Focus Tokens. */
+@layer base {
+  .rain-input-otp { --rain-otp-slot-size: var(--rain-space-32); display: flex; align-items: center; gap: var(--rain-space-8); width: fit-content; max-width: 100%; font-family: var(--rain-font-ui); font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-22); color: var(--rain-category-text-neutral-1); }
+  .rain-input-otp:has(input[data-density="compact"]) { --rain-otp-slot-size: var(--rain-space-24); }
+  .rain-input-otp__input:disabled { cursor: not-allowed; }
+  .rain-input-otp__group { display: flex; align-items: center; border-radius: var(--rain-radius-6); }
+  .rain-input-otp__slot { position: relative; display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: var(--rain-otp-slot-size); height: var(--rain-otp-slot-size); border-block: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-2); border-inline-end: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-2); background: var(--rain-category-fill-neutral-solid-7); outline: none; transition: background-color var(--rain-motion-feedback-duration), border-color var(--rain-motion-feedback-duration); }
+  .rain-input-otp__slot:first-child { border-inline-start: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-2); border-start-start-radius: var(--rain-radius-6); border-end-start-radius: var(--rain-radius-6); }
+  .rain-input-otp__slot:last-child { border-start-end-radius: var(--rain-radius-6); border-end-end-radius: var(--rain-radius-6); }
+  .rain-input-otp__slot[data-active="true"] { z-index: 10; border-color: var(--rain-category-border-brand-1); box-shadow: 0 0 0 3px var(--rain-focus-control-halo); background: var(--rain-category-fill-brand-alpha-4); }
+  .rain-input-otp:has(input:focus-visible) .rain-input-otp__slot[data-active="true"] { outline: var(--rain-focus-width) solid var(--rain-focus-control); outline-offset: var(--rain-focus-offset); }
+  .rain-input-otp__slot[data-placeholder="true"] { color: var(--rain-category-text-neutral-4); }
+  .rain-input-otp:has(input[data-status="warning"]) .rain-input-otp__slot { border-color: var(--rain-category-border-orange-1); background: var(--rain-category-fill-orange-solid-3); }
+  .rain-input-otp:has(input[aria-invalid]:not([aria-invalid="false"])) .rain-input-otp__slot,
+  .rain-input-otp__slot[aria-invalid]:not([aria-invalid="false"]) { border-color: var(--rain-category-border-red-1); background: var(--rain-category-fill-red-solid-3); }
+  .rain-input-otp__group:has([aria-invalid]:not([aria-invalid="false"])),
+  .rain-input-otp:has(input[aria-invalid]:not([aria-invalid="false"])) .rain-input-otp__group { box-shadow: 0 0 0 var(--rain-line-thickness-1) var(--rain-category-border-red-1); }
+  .rain-input-otp:has(input:disabled) .rain-input-otp__slot { background: var(--rain-category-fill-neutral-solid-5); border-color: var(--rain-category-border-neutral-3); color: var(--rain-category-text-neutral-6); box-shadow: none; }
+  .rain-input-otp__caret { pointer-events: none; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .rain-input-otp__caret-line { width: var(--rain-line-thickness-1); height: var(--rain-space-16); background: currentColor; animation: rain-otp-caret-blink 1s ease-out infinite; }
+  .rain-input-otp__separator { display: flex; align-items: center; color: var(--rain-category-icon-neutral-3); }
+}
+@keyframes rain-otp-caret-blink { 0%, 70%, 100% { opacity: 1; } 20%, 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .rain-input-otp__slot { transition: none; }
+  .rain-input-otp__caret-line { animation: none; }
+}
+@media (forced-colors: active) {
+  .rain-input-otp__slot, .rain-input-otp__slot:first-child,
+  .rain-input-otp:has(input[aria-invalid]:not([aria-invalid="false"])) .rain-input-otp__slot,
+  .rain-input-otp:has(input[data-status="warning"]) .rain-input-otp__slot { background: Canvas; color: CanvasText; border-color: CanvasText; }
+  .rain-input-otp__slot[data-active="true"] { box-shadow: none; outline: var(--rain-focus-width) solid Highlight; }
+  .rain-input-otp__group { box-shadow: none; }
+  .rain-input-otp__caret-line { animation: none; background: CanvasText; }
+}

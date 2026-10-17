@@ -1,0 +1,108 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts (32 tests | 22 failed) 9ms
+   × daily columns use the complete daily comparison set independently from total people 2ms
+   × empty or zero daily comparison [] keeps an external zero maximum 0ms
+   × empty or zero daily comparison [ { trend: [] } ] keeps an external zero maximum 0ms
+   × empty or zero daily comparison [ { trend: [ null, null ] } ] keeps an external zero maximum 0ms
+   × empty or zero daily comparison [ { trend: [ +0, +0, null ] } ] keeps an external zero maximum 0ms
+   × daily comparison rejects invalid value NaN 1ms
+   × daily comparison rejects invalid value Infinity 0ms
+   × daily comparison rejects invalid value -Infinity 0ms
+   × daily comparison rejects invalid value -1 0ms
+   × progress 20 / 80 preserves normal and the actual denominator 0ms
+   × progress 0 / 80 preserves zero and the actual denominator 0ms
+   × progress 80 / 80 preserves normal and the actual denominator 0ms
+   × progress 0 / 0 preserves inapplicable and the actual denominator 0ms
+   × progress null / 80 preserves missing and the actual denominator 0ms
+   × progress 81 / 80 preserves overflow and the actual denominator 0ms
+   × progress 1 / 0 preserves invalid and the actual denominator 0ms
+   × progress NaN / 80 preserves invalid and the actual denominator 0ms
+   × progress Infinity / 80 preserves invalid and the actual denominator 0ms
+   × progress -1 / 80 preserves invalid and the actual denominator 0ms
+   × progress 20 / NaN preserves invalid and the actual denominator 0ms
+   × progress 20 / Infinity preserves invalid and the actual denominator 0ms
+   × progress 20 / -1 preserves invalid and the actual denominator 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 22 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > daily columns use the complete daily comparison set independently from total people
+TypeError: getTrendComparisonMax is not a function
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts:46:10
+     44|   const rows = [{ count: 100, trend: [4, 22, null] }, { count: 50, tre…
+     45|   expect(getComparisonMax(rows)).toBe(100);
+     46|   expect(getTrendComparisonMax(rows)).toBe(22);
+       |          ^
+     47|   expect(getTrendComparisonMax([...rows].reverse())).toBe(22);
+     48|   expect(getTrendComparisonMax(rows)).toBe(22); // Filtering a view mu…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/22]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > empty or zero daily comparison [] keeps an external zero maximum
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > empty or zero daily comparison [ { trend: [] } ] keeps an external zero maximum
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > empty or zero daily comparison [ { trend: [ null, null ] } ] keeps an external zero maximum
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > empty or zero daily comparison [ { trend: [ +0, +0, null ] } ] keeps an external zero maximum
+TypeError: getTrendComparisonMax is not a function
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts:52:10
+     50|
+     51| test.each([[], [{ trend: [] }], [{ trend: [null, null] }], [{ trend: […
+     52|   expect(getTrendComparisonMax(rows)).toBe(0);
+       |          ^
+     53| });
+     54|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/22]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > daily comparison rejects invalid value NaN
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > daily comparison rejects invalid value Infinity
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > daily comparison rejects invalid value -Infinity
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > daily comparison rejects invalid value -1
+AssertionError: expected [Function] to throw error matching /有限非负/ but got '(0 , __vite_ssr_import_1__.getTrendCo…'
+
+- Expected:
+/有限非负/
+
++ Received:
+"(0 , __vite_ssr_import_1__.getTrendComparisonMax) is not a function"
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts:56:61
+     54|
+     55| test.each([NaN, Infinity, -Infinity, -1])("daily comparison rejects in…
+     56|   expect(() => getTrendComparisonMax([{ trend: [value] }])).toThrow(/有…
+       |                                                             ^
+     57| });
+     58|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/22]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress 20 / 80 preserves normal and the actual denominator
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress 0 / 80 preserves zero and the actual denominator
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress 80 / 80 preserves normal and the actual denominator
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress 0 / 0 preserves inapplicable and the actual denominator
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress null / 80 preserves missing and the actual denominator
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress 81 / 80 preserves overflow and the actual denominator
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress 1 / 0 preserves invalid and the actual denominator
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress NaN / 80 preserves invalid and the actual denominator
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress Infinity / 80 preserves invalid and the actual denominator
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress -1 / 80 preserves invalid and the actual denominator
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress 20 / NaN preserves invalid and the actual denominator
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress 20 / Infinity preserves invalid and the actual denominator
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > progress 20 / -1 preserves invalid and the actual denominator
+TypeError: getProgressReading is not a function
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts:66:10
+     64|   [20, NaN, "invalid", null, "无效数据"], [20, Infinity, "invalid", null, …
+     65| ] as const)("progress %s / %s preserves %s and the actual denominator"…
+     66|   expect(getProgressReading(value, maxValue)).toEqual({ state, fractio…
+       |          ^
+     67| });
+     68|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/22]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  22 failed | 10 passed (32)
+   Start at  00:49:55
+   Duration  563ms (transform 23ms, setup 94ms, import 16ms, tests 9ms, environment 358ms)
+

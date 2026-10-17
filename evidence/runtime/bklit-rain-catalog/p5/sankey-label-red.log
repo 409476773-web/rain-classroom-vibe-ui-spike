@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+(node:19192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/bklit-catalog.spec.ts:157:1 › [P3] narrow Sankey labels preserve spacing, the node-center readout and single flow (699ms)
+
+
+  1) tests/e2e/bklit-catalog.spec.ts:157:1 › [P3] narrow Sankey labels preserve spacing, the node-center readout and single flow 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 8
+    Received:    -4
+
+      172 |     expect(boxes.labels.every(box => box.left >= 0 && box.right <= 390)).toBe(true);
+      173 |     for (const label of boxes.labels) for (const rect of boxes.nodes) {
+    > 174 |       if (label.bottom > rect.top && label.top < rect.bottom) expect(Math.max(rect.left - label.right, label.left - rect.right)).toBeGreaterThanOrEqual(8);
+          |                                                                                                                                  ^
+      175 |     }
+      176 |   }
+      177 |   await page.getByRole("combobox", { name: "示例状态" }).selectOption("single");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/bklit-catalog.spec.ts:174:130
+
+    Error Context: evidence/runtime/bklit-rain-catalog/p5/sankey-label-red/bklit-catalog--P3-narrow-S-7573e-ter-readout-and-single-flow/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/p5/sankey-label-red/bklit-catalog--P3-narrow-S-7573e-ter-readout-and-single-flow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/p5/sankey-label-red/bklit-catalog--P3-narrow-S-7573e-ter-readout-and-single-flow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/bklit-catalog.spec.ts:157:1 › [P3] narrow Sankey labels preserve spacing, the node-center readout and single flow 

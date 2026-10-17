@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/toast/toast.test.tsx (2 tests | 1 failed) 145ms
+     × renders the dynamic manager action with the shared text Button and preserves activation 98ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/toast/toast.test.tsx > shared Toast candidate > renders the dynamic manager action with the shared text Button and preserves activation
+Error: expect(element).toHaveAttribute("data-rain-id", "ui-button") // element.getAttribute("data-rain-id") === "ui-button"
+
+Expected the element to have attribute:
+  data-rain-id="ui-button"
+Received:
+  null
+ ❯ packages/ui/src/toast/toast.test.tsx:17:20
+     15|     await user.click(screen.getByRole("button", { name: "保存", exact: t…
+     16|     const action = screen.getByRole("button", { name: "撤回", exact: tru…
+     17|     expect(action).toHaveAttribute("data-rain-id", "ui-button");
+       |                    ^
+     18|     expect(action).toHaveAttribute("data-variant", "text");
+     19|     await user.keyboard("{F6}");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  21:50:15
+   Duration  1.47s (transform 159ms, setup 186ms, import 401ms, tests 145ms, environment 636ms)
+

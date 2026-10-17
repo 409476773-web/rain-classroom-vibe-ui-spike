@@ -1,0 +1,3 @@
+import { defineConfig } from '@playwright/test';
+const evidence = process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/w4` : undefined;
+export default defineConfig({testDir:'.',testMatch:'navigation-v042-w4.spec.ts',fullyParallel:false,workers:1,reporter: evidence ? [['list'], ['json', { outputFile: `${evidence}/report.json` }]] : 'list',use:{baseURL:'http://127.0.0.1:5198',viewport:{width:1600,height:1100},locale:'zh-CN',deviceScaleFactor:1,contextOptions:{reducedMotion:'reduce'}},outputDir:evidence ? `${evidence}/results` : '../../evidence/runtime/navigation-v042/w4/test-artifacts'});

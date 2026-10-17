@@ -1,0 +1,62 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/questionnaire/questionnaire-reuse.test.tsx (23 tests | 3 failed) 981ms
+     × uses the shared card surface for default choices while retaining the engine's label root 16ms
+     × isolates the added wrapper recipe and keeps input classes, styles, ref and native constraints on input 7ms
+     × maps engine invalid/disabled/readOnly to frame appearance without consuming outer field state 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/questionnaire/questionnaire-reuse.test.tsx > Questionnaire shared control compatibility > uses the shared card surface for default choices while retaining the engine's label root
+Error: expect(element).toHaveClass("rain-selection-card rain-selection-card__selection rain-radio")
+
+Expected the element to have class:
+  rain-selection-card rain-selection-card__selection rain-radio
+Received:
+  rain-questionnaire__choice relative flex min-w-0 items-start
+ ❯ packages/ui/src/questionnaire/questionnaire-reuse.test.tsx:67:34
+     65|     const choice = screen.getByRole("radio", { name: "选项 A" });
+     66|     expect(choice.parentElement!.tagName).toBe("LABEL");
+     67|     expect(choice.parentElement).toHaveClass("rain-selection-card", "r…
+       |                                  ^
+     68|     expect(choice.nextElementSibling).toHaveAttribute("data-slot", "ca…
+     69|     expect(screen.getByRole("radio", { name: "禁用 B" })).toBeDisabled();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  packages/ui/src/questionnaire/questionnaire-reuse.test.tsx > Questionnaire shared control compatibility > isolates the added wrapper recipe and keeps input classes, styles, ref and native constraints on input
+Error: expect(element).toHaveClass("rain-input__control input-local caller-input")
+
+Expected the element to have class:
+  rain-input__control input-local caller-input
+Received:
+  rain-questionnaire__input w-full min-w-0 input-local caller-input
+ ❯ packages/ui/src/questionnaire/questionnaire-reuse.test.tsx:82:19
+     80|     expect(input).toBe(ref.current);
+     81|     expect(input).toHaveAttribute("data-slot", "input");
+     82|     expect(input).toHaveClass("rain-input__control", "input-local", "c…
+       |                   ^
+     83|     expect(input).toHaveStyle({ letterSpacing: "1px" });
+     84|     expect(input).toHaveAttribute("size", "20");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  packages/ui/src/questionnaire/questionnaire-reuse.test.tsx > Questionnaire shared control compatibility > maps engine invalid/disabled/readOnly to frame appearance without consuming outer field state
+Error: expect(element).toHaveAttribute("data-status", "error") // element.getAttribute("data-status") === "error"
+
+Expected the element to have attribute:
+  data-status="error"
+Received:
+  null
+ ❯ packages/ui/src/questionnaire/questionnaire-reuse.test.tsx:96:55
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 20 passed (23)
+   Start at  20:59:08
+   Duration  1.98s (transform 170ms, setup 136ms, import 243ms, tests 981ms, environment 500ms)
+

@@ -1,0 +1,92 @@
+{
+  "kind": "P6RootExecutedBrowserReview",
+  "method": "CUA native accessibility actions and actual screenshots",
+  "scope": "seven focused scenarios; not exhaustive interaction or device coverage",
+  "checks": [
+    {
+      "id": "label",
+      "action": "点击课程名称标签",
+      "observed": "焦点进入课程名称输入",
+      "evidence": [
+        "label.jpg"
+      ]
+    },
+    {
+      "id": "field",
+      "action": "保存默认作业设置",
+      "observed": "设置已保存（仅当前页面）；截止2026-10-18 23:59；满分100分",
+      "evidence": [
+        "field-state.txt",
+        "field.jpg"
+      ]
+    },
+    {
+      "id": "input-group",
+      "action": "输入评语并提交",
+      "observed": "15/280字、按钮可用、已提交原文；兄弟实例内容保持",
+      "evidence": [
+        "input-group-state.txt",
+        "input-group.jpg"
+      ],
+      "finding": "页面副标题误称共享候选，实际为本地组合"
+    },
+    {
+      "id": "data-table",
+      "action": "选择设计方法导论后切第2页",
+      "observed": "已选1份，含其他页1份；课堂观察记录初始只读不可选",
+      "evidence": [
+        "data-table-state.txt",
+        "data-table.jpg"
+      ]
+    },
+    {
+      "id": "teacher-grading",
+      "action": "0分＋评语→下一位→上一位→保存",
+      "observed": "0及评语恢复；保存后已批改0分、进度2/18→3/18",
+      "evidence": [
+        "workbench-initial-state.txt",
+        "workbench-initial.jpg",
+        "workbench-saved-state.txt",
+        "workbench-saved.jpg"
+      ]
+    },
+    {
+      "id": "learning-report",
+      "action": "全部班级→一班；平均分→提交率",
+      "observed": "12条→6条；252/312→123/156；图例/趋势/班级表现/明细同步",
+      "evidence": [
+        "report-initial-state.txt",
+        "report-filtered-state.txt",
+        "report-initial.jpg",
+        "report-filtered.jpg",
+        "report-analysis.jpg"
+      ]
+    },
+    {
+      "id": "p5-resource-update",
+      "action": "跨课程选use-01/use-04，筛选教育观察实践；模拟失败→重试→重新打开",
+      "observed": "筛选外1项仍含于2位置2课程；失败保留范围和备注；1份草稿；快照含两项，发布仍v2",
+      "evidence": [
+        "p5-failure-state.txt",
+        "p5-failure.jpg",
+        "p5-reopened-state.txt",
+        "p5-reopened.jpg"
+      ]
+    }
+  ],
+  "checkGroups": 7,
+  "productFindings": [
+    {
+      "id": "P6-DOC-01",
+      "type": "documentation-identity",
+      "scope": "input-group page status/description",
+      "status": "corrected-in-independent-candidate; not-merged-into-frozen-baseline",
+      "candidate": "http://127.0.0.1:5520/#input-group",
+      "evidence": [
+        "input-group-candidate-state.txt",
+        "input-group-candidate.jpg",
+        "../../../../../../../outputs/p6-review-candidate-2026-10-17/evidence/input-group-copy.diff"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g23-family-refinement-governance.test.ts (5 tests | 3 failed) 54ms
+   × records the follow-up style scope without granting runtime acceptance or publication 6ms
+   × binds current documentation, its predecessor and paint roles without changing the earlier evidence 11ms
+   × keeps actual documentation color declarations aligned with the registered roles 20ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g23-family-refinement-governance.test.ts > records the follow-up style scope without granting runtime acceptance or publication
+AssertionError: expected undefined to match object { …(4) }
+
+- Expected:
+{
+  "publication": "not-authorized",
+  "runtimeVisualReview": "awaiting-user-review",
+  "scope": "remaining-g2-g3-styles-and-existing-playground-examples",
+  "userStatement": "继续优化g2、g3下，其他组件的样式",
+}
+
++ Received:
+undefined
+
+ ❯ scripts/g23-family-refinement-governance.test.ts:27:69
+     25| it("records the follow-up style scope without granting runtime accepta…
+     26|   const current = status();
+     27|   expect(current.componentRefinements.g23RemainingVisualRefinement).to…
+       |                                                                     ^
+     28|     userStatement: "继续优化g2、g3下，其他组件的样式", scope: "remaining-g2-g3-style…
+     29|     runtimeVisualReview: "awaiting-user-review", publication: "not-aut…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  scripts/g23-family-refinement-governance.test.ts > binds current documentation, its predecessor and paint roles without changing the earlier evidence
+Error: G2–G3 documentation actual source changed: apps/playground/src/docs/components/component-doc.css
+ ❯ getG23DocumentationSourceBindings scripts/verification-helpers.mjs:2316:108
+    2314|   const record = JSON.parse(source);
+    2315|   for (const [file, binding] of Object.entries(record.sourceFiles)) {
+    2316|     if (createHash("sha256").update(readFileSync(join(root, file))).di…
+       |                                                                                                            ^
+    2317|   }
+    2318|   for (const [file, expected] of Object.entries(record.retainedRecords…
+ ❯ scripts/g23-family-refinement-governance.test.ts:41:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  scripts/g23-family-refinement-governance.test.ts > keeps actual documentation color declarations aligned with the registered roles
+Error: G2–G3 documentation actual source changed: apps/playground/src/docs/components/component-doc.css
+ ❯ getG23DocumentationSourceBindings scripts/verification-helpers.mjs:2316:108
+    2314|   const record = JSON.parse(source);
+    2315|   for (const [file, binding] of Object.entries(record.sourceFiles)) {
+    2316|     if (createHash("sha256").update(readFileSync(join(root, file))).di…
+       |                                                                                                            ^
+    2317|   }
+    2318|   for (const [file, expected] of Object.entries(record.retainedRecords…
+ ❯ getG123ColorRegistration scripts/verify-token-foundations.mjs:135:72
+ ❯ getG123PlaygroundDocumentationColorConsumers scripts/verify-token-foundations.mjs:148:10
+ ❯ scripts/g23-family-refinement-governance.test.ts:61:37
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 2 passed (5)
+   Start at  17:37:29
+   Duration  1.28s (transform 308ms, setup 152ms, import 411ms, tests 54ms, environment 562ms)
+

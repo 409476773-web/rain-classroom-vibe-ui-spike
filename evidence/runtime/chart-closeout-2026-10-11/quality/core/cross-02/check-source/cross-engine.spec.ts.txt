@@ -1,0 +1,41 @@
+import { expect, test } from "@playwright/test";
+import { mkdir } from "node:fs/promises";
+import { resolve } from "node:path";
+import { CHART_ENTRIES } from "../../../../../apps/playground/src/docs/components/chart-catalog";
+import { paintReadings, renderedTextAudit, run, save, sourceHashes } from "./quality-helpers";
+
+test("all nineteen current default chart entries render finite geometry and expose exact data without document overflow", async ({ page }, info) => {
+  const before = await sourceHashes(), errors: string[] = [], observations: unknown[] = [];
+  page.on("pageerror", error => errors.push(error.message));
+  await mkdir(run, { recursive: true });
+  expect(CHART_ENTRIES).toHaveLength(19);
+  try {
+    for (const entry of CHART_ENTRIES) {
+      await page.goto(`/#chart-${entry.id}`);
+      await expect(page.getByRole("heading", { name: entry.label, level: 1 })).toBeVisible();
+      const host = page.locator(`[data-rain-id="${entry.id === "network" ? "doc-chart-network" : `chart-${entry.id}`}"]`);
+      if (entry.id === "matrix") await expect(host.locator('[data-rain-id="ui-chart-matrix"]').first()).toBeVisible();
+      else await expect.poll(() => host.locator("svg").evaluateAll(nodes => nodes.filter(node => { const box = node.getBoundingClientRect(); return box.width > 60 && box.height > 60; }).length)).toBeGreaterThan(0);
+      const summaries = host.locator("summary").filter({ hasText: "查看精确数据" });
+      for (let index = 0; index < await summaries.count(); index++) await summaries.nth(index).click();
+      await expect(host.locator("tbody tr").first()).toBeVisible();
+      const rows = await host.locator("tbody tr").allTextContents();
+      expect(rows.length).toBeGreaterThan(0);
+      expect(rows.join(" ")).not.toMatch(/NaN|Infinity|undefined/);
+      const invalidGeometry = await host.locator("svg [d],svg [points],svg [transform],svg [cx],svg [x]").evaluateAll(nodes => nodes.flatMap(node => [...node.attributes].filter(attribute => /^(d|points|transform|cx|cy|x|y|width|height|r)$/.test(attribute.name) && /NaN|Infinity|undefined/.test(attribute.value)).map(attribute => ({ tag: node.tagName, name: attribute.name, value: attribute.value }))));
+      expect(invalidGeometry).toEqual([]);
+      await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+      const bounds = await host.evaluate(node => { const box = node.getBoundingClientRect(); return { left: box.left, right: box.right, width: box.width, viewport: innerWidth }; });
+      const status = await host.locator('[role="status"]').allTextContents();
+      const ordinaryText = await paintReadings(host.locator(".text-chart-label, .legend-container .rain-chart-legend-button, .legend-container .text-legend-foreground"));
+      const renderedText = await renderedTextAudit(host.locator("svg text, .text-chart-label, .legend-container .rain-chart-legend-button, .legend-container .text-legend-foreground, .rain-chart-note, [role=status], .rain-chart-center-value, .rain-chart-center-label, [data-slot=cell]"));
+      observations.push({ id: entry.id, rows, status, bounds, invalidGeometry, ordinaryText, renderedText });
+      await host.screenshot({ path: resolve(run, `${info.project.name}-${entry.id}.png`) });
+    }
+    expect(errors).toEqual([]);
+  } finally {
+    const after = await sourceHashes();
+    await save(`${info.project.name}-entries`, { before, after, observations, errors, sourceFrozen: JSON.stringify(before) === JSON.stringify(after), scope: "nineteen registry chart defaults; reduced motion; finite geometry/exact-table access/layout smoke, not physical Safari/VoiceOver/touch acceptance" });
+    expect(after).toEqual(before);
+  }
+});

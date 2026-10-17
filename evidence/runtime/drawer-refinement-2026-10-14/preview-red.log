@@ -1,0 +1,93 @@
+
+Running 2 tests using 1 worker
+
+(node:38855) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [narrow] › tests/e2e/drawer-refinement.spec.ts:21:1 › aligned surface, fixed actions and single-layer preview preserve the draft (6.9s)
+(node:38882) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [narrow] › tests/e2e/drawer-refinement.spec.ts:46:1 › long titles and short-preview body cannot scroll the fixed heading away (2.4s)
+
+
+  1) [narrow] › tests/e2e/drawer-refinement.spec.ts:21:1 › aligned surface, fixed actions and single-layer preview preserve the draft 
+
+    Error: expect(locator).toHaveCSS(expected) failed
+
+    Locator:  locator('[data-slot="drawer-overlay"]')
+    Expected: "1"
+    Received: "0"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCSS" with timeout 5000ms
+      - waiting for locator('[data-slot="drawer-overlay"]')
+        - locator resolved to <div dir="ltr" data-open="" aria-hidden="true" role="presentation" data-base-ui-inert="" data-density="default" data-rain-theme="light" data-rain-id="ui-drawer" data-slot="drawer-overlay" class="rain-drawer__overlay"></div>
+        - unexpected value "0.456249"
+        - locator resolved to <div dir="ltr" data-open="" aria-hidden="true" role="presentation" data-base-ui-inert="" data-density="default" data-rain-theme="light" data-rain-id="ui-drawer" data-slot="drawer-overlay" class="rain-drawer__overlay"></div>
+        - unexpected value "0.375505"
+        - locator resolved to <div dir="ltr" data-open="" aria-hidden="true" role="presentation" data-base-ui-inert="" data-density="default" data-rain-theme="light" data-rain-id="ui-drawer" data-slot="drawer-overlay" class="rain-drawer__overlay"></div>
+        - unexpected value "0.166279"
+        - locator resolved to <div dir="ltr" data-open="" aria-hidden="true" role="presentation" data-base-ui-inert="" data-density="default" data-rain-theme="light" data-rain-id="ui-drawer" data-slot="drawer-overlay" class="rain-drawer__overlay"></div>
+        - unexpected value "0.0347852"
+        - locator resolved to <div dir="ltr" data-open="" aria-hidden="true" role="presentation" data-base-ui-inert="" data-density="default" data-rain-theme="light" data-rain-id="ui-drawer" data-slot="drawer-overlay" class="rain-drawer__overlay"></div>
+        - unexpected value "0.00755142"
+        9 × locator resolved to <div dir="ltr" data-open="" aria-hidden="true" role="presentation" data-base-ui-inert="" data-density="default" data-rain-theme="light" data-rain-id="ui-drawer" data-slot="drawer-overlay" class="rain-drawer__overlay"></div>
+          - unexpected value "0"
+
+
+      34 |   await expect(page.getByRole("dialog")).toHaveCount(1);
+      35 |   await expect(page.getByRole("dialog")).toHaveAccessibleName("同层预览的课堂任务");
+    > 36 |   await expect(page.locator('[data-slot="drawer-overlay"]')).toHaveCSS("opacity", "1");
+         |                                                              ^
+      37 |   await expect(page.getByRole("dialog").getByText("课前准备 · 小组讨论", { exact: true })).toBeVisible();
+      38 |   await page.screenshot({ path: `${evidence}/preview-${info.project.name}.png` });
+      39 |   await page.getByRole("button", { name: "返回编辑", exact: true }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/drawer-refinement.spec.ts:36:62
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [narrow] › tests/e2e/drawer-refinement.spec.ts:46:1 › long titles and short-preview body cannot scroll the fixed heading away 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= -1
+    Received:    -73
+
+      51 |   await settle(page);
+      52 |   const header = await page.locator('.g6-task-header').boundingBox();
+    > 53 |   expect(header!.y).toBeGreaterThanOrEqual(-1);
+         |                     ^
+      54 |   await expect(page.getByRole("button", { name: "返回编辑", exact: true })).toBeInViewport();
+      55 |   await expect(page.getByRole("button", { name: "关闭预览", exact: true })).toBeInViewport();
+      56 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/drawer-refinement.spec.ts:53:21
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-tit-ae018-roll-the-fixed-heading-away-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-tit-ae018-roll-the-fixed-heading-away-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-tit-ae018-roll-the-fixed-heading-away-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-long-tit-ae018-roll-the-fixed-heading-away-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [narrow] › tests/e2e/drawer-refinement.spec.ts:21:1 › aligned surface, fixed actions and single-layer preview preserve the draft 
+    [narrow] › tests/e2e/drawer-refinement.spec.ts:46:1 › long titles and short-preview body cannot scroll the fixed heading away 

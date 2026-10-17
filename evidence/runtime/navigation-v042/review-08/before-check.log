@@ -1,0 +1,37 @@
+
+Running 1 test using 1 worker
+
+(node:27932) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-v042.spec.ts:3:1 › G1 review-08 rail transitions retain brand nodes and use standard Avatar (5.4s)
+
+
+  1) tests/e2e/navigation-v042.spec.ts:3:1 › G1 review-08 rail transitions retain brand nodes and use standard Avatar 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.nv42-r2').locator('.nv42-rail').locator('.nv42-brand strong')
+    Expected: 1
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('.nv42-r2').locator('.nv42-rail').locator('.nv42-brand strong')
+        14 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+       9 |   await page.goto('/#navigation-v042');
+      10 |   const root=page.locator('.nv42-r2'),rail=root.locator('.nv42-rail');
+    > 11 |   await expect(rail.locator('.nv42-brand strong')).toHaveCount(1);
+         |                                                    ^
+      12 |   const avatar=rail.locator('[data-rain-id="ui-avatar"]');
+      13 |   await expect(avatar).toHaveCount(1);await expect(avatar).toHaveAttribute('data-size','32');
+      14 |   await expect(avatar).toHaveText('');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042.spec.ts:11:52
+
+    Error Context: evidence/runtime/navigation-v042/test-artifacts/navigation-v042-G1-review--9796f-des-and-use-standard-Avatar/error-context.md
+
+  1 failed
+    tests/e2e/navigation-v042.spec.ts:3:1 › G1 review-08 rail transitions retain brand nodes and use standard Avatar 

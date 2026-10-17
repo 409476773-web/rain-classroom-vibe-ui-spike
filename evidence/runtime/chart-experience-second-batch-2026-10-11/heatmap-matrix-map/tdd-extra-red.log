@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/heatmap-data-patterns.test.tsx (4 tests | 1 failed) 53ms
+   × the default contribution label reads missing data separately from valid zero 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/heatmap-data-patterns.test.tsx > the default contribution label reads missing data separately from valid zero
+AssertionError: expected '-1 contributions' to be 'No data' // Object.is equality
+
+Expected: "No data"
+Received: "-1 contributions"
+
+ ❯ packages/ui/src/charts/heatmap-data-patterns.test.tsx:38:113
+     36|   expect(formatHeatmapContributionLabel(0)).toBe("0 contributions");
+     37|   expect(formatHeatmapContributionLabel(1)).toBe("1 contribution");
+     38|   for (const count of [-1, Number.NaN, Number.POSITIVE_INFINITY]) expe…
+       |                                                                                                                 ^
+     39| });
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 17 passed (18)
+   Start at  13:57:35
+   Duration  2.42s (transform 1.77s, setup 246ms, import 2.59s, tests 532ms, environment 855ms)
+

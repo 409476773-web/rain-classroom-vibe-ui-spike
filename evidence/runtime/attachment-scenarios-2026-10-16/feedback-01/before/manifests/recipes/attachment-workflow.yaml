@@ -1,0 +1,143 @@
+schemaVersion: "1.0"
+kind: "RainRecipeManifest"
+id: "recipe-attachment-workflow"
+name: "Attachment Workflow"
+category: "recipe"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "react-only"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/attachment-workflow/index.ts"
+sourceVersion: "Rain authored attachment workflow 2026-10-15; scoped visual refinement 2026-10-16; composed existing G6 Attachment and Rain UI"
+description: "附件选择、校验、上传草稿、取消重试、原位替换、异步移除、列表与有限预览的公共组合。"
+useWhen:
+  - "表单或资料区需要多个真实文件的添加、上传状态、取消/重试、替换和移除。"
+  - "宿主提供上传/业务服务，组合负责本地草稿、呈现和资源生命周期。"
+doNotUseWhen:
+  - "只需单项附件展示；应使用ui-attachment九个Parts。"
+  - "需要内置存储后端、Office编辑器、断点续传、分片队列或服务器权限系统。"
+anatomy:
+  - "picker"
+  - "list"
+  - "item"
+  - "metadata"
+  - "actions"
+  - "feedback"
+  - "preview"
+parts:
+  - "AttachmentPicker"
+  - "AttachmentList"
+  - "AttachmentPreview"
+  - "useAttachmentUpload"
+props:
+  - "Picker: onFiles(File[])必填；accept/multiple/disabled/readOnly/label/description/buttonRef/className；variant=dropzone（默认）或button，后者为输入区紧凑入口。"
+  - "List: items必填；surface为outlined（默认）或filled；size=default/sm，orientation=horizontal/vertical，layout=list/wrap/grid，actions=default/draft；readOnly/disabled/restoreFocusRef/onDownload/onRemove/onReplace/onStart/onRetry/onCancel/className。"
+  - "Preview: attachment/open/onOpenChange必填；onDownload/returnFocus/theme/maxPreviewBytes（PDF默认20 MiB）。"
+  - "Hook: initialItems/constraints/upload/onRemove/autoUpload/readOnly/disabled/onChange。initialItems只用于首次挂载；加载新快照须reset。"
+  - "Hook返回items/rejections/removingIds/summary/addFiles/replaceFile/start/retry/cancel/remove/reset/clearRejections。"
+  - "AttachmentRecord用唯一稳定id；file/url/previewUrl/thumbnailUrl与上传状态、可用性、permissions/permissionReasons独立。"
+  - "createAttachmentXhrUploader: url和parseResponse必填；fieldName/headers/withCredentials/timeoutMs/data可选。"
+slots:
+  - "AttachmentPicker"
+  - "AttachmentList"
+  - "AttachmentPreview"
+variants:
+  - "List surface=outlined为描边表面，surface=filled为中性填充表面；两者共享内容、状态和动作合同。"
+  - "已知进度为文件名下64px短轨道加百分比，替代大小；未知进度和处理中不伪造百分比。草稿直接移除；媒体封面不叠加格式角标。"
+  - "手动上传为默认；autoUpload显式开启。readOnly保留允许的查看下载，disabled禁用文件操作。"
+states:
+  - "上传idle/uploading/processing/error/canceled/done；替换候选单独保存，成功前保留原资源。"
+  - "资源available/processing/forbidden/missing/expired；preview/download/open/remove/replace权限分别控制。"
+dependencies:
+  - "React19.2.8及既有Rain UI/Foundations；没有新增上传/预览运行时依赖。"
+  - "Attachment/Button/IconButton/DropdownMenu/Dialog/Progress与文件图标的真实依赖见registry/attachment-workflow.json。"
+tokens:
+  - "沿既有Attachment、Button、IconButton、DropdownMenu、Dialog、Progress合同；表面与状态使用已有中性及状态Token，彩色格式图标保留资产来源配色。"
+  - "入口用Background/Neutral/1、Border/Neutral/3、Radius8、Space8/12；链接用Text/Brand/1与已有Focus。"
+layoutConstraints:
+  - "List集合支持list/wrap/grid，卡片独立支持横向文件行或竖向媒体；文件名省略时保留扩展名，次行显示大小与必要状态；完整文件名在详情与预览中可读取。"
+  - "下载保留独立图标按钮；信息、打开、替换和移除进入更多菜单；上传任务动作按状态保留。窄宽度不得遮挡动作或产生横向溢出。"
+  - "Dialog宽度816由既有响应式合同限宽，图片/PDF/视频沿各自内容高度约束。"
+compositionRules:
+  - "原Attachment九Parts不承载上传引擎；上传和持久化通过宿主适配器接入。"
+  - "onChange只通知本地草稿；不得宣称服务已保存。reset显式覆盖草稿、取消任务并触发onChange。"
+  - "summary.canSubmit只检查待上传/替换/移除任务；宿主仍检查资源可用性、必传数量、权限和业务提交。"
+  - "替换保留稳定ID及原资源；移除关系不等于永久删除文件；服务端事务与孤立文件清理由宿主负责。"
+  - "选择和拖放经过同一校验；未知进度不造百分数，100%不等于服务处理完成。"
+  - "Playground七状态白灰双列为页面私有业务示例；不增加公共上传状态，也不合并上传、资源可用性和业务状态。"
+allowedModifications:
+  - "通过公开Props组合、提供真实upload/onRemove/onDownload适配器及自定义约束。"
+  - "业务页面用className和已有Token调整局部排布；功能契约变更须System Mode同步记录。"
+restrictedModifications:
+  - "不得把本地File或调用方Blob URL直接变成可执行的新窗口导航。"
+  - "不得把前端权限/accept/PDF头校验称为服务鉴权或安全扫描。"
+  - "不得模拟真实上传成功、自动关闭人工Gate或扩大发布/生产接受。"
+accessibility:
+  - "原生file input与真实Button共用添加入口；拖放不是唯一方式。"
+  - "动作有文件名，错误role=alert、状态role=status；未知进度用Progress不定值。"
+  - "图标动作有完整文件名标签；更多菜单遵循既有DropdownMenu键盘与焦点合同，小状态位配文字且不单凭颜色表达。"
+  - "预览由既有Dialog管理焦点；移除后恢复到邻项可用操作或restoreFocusRef入口。"
+examples:
+  - "packages/ui/src/attachment-workflow/README.md"
+  - "apps/playground/src/docs/components/attachment-scenarios-demo.tsx"
+  - "apps/playground/src/docs/components/attachment-workflow-demo.tsx"
+  - "apps/playground/src/docs/components/attachment-states-demo.tsx"
+  - "apps/playground/src/attachment-workflow-consumer.tsx"
+recipes:
+  - "AttachmentPicker + useAttachmentUpload + AttachmentList；共享readOnly/disabled及constraints。"
+  - "独立AttachmentPreview可配置PDF读取上限；内置List预览沿默认20 MiB。"
+antiPatterns:
+  - "将onChange输出即时送回reset，打断进行中的上传。"
+  - "把File或临时Object URL作为持久化资源，或以canSubmit替代业务校验。"
+  - "把传输100%、HTTP2xx、已发起下载分别当作处理完成、业务成功或保存成功。"
+relatedComponents:
+  - "ui-attachment"
+  - "ui-button"
+  - "ui-icon-button"
+  - "ui-dropdown-menu"
+  - "ui-dialog"
+  - "ui-progress"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "复用已登记Rain Attachment、按钮、对话框、弹层、进度、图标与语义Token；本轮未新造全局视觉规则。"
+  externalReferences:
+    - "Attachment底层保留shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048的既有适配；流程代码为Rain本地编写。"
+  retainedTraits:
+    - "原Attachment Parts、兄弟动作与全卡Trigger关系、原生语义和现有Rain样式。"
+  redesignedTraits:
+    - "2026-10-16整合视觉方案已完成本地有限实现：描边/填充表面、彩色文件图标、保留扩展名的标题、精简元信息、小状态位与下载/更多操作；范围内自动化回归通过，实际运行视觉仍待用户审阅。"
+  intentionallyNotInherited:
+    - "不引入外部上传框架、云端Office预览或业务权限引擎。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/attachment-functions-2026-10-15/source-bindings.json"
+  - "evidence/runtime/attachment-visual-2026-10-16/source-bindings.json"
+  - "evidence/runtime/attachment-visual-2026-10-16/feedback-01/source-bindings.json"
+  - "evidence/runtime/attachment-scenarios-2026-10-16/source-bindings.json"
+migrationNotes: "功能轮与前两次视觉轮的封存证据保留；2026-10-16用户确认多场景方案后明确开始实现，见docs/plans/2026-10-16-attachment-scenarios.md。实际运行仍等待用户验收。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  evidence: "evidence/runtime/attachment-scenarios-2026-10-16/verification.md"
+  independentReview: "passed-scoped-no-p1-p2"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+styleSourcePaths:
+  - "packages/ui/src/attachment-workflow/attachment-picker.css"
+  - "packages/ui/src/attachment-workflow/attachment-list.css"
+  - "packages/ui/src/attachment-workflow/attachment-preview.css"
+density:
+  - "沿所组合组件的现有Density合同，新增局部布局不改变原Attachment三档尺寸。"
+sourceDifferences:
+  - "本地编写Picker/List/Preview/Hook/XHR适配器，保持原Attachment展示层独立。"
+  - "前一视觉轮调整公共List组合与页面私有状态示例；本轮追加已确认的四场景、尺寸/排列、紧凑Picker与原生视频预览；保留原Attachment两个源文件及原G6十二项分母。"
+  - "栅格图、有限PDF与MIME/后缀匹配的原生MP4/WebM/Ogg视频预览；SVG/HTML/Office等退回说明和受限动作。"
+verificationLimits:
+  - "真实后端、鉴权/配额/恶意文件扫描、资源关系事务和生产持久化未由本组合实现或验证。"
+  - "PDF仅检查文件头并强制MIME；Chromium本地原生预览已验证，Safari、VoiceOver、真实触摸与大文件内存需实机验证。"
+  - "服务URL的正确响应与访问控制归服务；协议过滤不是内容信任。默认远程下载全量读取内存。"
+  - "前端download=false不提供防复制能力；相应PDF/视频不嵌原生查看器，open仍是独立权限。"
+  - "功能检查不代表视觉/交互、对比度、发布、Figma或业务迁移接受。"

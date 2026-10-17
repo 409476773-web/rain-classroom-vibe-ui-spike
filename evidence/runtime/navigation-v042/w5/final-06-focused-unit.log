@@ -1,0 +1,32 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+········x··········································································
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/layouts/src/workspace-state.test.ts > requested/effective/session separation > opens a constrained global expansion on the first toggle without pushing the main region
+AssertionError: expected 627 to be 683 // Object.is equality
+
+- Expected
++ Received
+
+- 683
++ 627
+
+ ❯ packages/layouts/src/workspace-state.test.ts:119:62
+    117|     expect(expanded.preferences.global!.mode).toBe("expanded");
+    118|     expect(expanded.session.temporary).toMatchObject({ regionId: "glob…
+    119|     expect(resolveWorkspace(spec, expanded, 1000).mainWidth).toBe(befo…
+       |                                                              ^
+    120|     expect(step(expanded, { type: "TOGGLE_GLOBAL", regionId: "global",…
+    121|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 8 passed (9)
+      Tests  1 failed | 82 passed (83)
+   Start at  21:24:49
+   Duration  4.00s (transform 3.44s, setup 2.26s, import 6.31s, tests 4.11s, environment 8.64s)
+

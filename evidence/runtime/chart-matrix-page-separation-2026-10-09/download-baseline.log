@@ -1,0 +1,110 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-chart-business-consumption.test.ts (8 tests | 2 failed) 200ms
+   × business downloads contain their real helpers and preserve selected state and shared scale 14ms
+   × business and matrix downloads keep their page contents separate 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-chart-business-consumption.test.ts > business downloads contain their real helpers and preserve selected state and shared scale
+AssertionError: expected 'import { createRoot } from "react-dom…' to contain 'initialSize={12}'
+
+- Expected
++ Received
+
+- initialSize={12}
++ import { createRoot } from "react-dom/client";
++ import { useState } from "react";
++ import { MotionConfig } from "motion/react";
++ import "@rain-next/foundations/tokens.css";
++ import "@rain-next/foundations/typography.css";
++ import "@rain-next/foundations/focus.css";
++ import { ChartExample } from "./chart-examples";
++ import { useChartReducedMotion } from "./chart-variants/shared";
++
++ function App() {
++   const [revision, setRevision] = useState(0);
++   const reduced = useChartReducedMotion();
++   return <MotionConfig reducedMotion="user">
++     <main style={{ maxWidth: 880, margin: "auto", padding: "var(--rain-space-24)" }}>
++       <button onClick={() => setRevision(value => value + 1)}>更新数据</button>
++       <div className="rain-chart" data-rain-id="chart-matrix" data-recipe="monochrome-blue">
++         <ChartExample id="matrix" recipe="monochrome-blue" revision={revision} reduced={reduced} state="normal" size="standard" miniSize="compact" seriesCount={3} matrixSize={12} />
++       </div>
++     </main>
++   </MotionConfig>;
++ }
++
++ createRoot(document.getElementById("root")!).render(<App />);
+
+ ❯ scripts/verify-chart-business-consumption.test.ts:23:79
+     21|   expect(()=>assertDownloadClosure(missing,"business")).toThrow(/mini-…
+     22|   expect(chartExampleCode("bar","monochrome-blue","zero","mini")).toCo…
+     23|   expect(chartExampleCode("matrix","monochrome-blue","normal","standar…
+       |                                                                               ^
+     24| });
+     25| test("business and matrix downloads keep their page contents separate"…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/verify-chart-business-consumption.test.ts > business and matrix downloads keep their page contents separate
+AssertionError: expected 'import { useState } from "react";\nim…' not to contain 'MatrixExamples'
+
+- Expected
++ Received
+
+- MatrixExamples
++ import { useState } from "react";
++ import { createRoot } from "react-dom/client";
++ import { MotionConfig, useReducedMotion } from "motion/react";
++ import { Button } from "@rain-next/ui";
++ import type { RainChartRecipe } from "@rain-next/ui/charts";
++ import "@rain-next/foundations/tokens.css";
++ import "@rain-next/foundations/typography.css";
++ import "@rain-next/foundations/focus.css";
++ import "@rain-next/ui/styles.css";
++ import "@rain-next/ui/charts/styles.css";
++ import "./chart-business/chart-business.css";
++ import { makeMiniRows, getComparisonMax, getTrendComparisonMax, selectMiniRows, type BusinessChartState } from "./chart-business/mini-data";
++ import { HorizontalBarComparison, HorizontalBarExample, RankingBars, RelativeBarExamples } from "./chart-business/bar-examples";
++ import { MiniGallery } from "./chart-business/mini-examples";
++ import { EmbeddingExamples } from "./chart-business/embedding-examples";
++ import { MatrixExamples } from "./chart-business/matrix-examples";
++ const settings: { recipe: RainChartRecipe; state: BusinessChartState; revision: number; descending: boolean; many: boolean; filter: boolean; matrixSize?:4|6|12 } = {"recipe":"monochrome-blue","state":"normal","revision":0,"descending":false,"many":false,"filter":false};
++ function App() {
++   const [revision,setRevision] = useState<number>(settings.revision);
++   const reduced = !!useReducedMotion();
++   const original = makeMiniRows(revision,settings.state);
++   const maxValue = settings.state === "invalid" ? 0 : getComparisonMax(original);
++   const trendMaxValue = settings.state === "invalid" ? 0 : getTrendComparisonMax(original);
++   const rows = selectMiniRows(original,settings);
++   return <MotionConfig reducedMotion="user"><main className="rain-chart rain-chart-business" data-recipe={settings.recipe} style={{ maxWidth:1080,margin:"auto",padding:24 }}>
++     <h1>条形与迷你图表组合</h1><Button size="small" variant="secondary" onClick={()=>setRevision(value=>value+1)}>更新数据</Button>
++     {settings.state === "invalid" ? <p role="alert">无效数据</p> : !rows.length ? <p role="status">暂无数据</p> : <>
++       <section className="rain-business-section"><h2>同一量程，大小都能比较</h2><div className="rain-business-bars"><HorizontalBarExample rows={rows.slice(0,5)} maxValue={maxValue} reduced={reduced} /><RankingBars rows={rows.slice(0,5)} maxValue={maxValue} /></div></section>
++       <section className="rain-business-section"><h2>分组与堆叠</h2><div className="rain-business-bars"><HorizontalBarComparison rows={rows.slice(0,5)} maxValue={maxValue} reduced={reduced} /><HorizontalBarComparison rows={rows.slice(0,5)} maxValue={maxValue} stacked reduced={reduced} /></div><RelativeBarExamples /></section>
++       <section className="rain-business-section"><h2>独立小图</h2><MiniGallery row={rows[0]!} maxValue={maxValue} trendMaxValue={trendMaxValue} reduced={reduced} /></section>
++       <EmbeddingExamples rows={rows} maxValue={maxValue} trendMaxValue={trendMaxValue} reduced={reduced} />
++       <MatrixExamples state={settings.state} recipe={settings.recipe} revision={revision} descending={settings.descending} reduced={reduced} initialSize={settings.matrixSize} />
++     </>}
++   </main></MotionConfig>;
++ }
++ createRoot(document.getElementById("root")!).render(<App />);
+
+ ❯ scripts/verify-chart-business-consumption.test.ts:27:36
+     25| test("business and matrix downloads keep their page contents separate"…
+     26|   const business=chartBusinessFiles({recipe:"monochrome-blue",state:"n…
+     27|   expect(business["main.tsx"]).not.toContain("MatrixExamples");
+       |                                    ^
+     28|   expect(Object.keys(business).some(path=>path.includes("matrix"))).to…
+     29|   const matrix=downloads.chartExampleFiles({id:"matrix",recipe:"monoch…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 6 passed (8)
+   Start at  11:08:36
+   Duration  1.86s (transform 606ms, setup 94ms, import 1.11s, tests 200ms, environment 362ms)
+

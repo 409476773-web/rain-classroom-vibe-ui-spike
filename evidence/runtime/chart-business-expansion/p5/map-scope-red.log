@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:91920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-business-map-scope.spec.ts:5:1 › all 27 available provinces keep the range selector consistent with their actual map layer (6.7s)
+
+
+  1) tests/e2e/chart-business-map-scope.spec.ts:5:1 › all 27 available provinces keep the range selector consistent with their actual map layer 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByRole('combobox', { name: '地图查看范围' })
+    Expected: "370000"
+    Received: "national"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" with timeout 5000ms
+      - waiting for getByRole('combobox', { name: '地图查看范围' })
+        13 × locator resolved to <select aria-label="地图查看范围">…</select>
+           - unexpected value "national"
+
+
+      11 |   const scope = page.getByRole("combobox", { name: "地图查看范围" });
+      12 |   await page.getByRole("button", { name: "山东省", exact: true }).press("Enter");
+    > 13 |   await expect(scope).toHaveValue("370000");
+         |                       ^
+      14 |   await expect(scope.locator("option")).toHaveCount(28);
+      15 |   for (const province of provinces) {
+      16 |     await scope.selectOption(province.id);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map-scope.spec.ts:13:23
+
+    Error Context: evidence/runtime/chart-business-expansion/p5/scope-browser-results/chart-business-map-scope-a-f82cb-with-their-actual-map-layer/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-business-expansion/p5/scope-browser-results/chart-business-map-scope-a-f82cb-with-their-actual-map-layer/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-business-expansion/p5/scope-browser-results/chart-business-map-scope-a-f82cb-with-their-actual-map-layer/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-business-map-scope.spec.ts:5:1 › all 27 available provinces keep the range selector consistent with their actual map layer 

@@ -1,0 +1,60 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+stderr | packages/ui/src/charts/choropleth-drilldown.test.tsx > hover and leave preserve the same region hit targets and their containing layer
+path: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx (22 tests | 2 failed) 353ms
+   × hover and leave preserve the same region hit targets and their containing layer 15ms
+   × a pointer press remains activatable while its region gains hover 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > hover and leave preserve the same region hit targets and their containing layer
+AssertionError: expected SVGElement{ …(2), …(2) } to be SVGElement{ …(1) } // Object.is equality
+
+- Expected
++ Received
+
+  <path
+    class="cursor-pointer"
+    d="M303.517,144L303.517,133.221L313.268,133.221L313.268,144Z"
+    data-feature-id="a"
+    fill="var(--chart-scale-01)"
++   opacity="1"
+    stroke="var(--background)"
+    stroke-width="0.5"
++   style="transition: opacity 0.18s ease-out;"
+  />
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:52:65
+     50|   const before=paths(view.container),layer=before[0]!.parentElement;
+     51|   fireEvent.mouseEnter(before[0]!);
+     52|   expect(view.container.querySelector('[data-feature-id="a"]')).toBe(b…
+       |                                                                 ^
+     53|   expect(view.container.querySelector('[data-feature-id="b"]')).toBe(b…
+     54|   expect(before[0]!.parentElement).toBe(layer);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > a pointer press remains activatable while its region gains hover
+AssertionError: expected "vi.fn()" to be called once with arguments: [ 'a', { type: 'Feature', …(2) } ]
+
+Number of calls: 0
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:74:20
+     72|   fireEvent.pointerUp(target,{pointerId:1,clientX:120,clientY:70});
+     73|   fireEvent.click(target);
+     74|   expect(activate).toHaveBeenCalledExactlyOnceWith("a",regions.feature…
+       |                    ^
+     75| });
+     76|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 20 passed (22)
+   Start at  01:24:24
+   Duration  1.22s (transform 158ms, setup 91ms, import 333ms, tests 353ms, environment 357ms)
+

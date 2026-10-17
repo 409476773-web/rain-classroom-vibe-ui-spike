@@ -1,0 +1,164 @@
+
+Running 4 tests using 1 worker
+
+(node:24221) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-library-validation.spec.ts:13:1 › renders actual charts and keeps exact readings available (6.1s)
+(node:24229) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/chart-library-validation.spec.ts:41:1 › updates appearance and data without losing selected readings (6.0s)
+(node:25368) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/e2e/chart-library-validation.spec.ts:63:1 › preserves zero and missing and remains usable on a narrow screen (6.0s)
+(node:25747) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/e2e/chart-library-validation.spec.ts:80:1 › keeps chart range, axis readings and relation selection coherent across updates (6.0s)
+
+
+  1) tests/e2e/chart-library-validation.spec.ts:13:1 › renders actual charts and keeps exact readings available 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-chart-ready="true"]')
+    Expected: 7
+    Received: 3
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-chart-ready="true"]')
+        14 × locator resolved to 3 elements
+           - unexpected value "3"
+
+
+      17 |   await page.goto("/chart-validation.html");
+      18 |   await expect(page.getByRole("heading", { name: "Rain 图表实验室", exact: true })).toBeVisible();
+    > 19 |   await expect(page.locator('[data-chart-ready="true"]')).toHaveCount(7);
+         |                                                           ^
+      20 |   await expect(page.locator('[data-chart-error]')).toHaveCount(0);
+      21 |   await expect(page.locator("canvas")).toHaveCount(7);
+      22 |   const painted = await page.locator("canvas").evaluateAll(canvases => canvases.map(canvas => {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-library-validation.spec.ts:19:59
+
+    Error Context: evidence/runtime/chart-library-validation/test-results/chart-library-validation-r-3edd7-ps-exact-readings-available/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-library-validation/test-results/chart-library-validation-r-3edd7-ps-exact-readings-available/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-library-validation/test-results/chart-library-validation-r-3edd7-ps-exact-readings-available/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-library-validation.spec.ts:41:1 › updates appearance and data without losing selected readings 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-chart-ready="true"]')
+    Expected: 7
+    Received: 3
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-chart-ready="true"]')
+        13 × locator resolved to 3 elements
+           - unexpected value "3"
+
+
+      44 |   await page.emulateMedia({ reducedMotion: "reduce" });
+      45 |   await page.goto("/chart-validation.html");
+    > 46 |   await expect(page.locator('[data-chart-ready="true"]')).toHaveCount(7);
+         |                                                           ^
+      47 |   await page.getByLabel("趋势读数").selectOption("5");
+      48 |   const before = await page.locator('[data-testid="trend-readout"]').textContent();
+      49 |   const firstRenders = await plotRenderCounts(page);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-library-validation.spec.ts:46:59
+
+    Error Context: evidence/runtime/chart-library-validation/test-results/chart-library-validation-u-4f10e-ut-losing-selected-readings/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-library-validation/test-results/chart-library-validation-u-4f10e-ut-losing-selected-readings/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-library-validation/test-results/chart-library-validation-u-4f10e-ut-losing-selected-readings/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/chart-library-validation.spec.ts:63:1 › preserves zero and missing and remains usable on a narrow screen 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-chart-ready="true"]')
+    Expected: 7
+    Received: 3
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-chart-ready="true"]')
+        13 × locator resolved to 3 elements
+           - unexpected value "3"
+
+
+      65 |   await page.emulateMedia({ reducedMotion: "reduce" });
+      66 |   await page.goto("/chart-validation.html");
+    > 67 |   await expect(page.locator('[data-chart-ready="true"]')).toHaveCount(7);
+         |                                                           ^
+      68 |   await page.getByLabel("趋势读数").selectOption("3");
+      69 |   await expect(page.locator('[data-testid="trend-readout"]')).toContainText("0");
+      70 |   await page.getByLabel("趋势读数").selectOption("7");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-library-validation.spec.ts:67:59
+
+    Error Context: evidence/runtime/chart-library-validation/test-results/chart-library-validation-p-161ea-s-usable-on-a-narrow-screen/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-library-validation/test-results/chart-library-validation-p-161ea-s-usable-on-a-narrow-screen/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-library-validation/test-results/chart-library-validation-p-161ea-s-usable-on-a-narrow-screen/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/chart-library-validation.spec.ts:80:1 › keeps chart range, axis readings and relation selection coherent across updates 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-chart-ready="true"]')
+    Expected: 7
+    Received: 3
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-chart-ready="true"]')
+        3 × locator resolved to 0 elements
+          - unexpected value "0"
+        11 × locator resolved to 3 elements
+           - unexpected value "3"
+
+
+      82 |   page.on("pageerror", error => errors.push(error.message));
+      83 |   await page.goto("/chart-validation.html");
+    > 84 |   await expect(page.locator('[data-chart-ready="true"]')).toHaveCount(7);
+         |                                                           ^
+      85 |   await page.getByRole("button", { name: "后 6 周", exact: true }).click();
+      86 |   await expect(page.getByTestId("combination-range")).toContainText("共 6 周");
+      87 |   await expect(page.getByLabel("组合读数").locator("option")).toHaveCount(6);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-library-validation.spec.ts:84:59
+
+    Error Context: evidence/runtime/chart-library-validation/test-results/chart-library-validation-k-fdaf8-ion-coherent-across-updates/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-library-validation/test-results/chart-library-validation-k-fdaf8-ion-coherent-across-updates/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-library-validation/test-results/chart-library-validation-k-fdaf8-ion-coherent-across-updates/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    tests/e2e/chart-library-validation.spec.ts:13:1 › renders actual charts and keeps exact readings available 
+    tests/e2e/chart-library-validation.spec.ts:41:1 › updates appearance and data without losing selected readings 
+    tests/e2e/chart-library-validation.spec.ts:63:1 › preserves zero and missing and remains usable on a narrow screen 
+    tests/e2e/chart-library-validation.spec.ts:80:1 › keeps chart range, axis readings and relation selection coherent across updates 

@@ -1,0 +1,29 @@
+.rain-chart-doc { min-width: 0; }
+.rain-chart-variants { margin-top: var(--rain-space-32); min-width: 0; }
+.rain-chart-variant-group { margin-top: var(--rain-space-32); min-width: 0; }
+.rain-chart-variant-group > h2 { scroll-margin-top: var(--rain-space-24); }
+.rain-chart-variant-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--rain-space-24); align-items: start; }
+.rain-chart-variant { min-width: 0; }
+.rain-chart-variant[data-layout="wide"] { grid-column: 1 / -1; }
+.rain-chart-variant h3 { margin: 0 0 var(--rain-space-8); font-size: var(--rain-font-size-16); line-height: var(--rain-line-height-24); }
+.rain-chart-variant p { margin: 0; font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); }
+.rain-chart-variant__plot { min-height: 340px; min-width: 0; }
+.rain-chart-variant__actions { display:flex; align-items:center; flex-wrap:wrap; gap:var(--rain-space-8); margin-top:var(--rain-space-16); }
+.rain-chart-variant__actions [role="status"] { margin-inline-start:auto; }
+.rain-chart-variant .rain-chart-source { margin-bottom: 0; }
+.rain-chart-variant .rain-chart-doc-controls { margin-bottom: var(--rain-space-16); }
+.rain-chart-variant .rain-chart-source__files { overflow-wrap: anywhere; }
+@media(max-width:900px) { .rain-chart-variant-grid { grid-template-columns: minmax(0,1fr); } }
+.rain-chart-doc .component-doc__preview, .rain-chart-variant .component-doc__preview { display: block; min-width: 0; }
+.rain-chart-doc-controls { display: flex; align-items: center; flex-wrap: wrap; gap: var(--rain-space-12); margin-bottom: var(--rain-space-24); }
+.rain-chart-doc [data-chart-default-controls] { margin:var(--rain-space-24) 0 var(--rain-space-8); }
+.rain-chart-reference > .component-doc__reference { margin-top:var(--rain-space-24); }
+.rain-chart-doc-controls label, .rain-chart-source label { display: flex; align-items: center; gap: var(--rain-space-8); font-size: var(--rain-font-size-12); color: var(--rain-category-text-neutral-4); }
+.rain-chart-doc-controls select, .rain-chart-source select { font: inherit; color: var(--rain-category-text-neutral-3); padding: var(--rain-space-8); background: var(--rain-category-background-neutral-1); border: 1px solid var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-6); }
+.rain-chart-doc-related, .rain-chart-source__files { display: flex; flex-wrap: wrap; gap: var(--rain-space-12); margin: var(--rain-space-16) 0; font-size: var(--rain-font-size-12); }
+.rain-chart-source { font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); margin: var(--rain-space-24) 0; min-width: 0; }
+.rain-chart-source summary { cursor: pointer; color: var(--rain-category-text-neutral-3); }
+.rain-chart-source :is(a,button,select,summary):focus-visible, .rain-chart-doc-controls select:focus-visible { outline: var(--rain-focus-width) solid var(--rain-focus-control); outline-offset: var(--rain-focus-offset); box-shadow: 0 0 0 3px var(--rain-focus-control-halo); }
+@media (forced-colors: active) { .rain-chart-source :is(a,button,select,summary):focus-visible, .rain-chart-doc-controls select:focus-visible { outline: 2px solid CanvasText; outline-offset: 2px; box-shadow: none; } }
+
+.rain-chart-doc .component-doc__source { overflow-wrap:anywhere; }

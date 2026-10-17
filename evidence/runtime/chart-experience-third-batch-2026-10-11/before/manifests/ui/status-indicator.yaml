@@ -1,0 +1,104 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-status-indicator"
+name: "StatusIndicator"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+migrationLabel: "rewrite-from-rain"
+sourcePath: "packages/ui/src/status-indicator/status-indicator.tsx"
+styleSourcePath: "packages/ui/src/status-indicator/status-indicator.css"
+sourceVersion: "local-2026-09-16"
+publication: "unpublished"
+description: "有明确文本含义的正式状态图标与语义底色。"
+useWhen:
+  - "Passive device and classroom status"
+doNotUseWhen:
+  - "Device toggles, focusable controls, vague generic 状态 labels"
+anatomy:
+  - "root"
+  - "icon"
+parts:
+  - "root"
+  - "icon"
+props:
+  - "label: meaningful state text"
+  - "icon: formal Rain icon element"
+  - "tone: neutral | info | success | warning | danger"
+  - "size: 16 | 20 | 24; default 16"
+slots: []
+variants:
+  - "neutral"
+  - "info"
+  - "success"
+  - "warning"
+  - "danger"
+  - "16"
+  - "20"
+  - "24"
+states:
+  - "static"
+density: "Image and status geometry is explicit and independent of control density; containing controls inherit host density."
+dependencies:
+  - "Avatar"
+  - "StatusIndicatorGroup"
+tokens:
+  - "Rain Category colors"
+  - "Space/2,4,6,8,10,12,14,16,20,24,32,40; Line/Thickness/1"
+  - "Radius/4,6,full"
+  - "Current shared Focus"
+layoutConstraints:
+  - "Fixed owned geometry; parent owns outer spacing."
+compositionRules:
+  - "Prefer matching filled Rain icons; use a non-filled icon only when no suitable filled variant exists."
+  - "Solid semantic background and OnColor glyph; sizes 16/20/24 with glyphs 12/14/16; no outline in normal color mode."
+  - "Native display has no Tab stop; actions use native button/link and shared focus."
+  - "Host owns members, status, actions and persistent image assignment; no network state engine."
+  - "人物图片＋雨课堂默认图 only. Group empty text is group-level empty state, not a text avatar."
+  - "Use public variants before a documented local recipe; className is for host layout."
+allowedModifications:
+  - "Declared content, variants, native action composition and host layout."
+restrictedModifications:
+  - "No initials/text/icon avatars, status controls, new global Tokens or copied overlay engines."
+accessibility:
+  - "Meaningful labels; empty alt avoids repeated identity announcements."
+  - "Native keyboard behavior; More uses existing Popover Escape and focus restoration."
+  - "Reduced motion is static; forced colors retain meaningful boundaries."
+  - "Current Avatar runtime visual Human Gate accepted on 2026-09-16; contrast and accessibility acceptance remain not granted."
+examples:
+  - "#avatar"
+recipes:
+  - "Member list row; course summary; classroom member status"
+antiPatterns:
+  - "Treating offline as disabled"
+  - "Assigning portraits after filtering"
+  - "Nesting More inside a whole-group button"
+relatedComponents:
+  - "Avatar"
+  - "StatusIndicatorGroup"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "evidence/runtime/avatar/source-assets.json"
+    - "docs/plans/2026-09-16-avatar-family-design-and-construction.md"
+  externalReferences:
+    - "https://base-ui.com/react/components/avatar"
+    - "https://ant.design/components/avatar/"
+    - "https://mui.com/material-ui/react-avatar/"
+  retainedTraits:
+    - "Rain people assets, fallback, group count rules, grid arrangements and passive states"
+  redesignedTraits:
+    - "React native image lifecycle; current Rain Token/focus; existing Popover; explicit native composition"
+  intentionallyNotInherited:
+    - "Vue code/SCSS and old focus prohibition"
+    - "Initials, generic icon avatars and account image workflows"
+figmaMapping: "not-established; legacy image lineage retained separately"
+migrationNotes: "Current legacy PNGs copied byte-for-byte; historical Figma export hashes differ and are not claimed as current verification."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  humanGateScope: "avatar-current-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/avatar/refinement-2026-09-16.md"

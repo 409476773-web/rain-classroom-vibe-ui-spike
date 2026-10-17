@@ -1,0 +1,60 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g5-components-governance.test.ts (8 tests | 2 failed | 6 skipped) 3738ms
+     × allows only the single authorized G5 page scan alongside the preserved G4 sources 346ms
+     × rejects changed G5 source before allowing any G4 predecessor substitution 3391ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g5-components-governance.test.ts > G5 finite authorized implementation > allows only the single authorized G5 page scan alongside the preserved G4 sources
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "G4 must add only its exact page scan source and preserve existing scan directives",
++ ]
+
+ ❯ scripts/g5-components-governance.test.ts:80:98
+     78|     const directive = '@source "./docs/components/g5-component-pages.t…
+     79|     expect(validateG4SourceDirectives(source, current)).toEqual([]);
+     80|     expect(validateG4SourceDirectives(source + '\n/* @source "./docs/c…
+       |                                                                                                  ^
+     81|     const g4Only = structuredClone(current); delete g4Only.componentRe…
+     82|     expect(validateG4SourceDirectives(source, g4Only)).not.toEqual([]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/g5-components-governance.test.ts > G5 finite authorized implementation > rejects changed G5 source before allowing any G4 predecessor substitution
+AssertionError: getG4PageAcceptanceBindings: expected [Function] to throw error matching /G5 current source changed|Date-time c…/ but got 'G6 protected current source changed: …'
+
+- Expected:
+/G5 current source changed|Date-time changed an unrelated source/
+
++ Received:
+"G6 protected current source changed: packages/ui/src/combobox/combobox.tsx
++ actual - expected
+
++ '7aaf42656e66c14480fc7ddd3bc69bb448ee88950695b38c9a832e2fc7eab911'
+- '3cd044eaa97a53c1a49d40bf3a64aacd646d82be064635436ced961ef5959cb4'
+"
+
+ ❯ scripts/g5-components-governance.test.ts:121:87
+    119|       for (const read of g4Readers) expect(() => read(directory, phase…
+    120|       const file = "packages/ui/src/combobox/combobox.tsx"; copy(file,…
+    121|       for (const read of g4Readers) expect(() => read(directory, phase…
+       |                                                                                       ^
+    122|     } finally { rmSync(directory, { recursive: true }); }
+    123|   }, 30_000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 6 skipped (8)
+   Start at  13:00:09
+   Duration  4.79s (transform 373ms, setup 102ms, import 490ms, tests 3.74s, environment 381ms)
+

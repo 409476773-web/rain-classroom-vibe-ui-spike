@@ -1,0 +1,34 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/legend-interaction.test.tsx (10 tests | 3 failed) 169ms
+   × default: pointer preview returns to the keyboard target, and Escape clears without hiding data 98ms
+   × custom: pointer preview returns to the keyboard target, and Escape clears without hiding data 4ms
+   × compound: pointer preview returns to the keyboard target, and Escape clears without hiding data 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > default: pointer preview returns to the keyboard target, and Escape clears without hiding data
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > custom: pointer preview returns to the keyboard target, and Escape clears without hiding data
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > compound: pointer preview returns to the keyboard target, and Escape clears without hiding data
+AssertionError: expected '全部' to be '甲系列' // Object.is equality
+
+Expected: "甲系列"
+Received: "全部"
+
+ ❯ packages/ui/src/charts/legend-interaction.test.tsx:27:36
+     25|     const b = screen.getByRole("button", { name: /^乙系列/ });
+     26|     a.focus();
+     27|     expect(selected().textContent).toBe("甲系列");
+       |                                    ^
+     28|     fireEvent.pointerEnter(b);
+     29|     expect(selected().textContent).toBe("乙系列");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 7 passed (10)
+   Start at  13:46:06
+   Duration  2.00s (transform 831ms, setup 104ms, import 1.25s, tests 169ms, environment 378ms)
+

@@ -1,0 +1,38 @@
+
+Running 1 test using 1 worker
+
+(node:1404) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-x-axis-resize.spec.ts:93:3 › line no-preference: earliest resize frames retain axis identity, hover and data reads (2.6s)
+
+
+  1) tests/e2e/chart-x-axis-resize.spec.ts:93:3 › line no-preference: earliest resize frames retain axis identity, hover and data reads 
+
+    Error: [{"reason":"resize-event","elapsed":0,"width":999},{"reason":"raf","elapsed":18.600000001490116,"width":999},{"reason":"resize-observer","elapsed":19.399999998509884,"width":999},{"reason":"raf","elapsed":22.799999997019768,"width":999},{"reason":"raf","elapsed":48.29999999701977,"width":390},{"reason":"raf","elapsed":51.29999999701977,"width":390},{"reason":"raf","elapsed":56.899999998509884,"width":390},{"reason":"raf","elapsed":63.5,"width":390},{"reason":"raf","elapsed":69.70000000298023,"width":390},{"reason":"raf","elapsed":78,"width":390}]
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      137 |       expect(audit.samples.filter(sample => sample.reason === "raf")).toHaveLength(8);
+      138 |       expect(audit.afterIds).toEqual(audit.beforeIds);
+    > 139 |       expect(audit.samples.every(sample => sample.documentWidth <= sample.viewport + 1), JSON.stringify(audit.samples.map(sample => ({ reason: sample.reason, elapsed: sample.elapsed, width: sample.documentWidth })))).toBe(true);
+          |                                                                                                                                                                                                                          ^
+      140 |       expect(audit.samples.flatMap(sample => sample.ticks).every(tick => tick.color === beforeVisual.color && tick.fontSize === beforeVisual.fontSize)).toBe(true);
+      141 |     }
+      142 |   });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-x-axis-resize.spec.ts:139:218
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/x-axis/after-06/results/chart-x-axis-resize-line-n-5060e-entity-hover-and-data-reads/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/x-axis/after-06/results/chart-x-axis-resize-line-n-5060e-entity-hover-and-data-reads/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/x-axis/after-06/results/chart-x-axis-resize-line-n-5060e-entity-hover-and-data-reads/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-x-axis-resize.spec.ts:93:3 › line no-preference: earliest resize frames retain axis identity, hover and data reads 

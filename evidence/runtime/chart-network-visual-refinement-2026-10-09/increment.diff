@@ -1,0 +1,1152 @@
+--- a/packages/ui/src/charts/network/README.md
++++ b/packages/ui/src/charts/network/README.md
+@@ -10,7 +10,7 @@
+ import "@rain-next/ui/charts/styles.css";
+ import { NetworkChart } from "@rain-next/ui/charts";
+ 
+-<NetworkChart caption="课程先修关系" data-recipe="monochrome-blue"
++<NetworkChart caption="课程先修关系" variant="glow" data-recipe="monochrome-blue"
+   categories={[{ id: "course", label: "课程", color: "var(--chart-1)" }]}
+   relations={[{ id: "before", label: "先修", color: "var(--chart-2)", lineStyle: "solid" }]}
+   nodes={[{ id: "math", label: "高等数学", category: "course" },
+@@ -27,18 +27,23 @@
+ | `edges` | `readonly NetworkEdge[]`：`{id,source,target,relation,directed,value?}`。ID唯一，端点有效，自环拒绝；多节点环路及同一节点对的多关系有效。可选权重有限、非负，0保留，未提供显示“未提供”。 |
+ | `categories` | `{id,label,color?}[]`，唯一非空ID与名称；每个节点的category必须命中。未设颜色时按声明顺序取`--chart-1…`，宿主保持类别顺序或显式按ID指定颜色。 |
+ | `relations` | 同类别配置，另有`lineStyle?: "solid" \| "dashed" \| "dotted"`；每条边的relation必须命中。箭头由边的directed决定，线型不推断方向。 |
+-| `caption` | 图表名称，同时用于滚动区、节点/关系精确表名称。 |
++| `caption` | 图表名称，同时用于图示、完整关系列表、节点/关系精确表名称。 |
++| `variant` | `"glow" \| "structured"`，默认`glow`。柔光圆点与结构化名称卡使用同一节点位置、关系方向和选择身份；与`data-recipe`配色独立。 |
+ | `reducedMotion` | 显式减少运动；系统减少运动仍独立生效，过渡即时完成。 |
+ | `onNodeSelect` | 鼠标点击图形或列表按钮/Enter选择同一节点，回传原始节点；清除选择或当前输入移除选中节点时回传null。 |
+ | `className`, `style`及普通根div属性 | 宿主控制容器与局部配方；根保留`.rain-chart`及`data-rain-id="ui-chart-network"`。 |
+-| `layoutNetwork(nodes, edges)` | 校验图结构，按ID确定顺序；有效坐标优先，无坐标用确定性环形位置，整体拟合至归一框。返回带x/y的节点及带lane的边，不修改输入、不启动力导循环。 |
++| `layoutNetwork(nodes, edges)` | 校验图结构，按ID确定顺序。成对的`0…1`坐标原样保留；其他坐标单位整体拟合。无坐标用稳定的自然环绕位置，至少5节点且最大邻接数不少于3时将一个连接较多的节点放在内部。返回带x/y的节点及带lane的边，不修改输入、不启动力导循环。 |
+ 
+-节点用径向轻渐变和类别名称，关系用颜色、实/虚/点线以及箭头。多个同节点对的边分配独立弧线，包括反方向和无向关系；边的权重只在详情和精确表展示，线宽、距离及圆面积不编码权重。位置帮助阅读连接，不能解释为相关度、掌握程度或业务优先级。
++默认柔光网络沿用原稿的实色中心向透明外缘渐变，普通节点没有深色描边，名称置于节点外。结构化关系用名称卡和类别色点，保持自由分布的位置，不把有向关系自动解释成阶段或层级。类别图例与关系图例分别表达；关系使用颜色、实/虚/点线和小型开放箭头。选中节点使用类别色轮廓。
+ 
+-SVG为装饰图形；具名节点按钮提供键盘和触屏等价选择。指向图形或聚焦列表突出相邻节点与边，选中后保留详情与“清除节点选择”；不相邻项淡化。精确表包括节点名称/类别/ID和关系来源/目标/类型/方向/原始读数。长名在图中超过12字截短，按钮和表格保留全文。没有节点时显示状态，不创造关系；单节点可以选择并明确“暂无相邻关系”。
++连线根据节点形状、名称边界和同节点对的独立路径选择浅弧或绕行曲线，端点停在节点外。反向、平行和无向关系仍是独立记录，不合并成虚构路径。权重只在详情和精确表展示，线宽、距离及节点面积不编码权重；位置不能解释为相关度、掌握程度或业务优先级。
+ 
+-布局及关系筛选通过稳定节点/边ID保留图形，现有Motion过渡为240ms；重新计算后的原始值即时可读，几何继续从当前状态接续。筛选由宿主提供新的节点/边集合，隐藏选中节点后清除选择；没有额外的筛选引擎、重播API或图编辑操作。每实例箭头和渐变通过useId隔离。
++SVG为装饰图形；具名节点按钮提供键盘和触屏等价选择。指向图形或聚焦列表突出相邻节点与边，选中后保留详情与“清除节点选择”；不相邻项淡化。精确表包括节点名称/类别/ID和关系来源/目标/类型/方向/原始读数。图中文字按估算字宽截短并最多分成两行，按钮、详情和表格保留全文。没有节点时显示状态，不创造关系；单节点可以选择并明确“暂无相邻关系”。
+ 
+-Playground `/#chart-network`与独立原型`/bklit-catalog.html#chart-network`复用四组Mock：CH-065教学元素与知识点、CH-070知识点关联、CH-083课程先修/相似、CH-086理论实践反馈环路。业务页关系筛选、状态、更新和配色由宿主拥有；下载包含当前配置、真实fixture与样式，不导入旧G2原型。原17 Bklit和170官网变体身份保留，Network是第19个入口的Rain本地增量。
++宿主应先对完整数据调用`layoutNetwork`再筛选，保留节点位置；未经固定坐标的任意输入变化仍可能改变回退布局。悬停、选择和换色不重算几何。数据更新沿用240ms Motion过渡；切换样式时节点形状和连线端口同时更新，避免沿旧圆点路径穿过新卡片。配色和样式切换不清除选中ID；当前输入隐藏选中节点后清除选择。每实例箭头和渐变通过useId隔离，没有额外筛选引擎、重播API或图编辑操作。
+ 
+-当前样本各8节点、最多11条边，坐标视框960×484，窄容器局部横滚；首版不自动解碰撞、不承诺密集或千节点网络。它不提供拖拽编辑、缩放或物理布局。普通/reduce及窄屏的最终浏览器结果以[P4证据](../../../../../evidence/runtime/chart-business-expansion/p4/verification.md)和Manifest最新记录为准；此说明不授予视觉或对比度Gate。正常白底三种配方的节点文字与边界已测量，淡化状态、真实Safari/VoiceOver、物理触屏、forced-colors、深色主题及生产数据尚未完整验证。
++Playground `/#chart-network`与独立原型`/bklit-catalog.html#chart-network`复用四组Mock：CH-065教学元素与知识点、CH-070知识点关联、CH-083课程先修/相似、CH-086理论实践反馈环路。业务页关系筛选、状态、更新、呈现样式和配色由宿主拥有；下载包含当前配置、真实fixture与样式，不导入旧G2原型。旧下载配置省略variant时仍使用glow。原17 Bklit和170官网变体身份保留，Network是第19个入口的Rain本地增量。
++
++当前四组样本为8—11节点、10—19条边，坐标视框960×560。容器宽度不超过620px时隐藏缩小的图示，改用包含全部关系的文字列表，节点选择、详情和精确表继续可用；恢复宽容器时重新显示图示。不会静默删边。
++
++几何使用有限候选曲线，已检查这四组样本的正常/长名称、三个更新版本及两种样式。它不能保证任意密集、重叠坐标、特殊字体或大量节点的布局最优及完整避让；大规模输入需要另行引入图布局引擎和验证。没有拖拽编辑、缩放或物理布局。当前结果见[视觉调整证据](../../../../../evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md)，初始交付见[P4证据](../../../../../evidence/runtime/chart-business-expansion/p4/verification.md)。实施视觉审阅、完整对比度、真实Safari/VoiceOver、物理触屏、forced-colors、深色主题及生产数据验证仍独立待办。
+
+--- a/packages/ui/src/charts/network/network-chart.test.tsx
++++ b/packages/ui/src/charts/network/network-chart.test.tsx
+@@ -94,3 +94,39 @@
+ test.each(["", "unknown", null])("invalid line style %s cannot silently become a solid relationship", lineStyle => {
+   expect(() => render(<NetworkChart {...props} relations={props.relations.map(entry => ({ ...entry, lineStyle:lineStyle as never }))} />)).toThrow(/线型/);
+ });
++
++test("glow is the default and switching presentation preserves selection and relationship semantics", () => {
++  const selected: (string | null)[] = [];
++  const onNodeSelect = (node: { id: string } | null) => selected.push(node?.id ?? null);
++  const view = render(<NetworkChart {...props} onNodeSelect={onNodeSelect} />);
++  expect(view.container.querySelector(".rain-network")).toHaveAttribute("data-variant", "glow");
++  expect(view.container.querySelector('[data-network-node="b"] circle')).not.toHaveAttribute("stroke");
++  expect(view.container.querySelector('[data-network-node="b"]')).toHaveTextContent("概率统计");
++  expect([...view.container.querySelectorAll('[data-network-node="b"] text')].map(text => text.textContent).join("")).not.toContain("课程");
++  expect(view.container.querySelector("marker")).toHaveAttribute("markerUnits", "userSpaceOnUse");
++  fireEvent.click(view.getByRole("button", { name: "高等数学，课程" }));
++  const root = view.container.querySelector(".rain-network");
++  view.rerender(<NetworkChart {...props} variant="structured" data-recipe="category-wide" onNodeSelect={onNodeSelect} />);
++  expect(view.container.querySelector(".rain-network")).toBe(root);
++  expect(root).toHaveAttribute("data-variant", "structured");
++  expect(root).toHaveAttribute("data-recipe", "category-wide");
++  expect(view.container.querySelector('[data-network-node="b"] rect')).not.toBeNull();
++  expect(view.getByRole("button", { name: "高等数学，课程" })).toHaveAttribute("aria-pressed", "true");
++  expect(view.getByRole("region", { name: "节点详情" })).toHaveAttribute("data-selected-node", "a");
++  expect(view.getByRole("region", { name: "节点详情" })).toHaveTextContent("高等数学 → 概率统计 · 先修");
++  expect(view.container.querySelector('[data-network-edge="ba"]')).not.toHaveAttribute("marker-end");
++  expect(view.container.querySelector('[data-network-edge="ba"]')).toHaveAttribute("stroke-dasharray", "5 4");
++  expect(selected).toEqual(["a"]);
++});
++
++test("an unsupported presentation cannot silently change graph semantics", () => {
++  expect(() => render(<NetworkChart {...props} variant={"unknown" as never} />)).toThrow(/样式/);
++});
++
++test("graph selection returns the caller's node rather than derived layout coordinates", () => {
++  let result: unknown;
++  const input = { ...props, nodes: props.nodes.map((node, index) => ({ ...node, x: index * 20, y: index * 10 })) };
++  const view = render(<NetworkChart {...input} onNodeSelect={node => { result = node; }} />);
++  fireEvent.click(view.container.querySelector('[data-network-node="a"]')!);
++  expect(result).toBe(input.nodes[0]);
++});
+
+--- a/packages/ui/src/charts/network/network-chart.tsx
++++ b/packages/ui/src/charts/network/network-chart.tsx
+@@ -1,96 +1,102 @@
+ "use client";
+ 
+-import { useEffect, useId, useMemo, useState, type HTMLAttributes } from "react";
++import { useEffect, useId, useMemo, useRef, useState, type HTMLAttributes } from "react";
+ import { motion, useReducedMotion } from "motion/react";
+ import { Button } from "../../button/button";
+ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, TableScrollArea } from "../../table/table";
+ import { DEFAULT_CHART_ENTER_TRANSITION } from "../vendor/charts/animation";
+ import { layoutNetwork, type NetworkNode, type NetworkEdge } from "./network-layout";
++import { networkGeometry } from "./network-geometry";
+ 
+ export type NetworkCategory = { id: string; label: string; color?: string };
+ export type NetworkRelation = NetworkCategory & { lineStyle?: "solid" | "dashed" | "dotted" };
++export type NetworkChartVariant = "glow" | "structured";
+ export interface NetworkChartProps extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
+   nodes: readonly NetworkNode[];
+   edges: readonly NetworkEdge[];
+   categories: readonly NetworkCategory[];
+   relations: readonly NetworkRelation[];
+   caption: string;
++  variant?: NetworkChartVariant;
+   reducedMotion?: boolean;
+   onNodeSelect?: (node: NetworkNode | null) => void;
+ }
+ 
+-const width = 960, height = 440, radius = 24;
+ const color = (entry: NetworkCategory, index: number) => entry.color ?? `var(--chart-${index + 1})`;
+ const dash = (entry: NetworkRelation, index: number) => ({ solid: undefined, dashed: "5 4", dotted: "1 4" })[entry.lineStyle ?? (["solid", "dashed", "dotted"] as const)[index % 3]!];
+ 
+-export function NetworkChart({ nodes, edges, categories, relations, caption, reducedMotion = false, onNodeSelect, className = "", ...attributes }: NetworkChartProps) {
++export function NetworkChart({ nodes, edges, categories, relations, caption, variant = "glow", reducedMotion = false, onNodeSelect, className = "", ...attributes }: NetworkChartProps) {
+   const instanceId = useId();
+   const prefersReduced = useReducedMotion();
+   const reduced = reducedMotion || !!prefersReduced;
+   const model = useMemo(() => layoutNetwork(nodes, edges), [nodes, edges]);
++  const geometry = useMemo(() => networkGeometry(model, variant), [model, variant]);
+   const [selectedId, setSelectedId] = useState<string | null>(null);
+   const [hoveredId, setHoveredId] = useState<string | null>(null);
+   const [focusedId, setFocusedId] = useState<string | null>(null);
++  const container = useRef<HTMLDivElement>(null);
++  const [narrow, setNarrow] = useState(false);
+   const categoryIndex = new Map(categories.map((entry, index) => [entry.id, index]));
+   const relationIndex = new Map(relations.map((entry, index) => [entry.id, index]));
++  if (variant !== "glow" && variant !== "structured") throw new Error("网络图样式无效");
+   if (categoryIndex.size !== categories.length || categories.some(entry => !entry.id.trim() || !entry.label.trim()) || nodes.some(node => !categoryIndex.has(node.category))) throw new Error("网络节点类别配置缺失或重复");
+   if (relationIndex.size !== relations.length || relations.some(entry => !entry.id.trim() || !entry.label.trim() || entry.lineStyle !== undefined && !["solid", "dashed", "dotted"].includes(entry.lineStyle)) || edges.some(edge => !relationIndex.has(edge.relation))) throw new Error("网络边关系配置缺失、重复或线型无效");
+   const selected = nodes.find(node => node.id === selectedId);
+   const activeId = [hoveredId, focusedId, selectedId].find(id => id && nodes.some(node => node.id === id));
+   const adjacent = new Set(activeId ? [activeId, ...edges.filter(edge => edge.source === activeId || edge.target === activeId).flatMap(edge => [edge.source, edge.target])] : []);
+-  const positions = new Map(model.nodes.map(node => [node.id, { x: node.x * width, y: node.y * height }]));
+   const transition = { ...DEFAULT_CHART_ENTER_TRANSITION, duration: reduced ? 0 : .24 };
++  useEffect(() => {
++    if (!container.current) return;
++    setNarrow(container.current.clientWidth <= 620);
++    if (typeof ResizeObserver === "undefined") return;
++    const observer = new ResizeObserver(entries => setNarrow(entries[0]!.contentRect.width <= 620));
++    observer.observe(container.current);
++    return () => observer.disconnect();
++  }, []);
+   useEffect(() => {
+     if (selectedId && !selected) { setSelectedId(null); onNodeSelect?.(null); }
+   }, [selectedId, selected, onNodeSelect]);
+ 
+   function select(node: NetworkNode | null) {
+     setSelectedId(node?.id ?? null);
+-    onNodeSelect?.(node);
+-  }
+-  function path(edge: typeof model.edges[number]) {
+-    const a = positions.get(edge.source)!, b = positions.get(edge.target)!;
+-    const direction = edge.source < edge.target ? 1 : -1;
+-    const dx = (b.x - a.x) * direction, dy = (b.y - a.y) * direction;
+-    const length = Math.hypot(dx, dy) || 1;
+-    const control = { x: (a.x + b.x) / 2 - dy / length * edge.lane * 40, y: (a.y + b.y) / 2 + dx / length * edge.lane * 40 };
+-    const startLength = Math.hypot(control.x - a.x, control.y - a.y) || 1;
+-    const endLength = Math.hypot(control.x - b.x, control.y - b.y) || 1;
+-    const start = { x: a.x + (control.x - a.x) / startLength * radius, y: a.y + (control.y - a.y) / startLength * radius };
+-    const end = { x: b.x + (control.x - b.x) / endLength * (radius + (edge.directed ? 4 : 0)), y: b.y + (control.y - b.y) / endLength * (radius + (edge.directed ? 4 : 0)) };
+-    return `M${start.x},${start.y} Q${control.x},${control.y} ${end.x},${end.y}`;
++    onNodeSelect?.(node ? nodes.find(entry => entry.id === node.id)! : null);
+   }
+   const nodeName = (id: string) => nodes.find(node => node.id === id)!.label;
+-  return <div {...attributes} className={`rain-chart rain-network ${className}`} data-rain-id="ui-chart-network" data-reduced-motion={reduced}>
++  return <div {...attributes} ref={container} className={`rain-chart rain-network ${className}`} data-rain-id="ui-chart-network" data-variant={variant} data-slot="root" data-state={nodes.length ? "ready" : "empty"} data-narrow={narrow} data-reduced-motion={reduced}>
+     <h3>{caption}</h3>
+     {!nodes.length ? <p role="status">暂无关系数据</p> : <>
+       <div className="rain-network__legends">
+         <div role="group" aria-label="节点类别">{categories.map((entry, index) => <span key={entry.id}><svg width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="5" fill={color(entry, index)} /></svg>{entry.label}</span>)}</div>
+         <div role="group" aria-label="关系类型">{relations.map((entry, index) => <span key={entry.id}><svg width="28" height="16" aria-hidden="true"><path d="M1,8 H27" stroke={color(entry, index)} strokeWidth="2" strokeDasharray={dash(entry, index)} /></svg>{entry.label}</span>)}</div>
+       </div>
+-      <div className="rain-network__scroll" role="region" aria-label={`${caption}关系图，可横向滚动`} tabIndex={0}>
+-        <svg className="rain-network__svg" viewBox={`0 0 ${width} ${height + 44}`} aria-hidden="true">
++      <div className="rain-network__scroll" role="region" aria-label={`${caption}关系图`}>
++        <svg className="rain-network__svg" viewBox={`0 0 ${geometry.width} ${geometry.height}`} aria-hidden="true">
+           <defs>
+-            {categories.map((entry, index) => <radialGradient key={entry.id} id={`${instanceId}-node-${index}`}><stop offset="0%" stopColor={color(entry, index)} stopOpacity=".65" /><stop offset="100%" stopColor={color(entry, index)} stopOpacity=".12" /></radialGradient>)}
+-            {relations.map((entry, index) => <marker key={entry.id} id={`${instanceId}-arrow-${index}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" fill={color(entry, index)} /></marker>)}
++            {categories.map((entry, index) => <radialGradient key={entry.id} id={`${instanceId}-node-${index}`}><stop offset="0%" stopColor={color(entry, index)} stopOpacity="1" /><stop offset="25%" stopColor={color(entry, index)} stopOpacity=".85" /><stop offset="70%" stopColor={color(entry, index)} stopOpacity=".28" /><stop offset="100%" stopColor={color(entry, index)} stopOpacity="0" /></radialGradient>)}
++            {relations.map((entry, index) => <marker key={entry.id} id={`${instanceId}-arrow-${index}`} viewBox="0 0 6 6" refX="5.5" refY="3" markerWidth="5" markerHeight="5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0.6 L5.5,3 L0,5.4" fill="none" stroke={color(entry, index)} strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" /></marker>)}
+           </defs>
+-          {model.edges.map(edge => {
++          {geometry.edges.map(edge => {
+             const index = relationIndex.get(edge.relation)!, entry = relations[index]!;
+             const highlighted = !activeId || edge.source === activeId || edge.target === activeId;
+-            return <motion.path key={edge.id} data-network-edge={edge.id} data-highlighted={highlighted} fill="none" stroke={color(entry, index)} strokeWidth="1.6" strokeDasharray={dash(entry, index)} strokeLinecap="round" markerEnd={edge.directed ? `url(#${instanceId}-arrow-${index})` : undefined} initial={false} animate={{ d: path(edge), opacity: highlighted ? .9 : .18 }} transition={transition} />;
++            return <motion.path key={`${variant}-${edge.id}`} data-network-edge={edge.id} data-highlighted={highlighted} fill="none" stroke={color(entry, index)} strokeWidth={activeId && highlighted ? 1.55 : 1.15} strokeDasharray={dash(entry, index)} strokeLinecap="round" markerEnd={edge.directed ? `url(#${instanceId}-arrow-${index})` : undefined} initial={false} animate={{ d: edge.d, opacity: highlighted ? .85 : .13 }} transition={transition} />;
+           })}
+-          {model.nodes.map(node => {
+-            const index = categoryIndex.get(node.category)!, entry = categories[index]!, position = positions.get(node.id)!;
+-            const label = [...node.label];
+-            return <motion.g key={node.id} data-network-node={node.id} data-highlighted={!activeId || adjacent.has(node.id)} initial={false} animate={{ x: position.x, y: position.y, opacity: !activeId || adjacent.has(node.id) ? 1 : .3 }} transition={transition} onMouseEnter={() => setHoveredId(node.id)} onMouseLeave={() => setHoveredId(null)} onClick={() => select(node)}>
+-              <title>{node.label}，{entry.label}</title>
+-              <circle r={radius} fill={`url(#${instanceId}-node-${index})`} stroke="currentColor" strokeWidth={selectedId === node.id ? 2.5 : 1.2} />
+-              <text textAnchor="middle" dominantBaseline="central" fill="currentColor">{[...entry.label].slice(0, 2).join("")}</text>
+-              <text y={radius + 20} textAnchor="middle" fill="currentColor">{label.length > 12 ? label.slice(0, 11).join("") + "…" : node.label}</text>
++          {geometry.nodes.map(node => {
++            const index = categoryIndex.get(node.category)!, entry = categories[index]!;
++            return <motion.g key={node.id} data-network-node={node.id} data-x={node.x} data-y={node.y} data-highlighted={!activeId || adjacent.has(node.id)} data-selected={selectedId === node.id} initial={false} animate={{ x: node.x, y: node.y, opacity: !activeId || adjacent.has(node.id) ? 1 : .3 }} transition={transition} onMouseEnter={() => setHoveredId(node.id)} onMouseLeave={() => setHoveredId(null)} onClick={() => select(node)}>
++              <title>{nodes.find(entry => entry.id === node.id)!.label}，{entry.label}</title>
++              {variant === "structured" ? <>
++                <rect data-slot="node-core" x={node.body.x - node.x} y={node.body.y - node.y} width={node.body.width} height={node.body.height} rx="6" fill="var(--chart-tooltip-background)" stroke={selectedId === node.id ? color(entry, index) : "var(--chart-marker-border)"} />
++                <circle cx={node.body.x - node.x + 16} r="4" fill={color(entry, index)} />
++              </> : <>
++                <circle data-slot="node-core" r={geometry.radius} fill={`url(#${instanceId}-node-${index})`} />
++                {selectedId === node.id && <circle r={geometry.radius + 4} fill="none" stroke={color(entry, index)} strokeOpacity=".6" />}
++              </>}
++              <text data-slot="node-label" x={node.textX - node.x} y={node.textY - node.y} textAnchor="middle" fill="currentColor">{node.lines.map((line, index) => <tspan key={index} x={node.textX - node.x} dy={index ? 20 : 0}>{line}</tspan>)}</text>
+             </motion.g>;
+           })}
+         </svg>
+       </div>
++      <ol className="rain-network__relations" aria-label={`${caption}全部关系`}>{edges.map(edge => <li key={edge.id} data-network-relation={edge.id} data-highlighted={!activeId || edge.source === activeId || edge.target === activeId}>{nodeName(edge.source)} {edge.directed ? "→" : "↔"} {nodeName(edge.target)} · {relations[relationIndex.get(edge.relation)!]!.label}</li>)}</ol>
+       <div className="rain-network__nodes" role="group" aria-label="选择节点">{nodes.map(node => <Button key={node.id} size="small" variant="secondary" data-network-select={node.id} aria-label={`${node.label}，${categories[categoryIndex.get(node.category)!]!.label}`} aria-pressed={selectedId === node.id} onFocus={() => { setHoveredId(null); setFocusedId(node.id); }} onBlur={() => setFocusedId(null)} onClick={() => select(node)}>{node.label}</Button>)}</div>
+       {selected && <div className="rain-network__detail" role="region" aria-label="节点详情" data-selected-node={selected.id}>
+         <h4>{selected.label}</h4><p>{categories[categoryIndex.get(selected.category)!]!.label}</p>
+
+--- a/packages/ui/src/charts/network/network-data.test.ts
++++ b/packages/ui/src/charts/network/network-data.test.ts
+@@ -105,3 +105,23 @@
+   layoutNetwork(original.nodes, original.edges);
+   expect(original).toEqual(snapshot);
+ });
++
++test("normalized coordinates are stable when relation filtering removes other nodes", () => {
++  const positioned = nodes.map((node, index) => ({ ...node, x: [.18, .47, .82][index]!, y: [.2, .55, .76][index]! }));
++  const full = layoutNetwork(positioned, [edge]);
++  const filtered = layoutNetwork(positioned.slice(0, 2), [edge]);
++  expect(filtered.nodes).toEqual(full.nodes.slice(0, 2));
++  expect(full.nodes.map(({ x, y }) => ({ x, y }))).toEqual(positioned.map(({ x, y }) => ({ x, y })));
++});
++
++test("a generated hub sits inside its neighbours and geometry ignores weights", () => {
++  const hubNodes = ["hub", "a", "b", "c", "d"].map(id => ({ id, label: id, category: "concept" }));
++  const hubEdges = hubNodes.slice(1).map(node => ({ ...edge, id: `hub-${node.id}`, source: "hub", target: node.id }));
++  const result = layoutNetwork(hubNodes, hubEdges);
++  const hub = result.nodes.find(node => node.id === "hub")!;
++  expect(hub.x).toBeGreaterThan(.35);
++  expect(hub.x).toBeLessThan(.65);
++  expect(hub.y).toBeGreaterThan(.35);
++  expect(hub.y).toBeLessThan(.65);
++  expect(result.nodes).toEqual(layoutNetwork([...hubNodes].reverse(), hubEdges.map(item => ({ ...item, value: 99 })).reverse()).nodes);
++});
+
+--- a/packages/ui/src/charts/network/network-layout.ts
++++ b/packages/ui/src/charts/network/network-layout.ts
+@@ -26,9 +26,18 @@
+   }
+ 
+   const byId = (a: { id: string }, b: { id: string }) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+-  const positioned = [...nodes].sort(byId).map((node, index) => {
+-    const angle = index / nodes.length * Math.PI * 2 - Math.PI / 2;
+-    return { ...node, x: node.x ?? .5 + .4 * Math.cos(angle), y: node.y ?? .5 + .4 * Math.sin(angle) };
++  const ordered = [...nodes].sort(byId);
++  const neighbours = new Map(ordered.map(node => [node.id, new Set<string>()]));
++  for (const edge of edges) { neighbours.get(edge.source)!.add(edge.target); neighbours.get(edge.target)!.add(edge.source); }
++  const mostConnected = [...ordered].sort((a, b) => neighbours.get(b.id)!.size - neighbours.get(a.id)!.size || byId(a, b))[0];
++  const hub = ordered.length >= 5 && mostConnected && neighbours.get(mostConnected.id)!.size >= 3 ? mostConnected.id : undefined;
++  const perimeter = ordered.filter(node => node.id !== hub);
++  const positioned = ordered.map(node => {
++    const index = perimeter.findIndex(entry => entry.id === node.id);
++    const angle = index / perimeter.length * Math.PI * 2 - Math.PI / 2 + .07 * Math.sin(index * 2);
++    const radius = .36 + .025 * Math.sin(index * 1.7);
++    const central = node.id === hub || ordered.length === 1;
++    return { ...node, x: node.x ?? (central ? .48 : .5 + radius * Math.cos(angle)), y: node.y ?? (central ? .51 : .5 + radius * Math.sin(angle)) };
+   });
+   function fit(values: number[]) {
+     const magnitude = Math.max(1, ...values.map(Math.abs));
+@@ -36,7 +45,9 @@
+     const min = Math.min(...scaled), max = Math.max(...scaled);
+     return scaled.map(value => min === max ? .5 : .1 + (value - min) / (max - min) * .8);
+   }
+-  const xs = fit(positioned.map(node => node.x)), ys = fit(positioned.map(node => node.y));
++  const normalized = positioned.every(node => node.x >= 0 && node.x <= 1 && node.y >= 0 && node.y <= 1);
++  const xs = normalized ? positioned.map(node => node.x) : fit(positioned.map(node => node.x));
++  const ys = normalized ? positioned.map(node => node.y) : fit(positioned.map(node => node.y));
+ 
+   const groups = new Map<string, NetworkEdge[]>();
+   for (const edge of [...edges].sort(byId)) {
+
+--- a/packages/ui/src/charts/styles.css
++++ b/packages/ui/src/charts/styles.css
+@@ -5,8 +5,8 @@
+ .rain-chart .rain-network__legends { margin:16px 0; gap:12px 32px; }
+ .rain-chart .rain-network__legends span { display:inline-flex; align-items:center; gap:6px; }
+ .rain-chart .rain-network__scroll { max-width:100%; overflow:auto; }
+-.rain-chart .rain-network__svg { display:block; width:100%; min-width:800px; height:auto; overflow:visible; }
+-.rain-chart .rain-network__svg text { font:inherit; }
++.rain-chart .rain-network__svg { display:block; width:100%; height:auto; overflow:visible; }
++.rain-chart .rain-network__svg text { font:400 14px/20px var(--rain-font-ui); }
+ .rain-chart [data-network-node] { cursor:pointer; }
+ .rain-chart .rain-network__nodes { display:flex; flex-wrap:wrap; gap:8px; margin:20px 0; }
+ .rain-chart .rain-network__nodes button { height:auto; min-height:32px; max-width:100%; white-space:normal; overflow-wrap:anywhere; text-align:left; }
+@@ -18,6 +18,11 @@
+ .rain-chart .rain-network__data summary { cursor:pointer; width:fit-content; }
+ .rain-chart .rain-network__data [data-slot="scroll-area"] { margin-top:16px; }
+ .rain-chart .rain-network__data table { min-width:640px; }
++.rain-chart .rain-network__relations { display:none; padding-left:24px; line-height:24px; }
++.rain-chart .rain-network__relations li { padding:4px 0; overflow-wrap:anywhere; }
++.rain-chart .rain-network__relations [data-highlighted="false"] { opacity:.35; }
++.rain-chart.rain-network[data-narrow="true"] .rain-network__scroll { display:none; }
++.rain-chart.rain-network[data-narrow="true"] .rain-network__relations { display:block; }
+ 
+ .rain-chart .rain-data-bar { display: inline-block; position: relative; width: 100%; height: 8px; overflow: hidden; vertical-align: middle; border-radius: 999px; background: var(--chart-no-data); }
+ .rain-chart .rain-data-bar__fill { display: block; width: 100%; height: 100%; border-radius: inherit; background: var(--chart-1); }
+
+--- a/packages/ui/src/charts/index.ts
++++ b/packages/ui/src/charts/index.ts
+@@ -590,7 +590,7 @@
+ export { rainChartRecipes, type RainChartRecipe } from "./recipes";
+ export { MatrixChart, type MatrixChartProps } from "./matrix/matrix-chart";
+ export { getMatrixDataIndex, getMatrixEncoding, type MatrixAxisItem, type MatrixCell, type MatrixLevel, type MatrixEncoding } from "./matrix/matrix-data";
+-export { NetworkChart, type NetworkChartProps, type NetworkCategory, type NetworkRelation } from "./network/network-chart";
++export { NetworkChart, type NetworkChartProps, type NetworkChartVariant, type NetworkCategory, type NetworkRelation } from "./network/network-chart";
+ export { layoutNetwork, type NetworkNode, type NetworkEdge } from "./network/network-layout";
+ 
+ export {
+
+--- a/apps/playground/src/docs/components/chart-business/network-data.ts
++++ b/apps/playground/src/docs/components/chart-business/network-data.ts
+@@ -23,14 +23,14 @@
+       categories: [{ id: "resource", label: "教学资源" }, { id: "activity", label: "学习活动" }, { id: "knowledge", label: "知识点" }],
+       relations: [{ id: "supports", label: "内容支撑" }, { id: "examines", label: "测验考查" }, { id: "applies", label: "练习应用" }],
+       nodes: [
+-        { id: "guide", label: "课前导学视频", category: "resource", x: .1, y: .15 },
+-        { id: "reading", label: "概念讲解文本", category: "resource", x: .1, y: .4 },
+-        { id: "case", label: "变化率案例", category: "resource", x: .1, y: .7 },
+-        { id: "quiz", label: "随堂测验", category: "activity", x: .42, y: .2 },
+-        { id: "lab", label: "建模练习", category: "activity", x: .42, y: .8 },
+-        { id: "function", label: "函数与极限", category: "knowledge", x: .9, y: .15 },
+-        { id: "derivative", label: "导数与变化率", category: "knowledge", x: .9, y: .5 },
+-        { id: "integral", label: "积分与累积", category: "knowledge", x: .9, y: .85 },
++        { id: "guide", label: "课前导学视频", category: "resource", x: .58, y: .18 },
++        { id: "reading", label: "概念讲解文本", category: "resource", x: .13, y: .5 },
++        { id: "case", label: "变化率案例", category: "resource", x: .9, y: .5 },
++        { id: "quiz", label: "随堂测验", category: "activity", x: .44, y: .5 },
++        { id: "lab", label: "建模练习", category: "activity", x: .58, y: .82 },
++        { id: "function", label: "函数与极限", category: "knowledge", x: .3, y: .18 },
++        { id: "derivative", label: "导数与变化率", category: "knowledge", x: .71, y: .5 },
++        { id: "integral", label: "积分与累积", category: "knowledge", x: .3, y: .82 },
+       ],
+       edges: [
+         { id: "guide-function", source: "guide", target: "function", relation: "supports", directed: true, value: 3 },
+@@ -47,7 +47,7 @@
+     },
+     {
+       id: "knowledge", reference: "CH-070", title: "知识点先备与迁移关系",
+-      description: "全 Mock 示例：未提供坐标时使用按 ID 稳定的环形布局。先备和迁移带方向，概念关联不带方向；位置不表示知识掌握程度或优先级。",
++      description: "全 Mock 示例：未提供坐标时使用稳定的自然环绕布局，连接较多的节点位于内部。先备和迁移带方向，概念关联不带方向；位置不表示知识掌握程度或优先级。",
+       categories: [{ id: "foundation", label: "基础概念" }, { id: "method", label: "计算方法" }, { id: "application", label: "应用主题" }],
+       relations: [{ id: "prerequisite", label: "先备知识" }, { id: "related", label: "概念关联" }, { id: "applies", label: "迁移应用" }],
+       nodes: [
+@@ -76,18 +76,21 @@
+     },
+     {
+       id: "courses", reference: "CH-083", title: "课程先修与能力支撑关系",
+-      description: "全 Mock 示例：基础、专业和拓展课程各有类别。先修箭头由先修课指向后续课；同一课程对可同时有先修与内容相似关系，用分开的弧线呈现。",
++      description: "全 Mock 示例：11门课程、19条关系，包含跨类别连接、多对多支撑与双向支撑。先修箭头由先修课指向后续课；同一课程对的不同关系使用独立曲线。",
+       categories: [{ id: "foundation", label: "基础课程" }, { id: "professional", label: "专业课程" }, { id: "elective", label: "拓展课程" }],
+       relations: [{ id: "prerequisite", label: "先修关系" }, { id: "related", label: "内容相似" }, { id: "supports", label: "能力支撑" }],
+       nodes: [
+-        { id: "programming", label: "程序设计基础", category: "foundation", x: .1, y: .2 },
+-        { id: "mathematics", label: "离散数学", category: "foundation", x: .1, y: .75 },
+-        { id: "data-structures", label: "数据结构", category: "professional", x: .38, y: .2 },
+-        { id: "algorithms", label: "算法设计", category: "professional", x: .65, y: .2 },
+-        { id: "database", label: "数据库原理", category: "professional", x: .4, y: .32 },
+-        { id: "networks", label: "计算机网络", category: "professional", x: .65, y: .35 },
+-        { id: "intelligence", label: "人工智能导论", category: "elective", x: .9, y: .2 },
+-        { id: "engineering", label: "软件工程实践", category: "elective", x: .9, y: .75 },
++        { id: "programming", label: "程序设计基础", category: "foundation", x: .07, y: .46 },
++        { id: "mathematics", label: "离散数学", category: "foundation", x: .20, y: .22 },
++        { id: "data-structures", label: "数据结构", category: "professional", x: .47, y: .09 },
++        { id: "algorithms", label: "算法设计", category: "professional", x: .19, y: .70 },
++        { id: "database", label: "数据库原理", category: "professional", x: .47, y: .43 },
++        { id: "networks", label: "计算机网络", category: "professional", x: .34, y: .88 },
++        { id: "intelligence", label: "人工智能导论", category: "elective", x: .91, y: .44 },
++        { id: "engineering", label: "软件工程实践", category: "elective", x: .52, y: .74 },
++        { id: "random-vectors", label: "Random vectors", category: "elective", x: .74, y: .21 },
++        { id: "organization", label: "计算机组成原理", category: "professional", x: .71, y: .57 },
++        { id: "statistics", label: "概率与统计", category: "foundation", x: .85, y: .82 },
+       ],
+       edges: [
+         { id: "programming-data", source: "programming", target: "data-structures", relation: "prerequisite", directed: true, value: 4 },
+@@ -101,6 +104,14 @@
+         { id: "networks-engineering", source: "networks", target: "engineering", relation: "supports", directed: true, value: 2 },
+         { id: "algorithms-engineering", source: "algorithms", target: "engineering", relation: "supports", directed: true, value: 3 },
+         { id: "database-networks", source: "database", target: "networks", relation: "related", directed: false },
++        { id: "programming-algorithms", source: "programming", target: "algorithms", relation: "prerequisite", directed: true, value: 3 },
++        { id: "data-database", source: "data-structures", target: "database", relation: "supports", directed: true, value: 3 },
++        { id: "math-database", source: "mathematics", target: "database", relation: "supports", directed: true, value: 2 },
++        { id: "statistics-database", source: "statistics", target: "database", relation: "supports", directed: true, value: 2 },
++        { id: "vectors-statistics", source: "random-vectors", target: "statistics", relation: "prerequisite", directed: true, value: 3 },
++        { id: "organization-networks", source: "organization", target: "networks", relation: "prerequisite", directed: true, value: 3 },
++        { id: "engineering-database", source: "engineering", target: "database", relation: "supports", directed: true, value: 2 },
++        { id: "intelligence-algorithms", source: "intelligence", target: "algorithms", relation: "supports", directed: true, value: 2 },
+       ],
+     },
+     {
+@@ -109,14 +120,14 @@
+       categories: [{ id: "theory", label: "理论课程" }, { id: "practice", label: "实践课程" }, { id: "project", label: "综合项目" }],
+       relations: [{ id: "theory-practice", label: "理论与实践支撑" }, { id: "feedback", label: "实践反馈" }, { id: "similar", label: "相似内容" }],
+       nodes: [
+-        { id: "data-theory", label: "数据结构理论", category: "theory", x: .1, y: .15 },
+-        { id: "database-theory", label: "数据库理论", category: "theory", x: .1, y: .5 },
+-        { id: "network-theory", label: "网络系统理论", category: "theory", x: .1, y: .85 },
+-        { id: "program-lab", label: "程序设计实践", category: "practice", x: .5, y: .15 },
+-        { id: "data-lab", label: "数据工程实训", category: "practice", x: .5, y: .5 },
+-        { id: "network-lab", label: "网络系统实验", category: "practice", x: .5, y: .85 },
+-        { id: "integrated-project", label: "综合开发项目", category: "project", x: .9, y: .3 },
+-        { id: "research-project", label: "研究探索项目", category: "project", x: .9, y: .7 },
++        { id: "data-theory", label: "数据结构理论", category: "theory", x: .2, y: .15 },
++        { id: "database-theory", label: "数据库理论", category: "theory", x: .11, y: .53 },
++        { id: "network-theory", label: "网络系统理论", category: "theory", x: .29, y: .86 },
++        { id: "program-lab", label: "程序设计实践", category: "practice", x: .5, y: .22 },
++        { id: "data-lab", label: "数据工程实训", category: "practice", x: .44, y: .52 },
++        { id: "network-lab", label: "网络系统实验", category: "practice", x: .6, y: .78 },
++        { id: "integrated-project", label: "综合开发项目", category: "project", x: .78, y: .25 },
++        { id: "research-project", label: "研究探索项目", category: "project", x: .88, y: .65 },
+       ],
+       edges: [
+         { id: "data-to-program", source: "data-theory", target: "program-lab", relation: "theory-practice", directed: true, value: 4 },
+
+--- a/apps/playground/src/docs/components/chart-business/network-data.test.ts
++++ b/apps/playground/src/docs/components/chart-business/network-data.test.ts
+@@ -52,3 +52,13 @@
+     expect(() => layoutNetwork(fixture.nodes, fixture.edges)).toThrow(/未知/);
+   }
+ });
++
++test("the course example includes a complex network with parallel and cross-category connections", () => {
++  const fixture = makeNetworkFixtures().find(item => item.id === "courses")!;
++  expect(fixture.nodes).toHaveLength(11);
++  expect(fixture.edges).toHaveLength(19);
++  const model = layoutNetwork(fixture.nodes, fixture.edges);
++  expect(model.edges.some(edge => edge.lane !== 0)).toBe(true);
++  expect(fixture.edges.some(edge => edge.directed && fixture.edges.some(reverse => reverse.directed && reverse.source === edge.target && reverse.target === edge.source))).toBe(true);
++  expect(new Set(fixture.edges.filter(edge => edge.target === "database").map(edge => edge.source)).size).toBeGreaterThanOrEqual(3);
++});
+
+--- a/apps/playground/src/docs/components/chart-business/network-examples.tsx
++++ b/apps/playground/src/docs/components/chart-business/network-examples.tsx
+@@ -1,5 +1,5 @@
+ import { useEffect, useMemo, useState } from "react";
+-import { NetworkChart, layoutNetwork, type NetworkNode, type NetworkEdge, type RainChartRecipe } from "@rain-next/ui/charts";
++import { NetworkChart, layoutNetwork, type NetworkNode, type NetworkEdge, type RainChartRecipe, type NetworkChartVariant } from "@rain-next/ui/charts";
+ import { makeNetworkFixtures, type NetworkFixtureId, type NetworkChartState } from "./network-data";
+ import "./network-page.css";
+ 
+@@ -10,25 +10,28 @@
+   return { nodes: nodes.filter(node => connected.has(node.id)), edges: filtered };
+ }
+ 
+-function NetworkExample({ fixture, relation, recipe, reduced }: { fixture: ReturnType<typeof makeNetworkFixtures>[number]; relation: string; recipe: RainChartRecipe; reduced: boolean }) {
++function NetworkExample({ fixture, relation, recipe, variant, reduced }: { fixture: ReturnType<typeof makeNetworkFixtures>[number]; relation: string; recipe: RainChartRecipe; variant: NetworkChartVariant; reduced: boolean }) {
+   const [selectedId, setSelectedId] = useState<string | null>(null);
+-  let error: string | undefined;
+-  try { layoutNetwork(fixture.nodes, fixture.edges); } catch (cause) { error = cause instanceof Error ? cause.message : "无效网络数据"; }
++  const prepared = useMemo(() => {
++    try { return { nodes: layoutNetwork(fixture.nodes, fixture.edges).nodes, error: undefined }; }
++    catch (cause) { return { nodes: [], error: cause instanceof Error ? cause.message : "无效网络数据" }; }
++  }, [fixture]);
++  const { error } = prepared;
+   useEffect(() => { if (error) setSelectedId(null); }, [error]);
+-  const filtered = filterNetwork(fixture.nodes, fixture.edges, relation);
++  const filtered = useMemo(() => filterNetwork(prepared.nodes, fixture.edges, relation), [prepared.nodes, fixture.edges, relation]);
+   const selected = filtered.nodes.find(node => node.id === selectedId);
+   return <section className="rain-network-example rain-chart" data-network-example={fixture.id} data-recipe={recipe}>
+     <header><span className="rain-network-reference">{fixture.reference}</span><h2>{fixture.title}</h2></header>
+     <p className="rain-network-description">{fixture.description}</p>
+     {error ? <p className="rain-network-state" role="alert">已拒绝无效数据：{error}</p> : <>
+-      <NetworkChart data-recipe={recipe} nodes={filtered.nodes} edges={filtered.edges} categories={fixture.categories.map((category, index) => ({ ...category, color: `var(--chart-${index + 1})` }))} relations={fixture.relations.map((item, index) => ({ ...item, color: "var(--chart-2)", lineStyle: (["solid", "dashed", "dotted"] as const)[index % 3] }))} caption={fixture.title} reducedMotion={reduced} onNodeSelect={node => setSelectedId(node?.id ?? null)} />
++      <NetworkChart variant={variant} data-recipe={recipe} nodes={filtered.nodes} edges={filtered.edges} categories={fixture.categories.map((category, index) => ({ ...category, color: `var(--chart-${index + 1})` }))} relations={fixture.relations.map((item, index) => ({ ...item, color: `var(--chart-${index + 1})`, lineStyle: (["solid", "dashed", "dotted"] as const)[index % 3] }))} caption={fixture.title} reducedMotion={reduced} onNodeSelect={node => setSelectedId(node?.id ?? null)} />
+       {filtered.nodes.length > 0 && <p className="rain-network-feedback" role="status">{selected ? `已选择：${selected.label}` : "选择节点查看关联详情；也可通过节点列表操作。"}</p>}
+       <p className="rain-network-note">当前 {filtered.nodes.length} 个节点、{filtered.edges.length} 条关系 · 示例数据。节点位置只帮助阅读连接，距离不表示相关度。</p>
+     </>}
+   </section>;
+ }
+ 
+-export function NetworkExamples({ fixtureId, state = "normal", revision = 0, relation = "all", recipe = "monochrome-blue", reduced = false }: { fixtureId?: NetworkFixtureId; state?: NetworkChartState; revision?: number; relation?: string; recipe?: RainChartRecipe; reduced?: boolean }) {
++export function NetworkExamples({ fixtureId, state = "normal", revision = 0, relation = "all", recipe = "monochrome-blue", variant = "glow", reduced = false }: { fixtureId?: NetworkFixtureId; state?: NetworkChartState; revision?: number; relation?: string; recipe?: RainChartRecipe; variant?: NetworkChartVariant; reduced?: boolean }) {
+   const fixtures = useMemo(() => makeNetworkFixtures(revision, state), [revision, state]);
+-  return <>{fixtures.filter(fixture => !fixtureId || fixture.id === fixtureId).map(fixture => <NetworkExample key={fixture.id} fixture={fixture} relation={relation} recipe={recipe} reduced={reduced} />)}</>;
++  return <>{fixtures.filter(fixture => !fixtureId || fixture.id === fixtureId).map(fixture => <NetworkExample key={fixture.id} fixture={fixture} relation={relation} recipe={recipe} variant={variant} reduced={reduced} />)}</>;
+ }
+
+--- a/apps/playground/src/docs/components/chart-business/network-examples.test.tsx
++++ b/apps/playground/src/docs/components/chart-business/network-examples.test.tsx
+@@ -60,3 +60,19 @@
+   view.rerender(<NetworkExamples fixtureId="elements" reduced />);
+   expect(view.container.querySelector(".rain-network-feedback")).not.toHaveTextContent("已选择");
+ });
++
++test("style and palette switches retain the current selection and filtered node positions", () => {
++  const view = render(<NetworkExamples fixtureId="elements" reduced />);
++  fireEvent.click(view.getByRole("button", { name: "导数与变化率，知识点" }));
++  const node = view.container.querySelector('[data-network-node="derivative"]')!;
++  const position = [node.getAttribute("data-x"), node.getAttribute("data-y")];
++  view.rerender(<NetworkExamples fixtureId="elements" variant="structured" recipe="category-wide" reduced />);
++  expect(view.container.querySelector(".rain-network")).toHaveAttribute("data-variant", "structured");
++  expect(view.container.querySelector(".rain-network__detail")).toHaveAttribute("data-selected-node", "derivative");
++  view.rerender(<NetworkExamples fixtureId="elements" variant="glow" relation="examines" recipe="category-wide" reduced />);
++  const filtered = view.container.querySelector('[data-network-node="derivative"]')!;
++  expect([filtered.getAttribute("data-x"), filtered.getAttribute("data-y")]).toEqual(position);
++  expect(position.every(value => value !== null)).toBe(true);
++  expect(view.container.querySelector(".rain-network__detail")).toHaveAttribute("data-selected-node", "derivative");
++  expect(view.container.querySelectorAll("[data-network-edge]")).toHaveLength(3);
++});
+
+--- a/apps/playground/src/docs/components/chart-business/network-page.tsx
++++ b/apps/playground/src/docs/components/chart-business/network-page.tsx
+@@ -1,7 +1,7 @@
+ import { useEffect, useState, type ReactNode } from "react";
+ import { MotionConfig, useReducedMotion } from "motion/react";
+-import { Button, Link } from "@rain-next/ui";
+-import type { RainChartRecipe } from "@rain-next/ui/charts";
++import { Button, Link, RadioGroup } from "@rain-next/ui";
++import type { RainChartRecipe, NetworkChartVariant } from "@rain-next/ui/charts";
+ import { NetworkExamples } from "./network-examples";
+ import { NETWORK_FIXTURES, makeNetworkFixtures, type NetworkFixtureId, type NetworkChartState } from "./network-data";
+ import "../component-doc.css";
+@@ -9,7 +9,7 @@
+ import "@rain-next/ui/charts/styles.css";
+ import "./network-page.css";
+ 
+-export type NetworkChartSettings = { fixtureId: NetworkFixtureId | "all"; state: NetworkChartState; relation: string; revision: number; recipe: RainChartRecipe };
++export type NetworkChartSettings = { fixtureId: NetworkFixtureId | "all"; state: NetworkChartState; relation: string; revision: number; recipe: RainChartRecipe; variant?: NetworkChartVariant };
+ 
+ export function NetworkChartPage({ navigationCount = 0, renderSource }: { navigationCount?: number; renderSource?: (settings: NetworkChartSettings) => ReactNode }) {
+   const [fixtureId, setFixtureId] = useState<NetworkFixtureId | "all">("all");
+@@ -17,6 +17,7 @@
+   const [relation, setRelation] = useState("all");
+   const [revision, setRevision] = useState(0);
+   const [recipe, setRecipe] = useState<RainChartRecipe>("monochrome-blue");
++  const [variant, setVariant] = useState<NetworkChartVariant>("glow");
+   const reduced = useReducedMotion() ?? false;
+   const relations = makeNetworkFixtures().find(fixture => fixture.id === fixtureId)?.relations ?? [];
+   useEffect(() => { if (navigationCount) document.getElementById("chart-network-title")?.focus(); }, [navigationCount]);
+@@ -25,6 +26,7 @@
+       <div className="component-doc__title"><h1 id="chart-network-title" tabIndex={-1}>网络关系图</h1><span>共享候选 · 未发布 · 待视觉审阅</span></div>
+       <p>查看元素、知识点和课程的连接，区分节点类别与关系类型，并读取方向及关联详情。</p>
+     </header>
++    <RadioGroup className="rain-network-appearance" legend="呈现样式" orientation="horizontal" value={variant} onValueChange={value => setVariant(value as NetworkChartVariant)} options={[{ value: "glow", label: "柔光网络" }, { value: "structured", label: "结构化关系" }]} />
+     <div className="rain-network-controls">
+       <label>业务场景<select aria-label="网络业务场景" value={fixtureId} onChange={event => { setFixtureId(event.target.value as NetworkFixtureId | "all"); setRelation("all"); }}><option value="all">全部场景</option>{NETWORK_FIXTURES.map(fixture => <option key={fixture.id} value={fixture.id}>{fixture.label}</option>)}</select></label>
+       <label>数据状态<select aria-label="网络数据状态" value={state} onChange={event => setState(event.target.value as NetworkChartState)}>{Object.entries({ normal: "正常", empty: "无数据", single: "单节点", long: "长名称", invalid: "无效数据" }).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+@@ -33,7 +35,7 @@
+       <Button size="small" variant="secondary" onClick={() => setRevision(value => value + 1)}>更新数据</Button>
+     </div>
+     <p className="rain-network-status" role="status">示例数据 · 更新 {revision} 次{reduced ? " · 已按系统设置减少动效" : ""}</p>
+-    <NetworkExamples fixtureId={fixtureId === "all" ? undefined : fixtureId} state={state} revision={revision} relation={relation} recipe={recipe} reduced={reduced} />
+-    {renderSource?.({ fixtureId, state, relation, revision, recipe })}
++    <NetworkExamples fixtureId={fixtureId === "all" ? undefined : fixtureId} state={state} revision={revision} relation={relation} recipe={recipe} variant={variant} reduced={reduced} />
++    {renderSource?.({ fixtureId, state, relation, revision, recipe, variant })}
+   </main></MotionConfig>;
+ }
+
+--- a/apps/playground/src/docs/components/chart-business/network-page.css
++++ b/apps/playground/src/docs/components/chart-business/network-page.css
+@@ -1,4 +1,5 @@
+ .rain-chart-network { max-width:1180px; min-width:0; font:400 var(--rain-font-size-13)/var(--rain-line-height-20) var(--rain-font-ui); }
++.rain-chart-network .rain-network-appearance { margin-top:24px; }
+ .rain-network-controls { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin:24px 0 12px; }
+ .rain-network-controls label { display:flex; align-items:center; gap:8px; }
+ .rain-network-controls select { font:inherit; color:inherit; min-height:32px; max-width:100%; border:1px solid var(--rain-category-border-neutral-3); border-radius:6px; background:var(--rain-category-background-neutral-1); padding:0 10px; }
+
+--- a/apps/playground/src/docs/components/chart-example-source.tsx
++++ b/apps/playground/src/docs/components/chart-example-source.tsx
+@@ -271,14 +271,14 @@
+ import "@rain-next/ui/styles.css";
+ import "@rain-next/ui/charts/styles.css";
+ import { NetworkExamples } from "./chart-business/network-examples";
+-const settings = ${JSON.stringify(settings)} as const;
++const settings = ${JSON.stringify({ ...settings, variant: settings.variant ?? "glow" })} as const;
+ function App() {
+   const [revision, setRevision] = useState<number>(settings.revision);
+   const reduced = !!useReducedMotion();
+   return <MotionConfig reducedMotion="user"><main className="rain-chart-network" style={{ margin:"auto",padding:24 }}>
+     <h1>网络关系图</h1>
+     <Button size="small" variant="secondary" onClick={()=>setRevision(value=>value+1)}>更新数据</Button>
+-    <NetworkExamples fixtureId={${settings.fixtureId === "all" ? "undefined" : JSON.stringify(settings.fixtureId)}} state={settings.state} revision={revision} relation={settings.relation} recipe={settings.recipe} reduced={reduced} />
++    <NetworkExamples fixtureId={${settings.fixtureId === "all" ? "undefined" : JSON.stringify(settings.fixtureId)}} state={settings.state} revision={revision} relation={settings.relation} recipe={settings.recipe} variant={settings.variant} reduced={reduced} />
+   </main></MotionConfig>;
+ }
+ createRoot(document.getElementById("root")!).render(<App />);`,
+@@ -293,7 +293,7 @@
+   const [selected, setSelected] = useState("main.tsx");
+   const files = chartNetworkFiles(settings);
+   return <details className="rain-chart-source"><summary>网络图配置、完整源码与示例数据</summary>
+-    <p>下载保留当前业务场景、状态、关系筛选、更新次数与配色，图形和数据使用本页真实源码；在已有 Rain React 工作区使用。</p>
++    <p>下载保留当前业务场景、状态、关系筛选、更新次数、呈现样式与配色，图形和数据使用本页真实源码；在已有 Rain React 工作区使用。</p>
+     <div className="rain-chart-source__files">{Object.entries(files).map(([name, source]) => <a key={name} download={name} href={`data:text/plain;charset=utf-8,${encodeURIComponent(source)}`}>下载 {name}</a>)}</div>
+     <label>查看文件<select aria-label="网络图表源码文件" value={selected} onChange={event => setSelected(event.target.value)}>{Object.keys(files).map(name => <option key={name}>{name}</option>)}</select></label>
+     <DocCode code={files[selected]!} />
+
+--- a/registry/charts.json
++++ b/registry/charts.json
+@@ -58,6 +58,7 @@
+       "packages/ui/src/charts/matrix/matrix.css.d.ts",
+       "packages/ui/src/charts/network/network-chart.tsx",
+       "packages/ui/src/charts/network/network-layout.ts",
++      "packages/ui/src/charts/network/network-geometry.ts",
+       "packages/ui/src/charts/recipes.ts",
+       "packages/ui/src/charts/styles.css",
+       "packages/ui/src/charts/utilities.generated.css",
+@@ -531,6 +532,7 @@
+       "files": [
+         "packages/ui/src/charts/network/network-chart.tsx",
+         "packages/ui/src/charts/network/network-layout.ts",
++        "packages/ui/src/charts/network/network-geometry.ts",
+         "packages/ui/src/charts/network/README.md"
+       ]
+     }
+
+--- a/manifests/ui/chart-network.yaml
++++ b/manifests/ui/chart-network.yaml
+@@ -11,15 +11,15 @@
+ sourcePath: "packages/ui/src/charts/network/network-chart.tsx"
+ styleSourcePath: "packages/ui/src/charts/styles.css"
+ sourceOrigin: "rain-local"
+-sourceVersion: "rain-local-2026-10-09"
+-description: "关系网络的节点类别、边类型与方向分别表达，提供相邻聚焦、选择详情、可操作节点列表及精确表。"
++sourceVersion: "rain-local-2026-10-10"
++description: "自然错位的柔光网络与结构化名称卡可切换，配色独立；节点类别、边类型与方向分别表达，保留相邻聚焦、选择详情、完整关系列表及精确表。"
+ useWhen:
+   - "教学元素与知识点、知识点先备/迁移、课程先修/相似或理论实践联动，需要读取明确连接和方向。"
+ doNotUseWhen:
+   - "需要守恒流量和权重带宽时使用Sankey；普通产业卡片或概念示意不自动解释成网络。"
+-  - "需要图编辑器、力导模拟、拖拽缩放、碰撞自动避让或未经验证的密集/千节点关系。"
++  - "需要图编辑器、力导模拟、拖拽缩放，或任意密集/重叠/千节点输入的完整自动布局保证。"
+ anatomy:
+-  - "ui-chart-network根、图表标题、节点/关系图例、可横滚SVG、箭头与径向渐变、可操作节点列表、选择详情和清除按钮、节点/关系精确Table。"
++  - "ui-chart-network根、图表标题、节点/关系图例、自适应SVG、开放箭头与径向渐变或名称卡、窄屏完整关系列表、可操作节点列表、选择详情和清除按钮、节点/关系精确Table。"
+ parts:
+   - "NetworkChart"
+   - "layoutNetwork"
+@@ -28,14 +28,16 @@
+   - "edges: NetworkEdge{id,source,target,relation,directed,value?}[]；稳定唯一ID、有效端点、自环拒绝；value可选有限非负，0和未提供分开。"
+   - "categories: NetworkCategory{id,label,color?}[]；唯一非空ID和名称，每个节点类别必须声明。"
+   - "relations: NetworkRelation[]；独立关系类型配置，lineStyle为solid/dashed/dotted，边方向由directed决定。"
+-  - "caption: 图表、滚动区与精确表名称；reducedMotion主动减少运动并保留系统设置。"
++  - "variant?: glow | structured；默认glow，呈现样式与data-recipe配色独立。"
++  - "caption: 图表、完整关系列表与精确表名称；reducedMotion主动减少运动并保留系统设置。"
+   - "onNodeSelect(node|null): 点击图形或键盘列表选择同一原始节点；清除或输入移除选中节点时回传null。"
+   - "className/style及普通根div属性；data-recipe选现有局部配方。"
+ slots:
+   - "关系筛选、数据状态和请求由宿主在图外组合；组件内保留节点选择列表、详情和精确读数。"
+ variants:
++  - "柔光网络glow：实色中心渐隐、外置名称、普通节点无深色描边；结构化关系structured：名称卡和类别色点，使用同一节点位置与关系身份。"
+   - "有向/无向、节点类别、独立实/虚/点线关系、同节点对的多关系弧线与多节点环路。"
+-  - "有效坐标优先，无坐标按ID稳定环形布局，整体拟合至归一框；混合输入有限且确定，不修改原数据。"
++  - "成对0至1坐标原样保留，其他坐标单位整体拟合；无坐标使用确定的自然环绕布局，连接较多的单个节点可位于内部。不修改原数据。"
+ states:
+   - "正常、空节点、单节点无边、长名、非法结构拒绝；非法状态由宿主显示错误。"
+   - "指向、列表聚焦、选中、邻接强调、筛选隐藏选中节点后的清除、reduce即时终态。"
+@@ -44,24 +46,25 @@
+   - "直接复用Rain Button与Table：button.styles/local-recipe/rain-class-names/table.styles/table.css；既有class-variance-authority@0.7.1与tailwind-merge。"
+   - "Rain Foundations、Tailwind桥接/源码扫描、UI根styles及其实际CSS/资产闭包，charts独立样式。"
+ tokens:
+-  - "现有--chart-1至05与继承文字currentColor、Rain UI字体、Button/Table、Focus；不新增全局Token或图表色阶。"
++  - "现有--chart-1至05、--chart-tooltip-background、--chart-marker-border与继承文字currentColor、Rain UI字体、Button/Table、Focus；不新增全局Token或图表色阶。"
+ layoutConstraints:
+-  - "当前四组Mock各8节点、最多11边；视框960×484、圆半径24 SVG单位，窄容器局部横滚。"
+-  - "图中名称超过12字截短，列表/详情/表格保留全文；不自动避让重叠，密度扩大需要另行验证。"
++  - "当前四组Mock为8至11节点、10至19边；视框960×560、圆半径24 SVG单位、结构化卡144×44。容器宽度不超过620px时显示全部关系列表，保留选择、详情和精确表。"
++  - "图中名称按估算字宽截短并最多分为两行，按钮/详情/表格保留全文。有限曲线候选避让节点与名称，不保证任意密集、重叠坐标或特殊字体的最优和完整避让。"
+ compositionRules:
+   - "categories与relations按稳定ID显式配置颜色或保持声明顺序，筛选不按当前节点顺序重配身份色。"
+   - "权重只作详情/表格原始读数，线宽、距离和圆面积不表达权重，未提供不补0。"
+-  - "宿主先验证完整原始结构再筛选，不让筛选遮掩未知端点；稳定key更新输入，不重挂整图。"
++  - "宿主先验证完整原始结构并计算位置再筛选，不让筛选遮掩未知端点或重新拟合节点；悬停、选择和换色不重算几何。"
++  - "样式切换保持选中ID和节点位置，形状与边端口同时更新；常规数据更新保留既有短过渡。"
+   - "Playground /#chart-network展示四组业务样本及真实下载；原17 Bklit、Matrix及170官网身份保持。"
+ allowedModifications:
+-  - "宿主提供节点/边、类别/关系配置、有限成对坐标、caption、局部配方及关系筛选输入。"
++  - "宿主提供节点/边、类别/关系配置、有限成对坐标、caption、呈现样式、局部配方及关系筛选输入。"
+ restrictedModifications:
+   - "不把概念距离解释为相关度、不补不存在的关系、不让权重隐式控制几何或把未提供转换成0。"
+   - "不以新增本地图型冒充Bklit官网变体或写入vendor上游来源锁。"
+ accessibility:
+   - "SVG aria-hidden；具名Rain Button节点列表可聚焦，Enter/Space通过原生按钮选择，aria-pressed表达选择，与鼠标图形点击同详情。"
+   - "邻接聚焦与选择独立，具名详情区域提供方向、类型和原始读数；节点/边语义Table保留caption与行标题。"
+-  - "滚动区具名且可聚焦，精确TableScrollArea支持左右键横滚，长名保留全文；图形方向同时在表格文字表达。"
++  - "窄屏全部关系列表保留方向和类型；精确TableScrollArea支持左右键横滚，长名保留全文，图形方向同时在表格文字表达。"
+   - "useId隔离多实例marker/gradient；正常短过渡、系统或显式reduce即时完成，无常驻模拟。"
+   - "真实Safari/VoiceOver、物理触屏、forced-colors、深色与完整对比度尚未完成验证；自动检查不代替这些Gate。"
+ examples:
+@@ -87,9 +90,9 @@
+   externalReferences:
+     - "现有P08关系参考的径向柔光、实/虚/点线与锁定Bklit运动基础；本地实现复用现有React/Motion。"
+   retainedTraits:
+-    - "元素/知识点与课程的节点类别、不同连接类型、有向先备及反馈关系。"
++    - "元素/知识点与课程的节点类别、不同连接类型、有向先备及反馈关系；原稿式自然错位、径向柔光与细曲线、小箭头。"
+   redesignedTraits:
+-    - "vendor外Rain共享实现、确定性布局、稳定身份、鼠标/键盘同选择、可操作列表及精确Table。"
++    - "vendor外Rain共享实现、确定性布局、边界避让、独立呈现样式与配色、稳定身份、鼠标/键盘同选择、窄屏完整关系列表及精确Table。"
+   intentionallyNotInherited:
+     - "原设计Mock不进入共享UI，不自动把CH-116/139卡片或概念示意当网络，不包含随机力导、编辑或千节点承诺。"
+ figmaMapping:
+@@ -101,12 +104,13 @@
+   - "packages/ui/src/charts/network/README.md"
+   - "evidence/runtime/chart-business-expansion/p4/baseline.md"
+   - "evidence/runtime/chart-business-expansion/p4/verification.md"
++  - "evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md"
+ migrationNotes:
+   - "Rain本地共享候选；原17 Bklit加Matrix/Network为19入口，170官网集合不变；未发布、未迁移、未写Figma。"
+ verification:
+   automated: "scoped-passed"
+-  scope: "2026-10-09: 34 files/362 scoped unit tests including 45 network layout/component/fixture/host tests; 5 network browser tests and 4 category regressions; UI/Playground/Prototype package type checks and two app builds; 19 Registry import closures; 170 official variants type/build and 44 business downloads type/build/browser passed. Whole-repo tests typecheck and tokens remain failed outside this increment."
+-  independentReview: "scoped-read-only-reviews-passed-after-failed-first-boundary-repairs"
++  scope: "2026-10-10 visual refinement: initial 9 files/87 unit passed; latest 8 files/82 network-related unit plus 4 manifest/catalog/CSS checks and 7 Chromium network browser tests passed; latest UI typecheck and Prototype typecheck/build passed. Playground runtime typecheck excluding tests and Vite bundle passed; standard build blocked by one out-of-scope g3-component-pages.test.tsx type error. Snapshot consumption: 19 Registry closures, 170 official variants type/build and 50 business downloads including 16 network settings type/build/browser passed. Later shared vendor choropleth source-hash check failed after concurrent source changes; not repaired in this scope. Whole-repository verification not claimed."
++  independentReview: "read-only-48-graph-geometry-and-raw-callback-review; three-findings-repaired-with-regressions"
+   humanGate: "awaiting-user-review"
+   contrastAcceptance: "not-granted"
+-  evidence: "evidence/runtime/chart-business-expansion/p4/verification.md"
++  evidence: "evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md"
+
+--- a/tests/e2e/chart-business-network.spec.ts
++++ b/tests/e2e/chart-business-network.spec.ts
+@@ -1,12 +1,43 @@
+-import { expect, test } from "@playwright/test";
++import { expect, test, type Locator } from "@playwright/test";
+ import { mkdir, writeFile } from "node:fs/promises";
+ import { makeNetworkFixtures } from "../../apps/playground/src/docs/components/chart-business/network-data";
+ import { measureColorContrast, type ColorValue } from "../../packages/foundations/src/color-registry";
+ 
+-const evidence = "evidence/runtime/chart-business-expansion/p4/browser";
++const evidence = "evidence/runtime/chart-network-visual-refinement-2026-10-09/browser";
+ const fixtures = makeNetworkFixtures();
+ 
+-test("normal light node centres keep classification text and boundaries readable in each recipe", async ({ page }) => {
++async function geometryAudit(chart: Locator, links: { id: string; source: string; target: string }[]) {
++  return chart.locator(".rain-network__svg").evaluate((element, links) => {
++    const svg = element as SVGSVGElement, inverse = svg.getCTM()!.inverse();
++    const variant = svg.closest(".rain-network")!.getAttribute("data-variant");
++    function box(element: SVGGraphicsElement) {
++      const b = element.getBBox(), transform = inverse.multiply(element.getCTM()!);
++      const a = new DOMPoint(b.x, b.y).matrixTransform(transform), z = new DOMPoint(b.x + b.width, b.y + b.height).matrixTransform(transform);
++      return { x: a.x, y: a.y, width: z.x - a.x, height: z.y - a.y };
++    }
++    const nodes = [...svg.querySelectorAll<SVGGElement>("[data-network-node]")].map(node => ({ id: node.getAttribute("data-network-node")!, body: box(node.querySelector<SVGGraphicsElement>('[data-slot="node-core"]')!), label: box(node.querySelector<SVGGraphicsElement>('[data-slot="node-label"]')!) }));
++    const contains = (p: { x: number; y: number }, b: typeof nodes[number]["body"]) => p.x > b.x && p.x < b.x + b.width && p.y > b.y && p.y < b.y + b.height;
++    const hits = new Set<string>();
++    for (const path of svg.querySelectorAll<SVGPathElement>("[data-network-edge]")) {
++      const id = path.getAttribute("data-network-edge")!, link = links.find(link => link.id === id)!;
++      const length = path.getTotalLength();
++      for (let step = 0; step <= 400; step++) {
++        const p = path.getPointAtLength(length * step / 400);
++        for (const node of nodes) {
++          if (contains(p, node.label)) hits.add(`${id}/${node.id}/label`);
++          if (node.id === link.source || node.id === link.target) {
++            if (variant === "structured" && (step === 0 || step === 400) && contains(p, node.body)) hits.add(`${id}/${node.id}/port`);
++            continue;
++          }
++          if (variant === "structured" ? contains(p, node.body) : Math.hypot(p.x - node.body.x - node.body.width / 2, p.y - node.body.y - node.body.height / 2) < node.body.width / 2) hits.add(`${id}/${node.id}/body`);
++        }
++      }
++    }
++    return { variant, nodes: nodes.length, edges: svg.querySelectorAll("[data-network-edge]").length, hits: [...hits] };
++  }, links);
++}
++
++test("normal light external node names stay readable independently of the glow palette", async ({ page }) => {
+   await page.emulateMedia({ reducedMotion:"reduce" });
+   await page.goto("/#chart-network");
+   await page.getByRole("combobox", { name:"网络业务场景" }).selectOption("courses");
+@@ -23,14 +54,14 @@
+     const ratios = paints.map(paint => {
+       const background = { rgb:rgb(paint.background),alpha:1 };
+       const centre = rgb(paint.centre).map((channel,index) => channel*paint.opacity+background.rgb[index]!*(1-paint.opacity)) as unknown as ColorValue["rgb"];
+-      return { text:measureColorContrast({rgb:rgb(paint.foreground),alpha:1},{rgb:centre,alpha:1}), border:measureColorContrast({rgb:rgb(paint.border),alpha:1},background) };
++      return { text:measureColorContrast({rgb:rgb(paint.foreground),alpha:1},background), core:measureColorContrast({rgb:centre,alpha:1},background) };
+     });
+     facts.push({recipe,paints,ratios});
+     expect(Math.min(...ratios.map(row => row.text))).toBeGreaterThanOrEqual(4.5);
+-    expect(Math.min(...ratios.map(row => row.border))).toBeGreaterThanOrEqual(3);
++    expect(paints.every(paint => paint.border === "none")).toBe(true);
+   }
+   await mkdir(evidence,{recursive:true});
+-  await writeFile(`${evidence}/network-contrast-facts.json`,JSON.stringify({scope:"normal light; worst gradient centre over actual opaque body; faded/forced-colors/dark not accepted",facts},null,2));
++  await writeFile(`${evidence}/network-contrast-facts.json`,JSON.stringify({scope:"normal light external names on actual opaque body; core ratios reported without granting graphical contrast; faded/forced-colors/dark not accepted",facts},null,2));
+ });
+ 
+ for (const motion of ["no-preference", "reduce"] as const) {
+@@ -137,6 +168,9 @@
+     await page.getByRole("combobox", { name:"网络数据状态" }).selectOption("long");
+     const chart = page.locator('[data-network-example="practice"]');
+     await expect(chart.locator(".rain-network__nodes button")).toHaveCount(8);
++    await expect(chart.locator(".rain-network__scroll")).not.toBeVisible();
++    await expect(chart.locator(".rain-network__relations li")).toHaveCount(11);
++    await expect(chart.locator(".rain-network__relations")).toBeVisible();
+     const labels = await chart.locator('.rain-network__nodes button [data-slot="label"]').evaluateAll(nodes => nodes.map(node => ({ whiteSpace:getComputedStyle(node).whiteSpace, overflow:getComputedStyle(node).overflow, height:node.getBoundingClientRect().height })));
+     expect(labels.every(label => label.whiteSpace === "normal" && label.overflow === "visible")).toBe(true);
+     expect(labels.some(label => label.height > 30)).toBe(true);
+@@ -157,4 +191,55 @@
+     await expect(chart).toContainText("暂无");
+     expect(errors).toEqual([]);
+   });
++
++  test(`${motion}: switching style and palette retains selection, and updated long graphs avoid real text bounds`, async ({ page }) => {
++    test.setTimeout(120000);
++    await mkdir(evidence, { recursive:true });
++    await page.emulateMedia({ reducedMotion: motion });
++    await page.goto("/#chart-network");
++    await page.getByRole("combobox", { name:"网络业务场景" }).selectOption("courses");
++    const chart = page.locator('[data-network-example="courses"]'), course = fixtures.find(fixture => fixture.id === "courses")!;
++    await chart.getByRole("button", { name:"数据库原理，专业课程" }).click();
++    const positions = await chart.locator("[data-network-node]").evaluateAll(nodes => Object.fromEntries(nodes.map(node => [node.getAttribute("data-network-node"), [node.getAttribute("data-x"), node.getAttribute("data-y")]])));
++    await page.getByRole("radiogroup", { name:"呈现样式" }).getByText("结构化关系", { exact:true }).click();
++    await expect(chart.locator(".rain-network")).toHaveAttribute("data-variant", "structured");
++    await expect(chart.getByRole("region", { name:"节点详情" })).toHaveAttribute("data-selected-node", "database");
++    expect((await geometryAudit(chart, course.edges)).hits).toEqual([]);
++    await page.getByRole("combobox", { name:"网络图表配色" }).selectOption("category-wide");
++    await page.getByRole("combobox", { name:"网络关系类型" }).selectOption("supports");
++    await expect(chart.getByRole("region", { name:"节点详情" })).toHaveAttribute("data-selected-node", "database");
++    const remaining = await chart.locator("[data-network-node]").evaluateAll(nodes => nodes.map(node => ({ id: node.getAttribute("data-network-node")!, position: [node.getAttribute("data-x"), node.getAttribute("data-y")] })));
++    for (const node of remaining) expect(node.position).toEqual(positions[node.id]);
++    await page.getByRole("radiogroup", { name:"呈现样式" }).getByText("柔光网络", { exact:true }).click();
++    await expect(chart.locator(".rain-network")).toHaveAttribute("data-recipe", "category-wide");
++    await expect(chart.getByRole("region", { name:"节点详情" })).toHaveAttribute("data-selected-node", "database");
++    await page.getByRole("combobox", { name:"网络关系类型" }).selectOption("all");
++    await chart.getByRole("button", { name:"清除节点选择" }).click();
++    await page.getByRole("button", { name:"更新数据", exact:true }).click();
++    await page.getByRole("button", { name:"更新数据", exact:true }).click();
++    await page.getByRole("combobox", { name:"网络数据状态" }).selectOption("long");
++    await page.waitForTimeout(400);
++    const facts = [];
++    for (const fixture of fixtures) {
++      await page.getByRole("combobox", { name:"网络业务场景" }).selectOption(fixture.id);
++      const example = page.locator(`[data-network-example="${fixture.id}"]`);
++      for (const [variant, label] of [["glow", "柔光网络"], ["structured", "结构化关系"]] as const) {
++        await page.getByRole("radiogroup", { name:"呈现样式" }).getByText(label, { exact:true }).click();
++        await page.waitForTimeout(300);
++        const audit = await geometryAudit(example, fixture.edges);
++        expect(audit.hits, `${fixture.id}/${variant}`).toEqual([]);
++        facts.push({ fixture: fixture.id, ...audit });
++        await example.screenshot({ path:`${evidence}/network-${fixture.id}-${variant}-long-revision2-${motion}.png` });
++      }
++    }
++    await mkdir(evidence, { recursive:true });
++    await writeFile(`${evidence}/network-real-geometry-${motion}.json`, JSON.stringify({ scope:"actual SVG text/card bounds; 401 arc-length samples per edge; long/revision2/both styles", facts }, null, 2));
++    await page.setViewportSize({ width:390, height:844 });
++    await page.getByRole("combobox", { name:"网络业务场景" }).selectOption("courses");
++    const narrow = page.locator('[data-network-example="courses"]');
++    await expect(narrow.locator(".rain-network__scroll")).not.toBeVisible();
++    await expect(narrow.locator(".rain-network__relations li")).toHaveCount(19);
++    await page.setViewportSize({ width:1280, height:720 });
++    await expect(narrow.locator(".rain-network__scroll")).toBeVisible();
++  });
+ }
+
+--- a/scripts/verify-chart-business-consumption.test.ts
++++ b/scripts/verify-chart-business-consumption.test.ts
+@@ -107,12 +107,14 @@
+ });
+ 
+ test("network downloads capture their real fixture and current relation without unrelated geometry", async () => {
+-  const settings = { fixtureId:"courses", state:"normal", relation:"prerequisite", revision:5, recipe:"monochrome-blue" } as const;
++  const settings = { fixtureId:"courses", state:"normal", relation:"prerequisite", revision:5, recipe:"monochrome-blue", variant:"structured" } as const;
+   const files = downloads.chartNetworkFiles(settings);
+   expect(() => assertDownloadClosure(files,"network-courses")).not.toThrow();
+   expect(files["chart-business/network-data.ts"]).toBe(readFileSync(resolve(root,"apps/playground/src/docs/components/chart-business/network-data.ts"),"utf8"));
+   expect(files["main.tsx"]).toContain('"relation":"prerequisite"');
+   expect(files["main.tsx"]).toContain('"revision":5');
++  expect(files["main.tsx"]).toContain('variant={settings.variant}');
++  expect(files["main.tsx"]).toContain('"variant":"structured"');
+   expect(Object.keys(files).some(path => /matrix|mini-|world/.test(path))).toBe(false);
+   const missing = {...files}; delete missing["chart-business/network-data.ts"];
+   expect(() => assertDownloadClosure(missing,"network-courses")).toThrow(/network-data/);
+
+--- a/scripts/verify-chart-business-consumption.mjs
++++ b/scripts/verify-chart-business-consumption.mjs
+@@ -36,6 +36,9 @@
+     ...["elements","knowledge","courses","practice"].map(fixtureId=>({name:`network-${fixtureId}`,settings:{fixtureId,recipe:"monochrome-blue",state:"normal",revision:0,relation:"all"}})),
+     ...["normal","empty","single","long","invalid"].map(state=>({name:`network-all-${state}`,settings:{fixtureId:"all",recipe:"monochrome-blue",state,revision:0,relation:"all"}})),
+     {name:"network-filtered-courses",settings:{fixtureId:"courses",recipe:"monochrome-blue",state:"normal",revision:0,relation:"prerequisite"}},
++    ...["elements","knowledge","courses","practice"].map(fixtureId=>({name:`network-${fixtureId}-structured`,settings:{fixtureId,recipe:"category-wide",state:"normal",revision:2,relation:"all",variant:"structured"}})),
++    {name:"network-all-long-structured",settings:{fixtureId:"all",recipe:"category-near",state:"long",revision:2,relation:"all",variant:"structured"}},
++    {name:"network-filtered-courses-structured",settings:{fixtureId:"courses",recipe:"monochrome-blue",state:"normal",revision:0,relation:"supports",variant:"structured"}},
+   ];
+   facts.downloads=[];
+   for (const sample of samples) {
+@@ -145,6 +148,7 @@
+       await expect(page.locator('.rain-network [role="status"]')).toHaveCount(count);
+     } else {
+       await expect(page.locator(".rain-network__svg")).toHaveCount(count);
++      for(const chart of await page.locator(".rain-network").all()) await expect(chart).toHaveAttribute("data-variant",sample.settings.variant??"glow");
+       expect(await page.locator("path[data-network-edge]").evaluateAll(paths=>paths.every(path=>!/NaN|Infinity|undefined/.test(path.getAttribute("d")??"")))).toBe(true);
+       const first=page.locator(".rain-network__nodes button").first();
+       const id=await first.getAttribute("data-network-select");
+@@ -184,6 +188,6 @@
+   for (const sample of facts.downloads) for (const file of sample.files) if (!["main.tsx","index.html"].includes(file.path)) assert.equal(hash(readFileSync(join(workspace,"apps/playground/src/docs/components",file.path))),file.sha256,`${sample.name}: source changed during consumption: ${file.path}`);
+   assert.equal(hash(readFileSync(join(workspace,"apps/playground/src/docs/components/chart-example-source.tsx"))),facts.exporterSha256,"Download exporter changed during consumption");
+   assert.deepEqual(facts.errors,[]);facts.status="passed";put(join(evidence,"server.log"),serverLog);
+-  console.log(`Passed ${states.length} business states, ${minis.length} mini, 13 category and 10 network downloads, independent update and narrow layout; ${evidence}`);
++  console.log(`Passed ${states.length} business states, ${minis.length} mini, 13 category and ${samples.filter(sample=>sample.name.startsWith("network-")).length} network downloads, independent update and narrow layout; ${evidence}`);
+ } catch(error) {facts.status="failed";facts.error=String(error);throw error;}
+ finally {if(browser)await browser.close();if(server)server.kill();put(join(evidence,"facts.json"),JSON.stringify(facts,null,2));}
+
+--- a/status/current-phase.yaml
++++ b/status/current-phase.yaml
+@@ -3048,6 +3048,22 @@
+     contrastAcceptance: "not-granted"
+     nextStage: "P5-T19-source-preflight-only; geometry-and-national-city-coverage-not-yet-obtained"
+     publicationFigmaMigrationGit: "not-performed"
++    visualRefinement20261009:
++      authorization: "explicit-user-start-implementation-after-natural-offset-and-original-glow-direction-confirmed"
++      userStatement: "开始实现"
++      implementation: "completed-local-technical-delivery"
++      workMode: "system-mode-unpublished-candidate-increment"
++      scope: "default-natural-glow-and-independent-structured-style; stable-complete-graph-positions; curved-node-name-boundary-routing; 11-node-19-edge-course-mock; narrow-complete-relations; current-source-downloads"
++      automatedVerification: "initial-9-files-87-unit-passed; latest-8-files-82-network-unit-and-4-manifest-catalog-CSS-checks-passed; 7-network-Chromium-browser; latest-UI-typecheck; Prototype-typecheck-build; Playground-runtime-typecheck-and-Vite-bundle; snapshot-19-registry-closures-170-official-type-build-and-50-business-downloads-including-16-network-type-build-browser-passed"
++      playgroundStandardBuild: "blocked-by-one-out-of-scope-g3-component-pages.test.tsx-107-possibly-undefined-element-type-error"
++      latestSharedSourceCheck: "failed-outside-network-scope-after-concurrent-vendor-choropleth-source-hash-change; manifest-and-local-network-checks-passed"
++      independentReview: "read-only-48-graph-and-boundary-callback-review; three-geometry-findings-repaired; style-port-transition-regression-repaired"
++      baseline: "../evidence/runtime/chart-network-visual-refinement-2026-10-09/baseline.md"
++      verification: "../evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md"
++      previewUrl: "http://127.0.0.1:5173/#chart-network"
++      visualHumanGate: "awaiting-implementation-review"
++      contrastAcceptance: "not-granted"
++      publicationFigmaMigrationGit: "not-performed"
+ 
+   mapIncrement20261009:
+     authorization: "explicit-user-continue-next-stage"
+
+--- a/packages/ui/src/charts/network/network-geometry.ts
++++ b/packages/ui/src/charts/network/network-geometry.ts
+@@ -0,0 +1,137 @@
++import type { layoutNetwork } from "./network-layout";
++
++type Point = { x: number; y: number };
++type Box = Point & { width: number; height: number };
++const width = 960, height = 560, radius = 24;
++const textWidth = (text: string) => [...text].reduce((sum, character) => sum + (/[^\u0000-\u007f]/.test(character) ? 14 : 8), 0);
++const overlaps = (a: Box, b: Box) => a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
++function segmentHits(a: Point, b: Point, box: Box, gap: number) {
++  if (Math.max(a.x, b.x) <= box.x - gap || Math.min(a.x, b.x) >= box.x + box.width + gap || Math.max(a.y, b.y) <= box.y - gap || Math.min(a.y, b.y) >= box.y + box.height + gap) return false;
++  let enter = 0, leave = 1;
++  for (const [axis, extent] of [["x", "width"], ["y", "height"]] as const) {
++    const delta = b[axis] - a[axis], min = box[axis] - gap, max = box[axis] + box[extent] + gap;
++    if (!delta) { if (a[axis] <= min || a[axis] >= max) return false; continue; }
++    const first = (min - a[axis]) / delta, last = (max - a[axis]) / delta;
++    enter = Math.max(enter, Math.min(first, last)); leave = Math.min(leave, Math.max(first, last));
++    if (enter >= leave) return false;
++  }
++  return true;
++}
++
++export function networkGeometry(model: ReturnType<typeof layoutNetwork>, variant: "glow" | "structured") {
++  const structured = variant === "structured";
++  const nodes = model.nodes.map(node => {
++    let label = node.label;
++    if (textWidth(label) > 168) {
++      label = "";
++      for (const character of node.label) { if (textWidth(label + character) > 154) break; label += character; }
++      label += "…";
++    }
++    const lines = [""];
++    for (const character of label) {
++      if (textWidth(lines.at(-1)! + character) > 114) lines.push("");
++      lines[lines.length - 1] += character;
++    }
++    const labelWidth = Math.max(...lines.map(textWidth));
++    const x = 84 + node.x * (width - 168), y = 56 + node.y * (height - 112);
++    const nodeWidth = structured ? 144 : radius * 2;
++    const nodeHeight = structured ? 44 : radius * 2;
++    const body = { x: x - nodeWidth / 2, y: y - nodeHeight / 2, width: nodeWidth, height: nodeHeight };
++    const textX = x + (structured ? 8 : 0);
++    return { ...node, x, y, label, lines, body, labelBox: { x: textX - labelWidth / 2, y: y - lines.length * 10, width: labelWidth, height: lines.length * 20 }, textX, textY: y + 5 - (lines.length - 1) * 10 };
++  });
++  const placed: Box[] = [];
++  for (const node of nodes) {
++    if (structured) continue;
++    const { x, y } = node, w = node.labelBox.width, h = node.labelBox.height;
++    const positions = {
++      above: { x: x - w / 2, y: y - 34 - h, width: w, height: h },
++      below: { x: x - w / 2, y: y + 34, width: w, height: h },
++      left: { x: x - 34 - w, y: y - h / 2, width: w, height: h },
++      right: { x: x + 34, y: y - h / 2, width: w, height: h },
++    };
++    const dx = x - width / 2, dy = y - height / 2;
++    const preferred = Math.hypot(dx, dy) < 100 ? "below" : Math.abs(dx) > Math.abs(dy) * 1.4 ? dx < 0 ? "left" : "right" : dy < 0 ? "above" : "below";
++    const choices = [positions[preferred], ...Object.values(positions).filter(box => box !== positions[preferred])];
++    const score = (box: Box) => {
++      const out = box.x < 8 || box.y < 8 || box.x + box.width > width - 8 || box.y + box.height > height - 8;
++      return (out ? 1000 : 0) + nodes.filter(other => overlaps(box, { x: other.body.x - 6, y: other.body.y - 6, width: other.body.width + 12, height: other.body.height + 12 })).length * 100 + placed.filter(other => overlaps(box, other)).length * 100;
++    };
++    node.labelBox = choices.reduce((best, box) => score(box) < score(best) ? box : best);
++    node.textX = node.labelBox.x + node.labelBox.width / 2;
++    node.textY = node.labelBox.y + 15;
++    placed.push(node.labelBox);
++  }
++  const positions = new Map(nodes.map(node => [node.id, node]));
++  type Curve = { start: Point; c1: Point; c2: Point; end: Point };
++  const point = (curve: Curve, t: number) => {
++    const s = 1 - t;
++    return { x: s ** 3 * curve.start.x + 3 * s ** 2 * t * curve.c1.x + 3 * s * t ** 2 * curve.c2.x + t ** 3 * curve.end.x, y: s ** 3 * curve.start.y + 3 * s ** 2 * t * curve.c1.y + 3 * s * t ** 2 * curve.c2.y + t ** 3 * curve.end.y };
++  };
++  function curve(edge: typeof model.edges[number], bend1: number, bend2: number): Curve {
++    const a = positions.get(edge.source)!, b = positions.get(edge.target)!;
++    const dx = b.x - a.x, dy = b.y - a.y, length = Math.hypot(dx, dy) || 1;
++    const direction = edge.source < edge.target ? 1 : -1;
++    const nx = -dy / length * direction, ny = dx / length * direction;
++    const first = edge.source < edge.target ? bend1 : bend2, second = edge.source < edge.target ? bend2 : bend1;
++    const c1 = { x: a.x + dx / 3 + nx * (first + edge.lane * 44), y: a.y + dy / 3 + ny * (first + edge.lane * 44) };
++    const c2 = { x: b.x - dx / 3 + nx * (second + edge.lane * 44), y: b.y - dy / 3 + ny * (second + edge.lane * 44) };
++    function port(node: typeof nodes[number], control: Point, arrow: boolean) {
++      const vx = control.x - node.x, vy = control.y - node.y, distance = Math.hypot(vx, vy) || 1;
++      const ux = vx / distance, uy = vy / distance;
++      const boundary = structured ? Math.min(node.body.width / 2 / (Math.abs(ux) || 1e-9), node.body.height / 2 / (Math.abs(uy) || 1e-9)) : radius;
++      return { x: node.x + ux * (boundary + 3 + (arrow ? 2 : 0)), y: node.y + uy * (boundary + 3 + (arrow ? 2 : 0)) };
++    }
++    return { start: port(a, c1, false), c1, c2, end: port(b, c2, edge.directed) };
++  }
++  function score(curve: Curve, edge: typeof model.edges[number]) {
++    let collisions = 0;
++    let previous = curve.start;
++    for (let step = 0; step <= 160; step++) {
++      const p = point(curve, step / 160);
++      if (p.x < 4 || p.x > width - 4 || p.y < 4 || p.y > height - 4) collisions += 4;
++      for (const node of nodes) {
++        if (segmentHits(previous, p, node.labelBox, 3)) collisions++;
++        if (node.id !== edge.source && node.id !== edge.target && segmentHits(previous, p, node.body, 5)) collisions += 2;
++      }
++      previous = p;
++    }
++    return collisions * 10000;
++  }
++  const groups = new Map<string, typeof model.edges>();
++  for (const edge of model.edges) {
++    const key = JSON.stringify([edge.source, edge.target].sort());
++    groups.set(key, [...(groups.get(key) ?? []), edge]);
++  }
++  const paths = new Map<string, string>();
++  // shortcut: bounded curve candidates suit small networks, use a graph layout engine for large or tightly packed inputs.
++  for (const group of groups.values()) {
++    const edge = group[0]!, a = positions.get(edge.source)!, b = positions.get(edge.target)!;
++    const length = Math.hypot(b.x - a.x, b.y - a.y);
++    const normalX = -(b.y - a.y) * (edge.source < edge.target ? 1 : -1), normalY = (b.x - a.x) * (edge.source < edge.target ? 1 : -1);
++    const outward = normalX * ((a.x + b.x) / 2 - width / 2) + normalY * ((a.y + b.y) / 2 - height / 2) < 0 ? -1 : 1;
++    const preferred = group.length > 1 ? 0 : outward * Math.min(56, length * .09);
++    const candidates = [preferred, 0, 24, -24, 48, -48, 88, -88, 136, -136, 200, -200, 280, -280, 380, -380].map(bend => [bend, bend] as const);
++    candidates.push([88, -88], [-88, 88], [160, -160], [-160, 160], [240, -240], [-240, 240]);
++    for (const bend of [48, -48, 88, -88, 136, -136, 200, -200, 280, -280]) candidates.push([0, bend], [bend, 0]);
++    const midpoints: Point[] = [];
++    for (const item of group) {
++      const cost = (bends: readonly [number, number]) => {
++        const candidate = curve(item, ...bends), middle = point(candidate, .5);
++        const duplicate = midpoints.some(p => Math.hypot(p.x - middle.x, p.y - middle.y) < 12);
++        return score(candidate, item) + (duplicate ? 1000000 : 0) + Math.abs(bends[0] - preferred) + Math.abs(bends[1] - preferred) + (bends[0] !== bends[1] ? 100 : 0);
++      };
++      let chosen = candidates[0]!, bestCost = cost(chosen);
++      const consider = (candidate: readonly [number, number]) => { const value = cost(candidate); if (value < bestCost) { chosen = candidate; bestCost = value; } };
++      for (const candidate of candidates.slice(1)) consider(candidate);
++      if (bestCost >= 10000) {
++        const detours = [0, 32, -32, 64, -64, 96, -96, 128, -128, 160, -160, 208, -208, 256, -256, 320, -320, 400, -400];
++        for (const first of detours) for (const second of detours) consider([first, second]);
++      }
++      const { start, c1, c2, end } = curve(item, ...chosen);
++      midpoints.push(point({ start, c1, c2, end }, .5));
++      paths.set(item.id, `M${start.x},${start.y} C${c1.x},${c1.y} ${c2.x},${c2.y} ${end.x},${end.y}`);
++    }
++  }
++  return { width, height, radius, nodes, edges: model.edges.map(edge => ({ ...edge, d: paths.get(edge.id)! })) };
++}
+
+--- a/packages/ui/src/charts/network/network-geometry.test.ts
++++ b/packages/ui/src/charts/network/network-geometry.test.ts
+@@ -0,0 +1,77 @@
++import { expect, test } from "vitest";
++import { makeNetworkFixtures } from "../../../../../apps/playground/src/docs/components/chart-business/network-data";
++import { layoutNetwork } from "./network-layout";
++import { networkGeometry } from "./network-geometry";
++
++function point(path: string, t: number) {
++  const numbers = path.match(/-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/gi)!.map(Number);
++  expect(numbers).toHaveLength(8);
++  const s = 1 - t;
++  return { x: s ** 3 * numbers[0]! + 3 * s ** 2 * t * numbers[2]! + 3 * s * t ** 2 * numbers[4]! + t ** 3 * numbers[6]!, y: s ** 3 * numbers[1]! + 3 * s ** 2 * t * numbers[3]! + 3 * s * t ** 2 * numbers[5]! + t ** 3 * numbers[7]! };
++}
++
++for (const variant of ["glow", "structured"] as const) {
++  test.each([0, 1, 2].flatMap(revision => (["normal", "long"] as const).map(state => [revision, state] as const)))(`${variant}: revision %s / %s keeps curves clear of unrelated nodes and labels`, (revision, state) => {
++    for (const fixture of makeNetworkFixtures(revision, state)) {
++      const model = layoutNetwork(fixture.nodes, fixture.edges);
++      const snapshot = structuredClone(model);
++      const geometry = networkGeometry(model, variant);
++      expect(model).toEqual(snapshot);
++      expect(geometry.edges.map(edge => edge.id).sort()).toEqual(fixture.edges.map(edge => edge.id).sort());
++      for (const node of geometry.nodes) {
++        expect(node.labelBox.x).toBeGreaterThanOrEqual(0);
++        expect(node.labelBox.y).toBeGreaterThanOrEqual(0);
++        expect(node.labelBox.x + node.labelBox.width).toBeLessThanOrEqual(geometry.width);
++        expect(node.labelBox.y + node.labelBox.height).toBeLessThanOrEqual(geometry.height);
++        if (variant === "structured") for (const other of geometry.nodes) {
++          if (node.id === other.id) continue;
++          expect(node.body.x < other.body.x + other.body.width && node.body.x + node.body.width > other.body.x && node.body.y < other.body.y + other.body.height && node.body.y + node.body.height > other.body.y, `${fixture.id}: ${node.id} overlaps ${other.id}`).toBe(false);
++        }
++      }
++      for (const edge of geometry.edges) {
++        expect(edge.d).not.toMatch(/NaN|Infinity/);
++        for (let step = 0; step <= 120; step++) {
++          const p = point(edge.d, step / 120);
++          expect(p.x, `${fixture.id}/${edge.id} x`).toBeGreaterThanOrEqual(0);
++          expect(p.x, `${fixture.id}/${edge.id} x`).toBeLessThanOrEqual(geometry.width);
++          expect(p.y, `${fixture.id}/${edge.id} y`).toBeGreaterThanOrEqual(0);
++          expect(p.y, `${fixture.id}/${edge.id} y`).toBeLessThanOrEqual(geometry.height);
++          for (const node of geometry.nodes) {
++            const box = node.labelBox;
++            expect(p.x > box.x && p.x < box.x + box.width && p.y > box.y && p.y < box.y + box.height, `${fixture.id}/${edge.id} crosses ${node.id} label`).toBe(false);
++            if (node.id === edge.source || node.id === edge.target) continue;
++            if (variant === "glow") expect(Math.hypot(p.x - node.x, p.y - node.y), `${fixture.id}/${edge.id} crosses ${node.id}`).toBeGreaterThanOrEqual(24);
++            else expect(p.x > node.body.x && p.x < node.body.x + node.body.width && p.y > node.body.y && p.y < node.body.y + node.body.height, `${fixture.id}/${edge.id} crosses ${node.id}`).toBe(false);
++          }
++        }
++      }
++    }
++  });
++}
++
++test("parallel and reverse links have distinct geometry and retain their data", () => {
++  const nodes = ["a", "b", "c"].map((id, index) => ({ id, label: id, category: "concept", x: .2 + index * .3, y: .5 }));
++  const edges = [
++    { id: "first", source: "a", target: "c", relation: "support", directed: true, value: 0 },
++    { id: "second", source: "a", target: "c", relation: "similar", directed: false },
++    { id: "reverse", source: "c", target: "a", relation: "feedback", directed: true },
++  ];
++  const geometry = networkGeometry(layoutNetwork(nodes, edges), "glow");
++  expect(geometry.edges.find(edge => edge.id === "first")).toMatchObject(edges[0]!);
++  expect(geometry.edges.find(edge => edge.id === "second")).not.toHaveProperty("value");
++  expect(geometry).toEqual(networkGeometry(layoutNetwork([...nodes].reverse(), [...edges].reverse()), "glow"));
++  const midpoints = geometry.edges.map(edge => point(edge.d, .5));
++  for (let i = 0; i < midpoints.length; i++) for (let j = i + 1; j < midpoints.length; j++) expect(Math.hypot(midpoints[i]!.x - midpoints[j]!.x, midpoints[i]!.y - midpoints[j]!.y)).toBeGreaterThan(8);
++});
++
++test("structured nodes fit legal frame boundaries and a fitting English name stays complete", () => {
++  const nodes = [{ id: "left", label: "一二三四五六七八九十十一", category: "concept", x: 0, y: .5 }, { id: "right", label: "Random vectors", category: "concept", x: 1, y: .5 }];
++  const geometry = networkGeometry(layoutNetwork(nodes, []), "structured");
++  for (const node of geometry.nodes) {
++    expect(node.body.x).toBeGreaterThanOrEqual(0);
++    expect(node.body.x + node.body.width).toBeLessThanOrEqual(geometry.width);
++    expect(node.labelBox.x).toBeGreaterThanOrEqual(0);
++    expect(node.labelBox.x + node.labelBox.width).toBeLessThanOrEqual(geometry.width);
++  }
++  expect(geometry.nodes.find(node => node.id === "right")!.label).toBe("Random vectors");
++});

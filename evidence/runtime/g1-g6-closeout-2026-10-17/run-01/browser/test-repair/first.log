@@ -1,0 +1,130 @@
+
+Running 5 tests using 1 worker
+
+(node:78716) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/g6-components.spec.ts:26:1 › media ratio, attachment actions and direction islands (6.8s)
+(node:79099) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [desktop] › tests/e2e/g6-components.spec.ts:35:1 › task dialog draft protection, choice and same-layer preview; drawer modality (9.5s)
+  ✓  3 [desktop] › tests/e2e/g6-components.spec.ts:51:1 › carousel actual API, input key ownership, RTL and vertical (778ms)
+  ✘  4 [desktop] › tests/e2e/g6-components.spec.ts:57:1 › conversation reactions, copy, local retry and meaningful marker (708ms)
+(node:80967) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 [desktop] › tests/e2e/g6-components.spec.ts:65:1 › questionnaire conditional validation, native summary, restore and submit failure (1.0m)
+
+
+  1) [desktop] › tests/e2e/g6-components.spec.ts:26:1 › media ratio, attachment actions and direction islands 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('form', { name: '课程附件', exact: true }).getByTestId('attachment-live-list')
+    Expected substring: "正在上传"
+    Received string:    "高等数学课程封面.png1 MB课堂观察记录与同伴反馈说明.txt341 B课堂补充说明.txt18 B · 等待上传上传"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for getByRole('form', { name: '课程附件', exact: true }).getByTestId('attachment-live-list')
+        14 × locator resolved to <div data-testid="attachment-live-list">…</div>
+           - unexpected value "高等数学课程封面.png1 MB课堂观察记录与同伴反馈说明.txt341 B课堂补充说明.txt18 B · 等待上传上传"
+
+
+      30 |  await open(page,"attachment");const attachments=page.getByRole('form',{name:'课程附件',exact:true});const preview=attachments.getByRole('button',{name:'预览 课程导读：从问题到证据.pdf',exact:true});await preview.click();await expect(page.getByRole('dialog')).toBeVisible();await page.getByRole('button',{name:'关闭',exact:true}).click();await expect(preview).toBeFocused();
+      31 |  await attachments.getByRole('button',{name:'更多操作 课程导读：从问题到证据.pdf',exact:true}).click();await page.getByRole('menuitem',{name:'移除',exact:true}).click();await expect(page.getByRole('dialog')).toHaveCount(0);await expect(attachments.getByRole('button',{name:'预览 高等数学课程封面.png',exact:true})).toBeFocused();
+    > 32 |  await attachments.locator('input[type="file"][aria-label="添加附件"]').setInputFiles({name:'课堂补充说明.txt',mimeType:'text/plain',buffer:Buffer.from('课堂补充说明')});await expect(attachments.getByTestId('attachment-live-list')).toContainText('正在上传');await expect(attachments.getByRole('button',{name:'保存附件',exact:true})).toBeDisabled();await expect(attachments.getByRole('button',{name:'保存附件',exact:true})).toBeEnabled({timeout:4000});
+         |                                                                                                                                                                                                                         ^
+      33 |  await open(page,"direction");await expect(page.locator('.g6-direction-example[dir="rtl"]')).toContainText('Context: rtl');await expect(page.locator('.g6-direction-example[dir="ltr"]')).toContainText('Context: ltr');
+      34 | });
+      35 | test("task dialog draft protection, choice and same-layer preview; drawer modality",async({page},info)=>{
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g6-components.spec.ts:32:217
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g1-g6-closeout-2026-10-17/run-01/browser/test-repair/first/results/g6-components-media-ratio--c415f-tions-and-direction-islands-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g1-g6-closeout-2026-10-17/run-01/browser/test-repair/first/results/g6-components-media-ratio--c415f-tions-and-direction-islands-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g1-g6-closeout-2026-10-17/run-01/browser/test-repair/first/results/g6-components-media-ratio--c415f-tions-and-direction-islands-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g1-g6-closeout-2026-10-17/run-01/browser/test-repair/first/results/g6-components-media-ratio--c415f-tions-and-direction-islands-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop] › tests/e2e/g6-components.spec.ts:57:1 › conversation reactions, copy, local retry and meaningful marker 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected substring: "课程资料整理完成。"
+    Error: strict mode violation: getByRole('status') resolved to 2 elements:
+        1) <div role="status" data-slot="root" data-variant="default" data-density="default" data-rain-id="ui-marker" class="rain-marker relative flex w-full items-center rain-marker--default">…</div> aka getByRole('status').filter({ hasText: '课程资料整理完成。' })
+        2) <span role="status"></span> aka getByRole('region', { name: '调用示例' }).getByRole('status')
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for getByRole('status')
+
+
+      57 | test("conversation reactions, copy, local retry and meaningful marker",async({page,context})=>{
+      58 |  await open(page,"bubble");const reaction=page.getByRole('button',{name:/有帮助/});await reaction.click();await expect(reaction).toHaveAttribute('aria-pressed','true');await reaction.click();await expect(reaction).toHaveAttribute('aria-pressed','false');
+    > 59 |  await open(page,"marker");await expect(page.getByRole('region',{name:'课堂讨论中的会话标记示例',exact:true})).toContainText('讨论主题已切换为“事实与解释”。');await page.getByRole('button',{name:'完成本地整理',exact:true}).click();await expect(page.getByRole('status')).toContainText('课程资料整理完成。');await page.getByRole('button',{name:'重新开始整理',exact:true}).click();await expect(page.getByRole('status')).toContainText('正在整理课程资料…');
+         |                                                                                                                                                                                                                                               ^
+      60 |  await context.grantPermissions(['clipboard-read','clipboard-write']);await open(page,"message");await page.getByRole('button',{name:'复制辅导回答',exact:true}).click();expect(await page.evaluate(()=>navigator.clipboard.readText())).toContain('先写下你直接看到的事实');await page.getByRole('button',{name:'重试发送补充问题',exact:true}).click();await expect(page.getByText('已发送 · 本地模拟',{exact:true})).toBeVisible();
+      61 | });
+      62 | test("scroller preserves reading on stream/prepend, pauses and commands",async({page})=>{
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g6-components.spec.ts:59:239
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g1-g6-closeout-2026-10-17/run-01/browser/test-repair/first/results/g6-components-conversation-d62ee-retry-and-meaningful-marker-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g1-g6-closeout-2026-10-17/run-01/browser/test-repair/first/results/g6-components-conversation-d62ee-retry-and-meaningful-marker-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g1-g6-closeout-2026-10-17/run-01/browser/test-repair/first/results/g6-components-conversation-d62ee-retry-and-meaningful-marker-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g1-g6-closeout-2026-10-17/run-01/browser/test-repair/first/results/g6-components-conversation-d62ee-retry-and-meaningful-marker-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › tests/e2e/g6-components.spec.ts:65:1 › questionnaire conditional validation, native summary, restore and submit failure 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByRole('form', { name: '课堂反馈', exact: true }).getByRole('button', { name: '提交反馈', exact: true })
+
+
+      65 | test("questionnaire conditional validation, native summary, restore and submit failure",async({page})=>{
+      66 |  await open(page,"questionnaire");const form=page.getByRole('form',{name:'课堂反馈',exact:true});await form.getByRole('button',{name:'下一题',exact:true}).click();await expect(form.getByRole('alert')).toBeVisible();await form.getByRole('radio',{name:/其他目标/}).locator('..').click();await expect(form.getByRole('radio',{name:/其他目标/})).toBeChecked();await form.getByRole('button',{name:'下一题',exact:true}).click();await form.getByRole('textbox',{name:'具体学习目标',exact:true}).fill('一');await page.getByRole('button',{name:'保存本页草稿',exact:true}).click();await page.getByRole('button',{name:'恢复草稿',exact:true}).click();await form.getByRole('button',{name:'下一题',exact:true}).click();await expect(form.getByRole('progressbar')).toContainText('第 2 题');
+    > 67 |  await form.getByRole('textbox',{name:'具体学习目标',exact:true}).fill('希望理解证据');await form.getByRole('button',{name:'下一题',exact:true}).click();await form.getByRole('checkbox',{name:/观察记录/}).locator('..').click();await expect(form.getByRole('checkbox',{name:/观察记录/})).toBeChecked();await form.getByRole('button',{name:'上一题',exact:true}).click();await expect(form.getByRole('textbox',{name:'具体学习目标',exact:true})).toHaveValue('希望理解证据');await form.getByRole('button',{name:'下一题',exact:true}).click();await form.getByRole('button',{name:'下一题',exact:true}).click();await page.getByText('演示控制',{exact:true}).click();await page.getByRole('button',{name:'模拟提交失败：关',exact:true}).click();await form.getByRole('button',{name:'跳过并提交',exact:true}).click();await expect(form.getByRole('alert')).toContainText('提交失败');await expect(page.getByRole('region',{name:'反馈摘要',exact:true})).toHaveCount(0);await form.getByRole('textbox',{name:'给老师的补充',exact:true}).fill('保留跳过后的补充说明');await expect(form.getByRole('textbox',{name:'给老师的补充',exact:true})).toHaveValue('保留跳过后的补充说明');await page.getByRole('button',{name:'模拟提交失败：开',exact:true}).click();await form.getByRole('button',{name:'提交反馈',exact:true}).click();await expect(page.getByRole('region',{name:'反馈摘要',exact:true})).toContainText('希望理解证据');
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ^
+      68 | });
+      69 | test("reduced motion and forced colors keep state readable",async({page})=>{
+      70 |  await page.emulateMedia({reducedMotion:'reduce',forcedColors:'active'});await open(page,"marker");await expect(page.locator('.rain-marker__content--shimmer')).toHaveCSS('animation-name','none');await expect(page.locator('.rain-marker__content--shimmer')).toBeVisible();await open(page,"attachment");await expect(page.getByRole('button',{name:'预览 课程导读：从问题到证据.pdf',exact:true})).toBeVisible();await page.getByRole('button',{name:'预览 课程导读：从问题到证据.pdf',exact:true}).press('Enter');await expect(page.getByRole('dialog')).toBeVisible();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g6-components.spec.ts:67:1001
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g1-g6-closeout-2026-10-17/run-01/browser/test-repair/first/results/g6-components-questionnair-6b3ec--restore-and-submit-failure-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g1-g6-closeout-2026-10-17/run-01/browser/test-repair/first/results/g6-components-questionnair-6b3ec--restore-and-submit-failure-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g1-g6-closeout-2026-10-17/run-01/browser/test-repair/first/results/g6-components-questionnair-6b3ec--restore-and-submit-failure-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g1-g6-closeout-2026-10-17/run-01/browser/test-repair/first/results/g6-components-questionnair-6b3ec--restore-and-submit-failure-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [desktop] › tests/e2e/g6-components.spec.ts:26:1 › media ratio, attachment actions and direction islands 
+    [desktop] › tests/e2e/g6-components.spec.ts:57:1 › conversation reactions, copy, local retry and meaningful marker 
+    [desktop] › tests/e2e/g6-components.spec.ts:65:1 › questionnaire conditional validation, native summary, restore and submit failure 
+  2 passed (1.3m)

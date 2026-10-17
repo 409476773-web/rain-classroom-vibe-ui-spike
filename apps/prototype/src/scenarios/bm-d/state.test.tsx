@@ -2,6 +2,7 @@ import { act, render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, it } from "vitest";
 import { summarize } from "./state";
+import { buildGapPoints, ReportSubmissionGaps } from "./report-sections";
 import { buildTrendPoints, TrendChart } from "./trend-chart";
 import { LearningReportScenario } from "./page";
 
@@ -57,4 +58,64 @@ it("preserves missing weeks and zero denominators in the chart instead of invent
   const { container } = render(<TrendChart rows={[...rows, { ...rows[0]!, week: 4, scoreTotal: 90 }]} metric="average" firstWeek={1} selectedWeek={1} />);
   await waitFor(() => expect(container.querySelector(".recharts-line-curve")?.getAttribute("d")?.match(/M/g)).toHaveLength(2));
   expect(container.querySelectorAll("circle.bm-d-series-one")).toHaveLength(2);
+});
+
+it("keeps both class metrics and the gap analysis stable when only the trend metric changes", async () => {
+  const user = userEvent.setup(); render(<LearningReportScenario presentation="comparison" />);
+  const comparison = screen.getByRole("region", { name: "班级对照" });
+  expect(comparison).toHaveTextContent("79.9");
+  expect(comparison).toHaveTextContent("78.8");
+  expect(comparison).toHaveTextContent("3.8");
+  const gaps = screen.getByRole("region", { name: "提交缺口" });
+  expect(gaps).toHaveTextContent("46.7%");
+  const original = comparison.textContent, gapContent = gaps.textContent;
+  await user.click(screen.getByRole("radio", { name: "提交率" }));
+  expect(comparison.textContent).toBe(original);
+  expect(gaps.textContent).toBe(gapContent);
+  expect(screen.queryByRole("combobox", { name: "固定对照" })).not.toBeInTheDocument();
+});
+
+it("updates all report chapters together and removes between-class conclusions for a single class", async () => {
+  const user = userEvent.setup(); render(<LearningReportScenario presentation="comparison" />);
+  const metrics = screen.getByRole("region", { name: "关键指标" });
+  const gaps = screen.getByRole("region", { name: "提交缺口" });
+  expect(metrics).toHaveTextContent("+15.0");
+  expect(gaps).toHaveTextContent("60");
+  await user.click(screen.getByRole("combobox", { name: "报告周期" }));
+  await user.click(await screen.findByRole("option", { name: "第 4–6 周" }));
+  expect(metrics).toHaveTextContent("+6.0");
+  expect(metrics).toHaveTextContent("135");
+  expect(gaps).toHaveTextContent("21");
+  expect(gaps).toHaveTextContent("第 4–5 周");
+  expect(gaps).not.toHaveTextContent("第 1–2 周");
+  expect(screen.getByRole("region", { name: "班级对照" })).toHaveTextContent("84.1");
+  await user.click(screen.getByRole("combobox", { name: "报告班级" }));
+  await user.click(await screen.findByRole("option", { name: "二班" }));
+  const performance = screen.getByRole("region", { name: "班级表现" });
+  expect(performance).not.toHaveTextContent("一班");
+  expect(performance).not.toHaveTextContent("高出");
+  expect(performance).toHaveTextContent("88.5");
+  expect(metrics).toHaveTextContent("69");
+  expect(within(screen.getByRole("table", { name: "周度明细" })).getAllByRole("row")).toHaveLength(4);
+  expect(screen.getByRole("columnheader", { name: "未提交" })).toBeInTheDocument();
+});
+
+it("plots a weighted overall series and leaves absent weeks disconnected", async () => {
+  const rows = [
+    { group: "一班" as const, week: 1, expected: 20, submitted: 10, scoreTotal: 600 },
+    { group: "二班" as const, week: 1, expected: 20, submitted: 20, scoreTotal: 1800 },
+    { group: "一班" as const, week: 3, expected: 20, submitted: 10, scoreTotal: 900 },
+  ];
+  const { container } = render(<TrendChart rows={rows} metric="average" firstWeek={1} selectedWeek={1} overall />);
+  await waitFor(() => expect(container.querySelector(".recharts-line-curve")?.getAttribute("d")?.match(/M/g)).toHaveLength(2));
+  expect(screen.getByText("80.0")).toBeInTheDocument();
+  expect(container.querySelectorAll("circle.report-a-series-overall")).toHaveLength(2);
+});
+
+it("distinguishes a missing week from a real zero gap and avoids dividing a completed range by zero", () => {
+  const rows = [{ group: "一班" as const, week: 4, expected: 26, submitted: 26, scoreTotal: 2080 }];
+  expect(buildGapPoints(rows, 4)).toEqual([{ week: 4, gap: 0 }, { week: 5, gap: null }, { week: 6, gap: null }]);
+  render(<ReportSubmissionGaps rows={rows} firstWeek={4} />);
+  expect(screen.getByRole("complementary", { name: "缺口解读" })).toHaveTextContent("当前范围的作业均已提交");
+  expect(screen.getByRole("region", { name: "提交缺口" })).not.toHaveTextContent("NaN");
 });

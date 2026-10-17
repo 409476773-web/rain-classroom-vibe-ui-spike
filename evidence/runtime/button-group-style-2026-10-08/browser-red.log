@@ -1,0 +1,66 @@
+
+Running 2 tests using 1 worker
+
+(node:68483) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/button-group-repair.spec.ts:11:1 › disabled content fades while its borders and shared seam stay intact (584ms)
+(node:68488) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/e2e/button-group-repair.spec.ts:27:1 › explicit separators use a continuous full-size line matching ordinary seams (546ms)
+
+
+  1) [chromium] › tests/e2e/button-group-repair.spec.ts:11:1 › disabled content fades while its borders and shared seam stay intact 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "1"
+    Received: "0.4"
+
+      18 |       labelOpacity: getComputedStyle(el.querySelector('[data-slot="label"]')!).opacity,
+      19 |     })));
+    > 20 |     expect(styles[1]?.opacity).toBe("1");
+         |                                ^
+      21 |     expect(styles[1]?.border).toBe(styles[0]?.border);
+      22 |     expect(styles[1]?.labelOpacity).toBe("0.4");
+      23 |     await expect(group.getByRole("button", { name: "重做", exact: true })).toBeDisabled();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts:20:32
+
+    Error Context: evidence/runtime/button-group-style-2026-10-08/browser-red/results/button-group-repair-disabl-60151-and-shared-seam-stay-intact-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/button-group-style-2026-10-08/browser-red/results/button-group-repair-disabl-60151-and-shared-seam-stay-intact-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/button-group-style-2026-10-08/browser-red/results/button-group-repair-disabl-60151-and-shared-seam-stay-intact-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/e2e/button-group-repair.spec.ts:27:1 › explicit separators use a continuous full-size line matching ordinary seams 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "rgba(16, 63, 183, 0.16)"
+    Received: "rgba(16, 63, 183, 0.1)"
+
+      34 |         groupSize: el.getAttribute('data-orientation') === 'horizontal' ? group.height : group.width };
+      35 |     });
+    > 36 |     expect(geometry.color).toBe(geometry.border);
+         |                            ^
+      37 |     expect(geometry.size).toBe(geometry.groupSize);
+      38 |   }
+      39 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts:36:28
+
+    Error Context: evidence/runtime/button-group-style-2026-10-08/browser-red/results/button-group-repair-explic-8405c-ine-matching-ordinary-seams-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/button-group-style-2026-10-08/browser-red/results/button-group-repair-explic-8405c-ine-matching-ordinary-seams-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/button-group-style-2026-10-08/browser-red/results/button-group-repair-explic-8405c-ine-matching-ordinary-seams-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium] › tests/e2e/button-group-repair.spec.ts:11:1 › disabled content fades while its borders and shared seam stay intact 
+    [chromium] › tests/e2e/button-group-repair.spec.ts:27:1 › explicit separators use a continuous full-size line matching ordinary seams 

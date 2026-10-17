@@ -1,0 +1,117 @@
+{
+  "status": "completed-local-technical-delivery",
+  "recordedAt": "2026-10-08T08:12:53.020722+00:00",
+  "workspace": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2",
+  "branch": "codex/card-v2",
+  "head": "321e1a0c1b5f9284e0fcb5167fa059d6174b1752",
+  "sourceCommit": "5d699897b2dde26374cf15501dbaadbc52cea982",
+  "nativeFiles": 179,
+  "variantCount": 170,
+  "rainEntries": 17,
+  "upstreamFamilies": 16,
+  "unitTests": 81,
+  "checks": [
+    {
+      "label": "unit-replay",
+      "command": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "packages/ui/src/charts",
+        "apps/playground/src/docs/components/chart-variants",
+        "apps/playground/src/docs/components/chart-variant-gallery.test.tsx",
+        "apps/playground/src/docs/components/component-doc.test.tsx",
+        "scripts/charts.test.ts",
+        "scripts/chart-variant-parts.test.ts",
+        "scripts/chart-color-consumers.test.ts",
+        "scripts/verify-chart-variant-consumption.test.ts",
+        "--maxWorkers",
+        "1",
+        "--testTimeout",
+        "20000",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=evidence/runtime/chart-variants/run-_tv8jhva/final-unit-replay.json"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 29.64
+    },
+    {
+      "label": "ui-types-replay",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@rain-next/ui",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 1.02
+    },
+    {
+      "label": "playground-types-replay",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@rain-next/playground",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 1.18
+    },
+    {
+      "label": "prototype-types-replay",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@rain-next/prototype",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 1.49
+    },
+    {
+      "label": "playground-build-replay",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@rain-next/playground",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 2.57
+    },
+    {
+      "label": "prototype-build-replay",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@rain-next/prototype",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 2.31
+    }
+  ],
+  "perCardRenderChecks": 340,
+  "perCardOperationActions": 340,
+  "perCardScreenshots": 340,
+  "criticalBrowserTests": 12,
+  "liveReplayBrowserRegression": 1,
+  "defaultPlaygroundBrowserTests": 6,
+  "defaultPrototypeBrowserTests": 62,
+  "isolatedConsumerEntries": 170,
+  "isolatedCombinationEntries": 2,
+  "consumerCombinationFacts": "evidence/runtime/chart-variants/run-_tv8jhva/consumer-combinations/run-2026-10-08T07-46-56.477Z/report.json",
+  "gitCommitCreated": false,
+  "publication": "unpublished",
+  "visualHumanGate": "awaiting-user-review",
+  "priorMonochromeBlueAcceptance": "retained-for-existing-15-applicable-entry-recipe-scope",
+  "limits": [
+    "Chromium only; Safari, VoiceOver and physical touch not checked.",
+    "No full-workspace verification or production/contrast conformance claim.",
+    "Complete UI/Foundation fixture and copied installed cache; not clean install or minimum Registry installation.",
+    "Brush3.12.0 declares React16–18 peers; tested React19.2.8 remains a compatibility risk beyond measured scope.",
+    "Operations aggregate initial20/21 and repaired3/3; failures and phase snapshots retained."
+  ]
+}

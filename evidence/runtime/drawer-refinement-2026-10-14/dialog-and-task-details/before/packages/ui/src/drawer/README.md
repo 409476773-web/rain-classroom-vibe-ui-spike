@@ -1,0 +1,19 @@
+# Drawer
+
+基于固定 shadcn Base UI Drawer（MIT）与已安装 Base UI 1.8.0，保留四方向、手势、吸附点、嵌套、受控打开和三种 modal。公开 Parts：Drawer、Trigger、Portal、Overlay、SwipeHandle、Content、Header、Body、Footer、Title、Description、Close。
+
+Content 组合现成 Portal/Viewport/Popup/Content；DrawerBody 是转发 ref、原生 div 属性与 onScroll 的独立滚动区域，与 Header/Footer 同级组合。Root 接原引擎 Props，Content 接 Popup 的完整 props/ref/render，className/style 支持原来的状态回调。关闭拦截通过 onOpenChange 的 details.cancel()，业务草稿和保存由宿主维护。
+
+颜色、字体、圆角、间距绑定 Rain；源码运动时序、吸附/stack 变量保留为局部参数。层叠接 Rain 的浮层30/31，使既有菜单/提示40能够在抽屉内显示；这是明确的来源差额。遮罩采用 Rain focus，与 modality 分开；父主题/密度及 DOM dir 带入 Portal。reduced-motion 停用非必要过渡。
+
+纵向默认内容高度，最多100dvh−24px，宽度min(100%,680px)并贴边居中；680px仅为本组件几何，不是Foundation Token。有 snap 时按原引擎预留视口高度，在公共配方扣除可见偏移与可选24px把手区域；up可见内容对齐Popup底端。Header/Body/Footer横向桌面24px、窄屏16px，标题左对齐，Body min-height:0、overflow:auto。纵向把手40×4，横向4×40；Header/Footer不承担业务状态。侧向默认75%，≥640px为24rem，宿主可通过 Content className/style 改布局。iOS 来源的绝对定位遮罩需要宿主 body position:relative；键盘/真实触摸与Safari独立验证。需要虚拟键盘管理时可组合已安装 Base UI VirtualKeyboardProvider，不写另一个视口引擎。
+
+Base UI 1.8的`data-base-ui-swipe-ignore`按属性存在忽略整个区域，不解析x/y轴值。可在输入/阅读正文区域设置该属性，保留Header/把手作为拖动入口；应在实际设备验证滚动仲裁。受控snapPoint在同一Root中保持受控，不切成undefined。切换snap模式时只重建内部Backdrop以重置源引擎残留的progress，保持Popup、草稿与单层预览。
+
+普通关闭放在Header右上角，通过DrawerClose组合既有36/20 IconButton与CloseIcon，提供明确的aria-label。Footer只放当前任务操作，不放占满一行的普通“关闭”按钮。
+
+任务样板在独立`g6-task-drawer.tsx/.css`中：FormItem/Input/Textarea与两项RadioGroup、同层预览、AlertDialog未保存确认、显式校验、500ms本地保存和首次失败重试。全部关闭入口在pending时取消请求；宿主保留提交快照与草稿。≤400px高屏幕使用整个表单滚动以保证操作可达，普通屏幕仍是正文独立滚动；桌面任务样板隐藏把手，底层四方向样本保留。附件没有实际文件或伪下载动作。
+
+本轮来源、检查和限制见`evidence/runtime/drawer-refinement-2026-10-14/verification.md`。原G6来源与证据封存；本轮独立检查不等于跨家族后继治理通过。此前确认仅覆盖视觉方案，新运行版本仍待人工视觉确认。
+
+来源：evidence/runtime/g6-preflight-2026-10-14/source-lock.json；详细制作规格：docs/research/2026-10-14-g6-component-research.md。当前共享候选，人工视觉/对比度验收与发布另记。

@@ -1,0 +1,53 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g4-components-governance.test.ts (11 tests | 2 failed) 262ms
+     × binds the exact source successor and cannot rewrite a retained Foundation or prior Gate 59ms
+     × composes the new shared-style imports without changing the old G2–G3 and Button Group binding records 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g4-components-governance.test.ts > G4 finite candidate authorization > binds the exact source successor and cannot rewrite a retained Foundation or prior Gate
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ scripts/g4-components-governance.test.ts:115:59
+    113|       for (const changedStyles of [styles + '\n@import "./unrelated/un…
+    114|         writeFileSync(join(fixture, stylesPath), changedStyles); recor…
+    115|         expect(() => getG4SourceBindings(fixture, phase)).toThrow("sha…
+       |                                                           ^
+    116|       }
+    117|       writeFileSync(join(fixture, stylesPath), styles); record.sourceF…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/g4-components-governance.test.ts > G4 finite candidate authorization > composes the new shared-style imports without changing the old G2–G3 and Button Group binding records
+AssertionError: expected [Function] to not throw an error but 'Error: G2–G3 documentation actual sou…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: G2–G3 documentation actual source changed: packages/ui/src/styles.css"
+
+ ❯ scripts/g4-components-governance.test.ts:125:71
+    123|   it("composes the new shared-style imports without changing the old G…
+    124|     const phase = parseYamlSubset(readFileSync(join(root, "status/curr…
+    125|     expect(() => getButtonGroupRepairSourceBindings(root, phase)).not.…
+       |                                                                       ^
+    126|   });
+    127| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 9 passed (11)
+   Start at  20:21:04
+   Duration  1.28s (transform 337ms, setup 100ms, import 443ms, tests 262ms, environment 385ms)
+

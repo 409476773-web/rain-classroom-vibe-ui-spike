@@ -1,0 +1,432 @@
+{
+  "checkedAt": "2026-10-13T02:15:30.117Z",
+  "browser": "Codex In-app Browser / Chromium",
+  "url": "http://127.0.0.1:5395/#date-picker",
+  "method": "CUA real browser actions and read-only DOM geometry",
+  "viewportRestored": true,
+  "checks": [
+    {
+      "check": "320px timed range and initial focus halo",
+      "passed": true,
+      "body": {
+        "client": 286,
+        "scroll": 286
+      },
+      "clips": [
+        {
+          "class": "rain-date-picker__body",
+          "inside": true
+        },
+        {
+          "class": "rain-popup box-border min-w-rain-0 rounded-rain-10 border-solid border-rain-line-1 shadow-rain-overlay font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular rain-popover flex flex-col p-rain-12 rain-date-picker__popup",
+          "inside": true
+        }
+      ],
+      "dialog": {
+        "bottom": 632,
+        "height": 542,
+        "left": 8,
+        "right": 312,
+        "top": 90,
+        "width": 304
+      },
+      "fields": [
+        {
+          "columns": "182px 88px",
+          "width": 278
+        },
+        {
+          "columns": "182px 88px",
+          "width": 278
+        }
+      ],
+      "footer": 619,
+      "frame": {
+        "bottom": 169,
+        "left": 21,
+        "right": 203,
+        "top": 137
+      },
+      "months": 1,
+      "viewport": {
+        "height": 640,
+        "width": 320
+      }
+    },
+    {
+      "check": "390x480 short viewport with footer retained",
+      "passed": true,
+      "body": {
+        "height": 355,
+        "scrollHeight": 433,
+        "scrollWidth": 356,
+        "width": 356
+      },
+      "dialog": {
+        "bottom": 472,
+        "left": 8,
+        "right": 382,
+        "top": 8
+      },
+      "focus": "rain-field-_r_1f_-start-date",
+      "footer": {
+        "bottom": 459,
+        "top": 414
+      },
+      "viewport": {
+        "height": 480,
+        "width": 390
+      }
+    },
+    {
+      "check": "Tab order follows start date, start calendar, start time, end date, end calendar, end time without switching calendar endpoint",
+      "passed": true,
+      "sequence": [
+        {
+          "id": "",
+          "name": "在日历中修改开始日期",
+          "pressed": "true",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "id": "rain-date-time-_r_2g_",
+          "name": "开始时间",
+          "pressed": null,
+          "tag": "INPUT",
+          "value": "23:00"
+        },
+        {
+          "id": "rain-field-_r_1f_-end-date",
+          "name": "结束结束日期",
+          "pressed": null,
+          "tag": "INPUT",
+          "value": "2026-10-15"
+        },
+        {
+          "id": "",
+          "name": "在日历中修改结束日期",
+          "pressed": "false",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "id": "rain-date-time-_r_2k_",
+          "name": "结束时间",
+          "pressed": null,
+          "tag": "INPUT",
+          "value": "01:00"
+        }
+      ]
+    },
+    {
+      "check": "single invalid-time feedback, valid dates remain unmarked",
+      "passed": true,
+      "confirm": true,
+      "dates": [
+        {
+          "invalid": null,
+          "value": "2026-10-14"
+        },
+        {
+          "invalid": null,
+          "value": "2026-10-15"
+        }
+      ],
+      "visibleErrors": [
+        "请填写有效结束时间：小时 0–23，分钟 0–59"
+      ]
+    },
+    {
+      "check": "clear removes all four date/time values, required empty confirm disabled",
+      "passed": true,
+      "clearDisabled": true,
+      "confirmDisabled": true,
+      "values": [
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "check": "cancel discards edits and returns focus to original trigger",
+      "passed": true,
+      "active": "活动时间段",
+      "dialogCount": 0,
+      "value": "2026-10-14 23:00 至 2026-10-15 01:00"
+    },
+    {
+      "check": "reopening restores all four committed endpoint values",
+      "passed": true,
+      "values": [
+        "2026-10-14",
+        "23:00",
+        "2026-10-15",
+        "01:00"
+      ]
+    },
+    {
+      "check": "expanded duration applies once and keeps 32px controls aligned in short viewport",
+      "passed": true,
+      "bodyScrollWidth": 356,
+      "bodyWidth": 356,
+      "customHeights": [
+        32,
+        32
+      ],
+      "footerBottom": 459,
+      "values": [
+        "2026-10-14",
+        "23:00",
+        "2026-10-14",
+        "23:37"
+      ]
+    },
+    {
+      "check": "expanded clear resets custom duration and shows one shared missing-start reason",
+      "passed": true,
+      "custom": "",
+      "reasons": [
+        "先填写开始日期和时间"
+      ],
+      "values": [
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "check": "Escape abandons draft and returns trigger focus",
+      "passed": true,
+      "dialogs": 0,
+      "label": "活动时间段",
+      "value": "2026-10-14 23:00 至 2026-10-15 01:00"
+    },
+    {
+      "check": "focused start-date still permits Enter/ArrowRight/Enter two-date range",
+      "passed": true,
+      "values": [
+        "2026-10-16",
+        "2026-10-17"
+      ]
+    },
+    {
+      "check": "explicit endpoint edits once, next two day selections form a new range",
+      "passed": true,
+      "oneShotRange": [
+        "2026-10-16",
+        "2026-10-20"
+      ],
+      "newRange": [
+        "2026-10-22",
+        "2026-10-24"
+      ]
+    },
+    {
+      "check": "320x480 date-only range, stacked inside-title fields and single month",
+      "passed": true,
+      "bodyScrollWidth": 286,
+      "bodyWidth": 286,
+      "bottom": 472,
+      "fields": [
+        {
+          "insideTitle": true,
+          "width": 278
+        },
+        {
+          "insideTitle": true,
+          "width": 278
+        }
+      ],
+      "footer": 459,
+      "grids": 1,
+      "left": 8,
+      "right": 312,
+      "top": 15,
+      "viewport": {
+        "height": 480,
+        "width": 320
+      }
+    },
+    {
+      "check": "320x480 timed range and end-time focus halo",
+      "passed": true,
+      "body": {
+        "client": 286,
+        "scroll": 286
+      },
+      "dialog": {
+        "bottom": 472,
+        "left": 8,
+        "right": 312,
+        "top": 8
+      },
+      "footerBottom": 459,
+      "haloInsideBody": true,
+      "viewport": {
+        "height": 480,
+        "width": 320
+      }
+    },
+    {
+      "check": "480x360 landscape-height popup remains bounded with visible footer",
+      "passed": true,
+      "body": {
+        "clientHeight": 235,
+        "clientWidth": 362,
+        "scrollHeight": 433,
+        "scrollWidth": 362
+      },
+      "dialog": {
+        "bottom": 352,
+        "left": 46,
+        "right": 426,
+        "top": 8
+      },
+      "footer": {
+        "bottom": 339,
+        "top": 294
+      },
+      "viewport": {
+        "height": 360,
+        "width": 480
+      }
+    },
+    {
+      "check": "first Escape closes nested year selector and returns focus while date picker remains open",
+      "passed": true,
+      "dialogCount": 1,
+      "expanded": 0,
+      "focus": "选择年份",
+      "visibleListCount": 0
+    },
+    {
+      "check": "desktop date-only range uses two linked months and paired fields",
+      "passed": true,
+      "bodyScrollWidth": 542,
+      "bodyWidth": 542,
+      "fieldRows": [
+        {
+          "left": 182.99615478515625,
+          "top": 129.98435974121094,
+          "width": 254.9247131347656
+        },
+        {
+          "left": 461.9137878417969,
+          "top": 129.98435974121094,
+          "width": 254.9247131347656
+        }
+      ],
+      "grids": 2,
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      }
+    },
+    {
+      "check": "single deadline keeps one HH:mm entry with inside date title, one month, no redundant summary or duration",
+      "passed": true,
+      "duration": 0,
+      "grids": 1,
+      "insideLabels": 2,
+      "summary": 0,
+      "timeEntries": 1,
+      "values": [
+        "2026-10-20",
+        "18:00"
+      ]
+    },
+    {
+      "check": "HH:mm accepts arbitrary minutes, Enter pads input without submitting",
+      "passed": true,
+      "dialogOpen": true,
+      "value": "09:07"
+    },
+    {
+      "check": "exam availability window separates answer duration and omits duration helper",
+      "passed": true,
+      "duration": 0,
+      "grids": 1,
+      "values": [
+        "2026-10-14",
+        "09:00",
+        "2026-10-14",
+        "11:00"
+      ]
+    },
+    {
+      "check": "ordered-window conflict appears once and marks only end time",
+      "passed": true,
+      "confirm": true,
+      "endDateInvalid": null,
+      "endTimeInvalid": "true",
+      "errors": [
+        "结束时间不能早于开始时间"
+      ]
+    },
+    {
+      "check": "all four endpoint keyboard focus halos are painted and unclipped through ancestors",
+      "passed": true,
+      "fields": [
+        {
+          "clipped": [],
+          "extent": 3,
+          "focusVisible": true,
+          "label": "rain-field-_r_1f_-start-date",
+          "shadow": "rgba(61, 123, 255, 0.2) 0px 0px 0px 3px"
+        },
+        {
+          "clipped": [],
+          "extent": 3,
+          "focusVisible": true,
+          "label": "开始时间",
+          "shadow": "rgba(61, 123, 255, 0.2) 0px 0px 0px 3px"
+        },
+        {
+          "clipped": [],
+          "extent": 3,
+          "focusVisible": true,
+          "label": "rain-field-_r_1f_-end-date",
+          "shadow": "rgba(61, 123, 255, 0.2) 0px 0px 0px 3px"
+        },
+        {
+          "clipped": [],
+          "extent": 3,
+          "focusVisible": true,
+          "label": "结束时间",
+          "shadow": "rgba(61, 123, 255, 0.2) 0px 0px 0px 3px"
+        }
+      ]
+    },
+    {
+      "check": "dark theme uses shared field/popup paints and retains complete layout",
+      "passed": true,
+      "background": "rgb(30, 36, 59)",
+      "bodyScrollWidth": 362,
+      "bodyWidth": 362,
+      "color": "rgb(183, 193, 224)",
+      "footerBottom": 699,
+      "monthCount": 1
+    }
+  ],
+  "consoleErrors": [],
+  "limitations": [
+    "No Safari or VoiceOver",
+    "No real touch hardware or native zoom",
+    "New Playwright desktop/touch suite collected and typechecked, not executed"
+  ],
+  "screenshots": [
+    "01-timed-320.jpg",
+    "02-timed-390-short.jpg",
+    "03-date-range-320-short.jpg",
+    "04-timed-320-short.jpg",
+    "05-timed-480-landscape.jpg",
+    "06-date-range-desktop.jpg",
+    "07-deadline-desktop.jpg",
+    "08-ordered-window-error.jpg",
+    "09-final-desktop.jpg",
+    "10-dark-desktop.jpg"
+  ]
+}

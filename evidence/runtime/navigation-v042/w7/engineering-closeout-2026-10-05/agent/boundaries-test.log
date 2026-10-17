@@ -1,0 +1,88 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-boundaries-navigation.test.ts (11 tests | 1 failed) 8238ms
+     ✓ accepts the current finite registered sources without treating archived copies as live code  502ms
+     ✓ rejects an unknown live source: unapproved-navigation.ts  494ms
+     ✓ rejects an unknown live source: apps/playground/src/recipes/navigation-v042/unapproved.tsx  501ms
+     ✓ rejects an unknown live source: packages/ui/src/navigation/unapproved.ts  495ms
+     ✓ rejects an unknown live source: packages/layouts/src/unapproved.ts  497ms
+     ✓ rejects an unknown live source: tests/e2e/unapproved-navigation.spec.ts  629ms
+     ✓ rejects an unapproved Headless module even inside a registered G3 wrapper  508ms
+     ✓ rejects Foundations importing UI through a known source  505ms
+     ✓ rejects an unauthorized direct package dependency  491ms
+     ✓ retains the exact historical evidence allowlist  495ms
+     × does not switch to the data/source domain when the accepted parent phase is invalid 225ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > does not switch to the data/source domain when the accepted parent phase is invalid
+AssertionError: expected 'Boundary verification failed:\n- Inva…' to contain 'evidence/runtime/navigation-v042/unap…'
+
+- Expected
++ Received
+
+- evidence/runtime/navigation-v042/unapproved-archived.ts
++ Boundary verification failed:
++ - Invalid Token Foundations V1 phase contract: navigation scope navigationComponentsV042
++ - OptionButton evidence outside the exact authorization: evidence/runtime/option-button/compact.png
++ - OptionButton evidence outside the exact authorization: evidence/runtime/option-button/dark.png
++ - OptionButton evidence outside the exact authorization: evidence/runtime/option-button/light.png
++ - OptionButton evidence outside the exact authorization: evidence/runtime/option-button/verification.md
++ - OptionButton content evidence outside the exact authorization: evidence/runtime/option-button-content/compact.png
++ - OptionButton content evidence outside the exact authorization: evidence/runtime/option-button-content/dark.png
++ - OptionButton content evidence outside the exact authorization: evidence/runtime/option-button-content/light.png
++ - OptionButton content evidence outside the exact authorization: evidence/runtime/option-button-content/verification.md
++ - QuestionNumber evidence outside the exact authorization: evidence/runtime/question-number/compact.png
++ - QuestionNumber evidence outside the exact authorization: evidence/runtime/question-number/dark.png
++ - QuestionNumber evidence outside the exact authorization: evidence/runtime/question-number/light.png
++ - QuestionNumber evidence outside the exact authorization: evidence/runtime/question-number/verification.md
++ - Select evidence outside the exact authorization: evidence/runtime/select/color-findings.json
++ - Select evidence outside the exact authorization: evidence/runtime/select/compact.png
++ - Select evidence outside the exact authorization: evidence/runtime/select/dark.png
++ - Select evidence outside the exact authorization: evidence/runtime/select/formal-color-findings.json
++ - Select evidence outside the exact authorization: evidence/runtime/select/formal-compact.png
++ - Select evidence outside the exact authorization: evidence/runtime/select/formal-dark.png
++ - Select evidence outside the exact authorization: evidence/runtime/select/formal-dependencies.md
++ - Select evidence outside the exact authorization: evidence/runtime/select/formal-light.png
++ - Select evidence outside the exact authorization: evidence/runtime/select/independent-review.md
++ - Select evidence outside the exact authorization: evidence/runtime/select/light.png
++ - Select evidence outside the exact authorization: evidence/runtime/select/source-baseline.json
++ - Select evidence outside the exact authorization: evidence/runtime/select/verification.md
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/color-findings.json
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/compact.png
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/dark.png
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/independent-review.md
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/light.png
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/paint-samples.json
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/source-colors.json
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/verification.md
++ - Input evidence outside the exact authorization: evidence/runtime/input/color-findings.json
++ - Input evidence outside the exact authorization: evidence/runtime/input/compact.png
++ - Input evidence outside the exact authorization: evidence/runtime/input/dark.png
++ - Input evidence outside the exact authorization: evidence/runtime/input/inline-text-button-colors.json
++ - Input evidence outside the exact authorization: evidence/runtime/input/light.png
++ - Input evidence outside the exact authorization: evidence/runtime/input/verification.md
++ - IconButton evidence outside the exact authorization: evidence/runtime/icon-button/dark.png
++ - IconButton evidence outside the exact authorization: evidence/runtime/icon-button/light.png
++ - IconButton evidence outside the exact authorization: evidence/runtime/icon-button/verification.md
++ - no explicit boundary policy exists for phase token-foundations-v1; add and test a policy before changing phases
++
+
+ ❯ scripts/verify-boundaries-navigation.test.ts:135:29
+    133|       const result = mutate(file, invalid, "invalid-parent");
+    134|       expect(result.status).toBe(1);
+    135|       expect(result.output).toContain("evidence/runtime/navigation-v04…
+       |                             ^
+    136|       expect(result.output).toMatch(/accepted|navigation|Navigation/);
+    137|     } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 passed (11)
+   Start at  17:27:50
+   Duration  8.44s (transform 19ms, setup 103ms, import 12ms, tests 8.24s, environment 0ms)
+
+JSON report written to /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundaries-test-results.json

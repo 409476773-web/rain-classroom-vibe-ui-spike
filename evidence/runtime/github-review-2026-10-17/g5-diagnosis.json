@@ -1,0 +1,67 @@
+{
+  "kind": "GithubReviewG5ReadonlyDiagnosis",
+  "priority": "P2",
+  "workspace": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017",
+  "scope": "single public G5 verifier failure; no source or binding changes",
+  "sourceBindingFileSha256": "cde0bf92655f1e71cf97dd06e248c482b9f002d1c62512e594452021759e23c1",
+  "actualFailure": {
+    "command": "node scripts/verify-g5-components.mjs",
+    "exitCode": 1,
+    "wallSeconds": 5.801163792,
+    "errorCode": "ENOENT",
+    "missingPath": "evidence/runtime/g6-components-2026-10-14/before/apps/playground/src/docs/components/g5-component-pages.tsx",
+    "stack": [
+      "scripts/verify-g5-components.mjs:20:24 (read)",
+      "scripts/verify-g5-components.mjs:45:20 (source loop)",
+      "scripts/g5-components-governance.test.ts:111 (public verifier case)"
+    ],
+    "legacyEvidenceWasWritten": false
+  },
+  "rootCause": {
+    "file": "scripts/verify-g5-components.mjs",
+    "lines": "20-21",
+    "behavior": "any sourceFiles[file].before is mapped to G6/before instead of its verified beforeSnapshot",
+    "newSource": "apps/playground/src/docs/components/g5-component-pages.tsx",
+    "newBinding": {
+      "before": "ae5523e29c0fd842fd28797b50dbd05d45198fc3e56648ca1f0d4767ed86a154",
+      "after": "8b728554961036ed66c4d69c40de0ed1ec6735a825425ce464d5beede16df90f",
+      "beforeSnapshot": "evidence/runtime/github-review-successor-2026-10-17/before/apps/playground/src/docs/components/g5-component-pages.tsx"
+    },
+    "previousCloseoutIdentity": "retainedFiles only; not a G6 sourceFiles predecessor",
+    "verifiedSnapshotExists": true,
+    "verifiedSnapshotSha256": "ae5523e29c0fd842fd28797b50dbd05d45198fc3e56648ca1f0d4767ed86a154",
+    "notCausedBy": "P5 CSS consumer registration or timeout"
+  },
+  "minimalRepair": {
+    "import": "getG6PreviousSource from ./verification-helpers.mjs",
+    "read": "const read = file => getG6PreviousSource(root, file) ?? readFileSync(resolve(root, file), \"utf8\");",
+    "remove": "unused local g6 and getG6SourceBindings import if no other use",
+    "preserve": [
+      "complete existing traversal scope",
+      "original G5 source/hash/dependency/export/Token checks",
+      "original contrast and eligibility findings",
+      "old G6 and db36 proof bytes",
+      "current beforeSnapshot semantics and new operation freshness"
+    ],
+    "doNot": [
+      "invent a file in the old G6 before directory",
+      "rewrite old source-bindings or evidence",
+      "broaden P5 consumer lists",
+      "extend timeout to hide the failure"
+    ]
+  },
+  "memoryOnlyProbe": {
+    "exitCode": 0,
+    "wallSeconds": 6.221352792,
+    "method": "loaded exact current verifier body via an in-memory module; changed only the read block/import; removed CLI writing tail; resolved imports to current absolute file URLs",
+    "assets": 5,
+    "capabilities": 8,
+    "humanGate": "awaiting_human",
+    "contrastAcceptance": "not-granted",
+    "publication": "unpublished",
+    "contrastFindings": 4,
+    "eligibilityFindings": 24,
+    "formalOnDiskVerifierPassed": false
+  },
+  "followup": "After full capture stops, add verifier file to the finite authorized successor transition and rebind; run existing G5 governance case plus fresh CLI/API before broader regression. The current frozen source remains unchanged."
+}

@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/asset-index.test.ts (4 tests | 1 failed | 3 skipped) 74ms
+   × recognizes existing Foundation wildcard exports while excluding type-only exports and resolving cycles 73ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/asset-index.test.ts > recognizes existing Foundation wildcard exports while excluding type-only exports and resolving cycles
+AssertionError: expected [Function] to not throw an error but 'Error: Unexported asset: foundation-t…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: Unexported asset: foundation-typography/typographyPresets"
+
+ ❯ scripts/asset-index.test.ts:25:53
+     23|       registry: {},
+     24|     };
+     25|     expect(() => validateAsset(asset, fixture)).not.toThrow();
+       |                                                     ^
+     26|     expect(() => validateAsset({ ...asset, item: { ...asset.item, expo…
+     27|   } finally { rmSync(fixture, { recursive: true, force: true }); }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  20:02:34
+   Duration  347ms (transform 81ms, setup 103ms, import 82ms, tests 74ms, environment 0ms)
+

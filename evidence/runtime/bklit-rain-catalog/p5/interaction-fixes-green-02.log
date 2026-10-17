@@ -1,0 +1,44 @@
+
+Running 3 tests using 1 worker
+
+(node:60709) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/bklit-catalog.spec.ts:128:1 › [P6] reduced-motion first date and moving highlight are actual readouts (5.7s)
+(node:61095) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/e2e/bklit-catalog.spec.ts:157:1 › [P3] narrow long Sankey labels preserve the node-center readout and single flow (813ms)
+  ✓  3 tests/e2e/bklit-catalog.spec.ts:176:1 › [P2] both native gauge shapes use Rain gradient and real 0/50/100 readings (752ms)
+
+
+  1) tests/e2e/bklit-catalog.spec.ts:128:1 › [P6] reduced-motion first date and moving highlight are actual readouts 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 3
+    Received: 0
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      147 |   const clips = () => plot.locator("clipPath rect").evaluateAll(nodes => nodes.filter(node => Number(node.getAttribute("width")) < 400).map(node => Number(node.getAttribute("x"))));
+      148 |   await page.mouse.move(lineBox.x + lineBox.width * .22, lineBox.y + lineBox.height * .4);
+    > 149 |   await expect.poll(async () => (await clips()).length).toBe(3);
+          |                                                         ^
+      150 |   await page.mouse.move(lineBox.x + lineBox.width * .78, lineBox.y + lineBox.height * .4);
+      151 |   await page.waitForTimeout(65); const immediate = await clips();
+      152 |   await page.waitForTimeout(150); const settled = await clips();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/bklit-catalog.spec.ts:149:57
+
+    Error Context: evidence/runtime/bklit-rain-catalog/test-results/bklit-catalog--P6-reduced--48734-ghlight-are-actual-readouts/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/test-results/bklit-catalog--P6-reduced--48734-ghlight-are-actual-readouts/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/test-results/bklit-catalog--P6-reduced--48734-ghlight-are-actual-readouts/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/bklit-catalog.spec.ts:128:1 › [P6] reduced-motion first date and moving highlight are actual readouts 
+  2 passed (8.2s)

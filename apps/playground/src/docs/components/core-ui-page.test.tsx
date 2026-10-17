@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { CoreUiPage } from "./core-ui-page";
 
 describe("CoreUiPage", () => {
-  it("documents seven families with field previews and a Tabs detail entry", () => {
+  it("documents the complete family identities with field previews and detail entries", () => {
     const { container } = render(<CoreUiPage />);
     expect(screen.getByRole("heading", { level: 1, name: "Core UI，把高频动作先做准" })).toHaveAttribute(
       "id",
@@ -14,7 +14,18 @@ describe("CoreUiPage", () => {
     const page = container.querySelector('[data-rain-id="core-ui-page"]');
     expect(page).toHaveAttribute("data-asset-identity", "local-experiment");
     expect(page).toHaveAttribute("data-maturity", "prototype-ready");
-    expect(container.querySelectorAll('[data-slot="component-family"]')).toHaveLength(7);
+    expect(Array.from(container.querySelectorAll('[data-slot="component-family"]'), (family) => family.getAttribute("data-rain-id"))).toEqual([
+      "core-ui-button",
+      "core-ui-input",
+      "core-ui-input-number",
+      "core-ui-alert",
+      "core-ui-breadcrumb",
+      "core-ui-tabs",
+      "core-ui-select",
+      "core-ui-tag-badge",
+      "core-ui-surface-card",
+    ]);
+    expect(screen.getByRole("link", { name: "查看 Alert 全部用法" })).toHaveAttribute("href", "#alert");
     expect(screen.getByRole("link", { name: "查看 InputNumber 全部用法" })).toHaveAttribute("href", "#input-number");
     expect(screen.getByRole('link', { name: '查看 Tabs 全部用法' })).toHaveAttribute('href', '#tabs');
     expect(container.querySelectorAll('[data-slot="family-contract"]')).toHaveLength(3);

@@ -1,0 +1,50 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g4-visual-refinement.test.ts (7 tests | 2 failed) 268ms
+     × binds current feedback files to the immutable G4 predecessor 64ms
+     × permits Manifest feedback metadata only, without changing the original capability or gate 45ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g4-visual-refinement.test.ts > G4 visual feedback is a finite successor > binds current feedback files to the immutable G4 predecessor
+AssertionError: expected [Function] to not throw an error but 'Error: G4 visual refinement cannot re…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: G4 visual refinement cannot rewrite the original source outside its exact scope: tests/e2e/g4-components.config.ts"
+
+ ❯ scripts/g4-visual-refinement.test.ts:86:79
+     84|     const { directory, phase, record, save } = fixture();
+     85|     try {
+     86|       expect(() => getG4VisualRefinementSourceBindings(directory, phas…
+       |                                                                               ^
+     87|       record.sourceFiles["packages/ui/src/item/item.tsx"] = { before: …
+     88|       expect(() => getG4VisualRefinementSourceBindings(directory, phas…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/g4-visual-refinement.test.ts > G4 visual feedback is a finite successor > permits Manifest feedback metadata only, without changing the original capability or gate
+AssertionError: expected [Function] to throw error including 'Manifest must preserve its original c…' but got 'G4 visual refinement cannot rewrite t…'
+
+Expected: "Manifest must preserve its original capability"
+Received: "G4 visual refinement cannot rewrite the original source outside its exact scope: tests/e2e/g4-components.config.ts"
+
+ ❯ scripts/g4-visual-refinement.test.ts:108:75
+    106|       const file = "manifests/ui/item.yaml", changed = readFileSync(jo…
+    107|       copy(file, changed); record.sourceFiles[file].after = sha(change…
+    108|       expect(() => getG4VisualRefinementSourceBindings(directory, phas…
+       |                                                                           ^
+    109|       const changedPhase = structuredClone(phase); changedPhase.compon…
+    110|       expect(hasG4VisualRefinementAuthorization(changedPhase)).toBe(fa…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 5 passed (7)
+   Start at  21:27:17
+   Duration  1.11s (transform 76ms, setup 136ms, import 79ms, tests 268ms, environment 533ms)
+

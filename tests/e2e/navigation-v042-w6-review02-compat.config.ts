@@ -1,0 +1,2 @@
+import { defineConfig } from '@playwright/test';
+export default defineConfig({testDir:'.',testMatch:'navigation-v042-w6.spec.ts',workers:1,retries:0,reporter:[['list'],['json',{outputFile:'../../evidence/runtime/navigation-v042/w6/review-02/compat-browser-results.json'}]],use:{baseURL:'http://127.0.0.1:5204',viewport:{width:1440,height:1100},locale:'zh-CN',contextOptions:{reducedMotion:'reduce'},screenshot:'only-on-failure',trace:'retain-on-failure'},outputDir:'../../evidence/runtime/navigation-v042/w6/review-02/compat-browser-artifacts'});

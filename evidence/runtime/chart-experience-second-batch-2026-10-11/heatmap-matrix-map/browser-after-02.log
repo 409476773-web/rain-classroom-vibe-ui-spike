@@ -1,0 +1,235 @@
+
+Running 11 tests using 1 worker
+
+(node:81638) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 1440px no-preference: actual default calendar reads missing, zero and current update values through pointer and keyboard (8.4s)
+(node:82028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 tests/e2e/chart-second-batch-heatmap-map.spec.ts:105:3 › 1440px no-preference: all eleven native variants have bounded real dates and one cell entry (40.5s)
+(node:83956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 1440px reduce: actual default calendar reads missing, zero and current update values through pointer and keyboard (6.8s)
+(node:84710) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 tests/e2e/chart-second-batch-heatmap-map.spec.ts:105:3 › 1440px reduce: all eleven native variants have bounded real dates and one cell entry (18.2s)
+  ✘   5 tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 390px no-preference: actual default calendar reads missing, zero and current update values through pointer and keyboard (8.6s)
+(node:86968) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 tests/e2e/chart-second-batch-heatmap-map.spec.ts:105:3 › 390px no-preference: all eleven native variants have bounded real dates and one cell entry (35.1s)
+  ✘   7 tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 390px reduce: actual default calendar reads missing, zero and current update values through pointer and keyboard (7.0s)
+(node:87752) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 tests/e2e/chart-second-batch-heatmap-map.spec.ts:105:3 › 390px reduce: all eleven native variants have bounded real dates and one cell entry (16.3s)
+  ✓   9 tests/e2e/chart-second-batch-heatmap-map.spec.ts:146:60 › 390px no-preference: end-date keyboard inspection scrolls only the native calendar wrapper (5.4s)
+  ✓  10 tests/e2e/chart-second-batch-heatmap-map.spec.ts:146:60 › 390px reduce: end-date keyboard inspection scrolls only the native calendar wrapper (2.7s)
+  ✓  11 tests/e2e/chart-second-batch-heatmap-map.spec.ts:170:1 › 390px emulated touch: an unzoomed world map permits actual page scrolling, while the zoom variant retains touch control (3.1s)
+
+
+  1) tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 1440px no-preference: actual default calendar reads missing, zero and current update values through pointer and keyboard 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-rain-id="chart-heatmap"]').locator('.rain-chart-tooltip')
+    Expected substring: "缺测"
+    Received string:    "October 10th 2026Saturday10月10日 · 0 次学习"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-heatmap"]').locator('.rain-chart-tooltip')
+        14 × locator resolved to <div class="pointer-events-none absolute z-50 rain-chart-tooltip">…</div>
+           - unexpected value "October 10th 2026Saturday10月10日 · 0 次学习"
+
+
+      52 |       const tooltip = host.locator(".rain-chart-tooltip");
+      53 |       await cells(host).nth(missingIndex).hover();
+    > 54 |       await expect(tooltip).toContainText("缺测");
+         |                             ^
+      55 |       await expect(tooltip).not.toContainText("-1 次学习");
+      56 |       facts.missing = { source: initial[missingIndex], text: await tooltip.textContent(), fill: await cells(host).nth(missingIndex).evaluate(node => getComputedStyle(node).fill) };
+      57 |       await cells(host).nth(zeroIndex).hover();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-second-batch-heatmap-map.spec.ts:54:29
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-8ed48-hrough-pointer-and-keyboard/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-8ed48-hrough-pointer-and-keyboard/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-8ed48-hrough-pointer-and-keyboard/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-8ed48-hrough-pointer-and-keyboard/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-second-batch-heatmap-map.spec.ts:105:3 › 1440px no-preference: all eleven native variants have bounded real dates and one cell entry 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+    @@ -7,11 +7,11 @@
+          "path": "packages/ui/src/charts/vendor/charts/heatmap/heatmap-cells.tsx",
+          "sha256": "622c3636ad1d5cce75fa2a42f7b5ac40668a2b1a16ff95e3c316c31ea06eabf2",
+        },
+        Object {
+          "path": "packages/ui/src/charts/vendor/charts/heatmap/heatmap-chart.tsx",
+    -     "sha256": "d6b95f96edc0720e0264cb9681639a238f7d3d645cdd420837062381fc565fd3",
+    +     "sha256": "3fdea6fd2cd14106c2b5627e587ed99b649504f2a163693b2485092045bdee31",
+        },
+        Object {
+          "path": "packages/ui/src/charts/vendor/charts/heatmap/heatmap-legend.tsx",
+          "sha256": "0ba58fa88de59b71c7d787974fc4962b2c01f55c689ab63426772a4c881ba888",
+        },
+
+      139 |         await grid(host).press("Escape");
+      140 |       }
+    > 141 |     } finally { const after = await sources(); await save(`variants-${width}-${motion}`, { before, after, errors, facts }); expect(after).toEqual(before); }
+          |                                                                                                                                           ^
+      142 |     expect(errors).toEqual([]);
+      143 |   });
+      144 | }
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-second-batch-heatmap-map.spec.ts:141:139
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-bf45f-al-dates-and-one-cell-entry/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-bf45f-al-dates-and-one-cell-entry/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-bf45f-al-dates-and-one-cell-entry/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-bf45f-al-dates-and-one-cell-entry/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 1440px reduce: actual default calendar reads missing, zero and current update values through pointer and keyboard 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-rain-id="chart-heatmap"]').locator('.rain-chart-tooltip')
+    Expected substring: "缺测"
+    Received string:    "October 10th 2026Saturday10月10日 · 0 次学习"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-heatmap"]').locator('.rain-chart-tooltip')
+        14 × locator resolved to <div class="pointer-events-none absolute z-50 rain-chart-tooltip">…</div>
+           - unexpected value "October 10th 2026Saturday10月10日 · 0 次学习"
+
+
+      52 |       const tooltip = host.locator(".rain-chart-tooltip");
+      53 |       await cells(host).nth(missingIndex).hover();
+    > 54 |       await expect(tooltip).toContainText("缺测");
+         |                             ^
+      55 |       await expect(tooltip).not.toContainText("-1 次学习");
+      56 |       facts.missing = { source: initial[missingIndex], text: await tooltip.textContent(), fill: await cells(host).nth(missingIndex).evaluate(node => getComputedStyle(node).fill) };
+      57 |       await cells(host).nth(zeroIndex).hover();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-second-batch-heatmap-map.spec.ts:54:29
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-4db1f-hrough-pointer-and-keyboard/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-4db1f-hrough-pointer-and-keyboard/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-4db1f-hrough-pointer-and-keyboard/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-4db1f-hrough-pointer-and-keyboard/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 390px no-preference: actual default calendar reads missing, zero and current update values through pointer and keyboard 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-rain-id="chart-heatmap"]').locator('.rain-chart-tooltip')
+    Expected substring: "缺测"
+    Received string:    "October 10th 2026Saturday10月10日 · 0 次学习"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-heatmap"]').locator('.rain-chart-tooltip')
+        14 × locator resolved to <div class="pointer-events-none absolute z-50 rain-chart-tooltip">…</div>
+           - unexpected value "October 10th 2026Saturday10月10日 · 0 次学习"
+
+
+      52 |       const tooltip = host.locator(".rain-chart-tooltip");
+      53 |       await cells(host).nth(missingIndex).hover();
+    > 54 |       await expect(tooltip).toContainText("缺测");
+         |                             ^
+      55 |       await expect(tooltip).not.toContainText("-1 次学习");
+      56 |       facts.missing = { source: initial[missingIndex], text: await tooltip.textContent(), fill: await cells(host).nth(missingIndex).evaluate(node => getComputedStyle(node).fill) };
+      57 |       await cells(host).nth(zeroIndex).hover();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-second-batch-heatmap-map.spec.ts:54:29
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-1f168-hrough-pointer-and-keyboard/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-1f168-hrough-pointer-and-keyboard/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-1f168-hrough-pointer-and-keyboard/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-1f168-hrough-pointer-and-keyboard/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 390px reduce: actual default calendar reads missing, zero and current update values through pointer and keyboard 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-rain-id="chart-heatmap"]').locator('.rain-chart-tooltip')
+    Expected substring: "缺测"
+    Received string:    "October 10th 2026Saturday10月10日 · 0 次学习"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-heatmap"]').locator('.rain-chart-tooltip')
+        14 × locator resolved to <div class="pointer-events-none absolute z-50 rain-chart-tooltip">…</div>
+           - unexpected value "October 10th 2026Saturday10月10日 · 0 次学习"
+
+
+      52 |       const tooltip = host.locator(".rain-chart-tooltip");
+      53 |       await cells(host).nth(missingIndex).hover();
+    > 54 |       await expect(tooltip).toContainText("缺测");
+         |                             ^
+      55 |       await expect(tooltip).not.toContainText("-1 次学习");
+      56 |       facts.missing = { source: initial[missingIndex], text: await tooltip.textContent(), fill: await cells(host).nth(missingIndex).evaluate(node => getComputedStyle(node).fill) };
+      57 |       await cells(host).nth(zeroIndex).hover();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-second-batch-heatmap-map.spec.ts:54:29
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-b95b2-hrough-pointer-and-keyboard/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-b95b2-hrough-pointer-and-keyboard/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-b95b2-hrough-pointer-and-keyboard/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-02/test-results/chart-second-batch-heatmap-b95b2-hrough-pointer-and-keyboard/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 1440px no-preference: actual default calendar reads missing, zero and current update values through pointer and keyboard 
+    tests/e2e/chart-second-batch-heatmap-map.spec.ts:105:3 › 1440px no-preference: all eleven native variants have bounded real dates and one cell entry 
+    tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 1440px reduce: actual default calendar reads missing, zero and current update values through pointer and keyboard 
+    tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 390px no-preference: actual default calendar reads missing, zero and current update values through pointer and keyboard 
+    tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 390px reduce: actual default calendar reads missing, zero and current update values through pointer and keyboard 
+  6 passed (2.6m)

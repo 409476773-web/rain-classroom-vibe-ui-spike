@@ -1,0 +1,94 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/date-picker-closeout.test.ts (5 tests | 5 failed) 6ms
+   × keeps required helper text above 4.5 on both theme surfaces 3ms
+   × validates only the finite independent DatePicker closeout 2ms
+   × rejects unverified completion, extra authority and changed prior Gates 0ms
+   × rejects extra paths, a third CSS hash, forged before and changed original proofs 0ms
+   × does not let reconciliation change an owner or widen its three-field transition 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/date-picker-closeout.test.ts > keeps required helper text above 4.5 on both theme surfaces
+AssertionError: packages/ui/src/date-picker/date-picker.css: light on Background/Neutral/1: expected 2.2821201039128307 to be greater than or equal to 4.5
+ ❯ scripts/date-picker-closeout.test.ts:26:57
+     24|     for (const theme of ["light", "dark"] as const) for (const surface…
+     25|       const actual = measureColorContrast(resolveColor(`Text/Neutral/$…
+     26|       expect(actual, `${file}: ${theme} on ${surface}`).toBeGreaterTha…
+       |                                                         ^
+     27|     }
+     28|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  scripts/date-picker-closeout.test.ts > validates only the finite independent DatePicker closeout
+AssertionError: expected undefined to be type of 'function'
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ scripts/date-picker-closeout.test.ts:44:53
+     42|
+     43| it("validates only the finite independent DatePicker closeout", () => {
+     44|   expect(proof.getDatePickerCloseoutSourceBindings).toBeTypeOf("functi…
+       |                                                     ^
+     45|   expect(proof.getDatePickerCloseoutSourceBindings(process.cwd(), phas…
+     46|   const baseline = JSON.parse(readFileSync(evidence + "baseline.json",…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  scripts/date-picker-closeout.test.ts > rejects unverified completion, extra authority and changed prior Gates
+AssertionError: expected undefined to be type of 'function'
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ scripts/date-picker-closeout.test.ts:53:53
+     51|
+     52| it("rejects unverified completion, extra authority and changed prior G…
+     53|   expect(proof.getDatePickerCloseoutSourceBindings).toBeTypeOf("functi…
+       |                                                     ^
+     54|   for (const [key, value] of [["scope", "all-ui"], ["humanGate", "acce…
+     55|     const changed = phase(); changed.componentRefinements.datePickerCl…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  scripts/date-picker-closeout.test.ts > rejects extra paths, a third CSS hash, forged before and changed original proofs
+AssertionError: expected undefined to be type of 'function'
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ scripts/date-picker-closeout.test.ts:70:53
+     68|
+     69| it("rejects extra paths, a third CSS hash, forged before and changed o…
+     70|   expect(proof.getDatePickerCloseoutSourceBindings).toBeTypeOf("functi…
+       |                                                     ^
+     71|   const f = fixture();
+     72|   try {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  scripts/date-picker-closeout.test.ts > does not let reconciliation change an owner or widen its three-field transition
+AssertionError: expected undefined to be type of 'function'
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ scripts/date-picker-closeout.test.ts:90:53
+     88|
+     89| it("does not let reconciliation change an owner or widen its three-fie…
+     90|   expect(proof.getDatePickerCloseoutSourceBindings).toBeTypeOf("functi…
+       |                                                     ^
+     91|   const f = fixture();
+     92|   try {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  13:45:02
+   Duration  925ms (transform 109ms, setup 137ms, import 127ms, tests 6ms, environment 561ms)
+

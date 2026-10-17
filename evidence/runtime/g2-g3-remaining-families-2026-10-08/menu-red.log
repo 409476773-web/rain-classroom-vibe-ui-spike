@@ -1,0 +1,67 @@
+
+Running 2 tests using 1 worker
+
+(node:59817) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/g2-g3-remaining-families.spec.ts:27:1 › context menus have readable disabled states, restrained separators and bounded rows (1.2s)
+(node:59822) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/g2-g3-remaining-families.spec.ts:41:1 › menubar uses neutral open feedback and muted disabled commands (6.2s)
+
+
+  1) tests/e2e/g2-g3-remaining-families.spec.ts:27:1 › context menus have readable disabled states, restrained separators and bounded rows 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 160
+    Received:    147
+
+      30 |   const popup = page.locator('[data-rain-id="ui-context-menu"][data-slot="popup"]');
+      31 |   await expect(popup).toBeVisible();
+    > 32 |   expect((await popup.boundingBox())!.width).toBeGreaterThanOrEqual(160);
+         |                                              ^
+      33 |   const disabled = page.getByRole("menuitem", { name: /删除/ });
+      34 |   await expect(disabled).toHaveCSS("color", "rgb(160, 172, 197)");
+      35 |   await expect(disabled).toHaveCSS("font-size", "14px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g2-g3-remaining-families.spec.ts:32:46
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-c-141cb-separators-and-bounded-rows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-c-141cb-separators-and-bounded-rows/error-context.md
+
+  2) tests/e2e/g2-g3-remaining-families.spec.ts:41:1 › menubar uses neutral open feedback and muted disabled commands 
+
+    Error: expect(locator).toHaveCSS(expected) failed
+
+    Locator:  getByRole('menuitem', { name: '发布到真实课程', exact: true })
+    Expected: "rgb(160, 172, 197)"
+    Received: "rgb(73, 93, 135)"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCSS" with timeout 5000ms
+      - waiting for getByRole('menuitem', { name: '发布到真实课程', exact: true })
+        14 × locator resolved to <div tabindex="-1" role="menuitem" data-disabled="" data-slot="item" data-focus="item" id="base-ui-_r_g_" aria-disabled="true" class="rain-menu-item relative flex w-full min-w-rain-0 items-center gap-rain-10 rounded-rain-6 border-none px-rain-12 py-rain-6 text-left font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular no-underline cursor-pointer select-none outline-none">发布到真实课程</div>
+           - unexpected value "rgb(73, 93, 135)"
+
+
+      43 |   const trigger = page.getByRole("menuitem", { name: "文件", exact: true });
+      44 |   await trigger.click();
+    > 45 |   await expect(page.getByRole("menuitem", { name: "发布到真实课程", exact: true })).toHaveCSS("color", "rgb(160, 172, 197)");
+         |                                                                              ^
+      46 |   const surface = await trigger.evaluate(el => getComputedStyle(el).backgroundColor);
+      47 |   expect(surface).not.toBe("rgba(61, 123, 255, 0.65)");
+      48 |   const separator = page.getByRole("separator");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g2-g3-remaining-families.spec.ts:45:78
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-m-50515-and-muted-disabled-commands/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-m-50515-and-muted-disabled-commands/error-context.md
+
+  2 failed
+    tests/e2e/g2-g3-remaining-families.spec.ts:27:1 › context menus have readable disabled states, restrained separators and bounded rows 
+    tests/e2e/g2-g3-remaining-families.spec.ts:41:1 › menubar uses neutral open feedback and muted disabled commands 

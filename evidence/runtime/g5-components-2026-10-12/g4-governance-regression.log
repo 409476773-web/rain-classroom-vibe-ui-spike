@@ -1,0 +1,35 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g4-components-governance.test.ts (13 tests | 1 failed) 1829ms
+     × keeps every G4 source protected and the CSS exception finite 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g4-components-governance.test.ts > G4 finite candidate authorization > keeps every G4 source protected and the CSS exception finite
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "G4 must add only its exact page scan source and preserve existing scan directives",
++ ]
+
+ ❯ scripts/g4-components-governance.test.ts:70:82
+     68|   it("keeps every G4 source protected and the CSS exception finite", (…
+     69|     const contract = parseYamlSubset(readFileSync(join(root, "manifest…
+     70|     expect(validateG4TailwindContract({ contract, status: authorized()…
+       |                                                                                  ^
+     71|     contract.protectedPaths.optional = contract.protectedPaths.optiona…
+     72|     expect(validateG4TailwindContract({ contract, status: authorized()…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 passed (13)
+   Start at  12:25:53
+   Duration  3.04s (transform 379ms, setup 250ms, import 498ms, tests 1.83s, environment 374ms)
+

@@ -1,0 +1,84 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/date-picker/date-picker.test.tsx (29 tests | 3 failed) 9903ms
+   × associates an ordered-window conflict with the endpoint fields 160ms
+   × gives disabled duration shortcuts a visible and accessible reason 167ms
+   × does not parse, navigate or commit complete intermediate text during composition 109ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/date-picker/date-picker.test.tsx > associates an ordered-window conflict with the endpoint fields
+Error: expect(element).toHaveAccessibleDescription()
+
+Expected element to have accessible description:
+  结束时间不能早于开始时间
+Received:
+
+ ❯ packages/ui/src/date-picker/date-picker.test.tsx:323:57
+    321|   render(<DatePicker mode="range" showTime aria-label="窗口" defaultValu…
+    322|   await user.click(screen.getByRole("button", { name: "窗口" }));
+    323|   expect(screen.getByRole("textbox", { name: "结束日期" })).toHaveAccessib…
+       |                                                         ^
+    324|   expect(screen.getByRole("textbox", { name: "结束小时" })).toHaveAccessib…
+    325| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  packages/ui/src/date-picker/date-picker.test.tsx > gives disabled duration shortcuts a visible and accessible reason
+TestingLibraryElementError: Unable to find an element with the text: 时段长度最多30分钟，请调整结束时间. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div[39m
+    [33mdata-base-ui-inert[39m=[32m""[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"rain-date-picker"[39m
+      [33mdata-appearance[39m=[32...
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ packages/ui/src/date-picker/date-picker.test.tsx:346:17
+    344|   expect(shortcut).toBeDisabled();
+    345|   expect(shortcut).toHaveAccessibleDescription("时段长度最多30分钟，请调整结束时间");
+    346|   expect(screen.getByText("时段长度最多30分钟，请调整结束时间")).toBeVisible();
+       |                 ^
+    347| });
+    348|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  packages/ui/src/date-picker/date-picker.test.tsx > does not parse, navigate or commit complete intermediate text during composition
+Error: expect(element).toBeDisabled()
+
+Received element is not disabled:
+  <button
+  class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:shadow-rain-button-focus-primary h-rain-button-small-height min-w-rain-button-small-min-width px-rain-button-small-padding-inline gap-rain-button-gap rounded-rain-button-small text-rain-button-small text-rain-button-on-color-foreground bg-rain-button-primary border-rain-action-ghost hover:bg-rain-button-primary-hover active:bg-rain-button-primary-pressed active:border-rain-button-strong-brand-border"
+  data-density="compact"
+  data-focus="control"
+  data-rain-id="ui-button"
+  data-size="small"
+  data-slot="root"
+  data-state="default"
+  data-tone="default"
+  data-variant="primary"
+  type="button"
+/>
+ ❯ packages/ui/src/date-picker/date-picker.test.tsx:356:21
+    354|   fireEvent.compositionStart(dateInput);
+    355|   fireEvent.change(dateInput, { target: { value: "2028-02-29" } });
+    356|   expect(confirm()).toBeDisabled();
+       |                     ^
+    357|   expect(screen.getByRole("combobox", { name: "选择年份" })).toHaveTextCon…
+    358|   fireEvent.compositionEnd(dateInput);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 26 passed (29)
+   Start at  14:29:32
+   Duration  13.01s (transform 239ms, setup 102ms, import 2.52s, tests 9.90s, environment 385ms)
+

@@ -1,0 +1,685 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tag-batch-three.spec.ts >> all complete size and appearance recipes retain geometry and popup paint in both themes
+- Location: tests/e2e/tag-batch-three.spec.ts:51:1
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- main [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - link "返回组件总览" [ref=e6] [cursor=pointer]:
+        - /url: "#components"
+      - heading "Tag 标签" [level=1] [ref=e8]
+      - paragraph [ref=e9]: 保留雨课堂的完整分类色。普通标签默认浅底，可独立关闭、导航，或用于单选与多选。
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - text: 主题
+          - combobox "主题" [ref=e12]:
+            - option "浅色"
+            - option "深色" [selected]
+        - generic [ref=e13]:
+          - text: 标签所在底色
+          - combobox "标签所在底色" [ref=e14]:
+            - option "白色任务面" [selected]
+            - option "浅色过渡面"
+            - option "页面底色"
+        - generic [ref=e15]:
+          - text: 交互示例配色
+          - combobox "交互示例配色" [ref=e16]:
+            - option "neutral"
+            - option "brand"
+            - option "classroom"
+            - option "olive"
+            - option "paper" [selected]
+            - option "exam"
+            - option "courseware"
+            - option "gold"
+            - option "purple"
+            - option "assignment"
+            - option "live"
+            - option "audio"
+            - option "magenta"
+            - option "brown"
+            - option "vote"
+            - option "self-test"
+            - option "slate"
+            - option "difficulty1"
+            - option "difficulty2"
+            - option "difficulty3"
+            - option "difficulty4"
+            - option "difficulty5"
+        - generic [ref=e17]:
+          - text: 交互示例外观
+          - combobox "交互示例外观" [ref=e18]:
+            - option "filled" [selected]
+            - option "outlined"
+            - option "solid"
+        - generic [ref=e19]:
+          - text: 交互示例尺寸
+          - combobox "交互示例尺寸" [ref=e20]:
+            - option "20px"
+            - option "24px" [selected]
+            - option "28px"
+    - region [ref=e21]:
+      - generic [ref=e22]:
+        - heading "选择与自定义标签" [level=2] [ref=e23]
+        - paragraph [ref=e24]: 切换学习环节，或为资料选择、创建和管理标签。示例使用本地数据，刷新后恢复。
+      - generic [ref=e25]:
+        - region "当前资料" [ref=e26]:
+          - generic [ref=e27]:
+            - paragraph [ref=e28]: 教学资料 / 设计方法
+            - heading "设计方法复习资料" [level=3] [ref=e29]
+          - generic [ref=e30]:
+            - generic [ref=e31]: 学习环节
+            - combobox "学习环节" [ref=e32] [cursor=pointer]:
+              - generic [ref=e33]: 课前
+            - textbox [ref=e37]: "0"
+          - generic [ref=e39]:
+            - group "当前资料标签" [ref=e40]:
+              - generic "期末复习" [ref=e41]:
+                - button "移除标签 期末复习" [ref=e44] [cursor=pointer]
+              - generic "重点内容" [ref=e47]:
+                - button "移除标签 重点内容" [ref=e50] [cursor=pointer]
+            - button "设置资料标签" [ref=e53] [cursor=pointer]:
+              - generic [ref=e54]: 设置标签
+        - region "关联资料" [ref=e55]:
+          - generic [ref=e56]:
+            - paragraph [ref=e57]: 另一份资料
+            - heading "第三周课堂练习" [level=3] [ref=e58]
+          - generic "期末复习" [ref=e60]
+          - paragraph [ref=e63]: 这份资料也使用“期末复习”标签。编辑该标签时，两处名称和颜色同步更新。
+      - group [ref=e64]:
+        - generic "尺寸、展开与边界检查" [ref=e65] [cursor=pointer]
+        - generic [ref=e66]:
+          - generic [ref=e68]:
+            - checkbox "模拟下一次标签保存失败" [ref=e69]
+            - text: 模拟下一次标签保存失败
+          - generic [ref=e70]:
+            - generic [ref=e71]: 20px
+            - combobox "20px filled 标签" [ref=e72] [cursor=pointer]:
+              - generic [ref=e73]: 课前
+            - textbox [ref=e77]: "0"
+            - combobox "20px outlined 标签" [ref=e78] [cursor=pointer]:
+              - generic [ref=e79]: 课前
+            - textbox [ref=e83]: "0"
+            - combobox "20px solid 标签" [ref=e84] [cursor=pointer]:
+              - generic [ref=e85]: 课前
+            - textbox [ref=e89]: "0"
+          - generic [ref=e90]:
+            - generic [ref=e91]: 24px
+            - combobox "24px filled 标签" [ref=e92] [cursor=pointer]:
+              - generic [ref=e93]: 课前
+            - textbox [ref=e97]: "0"
+            - combobox "24px outlined 标签" [ref=e98] [cursor=pointer]:
+              - generic [ref=e99]: 课前
+            - textbox [ref=e103]: "0"
+            - combobox "24px solid 标签" [ref=e104] [cursor=pointer]:
+              - generic [ref=e105]: 课前
+            - textbox [ref=e109]: "0"
+          - generic [ref=e110]:
+            - generic [ref=e111]: 28px
+            - combobox "28px filled 标签" [ref=e112] [cursor=pointer]:
+              - generic [ref=e113]: 课前
+            - textbox [ref=e117]: "0"
+            - combobox "28px outlined 标签" [ref=e118] [cursor=pointer]:
+              - generic [ref=e119]: 课前
+            - textbox [ref=e123]: "0"
+            - combobox "28px solid 标签" [active] [ref=e124] [cursor=pointer]:
+              - generic [ref=e125]: 课前
+            - textbox [ref=e129]: "0"
+          - generic [ref=e130]:
+            - combobox "禁用标签选择" [disabled] [ref=e131]:
+              - generic [ref=e132]: 课前
+            - textbox [disabled] [ref=e136]: "0"
+            - button "切换候选面板" [ref=e137] [cursor=pointer]
+            - combobox "受控展开标签" [ref=e139] [cursor=pointer]:
+              - generic [ref=e140]: 课前
+            - textbox [ref=e144]: "0"
+          - generic [ref=e145]:
+            - generic [ref=e146]: 嵌套浅色区域
+            - combobox "嵌套浅色标签" [ref=e147] [cursor=pointer]:
+              - generic [ref=e148]: 课前
+            - textbox [ref=e152]: "0"
+          - generic [ref=e153]:
+            - generic [ref=e154]:
+              - combobox "滚动区域长名称标签" [ref=e155] [cursor=pointer]:
+                - generic [ref=e156]: 面向跨学科项目的人工智能课程期末复习与课堂资料整理
+              - textbox [ref=e160]: long
+            - paragraph [ref=e161]: 滚动这个区域时，候选面板继续跟随触发器定位。
+    - region [ref=e163]:
+      - heading "业务标签与专用形状" [level=2] [ref=e164]
+      - paragraph [ref=e165]: 颜色随业务类型固定；方形标记提供完整尺寸。计分开关保持正文位置与外观。
+      - generic [ref=e166]:
+        - generic [ref=e167]:
+          - checkbox "显示计分角标" [checked] [ref=e168]
+          - text: 显示计分角标
+        - generic [ref=e169]:
+          - checkbox "显示新提醒" [checked] [ref=e170]
+          - text: 显示新提醒
+      - generic [ref=e171]:
+        - heading "竖向与固定形状" [level=3] [ref=e172]
+        - generic [ref=e173]:
+          - generic [ref=e174]: 作业
+          - generic [ref=e177]: 作业
+          - generic [ref=e180]: 作业
+          - generic [ref=e183]: 批量
+          - generic [ref=e187]: 小组作答
+          - generic [ref=e190]:
+            - generic [ref=e191]: 开放型
+            - generic [ref=e192]: 作业
+        - heading "学习单元" [level=3] [ref=e193]
+        - generic [ref=e194]:
+          - generic [ref=e195]: 课堂
+          - generic [ref=e197]: 图谱
+          - generic [ref=e199]: 分组
+          - generic [ref=e201]: 试卷
+          - generic [ref=e203]: 考试
+          - generic [ref=e205]: 课件
+          - generic [ref=e207]: 公告
+          - generic [ref=e209]: 视频
+          - generic [ref=e211]: 作业
+          - generic [ref=e213]: 实验
+          - generic [ref=e215]: 直播
+          - generic [ref=e217]: 音频
+          - generic [ref=e219]: 讨论
+          - generic [ref=e221]: 图文
+          - generic [ref=e223]: 投票
+          - generic [ref=e225]: 自测
+          - generic [ref=e227]: 回放
+          - generic [ref=e229]: 系统
+          - generic [ref=e231]: 开放型作业
+          - generic [ref=e233]: 单选
+          - generic [ref=e235]: 拓展
+          - generic [ref=e237]: 判断
+          - generic [ref=e239]: 多选
+          - generic [ref=e241]: 主观
+          - generic [ref=e243]: 填空
+        - heading "难度与分组" [level=3] [ref=e245]
+        - generic [ref=e246]:
+          - generic [ref=e247]: 1级
+          - generic [ref=e249]: 2级
+          - generic [ref=e251]: 3级
+          - generic [ref=e253]: 4级
+          - generic [ref=e255]: 5级
+          - generic [ref=e257]: 学生自由分组
+          - generic [ref=e259]: 老师指定分组
+          - generic [ref=e261]: 随机分组
+          - generic [ref=e263]: 自选分组
+      - generic [ref=e265]:
+        - heading "业务状态 · 20 / 24 / 32" [level=3] [ref=e266]
+        - generic [ref=e267]:
+          - generic [ref=e268]:
+            - generic [ref=e269]: 进行中
+            - generic [ref=e271]: 进行中
+            - generic [ref=e274]: 未提交
+            - generic [ref=e276]: 已结束
+          - generic [ref=e278]:
+            - generic [ref=e279]: 进行中
+            - generic [ref=e281]: 进行中
+            - generic [ref=e284]: 未提交
+            - generic [ref=e286]: 已结束
+        - generic [ref=e288]:
+          - generic [ref=e289]:
+            - generic [ref=e290]: 进行中
+            - generic [ref=e292]: 进行中
+            - generic [ref=e295]: 未提交
+            - generic [ref=e297]: 已结束
+          - generic [ref=e299]:
+            - generic [ref=e300]: 进行中
+            - generic [ref=e302]: 进行中
+            - generic [ref=e305]: 未提交
+            - generic [ref=e307]: 已结束
+        - generic [ref=e309]:
+          - generic [ref=e310]:
+            - generic [ref=e311]: 进行中
+            - generic [ref=e313]: 进行中
+            - generic [ref=e316]: 未提交
+            - generic [ref=e318]: 已结束
+          - generic [ref=e320]:
+            - generic [ref=e321]: 进行中
+            - generic [ref=e323]: 进行中
+            - generic [ref=e326]: 未提交
+            - generic [ref=e328]: 已结束
+        - heading "系统状态 · 20 / 24 / 28" [level=3] [ref=e330]
+        - generic [ref=e331]:
+          - generic [ref=e332]: 成功
+          - generic [ref=e336]: 处理中
+          - generic [ref=e340]: 警告
+          - generic [ref=e344]: 错误
+          - generic [ref=e348]: 信息
+        - generic [ref=e352]:
+          - generic [ref=e353]: 成功
+          - generic [ref=e357]: 处理中
+          - generic [ref=e361]: 警告
+          - generic [ref=e365]: 错误
+          - generic [ref=e369]: 信息
+        - generic [ref=e373]:
+          - generic [ref=e374]: 成功
+          - generic [ref=e378]: 处理中
+          - generic [ref=e382]: 警告
+          - generic [ref=e386]: 错误
+          - generic [ref=e390]: 信息
+      - generic [ref=e394]:
+        - heading "计分标记 · 单行 / 双行" [level=3] [ref=e395]
+        - generic [ref=e396]:
+          - generic [ref=e397]: small
+          - generic [ref=e398]:
+            - generic [ref=e399]:
+              - generic [ref=e400]: 作业
+              - generic [ref=e401]: 计分
+            - generic [ref=e402]:
+              - generic [ref=e403]:
+                - generic [ref=e404]: 开放型
+                - generic [ref=e405]: 作业
+              - generic [ref=e406]: 计分
+          - generic [ref=e407]:
+            - generic [ref=e408]:
+              - generic [ref=e409]: 作业
+              - generic [ref=e410]: 计分
+            - generic [ref=e411]:
+              - generic [ref=e412]:
+                - generic [ref=e413]: 开放型
+                - generic [ref=e414]: 作业
+              - generic [ref=e415]: 计分
+        - generic [ref=e416]:
+          - generic [ref=e417]: medium
+          - generic [ref=e418]:
+            - generic [ref=e419]:
+              - generic [ref=e420]: 作业
+              - generic [ref=e421]: 计分
+            - generic [ref=e422]:
+              - generic [ref=e423]:
+                - generic [ref=e424]: 开放型
+                - generic [ref=e425]: 作业
+              - generic [ref=e426]: 计分
+          - generic [ref=e427]:
+            - generic [ref=e428]:
+              - generic [ref=e429]: 作业
+              - generic [ref=e430]: 计分
+            - generic [ref=e431]:
+              - generic [ref=e432]:
+                - generic [ref=e433]: 开放型
+                - generic [ref=e434]: 作业
+              - generic [ref=e435]: 计分
+        - generic [ref=e436]:
+          - generic [ref=e437]: large
+          - generic [ref=e438]:
+            - generic [ref=e439]:
+              - generic [ref=e440]: 作业
+              - generic [ref=e441]: 计分
+            - generic [ref=e442]:
+              - generic [ref=e443]:
+                - generic [ref=e444]: 开放型
+                - generic [ref=e445]: 作业
+              - generic [ref=e446]: 计分
+          - generic [ref=e447]:
+            - generic [ref=e448]:
+              - generic [ref=e449]: 作业
+              - generic [ref=e450]: 计分
+            - generic [ref=e451]:
+              - generic [ref=e452]:
+                - generic [ref=e453]: 开放型
+                - generic [ref=e454]: 作业
+              - generic [ref=e455]: 计分
+        - heading "新提醒 · 三档" [level=3] [ref=e456]
+        - generic [ref=e457]:
+          - generic [ref=e458]:
+            - generic [ref=e459]: 作业
+            - generic [ref=e460]: ，有新提醒
+          - generic [ref=e462]:
+            - generic [ref=e463]:
+              - generic [ref=e464]: 开放型
+              - generic [ref=e465]: 作业
+            - generic [ref=e466]: ，有新提醒
+        - generic [ref=e468]:
+          - generic [ref=e469]:
+            - generic [ref=e470]: 作业
+            - generic [ref=e471]: ，有新提醒
+          - generic [ref=e473]:
+            - generic [ref=e474]:
+              - generic [ref=e475]: 开放型
+              - generic [ref=e476]: 作业
+            - generic [ref=e477]: ，有新提醒
+        - generic [ref=e479]:
+          - generic [ref=e480]:
+            - generic [ref=e481]: 作业
+            - generic [ref=e482]: ，有新提醒
+          - generic [ref=e484]:
+            - generic [ref=e485]:
+              - generic [ref=e486]: 开放型
+              - generic [ref=e487]: 作业
+            - generic [ref=e488]: ，有新提醒
+        - heading "18 种标记类型" [level=3] [ref=e490]
+        - generic [ref=e491]:
+          - generic [ref=e492]:
+            - generic [ref=e493]: 课堂
+            - generic [ref=e494]: ，有新提醒
+          - generic [ref=e496]:
+            - generic [ref=e497]: 试卷
+            - generic [ref=e498]: ，有新提醒
+          - generic [ref=e500]:
+            - generic [ref=e501]: 考试
+            - generic [ref=e502]: ，有新提醒
+          - generic [ref=e504]:
+            - generic [ref=e505]: 课件
+            - generic [ref=e506]: ，有新提醒
+          - generic [ref=e508]:
+            - generic [ref=e509]: 公告
+            - generic [ref=e510]: ，有新提醒
+          - generic [ref=e512]:
+            - generic [ref=e513]: 视频
+            - generic [ref=e514]: ，有新提醒
+          - generic [ref=e516]:
+            - generic [ref=e517]: 音频
+            - generic [ref=e518]: ，有新提醒
+          - generic [ref=e520]:
+            - generic [ref=e521]: 讨论
+            - generic [ref=e522]: ，有新提醒
+          - generic [ref=e524]:
+            - generic [ref=e525]: 图文
+            - generic [ref=e526]: ，有新提醒
+          - generic [ref=e528]:
+            - generic [ref=e529]: 作业
+            - generic [ref=e530]: ，有新提醒
+          - generic [ref=e532]:
+            - generic [ref=e533]: 实验
+            - generic [ref=e534]: ，有新提醒
+          - generic [ref=e536]:
+            - generic [ref=e537]: 直播
+            - generic [ref=e538]: ，有新提醒
+          - generic [ref=e540]:
+            - generic [ref=e541]: 图谱
+            - generic [ref=e542]: ，有新提醒
+          - generic [ref=e544]:
+            - generic [ref=e545]: 自测
+            - generic [ref=e546]: ，有新提醒
+          - generic [ref=e548]:
+            - generic [ref=e549]: 回放
+            - generic [ref=e550]: ，有新提醒
+          - generic [ref=e552]:
+            - generic [ref=e553]: 分组
+            - generic [ref=e554]: ，有新提醒
+          - generic [ref=e556]:
+            - generic [ref=e557]: 系统
+            - generic [ref=e558]: ，有新提醒
+          - generic [ref=e560]:
+            - generic [ref=e561]:
+              - generic [ref=e562]: 开放型
+              - generic [ref=e563]: 作业
+            - generic [ref=e564]: ，有新提醒
+    - region [ref=e566]:
+      - heading "20 组分类色" [level=2] [ref=e567]
+      - paragraph [ref=e568]: 每组依次展示 Filled、Outlined、Solid；Solid 使用 700 字重。
+      - generic [ref=e569]:
+        - generic [ref=e570]:
+          - code [ref=e571]: classroom
+          - generic [ref=e572]:
+            - generic [ref=e573]: 课堂
+            - generic [ref=e576]: 课堂
+            - generic [ref=e579]: 课堂
+        - generic [ref=e582]:
+          - code [ref=e583]: olive
+          - generic [ref=e584]:
+            - generic [ref=e585]: 分组
+            - generic [ref=e588]: 分组
+            - generic [ref=e591]: 分组
+        - generic [ref=e594]:
+          - code [ref=e595]: paper
+          - generic [ref=e596]:
+            - generic [ref=e597]: 试卷
+            - generic [ref=e600]: 试卷
+            - generic [ref=e603]: 试卷
+        - generic [ref=e606]:
+          - code [ref=e607]: exam
+          - generic [ref=e608]:
+            - generic [ref=e609]: 考试
+            - generic [ref=e612]: 考试
+            - generic [ref=e615]: 考试
+        - generic [ref=e618]:
+          - code [ref=e619]: courseware
+          - generic [ref=e620]:
+            - generic [ref=e621]: 课件
+            - generic [ref=e624]: 课件
+            - generic [ref=e627]: 课件
+        - generic [ref=e630]:
+          - code [ref=e631]: gold
+          - generic [ref=e632]:
+            - generic [ref=e633]: 公告
+            - generic [ref=e636]: 公告
+            - generic [ref=e639]: 公告
+        - generic [ref=e642]:
+          - code [ref=e643]: purple
+          - generic [ref=e644]:
+            - generic [ref=e645]: 视频
+            - generic [ref=e648]: 视频
+            - generic [ref=e651]: 视频
+        - generic [ref=e654]:
+          - code [ref=e655]: assignment
+          - generic [ref=e656]:
+            - generic [ref=e657]: 作业
+            - generic [ref=e660]: 作业
+            - generic [ref=e663]: 作业
+        - generic [ref=e666]:
+          - code [ref=e667]: live
+          - generic [ref=e668]:
+            - generic [ref=e669]: 直播
+            - generic [ref=e672]: 直播
+            - generic [ref=e675]: 直播
+        - generic [ref=e678]:
+          - code [ref=e679]: audio
+          - generic [ref=e680]:
+            - generic [ref=e681]: 音频
+            - generic [ref=e684]: 音频
+            - generic [ref=e687]: 音频
+        - generic [ref=e690]:
+          - code [ref=e691]: magenta
+          - generic [ref=e692]:
+            - generic [ref=e693]: 讨论
+            - generic [ref=e696]: 讨论
+            - generic [ref=e699]: 讨论
+        - generic [ref=e702]:
+          - code [ref=e703]: brown
+          - generic [ref=e704]:
+            - generic [ref=e705]: 图文
+            - generic [ref=e708]: 图文
+            - generic [ref=e711]: 图文
+        - generic [ref=e714]:
+          - code [ref=e715]: vote
+          - generic [ref=e716]:
+            - generic [ref=e717]: 投票
+            - generic [ref=e720]: 投票
+            - generic [ref=e723]: 投票
+        - generic [ref=e726]:
+          - code [ref=e727]: self-test
+          - generic [ref=e728]:
+            - generic [ref=e729]: 自测
+            - generic [ref=e732]: 自测
+            - generic [ref=e735]: 自测
+        - generic [ref=e738]:
+          - code [ref=e739]: slate
+          - generic [ref=e740]:
+            - generic [ref=e741]: 回放
+            - generic [ref=e744]: 回放
+            - generic [ref=e747]: 回放
+        - generic [ref=e750]:
+          - code [ref=e751]: difficulty1
+          - generic [ref=e752]:
+            - generic [ref=e753]: 1级
+            - generic [ref=e756]: 1级
+            - generic [ref=e759]: 1级
+        - generic [ref=e762]:
+          - code [ref=e763]: difficulty2
+          - generic [ref=e764]:
+            - generic [ref=e765]: 2级
+            - generic [ref=e768]: 2级
+            - generic [ref=e771]: 2级
+        - generic [ref=e774]:
+          - code [ref=e775]: difficulty3
+          - generic [ref=e776]:
+            - generic [ref=e777]: 3级
+            - generic [ref=e780]: 3级
+            - generic [ref=e783]: 3级
+        - generic [ref=e786]:
+          - code [ref=e787]: difficulty4
+          - generic [ref=e788]:
+            - generic [ref=e789]: 4级
+            - generic [ref=e792]: 4级
+            - generic [ref=e795]: 4级
+        - generic [ref=e798]:
+          - code [ref=e799]: difficulty5
+          - generic [ref=e800]:
+            - generic [ref=e801]: 5级
+            - generic [ref=e804]: 5级
+            - generic [ref=e807]: 5级
+    - region [ref=e810]:
+      - heading "完整尺寸" [level=2] [ref=e811]
+      - generic [ref=e812]:
+        - generic [ref=e813]:
+          - heading "20px" [level=3] [ref=e814]
+          - generic [ref=e815]:
+            - generic [ref=e816]:
+              - generic [ref=e817]: 期末复习
+              - button "移除标签 期末复习" [ref=e821] [cursor=pointer]
+            - generic [ref=e824]:
+              - generic [ref=e825]: 期末复习
+              - button "移除标签 期末复习" [ref=e829] [cursor=pointer]
+            - generic [ref=e832]:
+              - generic [ref=e833]: 期末复习
+              - button "移除标签 期末复习" [ref=e837] [cursor=pointer]
+        - generic [ref=e840]:
+          - heading "24px" [level=3] [ref=e841]
+          - generic [ref=e842]:
+            - generic [ref=e843]:
+              - generic [ref=e844]: 期末复习
+              - button "移除标签 期末复习" [ref=e848] [cursor=pointer]
+            - generic [ref=e851]:
+              - generic [ref=e852]: 期末复习
+              - button "移除标签 期末复习" [ref=e856] [cursor=pointer]
+            - generic [ref=e859]:
+              - generic [ref=e860]: 期末复习
+              - button "移除标签 期末复习" [ref=e864] [cursor=pointer]
+        - generic [ref=e867]:
+          - heading "28px" [level=3] [ref=e868]
+          - generic [ref=e869]:
+            - generic [ref=e870]:
+              - generic [ref=e871]: 期末复习
+              - button "移除标签 期末复习" [ref=e875] [cursor=pointer]
+            - generic [ref=e878]:
+              - generic [ref=e879]: 期末复习
+              - button "移除标签 期末复习" [ref=e883] [cursor=pointer]
+            - generic [ref=e886]:
+              - generic [ref=e887]: 期末复习
+              - button "移除标签 期末复习" [ref=e891] [cursor=pointer]
+        - generic [ref=e895]:
+          - generic [ref=e896]: 紧凑默认
+          - generic [ref=e897]: 静态 20
+          - generic [ref=e900]:
+            - generic [ref=e901]: 可关闭 24
+            - button "移除标签 可关闭 24" [ref=e903] [cursor=pointer]
+    - region [ref=e906]:
+      - heading "独立操作" [level=2] [ref=e907]
+      - generic [ref=e908]:
+        - generic [ref=e909]:
+          - generic [ref=e910]: 静态标签
+          - generic [ref=e913]:
+            - generic [ref=e914]: 已锁定
+            - button "移除标签 已锁定" [disabled] [ref=e916]
+          - generic [ref=e919]:
+            - link "第三章课件" [ref=e920] [cursor=pointer]:
+              - /url: "#tag"
+            - button "移除标签 第三章课件" [ref=e924] [cursor=pointer]
+          - link "学堂在线 （新标签页打开）" [ref=e928] [cursor=pointer]:
+            - /url: https://www.xuetangx.com/
+            - generic [ref=e929]: 学堂在线
+            - generic [ref=e932]: （新标签页打开）
+          - generic [ref=e933]:
+            - link "禁用链接" [disabled] [ref=e934]
+            - button "移除标签 禁用链接" [disabled] [ref=e937]
+          - generic [ref=e940] [cursor=pointer]:
+            - checkbox "可选分类" [ref=e941]
+            - generic [ref=e942]: 可选分类
+        - generic [ref=e944]:
+          - generic [ref=e945]: neutral · filled
+          - generic [ref=e948]: brand · filled
+          - generic [ref=e951]: neutral · outlined
+          - generic [ref=e954]: brand · outlined
+          - generic [ref=e957]: neutral · solid
+          - generic [ref=e960]: brand · solid
+        - status [ref=e963]: 尚未操作
+    - region [ref=e964]:
+      - heading "选择与筛选" [level=2] [ref=e965]
+      - generic [ref=e966]:
+        - radiogroup "资源类型" [ref=e967]:
+          - generic [ref=e969]:
+            - generic [ref=e970] [cursor=pointer]:
+              - radio "全部" [checked] [ref=e971]
+              - generic [ref=e972]: 全部
+            - generic [ref=e976] [cursor=pointer]:
+              - radio "试卷" [ref=e977]
+              - generic [ref=e978]: 试卷
+            - generic [ref=e980] [cursor=pointer]:
+              - radio "作业" [ref=e981]
+              - generic [ref=e982]: 作业
+            - generic [ref=e984]:
+              - radio "未开放" [disabled] [ref=e985]
+              - generic [ref=e986]: 未开放
+            - button "清空资源类型" [ref=e988] [cursor=pointer]:
+              - generic [ref=e989]: 清空
+        - group "资源筛选" [ref=e990]:
+          - generic [ref=e992]:
+            - generic [ref=e993] [cursor=pointer]:
+              - checkbox "试卷" [checked] [ref=e994]
+              - generic [ref=e995]: 试卷
+            - generic [ref=e999] [cursor=pointer]:
+              - checkbox "作业" [ref=e1000]
+              - generic [ref=e1001]: 作业
+            - generic [ref=e1003]:
+              - checkbox "未开放" [disabled] [ref=e1004]
+              - generic [ref=e1005]: 未开放
+            - button "清空资源筛选" [ref=e1007] [cursor=pointer]:
+              - generic [ref=e1008]: 清空
+        - button "提交筛选" [ref=e1010] [cursor=pointer]
+    - region "管理标签" [ref=e1012]:
+      - heading "管理标签" [level=3] [ref=e1013]
+      - generic [ref=e1014]:
+        - generic [ref=e1015]:
+          - generic [ref=e1016]: 期末复习
+          - button "移除标签 期末复习" [ref=e1018] [cursor=pointer]
+        - generic [ref=e1021]:
+          - generic [ref=e1022]: 第三章课件
+          - button "移除标签 第三章课件" [ref=e1024] [cursor=pointer]
+        - generic [ref=e1027]:
+          - generic [ref=e1028]: 个人笔记
+          - button "移除标签 个人笔记" [ref=e1030] [cursor=pointer]
+        - button "添加示例标签" [disabled] [ref=e1033]
+      - generic [ref=e1035]:
+        - checkbox "模拟移除失败" [ref=e1036]
+        - text: 模拟移除失败
+      - status [ref=e1037]: 可移除标签，或模拟失败后的恢复。
+    - region [ref=e1038]:
+      - heading "长名称与嵌套浅色" [level=2] [ref=e1039]
+      - generic [ref=e1041]:
+        - generic [ref=e1042]: 面向跨学科项目的人工智能课程期末复习与课堂资料整理
+        - button "移除标签 面向跨学科项目的人工智能课程期末复习与课堂资料整理" [ref=e1046] [cursor=pointer]
+      - group [ref=e1049]:
+        - generic "查看完整名称" [ref=e1050] [cursor=pointer]
+      - generic [ref=e1051]:
+        - generic [ref=e1052]: 浅色区域
+        - generic [ref=e1053]: 试卷
+        - generic [ref=e1056]: 试卷
+    - paragraph [ref=e1059]: 三批视觉均已确认，包含标签选择、创建管理及关闭按钮右侧留白修订；对比度不足单独保留记录。
+```

@@ -1,0 +1,89 @@
+{
+  "kind": "GithubReviewBoundaryNegativeReadonlyDiagnosis",
+  "priority": "P2-test-compatibility",
+  "workspace": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017",
+  "sourceBindingFileSha256": "cde0bf92655f1e71cf97dd06e248c482b9f002d1c62512e594452021759e23c1",
+  "frozenTestSha256": "5b961ea8a178cf295d16254a2449b1c108e4d1572bb8e27aef351647d0005f56",
+  "fullRunObservation": {
+    "tests": 18,
+    "failed": 8,
+    "baselinePassed": true,
+    "log": "checks/full-test.log:703-722"
+  },
+  "actualProbe": {
+    "method": "readonly in-memory fs read substitution of the exact existing Foundations reverse-dependency mutation; current boundary CLI module executed without copying or modifying disk source",
+    "wallSeconds": 4.29344275,
+    "exitCode": 1,
+    "firstFailure": "G6 finite sources cannot be checked: GitHub review retained source or original proof changed: packages/foundations/src/token-contract.ts",
+    "finalFailure": "no explicit boundary policy exists for phase token-foundations-v1; add and test a policy before changing phases",
+    "notAVitestTestRun": true
+  },
+  "rootCause": "The valid current fixture now invokes the Github finite successor before the old Closeout scanner. Unauthorized mutations are correctly rejected by new exact-path guards, but helper and two dedicated conditionals only recognize older guard names.",
+  "matrix": [
+    {
+      "case": "unapproved Headless",
+      "mutatedPath": "packages/ui/src/hover-card/hover-card.tsx",
+      "firstGuard": "GitHub review retained source or original proof changed: packages/ui/src/hover-card/hover-card.tsx",
+      "assertionSite": "helper"
+    },
+    {
+      "case": "Foundations reverse import",
+      "mutatedPath": "packages/foundations/src/token-contract.ts",
+      "firstGuard": "GitHub review retained source or original proof changed: packages/foundations/src/token-contract.ts",
+      "assertionSite": "helper"
+    },
+    {
+      "case": "unauthorized dependency",
+      "mutatedPath": "packages/ui/package.json",
+      "firstGuard": "GitHub review retained source or original proof changed: packages/ui/package.json",
+      "assertionSite": "helper"
+    },
+    {
+      "case": "data domain: docs/ai",
+      "mutatedPath": "packages/ui/src/navigation/navigation-families.tsx",
+      "firstGuard": "GitHub review retained source or original proof changed: packages/ui/src/navigation/navigation-families.tsx",
+      "assertionSite": "helper"
+    },
+    {
+      "case": "data domain: evidence/runtime/navigation-v042",
+      "mutatedPath": "packages/ui/src/navigation/navigation-families.tsx",
+      "firstGuard": "GitHub review retained source or original proof changed: packages/ui/src/navigation/navigation-families.tsx",
+      "assertionSite": "helper"
+    },
+    {
+      "case": "data domain: artifacts",
+      "mutatedPath": "packages/ui/src/navigation/navigation-families.tsx",
+      "firstGuard": "GitHub review retained source or original proof changed: packages/ui/src/navigation/navigation-families.tsx",
+      "assertionSite": "helper"
+    },
+    {
+      "case": "mutable Manifest",
+      "mutatedPath": "manifests/ui/breadcrumb.yaml",
+      "firstGuard": "GitHub review retained source or original proof changed: manifests/ui/breadcrumb.yaml",
+      "assertionSite": "manifest conditional and helper"
+    },
+    {
+      "case": "invalid parent phase",
+      "mutatedPath": "status/current-phase.yaml",
+      "firstGuard": "GitHub review authorized successor source changed: status/current-phase.yaml",
+      "assertionSite": "phase OR assertion"
+    }
+  ],
+  "minimalExternalPatch": "boundary-negative-diagnosis.patch",
+  "patchPreserves": [
+    "all 18 cases",
+    "baseline exit0 check",
+    "all mutation payloads",
+    "all exit1 checks",
+    "legacy boundary regexes",
+    "unknown source checks for unbound paths",
+    "invalid-parent no-policy and not-pass checks",
+    "20s CLI timeout and test budgets"
+  ],
+  "notDone": [
+    "no current source, binding or old proof changed",
+    "no full suite or heavy fixture copy run",
+    "external patch not applied"
+  ],
+  "followup": "Apply only after full capture ends; add this test as finite file24 alongside G5 verifier23; rebind and run all18 plus baseline to show fresh CLI rejection is attributable to each exact mutation."
+}

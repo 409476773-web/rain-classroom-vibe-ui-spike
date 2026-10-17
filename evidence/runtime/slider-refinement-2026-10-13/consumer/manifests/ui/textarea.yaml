@@ -1,0 +1,115 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-textarea"
+name: "Textarea"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+migrationLabel: "rewrite-from-rain"
+sourcePath: "packages/ui/src/textarea/textarea.tsx"
+styleSourcePath: "packages/ui/src/textarea/textarea.css"
+sourceVersion: "local-2026-09-13"
+publication: "unpublished"
+description: "Native multiline text editing with Rain field appearance and complete FormItem linkage."
+useWhen:
+  - "Course descriptions, instructions and long feedback require plain multiline text."
+doNotUseWhen:
+  - "Rich text, content autosizing, attachments or a form validation engine are required."
+anatomy:
+  - "Root"
+  - "Control"
+parts:
+  - "root"
+  - "control"
+props:
+  - "Native textarea attributes and HTMLTextAreaElement ref"
+  - "value / defaultValue: string; choose controlled or native uncontrolled mode"
+  - "onChange / onValueChange"
+  - "rows: default 4; native maxLength uses UTF-16 code units"
+  - "appearance: outlined | filled | underlined"
+  - "status: default | warning | error"
+  - "disabled / readOnly / required"
+  - "className: root layout only"
+slots:
+  - "blockStart / blockEnd: ReactNode; existing native frame additions"
+  - "blockStartChangesValue / blockEndChangesValue: default true; false permits view/copy in readOnly; disabled blocks all actions"
+variants:
+  - "outlined"
+  - "filled"
+  - "underlined"
+states:
+  - "editable"
+  - "warning"
+  - "error"
+  - "read-only"
+  - "disabled"
+  - "focus-visible"
+density: "Inherit region density; retain Reading/Small for long text in both modes."
+dependencies:
+  - "FormItem context"
+  - "fieldFrameRecipe"
+  - "Input control reset"
+  - "rainCn"
+tokens:
+  - "Typography/Reading/Small"
+  - "Space/8"
+  - "Space/12"
+  - "Space/40"
+  - "Radius/6"
+  - "shared field frame and Input control colors / Focus"
+layoutConstraints:
+  - "Full host width; rows controls initial height; the frame provides native vertical resize with a 40px frame minimum; disabled cannot resize."
+  - "The frame flexes to the tallest textarea in a stretched FormItem row; the native control fills it with text aligned to the top. Single-column fields retain their individual resize height."
+  - "Root has no horizontal padding; control owns 12px horizontal / 8px vertical text padding; the frame owns the single native resize handle."
+compositionRules:
+  - "Use FormItem top labels for Textarea; field ID, status, label, help and feedback IDs merge and deduplicate."
+  - "Disabled and required are additive; error forces aria-invalid."
+  - "Native uncontrolled state or host controlled state is the only value authority. Host owns validation and save timing."
+  - "rain-input style class reuses existing forced-colors/reset rules; identity remains ui-textarea."
+allowedModifications:
+  - "Native rows, name, callbacks, content and host layout."
+restrictedModifications:
+  - "Do not hardcode colors or create a second field/form store."
+accessibility:
+  - "Visible FormItem label or caller accessible name required; native textarea semantics, keyboard selection and multiline Enter."
+  - "Native required, disabled, readonly and FormData/reset; shared focus-visible and forced-colors styles."
+  - "Shared field contrast findings remain pending; no inherited visual acceptance."
+examples:
+  - "#bm-b"
+recipes:
+  - "bm-b-textbook-dialog: local-experiment; host owns draft, validation, uploads and simulated save"
+antiPatterns:
+  - "Passing a bare textarea to FormItem without consuming its context"
+  - "Treating Mock save as persistence"
+relatedComponents:
+  - "Input"
+  - "FormItem"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "docs/audits/2026-09-05-classic-size-spacing-recipes-audit.md#c-textarea-与-formitem"
+  externalReferences: []
+  retainedTraits:
+    - "Rain input frame, external label, multiline content and vertical resizing"
+  redesignedTraits:
+    - "Rain Next field recipe, Reading/Small, native rows and resizing"
+  intentionallyNotInherited:
+    - "Vue implementation, duplicated JS size constants, autosize and custom resize handle"
+figmaMapping: "not-established"
+migrationNotes: "Local native React implementation; not copied from shadcn; no Classic writes."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/bm-b-rn10/verification.md"
+integrationSource: "evidence/runtime/bm-b-rn10/textarea-source.json"
+
+g5Extension:
+  scope: "block-start-and-end-native-textarea-additions"
+  sourceLock: "evidence/runtime/g5-components-2026-10-12/source-lock.json"
+  evidence: "evidence/runtime/g5-components-2026-10-12/verification.md"
+  automated: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"

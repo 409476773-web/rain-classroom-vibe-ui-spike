@@ -1,0 +1,49 @@
+// Adapted from shadcn-ui/ui@3ba91b1, MIT; local-experiment.
+// Pristine author source and Nova styles: evidence/runtime/token-first-v12-g1-next/source-lock.json.
+import { createContext, forwardRef, useContext, useId } from "react";
+import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
+import { rainCn as cn } from "@rain-next/ui";
+// Local monorepo adapter reuses the existing bridge; no second theme/overlay controller.
+import { PopupProvider, usePopupScope, usePopupTriggerRef } from "../../../../../packages/ui/src/_internal/popup";
+import "./next.css";
+const DescriptionId = createContext<string | undefined>(undefined);
+
+function TooltipProvider({ delay = 300, ...props }: TooltipPrimitive.Provider.Props) {
+  return <TooltipPrimitive.Provider delay={delay} {...props} />;
+}
+
+function Tooltip({ onOpenChange, ...props }: TooltipPrimitive.Root.Props) {
+  const descriptionId = useId();
+  return <DescriptionId.Provider value={descriptionId}><PopupProvider triggerId={props.triggerId} defaultTriggerId={props.defaultTriggerId}>{setAnchor =>
+    <TooltipPrimitive.Root {...props} onOpenChange={(open, details) => {
+      onOpenChange?.(open, details);
+      if (open && !details.isCanceled && details.trigger instanceof HTMLElement) setAnchor(details.trigger);
+    }} />
+  }</PopupProvider></DescriptionId.Provider>;
+}
+
+const TooltipTrigger = forwardRef<HTMLElement, TooltipPrimitive.Trigger.Props>(function TooltipTrigger(props, ref) {
+  const anchorRef = usePopupTriggerRef(ref);
+  const descriptionId = useContext(DescriptionId);
+  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" data-focus="control" {...props}
+    aria-describedby={[props["aria-describedby"], descriptionId].filter(Boolean).join(" ")} ref={anchorRef} />;
+});
+
+function TooltipContent({ className, side = "top", sideOffset = 8, align = "center", alignOffset = 0, children, ...props }:
+  Omit<TooltipPrimitive.Popup.Props, "className" | "id"> & { className?: string } &
+  Pick<TooltipPrimitive.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset">) {
+  const { theme, density, densityStyle } = usePopupScope();
+  const descriptionId = useContext(DescriptionId);
+  return <TooltipPrimitive.Portal>
+    <TooltipPrimitive.Positioner align={align} alignOffset={alignOffset} side={side} sideOffset={sideOffset} collisionPadding={8}
+      data-rain-theme={theme} data-density={density} style={densityStyle} className="rain-popup-positioner">
+      <TooltipPrimitive.Popup role="tooltip" data-rain-id="local-g1-tooltip" data-slot="tooltip-content"
+        className={cn("rain-g1-tooltip shadow-rain-overlay", className)} {...props} id={descriptionId}>
+        {children}
+        <TooltipPrimitive.Arrow data-slot="tooltip-arrow" className="rain-g1-tooltip-arrow" />
+      </TooltipPrimitive.Popup>
+    </TooltipPrimitive.Positioner>
+  </TooltipPrimitive.Portal>;
+}
+
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };

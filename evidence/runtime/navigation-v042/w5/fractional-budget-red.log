@@ -1,0 +1,32 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+···x··················
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/layouts/src/workspace-state.test.ts > workspace identity and restoration contract > keeps fractional width limits during initialization, resizing and preference loading
+AssertionError: expected 100 to be 100.4 // Object.is equality
+
+- Expected
++ Received
+
+- 100.4
++ 100
+
+ ❯ packages/layouts/src/workspace-state.test.ts:58:58
+     56|       const fractional = { ...spec, regions: [{ ...spec.regions[1]!, m…
+     57|       const state = createWorkspaceState(fractional);
+     58|       expect(state.preferences.directory!.expandedWidth).toBe(bound);
+       |                                                          ^
+     59|       expect(workspaceReducer(fractional, state, { type: "RESIZE_REGIO…
+     60|       const storage = { getItem: () => JSON.stringify({ version: 2, wo…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 21 passed (22)
+   Start at  21:21:26
+   Duration  626ms (transform 36ms, setup 103ms, import 29ms, tests 11ms, environment 394ms)
+

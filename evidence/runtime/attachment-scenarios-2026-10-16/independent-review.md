@@ -1,0 +1,3 @@
+# Scoped independent review
+
+Attachment preview implementation and lifecycle were independently reviewed; no remaining P1/P2. Root independently reran the combined tests. Shared List review found vertical inherited width and small image-column specificity errors; both fixed and browser-checked. Page review found 3/4-item narrow folding access bug; failing regression was observed, implementation fixed, unit/browser checks passed, reviewer confirmed closure. Root visual comparison additionally repaired compact picker hierarchy, media inset/action alignment and wide-only compact size. Review covers this candidate increment only; no broad G6/Human Gate/contrast/publication claim.

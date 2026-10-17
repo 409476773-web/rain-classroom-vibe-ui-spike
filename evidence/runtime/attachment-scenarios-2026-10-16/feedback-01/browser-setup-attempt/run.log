@@ -1,0 +1,163 @@
+[WebServer] (node:89499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:89500) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:89502) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:89508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:89510) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:89516) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/attachment-action-feedback.spec.ts:10:1 › download and upload feedback stay in the original two-line row (2.2s)
+(node:89532) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [desktop] › tests/e2e/attachment-action-feedback.spec.ts:40:1 › neutral draft, filled-dialog and media actions preserve download height in both themes (1.8s)
+(node:89545) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [desktop] › tests/e2e/attachment-action-feedback.spec.ts:72:1 › compact cancellation and retry keep forty-pixel height (6.1s)
+(node:89558) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [narrow] › tests/e2e/attachment-action-feedback.spec.ts:10:1 › download and upload feedback stay in the original two-line row (1.8s)
+(node:89571) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 [narrow] › tests/e2e/attachment-action-feedback.spec.ts:40:1 › neutral draft, filled-dialog and media actions preserve download height in both themes (1.8s)
+(node:89584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  6 [narrow] › tests/e2e/attachment-action-feedback.spec.ts:72:1 › compact cancellation and retry keep forty-pixel height (6.1s)
+
+
+  1) [desktop] › tests/e2e/attachment-action-feedback.spec.ts:10:1 › download and upload feedback stay in the original two-line row 
+
+    Error: expect(received).toMatch(expected)
+
+    Expected pattern: /^#[\da-f]{6}$/i
+    Received string:  "rgb(73 93 135)"
+
+      2 | async function neutral(button: Locator) {
+      3 |   const paint=await button.evaluate(node=>{const s=getComputedStyle(node);return {actual:s.color,hex:s.getPropertyValue("--rain-category-icon-neutral-2").trim()};});
+    > 4 |   expect(paint.hex).toMatch(/^#[\da-f]{6}$/i);
+        |                     ^
+      5 |   const channels=[1,3,5].map(index=>Number.parseInt(paint.hex.slice(index,index+2),16));
+      6 |   expect(paint.actual).toBe(`rgb(${channels.join(", ")})`);
+      7 | }
+        at neutral (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-action-feedback.spec.ts:4:21)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-action-feedback.spec.ts:13:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-7875f-n-the-original-two-line-row-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-7875f-n-the-original-two-line-row-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-7875f-n-the-original-two-line-row-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-7875f-n-the-original-two-line-row-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop] › tests/e2e/attachment-action-feedback.spec.ts:40:1 › neutral draft, filled-dialog and media actions preserve download height in both themes 
+
+    Error: expect(received).toMatch(expected)
+
+    Expected pattern: /^#[\da-f]{6}$/i
+    Received string:  "rgb(73 93 135)"
+
+      2 | async function neutral(button: Locator) {
+      3 |   const paint=await button.evaluate(node=>{const s=getComputedStyle(node);return {actual:s.color,hex:s.getPropertyValue("--rain-category-icon-neutral-2").trim()};});
+    > 4 |   expect(paint.hex).toMatch(/^#[\da-f]{6}$/i);
+        |                     ^
+      5 |   const channels=[1,3,5].map(index=>Number.parseInt(paint.hex.slice(index,index+2),16));
+      6 |   expect(paint.actual).toBe(`rgb(${channels.join(", ")})`);
+      7 | }
+        at neutral (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-action-feedback.spec.ts:4:21)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-action-feedback.spec.ts:45:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-bc98b-nload-height-in-both-themes-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-bc98b-nload-height-in-both-themes-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-bc98b-nload-height-in-both-themes-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-bc98b-nload-height-in-both-themes-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [narrow] › tests/e2e/attachment-action-feedback.spec.ts:10:1 › download and upload feedback stay in the original two-line row 
+
+    Error: expect(received).toMatch(expected)
+
+    Expected pattern: /^#[\da-f]{6}$/i
+    Received string:  "rgb(73 93 135)"
+
+      2 | async function neutral(button: Locator) {
+      3 |   const paint=await button.evaluate(node=>{const s=getComputedStyle(node);return {actual:s.color,hex:s.getPropertyValue("--rain-category-icon-neutral-2").trim()};});
+    > 4 |   expect(paint.hex).toMatch(/^#[\da-f]{6}$/i);
+        |                     ^
+      5 |   const channels=[1,3,5].map(index=>Number.parseInt(paint.hex.slice(index,index+2),16));
+      6 |   expect(paint.actual).toBe(`rgb(${channels.join(", ")})`);
+      7 | }
+        at neutral (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-action-feedback.spec.ts:4:21)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-action-feedback.spec.ts:13:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-7875f-n-the-original-two-line-row-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-7875f-n-the-original-two-line-row-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-7875f-n-the-original-two-line-row-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-7875f-n-the-original-two-line-row-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [narrow] › tests/e2e/attachment-action-feedback.spec.ts:40:1 › neutral draft, filled-dialog and media actions preserve download height in both themes 
+
+    Error: expect(received).toMatch(expected)
+
+    Expected pattern: /^#[\da-f]{6}$/i
+    Received string:  "rgb(73 93 135)"
+
+      2 | async function neutral(button: Locator) {
+      3 |   const paint=await button.evaluate(node=>{const s=getComputedStyle(node);return {actual:s.color,hex:s.getPropertyValue("--rain-category-icon-neutral-2").trim()};});
+    > 4 |   expect(paint.hex).toMatch(/^#[\da-f]{6}$/i);
+        |                     ^
+      5 |   const channels=[1,3,5].map(index=>Number.parseInt(paint.hex.slice(index,index+2),16));
+      6 |   expect(paint.actual).toBe(`rgb(${channels.join(", ")})`);
+      7 | }
+        at neutral (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-action-feedback.spec.ts:4:21)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-action-feedback.spec.ts:45:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-bc98b-nload-height-in-both-themes-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-bc98b-nload-height-in-both-themes-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-bc98b-nload-height-in-both-themes-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/attachment-scenarios-2026-10-16/feedback-01/browser/results/attachment-action-feedback-bc98b-nload-height-in-both-themes-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    [desktop] › tests/e2e/attachment-action-feedback.spec.ts:10:1 › download and upload feedback stay in the original two-line row 
+    [desktop] › tests/e2e/attachment-action-feedback.spec.ts:40:1 › neutral draft, filled-dialog and media actions preserve download height in both themes 
+    [narrow] › tests/e2e/attachment-action-feedback.spec.ts:10:1 › download and upload feedback stay in the original two-line row 
+    [narrow] › tests/e2e/attachment-action-feedback.spec.ts:40:1 › neutral draft, filled-dialog and media actions preserve download height in both themes 
+  2 passed (26.6s)

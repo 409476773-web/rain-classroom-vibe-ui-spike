@@ -1,0 +1,78 @@
+[WebServer] (node:15843) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:15845) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:15852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/conversation-composer.spec.ts:7:1 › manual layout changes animate height continuously while typing and reduced motion stay immediate (2.4s)
+(node:15875) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [narrow] › tests/e2e/conversation-composer.spec.ts:7:1 › manual layout changes animate height continuously while typing and reduced motion stay immediate (1.8s)
+
+
+  1) [desktop] › tests/e2e/conversation-composer.spec.ts:7:1 › manual layout changes animate height continuously while typing and reduced motion stay immediate 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 2
+    Received:    0
+
+      13 |   const opening=await form.evaluate(async node=>{const heights:number[]=[];const started=performance.now();await new Promise<void>(resolve=>{const sample=()=>{heights.push(node.getBoundingClientRect().height);if(performance.now()-started<300)requestAnimationFrame(sample);else resolve();};requestAnimationFrame(sample);});return heights;});
+      14 |   const expanded=(await form.boundingBox())!.height;
+    > 15 |   expect(opening.filter(height=>height>collapsed+1&&height<expanded-1).length).toBeGreaterThanOrEqual(2);
+         |                                                                                ^
+      16 |   expect(opening.every((height,index)=>index===0||height>=opening[index-1]!-1)).toBeTruthy();
+      17 |   await expect(editor).toBeFocused();expect(await editor.evaluate(node=>(node as HTMLTextAreaElement).selectionStart)).toBe(1);
+      18 |   await form.getByRole('button',{name:'收起输入框',exact:true}).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts:15:80
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [narrow] › tests/e2e/conversation-composer.spec.ts:7:1 › manual layout changes animate height continuously while typing and reduced motion stay immediate 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 2
+    Received:    0
+
+      13 |   const opening=await form.evaluate(async node=>{const heights:number[]=[];const started=performance.now();await new Promise<void>(resolve=>{const sample=()=>{heights.push(node.getBoundingClientRect().height);if(performance.now()-started<300)requestAnimationFrame(sample);else resolve();};requestAnimationFrame(sample);});return heights;});
+      14 |   const expanded=(await form.boundingBox())!.height;
+    > 15 |   expect(opening.filter(height=>height>collapsed+1&&height<expanded-1).length).toBeGreaterThanOrEqual(2);
+         |                                                                                ^
+      16 |   expect(opening.every((height,index)=>index===0||height>=opening[index-1]!-1)).toBeTruthy();
+      17 |   await expect(editor).toBeFocused();expect(await editor.evaluate(node=>(node as HTMLTextAreaElement).selectionStart)).toBe(1);
+      18 |   await form.getByRole('button',{name:'收起输入框',exact:true}).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts:15:80
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/e2e/conversation-composer.spec.ts:7:1 › manual layout changes animate height continuously while typing and reduced motion stay immediate 
+    [narrow] › tests/e2e/conversation-composer.spec.ts:7:1 › manual layout changes animate height continuously while typing and reduced motion stay immediate 

@@ -1,12 +1,17 @@
 /* @rain-css-exception dropdown-family-parts: portal constraints and linked menu parts. */
 .rain-popup-positioner { z-index: 40; }
+/* Default paint belongs below caller utilities; portal geometry stays shared. */
+@layer base {
+  .rain-popup {
+    background-color: var(--rain-category-background-neutral-1);
+    border-color: var(--rain-category-border-neutral-3);
+    color: var(--rain-category-text-neutral-3);
+  }
+}
 .rain-popup {
   width: var(--rain-popup-width);
   max-width: min(var(--available-width), calc(100vw - var(--rain-space-8) * 2));
   max-height: var(--available-height);
-  background-color: var(--rain-category-background-neutral-1);
-  border-color: var(--rain-category-border-neutral-3);
-  color: var(--rain-category-text-neutral-3);
 }
 .rain-menu {
   width: var(--rain-popup-width, max-content);

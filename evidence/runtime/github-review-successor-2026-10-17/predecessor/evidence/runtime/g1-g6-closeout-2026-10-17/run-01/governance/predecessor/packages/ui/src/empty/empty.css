@@ -1,0 +1,21 @@
+/* @rain-css-exception empty-presentation: owned-part spacing and original artwork bounds; outer layout stays with the host. */
+.rain-empty > .rain-empty__media { margin-block-end: var(--rain-space-16); }
+.rain-empty[data-presentation="simple"] > .rain-empty__media { inline-size: 56px; margin-block-end: var(--rain-space-8); }
+.rain-empty > .rain-empty__title + .rain-empty__description { margin-block-start: var(--rain-space-4); }
+.rain-empty > .rain-empty__actions { margin-block-start: var(--rain-space-16); }
+.rain-empty[data-presentation="simple"] > .rain-empty__actions,
+.rain-empty[data-presentation="text"] > .rain-empty__actions { margin-block-start: var(--rain-space-12); }
+.rain-empty[data-align="start"] > .rain-empty__actions { justify-content: flex-start; }
+.rain-empty__actions > * { max-inline-size: 100%; }
+
+.rain-empty__media { inline-size: 280px; aspect-ratio: 7 / 4; flex: none; }
+.rain-empty__media[data-illustration="simple"] { inline-size: 56px; aspect-ratio: 1; }
+.rain-empty__media > :is(img, svg) { display: block; inline-size: 100%; block-size: 100%; object-fit: contain; }
+.rain-empty__image { pointer-events: none; user-select: none; }
+
+/* Inherited display switches follow the nearest theme boundary, including nested light inside dark.
+ * These structural rules stay outside cascade layers so a later Tailwind reset cannot reveal both images. */
+[data-rain-theme="light"] { --rain-empty-light-display: block; --rain-empty-dark-display: none; }
+[data-rain-theme="dark"] { --rain-empty-light-display: none; --rain-empty-dark-display: block; }
+.rain-empty__media > .rain-empty__image--light { display: var(--rain-empty-light-display, block); }
+.rain-empty__media > .rain-empty__image--dark { display: var(--rain-empty-dark-display, none); }

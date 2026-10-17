@@ -1,0 +1,24 @@
+/* @rain-css-exception ui-message: source message rails, footer offset and Rain metadata roles. */
+@layer components {
+  .rain-message { gap: var(--rain-space-8); font-family: var(--rain-font-ui); font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-22); color: var(--rain-category-text-neutral-2); }
+  .rain-message[data-align="end"] { flex-direction: row-reverse; }
+  .rain-message__avatar { min-width: var(--rain-space-32); background-color: var(--rain-category-background-neutral-2); }
+  .rain-message:has(> .rain-message__content > .rain-message__footer) > .rain-message__avatar { transform: translateY(calc(var(--rain-space-32) * -1)); }
+  .rain-message__content { gap: var(--rain-space-10); }
+  .rain-message[data-align="end"] > .rain-message__content > [data-slot] { align-self: flex-end; }
+  .rain-message[data-align="end"] > .rain-message__content > .rain-bubble { align-self: flex-end; }
+  .rain-message__header, .rain-message__footer {
+    gap: var(--rain-space-8);
+    flex-wrap: wrap;
+    padding-inline: var(--rain-space-12);
+    color: var(--rain-category-text-neutral-3);
+    font-size: var(--rain-font-size-12);
+    line-height: var(--rain-line-height-20);
+    font-weight: var(--rain-font-weight-semibold);
+  }
+  .rain-message[data-align="end"] > .rain-message__content > .rain-message__footer { justify-content: flex-end; }
+  .rain-message:has(> .rain-message__content > .rain-bubble[data-variant="ghost"]) > .rain-message__content > :is(.rain-message__header, .rain-message__footer) { padding-inline: var(--rain-space-0); }
+  .rain-message[data-density="compact"] { gap: var(--rain-space-6); }
+  .rain-message[data-density="compact"] > .rain-message__content { gap: var(--rain-space-8); }
+  @media (forced-colors: active) { .rain-message, .rain-message__header, .rain-message__footer { color: CanvasText; } .rain-message__avatar { background: Canvas; } }
+}

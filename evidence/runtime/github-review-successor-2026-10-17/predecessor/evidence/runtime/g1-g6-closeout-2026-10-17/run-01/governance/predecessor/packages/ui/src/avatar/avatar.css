@@ -1,0 +1,86 @@
+/* @rain-css-exception avatar-geometry: fixed portrait dimensions and Rain Classic overlap/grid geometry; host owns outer layout. */
+.rain-avatar {
+  --rain-local-avatar-size: var(--rain-space-32);
+  --rain-local-avatar-radius: var(--rain-radius-full);
+  position: relative; display: inline-flex; flex: none; vertical-align: middle;
+  inline-size: var(--rain-local-avatar-size); block-size: var(--rain-local-avatar-size);
+  border: 0; padding: 0; border-radius: var(--rain-local-avatar-radius); background: transparent;
+}
+.rain-avatar[data-size="24"] { --rain-local-avatar-size: var(--rain-space-24); }
+.rain-avatar[data-size="40"] { --rain-local-avatar-size: var(--rain-space-40); }
+.rain-avatar[data-shape="square"] { --rain-local-avatar-radius: var(--rain-radius-6); }
+.rain-avatar[data-shape="square"][data-size="24"] { --rain-local-avatar-radius: var(--rain-radius-4); }
+.rain-avatar__picture { position: relative; display: block; inline-size: 100%; block-size: 100%; border-radius: inherit; overflow: hidden; }
+.rain-avatar__picture > img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; }
+.rain-avatar__picture > [data-slot="portrait"] { visibility: hidden; }
+.rain-avatar__picture > [data-ready="true"] { visibility: visible; }
+.rain-avatar__picture:has(> [data-ready="true"]) > [data-slot="fallback"] { visibility: hidden; }
+.rain-avatar[data-presence="offline"] > .rain-avatar__picture > img { filter: grayscale(1); }
+.rain-avatar:is(button, a) { cursor: pointer; }
+.rain-avatar:disabled { cursor: not-allowed; }
+
+.rain-avatar-group { --rain-local-avatar-size: var(--rain-space-32); --rain-local-avatar-overlap: var(--rain-space-12); display: inline-flex; align-items: center; vertical-align: middle; }
+.rain-avatar-group[data-size="24"] { --rain-local-avatar-size: var(--rain-space-24); --rain-local-avatar-overlap: var(--rain-space-10); }
+.rain-avatar-group[data-size="40"] { --rain-local-avatar-size: var(--rain-space-40); --rain-local-avatar-overlap: var(--rain-space-16); }
+.rain-avatar-group__strip { position: relative; z-index: 1; display: inline-flex; align-items: center; border: 0; padding: 0; border-radius: var(--rain-radius-full); background: transparent; }
+.rain-avatar-group__strip > .rain-avatar + .rain-avatar { margin-inline-start: calc(-1 * var(--rain-local-avatar-overlap)); }
+.rain-avatar-group__strip > .rain-avatar { isolation: isolate; }
+.rain-avatar-group__strip:is(button, a), .rain-avatar-group__more { cursor: pointer; }
+.rain-avatar-group__strip:disabled { cursor: not-allowed; }
+.rain-avatar-group__more {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; flex: none;
+  inline-size: var(--rain-local-avatar-size); block-size: var(--rain-local-avatar-size);
+  margin-inline-start: calc(-1 * var(--rain-local-avatar-overlap)); border-radius: var(--rain-radius-full);
+  border: 0 solid transparent; padding: 0; z-index: 0;
+  background: var(--rain-category-fill-neutral-solid-7); color: var(--rain-category-icon-neutral-2);
+}
+.rain-avatar-group__more::before { content: ""; position: absolute; inset: var(--rain-line-thickness-1); border-radius: inherit; background: var(--rain-category-fill-neutral-solid-5); }
+.rain-avatar-group__more > [data-rain-id="icon"] { position: relative; }
+/* An actionable strip ends before More; its hit target cannot extend under the sibling. */
+.rain-avatar-group:has(> .rain-avatar-group__strip:is(button, a)) { gap: var(--rain-space-4); }
+.rain-avatar-group:has(> .rain-avatar-group__strip:is(button, a)) > .rain-avatar-group__more { margin-inline-start: 0; }
+.rain-avatar-group__strip:focus-visible { position: relative; z-index: 1; }
+.rain-avatar-group__header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--rain-space-8); }
+.rain-avatar-group__header > [data-slot="title"] { min-inline-size: 0; overflow-wrap: anywhere; }
+.rain-avatar-group__members { display: flex; flex-direction: column; gap: var(--rain-space-12); margin: var(--rain-space-12) 0 0; padding: 0; list-style: none; max-block-size: 320px; overflow-y: auto; }
+.rain-avatar-group__members > li { display: flex; align-items: center; gap: var(--rain-space-8); min-inline-size: 0; overflow-wrap: anywhere; }
+.rain-avatar-grid {
+  --rain-local-avatar-cell: 12px;
+  box-sizing: border-box; display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+  inline-size: var(--rain-space-40); block-size: var(--rain-space-40); flex: none; vertical-align: middle;
+  position: relative; padding: var(--rain-line-thickness-1); border: 0; border-radius: calc(var(--rain-radius-4) + var(--rain-line-thickness-1)); overflow: hidden;
+  background: var(--rain-category-fill-neutral-solid-5);
+}
+.rain-avatar-grid[data-count="0"], .rain-avatar-grid[data-count="1"] { --rain-local-avatar-cell: 38px; }
+.rain-avatar-grid:is([data-count="2"], [data-count="3"], [data-count="4"]) { --rain-local-avatar-cell: 18.5px; }
+.rain-avatar-grid__content { display: flex; flex-direction: column; align-items: center; justify-content: center; inline-size: 100%; block-size: 100%; gap: var(--rain-line-thickness-1); border-radius: var(--rain-radius-4); overflow: hidden; }
+.rain-avatar-grid__row { display: flex; gap: calc(var(--rain-space-2) / 2); justify-content: center; }
+.rain-avatar-grid [data-slot="empty"] { font-family: var(--rain-font-ui); font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-16); color: var(--rain-category-text-neutral-3); }
+.rain-avatar-grid__row > .rain-avatar { --rain-local-avatar-size: var(--rain-local-avatar-cell); --rain-local-avatar-radius: var(--rain-radius-4); }
+.rain-avatar-grid:is(button, a) { cursor: pointer; }
+.rain-avatar-grid:disabled { cursor: not-allowed; }
+/* @rain-css-exception avatar-forced-colors: preserve overlap separation and More in system colors. */
+@media (forced-colors: active) {
+  .rain-avatar-group__more { color: ButtonText; background: ButtonFace; border-color: ButtonText; }
+  .rain-avatar-group__more::before { background: ButtonFace; }
+}
+
+/* Clip only the image paint: frames keep portrait geometry stable through interaction. */
+.rain-avatar:is(button, a) > .rain-avatar__picture, .rain-avatar-group__strip:is(button, a) > .rain-avatar > .rain-avatar__picture { background: var(--rain-category-fill-neutral-solid-7); outline-offset: calc(-1 * var(--rain-line-thickness-1)); }
+.rain-avatar:is(button, a) > .rain-avatar__picture > img, .rain-avatar-group__strip:is(button, a) > .rain-avatar > .rain-avatar__picture > img { clip-path: inset(var(--rain-line-thickness-1) round calc(var(--rain-local-avatar-radius) - var(--rain-line-thickness-1))); }
+.rain-avatar:is(button, a):not(:disabled):hover > .rain-avatar__picture { background: var(--rain-category-fill-neutral-solid-3); }
+.rain-avatar:is(button, a):not(:disabled):hover > .rain-avatar__picture, .rain-avatar-group__strip:is(button, a):not(:disabled):hover > .rain-avatar > .rain-avatar__picture { outline: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+.rain-avatar:is(button, a):not(:disabled):hover > .rain-avatar__picture > img { opacity: .5; clip-path: none; }
+.rain-avatar-group__strip:is(button, a):not(:disabled):hover > .rain-avatar > .rain-avatar__picture > img { opacity: .7; clip-path: none; }
+.rain-avatar:is(button, a):not(:disabled):is(:active, :focus-visible) > .rain-avatar__picture, .rain-avatar-group__strip:is(button, a):not(:disabled):is(:active, :focus-visible) > .rain-avatar > .rain-avatar__picture { outline: var(--rain-line-thickness-1) solid var(--rain-category-border-brand-2); background: var(--rain-category-fill-neutral-solid-7); }
+.rain-avatar:is(button, a):not(:disabled):is(:active, :focus-visible) > .rain-avatar__picture > img, .rain-avatar-group__strip:is(button, a):not(:disabled):is(:active, :focus-visible) > .rain-avatar > .rain-avatar__picture > img { opacity: 1; clip-path: inset(var(--rain-space-2) round calc(var(--rain-local-avatar-radius) - var(--rain-space-2))); }
+.rain-avatar-group__more:hover { border-width: var(--rain-line-thickness-1); border-color: var(--rain-category-border-neutral-3); }
+.rain-avatar-group__more:hover::before { inset: 0; }
+.rain-avatar-group__more:is(:active, :focus-visible) { border-width: var(--rain-line-thickness-1); border-color: var(--rain-category-border-brand-2); }
+.rain-avatar-group__more:is(:active, :focus-visible)::before { inset: var(--rain-line-thickness-1); }
+.rain-avatar-grid__row > .rain-avatar > .rain-avatar__picture { border-radius: calc(var(--rain-radius-4) / 4); }
+.rain-avatar-grid:is([data-count="2"], [data-count="3"], [data-count="4"]) .rain-avatar__picture { border-radius: calc(var(--rain-radius-4) / 2); }
+.rain-avatar-grid[data-count="1"] .rain-avatar__picture { border-radius: var(--rain-radius-4); }
+.rain-avatar-grid:is(button, a):not(:disabled):hover { background: var(--rain-category-fill-neutral-solid-1); }
+.rain-avatar-grid:is(button, a):not(:disabled):is(:active, :focus-visible)::after { content: ""; position: absolute; inset: 0; border-radius: inherit; border: var(--rain-line-thickness-1) solid var(--rain-category-border-brand-2); pointer-events: none; }
+.rain-avatar-grid:is(button, a):not(:disabled):is(:active, :focus-visible) { background: var(--rain-category-fill-neutral-solid-5); }

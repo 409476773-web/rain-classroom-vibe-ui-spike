@@ -1,0 +1,75 @@
+--- round7/run-receipt.py
++++ round8/run-batches.py
+@@ -1,12 +1,13 @@
+-"""Local experiment: one public receipt turn in an ephemeral read-only thread.
+-
+-Usage: python3 -B run-receipt.py CONTEXT OUT PROMPT IMAGE IMAGE
++"""Local experiment: inventory and small public receipt batches in an ephemeral read-only thread.
++
++Usage: python3 -B run-batches.py CONTEXT OUT PROMPT IMAGE IMAGE
+ No model/effort override; no reasoning events or command-output bodies are exported.
+ """
+ import hashlib
+ import json
+ import mimetypes
+ import queue
++import re
+ import subprocess
+ import sys
+ import threading
+@@ -38,6 +39,33 @@
+ 
+ def image_inputs(images):
+     return [{'type': 'localImage', 'path': str(path)} for path in images]
++
++
++def validate_inventory(value):
++    if not isinstance(value, dict) or set(value) != {'relations', 'scope'}:
++        raise ValueError('inventory must contain exactly relations and scope')
++    if not isinstance(value['scope'], str) or not value['scope'].strip():
++        raise ValueError('inventory scope must be nonempty text')
++    relations = value['relations']
++    if not isinstance(relations, list) or not relations:
++        raise ValueError('inventory relations must be a nonempty list')
++    seen = set()
++    for relation in relations:
++        if not isinstance(relation, dict) or set(relation) != {'id', 'objects', 'dimension'}:
++            raise ValueError('inventory relation fields must be exactly id, objects, dimension')
++        rid = relation['id']
++        if not isinstance(rid, str) or not re.fullmatch(r'R\d+', rid) or rid in seen:
++            raise ValueError('inventory relation IDs must match R\\d+ and be unique')
++        if any(not isinstance(relation[key], str) or not relation[key].strip()
++               for key in ('objects', 'dimension')):
++            raise ValueError('inventory objects and dimension must be nonempty text')
++        seen.add(rid)
++    return value
++
++
++def observation_groups(inventory):
++    relations = validate_inventory(inventory)["relations"]
++    return [relations[i:i + 3] for i in range(0, len(relations), 3)]
+ 
+ 
+ def main():
+@@ -218,8 +246,20 @@
+         summary.update(threadId=root_id, threadPath=thread['thread'].get('path'), model=thread.get('model'),
+                        reasoningEffort=thread.get('reasoningEffort'), modelProvider=thread.get('modelProvider'),
+                        threadSettings={key: thread.get(key) for key in ['approvalPolicy', 'sandbox', 'reasoningEffort']})
+-        summary['observationFindings'] = run_stage('observation', [{'type': 'text', 'text': prompt},
++        inventory_text = run_stage('inventory', [{'type': 'text', 'text': prompt},
+             {'type': 'skill', 'name': 'rain-designer', 'path': str(skill)}, *image_inputs(images)], 4)
++        inventory = validate_inventory(json.loads(inventory_text))
++        save_json(output / 'inventory.json', inventory)
++        summary['inventoryCount'] = len(inventory['relations'])
++        observation_prompt = prompt_path.with_name('observation-prompt.txt').read_text()
++        summary['observationFindings'] = []
++        for index, group in enumerate(observation_groups(inventory), 1):
++            review = run_stage(f'batch-{index:02d}', [{'type': 'text', 'text': observation_prompt
++                + json.dumps(group, ensure_ascii=False)}, *image_inputs(images)], 4 + index)
++            summary['observationFindings'].append(review)
++        final_prompt = prompt_path.with_name('final-prompt.txt').read_text()
++        summary['finalFindings'] = run_stage('final', [{'type': 'text', 'text': final_prompt},
++            *image_inputs(images)], 90)
+         summary['status'] = 'completed'
+         send('thread/unsubscribe', {'threadId': root_id}, 99)
+     except (Exception, KeyboardInterrupt) as error:

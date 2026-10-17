@@ -1,0 +1,294 @@
+
+Running 6 tests using 1 worker
+
+(node:57247) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R4 light forced compact reopens on the first click after dismissal (6.1s)
+(node:57260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R4 dark forced compact reopens on the first click after dismissal (6.2s)
+(node:57270) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R5 light forced compact reopens on the first click after dismissal (30.1s)
+(node:57291) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R5 dark forced compact reopens on the first click after dismissal (30.1s)
+(node:57310) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R6 light forced compact reopens on the first click after dismissal (30.1s)
+(node:57346) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  6 tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R6 dark forced compact reopens on the first click after dismissal (30.1s)
+
+
+  1) tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R4 light forced compact reopens on the first click after dismissal 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('candidate-canvas').locator('.rain-workspace').locator('.nv5-platform')
+    Expected: "true"
+    Received: "false"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for getByTestId('candidate-canvas').locator('.rain-workspace').locator('.nv5-platform')
+        14 × locator resolved to <div data-side="start" aria-label="平台导航" data-mode="compact" data-forced="false" data-temporary="false" data-region-id="global" id="_r_1_-workspace-global" class="rain-workspace__region nv5-platform">…</div>
+           - unexpected value "false"
+
+
+      11 |  await button.click();await record('reopen first click');
+      12 |  await info.attach('actual-transition',{body:JSON.stringify(steps,null,2),contentType:'application/json'});
+    > 13 |  await expect(region).toHaveAttribute('data-temporary','true');await expect(button).toHaveAttribute('aria-expanded','true');expect((await region.boundingBox())!.width).toBe(208);
+         |                       ^
+      14 |  await page.keyboard.press('Escape');await expect(region).toHaveAttribute('data-temporary','false');
+      15 | });
+      16 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:13:23
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-e9c3f-first-click-after-dismissal/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-e9c3f-first-click-after-dismissal/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-e9c3f-first-click-after-dismissal/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-e9c3f-first-click-after-dismissal/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R4 dark forced compact reopens on the first click after dismissal 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('candidate-canvas').locator('.rain-workspace').locator('.nv5-platform')
+    Expected: "true"
+    Received: "false"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for getByTestId('candidate-canvas').locator('.rain-workspace').locator('.nv5-platform')
+        14 × locator resolved to <div data-side="start" aria-label="平台导航" data-mode="compact" data-forced="false" data-temporary="false" data-rain-theme="dark" data-region-id="global" id="_r_1_-workspace-global" class="rain-workspace__region nv5-platform">…</div>
+           - unexpected value "false"
+
+
+      11 |  await button.click();await record('reopen first click');
+      12 |  await info.attach('actual-transition',{body:JSON.stringify(steps,null,2),contentType:'application/json'});
+    > 13 |  await expect(region).toHaveAttribute('data-temporary','true');await expect(button).toHaveAttribute('aria-expanded','true');expect((await region.boundingBox())!.width).toBe(208);
+         |                       ^
+      14 |  await page.keyboard.press('Escape');await expect(region).toHaveAttribute('data-temporary','false');
+      15 | });
+      16 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:13:23
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-992e9-first-click-after-dismissal/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-992e9-first-click-after-dismissal/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-992e9-first-click-after-dismissal/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-992e9-first-click-after-dismissal/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R5 light forced compact reopens on the first click after dismissal 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByTestId('candidate-canvas').locator('.rain-workspace').locator('.nv5-platform').locator('.nv5-platform-expand')
+        - locator resolved to <button aria-label="展开平台导航" aria-expanded="false" data-workspace-action="restore" aria-controls="_r_2_-workspace-global" class="nv5-platform-expand rain-workspace__restore">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+          - waiting 100ms
+        57 × waiting for element to be visible, enabled and stable
+           - element is not visible
+         - retrying click action
+           - waiting 500ms
+
+
+       7 |  const steps:any[]=[];const record=async(label:string)=>steps.push({label,...await region.evaluate(e=>({mode:e.dataset.mode,forced:e.dataset.forced,temporary:e.dataset.temporary,width:e.getBoundingClientRect().width,expanded:e.querySelector('.nv5-platform-expand')?.getAttribute('aria-expanded')}))});
+       8 |  await expect(button).toHaveAttribute('aria-expanded','false');await record('initial');
+    >  9 |  await button.click();await expect(region).toHaveAttribute('data-temporary','true');await expect(button).toHaveAttribute('aria-expanded','true');await record('first open');
+         |               ^
+      10 |  await button.click();await expect(region).toHaveAttribute('data-temporary','false');await expect(button).toHaveAttribute('aria-expanded','false');await record('dismiss');
+      11 |  await button.click();await record('reopen first click');
+      12 |  await info.attach('actual-transition',{body:JSON.stringify(steps,null,2),contentType:'application/json'});
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:9:15
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-bcf70-first-click-after-dismissal/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-bcf70-first-click-after-dismissal/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-bcf70-first-click-after-dismissal/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-bcf70-first-click-after-dismissal/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R5 dark forced compact reopens on the first click after dismissal 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByTestId('candidate-canvas').locator('.rain-workspace').locator('.nv5-platform').locator('.nv5-platform-expand')
+        - locator resolved to <button aria-label="展开平台导航" aria-expanded="false" data-workspace-action="restore" aria-controls="_r_2_-workspace-global" class="nv5-platform-expand rain-workspace__restore">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+          - waiting 100ms
+        56 × waiting for element to be visible, enabled and stable
+           - element is not visible
+         - retrying click action
+           - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+
+
+       7 |  const steps:any[]=[];const record=async(label:string)=>steps.push({label,...await region.evaluate(e=>({mode:e.dataset.mode,forced:e.dataset.forced,temporary:e.dataset.temporary,width:e.getBoundingClientRect().width,expanded:e.querySelector('.nv5-platform-expand')?.getAttribute('aria-expanded')}))});
+       8 |  await expect(button).toHaveAttribute('aria-expanded','false');await record('initial');
+    >  9 |  await button.click();await expect(region).toHaveAttribute('data-temporary','true');await expect(button).toHaveAttribute('aria-expanded','true');await record('first open');
+         |               ^
+      10 |  await button.click();await expect(region).toHaveAttribute('data-temporary','false');await expect(button).toHaveAttribute('aria-expanded','false');await record('dismiss');
+      11 |  await button.click();await record('reopen first click');
+      12 |  await info.attach('actual-transition',{body:JSON.stringify(steps,null,2),contentType:'application/json'});
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:9:15
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-f2d70-first-click-after-dismissal/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-f2d70-first-click-after-dismissal/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-f2d70-first-click-after-dismissal/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-f2d70-first-click-after-dismissal/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R6 light forced compact reopens on the first click after dismissal 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByTestId('candidate-canvas').locator('.rain-workspace').locator('.nv5-platform').locator('.nv5-platform-expand')
+        - locator resolved to <button aria-label="展开平台导航" aria-expanded="false" data-workspace-action="restore" aria-controls="_r_2_-workspace-global" class="nv5-platform-expand rain-workspace__restore">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+          - waiting 100ms
+        57 × waiting for element to be visible, enabled and stable
+           - element is not visible
+         - retrying click action
+           - waiting 500ms
+
+
+       7 |  const steps:any[]=[];const record=async(label:string)=>steps.push({label,...await region.evaluate(e=>({mode:e.dataset.mode,forced:e.dataset.forced,temporary:e.dataset.temporary,width:e.getBoundingClientRect().width,expanded:e.querySelector('.nv5-platform-expand')?.getAttribute('aria-expanded')}))});
+       8 |  await expect(button).toHaveAttribute('aria-expanded','false');await record('initial');
+    >  9 |  await button.click();await expect(region).toHaveAttribute('data-temporary','true');await expect(button).toHaveAttribute('aria-expanded','true');await record('first open');
+         |               ^
+      10 |  await button.click();await expect(region).toHaveAttribute('data-temporary','false');await expect(button).toHaveAttribute('aria-expanded','false');await record('dismiss');
+      11 |  await button.click();await record('reopen first click');
+      12 |  await info.attach('actual-transition',{body:JSON.stringify(steps,null,2),contentType:'application/json'});
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:9:15
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-666f0-first-click-after-dismissal/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-666f0-first-click-after-dismissal/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-666f0-first-click-after-dismissal/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-666f0-first-click-after-dismissal/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R6 dark forced compact reopens on the first click after dismissal 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByTestId('candidate-canvas').locator('.rain-workspace').locator('.nv5-platform').locator('.nv5-platform-expand')
+        - locator resolved to <button aria-label="展开平台导航" aria-expanded="false" data-workspace-action="restore" aria-controls="_r_2_-workspace-global" class="nv5-platform-expand rain-workspace__restore">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+          - waiting 100ms
+        56 × waiting for element to be visible, enabled and stable
+           - element is not visible
+         - retrying click action
+           - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+
+
+       7 |  const steps:any[]=[];const record=async(label:string)=>steps.push({label,...await region.evaluate(e=>({mode:e.dataset.mode,forced:e.dataset.forced,temporary:e.dataset.temporary,width:e.getBoundingClientRect().width,expanded:e.querySelector('.nv5-platform-expand')?.getAttribute('aria-expanded')}))});
+       8 |  await expect(button).toHaveAttribute('aria-expanded','false');await record('initial');
+    >  9 |  await button.click();await expect(region).toHaveAttribute('data-temporary','true');await expect(button).toHaveAttribute('aria-expanded','true');await record('first open');
+         |               ^
+      10 |  await button.click();await expect(region).toHaveAttribute('data-temporary','false');await expect(button).toHaveAttribute('aria-expanded','false');await record('dismiss');
+      11 |  await button.click();await record('reopen first click');
+      12 |  await info.attach('actual-transition',{body:JSON.stringify(steps,null,2),contentType:'application/json'});
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:9:15
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-590a3-first-click-after-dismissal/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-590a3-first-click-after-dismissal/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-590a3-first-click-after-dismissal/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r4-r6/reopen-before-artifacts/navigation-v042-review11-r-590a3-first-click-after-dismissal/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6 failed
+    tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R4 light forced compact reopens on the first click after dismissal 
+    tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R4 dark forced compact reopens on the first click after dismissal 
+    tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R5 light forced compact reopens on the first click after dismissal 
+    tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R5 dark forced compact reopens on the first click after dismissal 
+    tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R6 light forced compact reopens on the first click after dismissal 
+    tests/e2e/navigation-v042-review11-r4-r6-platform-reopen.spec.ts:2:73 › Review11 R6 dark forced compact reopens on the first click after dismissal 

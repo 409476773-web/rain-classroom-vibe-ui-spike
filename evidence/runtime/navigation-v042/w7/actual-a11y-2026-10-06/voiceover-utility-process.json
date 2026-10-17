@@ -1,0 +1,38 @@
+{
+  "step": "voiceover-utility-process-identity",
+  "commands": [
+    {
+      "command": [
+        "/usr/bin/plutil",
+        "-extract",
+        "CFBundleExecutable",
+        "raw",
+        "/System/Applications/Utilities/VoiceOver Utility.app/Contents/Info.plist"
+      ],
+      "exitCode": 0,
+      "stdout": "VoiceOver Utility\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/pgrep",
+        "-x",
+        "VoiceOver Utility"
+      ],
+      "exitCode": 0,
+      "stdout": "41808\n",
+      "stderr": ""
+    },
+    {
+      "command": "ps exact owned/candidate Utility PID start time",
+      "exitCode": 0,
+      "stdout": "41808 Tue Oct  6 02:01:46 2026    \n",
+      "stderr": ""
+    }
+  ],
+  "ui": {
+    "exitCode": 0,
+    "stdout": "旁白实用工具, 分离组, 工具栏, 关闭按钮, 缩放按钮, 最小化按钮, 文本\n",
+    "stderr": ""
+  }
+}

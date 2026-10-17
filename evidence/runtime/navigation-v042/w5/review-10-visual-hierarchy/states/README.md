@@ -1,0 +1,18 @@
+# Review10 S1–S6 state-wrapper evidence
+
+Local visual hierarchy corrections are frozen in `workspace-states.tsx` and `workspace-states.css`. Review09 layout, identities, mock feedback, drafts, temporary recovery and restore-default semantics remain intact. No shared component, Foundation/default Token, Classic, reference HTML, Figma, Git commit or publication change belongs to this scope.
+
+`review-evidence-index.json` is the canonical index: 28 matched before/after cases (S1/S2/S3/S4 interaction/S4 grading/S5/S6 at1200/1440/1600, plus1200 inverse), eight short-window supplements, 133 verified PNG assets including three side-by-side comparisons. 126 after interaction checks, 104 measured role assertions and 14 existing unit tests pass. All canonical runtime measurements are free of page/console errors and share the frozen source hashes. This is a Review09-to-Review10 candidate comparison; it does not replace the approved reference matrix or imply human approval.
+
+Changes follow role: auxiliary helper IconButton default Icon4, hover/keyboard focus Icon2, active temporary pin Brand1; only that helper's label part inherits the host color so its SVG actually paints correctly. S5 explanatory metadata usesText5, peripheral local-demo/footer/hint usesText6. Current navigation, primary headings/body, field name, discussion content and actual feedback keep their existing strengths. Ordinary layout-menu actions use tertiary Text3/Border4/radius6; their original98/126×32 dimensions remain. Focus and version actions keep their local dimensions; focus active retains brand state. Icon, ribbon action and native select control radii consume existing radius6.
+
+S5 measured geometry and all workspace/RestoreBar/identity/subtitle rectangles are unchanged. Eight inherited S1/S2 comparisons show the focus width96→88 and associated layout/menu anchors shifted8px when parallel R1/R3 host-reset cleanup stopped overriding shared Button typography. The full measured deltas are recorded rather than presented as universal zero drift.
+
+The original attempt logs are retained: four early pages hit a temporary R2 local-recipe token-prefix integration error, corrected by the R2 owner; same-source targeted repeats succeed. Two S5 supplement scripts initially matched both context region and splitter; selectors were corrected and only those cases repeated. The before `contextPin` measurement key selected the first platform helper; comparison resolves the matching after platformExpand by its actual accessible name. Raw old records remain untouched.
+
+`capture-states.mjs`, `capture-supplement.mjs` and `build-evidence-index.py` preserve the capture/aggregation procedure used here. `independent-review-results.json` and its artifacts separately record the requested independent R1/R3 review; the first run identifies the undefined selected-star warning alias and is not counted as an S-scope pass. A later root-owned correction/recheck should remain a separate report.
+
+
+## Independent review closure
+
+The selected-star alias is now the existing semantic warning token `--rain-color-semantic-warning` (`#A55B00`). Independent host and SVG measurements both confirm `rgb(165,91,0)`, pressed state and no runtime errors. A second failed formal attempt exposed only its test helper interpreting hex as decimal chunks; the root corrected hex normalization, and only the previously failed contract was repeated:1/1 pass. The original7 passing contracts plus this resolved contract provide8-contract coverage. Gallery footer Text6 was reopened and measured after correction. See `final-review-closure.json` for separate attempt paths, exact before-source provenance, protected source checks and verified artifacts. Human visual acceptance remains pending.

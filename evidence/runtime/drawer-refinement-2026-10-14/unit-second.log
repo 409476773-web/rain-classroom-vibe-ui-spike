@@ -1,0 +1,46 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/g6-task-drawer.test.tsx (5 tests | 1 failed) 2480ms
+   × validates an empty title before saving and focuses the related control 85ms
+ ❯ apps/playground/src/docs/components/g6-interaction-pages.test.tsx (7 tests | 1 failed) 7413ms
+   × cancels a task draft and reopens the saved value without submitting 5015ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/g6-interaction-pages.test.tsx > cancels a task draft and reopens the saved value without submitting
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/playground/src/docs/components/g6-interaction-pages.test.tsx:27:1
+     25| });
+     26|
+     27| it("cancels a task draft and reopens the saved value without submittin…
+       | ^
+     28|   const { G6InteractionPage } = await loadPage(), user = userEvent.set…
+     29|   render(<G6InteractionPage component="drawer" />);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/playground/src/docs/components/g6-task-drawer.test.tsx > validates an empty title before saving and focuses the related control
+Error: expect(element).toHaveAttribute("aria-invalid", "true") // element.getAttribute("aria-invalid") === "true"
+
+Expected the element to have attribute:
+  aria-invalid="true"
+Received:
+  null
+ ❯ apps/playground/src/docs/components/g6-task-drawer.test.tsx:59:17
+     57|   await user.clear(field);
+     58|   await user.click(screen.getByRole("button", { name: "保存草稿" }));
+     59|   expect(field).toHaveAttribute("aria-invalid", "true");
+       |                 ^
+     60|   expect(field).toHaveFocus();
+     61|   expect(screen.getByText("请填写任务标题。", { exact: true })).toBeInTheDocum…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 2 passed (4)
+      Tests  2 failed | 14 passed (16)
+   Start at  17:16:53
+   Duration  8.52s (transform 2.24s, setup 971ms, import 5.26s, tests 10.11s, environment 2.73s)
+

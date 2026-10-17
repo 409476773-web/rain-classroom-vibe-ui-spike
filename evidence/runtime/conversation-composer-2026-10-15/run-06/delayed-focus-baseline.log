@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/conversation-composer/conversation-composer.test.tsx (29 tests | 1 failed | 28 skipped) 114ms
+     × does not reclaim focus when a delayed controlled layout arrives after the user left 113ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/conversation-composer/conversation-composer.test.tsx > ConversationComposer > does not reclaim focus when a delayed controlled layout arrives after the user left
+Error: expect(element).toHaveFocus()
+
+Expected element with focus:
+  <button>
+  外部操作
+</button>
+Received element with focus:
+  <textarea
+  aria-label="内容"
+  class="rain-composer__editor"
+  data-slot="editor"
+  rows="1"
+  style="height: 24px; overflow-y: hidden;"
+/>
+ ❯ packages/ui/src/conversation-composer/conversation-composer.test.tsx:34:54
+     32|     await user.click(screen.getByRole("button",{name:"外部操作"}));
+     33|     rerender(view("expanded"));
+     34|     expect(screen.getByRole("button",{name:"外部操作"})).toHaveFocus();
+       |                                                      ^
+     35|   });
+     36|   it("keeps Enter as newline and submits only through the explicit mai…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 28 skipped (29)
+   Start at  00:00:09
+   Duration  1.10s (transform 228ms, setup 93ms, import 434ms, tests 114ms, environment 363ms)
+

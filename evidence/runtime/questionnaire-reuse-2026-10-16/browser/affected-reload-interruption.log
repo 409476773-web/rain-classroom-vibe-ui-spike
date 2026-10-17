@@ -1,0 +1,54 @@
+[WebServer] (node:25043) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:25045) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:25051) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/e2e/questionnaire-reuse.spec.ts:214:1 › shared field focus/permissions, forced colors, and actual 390px input hit area (2.5s)
+  ✓  2 [desktop] › tests/e2e/questionnaire-reuse.spec.ts:270:1 › baseline/current ordinary DOM-paint-geometry equality and questionnaire visual matrix (5.3s)
+(node:25427) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [narrow] › tests/e2e/questionnaire-reuse.spec.ts:214:1 › shared field focus/permissions, forced colors, and actual 390px input hit area (1.8s)
+  ✘  4 [narrow] › tests/e2e/questionnaire-reuse.spec.ts:270:1 › baseline/current ordinary DOM-paint-geometry equality and questionnaire visual matrix (2.0m)
+
+
+  1) [narrow] › tests/e2e/questionnaire-reuse.spec.ts:270:1 › baseline/current ordinary DOM-paint-geometry equality and questionnaire visual matrix 
+
+    Test timeout of 120000ms exceeded.
+
+    Error: locator.screenshot: Test timeout of 120000ms exceeded.
+    Call log:
+      - waiting for locator('[data-reuse-era="before"]').locator('[data-visual="ordinary"]')
+        - waiting for "http://127.0.0.1:5477/?questionnaire-reuse-fixture=4" navigation to finish...
+        - navigated to "http://127.0.0.1:5477/?questionnaire-reuse-fixture=4#questionnaire"
+
+
+      288 |       });
+      289 |       records.push({ era, facts });
+    > 290 |       await ordinary.screenshot({ path: resolve(evidence, `ordinary-${era}-${theme}-${density}-${info.project.name}.png`) });
+          |                      ^
+      291 |       await panel.locator('[data-visual="questionnaire"]').screenshot({ path: resolve(evidence, `questionnaire-${era}-${theme}-${density}-${info.project.name}.png`) });
+      292 |     }
+      293 |     expect(records[0]!.facts).toEqual(records[1]!.facts);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/questionnaire-reuse.spec.ts:290:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/questionnaire-reuse-2026-10-16/browser/affected-final-results/questionnaire-reuse-baseli-cb834-questionnaire-visual-matrix-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/questionnaire-reuse-2026-10-16/browser/affected-final-results/questionnaire-reuse-baseli-cb834-questionnaire-visual-matrix-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/questionnaire-reuse-2026-10-16/browser/affected-final-results/questionnaire-reuse-baseli-cb834-questionnaire-visual-matrix-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/questionnaire-reuse-2026-10-16/browser/affected-final-results/questionnaire-reuse-baseli-cb834-questionnaire-visual-matrix-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [narrow] › tests/e2e/questionnaire-reuse.spec.ts:270:1 › baseline/current ordinary DOM-paint-geometry equality and questionnaire visual matrix 
+  3 passed (2.2m)

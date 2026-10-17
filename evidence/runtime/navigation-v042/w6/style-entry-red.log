@@ -1,0 +1,40 @@
+
+Running 1 test using 1 worker
+
+(node:20465) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-v042-w6.spec.ts:14:1 › public controls render compiled Rain styles in independent consumer (592ms)
+
+
+  1) tests/e2e/navigation-v042-w6.spec.ts:14:1 › public controls render compiled Rain styles in independent consumer 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "rgb(21, 97, 248)"
+    Received: "rgb(239, 239, 239)"
+
+      16 |  const button=root.getByRole('button',{name:'保存本地草稿',exact:true});
+      17 |  const facts=await button.evaluate(e=>({background:getComputedStyle(e).backgroundColor,height:e.getBoundingClientRect().height,borderRadius:getComputedStyle(e).borderRadius}));
+    > 18 |  expect(facts.background).toBe('rgb(21, 97, 248)');
+         |                           ^
+      19 |  expect(facts.height).toBe(36);
+      20 |  expect(parseFloat(facts.borderRadius)).toBeGreaterThan(0);
+      21 |  expect((await root.getByRole('textbox',{name:'评分评语'}).boundingBox())!.width).toBeGreaterThan(220);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:18:27
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-public--54700-les-in-independent-consumer/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-public--54700-les-in-independent-consumer/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-public--54700-les-in-independent-consumer/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-public--54700-les-in-independent-consumer/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/navigation-v042-w6.spec.ts:14:1 › public controls render compiled Rain styles in independent consumer 

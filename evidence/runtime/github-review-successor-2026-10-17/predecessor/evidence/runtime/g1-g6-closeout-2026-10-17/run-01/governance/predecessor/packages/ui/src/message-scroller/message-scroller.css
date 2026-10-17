@@ -1,0 +1,57 @@
+/* @rain-css-exception ui-message-scroller: Nova geometry and shadcn scroll-fade-b, token paint. */
+@property --rain-local-message-scroller-fade { syntax: "<length-percentage>"; inherits: false; initial-value: 0px; }
+@layer components {
+  .rain-message-scroller__viewport {
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+    contain: content;
+    --rain-local-message-scroller-fade: min(12%, var(--rain-space-40));
+    mask-image: linear-gradient(to bottom, black calc(100% - var(--rain-local-message-scroller-fade)), transparent);
+  }
+  .rain-message-scroller__viewport[data-autoscrolling] { scrollbar-color: transparent transparent; }
+  .rain-message-scroller__viewport[data-pending-scroll] { visibility: hidden; }
+  .rain-message-scroller__content { gap: var(--rain-space-24); }
+  .rain-message-scroller__item { content-visibility: auto; contain-intrinsic-size: auto 10rem; }
+  .rain-message-scroller__button {
+    --rain-local-message-scroller-enter-duration: 200ms;
+    --rain-local-message-scroller-exit-duration: 400ms;
+    --rain-local-message-scroller-inline: -50%;
+    --rain-local-message-scroller-block: 0%;
+    inset-inline-start: 50%;
+    translate: var(--rain-local-message-scroller-inline) var(--rain-local-message-scroller-block);
+    scale: 1;
+    opacity: 1;
+    z-index: 1;
+    border-color: var(--rain-category-border-neutral-3);
+    background-color: var(--rain-category-background-neutral-1);
+    color: var(--rain-category-text-neutral-1);
+  }
+  .rain-message-scroller__button:dir(rtl) { --rain-local-message-scroller-inline: 50%; }
+  .rain-message-scroller__button[data-direction="end"] { bottom: var(--rain-space-16); }
+  .rain-message-scroller__button[data-direction="start"] { top: var(--rain-space-16); }
+  .rain-message-scroller__button[data-direction="start"] svg { rotate: 180deg; }
+  .rain-message-scroller__button[data-active="false"] { pointer-events: none; scale: .95; opacity: 0; }
+  .rain-message-scroller__button[data-direction="end"][data-active="false"] { --rain-local-message-scroller-block: 100%; }
+  .rain-message-scroller__button[data-direction="start"][data-active="false"] { --rain-local-message-scroller-block: -100%; }
+  @supports (animation-timeline: scroll(self y)) {
+    .rain-message-scroller__viewport { animation: rain-message-scroller-fade linear both; animation-timeline: scroll(self y); animation-range: calc(100% - 96px) 100%; }
+  }
+  @keyframes rain-message-scroller-fade { from { --rain-local-message-scroller-fade: min(12%, var(--rain-space-40)); } to { --rain-local-message-scroller-fade: 0px; } }
+  @media (hover: hover) { .rain-message-scroller__button:hover { background-color: var(--rain-category-fill-neutral-solid-4); } }
+  @media (prefers-reduced-motion: reduce) {
+    .rain-message-scroller__viewport { scroll-behavior: auto; }
+    .rain-message-scroller__button[data-active="false"] { scale: 1; --rain-local-message-scroller-block: 0%; }
+  }
+  @media (forced-colors: active) { .rain-message-scroller__viewport { mask-image: none; } .rain-message-scroller__button { color: ButtonText; background: ButtonFace; border-color: ButtonText; } }
+}
+/* Source enter/exit motion owns these three properties rather than the Button color transition. */
+.rain-message-scroller__button {
+  transition-property: translate, scale, opacity;
+  transition-duration: var(--rain-local-message-scroller-enter-duration);
+  transition-timing-function: cubic-bezier(.23, 1, .32, 1);
+}
+.rain-message-scroller__button[data-active="false"] {
+  transition-duration: var(--rain-local-message-scroller-exit-duration);
+  transition-timing-function: cubic-bezier(.7, 0, .84, 0);
+}
+@media (prefers-reduced-motion: reduce) { .rain-message-scroller__button { transition: none; } }

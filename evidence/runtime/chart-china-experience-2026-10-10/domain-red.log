@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx (17 tests | 1 failed | 16 skipped) 168ms
+   × same-layer data updates preserve the color domain and selected region 166ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > same-layer data updates preserve the color domain and selected region
+Error: expect(element).toHaveAttribute("aria-label", "参与人数色阶，0到160人，另有无数据") // element.getAttribute("aria-label") === "参与人数色阶，0到160人，另有无数据"
+
+Expected the element to have attribute:
+  aria-label="参与人数色阶，0到160人，另有无数据"
+Received:
+  aria-label="参与人数色阶，0到163人，另有无数据"
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx:61:17
+     59|   view.rerender(<ChinaRegionExamples provinceId="440000" selectedId="4…
+     60|   await waitFor(() => expect(view.getByRole("region", { name: "地区样本详情"…
+     61|   expect(scale).toHaveAttribute("aria-label", before);
+       |                 ^
+     62| });
+     63|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 16 skipped (17)
+   Start at  10:56:43
+   Duration  2.48s (transform 1.11s, setup 88ms, import 1.79s, tests 168ms, environment 351ms)
+

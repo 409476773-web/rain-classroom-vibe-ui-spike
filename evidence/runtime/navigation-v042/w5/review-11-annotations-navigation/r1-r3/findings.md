@@ -1,0 +1,45 @@
+# Review11 local annotations: R1/R3, White, Connections
+
+User scope: annotations 1–17 and 39–46. Changes remain in six owned Playground recipe files. Shared Navigation/SegmentedControl/UI defaults, public Tokens, dependencies, accepted G1 records, frozen reference and older evidence were not edited.
+
+## Source decisions
+
+- White outlined selected tab: FillBrandSolid4 to BackgroundNeutral1 vertical gradient joins the existing white ConnectedSurface. The White-only qualified selector removes its blue top pseudo-element. Its outline SVG, 44px hit area, keyboard tab selection, hover and panel identity are retained. This deliberately replaces the old shared default shown in the frozen reference for this one sample.
+- Both White question lists and all three outline chapters use FontSize15/LineHeight22; question types use FontSize13/LineHeight20. White filled-pill selected count uses TextBrand1 through `nv43-white-soft`, while unchecked counts and W1 line counts retain their existing color and W1's 2px marker.
+- Connections uses catalog `ArrowDownIcon` / `ArrowUpIcon`, plus IconNeutral5 for the incidental cue. It tracks actual dialog-open state with `aria-expanded` and `aria-haspopup=dialog`. The accepted A4 header still uses its previous icon.
+- R1 professional context becomes BackgroundNeutral1 in both plan and industry. Plan card labels/details become FontSize13/LineHeight20; values remain 28/36. Its page explanation alone uses TextNeutral6. Cards, graph geometry, analysis tabs and source-of-truth scene state remain unchanged.
+- R3 resource heading becomes FontSize16/LineHeight22 in files and errors. File-list icons become 16px; file names retain 15/22 and TextNeutral1; grid icons remain explicitly 24px. R3 resource-space tile retains FolderIcon16, using IconOrange1 on FillOrangeSolid3. Warm folder lineage is present in the existing `folder-color-gradient-8` asset; this is object identity, without warning/error status semantics.
+- The R1/R3 shared RecipeFrame member-button/avatar gap becomes Space16. This is an intentional shared-frame adjustment, also inherited by S1/S2 wrappers consuming those frames.
+- Platform owner requested a small RecipeFrame DOM adaptation: brand/header plus the library IconButton28/16, named expanded/temporary behavior, region `aria-controls`, TOGGLE_GLOBAL/DISMISS_TEMP; account wrapper with Avatar, 林老师 and 教师工作区. CSS and global platform appearance belong to the platform owner. `workspace.inverse` API is unchanged. After the platform owner measured the inline brand size overriding its23px CSS, the sole Frame RainClassroomIcon changes28→23 to match existing R2/reference/S5; the approved brand asset itself is unchanged.
+
+## Design method record
+
+Read current `docs/ai/prototype-design.md`, `information-design.md`, and `icon-selection.md`. V04 determines title/label/detail/count hierarchy and the explicit incidental TextNeutral6 scope. V05 keeps existing Components and visual-local hooks together with native controls, keyboard, dialog behavior and content ownership. D05 verifies 1200/1440/1600 containers and long file names; no new responsive breakpoint was introduced. The frozen reference SHA256 remains `d2574eaae899bb48b7a3201914861d27b23e0bc58a05bf1a75898eba697dd03c`.
+
+## Verification sequence and genuine limits
+
+`before/measurements.json`: 18 current scene/width groups plus 18 frozen-reference groups, all with zero page errors. 24 current screenshots include changed White tab and open Connections states; 18 reference screenshots are independent read-only comparisons. `reference-target-measurements.json` supplies precise original type values.
+
+`after/measurements.json`: initial 18 changed scene/width groups, zero page errors. It preceded the final coordinated platform DOM and the qualified White pseudo-element selector. Final source and whole-page captures are separately saved in `final-restore-fixed/`; the first `final/` is retained as cross-owner logo-defect evidence; earlier capture evidence is retained.
+
+The first screenshot driver tried clicking a visually hidden native radio input, whose visible label intercepted it. It was corrected to operate that same input's visible label; the live product did not require a change.
+
+First Playground typecheck caught a concurrently edited R4 JSX description outside this owner's source, where the shared contract requires a string. R4 owner corrected it; `typecheck-final.log` passed. First focused-unit command also matched a copied `source-before` test under evidence and could not resolve that copied suite's React runtime. With `--exclude 'evidence/**'`, the actual production R1/R3 test suite passed 10 tests; no test/dependency source was changed to hide the failure.
+
+Initial 12 browser tests yielded 4 pass / 8 fail: hidden-checkbox click driver (3), data-URL mask filename assertion (3), and White pseudo content specificity (2; the latest third width ran after correction). The White override originally hid the pseudo-element but the shared higher-specificity scoped declaration retained its content; it was changed to an explicitly White-qualified selector to remove the content as required. Radio/checkbox tests now click the visible labels, and directional icon tests use the component's catalog `data-icon` identity. The next run passed nine business/White checks; three Connections tests attempted role queries on background made correctly inert by an open dialog. They now retain the exact DOM button locator solely for inspecting background `aria-expanded`/icon; product behavior was unchanged.
+
+Owner evidence verifies these local visual and interaction contracts. It does not mark Human G2, contrast/accessibility, publication, migration, production integration, Figma or Git completed; root runs the combined final build/regression and protection/metadata closure.
+
+## Whole-page cross-owner defect caught at final sampling
+
+The first coordinated `final/R3-files-1200.png` showed the compact brand logo missing (R1 shares its structure). `platform-navigation.css` compact `.nv43-brand span {display:none}` also matched RainClassroomIcon’s own `SPAN[data-rain-id=icon]`. A separate wiring measurement returned null for its bounding box, confirming actual display hiding. This was reported with exact selectors to the platform owner; only that owner can narrow the shared label selector. The 75 local annotation measurements already passed but these first whole-page final screenshots are retained as defect evidence; post-fix R1/R3 captures are saved separately.
+
+## Final closure
+
+Platform owner narrowed both brand-label selectors. `final-platform-fixed/measurements.json` contains18 final scene/width groups with0 page errors; its24 screenshots include White selected-tab and Connections-open states. `annotation-coverage.json` verifies all25 owned annotation IDs at all3 widths (75 passed computed-value checks). `frame-wiring/measurements.json` confirms R1/R3 brand23×23 in compact and expanded, IconButton28×28 with correct labels/controls, account text, contained current row and toggle round trip. `connections-focus.json` confirms Escape restores the All button focus. All six production hashes match `production-source-final.json`. No unresolved owner-local defect remains. Combined metadata/build/team regression and Human G2 remain root-owned.
+
+## Last coordinated interaction fix
+
+Platform owner reproduced forced-compact reopening on R6: preferences retain expanded, but TOGGLE_GLOBAL reads that preferred state and first switches it compact. The two local Frame global restore consumers now dispatch SHOW_REGION when actual effective state is not expanded, TOGGLE_GLOBAL when expanded, and DISMISS_TEMP when temporary. Persistent RegionRestoreTrigger gets a consumer onClick with preventDefault so its shared default does not dispatch again; context restore is unchanged. Shared Layouts source is untouched. `forced-reopen.json` reproduces real ResizeObserver adaptation by resizing the existing isolated runtime host to900px; R1/R3 header first-open/close/reopen passed. Two new formal browser contracts also check the persistent top restore first-open/close/reopen. The previous18 appearance captures preceded these handler-only changes. A new final18 capture in `final-restore-fixed/` binds all six current production hashes, confirming unchanged geometry, type, color, data and default rendered DOM after the handlers were fixed. Final interaction checks and source closure bind the later TSX hash separately. `typecheck-restore-final.log` passed.
+
+`final-restore-fixed/measurements.json` is now the final current appearance/source binding:18 groups,0 page errors, all six source hashes equal current production. The regenerated annotation coverage remains25 IDs×3 widths=75 passed. Final owner browser coverage is14 unique contracts:12 annotation/state cases plus2 forced header/persistent restore cases. Source final TSX hash is `9c8445d454b73c8299a63c9c6fcf701f1a82fccf7325a97422645178d03a23d4`; other five owned hashes are unchanged. No further source changes are planned.

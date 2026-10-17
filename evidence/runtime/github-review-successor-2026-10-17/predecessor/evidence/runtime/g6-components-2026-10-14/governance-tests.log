@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g6-governance.test.ts (7 tests | 1 failed) 4861ms
+   × admits only the authorized G6 successor while keeping old G5 proof readers usable 973ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g6-governance.test.ts > admits only the authorized G6 successor while keeping old G5 proof readers usable
+AssertionError: expected [Function] to not throw an error but 'Error: Library governance observed do…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: Library governance observed documentation successor source changed: docs/ai/rain-designer-integration.md"
+
+ ❯ scripts/g6-governance.test.ts:54:82
+     52|   const f = fixture();
+     53|   try {
+     54|     expect(() => helpers.getLibraryGovernanceCloseoutSourceBindings(f.…
+       |                                                                                  ^
+     55|     expect(() => helpers.getG5SourceBindings(process.cwd(), phase())).…
+     56|   } finally { rmSync(f.root, { recursive: true }); }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  12:51:45
+   Duration  5.54s (transform 329ms, setup 104ms, import 117ms, tests 4.86s, environment 371ms)
+

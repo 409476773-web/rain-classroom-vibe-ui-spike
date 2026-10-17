@@ -1,0 +1,229 @@
+[
+  {
+    "file": "navigation-v042-review08.spec.ts",
+    "title": "shared RegionHead defaults stay at 32/18; replay knowledge controls use accepted 32/14 recipe",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-review08.spec.ts",
+          "column": 105,
+          "line": 61
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('candidate-canvas').locator('.nv5-region-head>[data-rain-id=\"ui-icon-button\"]').first()\nExpected: \u001b[32m\"32/1\u001b[7m4\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"32/1\u001b[7m8\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('candidate-canvas').locator('.nv5-region-head>[data-rain-id=\"ui-icon-button\"]').first()\u001b[22m\n\u001b[2m    14 × locator resolved to <button type=\"button\" data-slot=\"root\" data-size=\"32/18\" data-variant=\"fill\" data-tone=\"default\" data-state=\"default\" data-focus=\"control\" aria-label=\"取消固定回顾列表\" data-highlight=\"none\" data-density=\"default\" data-rain-state=\"default\" data-workspace-action=\"pin\" data-feedback=\"interactive\" data-rain-id=\"ui-icon-button\" data-local-recipe=\"navigation-v042-w5-auxiliary-icon\" class=\"rain-icon-button box-border relative inline-flex flex-none items-center justify-center p-rain-0 border-none overflow-visible al…>…</button>\u001b[22m\n\u001b[2m       - unexpected value \"32/18\"\u001b[22m\n\n\n  59 |       if(sample!=='R4'){await page.getByRole('navigation',{name:'导航候选样本'}).getByRole('button',{name:sample,exact:true}).click();}\n  60 |       const controls=page.getByTestId('candidate-canvas').locator('.nv5-region-head>[data-rain-id=\"ui-icon-button\"]');expect(await controls.count()).toBeGreaterThan(0);\n> 61 |       for(const button of await controls.all()){const iconSize=sample==='R5'?14:18;await expect(button).toHaveAttribute('data-size',`32/${iconSize}`);expect(await button.locator('[data-slot=\"icon\"]').evaluate(el=>el.getBoundingClientRect().width)).toBe(iconSize);}\n     |                                                                                                         ^\n  62 |     }\n  63 |   });\n  64 | });\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-review08.spec.ts:61:105"
+      }
+    ]
+  },
+  {
+    "file": "navigation-v042-w4.spec.ts",
+    "title": "accepted R2 brand remains mounted through full, compact and reverse motion",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w4.spec.ts",
+          "column": 61,
+          "line": 60
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m208\u001b[39m\nReceived: \u001b[31m207\u001b[39m\n\n  58 |   await open(page);await page.emulateMedia({reducedMotion:'no-preference'});const rail=page.locator('.nv42-rail');\n  59 |   const facts=await rail.evaluate(async element=>{const brand=element.querySelector('.nv42-brand strong')!;const control=()=>element.querySelector<HTMLButtonElement>('.nv42-rail-head button')!;const widths:number[]=[];control().click();const start=performance.now();while(performance.now()-start<350){await new Promise(requestAnimationFrame);widths.push(element.getBoundingClientRect().width);}control().click();await new Promise(resolve=>setTimeout(resolve,350));return {same:brand===element.querySelector('.nv42-brand strong'),widths,final:element.getBoundingClientRect().width};});\n> 60 |   expect(facts.same).toBe(true);expect(facts.widths.at(-1)).toBe(208);expect(facts.widths.filter(width=>width>64&&width<208).length).toBeGreaterThan(2);expect(facts.final).toBe(64);\n     |                                                             ^\n  61 |   await page.emulateMedia({reducedMotion:'reduce'});await expect(rail).toHaveCSS('transition-duration','0s');\n  62 | });\n  63 |\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w4.spec.ts:60:61"
+      }
+    ]
+  },
+  {
+    "file": "navigation-v042-w5.spec.ts",
+    "title": "R4 interaction selected group and activity stay synchronized through temporary recovery",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w5.spec.ts",
+          "column": 58,
+          "line": 37
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"height\": 538,\u001b[22m\n\u001b[2m    \"width\": 938,\u001b[22m\n\u001b[2m    \"x\": 515,\u001b[22m\n\u001b[32m-   \"y\": 115.1875,\u001b[39m\n\u001b[31m+   \"y\": 513.1875,\u001b[39m\n\u001b[2m  }\u001b[22m\n\n  35 |   const main=await shape(root.locator('.nv5-group-detail'));await region(root,'queue').getByRole('button',{name:/取消固定/}).click();await expect(region(root,'queue')).toHaveAttribute('data-temporary','true');\n  36 |   await page.keyboard.press('Escape');await expect(region(root,'queue')).toBeHidden();await restore(root,'queue').click();\n> 37 |   expect(await shape(root.locator('.nv5-group-detail'))).toEqual(main);await expect(root.getByRole('group',{name:'小组结果'}).getByRole('button',{name:'探索者小组'})).toHaveAttribute('aria-pressed','true');\n     |                                                          ^\n  38 | });\n  39 | test('N10 N12 N13 R4 grading ownership survives layout and subscene changes without saving',async({page})=>{\n  40 |   await open(page,'R4');await page.getByRole('combobox',{name:'业务子场景'}).selectOption('grading');const root=page.locator('[data-recipe-id=\"recipe-navigation-r4\"]');\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w5.spec.ts:37:58"
+      }
+    ]
+  },
+  {
+    "file": "navigation-v042-w6-review01.spec.ts",
+    "title": "C04-F03 E3 single complementary dimension, public number field and keyed drafts at 1200",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w6-review01.spec.ts",
+          "column": 24,
+          "line": 176
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 5\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   36,\u001b[39m\n\u001b[32m-   36,\u001b[39m\n\u001b[32m-   36,\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n\n  174 |     await expect(answer.getByRole('group', { name: '当前学生选择', exact: true })).toHaveCount(0);\n  175 |     const rowHeights = await answer.locator('.w6-grade-shortcuts .rain-navigation-family__row').evaluateAll(elements => elements.map(element => element.getBoundingClientRect().height));\n> 176 |     expect(rowHeights).toEqual([36, 36, 36]);\n      |                        ^\n  177 |     await answer.getByRole('group', { name: '当前题目选择', exact: true }).getByRole('button', { name: '第2题', exact: true }).click();\n  178 |     const score = root.getByRole('spinbutton', { name: '本题分数', exact: true });\n  179 |     await expect(score.locator('xpath=ancestor::*[@data-rain-id=\"ui-input-number\"]')).toHaveCount(1);\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w6-review01.spec.ts:176:24"
+      }
+    ]
+  },
+  {
+    "file": "navigation-v042-w6-review01.spec.ts",
+    "title": "C04-F03 E3 single complementary dimension, public number field and keyed drafts at 1338",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w6-review01.spec.ts",
+          "column": 24,
+          "line": 176
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 5\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   36,\u001b[39m\n\u001b[32m-   36,\u001b[39m\n\u001b[32m-   36,\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n\n  174 |     await expect(answer.getByRole('group', { name: '当前学生选择', exact: true })).toHaveCount(0);\n  175 |     const rowHeights = await answer.locator('.w6-grade-shortcuts .rain-navigation-family__row').evaluateAll(elements => elements.map(element => element.getBoundingClientRect().height));\n> 176 |     expect(rowHeights).toEqual([36, 36, 36]);\n      |                        ^\n  177 |     await answer.getByRole('group', { name: '当前题目选择', exact: true }).getByRole('button', { name: '第2题', exact: true }).click();\n  178 |     const score = root.getByRole('spinbutton', { name: '本题分数', exact: true });\n  179 |     await expect(score.locator('xpath=ancestor::*[@data-rain-id=\"ui-input-number\"]')).toHaveCount(1);\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w6-review01.spec.ts:176:24"
+      }
+    ]
+  },
+  {
+    "file": "navigation-v042-w6-review01.spec.ts",
+    "title": "C04-F03 E3 single complementary dimension, public number field and keyed drafts at 1600",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w6-review01.spec.ts",
+          "column": 24,
+          "line": 176
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 5\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   36,\u001b[39m\n\u001b[32m-   36,\u001b[39m\n\u001b[32m-   36,\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n\n  174 |     await expect(answer.getByRole('group', { name: '当前学生选择', exact: true })).toHaveCount(0);\n  175 |     const rowHeights = await answer.locator('.w6-grade-shortcuts .rain-navigation-family__row').evaluateAll(elements => elements.map(element => element.getBoundingClientRect().height));\n> 176 |     expect(rowHeights).toEqual([36, 36, 36]);\n      |                        ^\n  177 |     await answer.getByRole('group', { name: '当前题目选择', exact: true }).getByRole('button', { name: '第2题', exact: true }).click();\n  178 |     const score = root.getByRole('spinbutton', { name: '本题分数', exact: true });\n  179 |     await expect(score.locator('xpath=ancestor::*[@data-rain-id=\"ui-input-number\"]')).toHaveCount(1);\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w6-review01.spec.ts:176:24"
+      }
+    ]
+  },
+  {
+    "file": "navigation-v042-w7.spec.ts",
+    "title": "N16 N17 N18 W7 matrix R2 accepted platform glyphs, palettes and account layout",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w7.spec.ts",
+          "column": 43,
+          "line": 51
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m208\u001b[39m\nReceived: \u001b[31m206.265625\u001b[39m\n\n  49 |         }\n  50 |         await expect.poll(expanded).toBe(mode === 'expanded');\n> 51 |         expect((await shape(rail)).width).toBe(mode === 'expanded' ? 208 : 64);\n     |                                           ^\n  52 |         expect(await rail.evaluate(element => getComputedStyle(element).backgroundColor)).toBe(inverse ? 'rgb(37, 45, 67)' : 'rgb(232, 237, 248)');\n  53 |         const links = rail.getByRole('link');\n  54 |         expect(await links.count()).toBeGreaterThan(0);\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w7.spec.ts:51:43"
+      }
+    ]
+  },
+  {
+    "file": "navigation-v042-w7.spec.ts",
+    "title": "N06 N04 hover bridges the entry and panel, Escape suppresses rebound, reentry remains usable",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w7.spec.ts",
+          "column": 32,
+          "line": 164
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"height\": 688,\u001b[22m\n\u001b[2m    \"width\": 1181,\u001b[22m\n\u001b[32m-   \"x\": 74,\u001b[39m\n\u001b[31m+   \"x\": 284,\u001b[39m\n\u001b[2m    \"y\": 375.1875,\u001b[22m\n\u001b[2m  }\u001b[22m\n\n  162 |   await entry.hover();\n  163 |   await expect(pane).toHaveAttribute('data-temporary', 'true');\n> 164 |   expect(await shape(content)).toEqual(before);\n      |                                ^\n  165 |   await pane.getByRole('textbox', { name: '搜索工作区' }).hover();\n  166 |   await expect(pane).toBeVisible();\n  167 |   await page.keyboard.press('Escape');\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042-w7.spec.ts:164:32"
+      }
+    ]
+  },
+  {
+    "file": "navigation-v042.spec.ts",
+    "title": "G1 review-08 rail transitions retain brand nodes and use standard Avatar",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042.spec.ts",
+          "column": 40,
+          "line": 26
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m208\u001b[39m\nReceived: \u001b[31m207\u001b[39m\n\n  24 |   });\n  25 |   const opening=await trace();expect(opening.retained).toBe(true);expect(opening.collapsed).toBe('false');\n> 26 |   expect(opening.frames.at(-1)!.width).toBe(208);\n     |                                        ^\n  27 |   expect(opening.frames.filter(f=>f.width>64&&f.width<208).length).toBeGreaterThan(2);\n  28 |   expect(opening.frames.some(f=>f.opacity>0&&f.opacity<1)).toBe(true);\n  29 |   const closing=await trace();expect(closing.retained).toBe(true);expect(closing.frames.at(-1)!.width).toBe(64);\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042.spec.ts:26:40"
+      }
+    ]
+  },
+  {
+    "file": "navigation-v042.spec.ts",
+    "title": "G1 review-07 standard tags, concise toolbar and aligned metadata",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+      },
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042.spec.ts",
+          "column": 56,
+          "line": 98
+        },
+        "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.nv42-r2').getByRole('radio', { name: '作业', exact: true })\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"作业\" type=\"radio\" class=\"sr-only\" data-slot=\"input\" data-focus=\"control\" name=\"_r_1f_-resource-type\" aria-labelledby=\"_r_1i_-label\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <span id=\"_r_1i_-label\" data-slot=\"label\" class=\"rain-segmented-control__label\">作业</span> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <span id=\"_r_1i_-label\" data-slot=\"label\" class=\"rain-segmented-control__label\">作业</span> intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div data-part=\"extra-end\" data-slot=\"extra-end\">…</div> from <div class=\"rain-connected-surface__row\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  13 × retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <span id=\"_r_1i_-label\" data-slot=\"label\" class=\"rain-segmented-control__label\">作业</span> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <span id=\"_r_1i_-label\" data-slot=\"label\" class=\"rain-segmented-control__label\">作业</span> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div data-part=\"extra-end\" data-slot=\"extra-end\">…</div> from <div class=\"rain-connected-surface__row\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div data-part=\"extra-end\" data-slot=\"extra-end\">…</div> from <div class=\"rain-connected-surface__row\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <span id=\"_r_1i_-label\" data-slot=\"label\" class=\"rain-segmented-control__label\">作业</span> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\n\n   96 |   await page.setViewportSize({width:1400,height:900});\n   97 |   await root.screenshot({path:`${evidence}/resource-tree-1200.png`});\n>  98 |   await root.getByRole('radio',{name:'作业',exact:true}).click();\n      |                                                        ^\n   99 |   await expect(root.locator('.nv42-resource-help')).toContainText('筛选中不可排序');\n  100 |   await root.getByRole('radio',{name:'全部',exact:true}).click();\n  101 |   await toolbar.getByRole('button',{name:'退出编辑',exact:true}).click();\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042.spec.ts:98:56"
+      }
+    ]
+  },
+  {
+    "file": "navigation-v042.spec.ts",
+    "title": "G1 review keeps R2 alignment, local tokens and real semester/breadcrumb semantics at both artboard widths",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042.spec.ts",
+          "column": 19,
+          "line": 239
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatchObject\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[33m@@ -1,9 +1,9 @@\u001b[39m\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"accountBeforeUtilities\": true,\u001b[22m\n\u001b[2m    \"activeColor\": \"rgb(15, 85, 223)\",\u001b[22m\n\u001b[32m-   \"activeWeight\": \"600\",\u001b[39m\n\u001b[31m+   \"activeWeight\": \"400\",\u001b[39m\n\u001b[2m    \"backGap\": \"4px\",\u001b[22m\n\u001b[2m    \"backIcon\": 16,\u001b[22m\n\u001b[2m    \"contextHead\": \"rgba(0, 0, 0, 0)\",\u001b[22m\n\u001b[2m    \"contextTitle\": \"15px\",\u001b[22m\n\u001b[2m    \"description\": \"rgb(160, 172, 197)\",\u001b[22m\n\u001b[33m@@ -12,12 +12,12 @@\u001b[39m\n\u001b[2m    \"historyLabelOffset\": 0,\u001b[22m\n\u001b[2m    \"historyOffset\": 0,\u001b[22m\n\u001b[2m    \"iconSize\": 16,\u001b[22m\n\u001b[2m    \"logoLeft\": 0,\u001b[22m\n\u001b[2m    \"mainTop\": \"8px\",\u001b[22m\n\u001b[32m-   \"navFont\": \"15px\",\u001b[39m\n\u001b[32m-   \"navIcon\": 15,\u001b[39m\n\u001b[31m+   \"navFont\": \"14px\",\u001b[39m\n\u001b[31m+   \"navIcon\": 18,\u001b[39m\n\u001b[2m    \"scopeTitle\": \"15px\",\u001b[22m\n\u001b[2m    \"stats\": \"14px\",\u001b[22m\n\u001b[2m    \"subtitle\": \"rgb(160, 172, 197)\",\u001b[22m\n\u001b[2m    \"subtitleGap\": \"2px\",\u001b[22m\n\u001b[2m    \"title\": \"17px\",\u001b[22m\n\n  237 |       };\n  238 |     });\n> 239 |     expect(facts).toMatchObject({logoLeft:0,toggleRight:0,iconSize:16,navIcon:15,navFont:'15px',activeWeight:'600',activeColor:'rgb(15, 85, 223)',contextHead:'rgba(0, 0, 0, 0)',contextTitle:'15px',backGap:'4px',backIcon:16,scopeTitle:'15px',description:'rgb(160, 172, 197)',title:'17px',subtitle:'rgb(160, 172, 197)',subtitleGap:'2px',stats:'14px',mainTop:'8px',track:'rgb(242, 244, 255)',historyIcon:16,historyOffset:0,historyFont:'14px',historyLabelOffset:0,accountBeforeUtilities:true});\n      |                   ^\n  240 |     for (const name of ['工作台','数据面板']) {\n  241 |       const item=root.getByRole('link',{name,exact:true}); await item.hover();\n  242 |       await expect(item).toHaveCSS('background-color','rgba(85, 112, 244, 0.06)');\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042.spec.ts:239:19"
+      }
+    ]
+  },
+  {
+    "file": "navigation-v042.spec.ts",
+    "title": "G1 review-02 interactive controls expose hover without changing disabled controls",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042.spec.ts",
+          "column": 35,
+          "line": 281
+        },
+        "message": "Error: R2 .nv42-action:not([data-variant=\"primary\"])\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\nExpected: not \u001b[32m{\"background\": \"rgba(0, 0, 0, 0)\", \"before\": \"rgba(0, 0, 0, 0)\", \"border\": \"rgba(16, 63, 183, 0.16)\", \"color\": \"rgb(73, 93, 135)\", \"shadow\": \"none\"}\u001b[39m\n\n\n  279 |     if(phase==='after') {\n  280 |       if(disabled) expect(after,name).toEqual(before);\n> 281 |       else expect(after,name).not.toEqual(before);\n      |                                   ^\n  282 |     }\n  283 |   };\n  284 |   for(const name of ['A1','A4','Connections','R2']) {\n    at hover (/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042.spec.ts:281:35)\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042.spec.ts:314:329"
+      }
+    ]
+  },
+  {
+    "file": "navigation-v042.spec.ts",
+    "title": "G1 review-05 course resources add, reorder, delete and save through ManageTree without losing hidden draft nodes",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042.spec.ts",
+          "column": 41,
+          "line": 511
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m2\u001b[39m\nReceived:   \u001b[31m3\u001b[39m\n\n  509 |   await row('函数的定义与表示').getByRole('button',{name:'移动函数的定义与表示',exact:true}).dragTo(row('函数的性质'),{targetPosition:{x:90,y:42}});\n  510 |   const pointerOrder=await tree.getByRole('treeitem').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('aria-label')));\n> 511 |   expect(pointerOrder.indexOf('函数的性质')).toBeLessThan(pointerOrder.indexOf('函数的定义与表示'));\n      |                                         ^\n  512 |   await root.screenshot({path:`${evidence}/pointer-sort.png`});\n  513 |   await row('1.2 极限与连续').focus(); await page.keyboard.press('F2');\n  514 |   await editor.getByRole('textbox',{name:'节点名称',exact:true}).fill('');\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/navigation-v042.spec.ts:511:41"
+      }
+    ]
+  },
+  {
+    "file": "tree.spec.ts",
+    "title": "enhances only interacting Tree rows and restores approved pale colors",
+    "status": "unexpected",
+    "project": "chromium",
+    "errors": [
+      {
+        "location": {
+          "file": "/private/tmp/rain-nav-w7-browser-20261006/tests/e2e/tree.spec.ts",
+          "column": 31,
+          "line": 495
+        },
+        "message": "Error: ENOENT: no such file or directory, open 'evidence/runtime/tree/readability-facts.json'\n\n  493 |   test.setTimeout(60_000);\n  494 |   const { contrastRatio } = await import(\"./color-contrast\");\n> 495 |   const approved = JSON.parse(readFileSync(\"evidence/runtime/tree/readability-facts.json\", \"utf8\")).findings;\n      |                               ^\n  496 |   const findings: { theme: string; surface: number; state: string; part: string; color: string; background: string; contrast: number }[] = [];\n  497 |   for (const theme of [\"light\", \"dark\"]) for (const surface of [1, 2]) {\n  498 |     await page.goto(\"/#tree\");\n    at /private/tmp/rain-nav-w7-browser-20261006/tests/e2e/tree.spec.ts:495:31"
+      }
+    ]
+  }
+]

@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/questionnaire/questionnaire-reuse.test.tsx (27 tests | 1 failed) 873ms
+     × keeps one label/input, refs, rich children and the existing choice render contract 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/questionnaire/questionnaire-reuse.test.tsx > Questionnaire shared control compatibility > keeps one label/input, refs, rich children and the existing choice render contract
+Error: expect(element).toHaveClass("caller-choice rain-selection-card")
+
+Expected the element to have class:
+  caller-choice rain-selection-card
+Received:
+  rain-selection-card__selection w-full rain-radio relative inline-flex min-w-rain-0 max-w-full items-start gap-rain-8 align-middle font-rain-ui cursor-pointer has-[:disabled]:cursor-not-allowed rain-questionnaire__choice caller-choice
+ ❯ packages/ui/src/questionnaire/questionnaire-reuse.test.tsx:55:25
+     53|     const input = screen.getByRole("radio", { name: "富内容补充" });
+     54|     expect(input.parentElement).toBe(ref.current);
+     55|     expect(ref.current).toHaveClass("caller-choice", "rain-selection-c…
+       |                         ^
+     56|     expect(ref.current).toHaveStyle({ order: 2 });
+     57|     expect(ref.current!.querySelector("label")).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 26 passed (27)
+   Start at  21:21:08
+   Duration  1.64s (transform 136ms, setup 98ms, import 198ms, tests 873ms, environment 385ms)
+

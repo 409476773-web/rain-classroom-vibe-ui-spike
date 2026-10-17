@@ -1,0 +1,48 @@
+
+Running 4 tests using 1 worker
+
+(node:30730) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/navigation-rebuild-closure.spec.ts:6:1 › closure S04: keyboard and pointer follow the icon child destination (948ms)
+  ✓  2 tests/e2e/navigation-rebuild-closure.spec.ts:22:1 › closure S06: inset clips rounded corners, scrolls independently and survives collapse (811ms)
+  ✘  3 tests/e2e/navigation-rebuild-closure.spec.ts:58:1 › closure E10: direct editor uses explicit fallback and directory expansion stays per scope (30.1s)
+(node:31114) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 tests/e2e/navigation-rebuild-closure.spec.ts:86:1 › closure S02: long-label stress fixture and trailing disclosure keep separate hit areas (866ms)
+
+
+  1) tests/e2e/navigation-rebuild-closure.spec.ts:58:1 › closure E10: direct editor uses explicit fallback and directory expansion stays per scope 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: /第一章　函数、极限与连续/ })
+
+
+      66 |   await expect(page.getByLabel('当前教学范围')).toContainText('公共资源包');
+      67 |   const group = page.getByRole('button', { name: /第一章　函数、极限与连续/ });
+    > 68 |   await group.click(); await expect(group).toHaveAttribute('aria-expanded', 'false');
+         |               ^
+      69 |   await page.getByRole('button', { name: '高等数学 1 班 · 2026 秋季', exact: true }).click();
+      70 |   await expect(group).toHaveAttribute('aria-expanded', 'true');
+      71 |   await page.getByRole('button', { name: '编辑 本班拓展练习', exact: true }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-rebuild-closure.spec.ts:68:15
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-rebuild-v03/closure-tests/navigation-rebuild-closure-e95f8-y-expansion-stays-per-scope/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-rebuild-v03/closure-tests/navigation-rebuild-closure-e95f8-y-expansion-stays-per-scope/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-rebuild-v03/closure-tests/navigation-rebuild-closure-e95f8-y-expansion-stays-per-scope/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-rebuild-v03/closure-tests/navigation-rebuild-closure-e95f8-y-expansion-stays-per-scope/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/navigation-rebuild-closure.spec.ts:58:1 › closure E10: direct editor uses explicit fallback and directory expansion stays per scope 
+  3 passed (33.5s)

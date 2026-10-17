@@ -1,0 +1,52 @@
+
+Running 1 test using 1 worker
+
+(node:77212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-trend-motion.spec.ts:62:1 › trend motion: hover keeps guide, markers, date and exact readings on the same week (6.7s)
+
+
+  1) tests/e2e/chart-trend-motion.spec.ts:62:1 › trend motion: hover keeps guide, markers, date and exact readings on the same week 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[aria-labelledby="trend-sample-title"]').getByTestId('trend-interaction')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[aria-labelledby="trend-sample-title"]').getByTestId('trend-interaction')
+
+
+      15 |   const overlay = sample.getByTestId("trend-interaction");
+      16 |   // This assertion is the RED boundary on the unmodified v0.4 page.
+    > 17 |   await expect(overlay).toBeVisible();
+         |                         ^
+      18 |   await expect(overlay).toHaveAttribute("role", "group");
+      19 |   await expect(overlay).toHaveAttribute("aria-label", "趋势图交互区");
+      20 |   await expect(overlay).toHaveAttribute("tabindex", "0");
+        at openTrend (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-trend-motion.spec.ts:17:25)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-trend-motion.spec.ts:63:69
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-trend-motion/test-results/chart-trend-motion-trend-m-931d4-t-readings-on-the-same-week/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    evidence/runtime/chart-trend-motion/test-results/chart-trend-motion-trend-m-931d4-t-readings-on-the-same-week/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-trend-motion/test-results/chart-trend-motion-trend-m-931d4-t-readings-on-the-same-week/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-trend-motion/test-results/chart-trend-motion-trend-m-931d4-t-readings-on-the-same-week/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-trend-motion/test-results/chart-trend-motion-trend-m-931d4-t-readings-on-the-same-week/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-trend-motion.spec.ts:62:1 › trend motion: hover keeps guide, markers, date and exact readings on the same week 

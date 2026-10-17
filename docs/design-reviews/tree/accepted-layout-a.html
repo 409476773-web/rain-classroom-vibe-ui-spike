@@ -1,0 +1,308 @@
+<style>
+#rain-tree-layout-a {
+  --r-text: light-dark(#142346,#eff1f5);
+  --r-secondary: light-dark(#495d87,#b7c1e0);
+  --r-muted: light-dark(#7485a8,#8891ad);
+  --r-quiet: light-dark(#a0acc5,#6f7a9e);
+  --r-surface: light-dark(#ffffff,#1e243b);
+  --r-soft: light-dark(#f7f9ff,#1a1f33);
+  --r-border: light-dark(rgb(16 63 183 / 16%),rgb(194 212 255 / 10%));
+  --r-input-border: light-dark(rgb(16 63 183 / 25%),rgb(194 212 255 / 20%));
+  --r-brand: light-dark(#1561f8,#266bff);
+  --r-brand-text: light-dark(#0f55df,#7ca5ff);
+  --r-selected: light-dark(#eaf2ff,#203065);
+  --r-hover: light-dark(rgb(85 112 244 / 6%),rgb(86 106 181 / 12%));
+  --r-icon-hover: light-dark(rgb(80 117 254 / 16%),rgb(86 106 181 / 20%));
+  --r-check-border: light-dark(rgb(16 63 183 / 65%),rgb(194 212 255 / 60%));
+  --r-onbrand: light-dark(#ffffff,#ffffff);
+  --r-highlight: light-dark(rgb(61 123 255 / 20%),rgb(56 96 255 / 30%));
+  --r-success: light-dark(#058952,#14bf82);
+  font-family: "PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:14px; line-height:22px; font-weight:400; color:var(--r-text);
+  width:100%; padding:4px 0 16px; box-sizing:border-box;
+}
+#rain-tree-layout-a *, #rain-tree-layout-a *::before, #rain-tree-layout-a *::after { box-sizing:border-box; }
+#rain-tree-layout-a section { margin:0 0 32px; }
+#rain-tree-layout-a section:last-of-type { margin-bottom:0; }
+#rain-tree-layout-a .sample-heading { display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 12px; margin:0 0 12px; }
+#rain-tree-layout-a h3 { font:600 16px/24px "PingFang SC",sans-serif; color:var(--r-text); margin:0; }
+#rain-tree-layout-a .sample-caption { color:var(--r-secondary); font-size:12px; line-height:20px; }
+#rain-tree-layout-a .panel { background:var(--r-surface); border:1px solid var(--r-border); border-radius:8px; width:100%; }
+#rain-tree-layout-a .compact-panel { max-width:400px; }
+#rain-tree-layout-a .search-panel { max-width:480px; }
+#rain-tree-layout-a .wide-panel { max-width:680px; }
+#rain-tree-layout-a .panel-head { display:flex; align-items:center; gap:8px; padding:16px 16px 12px; flex-wrap:wrap; }
+#rain-tree-layout-a .panel-title { font-weight:600; color:var(--r-text); }
+#rain-tree-layout-a .head-spacer { flex:1; }
+#rain-tree-layout-a .subtle { color:var(--r-quiet); font-size:12px; line-height:20px; }
+#rain-tree-layout-a .tree { padding:0 8px 8px; }
+#rain-tree-layout-a .row { --level:0; position:relative; display:flex; align-items:center; gap:4px; min-height:var(--basic-height,36px); padding:0 8px 0 calc(8px + var(--level) * 24px); }
+#rain-tree-layout-a .row::before { content:""; position:absolute; inset:0; border-radius:6px; pointer-events:none; }
+#rain-tree-layout-a .row:hover::before { background:var(--r-hover); }
+#rain-tree-layout-a .row.selected::before { background:var(--r-selected); }
+#rain-tree-layout-a [data-coverage="inset"] .row::before { left:calc(8px + var(--level) * 24px); }
+#rain-tree-layout-a .row > * { position:relative; }
+#rain-tree-layout-a button, #rain-tree-layout-a input { font-family:inherit; }
+#rain-tree-layout-a button { color:inherit; margin:0; }
+#rain-tree-layout-a .label-button { display:block; flex:1; min-width:0; text-align:left; background:transparent; border:0; padding:7px 0; font-size:14px; line-height:22px; font-weight:400; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+#rain-tree-layout-a .selected > .label-button { color:var(--r-brand-text); font-weight:600; }
+#rain-tree-layout-a .icon { display:inline-block; width:16px; height:16px; flex:none; background:currentColor; mask:var(--mask) center / contain no-repeat; -webkit-mask:var(--mask) center / contain no-repeat; }
+#rain-tree-layout-a .icon-button, #rain-tree-layout-a .switcher { display:inline-flex; align-items:center; justify-content:center; flex:none; width:24px; height:24px; border:0; border-radius:6px; padding:0; background:transparent; color:var(--r-secondary); }
+#rain-tree-layout-a .switcher .icon { width:12px; height:12px; }
+#rain-tree-layout-a .switcher { width:16px; color:var(--r-quiet); }
+#rain-tree-layout-a .switcher:hover, #rain-tree-layout-a .switcher:focus-visible { color:var(--r-muted); }
+#rain-tree-layout-a .switcher[aria-expanded="false"] .icon { transform:rotate(-90deg); }
+#rain-tree-layout-a .icon-button:hover, #rain-tree-layout-a .switcher:hover { background:var(--r-icon-hover); }
+#rain-tree-layout-a .switcher-space { width:24px; height:24px; flex:none; }
+#rain-tree-layout-a .switcher + .drag-handle { margin-left:-4px; }
+#rain-tree-layout-a .row-actions { display:flex; align-items:center; gap:4px; flex:none; opacity:0; }
+#rain-tree-layout-a .row:hover .row-actions, #rain-tree-layout-a .row:focus-within .row-actions { opacity:1; }
+#rain-tree-layout-a .row-actions.pinned { opacity:1; }
+#rain-tree-layout-a .row-meta { color:var(--r-quiet); font-size:12px; line-height:20px; white-space:nowrap; }
+#rain-tree-layout-a .search-box { margin:0 16px 12px; height:28px; border:1px solid var(--r-input-border); border-radius:6px; display:flex; align-items:center; gap:8px; padding:0 8px; color:var(--r-secondary); }
+#rain-tree-layout-a .search-box input { width:100%; min-width:0; border:0; padding:0; background:transparent; color:var(--r-text); font-size:14px; line-height:22px; }
+#rain-tree-layout-a .search-word { font-size:12px; line-height:20px; color:var(--r-brand-text); flex:none; }
+#rain-tree-layout-a .checkbox { flex:none; width:24px; height:24px; display:flex; align-items:center; justify-content:center; }
+#rain-tree-layout-a input[type="checkbox"] { appearance:none; -webkit-appearance:none; margin:0; width:16px; height:16px; border:1px solid var(--r-check-border); border-radius:4px; background:var(--r-surface); display:grid; place-items:center; }
+#rain-tree-layout-a input[type="checkbox"]:checked, #rain-tree-layout-a input[type="checkbox"]:indeterminate { background:var(--r-brand); border-color:var(--r-brand); }
+#rain-tree-layout-a input[type="checkbox"]:checked::after, #rain-tree-layout-a input[type="checkbox"]:indeterminate::after { content:""; width:10px; height:10px; background:var(--r-onbrand); mask:var(--mask-check) center / contain no-repeat; -webkit-mask:var(--mask-check) center / contain no-repeat; }
+#rain-tree-layout-a input[type="checkbox"]:indeterminate::after { mask-image:var(--mask-minus); -webkit-mask-image:var(--mask-minus); }
+#rain-tree-layout-a input[type="checkbox"]:disabled { opacity:.3; }
+#rain-tree-layout-a mark { background:var(--r-highlight); color:var(--r-brand-text); padding:0; border-radius:2px; }
+#rain-tree-layout-a .panel-foot { padding:10px 16px; border-top:1px solid var(--r-border); color:var(--r-secondary); font-size:12px; line-height:20px; }
+#rain-tree-layout-a .tag { display:inline-flex; align-items:center; min-height:20px; padding:0 6px; border-radius:4px; font-size:12px; line-height:14px; font-weight:400; color:var(--r-secondary); background:var(--r-hover); vertical-align:2px; white-space:nowrap; }
+#rain-tree-layout-a .tag-video { color:light-dark(#7240e7,#9d7bef); background:light-dark(rgb(114 64 231 / 10%),rgb(142 102 236 / 18%)); }
+#rain-tree-layout-a .tag-discussion { color:light-dark(#c652be,#cd69c7); background:light-dark(rgb(198 82 190 / 10%),rgb(198 82 190 / 18%)); }
+#rain-tree-layout-a .tag-selftest { color:light-dark(#994af4,#ae70f6); background:light-dark(rgb(153 74 244 / 10%),rgb(161 89 245 / 18%)); }
+#rain-tree-layout-a .rich-row { align-items:flex-start; padding-top:10px; padding-bottom:10px; min-height:44px; }
+#rain-tree-layout-a .rich-body { flex:1; min-width:0; container-type:inline-size; }
+#rain-tree-layout-a .rich-content { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 16px; align-items:start; }
+#rain-tree-layout-a .rich-label { display:block; width:100%; border:0; background:none; padding:0; text-align:left; font-size:14px; line-height:22px; font-weight:400; color:var(--r-text); overflow-wrap:anywhere; }
+#rain-tree-layout-a .rich-label .tag { margin-right:6px; }
+#rain-tree-layout-a .rich-row.selected .rich-label { color:var(--r-brand-text); font-weight:600; }
+#rain-tree-layout-a .description { color:var(--r-quiet); font-size:13px; line-height:20px; margin-top:4px; overflow-wrap:anywhere; }
+#rain-tree-layout-a .rich-meta { display:flex; flex-direction:column; align-items:flex-end; gap:4px; white-space:nowrap; color:var(--r-quiet); font-size:12px; line-height:22px; }
+#rain-tree-layout-a .published { color:var(--r-success); }
+#rain-tree-layout-a .rich-row .row-actions { margin-left:4px; }
+#rain-tree-layout-a .rich-row > .switcher, #rain-tree-layout-a .rich-row > .row-actions { margin-top:-1px; }
+@container (max-width:420px) {
+  #rain-tree-layout-a .rich-content { grid-template-columns:minmax(0,1fr); }
+  #rain-tree-layout-a .rich-meta { flex-direction:row; flex-wrap:wrap; align-items:center; gap:4px 12px; line-height:20px; }
+}
+#rain-tree-layout-a .manage-head { padding-bottom:16px; border-bottom:1px solid var(--r-border); }
+#rain-tree-layout-a .manage-panel { position:relative; }
+#rain-tree-layout-a .message { position:absolute; top:12px; left:50%; transform:translateX(-50%); z-index:2; width:max-content; max-width:calc(100% - 24px); padding:8px 12px; background:var(--r-surface); border:1px solid var(--r-border); border-radius:6px; box-shadow:0 4px 16px light-dark(rgb(20 35 70 / 12%),rgb(0 0 0 / 24%)); font-size:13px; line-height:20px; }
+#rain-tree-layout-a .manage-toolbar { display:flex; align-items:center; padding:12px 16px 8px; }
+#rain-tree-layout-a .button { border:1px solid var(--r-input-border); border-radius:6px; height:32px; padding:0 12px; font-size:14px; line-height:22px; font-weight:600; background:var(--r-surface); color:var(--r-text); display:inline-flex; gap:6px; align-items:center; justify-content:center; white-space:nowrap; }
+#rain-tree-layout-a .button-primary { border-color:var(--r-brand); background:var(--r-brand); color:var(--r-onbrand); }
+#rain-tree-layout-a .text-button { display:inline-flex; align-items:center; gap:4px; padding:0; height:24px; border:0; background:transparent; color:var(--r-brand-text); font-size:14px; line-height:22px; }
+#rain-tree-layout-a .drag-handle { display:flex; align-items:center; justify-content:center; width:20px; height:24px; flex:none; color:var(--r-muted); cursor:grab; }
+#rain-tree-layout-a .inline-editor { min-width:0; flex:1; height:28px; border:1px solid light-dark(#3d7bff,#2a5dcb); border-radius:6px; background:var(--r-surface); padding:2px 8px; color:var(--r-text); font-size:14px; line-height:22px; box-shadow:0 0 0 2px light-dark(rgb(61 123 255 / 10%),rgb(20 95 255 / 10%)); }
+#rain-tree-layout-a .confirm-button { color:var(--r-brand-text); }
+#rain-tree-layout-a [hidden] { display:none !important; }
+#rain-tree-layout-a .arrow { --mask:url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url%28%23clip0_63_76%29%22%3E%0A%3Cmask%20id%3D%22mask0_63_76%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%222%22%20y%3D%226%22%20width%3D%2220%22%20height%3D%2212%22%3E%0A%3Cmask%20id%3D%22mask1_63_76%22%20style%3D%22mask-type%3Aluminance%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%220%22%20y%3D%220%22%20width%3D%2224%22%20height%3D%2224%22%3E%0A%3Cpath%20d%3D%22M24%200H0V24H24V0Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask1_63_76%29%22%3E%0A%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M10.8686%2017.4485C11.4935%2018.0733%2012.5065%2018.0733%2013.1314%2017.4485L20.9095%209.67034C21.5344%209.0455%2021.5344%208.03243%2020.9095%207.40759C20.2847%206.78275%2019.2716%206.78275%2018.6468%207.40759L12%2014.0544L5.3532%207.40759C4.72836%206.78275%203.71529%206.78275%203.09045%207.40759C2.46562%208.03243%202.46562%209.0455%203.09045%209.67034L10.8686%2017.4485Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask0_63_76%29%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3CclipPath%20id%3D%22clip0_63_76%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22white%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A"); }
+#rain-tree-layout-a .drag { --mask:url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cmask%20id%3D%22mask0_185_503%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%226%22%20y%3D%223%22%20width%3D%2212%22%20height%3D%2218%22%3E%0A%3Cpath%20d%3D%22M8.4998%207.20005C7.56092%207.20005%206.7998%206.43893%206.7998%205.50005C6.7998%204.56116%207.56092%203.80005%208.4998%203.80005C9.43869%203.80005%2010.1998%204.56116%2010.1998%205.50005C10.1998%206.43893%209.43869%207.20005%208.4998%207.20005ZM6.7998%2012C6.7998%2012.9389%207.56092%2013.7%208.4998%2013.7C9.43869%2013.7%2010.1998%2012.9389%2010.1998%2012C10.1998%2011.0612%209.43869%2010.3%208.4998%2010.3C7.56092%2010.3%206.7998%2011.0612%206.7998%2012ZM13.7998%2012C13.7998%2012.9389%2014.5609%2013.7%2015.4998%2013.7C16.4387%2013.7%2017.1998%2012.9389%2017.1998%2012C17.1998%2011.0612%2016.4387%2010.3%2015.4998%2010.3C14.5609%2010.3%2013.7998%2011.0612%2013.7998%2012ZM8.4998%2020.2C7.56092%2020.2%206.7998%2019.4389%206.7998%2018.5C6.7998%2017.5612%207.56092%2016.8%208.4998%2016.8C9.43869%2016.8%2010.1998%2017.5612%2010.1998%2018.5C10.1998%2019.4389%209.43869%2020.2%208.4998%2020.2ZM13.7998%2018.5C13.7998%2019.4389%2014.5609%2020.2%2015.4998%2020.2C16.4387%2020.2%2017.1998%2019.4389%2017.1998%2018.5C17.1998%2017.5612%2016.4387%2016.8%2015.4998%2016.8C14.5609%2016.8%2013.7998%2017.5612%2013.7998%2018.5ZM13.7998%205.50005C13.7998%206.43893%2014.5609%207.20005%2015.4998%207.20005C16.4387%207.20005%2017.1998%206.43893%2017.1998%205.50005C17.1998%204.56116%2016.4387%203.80005%2015.4998%203.80005C14.5609%203.80005%2013.7998%204.56116%2013.7998%205.50005Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask0_185_503%29%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A"); }
+#rain-tree-layout-a .edit { --mask:url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cmask%20id%3D%22mask0_183_574%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%222%22%20y%3D%222%22%20width%3D%2220%22%20height%3D%2220%22%3E%0A%3Cpath%20d%3D%22M15.4539%202.58824C16.1959%201.84624%2017.3994%201.84624%2018.1414%202.58824L21.1111%205.55796C21.853%206.29989%2021.8529%207.50247%2021.1111%208.24449L9.39822%2019.9584C9.12578%2020.2308%208.7798%2020.4185%208.4031%2020.4994L3.89431%2021.4672C2.90129%2021.6801%202.01935%2020.7981%202.2322%2019.8051L3.19997%2015.2963C3.28083%2014.9196%203.46855%2014.5736%203.74099%2014.3011L15.4539%202.58824ZM20.7%2019.2494C21.2519%2019.2496%2021.6998%2019.6974%2021.7%2020.2494C21.7%2020.8015%2021.2521%2021.2492%2020.7%2021.2494H12.7C12.1477%2021.2494%2011.7%2020.8017%2011.7%2020.2494C11.7002%2019.6973%2012.1478%2019.2494%2012.7%2019.2494H20.7ZM5.15505%2015.7152L4.38259%2019.3168L7.98415%2018.5443L16.3318%2010.1957C16.2566%2010.1526%2016.1852%2010.0998%2016.1209%2010.0355L13.4773%207.39195L5.15505%2015.7152ZM14.8914%205.97789L17.5349%208.62144C17.5992%208.68576%2017.652%208.75707%2017.6951%208.83238L19.6267%206.90171L16.7976%204.07261L14.8914%205.97789Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask0_183_574%29%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A"); }
+#rain-tree-layout-a .more { --mask:url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cmask%20id%3D%22mask0_52_68%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%223%22%20y%3D%2210%22%20width%3D%2218%22%20height%3D%224%22%3E%0A%3Cpath%20d%3D%22M12%2014C13.1046%2014%2014%2013.1046%2014%2012C14%2010.8954%2013.1046%2010%2012%2010C10.8954%2010%2010%2010.8954%2010%2012C10%2013.1046%2010.8954%2014%2012%2014Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3Cpath%20d%3D%22M19%2014C20.1046%2014%2021%2013.1046%2021%2012C21%2010.8954%2020.1046%2010%2019%2010C17.8954%2010%2017%2010.8954%2017%2012C17%2013.1046%2017.8954%2014%2019%2014Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3Cpath%20d%3D%22M5%2014C6.10457%2014%207%2013.1046%207%2012C7%2010.8954%206.10457%2010%205%2010C3.89543%2010%203%2010.8954%203%2012C3%2013.1046%203.89543%2014%205%2014Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask0_52_68%29%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A"); }
+#rain-tree-layout-a .add { --mask:url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cmask%20id%3D%22mask0_71_54%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%222%22%20y%3D%222%22%20width%3D%2220%22%20height%3D%2220%22%3E%0A%3Cpath%20d%3D%22M4.08042%2010.6C3.30723%2010.6%202.68042%2011.2268%202.68042%2012C2.68042%2012.7732%203.30723%2013.4%204.08043%2013.4H10.6V19.9196C10.6%2020.6928%2011.2268%2021.3196%2012%2021.3196C12.7732%2021.3196%2013.4%2020.6928%2013.4%2019.9196V13.4H19.9196C20.6928%2013.4%2021.3196%2012.7732%2021.3196%2012C21.3196%2011.2268%2020.6928%2010.6%2019.9196%2010.6H13.4V4.08042C13.4%203.30722%2012.7732%202.68042%2012%202.68042C11.2268%202.68042%2010.6%203.30722%2010.6%204.08042V10.6H4.08042Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask0_71_54%29%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A"); }
+#rain-tree-layout-a .search { --mask:url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cmask%20id%3D%22mask0_8_20%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%222%22%20y%3D%222%22%20width%3D%2220%22%20height%3D%2220%22%3E%0A%3Cpath%20d%3D%22M11.2002%202C16.005%202.00011%2019.9004%205.89538%2019.9004%2010.7002C19.9003%2012.7422%2019.1945%2014.6183%2018.0166%2016.1025L21.5967%2019.6816C21.9871%2020.0722%2021.9872%2020.7062%2021.5967%2021.0967C21.2062%2021.4872%2020.5722%2021.4871%2020.1816%2021.0967L16.6025%2017.5166C15.1183%2018.6945%2013.2422%2019.4003%2011.2002%2019.4004C6.39538%2019.4004%202.50011%2015.505%202.5%2010.7002C2.5%205.89532%206.39532%202%2011.2002%202ZM11.2002%204C7.49989%204%204.5%206.99989%204.5%2010.7002C4.50011%2014.4004%207.49995%2017.4004%2011.2002%2017.4004C14.9003%2017.4003%2017.9003%2014.4003%2017.9004%2010.7002C17.9004%206.99995%2014.9004%204.00011%2011.2002%204Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask0_8_20%29%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A"); }
+#rain-tree-layout-a .check { --mask:url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url%28%23clip0_71_48%29%22%3E%0A%3Cmask%20id%3D%22mask0_71_48%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%222%22%20y%3D%224%22%20width%3D%2221%22%20height%3D%2215%22%3E%0A%3Cmask%20id%3D%22mask1_71_48%22%20style%3D%22mask-type%3Aluminance%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%220%22%20y%3D%220%22%20width%3D%2224%22%20height%3D%2224%22%3E%0A%3Cpath%20d%3D%22M24%200H0V24H24V0Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask1_71_48%29%22%3E%0A%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M2.55481%2010.1112C1.92997%2010.7361%201.92997%2011.7491%202.55481%2012.374L8.6752%2018.4943C9.30004%2019.1192%2010.3131%2019.1192%2010.938%2018.4943L22.2517%207.18065C22.8765%206.55581%2022.8765%205.54275%2022.2517%204.91791C21.6268%204.29307%2020.6138%204.29307%2019.9889%204.91791L9.80657%2015.1002L4.81755%2010.1112C4.19271%209.48639%203.17965%209.48639%202.55481%2010.1112Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask0_71_48%29%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3CclipPath%20id%3D%22clip0_71_48%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22white%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A"); }
+#rain-tree-layout-a { --mask-check:url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url%28%23clip0_71_48%29%22%3E%0A%3Cmask%20id%3D%22mask0_71_48%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%222%22%20y%3D%224%22%20width%3D%2221%22%20height%3D%2215%22%3E%0A%3Cmask%20id%3D%22mask1_71_48%22%20style%3D%22mask-type%3Aluminance%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%220%22%20y%3D%220%22%20width%3D%2224%22%20height%3D%2224%22%3E%0A%3Cpath%20d%3D%22M24%200H0V24H24V0Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask1_71_48%29%22%3E%0A%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M2.55481%2010.1112C1.92997%2010.7361%201.92997%2011.7491%202.55481%2012.374L8.6752%2018.4943C9.30004%2019.1192%2010.3131%2019.1192%2010.938%2018.4943L22.2517%207.18065C22.8765%206.55581%2022.8765%205.54275%2022.2517%204.91791C21.6268%204.29307%2020.6138%204.29307%2019.9889%204.91791L9.80657%2015.1002L4.81755%2010.1112C4.19271%209.48639%203.17965%209.48639%202.55481%2010.1112Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask0_71_48%29%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3CclipPath%20id%3D%22clip0_71_48%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22white%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A"); }
+#rain-tree-layout-a .minus { --mask:url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cmask%20id%3D%22mask0_71_57%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%222%22%20y%3D%2210%22%20width%3D%2220%22%20height%3D%224%22%3E%0A%3Cpath%20d%3D%22M2.68042%2012C2.68042%2011.2268%203.30723%2010.6%204.08042%2010.6H19.9196C20.6928%2010.6%2021.3196%2011.2268%2021.3196%2012C21.3196%2012.7732%2020.6928%2013.4%2019.9196%2013.4H4.08042C3.30723%2013.4%202.68042%2012.7732%202.68042%2012Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask0_71_57%29%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A"); }
+#rain-tree-layout-a { --mask-minus:url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cmask%20id%3D%22mask0_71_57%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%222%22%20y%3D%2210%22%20width%3D%2220%22%20height%3D%224%22%3E%0A%3Cpath%20d%3D%22M2.68042%2012C2.68042%2011.2268%203.30723%2010.6%204.08042%2010.6H19.9196C20.6928%2010.6%2021.3196%2011.2268%2021.3196%2012C21.3196%2012.7732%2020.6928%2013.4%2019.9196%2013.4H4.08042C3.30723%2013.4%202.68042%2012.7732%202.68042%2012Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask0_71_57%29%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A"); }
+#rain-tree-layout-a .close { --mask:url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cmask%20id%3D%22mask0_8_2%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%224%22%20y%3D%224%22%20width%3D%2216%22%20height%3D%2216%22%3E%0A%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M19.7071%204.29289C20.0976%204.68342%2020.0976%205.31658%2019.7071%205.70711L5.70711%2019.7071C5.31658%2020.0977%204.68342%2020.0977%204.29289%2019.7071C3.90237%2019.3166%203.90237%2018.6834%204.29289%2018.2929L18.2929%204.29289C18.6834%203.90237%2019.3166%203.90237%2019.7071%204.29289Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M4.29289%204.29289C3.90237%204.68342%203.90237%205.31658%204.29289%205.70711L18.2929%2019.7071C18.6834%2020.0977%2019.3166%2020.0977%2019.7071%2019.7071C20.0976%2019.3166%2020.0976%2018.6834%2019.7071%2018.2929L5.70711%204.29289C5.31658%203.90237%204.68342%203.90237%204.29289%204.29289Z%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fmask%3E%0A%3Cg%20mask%3D%22url%28%23mask0_8_2%29%22%3E%0A%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22%231D2129%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A"); }
+</style>
+<style>
+#rain-tree-layout-a { --r-line:var(--r-border); }
+#rain-tree-layout-a .line-panel { max-width:480px; }
+#rain-tree-layout-a .line-tree { --junction:18px; --line-style:solid; }
+#rain-tree-layout-a .line-tree .node { --level:0; position:relative; }
+#rain-tree-layout-a .line-tree .row { --level:inherit; }
+#rain-tree-layout-a .line-tree .row > * { z-index:2; }
+#rain-tree-layout-a .node::before, #rain-tree-layout-a .node::after, #rain-tree-layout-a .node > .row::after { content:""; position:absolute; pointer-events:none; z-index:1; }
+#rain-tree-layout-a .node::before { top:0; bottom:0; left:calc(16px + (var(--level) - 1) * 24px); border-left:1px var(--line-style) var(--r-line); }
+#rain-tree-layout-a .node:last-child::before { bottom:auto; height:var(--junction); }
+#rain-tree-layout-a .node::after { top:var(--junction); left:calc(16px + (var(--level) - 1) * 24px); width:12px; border-top:1px var(--line-style) var(--r-line); }
+#rain-tree-layout-a .line-tree > .node::before, #rain-tree-layout-a .line-tree > .node::after { display:none; }
+#rain-tree-layout-a .node > .row::after { display:none; }
+#rain-tree-layout-a .node:has(> .children:not([hidden])) > .row::after { display:block; top:calc(var(--junction) + 16px); bottom:0; left:calc(16px + var(--level) * 24px); border-left:1px var(--line-style) var(--r-line); }
+#rain-tree-layout-a [data-line-style="dotted"] { --line-style:dotted; }
+#rain-tree-layout-a .rich-lines { --junction:21px; }
+#rain-tree-layout-a .line-label { color:var(--r-secondary); }
+#rain-tree-layout-a .line-panel .row-meta { padding-left:4px; }
+#rain-tree-layout-a .checkbox-placeholder { width:24px; flex:none; }
+</style>
+<div id="rain-tree-layout-a">
+  <section aria-labelledby="rain-lines-basic-heading">
+    <div class="sample-heading"><h3 id="rain-lines-basic-heading">01　细实线 · 深层目录</h3><span class="sample-caption">推荐候选 · 整行选中 · 24px 缩进</span></div>
+    <div class="panel line-panel" id="rain-lines-basic" data-coverage="full" aria-label="深层目录关系线">
+      <div class="panel-head"><span class="panel-title">课程目录</span><span class="head-spacer"></span><span class="subtle">概率论与数理统计</span></div>
+      <div class="tree line-tree" data-select-group="basic">
+        <div class="node">
+          <div class="row"><button class="switcher cursor-interaction" aria-expanded="true" aria-controls="line-a-chapter" aria-label="收起第一章"><span class="icon arrow" aria-hidden="true"></span></button><button class="label-button cursor-interaction" aria-pressed="false">第一章　随机事件与概率</button><span class="switcher-space"></span></div>
+          <div class="children" id="line-a-chapter">
+            <div class="node" style="--level:1"><div class="row"><button class="label-button cursor-interaction" aria-pressed="false">1.1　随机试验与样本空间</button><span class="switcher-space"></span></div></div>
+            <div class="node" style="--level:1">
+              <div class="row"><button class="switcher cursor-interaction" aria-expanded="true" aria-controls="line-a-section" aria-label="收起1.2概率的计算"><span class="icon arrow" aria-hidden="true"></span></button><button class="label-button cursor-interaction" aria-pressed="false">1.2　概率的计算</button><span class="switcher-space"></span></div>
+              <div class="children" id="line-a-section">
+                <div class="node" style="--level:2"><div class="row"><button class="label-button cursor-interaction" aria-pressed="false">古典概型</button><span class="switcher-space"></span></div></div>
+                <div class="node" style="--level:2">
+                  <div class="row"><button class="switcher cursor-interaction" aria-expanded="true" aria-controls="line-a-topic" aria-label="收起条件概率"><span class="icon arrow" aria-hidden="true"></span></button><button class="label-button cursor-interaction" aria-pressed="false">条件概率</button><span class="switcher-space"></span></div>
+                  <div class="children" id="line-a-topic">
+                    <div class="node" style="--level:3"><div class="row selected"><button class="label-button cursor-interaction" aria-pressed="true">定义与乘法公式</button><span class="row-actions"><button class="icon-button cursor-interaction" aria-label="定义与乘法公式更多操作"><span class="icon more" aria-hidden="true"></span></button></span></div></div>
+                    <div class="node" style="--level:3"><div class="row"><button class="label-button cursor-interaction" aria-pressed="false" data-tooltip="从实际问题理解条件概率与独立事件的区别">从实际问题理解条件概率与独立事件的区别</button><span class="switcher-space"></span></div></div>
+                  </div>
+                </div>
+                <div class="node" style="--level:2"><div class="row"><button class="label-button cursor-interaction" aria-pressed="false">全概率公式</button><span class="switcher-space"></span></div></div>
+              </div>
+            </div>
+            <div class="node" style="--level:1"><div class="row"><button class="label-button cursor-interaction" aria-pressed="false">1.3　独立性</button><span class="switcher-space"></span></div></div>
+          </div>
+        </div>
+        <div class="node">
+          <div class="row"><button class="switcher cursor-interaction" aria-expanded="false" aria-controls="line-a-chapter2" aria-label="展开第二章"><span class="icon arrow" aria-hidden="true"></span></button><button class="label-button cursor-interaction" aria-pressed="false">第二章　随机变量及其分布</button><span class="switcher-space"></span></div>
+          <div class="children" id="line-a-chapter2" hidden><div class="node" style="--level:1"><div class="row"><button class="label-button cursor-interaction" aria-pressed="false">2.1　离散型随机变量</button><span class="switcher-space"></span></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="rain-lines-check-heading">
+    <div class="sample-heading"><h3 id="rain-lines-check-heading">02　点线 · 勾选树</h3><span class="sample-caption">对比候选 · 勾选与行选中独立</span></div>
+    <div class="panel line-panel" id="rain-lines-check" data-coverage="full" aria-label="勾选树关系线">
+      <div class="panel-head"><span class="panel-title">选择知识点</span><span class="head-spacer"></span><span class="subtle">父子独立勾选</span></div>
+      <div class="tree line-tree" data-line-style="dotted" data-select-group="check">
+        <div class="node">
+          <div class="row"><button class="switcher cursor-interaction" aria-expanded="true" aria-controls="line-b-chapter" aria-label="收起随机事件"><span class="icon arrow" aria-hidden="true"></span></button><span class="checkbox-placeholder"></span><button class="label-button cursor-interaction" aria-pressed="false">第一章　随机事件</button></div>
+          <div class="children" id="line-b-chapter">
+            <div class="node" style="--level:1">
+              <div class="row"><button class="switcher cursor-interaction" aria-expanded="true" aria-controls="line-b-section" aria-label="收起概率的计算"><span class="icon arrow" aria-hidden="true"></span></button><label class="checkbox"><input type="checkbox" disabled aria-label="概率的计算，当前节点不允许勾选"></label><button class="label-button cursor-interaction" aria-pressed="false">概率的计算</button><span class="row-meta">不可勾选</span></div>
+              <div class="children" id="line-b-section">
+                <div class="node" style="--level:2"><div class="row"><label class="checkbox"><input type="checkbox" checked aria-label="勾选条件概率"></label><button class="label-button cursor-interaction" aria-pressed="false">条件概率</button></div></div>
+                <div class="node" style="--level:2"><div class="row selected"><label class="checkbox"><input type="checkbox" aria-label="勾选全概率公式"></label><button class="label-button cursor-interaction" aria-pressed="true">全概率公式</button></div></div>
+                <div class="node" style="--level:2"><div class="row"><label class="checkbox"><input type="checkbox" checked aria-label="勾选贝叶斯公式"></label><button class="label-button cursor-interaction" aria-pressed="false">贝叶斯公式</button></div></div>
+              </div>
+            </div>
+            <div class="node" style="--level:1"><div class="row"><label class="checkbox"><input type="checkbox" aria-label="勾选独立性"></label><button class="label-button cursor-interaction" aria-pressed="false">独立性</button></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="rain-lines-rich-heading">
+    <div class="sample-heading"><h3 id="rain-lines-rich-heading">03　细实线 · 富内容树</h3><span class="sample-caption">自然行高 · 关系线对齐标题首行</span></div>
+    <div class="panel wide-panel" id="rain-lines-rich" data-coverage="full" aria-label="富内容树关系线">
+      <div class="panel-head"><span class="panel-title">教学内容</span><span class="head-spacer"></span><span class="subtle">第三章　随机变量</span></div>
+      <div class="tree line-tree rich-lines" data-select-group="rich">
+        <div class="node">
+          <div class="row rich-row"><button class="switcher cursor-interaction" aria-expanded="true" aria-controls="line-c-chapter" aria-label="收起离散型随机变量"><span class="icon arrow" aria-hidden="true"></span></button><div class="rich-body"><button class="rich-label cursor-interaction" aria-pressed="false">3.1　离散型随机变量</button><div class="description">从生活中的随机现象理解分布律。</div></div><span class="switcher-space"></span></div>
+          <div class="children" id="line-c-chapter">
+            <div class="node" style="--level:1">
+              <div class="row rich-row"><button class="switcher cursor-interaction" aria-expanded="true" aria-controls="line-c-group" aria-label="收起课前学习"><span class="icon arrow" aria-hidden="true"></span></button><div class="rich-body"><button class="rich-label cursor-interaction" aria-pressed="false">课前学习</button><div class="description">观看视频后，结合实例参与讨论。</div></div><span class="switcher-space"></span></div>
+              <div class="children" id="line-c-group">
+                <div class="node" style="--level:2"><div class="row rich-row selected"><div class="rich-body"><div class="rich-content"><div><button class="rich-label cursor-interaction" aria-pressed="true"><span class="tag tag-video">视频</span>离散型随机变量：从分布律理解概率模型及其应用</button><div class="description">通过掷骰子的例子，认识随机变量的取值与分布。</div></div><div class="rich-meta"><span class="published">已发布</span><span>12 分 30 秒</span></div></div></div><span class="row-actions"><button class="icon-button cursor-interaction" aria-label="视频更多操作"><span class="icon more" aria-hidden="true"></span></button></span></div></div>
+                <div class="node" style="--level:2"><div class="row rich-row"><div class="rich-body"><div class="rich-content"><div><button class="rich-label cursor-interaction" aria-pressed="false"><span class="tag tag-discussion">讨论</span>寻找一个生活中的随机现象，说明随机变量的定义与取值范围</button><div class="description">结合观察，比较离散型与连续型随机变量。</div></div><div class="rich-meta"><span class="published">进行中</span><span>28 人参与</span></div></div></div><span class="row-actions"><button class="icon-button cursor-interaction" aria-label="讨论更多操作"><span class="icon more" aria-hidden="true"></span></button></span></div></div>
+              </div>
+            </div>
+            <div class="node" style="--level:1"><div class="row rich-row"><div class="rich-body"><div class="rich-content"><div><button class="rich-label cursor-interaction" aria-pressed="false"><span class="tag tag-selftest">自测</span>分布律巩固练习</button><div class="description">完成 8 道题，检验本节学习成果。</div></div><div class="rich-meta"><span>未发布</span><span>共 8 题</span></div></div></div><span class="row-actions"><button class="icon-button cursor-interaction" aria-label="自测更多操作"><span class="icon more" aria-hidden="true"></span></button></span></div></div>
+          </div>
+        </div>
+        <div class="node"><div class="row rich-row"><div class="rich-body"><button class="rich-label cursor-interaction" aria-pressed="false">本章小结</button><div class="description">回顾定义、分布律与典型应用。</div></div><span class="switcher-space"></span></div></div>
+      </div>
+    </div>
+  </section>
+  <section aria-labelledby="rain-manage-heading">
+    <div class="sample-heading"><h3 id="rain-manage-heading">04　管理与原位编辑</h3><span class="sample-caption">展开箭头在前 · 拖拽手柄在后</span></div>
+    <div class="panel wide-panel manage-panel" aria-label="管理树原位编辑样式">
+      <div class="message" role="alert" id="rain-edit-message" hidden></div>
+      <div class="panel-head manage-head"><span class="panel-title">章节管理</span><span class="tag">编辑中</span><span class="head-spacer"></span><button class="button cursor-interaction" type="button" data-preview-action="cancel-all">取消</button><button class="button button-primary cursor-interaction" type="button" data-preview-action="save">保存</button></div>
+      <div class="manage-toolbar"><button class="text-button cursor-interaction" type="button" data-preview-action="add"><span class="icon add" aria-hidden="true"></span>新增章节</button></div>
+      <div class="tree" data-select-group="manage">
+        <div class="row"><button class="switcher cursor-interaction" aria-label="收起第一章" aria-expanded="true" aria-controls="rain-manage-chapter"><span class="icon arrow" aria-hidden="true"></span></button><span class="drag-handle" role="img" aria-label="拖拽手柄位置"><span class="icon drag" aria-hidden="true"></span></span><button class="label-button cursor-interaction" aria-pressed="false">第一章　随机事件与概率</button><span class="row-actions"><button class="icon-button cursor-interaction" aria-label="第一章更多操作"><span class="icon more" aria-hidden="true"></span></button></span></div>
+        <div id="rain-manage-chapter">
+          <div class="row" style="--level:1"><span class="drag-handle" role="img" aria-label="拖拽手柄位置"><span class="icon drag" aria-hidden="true"></span></span><button class="label-button cursor-interaction" aria-pressed="false">1.1　随机试验与样本空间</button><span class="row-actions"><button class="icon-button cursor-interaction" aria-label="编辑1.1"><span class="icon edit" aria-hidden="true"></span></button><button class="icon-button cursor-interaction" aria-label="1.1更多操作"><span class="icon more" aria-hidden="true"></span></button></span></div>
+          <div class="row" id="rain-edit-row" style="--level:1"><span class="drag-handle" role="img" aria-label="拖拽手柄位置"><span class="icon drag" aria-hidden="true"></span></span><input class="inline-editor" id="rain-title-editor" aria-label="编辑节点标题" value="1.2　概率与基本性质"><button class="label-button cursor-interaction" id="rain-edited-title" aria-pressed="false" hidden>1.2　概率与基本性质</button><span class="row-actions pinned"><button class="icon-button confirm-button cursor-interaction" id="rain-confirm-edit" aria-label="确认本次标题修改" data-tooltip="确认"><span class="icon check" aria-hidden="true"></span></button><button class="icon-button cursor-interaction" id="rain-cancel-edit" aria-label="取消本次标题修改" data-tooltip="取消"><span class="icon close" aria-hidden="true"></span></button><button class="icon-button cursor-interaction" id="rain-reopen-edit" aria-label="编辑标题" hidden><span class="icon edit" aria-hidden="true"></span></button></span></div>
+          <div class="row" style="--level:1"><span class="drag-handle" role="img" aria-label="拖拽手柄位置"><span class="icon drag" aria-hidden="true"></span></span><button class="label-button cursor-interaction" aria-pressed="false">1.3　独立性</button><span class="row-actions"><button class="icon-button cursor-interaction" aria-label="编辑1.3"><span class="icon edit" aria-hidden="true"></span></button><button class="icon-button cursor-interaction" aria-label="1.3更多操作"><span class="icon more" aria-hidden="true"></span></button></span></div>
+        </div>
+        <div class="row"><span class="drag-handle" role="img" aria-label="拖拽手柄位置"><span class="icon drag" aria-hidden="true"></span></span><button class="label-button cursor-interaction" aria-pressed="false">第二章　随机变量及其分布</button><span class="row-actions"><button class="icon-button cursor-interaction" aria-label="第二章更多操作"><span class="icon more" aria-hidden="true"></span></button></span></div>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+(() => {
+  const root = document.getElementById('rain-tree-layout-a');
+  const panels = [...root.querySelectorAll('.panel')];
+  const state = {coverage:'full',width:'normal',basicStyle:'solid',checkStyle:'dotted',richStyle:'solid'};
+  function restore(value) {
+    if (!value) return;
+    if (['full','inset'].includes(value.coverage)) state.coverage = value.coverage;
+    if (['normal','narrow'].includes(value.width)) state.width = value.width;
+    for (const key of ['basicStyle','checkStyle','richStyle']) if (['solid','dotted'].includes(value[key])) state[key] = value[key];
+  }
+  restore(window.openai?.widgetState?.modelContent?.treeLayoutA);
+  function render() {
+    panels.forEach(panel => { panel.dataset.coverage = state.coverage; });
+    ['basic','check','rich'].forEach(name => { document.getElementById('rain-lines-'+name).querySelector('.line-tree').dataset.lineStyle = state[name+'Style']; });
+    document.getElementById('rain-lines-rich').style.maxWidth = state.width === 'narrow' ? '360px' : '680px';
+    const captions = ['细实线','点线'];
+    document.getElementById('rain-lines-basic-heading').textContent = '01　'+captions[Number(state.basicStyle==='dotted')]+' · 深层目录';
+    document.getElementById('rain-lines-check-heading').textContent = '02　'+captions[Number(state.checkStyle==='dotted')]+' · 勾选树';
+    document.getElementById('rain-lines-rich-heading').textContent = '03　'+captions[Number(state.richStyle==='dotted')]+' · 富内容树';
+    root.querySelector('#rain-lines-basic-heading + .sample-caption').textContent = (state.basicStyle==='solid'?'推荐候选 · ':'对比候选 · ')+(state.coverage==='full'?'整行选中':'缩进选中')+' · 24px 缩进';
+  }
+  function change() { render(); window.openai?.setWidgetState?.({modelContent:{treeLayoutA:{...state}},privateContent:null}).catch(()=>{}); }
+  render();
+  window.addEventListener('openai:set_globals',event=>{restore(event.detail?.globals?.widgetState?.modelContent?.treeLayoutA);render();});
+  if (globalThis.Tweak) {
+    const styleOptions=[{label:'细实线',value:'solid'},{label:'点线',value:'dotted'}];
+    const a=new Tweak({container:panels[0],onChange:change});
+    a.addSelect(state,'basicStyle',{label:'关系线',options:styleOptions});
+    a.addSelect(state,'coverage',{label:'各示例选中背景',options:[{label:'整行（默认）',value:'full'},{label:'随层级缩进',value:'inset'}]});
+    const b=new Tweak({container:panels[1],onChange:change});
+    b.addSelect(state,'checkStyle',{label:'关系线',options:styleOptions});
+    const c=new Tweak({container:panels[2],onChange:change});
+    c.addSelect(state,'richStyle',{label:'关系线',options:styleOptions});
+    c.addSelect(state,'width',{label:'容器宽度',options:[{label:'常规',value:'normal'},{label:'窄栏 360',value:'narrow'}]});
+  }
+  root.querySelectorAll('.switcher[aria-controls]').forEach(button=>button.addEventListener('click',()=>{
+    const expanded=button.getAttribute('aria-expanded')==='true';
+    button.setAttribute('aria-expanded',String(!expanded));
+    button.setAttribute('aria-label',button.getAttribute('aria-label').replace(expanded?'收起':'展开',expanded?'展开':'收起'));
+    document.getElementById(button.getAttribute('aria-controls')).hidden=expanded;
+  }));
+  root.querySelectorAll('[data-select-group]').forEach(group=>group.addEventListener('click',event=>{
+    const label=event.target.closest('.label-button,.rich-label');
+    if (!label) return;
+    group.querySelectorAll('.selected').forEach(row=>row.classList.remove('selected'));
+    group.querySelectorAll('[aria-pressed="true"]').forEach(button=>button.setAttribute('aria-pressed','false'));
+    label.closest('.row').classList.add('selected');label.setAttribute('aria-pressed','true');
+  }));
+  const input = document.getElementById('rain-title-editor');
+  const title = document.getElementById('rain-edited-title');
+  const confirm = document.getElementById('rain-confirm-edit');
+  const cancel = document.getElementById('rain-cancel-edit');
+  const reopen = document.getElementById('rain-reopen-edit');
+  const message = document.getElementById('rain-edit-message');
+  let messageTimer;
+  function setEditing(value) { input.hidden = !value; title.hidden = value; confirm.hidden = !value; cancel.hidden = !value; reopen.hidden = value; }
+  function finishEdit(save) {
+    if (save && !input.value.trim()) {
+      message.textContent = `“${title.textContent}”的标题不能为空`;
+      message.hidden = false;
+      clearTimeout(messageTimer);
+      messageTimer = setTimeout(() => { message.hidden = true; },3000);
+      return;
+    }
+    message.hidden = true;
+    if (save) title.textContent = input.value.trim();
+    input.value = title.textContent;
+    setEditing(false);
+  }
+  confirm.addEventListener('click',() => finishEdit(true));
+  cancel.addEventListener('click',() => finishEdit(false));
+  reopen.addEventListener('click',() => { setEditing(true); input.focus(); });
+  input.addEventListener('keydown',event => { if (event.isComposing) return; if (event.key === 'Enter') { event.preventDefault(); finishEdit(true); } if (event.key === 'Escape') finishEdit(false); });
+})();
+</script>

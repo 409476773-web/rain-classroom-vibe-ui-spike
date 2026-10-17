@@ -1,0 +1,15 @@
+@layer base {
+  .rain-tooltip-mount { display: contents; }
+  .rain-tooltip { position: relative; box-sizing: border-box; width: max-content; max-width: min(var(--rain-tooltip-max-width), calc(100vw - 16px)); padding: var(--rain-tooltip-padding-block) var(--rain-space-16); border: 0; border-radius: var(--rain-radius-6); background: var(--rain-tooltip-background); color: var(--rain-tooltip-foreground); box-shadow: none; font-family: var(--rain-font-ui); font-size: var(--rain-font-size-14); font-weight: var(--rain-font-weight-regular); line-height: var(--rain-line-height-20); overflow-wrap: anywhere; }
+  .rain-tooltip-arrow { position: absolute; background: inherit; pointer-events: none; }
+  .rain-tooltip-arrow[data-side="top"], .rain-tooltip-arrow[data-side="bottom"] { width: var(--rain-tooltip-arrow-width); height: var(--rain-tooltip-arrow-height); }
+  .rain-tooltip-arrow[data-side="left"], .rain-tooltip-arrow[data-side="right"] { width: var(--rain-tooltip-arrow-height); height: var(--rain-tooltip-arrow-width); }
+  .rain-tooltip-arrow[data-side="top"] { bottom: calc(var(--rain-tooltip-arrow-height) * -1); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+  .rain-tooltip-arrow[data-side="bottom"] { top: calc(var(--rain-tooltip-arrow-height) * -1); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+  .rain-tooltip-arrow[data-side="left"] { right: calc(var(--rain-tooltip-arrow-height) * -1); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+  .rain-tooltip-arrow[data-side="right"] { left: calc(var(--rain-tooltip-arrow-height) * -1); clip-path: polygon(100% 0, 100% 100%, 0 50%); }
+}
+@media (forced-colors: active) {
+  .rain-tooltip { background: Canvas; color: CanvasText; border: var(--rain-line-thickness-1) solid CanvasText; }
+  .rain-tooltip-arrow { background: CanvasText; }
+}

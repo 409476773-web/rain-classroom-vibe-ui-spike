@@ -1,0 +1,142 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-attachment"
+name: "Attachment"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/attachment/attachment.tsx"
+sourceVersion: "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; rain-adaptation-2026-10-14"
+description: "文件、媒体、状态、全卡预览与独立操作的组合。"
+useWhen:
+  - "表单、消息或资料区需要展示单文件名称、类型与处理状态。"
+  - "同文件需要整卡预览和独立移除/下载/重试动作。"
+doNotUseWhen:
+  - "组件管理上传请求、权限、文件校验或Blob生命周期。"
+  - "把整卡Trigger和Action做成嵌套button。"
+anatomy:
+  - "root"
+  - "group"
+  - "media"
+  - "content"
+  - "title"
+  - "description"
+  - "actions"
+  - "action"
+  - "trigger"
+parts:
+  - "root"
+  - "group"
+  - "media"
+  - "content"
+  - "title"
+  - "description"
+  - "actions"
+  - "action"
+  - "trigger"
+props:
+  - "Root: state=done，可idle/uploading/processing/error/done；size=default，可default/sm/xs；orientation=horizontal，可horizontal/vertical。"
+  - "Media: variant=icon，可icon/image；其余展示Parts为原生div/span属性/ref/className/style。"
+  - "Action为完整Rain Button Props；省略variant/size/block时text/regular，显式text省略size仍regular；其他合法显式方案沿house。"
+  - "Trigger为Base UI useRender.ComponentProps<button>，支持元素/函数render、ref/合并事件；默认type=button。"
+slots:
+  - "Attachment"
+  - "AttachmentMedia"
+  - "AttachmentContent"
+  - "AttachmentTitle"
+  - "AttachmentDescription"
+  - "AttachmentActions"
+  - "AttachmentAction"
+  - "AttachmentTrigger"
+  - "AttachmentGroup"
+variants:
+  - "default/sm/xs完整三档；horizontal/vertical两种内容布局；Media icon/image。"
+states:
+  - "idle虚线；uploading/processing文字光带；error文字/图标/边界；done恢复。"
+  - "Action disabled/loading沿真实Rain Button；Trigger默认真实button可用原生disabled，自定义render须保留相应语义。Root没有disabled/loading上传API。"
+dependencies:
+  - "React19.2.8与Rain Foundations；rainCn依赖既有tailwind-merge3.6.0。"
+  - "本项实际源码/内部helper/被动视觉依赖在Registry登记；消费仍为managed @rain-next/ui。"
+tokens:
+  - "Root Background/Neutral/1、Border/Neutral/3；主副文Text/Neutral/2/3，错误Border/Red/2与Text/Red/1。"
+  - "媒体Background/Neutral/2，错误Fill/Red/Solid/3和Icon/Red/1；Focus与Action沿已有合同。"
+  - "尺寸用Space8/10/6/4、媒体40/32/28、glyph16/14/24；Root Radius12/8，Media Radius8/6。"
+layoutConstraints:
+  - "横排min-width限制为min(160px,100%)；竖排96px/有Content120px。"
+  - "Title/Description单行省略且DOM保留全文；Actions z20高于全卡Trigger z10。"
+  - "Group横向overflow/snap/overscroll，渐隐只作增强；focus-within去mask防裁焦点。"
+compositionRules:
+  - "预览/下载/重试/移除由宿主操作稳定文件ID；失败保留对象，移除后将焦点送邻项或添加入口。"
+  - "有可用Trigger才展示整卡hover；上传进度未知时不用假百分数。"
+allowedModifications:
+  - "使用本条列出的真实Props/ref/className/style；仅source已提供的Parts支持render/localRecipe，不把通用模板当API。"
+  - "视觉用既有Rain Token/具名局部方案；已登记源几何/动效差额不升级全局Foundation。"
+restrictedModifications:
+  - "不得移除原生语义/焦点/生命周期、重复行为引擎或扩大人工/发布接受。"
+accessibility:
+  - "Trigger/各Action命名包含具体文件名；错误与处理状态提供可读文字。"
+  - "宿主为纯展示Group加tabIndex=0、role=group及名称；Part不自动设这些属性。有动作组正常Tab到屏外项。"
+  - "两处理态直接关闭reduce动画并恢复text-fill；forced-colors同样恢复文字。"
+examples:
+  - "apps/playground/src/docs/components/g6-media-pages.tsx"
+recipes:
+  - "通过实际className/style组合具名局部方案；没有localRecipe属性。"
+antiPatterns:
+  - "组件管理上传请求、权限、文件校验或Blob生命周期。"
+  - "把整卡Trigger和Action做成嵌套button。"
+relatedComponents:
+  - "ui-button"
+  - "ui-icon-button"
+  - "ui-dialog"
+  - "ui-spinner"
+  - "ui-message"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Root Background/Neutral/1、Border/Neutral/3；主副文Text/Neutral/2/3，错误Border/Red/2与Text/Red/1。"
+    - "媒体Background/Neutral/2，错误Fill/Red/Solid/3和Icon/Red/1；Focus与Action沿已有合同。"
+    - "尺寸用Space8/10/6/4、媒体40/32/28、glyph16/14/24；Root Radius12/8，Media Radius8/6。"
+  externalReferences:
+    - "固定shadcn Base UI TSX及同版Nova；sharedCSS仅在本条source差额列明时转译。"
+  retainedTraits:
+    - "root"
+    - "group"
+    - "media"
+    - "content"
+    - "title"
+    - "description"
+    - "actions"
+    - "action"
+    - "trigger"
+  redesignedTraits:
+    - "保留来源9Parts/五态/三档，两态shimmer与scroll-fade-x从固定sharedCSS局部转译。"
+    - "ghost/icon-xs映射合法Rain Button；图标动作组合IconButton28/16或32/16，不压成来源24px。"
+    - "无timeline时预留fade宽度保护端点；logical actions/corners与原名不匹配的scrollbar实际样式明确化。"
+  intentionallyNotInherited:
+    - "组件管理上传请求、权限、文件校验或Blob生命周期。"
+    - "把整卡Trigger和Action做成嵌套button。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/g6-components-2026-10-14/source-lock.json"
+  - "evidence/runtime/g6-research-2026-10-14/source-supplement.json"
+migrationNotes: "2026-10-14用户授权完整G6建设；人工视觉、对比度、发布与生产采用分别记录。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  evidence: "evidence/runtime/g6-components-2026-10-14/verification.md"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+styleSourcePath: "packages/ui/src/attachment/attachment.css"
+density:
+  - "显式三档size不随Density再次缩放；Action默认text/regular，其他显式Button方案遵循自身合同。"
+sourceDifferences:
+  - "保留来源9Parts/五态/三档，两态shimmer与scroll-fade-x从固定sharedCSS局部转译。"
+  - "ghost/icon-xs映射合法Rain Button；图标动作组合IconButton28/16或32/16，不压成来源24px。"
+  - "无timeline时预留fade宽度保护端点；logical actions/corners与原名不匹配的scrollbar实际样式明确化。"
+verificationLimits:
+  - "真实上传、物理触屏、Safari、读屏、渐隐/长名/两向/三档和组合对比度需要另验。"

@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:21911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-business-embedding.spec.ts:44:1 › stationary hover does not retain stale values after a host update (6.2s)
+
+
+  1) tests/e2e/chart-business-embedding.spec.ts:44:1 › stationary hover does not retain stale values after a host update 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-business="horizontal"]').locator('.rain-chart-tooltip')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-business="horizontal"]').locator('.rain-chart-tooltip')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      48 |   await expect(plot.locator('.rain-chart-tooltip')).toContainText('25');
+      49 |   await page.getByRole('button',{name:'更新数据',exact:true}).evaluate(node=>(node as HTMLButtonElement).click());
+    > 50 |   await expect(plot.locator('.rain-chart-tooltip')).toHaveCount(0);
+         |                                                     ^
+      51 |   await page.mouse.move(box.x+box.width/2+1,box.y+box.height/2);
+      52 |   await expect(plot.locator('.rain-chart-tooltip')).toContainText('28');
+      53 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-embedding.spec.ts:50:53
+
+    Error Context: evidence/runtime/chart-business-expansion/browser-results/chart-business-embedding-s-269c4--values-after-a-host-update/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-business-expansion/browser-results/chart-business-embedding-s-269c4--values-after-a-host-update/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-business-expansion/browser-results/chart-business-embedding-s-269c4--values-after-a-host-update/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-business-embedding.spec.ts:44:1 › stationary hover does not retain stale values after a host update 

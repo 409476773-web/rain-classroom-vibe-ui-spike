@@ -1,0 +1,774 @@
+[
+  {
+    "id": "S01",
+    "name": "深色贴边 · 平台导航",
+    "category": "Sidebar",
+    "description": "用稳定的深色框架表达平台范围，同时让主内容成为工作中心。",
+    "useWhen": [
+      "平台工作台",
+      "课程/考试/题库的全局入口"
+    ],
+    "doNotUseWhen": [
+      "把所有课程内局部区域一并染深",
+      "以深色方案取代尚未确定的全局默认"
+    ],
+    "states": [
+      "default",
+      "current",
+      "hover",
+      "focus-visible",
+      "expanded",
+      "collapsed-icon",
+      "hidden",
+      "current-within-collapsed-group"
+    ],
+    "tokenRequirements": [
+      "surface.navigation.dark",
+      "text.control.default",
+      "text.control.secondary",
+      "text.navigation.current",
+      "state.navigation.current.surface",
+      "state.navigation.current.indicator",
+      "state.hover.surface",
+      "focus.ring",
+      "border.subtle",
+      "radius.control",
+      "density.compact",
+      "density.standard",
+      "space.inline",
+      "space.group",
+      "space.indent",
+      "layout.sidebar.expanded",
+      "motion.disclosure",
+      "typography.brand"
+    ],
+    "allowedModifications": [
+      "替换标题、已批准图标和业务入口",
+      "使用现有 compact/standard 密度",
+      "通过组合增加搜索或一个上下文切换入口"
+    ],
+    "restrictedModifications": [
+      "从图中吸取蓝色作为雨课堂主色",
+      "直接复制研究 HTML 中的行高和颜色",
+      "通过改整个组件内部 CSS 处理单个页面"
+    ],
+    "acceptance": {
+      "visualChecks": [
+        "V-S01-01",
+        "V-S01-02",
+        "V-S01-03",
+        "V-S01-04"
+      ],
+      "evalTasks": [
+        "E01",
+        "E07",
+        "E08"
+      ],
+      "executionStatus": "not-run"
+    }
+  },
+  {
+    "id": "S02",
+    "name": "浅色贴边 · 低干扰导航",
+    "category": "Sidebar",
+    "description": "以弱边界和浅底区分导航区域，在课程内或设置页降低框架干扰。",
+    "useWhen": [
+      "课程内部工作区",
+      "设置与资源空间"
+    ],
+    "doNotUseWhen": [
+      "只给深色组件反色、不检查每个状态",
+      "为了安静而让文字或焦点过淡"
+    ],
+    "states": [
+      "default",
+      "current",
+      "hover",
+      "focus-visible",
+      "expanded",
+      "current-within-collapsed-group"
+    ],
+    "tokenRequirements": [
+      "surface.navigation.light",
+      "text.control.default",
+      "text.control.secondary",
+      "text.navigation.current",
+      "state.navigation.current.surface",
+      "state.navigation.current.indicator",
+      "state.hover.surface",
+      "focus.ring",
+      "border.subtle",
+      "radius.control",
+      "density.compact",
+      "density.standard",
+      "space.inline",
+      "space.group",
+      "space.indent",
+      "layout.sidebar.expanded",
+      "motion.disclosure",
+      "typography.brand"
+    ],
+    "allowedModifications": [
+      "无图标与有图标两种导航行",
+      "切换已审核的当前项表达",
+      "按场景组合组标题与搜索"
+    ],
+    "restrictedModifications": [
+      "给每一行都加边框或阴影",
+      "同时叠加强蓝底、粗侧条和高饱和图标底",
+      "把浅色定义为未核实的全站默认"
+    ],
+    "acceptance": {
+      "visualChecks": [
+        "V-S02-01",
+        "V-S02-02",
+        "V-S02-03",
+        "V-S02-04"
+      ],
+      "evalTasks": [
+        "E01",
+        "E07",
+        "E08"
+      ],
+      "executionStatus": "not-run"
+    }
+  },
+  {
+    "id": "S04",
+    "name": "窄轨图标 · 可收起导航",
+    "category": "Sidebar",
+    "description": "把熟悉的高频入口压缩到窄轨，把宽度交还给主任务。",
+    "useWhen": [
+      "复杂表格",
+      "专注编辑前的全局导航压缩"
+    ],
+    "doNotUseWhen": [
+      "把大量相似课程或资源都变成无名图标",
+      "仅隐藏文字就宣告折叠完成"
+    ],
+    "states": [
+      "expanded",
+      "collapsed-icon",
+      "hidden",
+      "current",
+      "focus-visible",
+      "sub-links-open"
+    ],
+    "tokenRequirements": [
+      "surface.navigation.dark",
+      "text.control.default",
+      "text.control.secondary",
+      "text.navigation.current",
+      "state.navigation.current.surface",
+      "state.navigation.current.indicator",
+      "state.hover.surface",
+      "focus.ring",
+      "border.subtle",
+      "radius.control",
+      "density.compact",
+      "density.standard",
+      "space.inline",
+      "space.group",
+      "space.indent",
+      "layout.sidebar.expanded",
+      "layout.sidebar.rail",
+      "motion.disclosure",
+      "typography.brand"
+    ],
+    "allowedModifications": [
+      "通过已批准机制打开子入口",
+      "使用全局或上下文范围自己的收起策略",
+      "由页面选择图标态或完全隐藏"
+    ],
+    "restrictedModifications": [
+      "只放 Tooltip 而没有子入口访问路径",
+      "收起时创建第二份导航数据副本",
+      "默认注册 Ctrl/Cmd+B 等可能冲突的快捷键"
+    ],
+    "acceptance": {
+      "visualChecks": [
+        "V-S04-01",
+        "V-S04-02",
+        "V-S04-03",
+        "V-S04-04"
+      ],
+      "evalTasks": [
+        "E01",
+        "E08"
+      ],
+      "executionStatus": "not-run"
+    }
+  },
+  {
+    "id": "S05",
+    "name": "窄轨 + 次级栏 · 分层导航",
+    "category": "Sidebar",
+    "description": "同时呈现稳定的全局入口与当前课程/模块范围，避免把两者挤进一个深层菜单。",
+    "useWhen": [
+      "需要频繁跨模块又持续查看课程入口的工作台"
+    ],
+    "doNotUseWhen": [
+      "两列重复同一份导航",
+      "在 1200px 下无条件展开所有区域"
+    ],
+    "states": [
+      "global-current",
+      "context-current",
+      "context-switching",
+      "secondary-hidden",
+      "focus-visible"
+    ],
+    "tokenRequirements": [
+      "surface.navigation.dark",
+      "surface.navigation.light",
+      "text.control.default",
+      "text.control.secondary",
+      "text.navigation.current",
+      "state.navigation.current.surface",
+      "state.navigation.current.indicator",
+      "state.hover.surface",
+      "focus.ring",
+      "border.subtle",
+      "radius.control",
+      "density.compact",
+      "density.standard",
+      "space.inline",
+      "space.group",
+      "space.indent",
+      "layout.sidebar.expanded",
+      "layout.sidebar.rail",
+      "motion.disclosure",
+      "typography.brand"
+    ],
+    "allowedModifications": [
+      "在两列职责不变的前提下比较面层",
+      "替换课程切换和导航组",
+      "在预算不足时隐藏次级栏并保留恢复"
+    ],
+    "restrictedModifications": [
+      "全局与课程状态相互覆盖",
+      "向 Sidebar 内加入课程权限/继承业务引擎",
+      "为这个示例复制一套新的 NavLink"
+    ],
+    "acceptance": {
+      "visualChecks": [
+        "V-S05-01",
+        "V-S05-02",
+        "V-S05-03",
+        "V-S05-04"
+      ],
+      "evalTasks": [
+        "E02",
+        "E08"
+      ],
+      "executionStatus": "not-run"
+    }
+  },
+  {
+    "id": "S06",
+    "name": "内嵌主区 · 外层框架",
+    "category": "Sidebar",
+    "description": "用外层背景与内嵌主区域建立工作台层次，导航保持在外层。",
+    "useWhen": [
+      "管理工作台的分区关系对照",
+      "较宽桌面的信息模块页面"
+    ],
+    "doNotUseWhen": [
+      "已经多层卡片的页面再次过度套壳",
+      "把 inset 误做成侧栏悬浮"
+    ],
+    "states": [
+      "expanded",
+      "collapsed-icon",
+      "focus-visible",
+      "dense-content"
+    ],
+    "tokenRequirements": [
+      "surface.navigation.dark",
+      "text.control.default",
+      "text.control.secondary",
+      "text.navigation.current",
+      "state.navigation.current.surface",
+      "state.navigation.current.indicator",
+      "state.hover.surface",
+      "focus.ring",
+      "border.subtle",
+      "radius.control",
+      "density.compact",
+      "density.standard",
+      "space.inline",
+      "space.group",
+      "space.indent",
+      "layout.sidebar.expanded",
+      "layout.shell.inset",
+      "motion.disclosure",
+      "typography.brand"
+    ],
+    "allowedModifications": [
+      "通过已批准 Token 调整外层留白和主区边界",
+      "将同样的数据放入贴边或内嵌两种对照",
+      "保留独立滚动责任"
+    ],
+    "restrictedModifications": [
+      "在普通 Sidebar 内强行包裹业务 main",
+      "误把截图圆角提升为全站新圆角",
+      "用多重阴影补偿层级不清"
+    ],
+    "acceptance": {
+      "visualChecks": [
+        "V-S06-01",
+        "V-S06-02",
+        "V-S06-03",
+        "V-S06-04"
+      ],
+      "evalTasks": [
+        "E07",
+        "E08"
+      ],
+      "executionStatus": "not-run"
+    }
+  },
+  {
+    "id": "S08",
+    "name": "上下文抬头 · 课程导航",
+    "category": "Sidebar",
+    "description": "先告诉用户当前课程或资源范围，再提供该范围内的导航入口。",
+    "useWhen": [
+      "课程空间",
+      "资源包/班级等作用范围明确的页面"
+    ],
+    "doNotUseWhen": [
+      "把每个课程名写成新的组件参数",
+      "无说明地合并课程、资源包与班级范围"
+    ],
+    "states": [
+      "scope-loading",
+      "scope-ready",
+      "long-scope-name",
+      "parent-current",
+      "child-current",
+      "expanded"
+    ],
+    "tokenRequirements": [
+      "surface.navigation.light",
+      "text.control.default",
+      "text.control.secondary",
+      "text.navigation.current",
+      "state.navigation.current.surface",
+      "state.navigation.current.indicator",
+      "state.hover.surface",
+      "focus.ring",
+      "border.subtle",
+      "radius.control",
+      "density.compact",
+      "density.standard",
+      "space.inline",
+      "space.group",
+      "space.indent",
+      "layout.sidebar.expanded",
+      "motion.disclosure",
+      "typography.brand"
+    ],
+    "allowedModifications": [
+      "切换身份内容与允许的辅助信息",
+      "按范围组合搜索与分组",
+      "使用模拟数据验证课程切换"
+    ],
+    "restrictedModifications": [
+      "在菜单中自行推断资源包与班级继承写入行为",
+      "父级有独立页面时只允许展开、不允许访问",
+      "让抬头变成重装饰封面卡片"
+    ],
+    "acceptance": {
+      "visualChecks": [
+        "V-S08-01",
+        "V-S08-02",
+        "V-S08-03",
+        "V-S08-04"
+      ],
+      "evalTasks": [
+        "E02",
+        "E03",
+        "E08"
+      ],
+      "executionStatus": "not-run"
+    }
+  },
+  {
+    "id": "N01",
+    "name": "文字 + 指示线 · 直接导航",
+    "category": "Navigation Menu",
+    "description": "用最少的视觉元素表达高频入口与当前位置。",
+    "useWhen": [
+      "平台模块导航",
+      "课程内明确的页面入口"
+    ],
+    "doNotUseWhen": [
+      "只因有下划线就使用 Tabs",
+      "没有展开内容也包一层复杂菜单"
+    ],
+    "states": [
+      "default",
+      "current",
+      "hover",
+      "focus-visible",
+      "overflow"
+    ],
+    "tokenRequirements": [
+      "text.control.default",
+      "text.control.secondary",
+      "text.navigation.current",
+      "state.navigation.current.indicator",
+      "state.hover.surface",
+      "focus.ring",
+      "border.subtle",
+      "radius.control",
+      "density.compact",
+      "density.standard",
+      "space.inline",
+      "motion.disclosure",
+      "typography.brand"
+    ],
+    "allowedModifications": [
+      "替换路由链接与图标/数量",
+      "使用同组一致的标签长度策略",
+      "由顶栏组合决定左右对齐"
+    ],
+    "restrictedModifications": [
+      "把导航链接无理由改为 tab 角色",
+      "把发布/保存混入相同导航样式",
+      "通过极小字号让所有入口塞下一行"
+    ],
+    "acceptance": {
+      "visualChecks": [
+        "V-N01-01",
+        "V-N01-02",
+        "V-N01-03",
+        "V-N01-04"
+      ],
+      "evalTasks": [
+        "E03",
+        "E08"
+      ],
+      "executionStatus": "not-run"
+    }
+  },
+  {
+    "id": "N02",
+    "name": "柔和圆角块 · 轻填充导航",
+    "category": "Navigation Menu",
+    "description": "以轻填充和适度留白增强少量导航入口的可见点击区域。",
+    "useWhen": [
+      "少量工作空间入口",
+      "需要轻量位置提示的课程局部导航"
+    ],
+    "doNotUseWhen": [
+      "将圆角导航当成互斥设置开关",
+      "所有项目都成为饱和色大胶囊"
+    ],
+    "states": [
+      "default",
+      "current",
+      "hover",
+      "focus-visible",
+      "overflow"
+    ],
+    "tokenRequirements": [
+      "text.control.default",
+      "text.control.secondary",
+      "text.navigation.current",
+      "state.navigation.current.surface",
+      "state.hover.surface",
+      "focus.ring",
+      "border.subtle",
+      "radius.control",
+      "density.compact",
+      "density.standard",
+      "space.inline",
+      "motion.disclosure",
+      "typography.brand"
+    ],
+    "allowedModifications": [
+      "在同一份导航数据上对比 N01 与 N02",
+      "使用已批准的密度与图标组合",
+      "根据页面语境调整导航位置"
+    ],
+    "restrictedModifications": [
+      "创建 RoundedNavigation 独立逻辑组件",
+      "用 Tailwind 任意色绕过品牌 Token",
+      "切换皮肤时改变路由/键盘行为"
+    ],
+    "acceptance": {
+      "visualChecks": [
+        "V-N02-01",
+        "V-N02-02",
+        "V-N02-03",
+        "V-N02-04"
+      ],
+      "evalTasks": [
+        "E03",
+        "E08"
+      ],
+      "executionStatus": "not-run"
+    }
+  },
+  {
+    "id": "N03",
+    "name": "紧凑展开 · 链接菜单",
+    "category": "Navigation Menu",
+    "description": "让用途清楚的二级入口在紧凑面板中快速可达。",
+    "useWhen": [
+      "教师后台二级导航",
+      "模块内的少量页面入口"
+    ],
+    "doNotUseWhen": [
+      "命令动作、表单字段与导航链接无差别混排",
+      "只允许悬停打开"
+    ],
+    "states": [
+      "closed",
+      "open",
+      "current",
+      "current-other-panel-open",
+      "focus-visible",
+      "viewport-edge"
+    ],
+    "tokenRequirements": [
+      "surface.popup",
+      "text.control.default",
+      "text.control.secondary",
+      "text.navigation.current",
+      "state.hover.surface",
+      "state.open.surface",
+      "focus.ring",
+      "border.subtle",
+      "radius.control",
+      "radius.popup",
+      "shadow.popup",
+      "density.compact",
+      "density.standard",
+      "space.inline",
+      "motion.disclosure",
+      "layer.popup",
+      "typography.brand"
+    ],
+    "allowedModifications": [
+      "替换导航数据、分组和小图标",
+      "父级有独立页面时分开链接/展开按钮",
+      "门户另用经审核的延迟悬停策略"
+    ],
+    "restrictedModifications": [
+      "在同一个点击上既导航又开面板",
+      "把焦点锁在普通导航展开区",
+      "以展示静态 open 截图替代真实交互"
+    ],
+    "acceptance": {
+      "visualChecks": [
+        "V-N03-01",
+        "V-N03-02",
+        "V-N03-03",
+        "V-N03-04"
+      ],
+      "evalTasks": [
+        "E05",
+        "E08"
+      ],
+      "executionStatus": "not-run"
+    }
+  },
+  {
+    "id": "N04",
+    "name": "图标 + 说明 · 富链接面板",
+    "category": "Navigation Menu",
+    "description": "帮助用户理解多个新功能的用途差异，再到达合适入口。",
+    "useWhen": [
+      "AI 教学工具入口",
+      "需要一句说明的资源功能导航"
+    ],
+    "doNotUseWhen": [
+      "高频简单入口都强制加说明",
+      "把门户营销大菜单搬进高密度后台"
+    ],
+    "states": [
+      "closed",
+      "open",
+      "hover",
+      "focus-visible",
+      "long-description",
+      "single-column"
+    ],
+    "tokenRequirements": [
+      "surface.popup",
+      "text.control.default",
+      "text.control.secondary",
+      "text.navigation.current",
+      "state.hover.surface",
+      "state.open.surface",
+      "focus.ring",
+      "border.subtle",
+      "radius.control",
+      "radius.popup",
+      "shadow.popup",
+      "density.compact",
+      "density.standard",
+      "space.inline",
+      "space.group",
+      "motion.disclosure",
+      "layer.popup",
+      "typography.brand"
+    ],
+    "allowedModifications": [
+      "一列/两列由内容和可用宽度选择",
+      "替换已批准图标、标题与说明",
+      "按意图重组分组并保留稳定目的地 ID"
+    ],
+    "restrictedModifications": [
+      "图片/广告卡挤占后台核心入口",
+      "说明直接写进基础组件源码",
+      "为每种富内容面板写一个新 Menu"
+    ],
+    "acceptance": {
+      "visualChecks": [
+        "V-N04-01",
+        "V-N04-02",
+        "V-N04-03",
+        "V-N04-04"
+      ],
+      "evalTasks": [
+        "E04",
+        "E08"
+      ],
+      "executionStatus": "not-run"
+    }
+  },
+  {
+    "id": "M01",
+    "name": "无框平铺 · 文档命令栏",
+    "category": "Menubar",
+    "description": "让命令分类融入文档抬头，保持编辑内容优先。",
+    "useWhen": [
+      "备课编辑",
+      "文档型题目内容编辑"
+    ],
+    "doNotUseWhen": [
+      "平台级目的地导航",
+      "以命令栏代替整个标题/工具/操作区域"
+    ],
+    "states": [
+      "idle",
+      "menu-open",
+      "item-focused",
+      "disabled",
+      "checkbox-checked",
+      "radio-selected",
+      "submenu-open"
+    ],
+    "tokenRequirements": [
+      "surface.popup",
+      "text.control.default",
+      "text.control.secondary",
+      "state.hover.surface",
+      "state.open.surface",
+      "state.disabled.text",
+      "focus.ring",
+      "border.subtle",
+      "radius.control",
+      "radius.popup",
+      "shadow.popup",
+      "density.compact",
+      "density.standard",
+      "space.inline",
+      "motion.disclosure",
+      "layer.popup",
+      "typography.brand"
+    ],
+    "allowedModifications": [
+      "替换命令分类和应用动作",
+      "附加已注册快捷键的显示文本",
+      "在上下文抬头中改变命令栏位置"
+    ],
+    "restrictedModifications": [
+      "把页面 current 样式套给命令 open",
+      "多个独立 Dropdown 横排而缺少整体焦点协调",
+      "显示快捷键但宣称已经实现注册"
+    ],
+    "acceptance": {
+      "visualChecks": [
+        "V-M01-01",
+        "V-M01-02",
+        "V-M01-03",
+        "V-M01-04"
+      ],
+      "evalTasks": [
+        "E06",
+        "E08"
+      ],
+      "executionStatus": "not-run"
+    }
+  },
+  {
+    "id": "M02",
+    "name": "细边框条 · 嵌入式命令栏",
+    "category": "Menubar",
+    "description": "在局部编辑工作区中清楚标出一组命令，又不变成高强度主按钮。",
+    "useWhen": [
+      "试卷编辑",
+      "嵌入式小型编辑工作台"
+    ],
+    "doNotUseWhen": [
+      "命令不多却增加高饱和胶囊容器",
+      "为有框外观重新实现所有菜单行为"
+    ],
+    "states": [
+      "idle",
+      "menu-open",
+      "item-focused",
+      "disabled",
+      "checkbox-checked",
+      "radio-selected",
+      "submenu-open"
+    ],
+    "tokenRequirements": [
+      "surface.popup",
+      "text.control.default",
+      "text.control.secondary",
+      "state.hover.surface",
+      "state.open.surface",
+      "state.disabled.text",
+      "focus.ring",
+      "border.subtle",
+      "radius.control",
+      "radius.popup",
+      "shadow.popup",
+      "density.compact",
+      "density.standard",
+      "space.inline",
+      "motion.disclosure",
+      "layer.popup",
+      "typography.brand"
+    ],
+    "allowedModifications": [
+      "在同一命令数据上对比 M01/M02",
+      "通过公共部位调整外层容器",
+      "在不同局部工作区嵌入"
+    ],
+    "restrictedModifications": [
+      "为单页新增 editorMode 等全局 API",
+      "菜单位置被父级 overflow 裁切",
+      "把边框条伪装成导航 Tabs"
+    ],
+    "acceptance": {
+      "visualChecks": [
+        "V-M02-01",
+        "V-M02-02",
+        "V-M02-03",
+        "V-M02-04"
+      ],
+      "evalTasks": [
+        "E06",
+        "E08"
+      ],
+      "executionStatus": "not-run"
+    }
+  }
+]

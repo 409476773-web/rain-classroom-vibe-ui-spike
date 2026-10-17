@@ -1,0 +1,133 @@
+id: "ui-radio-group"
+name: "RadioGroup"
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/radio/radio.tsx"
+styleSourcePath: "packages/ui/src/styles.css"
+sourceVersion: "local-2026-09-10"
+publication: "unpublished"
+description: "少量互斥选项的单选组；支持模式切换、条件选择、说明与表单校验，保留原生 Radio 键盘行为。"
+useWhen:
+  - "需要单选筛选或模式切换，选项适合直接展示；由宿主决定初值、是否必选及生效范围。"
+  - "Use RadioGroup by default for one choice with legend, help and validation presentation."
+  - "Use controlled Radio when the host already owns selection and grouping."
+doNotUseWhen:
+  - "内容导航需先考虑 Tabs；候选较多或文案较长时考虑 Select；多选使用 Checkbox 或对应选择组。"
+  - "Multiple choice uses Checkbox; answer identities use OptionButton."
+  - "Cards, rich interactive content, preview and conditional panels need separate recipes."
+anatomy:
+  - "Native input and text label, 24px canvas, 18px circle, 6px dot, title and optional description."
+  - "RadioGroup adds fieldset, legend, help, items and message."
+props:
+  - "Radio: checked boolean with onCheckedChange, non-empty string name/value, label or native accessible name, description and native input attributes/ref."
+  - "RadioGroup: options with unique non-empty string IDs, legend, value string/null or defaultValue, onValueChange, name/form, orientation, legendHidden, help/message, required, invalid and disabled."
+  - "Controlled value requires its callback; never combine controlled and default state. Null means no selection."
+  - "className is layout only; localRecipe modifies named declared Radio parts within a registered feature recipe."
+slots:
+  - "renderOption: optional group-owned native input props for card composition; excludes the standard localRecipe."
+variants:
+  - "Standard text with optional non-interactive description."
+  - "Vertical by default or horizontal with wrapping."
+states:
+  - "unchecked"
+  - "checked"
+  - "hover"
+  - "pressed"
+  - "focus-visible"
+  - "disabled"
+  - "invalid-group"
+  - "empty-group"
+dependencies:
+  - "react"
+  - "@rain-next/foundations"
+  - "tailwind-merge"
+tokens:
+  - "Space/24 canvas, Space/18 circle, Space/6 dot, Radius/full, Line/Thickness/1."
+  - "Space/8 control-content, Space/4 title-description, Space/12 items; UI 15/24/600 title and 13/22/400 description."
+  - "Background/Neutral/1 and local Border/Neutral/1 Alpha/65; Text/Neutral/3."
+  - "Checked Fill/Brand/Solid/2, Border/Brand/1 and OnColor/1; pressed Fill/Brand/Solid/1."
+  - "23px circular halo: inset Space/2 divided by 4 inside 24px; Fill/Neutral/Alpha/3 hover and Alpha/2 pressed. Unchecked feedback uses transparent fill and local Border/Neutral/1 Alpha/85."
+  - "Disabled Fill/Neutral/Solid/2, Border/Neutral/2, Icon/Neutral/4 and Text/Neutral/4; description remains Text/Neutral/3."
+  - "Shared Focus outline/halo; forced colors use system paints. No global Token changes."
+densities:
+  compactDefault: "24px canvas / 18px control / 6px dot"
+  defaultDefault: "24px canvas / 18px control / 6px dot"
+layoutConstraints:
+  - "Label and description activate the same input; no nested interactive children."
+  - "The control aligns to the first title line and long text wraps."
+compositionRules:
+  - "SC-02 renderOption replaces presentation only; preserve supplied checked, name, form, disabled and callback props. Standard localRecipe applies to the default renderer only."
+  - "Only newly checked user activation emits a change; repeat activation, prop updates, canceled activation and default reset do not."
+  - "Same name and form establish one native radio group. Distinct groups must use distinct names."
+  - "Omitted name generates a stable unique real native name, which is also submitted. Supply the intended business field name in forms."
+  - "Missing selected IDs remain in the model without automatic fallback; FormData includes only rendered checked enabled inputs."
+  - "A disabled selected item can be replaced by selecting an enabled item. Disable the group to lock the whole choice."
+  - "Required uses native same-name radio validity; the host owns error timing and message."
+  - "Default reset restores latest declared defaults, honors cancellation and follows current external/replaced forms. Controlled owners handle reset."
+allowedModifications:
+  - "Choose complete recipe, labels, orientation, state and native form attributes."
+  - "Use named Local Recipes for declared parts with registered Token changes."
+restrictedModifications:
+  - "No readOnly, mixed state, rich interactive children or automatic first selection."
+  - "Do not replace native radio with buttons, new dependencies or unregistered paints."
+accessibility:
+  - "Native Tab, Space and arrow keys with disabled options skipped."
+  - "Fieldset/legend and radiogroup semantics expose name, required, invalid and orientation; help/message describes the group and each item."
+  - "Visible native Focus, meaningful selected dot and forced-colors system palette."
+  - "Inherited disabled fieldsets block activation and submission; descriptions remain readable."
+examples:
+  - "#radio"
+recipes:
+  - "RadioGroup complete standard single-choice form recipe"
+  - "Controlled Radio item"
+antiPatterns:
+  - "Using the same explicit name for separate groups in one form."
+  - "Treating a missing value as a request to auto-select the first item."
+  - "Treating FormData as the full domain model."
+relatedComponents:
+  - "Checkbox"
+  - "CheckboxGroup"
+  - "OptionButton"
+  - "FormItem"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Rain Classic Radio / RadioGroup and original Figma variants under 1:7814."
+  externalReferences:
+    - "https://ui.shadcn.com/docs/components/base/radio-group"
+    - "https://ant.design/components/radio/"
+    - "https://mui.com/material-ui/react-radio-button/"
+  retainedTraits:
+    - "Circular native indicator, selected dot, separate item/group identities and optional descriptions."
+  redesignedTraits:
+    - "Established themed Token paint, stable string IDs and explicit state ownership."
+  intentionallyNotInherited:
+    - "Original 17.6px/6.7px geometry becomes existing 18px/6px; one dot size including disabled."
+    - "Original 500 weight, raw color values and whole-control disabled opacity."
+sourceEvidence:
+  - "docs/audits/2026-09-09-selection-sc00-preflight.md"
+  - "docs/plans/2026-09-10-radio-sc01-implementation.md"
+  - "evidence/runtime/radio/figma-reference.json"
+migrationNotes:
+  - "Independent native Radio candidates; no business migration or changes to existing answer-option components."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  humanGateScope: "radio-radiogroup-sc01-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/radio/verification.md"
+figmaMapping:
+  status: "reference-only"
+  evidence: "evidence/runtime/radio/figma-reference.json"
+  codeConnect: "not-established"
+parts:
+  - "root"
+  - "legend"
+  - "help"
+  - "items"
+  - "message"

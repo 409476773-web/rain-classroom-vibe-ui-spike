@@ -1,0 +1,170 @@
+--- before/packages/ui/src/charts/vendor/charts/radar-area.tsx
++++ after/packages/ui/src/charts/vendor/charts/radar-area.tsx
+@@ -147,6 +147,9 @@
+   const color = colorProp || getColor(index);
+   const isHovered = hoveredIndex === index;
+   const isOtherHovered = hoveredIndex !== null && hoveredIndex !== index;
++  const filter = showGlow && isHovered
++    ? `drop-shadow(0 0 6px color-mix(in srgb, ${color} 25%, transparent))`
++    : "none";
+ 
+   return (
+     <motion.g
+@@ -160,8 +163,8 @@
+       onMouseLeave={() => setHoveredIndex(null)}
+       style={{ transformOrigin: "0px 0px", cursor: "pointer" }}
+       transition={{
+-        opacity: { duration: 0.15 },
+-        scale: { type: "spring", stiffness: 400, damping: 25 },
++        opacity: { duration: animate ? 0.15 : 0 },
++        scale: animate ? { type: "spring", stiffness: 400, damping: 25 } : { duration: 0 },
+       }}
+     >
+       {enterComplete ? (
+@@ -172,10 +175,7 @@
+           stroke={showStroke ? color : "none"}
+           strokeLinejoin="round"
+           strokeWidth={showStroke ? getStrokeWidth(isHovered) : 0}
+-          style={{
+-            filter:
+-              showGlow && isHovered ? `drop-shadow(0 0 12px ${color})` : "none",
+-          }}
++          style={{ filter }}
+         />
+       ) : (
+         <motion.path
+@@ -187,13 +187,10 @@
+           fill={color}
+           stroke={showStroke ? color : "none"}
+           strokeLinejoin="round"
+-          style={{
+-            filter:
+-              showGlow && isHovered ? `drop-shadow(0 0 12px ${color})` : "none",
+-          }}
++          style={{ filter }}
+           transition={{
+-            fillOpacity: { duration: 0.2 },
+-            strokeWidth: { duration: 0.2 },
++            fillOpacity: { duration: animate ? 0.2 : 0 },
++            strokeWidth: { duration: animate ? 0.2 : 0 },
+           }}
+         />
+       )}
+--- before/packages/ui/src/charts/vendor/charts/radar-grid.tsx
++++ after/packages/ui/src/charts/vendor/charts/radar-grid.tsx
+@@ -40,7 +40,7 @@
+   // Generate angles for the radial lines (one per metric)
+   const degrees = 360;
+   const angles = [...new Array(metrics.length + 1)].map((_, i) => ({
+-    angle: i * (degrees / metrics.length) + degrees / metrics.length / 2,
++    angle: i * (degrees / metrics.length),
+   }));
+ 
+   // Radial scale for converting degrees to radians
+--- before/packages/ui/src/charts/vendor/charts/radar-labels.tsx
++++ after/packages/ui/src/charts/vendor/charts/radar-labels.tsx
+@@ -59,7 +59,7 @@
+               }
+               dominantBaseline="middle"
+               fontSize={fontSize}
+-              fontWeight={500}
++              fontWeight="var(--rain-font-weight-regular)"
+               opacity={interactive ? 0.8 : 1}
+               style={{ fill: radarCssVars.label }}
+               textAnchor="middle"
+--- before/apps/playground/src/docs/components/chart-examples.tsx
++++ after/apps/playground/src/docs/components/chart-examples.tsx
+@@ -6,7 +6,7 @@
+ import {
+   curveLinear, curveMonotoneX, AreaChart, Area, LineChart, Line, BarChart, Bar, BarXAxis,
+   ComposedChart, SeriesBar, Grid, XAxis, YAxis, ChartTooltip, TooltipContent,
+-  ChartLegend, type LegendItem as LegendItemData, ChartLegendHoverProvider,
++  ChartLegendHoverProvider,
+   PieChart, PieSlice, PieCenter, RingChart, Ring, RingCenter,
+   RadarChart, RadarGrid, RadarAxis, RadarArea, RadarLabels, ScatterChart, Scatter,
+   FunnelChart, Gauge, SankeyChart, SankeyLink, SankeyNode, SankeyTooltip,
+@@ -20,6 +20,7 @@
+ import { SERIES, RADAR_METRICS, dateLabel, exampleLabel, makeTimeline, makeBars, makeCategories, makeRings, makeRadar, makeFunnel, makeFlow, flowColor, makeHierarchy, hierarchyLeaves, makeHeatmap, makeRegions, intensityColor, makeCandles, makeLivePoints, assertGaugeValue, invalidExampleError, type ChartState } from "./chart-data";
+ 
+ import { CHART_ENTRIES, type ChartId, type ChartRecipe } from "./chart-catalog";
++import { ExampleLegend as Legend } from "./chart-variants/shared";
+ import { ProfitLossExample } from "./chart-variants/profit-loss";
+ import { MiniColumns, MiniPie, MiniProgress } from "./chart-business/mini-examples";
+ import { MINI_LAYOUT, type MiniSize } from "./chart-business/mini-layout";
+@@ -38,13 +39,6 @@
+ const flat = "var(--chart-neutral)";
+ const finiteValue = (value: unknown) => typeof value === "number" && Number.isFinite(value) ? value : 0;
+ const validHover = (index: number | null, length: number) => index != null && Number.isInteger(index) && index >= 0 && index < length ? index : null;
+-
+-function Legend({ items, hovered, onHover, showValue = false }: { items: LegendItemData[]; hovered: number | null; onHover: (index: number | null) => void; showValue?: boolean }) {
+-  return <ChartLegend className="rain-chart-legend" labelClassName="text-sm font-normal" valueClassName="text-sm font-normal" showValue={showValue} hoveredIndex={validHover(hovered, items.length)} onHover={onHover} items={items}
+-    renderItem={({ item, index, isHovered, isFaded }) => <button type="button" className="rain-chart-legend-button" onFocus={() => onHover(index)} onBlur={() => onHover(null)} onClick={() => onHover(index)} style={{ display: "flex", alignItems: "center", gap: 8, border: 0, borderRadius: 8, padding: "6px 8px", font: "inherit", color: "var(--legend-foreground)", background: isHovered ? "var(--legend-muted)" : "transparent", opacity: isFaded ? .4 : 1, cursor: "pointer" }}>
+-      <span aria-hidden="true" style={{ width: 10, height: 10, borderRadius: "50%", flexShrink: 0, background: item.color }} /><span>{item.label}</span>{showValue && <span style={{ color: "var(--legend-muted-foreground)" }}>{item.value}</span>}
+-    </button>} />;
+-}
+ 
+ function ExactTable({ headers, rows, caption = "示例精确数据" }: { headers: string[]; rows: ReactNode[][]; caption?: string }) {
+   return <details className="rain-chart-data"><summary>查看精确数据</summary><div tabIndex={0} aria-label="精确数据表，可横向滚动"><table>
+--- before/apps/playground/src/docs/components/chart-variants/radial.tsx
++++ after/apps/playground/src/docs/components/chart-variants/radial.tsx
+@@ -5,7 +5,7 @@
+   RadarChart, RadarGrid, RadarAxis, RadarArea, RadarLabels,
+   type PieData, type RingData, type RadarData, type RadarMetric,
+ } from "@rain-next/ui/charts";
+-import { immediate, seriesColors, useVariantSetting, VariantTable, type VariantExampleProps } from "./shared";
++import { ExampleLegend, immediate, seriesColors, useVariantSetting, VariantTable, type VariantExampleProps } from "./shared";
+ import { exampleLabel } from "../chart-data";
+ 
+ export const RADIAL_VARIANT_IDS = [
+@@ -140,6 +140,7 @@
+ 
+ const radarMetricLabels = ["理解", "分析", "应用", "表达", "协作", "创造"];
+ function RadarVariant({ variantId, revision, replay, reduced, active }: VariantExampleProps) {
++  const [hovered, setHovered] = useState<number | null>(null);
+   const triangle = variantId === "radar-triangle" || variantId === "radar-grid-only";
+   const hexagon = variantId === "radar-hexagon";
+   const single = variantId === "radar-single-series";
+@@ -149,10 +150,11 @@
+   const data = useMemo<RadarData[]>(() => (single ? ["示例课程"] : ["课程 A", "课程 B"])
+     .map((label, series) => ({ label, color: seriesColors[series], values: Object.fromEntries(metrics.map((metric, index) =>
+       [metric.key, Math.min(100, Math.max(0, (single ? [92, 38, 78, 45, 63, 58] : series === 0 ? [88, 65, 91, 56, 74, 68] : [62, 86, 57, 82, 69, 89])[index]! + revision * (series ? -1 : 1)))])) })), [single, metrics, revision]);
++  const safeHovered = hovered != null && Number.isInteger(hovered) && hovered >= 0 && hovered < data.length ? hovered : null;
+   return <>
+     <div className="rain-chart-radial">
+       <RadarChart key={`${variantId}-${replay}`} className="rain-chart-radial-plot" data={data} metrics={metrics}
+-        margin={48} levels={minimal ? 3 : 5} animate={!reduced && active}
++        margin={48} levels={minimal ? 3 : 5} animate={!reduced && active} hoveredIndex={safeHovered} onHoverChange={setHovered}
+         enterTransition={reduced || !active ? immediate : undefined} staggerScale={reduced || !active ? 0 : 1} enterDurationMs={reduced || !active ? 0 : undefined} motionReplayKey={String(replay)}>
+         <RadarGrid showLabels={!hexagon && !minimal} />
+         {!hexagon && !minimal && variantId !== "radar-grid-only" && <RadarAxis />}
+@@ -162,7 +164,7 @@
+       </RadarChart>
+     </div>
+     <p className="rain-chart-note">{metrics.length} 个维度共用 0–100 分量程；均为示例评分，未混合不同单位。</p>
+-    <div className="rain-chart-variant-legend" aria-label="评分系列">{data.map(item => <span key={item.label}><span className="rain-chart-legend-dot" aria-hidden="true" style={{ background: item.color }} />{item.label}</span>)}</div>
++    <ExampleLegend items={data.map((item, index) => ({ label: item.label, value: 0, color: item.color ?? seriesColors[index]! }))} hovered={safeHovered} onHover={setHovered} />
+     <VariantTable caption="同尺度能力评分 · 分" data={data.map(item => ({ 课程: item.label, ...Object.fromEntries(metrics.map(metric => [`${metric.label} · 分`, item.values[metric.key]])) }))} />
+   </>;
+ }
+--- before/apps/playground/src/docs/components/chart-variants/shared.tsx
++++ after/apps/playground/src/docs/components/chart-variants/shared.tsx
+@@ -1,3 +1,4 @@
++import { ChartLegend, type LegendItem as LegendItemData } from "@rain-next/ui/charts";
+ import type { ChartRecipe } from "../chart-catalog";
+ import { useEffect, useState, type ReactNode, type SetStateAction } from "react";
+ 
+@@ -53,6 +54,14 @@
+ export const immediate = { type: "tween" as const, duration: 0 };
+ export const seriesColors = [1, 2, 3, 4, 5].map(index => `var(--chart-${index})`);
+ 
++export function ExampleLegend({ items, hovered, onHover, showValue = false }: { items: LegendItemData[]; hovered: number | null; onHover: (index: number | null) => void; showValue?: boolean }) {
++  const safeHovered = hovered != null && Number.isInteger(hovered) && hovered >= 0 && hovered < items.length ? hovered : null;
++  return <ChartLegend className="rain-chart-legend" labelClassName="text-sm font-normal" valueClassName="text-sm font-normal" showValue={showValue} hoveredIndex={safeHovered} onHover={onHover} items={items}
++    renderItem={({ item, index, isHovered, isFaded }) => <button type="button" className="rain-chart-legend-button" onFocus={() => onHover(index)} onBlur={() => onHover(null)} onClick={() => onHover(index)} style={{ display: "flex", alignItems: "center", gap: 8, border: 0, borderRadius: 8, padding: "6px 8px", font: "inherit", color: "var(--legend-foreground)", background: isHovered ? "var(--legend-muted)" : "transparent", opacity: isFaded ? .4 : 1, cursor: "pointer" }}>
++      <span aria-hidden="true" style={{ width: 10, height: 10, borderRadius: "50%", flexShrink: 0, background: item.color }} /><span>{item.label}</span>{showValue && <span style={{ color: "var(--legend-muted-foreground)" }}>{item.value}</span>}
++    </button>} />;
++}
++
+ export function VariantTable({ data, caption = "示例精确数据" }: { data: Record<string, unknown>[]; caption?: string }) {
+   const keys = Array.from(new Set(data.flatMap(row => Object.keys(row))));
+   function cell(value: unknown): ReactNode {

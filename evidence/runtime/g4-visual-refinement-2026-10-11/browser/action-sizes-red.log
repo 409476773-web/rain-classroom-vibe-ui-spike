@@ -1,0 +1,502 @@
+
+Running 2 tests using 1 worker
+
+(node:16758) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/g4-components.spec.ts:127:1 › Item lists aligned readable resources and keeps native keyboard navigation (1.1s)
+(node:16763) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [narrow] › tests/e2e/g4-components.spec.ts:127:1 › Item lists aligned readable resources and keeps native keyboard navigation (823ms)
+
+
+  1) [desktop] › tests/e2e/g4-components.spec.ts:127:1 › Item lists aligned readable resources and keeps native keyboard navigation 
+
+    Error: 课程导读：从问题到证据: fontSize
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "14px"
+    Received: "12px"
+
+      146 |   expect(actionSizes).toHaveLength(2);
+      147 |   for (const row of actionSizes) {
+    > 148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+          |                                                                                                               ^
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111
+
+    Error: 课程导读：从问题到证据: lineHeight
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "20px"
+    Received: "14px"
+
+      146 |   expect(actionSizes).toHaveLength(2);
+      147 |   for (const row of actionSizes) {
+    > 148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+          |                                                                                                               ^
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111
+
+    Error: 课程导读：从问题到证据: height
+
+    expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 26
+    Received: 20
+
+    Expected precision:    1
+    Expected difference: < 0.05
+    Received difference:   6
+
+      147 |   for (const row of actionSizes) {
+      148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+    > 149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+          |                                                                                                        ^
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+      152 |     expect.soft(row.read.height).toBe(26);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104
+
+    Error: 课程导读：从问题到证据: width
+
+    expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 40
+    Received: 36
+
+    Expected precision:    1
+    Expected difference: < 0.05
+    Received difference:   4
+
+      147 |   for (const row of actionSizes) {
+      148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+    > 149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+          |                                                                                                        ^
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+      152 |     expect.soft(row.read.height).toBe(26);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "14px"
+    Received: "12px"
+
+      148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+    > 150 |     expect.soft(row.read.fontSize).toBe("14px");
+          |                                    ^
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+      152 |     expect.soft(row.read.height).toBe(26);
+      153 |   }
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:150:36
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "20px"
+    Received: "14px"
+
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+    > 151 |     expect.soft(row.read.lineHeight).toBe("20px");
+          |                                      ^
+      152 |     expect.soft(row.read.height).toBe(26);
+      153 |   }
+      154 |   const first = rows.first();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:151:38
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 26
+    Received: 20
+
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+    > 152 |     expect.soft(row.read.height).toBe(26);
+          |                                  ^
+      153 |   }
+      154 |   const first = rows.first();
+      155 |   const layout = await rows.evaluateAll(nodes => nodes.map(root => {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:34
+
+    Error: 案例阅读：如何识别一条可靠的学习证据: fontSize
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "14px"
+    Received: "12px"
+
+      146 |   expect(actionSizes).toHaveLength(2);
+      147 |   for (const row of actionSizes) {
+    > 148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+          |                                                                                                               ^
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111
+
+    Error: 案例阅读：如何识别一条可靠的学习证据: lineHeight
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "20px"
+    Received: "14px"
+
+      146 |   expect(actionSizes).toHaveLength(2);
+      147 |   for (const row of actionSizes) {
+    > 148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+          |                                                                                                               ^
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111
+
+    Error: 案例阅读：如何识别一条可靠的学习证据: height
+
+    expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 26
+    Received: 20
+
+    Expected precision:    1
+    Expected difference: < 0.05
+    Received difference:   6
+
+      147 |   for (const row of actionSizes) {
+      148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+    > 149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+          |                                                                                                        ^
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+      152 |     expect.soft(row.read.height).toBe(26);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104
+
+    Error: 案例阅读：如何识别一条可靠的学习证据: width
+
+    expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 40
+    Received: 36
+
+    Expected precision:    1
+    Expected difference: < 0.05
+    Received difference:   4
+
+      147 |   for (const row of actionSizes) {
+      148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+    > 149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+          |                                                                                                        ^
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+      152 |     expect.soft(row.read.height).toBe(26);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "14px"
+    Received: "12px"
+
+      148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+    > 150 |     expect.soft(row.read.fontSize).toBe("14px");
+          |                                    ^
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+      152 |     expect.soft(row.read.height).toBe(26);
+      153 |   }
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:150:36
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "20px"
+    Received: "14px"
+
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+    > 151 |     expect.soft(row.read.lineHeight).toBe("20px");
+          |                                      ^
+      152 |     expect.soft(row.read.height).toBe(26);
+      153 |   }
+      154 |   const first = rows.first();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:151:38
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 26
+    Received: 20
+
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+    > 152 |     expect.soft(row.read.height).toBe(26);
+          |                                  ^
+      153 |   }
+      154 |   const first = rows.first();
+      155 |   const layout = await rows.evaluateAll(nodes => nodes.map(root => {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [narrow] › tests/e2e/g4-components.spec.ts:127:1 › Item lists aligned readable resources and keeps native keyboard navigation 
+
+    Error: 课程导读：从问题到证据: fontSize
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "14px"
+    Received: "12px"
+
+      146 |   expect(actionSizes).toHaveLength(2);
+      147 |   for (const row of actionSizes) {
+    > 148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+          |                                                                                                               ^
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111
+
+    Error: 课程导读：从问题到证据: lineHeight
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "20px"
+    Received: "14px"
+
+      146 |   expect(actionSizes).toHaveLength(2);
+      147 |   for (const row of actionSizes) {
+    > 148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+          |                                                                                                               ^
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111
+
+    Error: 课程导读：从问题到证据: height
+
+    expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 26
+    Received: 20
+
+    Expected precision:    1
+    Expected difference: < 0.05
+    Received difference:   6
+
+      147 |   for (const row of actionSizes) {
+      148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+    > 149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+          |                                                                                                        ^
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+      152 |     expect.soft(row.read.height).toBe(26);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104
+
+    Error: 课程导读：从问题到证据: width
+
+    expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 40
+    Received: 36
+
+    Expected precision:    1
+    Expected difference: < 0.05
+    Received difference:   4
+
+      147 |   for (const row of actionSizes) {
+      148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+    > 149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+          |                                                                                                        ^
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+      152 |     expect.soft(row.read.height).toBe(26);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "14px"
+    Received: "12px"
+
+      148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+    > 150 |     expect.soft(row.read.fontSize).toBe("14px");
+          |                                    ^
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+      152 |     expect.soft(row.read.height).toBe(26);
+      153 |   }
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:150:36
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "20px"
+    Received: "14px"
+
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+    > 151 |     expect.soft(row.read.lineHeight).toBe("20px");
+          |                                      ^
+      152 |     expect.soft(row.read.height).toBe(26);
+      153 |   }
+      154 |   const first = rows.first();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:151:38
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 26
+    Received: 20
+
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+    > 152 |     expect.soft(row.read.height).toBe(26);
+          |                                  ^
+      153 |   }
+      154 |   const first = rows.first();
+      155 |   const layout = await rows.evaluateAll(nodes => nodes.map(root => {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:34
+
+    Error: 案例阅读：如何识别一条可靠的学习证据: fontSize
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "14px"
+    Received: "12px"
+
+      146 |   expect(actionSizes).toHaveLength(2);
+      147 |   for (const row of actionSizes) {
+    > 148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+          |                                                                                                               ^
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111
+
+    Error: 案例阅读：如何识别一条可靠的学习证据: lineHeight
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "20px"
+    Received: "14px"
+
+      146 |   expect(actionSizes).toHaveLength(2);
+      147 |   for (const row of actionSizes) {
+    > 148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+          |                                                                                                               ^
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:148:111
+
+    Error: 案例阅读：如何识别一条可靠的学习证据: height
+
+    expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 26
+    Received: 20
+
+    Expected precision:    1
+    Expected difference: < 0.05
+    Received difference:   6
+
+      147 |   for (const row of actionSizes) {
+      148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+    > 149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+          |                                                                                                        ^
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+      152 |     expect.soft(row.read.height).toBe(26);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104
+
+    Error: 案例阅读：如何识别一条可靠的学习证据: width
+
+    expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 40
+    Received: 36
+
+    Expected precision:    1
+    Expected difference: < 0.05
+    Received difference:   4
+
+      147 |   for (const row of actionSizes) {
+      148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+    > 149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+          |                                                                                                        ^
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+      152 |     expect.soft(row.read.height).toBe(26);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:149:104
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "14px"
+    Received: "12px"
+
+      148 |     for (const key of ["fontSize", "lineHeight"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBe(row.download[key]);
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+    > 150 |     expect.soft(row.read.fontSize).toBe("14px");
+          |                                    ^
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+      152 |     expect.soft(row.read.height).toBe(26);
+      153 |   }
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:150:36
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "20px"
+    Received: "14px"
+
+      149 |     for (const key of ["height", "width"] as const) expect.soft(row.read[key], `${row.title}: ${key}`).toBeCloseTo(row.download[key], 1);
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+    > 151 |     expect.soft(row.read.lineHeight).toBe("20px");
+          |                                      ^
+      152 |     expect.soft(row.read.height).toBe(26);
+      153 |   }
+      154 |   const first = rows.first();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:151:38
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 26
+    Received: 20
+
+      150 |     expect.soft(row.read.fontSize).toBe("14px");
+      151 |     expect.soft(row.read.lineHeight).toBe("20px");
+    > 152 |     expect.soft(row.read.height).toBe(26);
+          |                                  ^
+      153 |   }
+      154 |   const first = rows.first();
+      155 |   const layout = await rows.evaluateAll(nodes => nodes.map(root => {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/e2e/g4-components.spec.ts:127:1 › Item lists aligned readable resources and keeps native keyboard navigation 
+    [narrow] › tests/e2e/g4-components.spec.ts:127:1 › Item lists aligned readable resources and keeps native keyboard navigation 

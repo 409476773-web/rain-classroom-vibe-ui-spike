@@ -1,0 +1,54 @@
+[WebServer] (node:88235) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:88251) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:88616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/e2e/conversation-composer.spec.ts:7:1 › manual layout changes animate height continuously while typing and reduced motion stay immediate (2.7s)
+  ✓  2 [desktop] › tests/e2e/conversation-composer.spec.ts:81:1 › full-width writing and fixed toolbar slots survive expansion and voice phases (3.1s)
+  ✓  3 [desktop] › tests/e2e/conversation-composer.spec.ts:172:1 › four combinations preserve draft, keyboard and responsive surfaces (4.9s)
+(node:88648) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [narrow] › tests/e2e/conversation-composer.spec.ts:7:1 › manual layout changes animate height continuously while typing and reduced motion stay immediate (2.1s)
+  ✘  5 [narrow] › tests/e2e/conversation-composer.spec.ts:81:1 › full-width writing and fixed toolbar slots survive expansion and voice phases (3.1s)
+(node:88665) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  6 [narrow] › tests/e2e/conversation-composer.spec.ts:172:1 › four combinations preserve draft, keyboard and responsive surfaces (4.9s)
+
+
+  1) [narrow] › tests/e2e/conversation-composer.spec.ts:81:1 › full-width writing and fixed toolbar slots survive expansion and voice phases 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 1
+    Received:   480
+
+       96 |   const stop=await form.getByRole('button',{name:'结束录音',exact:true}).boundingBox();
+       97 |   expect(Math.abs(stop!.x-expandedSend!.x)).toBeLessThan(1);
+    >  98 |   expect(Math.abs(stop!.y-expandedSend!.y)).toBeLessThan(1);
+          |                                             ^
+       99 |   await expect(editor).toHaveValue('保持这段草稿与光标');
+      100 |   expect(await form.evaluate(node=>node.scrollWidth-node.clientWidth)).toBeLessThanOrEqual(1);
+      101 |   await form.screenshot({path:`${evidence}/stable-voice-toolbar-${info.project.name}.png`});
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts:98:45
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-07/browser/results/conversation-composer-full-57aae--expansion-and-voice-phases-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/conversation-composer-2026-10-15/run-07/browser/results/conversation-composer-full-57aae--expansion-and-voice-phases-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-07/browser/results/conversation-composer-full-57aae--expansion-and-voice-phases-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/conversation-composer-2026-10-15/run-07/browser/results/conversation-composer-full-57aae--expansion-and-voice-phases-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [narrow] › tests/e2e/conversation-composer.spec.ts:81:1 › full-width writing and fixed toolbar slots survive expansion and voice phases 
+  5 passed (23.8s)

@@ -1,0 +1,46 @@
+
+Running 7 tests using 1 worker
+
+(node:20247) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/navigation-v042-w3.spec.ts:6:1 › A2 native destinations and zero-gap 76px queue keep business state colors (802ms)
+  ✓  2 tests/e2e/navigation-v042-w3.spec.ts:20:1 › A3 native radio keyboard uses the exact regular/compact slot geometry (760ms)
+  ✓  3 tests/e2e/navigation-v042-w3.spec.ts:31:1 › A5 current object identity and progress follow stable selection (762ms)
+  ✓  4 tests/e2e/navigation-v042-w3.spec.ts:41:1 › C1-C5 and W1/W2/W3 preserve semantic content ownership and native focus (842ms)
+  ✓  5 tests/e2e/navigation-v042-w3.spec.ts:57:1 › R1 double scenes retain content tab and isolate graph modes from navigation (1.3s)
+  ✘  6 tests/e2e/navigation-v042-w3.spec.ts:70:1 › R3 two scenes keep directory/view/filter/star concerns independent (5.8s)
+(node:20273) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  7 tests/e2e/navigation-v042-w3.spec.ts:89:1 › W3 standalone consumer uses shared imports and no reference runtime globals (462ms)
+
+
+  1) tests/e2e/navigation-v042-w3.spec.ts:70:1 › R3 two scenes keep directory/view/filter/star concerns independent 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-rain-id="recipe-navigation-r3"]').locator('.nv43-file-grid>button')
+    Expected: 1
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-rain-id="recipe-navigation-r3"]').locator('.nv43-file-grid>button')
+        14 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      74 |   await expect(root.locator('tbody tr')).toHaveCount(1);
+      75 |   await root.getByRole('radio',{name:'网格',exact:true}).locator('..').click();
+    > 76 |   await expect(root.locator('.nv43-file-grid>button')).toHaveCount(1);
+         |                                                        ^
+      77 |   const restore=root.locator('.nv43-workspace-bar .rain-workspace__restore[aria-controls$="-workspace-context"]');
+      78 |   await restore.click();await expect(restore).toHaveAttribute('aria-label','显示资源目录');await restore.click();
+      79 |   await expect(root.getByLabel('资源路径')).toContainText('教学资料');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w3.spec.ts:76:56
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-07-cross-page/w3-families-artifacts/navigation-v042-w3-R3-two--4d400-r-star-concerns-independent/error-context.md
+
+  1 failed
+    tests/e2e/navigation-v042-w3.spec.ts:70:1 › R3 two scenes keep directory/view/filter/star concerns independent 
+  6 passed (11.5s)

@@ -1,0 +1,181 @@
+{
+  "probe": "/private/tmp/rain-chart-brush-api-CdiouD",
+  "status": "passed-static-api",
+  "packages": [
+    {
+      "version": "3.12.0",
+      "url": "https://registry.npmjs.org/@visx/brush/-/brush-3.12.0.tgz",
+      "integrity": "sha512-ceqQe/IlIi9X9FT/DuiO6b3l5YAGnux/aQMX8M1gvLdz4T8pXIW8nDv1OhqbZ7lmbQEUEEM9IexOkR9ix7pL+Q==",
+      "sha256": "f21047a0a8223f942e9b1bf1c94d780ad84cefd623933afe36976c77ad79f07a",
+      "files": 39,
+      "extractedDirectory": "/private/tmp/rain-chart-brush-api-CdiouD/3.12.0",
+      "peerDependencies": {
+        "react": "^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0"
+      },
+      "dependencies": {
+        "@visx/drag": "3.12.0",
+        "classnames": "^2.3.1",
+        "prop-types": "^15.6.1",
+        "@visx/event": "3.12.0",
+        "@visx/group": "3.12.0",
+        "@visx/scale": "3.12.0",
+        "@visx/shape": "3.12.0"
+      }
+    },
+    {
+      "version": "4.0.1-alpha.0",
+      "url": "https://registry.npmjs.org/@visx/brush/-/brush-4.0.1-alpha.0.tgz",
+      "integrity": "sha512-+Ib2OHP64Cu0WxAvL5fkSQ9C6SnksJ2vqXMUiRg9MoP5CUAZW9/xOi/OBffxFrYgN5L402GMwz/uJi+OkPBXZg==",
+      "sha256": "bed416ae698b4f77f249ea0e077cd36fa9cc8deaca18e638f55d2fdc4ca94cc8",
+      "files": 39,
+      "extractedDirectory": "/private/tmp/rain-chart-brush-api-CdiouD/4.0.1-alpha.0",
+      "peerDependencies": {
+        "react": "^16.14.0 || ^17.0.0-0 || ^18.0.0-0 || ^19.0.0-0"
+      },
+      "dependencies": {
+        "@visx/drag": "4.0.1-alpha.0",
+        "classnames": "^2.3.1",
+        "@visx/event": "4.0.1-alpha.0",
+        "@visx/group": "4.0.1-alpha.0",
+        "@visx/scale": "4.0.1-alpha.0",
+        "@visx/shape": "4.0.1-alpha.0"
+      }
+    }
+  ],
+  "apiFiles": [
+    {
+      "path": "lib/index.d.ts",
+      "beforeSha256": "a0db6dbdb86ac7a65ffad6577bd3f0b2a7c32714751141b8e460cb7df075cbbe",
+      "afterSha256": "2c6513b04bd91ef1e8c1ebf06ff03d1e88500412448b5e3ae4a732d7cded1db0",
+      "equal": false,
+      "diff": "--- /private/tmp/rain-chart-brush-api-CdiouD/3.12.0/package/lib/index.d.ts\t1985-10-26 16:15:00\n+++ /private/tmp/rain-chart-brush-api-CdiouD/4.0.1-alpha.0/package/lib/index.d.ts\t1985-10-26 16:15:00\n@@ -1,2 +1,8 @@\n export { default as Brush } from './Brush';\n+export type * from './types';\n+export type { BrushProps } from './Brush';\n+export type { BaseBrushProps, BaseBrushState, UpdateBrush } from './BaseBrush';\n+export type { BrushCornerProps } from './BrushCorner';\n+export type { BrushHandleProps, BrushHandleRenderProps } from './BrushHandle';\n+export type { BrushSelectionProps } from './BrushSelection';\n //# sourceMappingURL=index.d.ts.map\n\\ No newline at end of file\n"
+    },
+    {
+      "path": "lib/Brush.d.ts",
+      "beforeSha256": "bd76ccd353e329f73eb30ef0baf06f4d5a03931193d8feae0739beaeb2681a58",
+      "afterSha256": "6ce5900aef011f61992e143c47e0311ed603156ec563d2b093a49bb456fc37d3",
+      "equal": false,
+      "diff": "--- /private/tmp/rain-chart-brush-api-CdiouD/3.12.0/package/lib/Brush.d.ts\t1985-10-26 16:15:00\n+++ /private/tmp/rain-chart-brush-api-CdiouD/4.0.1-alpha.0/package/lib/Brush.d.ts\t1985-10-26 16:15:00\n@@ -1,10 +1,12 @@\n-import React, { Component } from 'react';\n-import BaseBrush, { BaseBrushProps, BaseBrushState } from './BaseBrush';\n-import { BrushHandleRenderProps } from './BrushHandle';\n-import { Bounds, PartialBrushStartEnd, MarginShape, Point, ResizeTriggerAreas, Scale } from './types';\n-export declare type BrushProps = {\n+import { Component } from 'react';\n+import type { MutableRefObject, ReactNode, SVGProps } from 'react';\n+import type { BaseBrushProps, BaseBrushState } from './BaseBrush';\n+import BaseBrush from './BaseBrush';\n+import type { BrushHandleRenderProps } from './BrushHandle';\n+import type { Bounds, PartialBrushStartEnd, MarginShape, Point, ResizeTriggerAreas, Scale } from './types';\n+export type BrushProps = {\n     /** Style object for the Brush selection rect. */\n-    selectedBoxStyle: React.SVGProps<SVGRectElement>;\n+    selectedBoxStyle: SVGProps<SVGRectElement>;\n     /** x-coordinate scale. */\n     xScale: Scale;\n     /** y-coordinate scale. */\n@@ -48,11 +50,11 @@\n     /** Size of Brush handles, applies to all `resizeTriggerAreas`. */\n     handleSize: number;\n     /** Reference to the BaseBrush component. */\n-    innerRef?: React.MutableRefObject<BaseBrush | null>;\n+    innerRef?: MutableRefObject<BaseBrush | null>;\n     /** Prevent drag end on mouse leaving from brush stage. */\n     useWindowMoveEvents?: boolean;\n     /** Render function for custom brush handles. */\n-    renderBrushHandle?: (props: BrushHandleRenderProps) => React.ReactNode;\n+    renderBrushHandle?: (props: BrushHandleRenderProps) => ReactNode;\n };\n declare class Brush extends Component<BrushProps> {\n     static defaultProps: {\n@@ -95,7 +97,7 @@\n     convertRangeToDomain(brush: BaseBrushState): Bounds;\n     handleBrushStart: (point: Point) => void;\n     handleBrushEnd: (brush: BaseBrushState) => void;\n-    render(): JSX.Element | null;\n+    render(): import(\"react/jsx-runtime\").JSX.Element | null;\n }\n export default Brush;\n //# sourceMappingURL=Brush.d.ts.map\n\\ No newline at end of file\n"
+    },
+    {
+      "path": "lib/BaseBrush.d.ts",
+      "beforeSha256": "5032d181b5e19dfa85445999a29daf11555899a464d8cca1a0902061f048f14d",
+      "afterSha256": "3bad72427ac903113c76bd593957ffa6f79b4bab39c709eac313af05e47b3c2c",
+      "equal": false,
+      "diff": "--- /private/tmp/rain-chart-brush-api-CdiouD/3.12.0/package/lib/BaseBrush.d.ts\t1985-10-26 16:15:00\n+++ /private/tmp/rain-chart-brush-api-CdiouD/4.0.1-alpha.0/package/lib/BaseBrush.d.ts\t1985-10-26 16:15:00\n@@ -1,9 +1,10 @@\n-import React from 'react';\n-import { HandlerArgs as DragArgs } from '@visx/drag/lib/Drag';\n-import { BrushHandleRenderProps } from './BrushHandle';\n-import { MarginShape, Point, BrushShape, ResizeTriggerAreas, PartialBrushStartEnd, BrushingType, BrushPageOffset } from './types';\n-declare type PointerHandlerEvent = React.PointerEvent<SVGRectElement>;\n-export declare type BaseBrushProps = {\n+import { Component } from 'react';\n+import type { PointerEvent, SVGProps, ReactNode } from 'react';\n+import type { HandlerArgs as DragArgs } from '@visx/drag';\n+import type { BrushHandleRenderProps } from './BrushHandle';\n+import type { MarginShape, Point, BrushShape, ResizeTriggerAreas, PartialBrushStartEnd, BrushingType, BrushPageOffset } from './types';\n+type PointerHandlerEvent = PointerEvent<SVGRectElement>;\n+export type BaseBrushProps = {\n     brushDirection?: 'horizontal' | 'vertical' | 'both';\n     initialBrushPosition?: PartialBrushStartEnd;\n     width: number;\n@@ -16,7 +17,7 @@\n     resizeTriggerAreas?: ResizeTriggerAreas[];\n     onBrushStart?: (start: BaseBrushState['start']) => void;\n     onBrushEnd?: (state: BaseBrushState) => void;\n-    selectedBoxStyle: React.SVGProps<SVGRectElement>;\n+    selectedBoxStyle: SVGProps<SVGRectElement>;\n     onMouseLeave?: (event: PointerHandlerEvent) => void;\n     onMouseUp?: (event: PointerHandlerEvent) => void;\n     onMouseMove?: (event: PointerHandlerEvent) => void;\n@@ -26,17 +27,17 @@\n     disableDraggingOverlay?: boolean;\n     resetOnEnd?: boolean;\n     useWindowMoveEvents?: boolean;\n-    renderBrushHandle?: (props: BrushHandleRenderProps) => React.ReactNode;\n+    renderBrushHandle?: (props: BrushHandleRenderProps) => ReactNode;\n };\n-export declare type BaseBrushState = BrushShape & {\n+export type BaseBrushState = BrushShape & {\n     activeHandle: ResizeTriggerAreas | null;\n     isBrushing: boolean;\n     brushPageOffset?: BrushPageOffset;\n     brushingType?: BrushingType;\n };\n-export declare type UpdateBrush = BaseBrushState | ((prevState: Readonly<BaseBrushState>, props: Readonly<BaseBrushProps>) => BaseBrushState);\n-export default class BaseBrush extends React.Component<BaseBrushProps, BaseBrushState> {\n-    private constructor();\n+export type UpdateBrush = BaseBrushState | ((prevState: Readonly<BaseBrushState>, props: Readonly<BaseBrushProps>) => BaseBrushState);\n+export default class BaseBrush extends Component<BaseBrushProps, BaseBrushState> {\n+    constructor(props: BaseBrushProps);\n     private mouseUpTime;\n     private mouseDownTime;\n     static defaultProps: {\n@@ -108,110 +109,22 @@\n     handleDragEnd: () => void;\n     getBrushWidth: () => number;\n     getBrushHeight: () => number;\n-    handles: () => Partial<{\n-        bottom: {\n-            x: number;\n-            y: number;\n-            height: number;\n-            width: number;\n-        };\n-        left: {\n-            x: number;\n-            y: number;\n-            height: number;\n-            width: number;\n-        };\n-        right: {\n-            x: number;\n-            y: number;\n-            height: number;\n-            width: number;\n-        };\n-        top: {\n-            x: number;\n-            y: number;\n-            height: number;\n-            width: number;\n-        };\n-        topLeft: {\n-            x: number;\n-            y: number;\n-            height: number;\n-            width: number;\n-        };\n-        topRight: {\n-            x: number;\n-            y: number;\n-            height: number;\n-            width: number;\n-        };\n-        bottomLeft: {\n-            x: number;\n-            y: number;\n-            height: number;\n-            width: number;\n-        };\n-        bottomRight: {\n-            x: number;\n-            y: number;\n-            height: number;\n-            width: number;\n-        };\n-    }>;\n-    corners: () => Partial<{\n-        bottom: {\n-            x: number;\n-            y: number;\n-            width: number;\n-            height: number;\n-        };\n-        left: {\n-            x: number;\n-            y: number;\n-            width: number;\n-            height: number;\n-        };\n-        right: {\n-            x: number;\n-            y: number;\n-            width: number;\n-            height: number;\n-        };\n-        top: {\n-            x: number;\n-            y: number;\n-            width: number;\n-            height: number;\n-        };\n-        topLeft: {\n-            x: number;\n-            y: number;\n-            width: number;\n-            height: number;\n-        };\n-        topRight: {\n-            x: number;\n-            y: number;\n-            width: number;\n-            height: number;\n-        };\n-        bottomLeft: {\n-            x: number;\n-            y: number;\n-            width: number;\n-            height: number;\n-        };\n-        bottomRight: {\n-            x: number;\n-            y: number;\n-            width: number;\n-            height: number;\n-        };\n-    }>;\n+    handles: () => Partial<{ [key in ResizeTriggerAreas]: {\n+        x: number;\n+        y: number;\n+        height: number;\n+        width: number;\n+    }; }>;\n+    corners: () => Partial<{ [key in ResizeTriggerAreas]: {\n+        x: number;\n+        y: number;\n+        width: number;\n+        height: number;\n+    }; }>;\n     updateBrush: (updater: UpdateBrush) => void;\n     reset: () => void;\n-    handleBrushingTypeChange: (type?: \"bottom\" | \"left\" | \"right\" | \"top\" | \"move\" | \"select\" | \"topLeft\" | \"topRight\" | \"bottomLeft\" | \"bottomRight\" | undefined, brushPageOffset?: BrushPageOffset | undefined) => void;\n-    render(): JSX.Element;\n+    handleBrushingTypeChange: (type?: BrushingType, brushPageOffset?: BrushPageOffset) => void;\n+    render(): import(\"react/jsx-runtime\").JSX.Element;\n }\n export {};\n //# sourceMappingURL=BaseBrush.d.ts.map\n\\ No newline at end of file\n"
+    },
+    {
+      "path": "lib/BrushHandle.d.ts",
+      "beforeSha256": "a82eb43c3ac8573952ea8a78b9fbbc8eb005afc99a21b4304a23ba38439f761d",
+      "afterSha256": "36b693a1deb07197ce0f598b9758b6a5fe49dd0b190378fe77826f1d3950ba43",
+      "equal": false,
+      "diff": "--- /private/tmp/rain-chart-brush-api-CdiouD/3.12.0/package/lib/BrushHandle.d.ts\t1985-10-26 16:15:00\n+++ /private/tmp/rain-chart-brush-api-CdiouD/4.0.1-alpha.0/package/lib/BrushHandle.d.ts\t1985-10-26 16:15:00\n@@ -1,14 +1,15 @@\n-import React from 'react';\n-import { HandlerArgs as DragArgs } from '@visx/drag/lib/Drag';\n-import { BaseBrushState as BrushState, UpdateBrush } from './BaseBrush';\n-import { BrushPageOffset, BrushingType, ResizeTriggerAreas } from './types';\n-declare type HandleProps = {\n+import { Component } from 'react';\n+import type { ReactNode } from 'react';\n+import type { HandlerArgs as DragArgs } from '@visx/drag';\n+import type { BaseBrushState as BrushState, UpdateBrush } from './BaseBrush';\n+import type { BrushPageOffset, BrushingType, ResizeTriggerAreas } from './types';\n+type HandleProps = {\n     x: number;\n     y: number;\n     width: number;\n     height: number;\n };\n-export declare type BrushHandleProps = {\n+export type BrushHandleProps = {\n     stageWidth: number;\n     stageHeight: number;\n     brush: BrushState;\n@@ -20,19 +21,19 @@\n     isControlled?: boolean;\n     isDragInProgress?: boolean;\n     onBrushHandleChange?: (type?: BrushingType, options?: BrushPageOffset) => void;\n-    renderBrushHandle?: (props: BrushHandleRenderProps) => React.ReactNode;\n+    renderBrushHandle?: (props: BrushHandleRenderProps) => ReactNode;\n };\n-export declare type BrushHandleRenderProps = HandleProps & {\n+export type BrushHandleRenderProps = HandleProps & {\n     /** if brush extent is not active this prop is set to false */\n     isBrushActive: boolean;\n     className: string;\n };\n /** BrushHandle's are placed along the bounds of the brush and handle Drag events which update the passed brush. */\n-export default class BrushHandle extends React.Component<BrushHandleProps> {\n+export default class BrushHandle extends Component<BrushHandleProps> {\n     handleDragStart: (drag: DragArgs) => void;\n     handleDragMove: (drag: DragArgs) => void;\n     handleDragEnd: () => void;\n-    render(): JSX.Element;\n+    render(): import(\"react/jsx-runtime\").JSX.Element;\n }\n export {};\n //# sourceMappingURL=BrushHandle.d.ts.map\n\\ No newline at end of file\n"
+    },
+    {
+      "path": "lib/types.d.ts",
+      "beforeSha256": "a2d42d9063ba3e559e481f4df8d90611f1f5b87a82fe36a6acf319cae3776088",
+      "afterSha256": "aa6aea44ce1239af98f9a26912279086e81fce489310bfdb6ec9973a3159c003",
+      "equal": false,
+      "diff": "--- /private/tmp/rain-chart-brush-api-CdiouD/3.12.0/package/lib/types.d.ts\t1985-10-26 16:15:00\n+++ /private/tmp/rain-chart-brush-api-CdiouD/4.0.1-alpha.0/package/lib/types.d.ts\t1985-10-26 16:15:00\n@@ -1,9 +1,9 @@\n-import { D3Scale, NumberLike } from '@visx/scale';\n-export declare type Point = {\n+import type { D3Scale, NumberLike } from '@visx/scale';\n+export type Point = {\n     x: number;\n     y: number;\n };\n-export declare type Bounds = {\n+export type Bounds = {\n     x0: number;\n     x1: number;\n     xValues?: unknown[];\n@@ -29,14 +29,14 @@\n     start: Partial<Point>;\n     end: Partial<Point>;\n }\n-export declare type ResizeTriggerAreas = 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';\n-export declare type BrushingType = 'move' | 'select' | ResizeTriggerAreas;\n-export declare type BrushPageOffset = {\n+export type ResizeTriggerAreas = 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';\n+export type BrushingType = 'move' | 'select' | ResizeTriggerAreas;\n+export type BrushPageOffset = {\n     pageX?: number;\n     pageY?: number;\n };\n-declare type BrushScaleOutput = number | NumberLike | undefined;\n+type BrushScaleOutput = number | NumberLike | undefined;\n /** A catch-all type for scales that are compatible with axis */\n-export declare type Scale<Output extends BrushScaleOutput = BrushScaleOutput> = D3Scale<Output, any, any>;\n+export type Scale<Output extends BrushScaleOutput = BrushScaleOutput> = D3Scale<Output, any, any>;\n export {};\n //# sourceMappingURL=types.d.ts.map\n\\ No newline at end of file\n"
+    }
+  ],
+  "usedBy": [
+    "packages/ui/src/charts/vendor/charts/chart-brush.tsx",
+    "packages/ui/src/charts/vendor/charts/chart-brush-handle.tsx",
+    "apps/playground/src/docs/components/chart-variants/trend.tsx"
+  ],
+  "limits": [
+    "Static declaration/export comparison and actual public tarball identity; not behavioral equivalence or final dependency approval."
+  ],
+  "usedApi": {
+    "brushProps": [
+      {
+        "name": "xScale",
+        "present": true
+      },
+      {
+        "name": "yScale",
+        "present": true
+      },
+      {
+        "name": "width",
+        "present": true
+      },
+      {
+        "name": "height",
+        "present": true
+      },
+      {
+        "name": "innerRef",
+        "present": true
+      },
+      {
+        "name": "onBrushEnd",
+        "present": true
+      },
+      {
+        "name": "onChange",
+        "present": true
+      },
+      {
+        "name": "brushDirection",
+        "present": true
+      },
+      {
+        "name": "margin",
+        "present": true
+      },
+      {
+        "name": "selectedBoxStyle",
+        "present": true
+      },
+      {
+        "name": "handleSize",
+        "present": true
+      },
+      {
+        "name": "renderBrushHandle",
+        "present": true
+      },
+      {
+        "name": "useWindowMoveEvents",
+        "present": true
+      },
+      {
+        "name": "initialBrushPosition",
+        "present": true
+      }
+    ],
+    "baseMethods": [
+      {
+        "name": "getExtent",
+        "present": true
+      },
+      {
+        "name": "updateBrush",
+        "present": true
+      },
+      {
+        "name": "reset",
+        "present": true
+      }
+    ],
+    "baseStateFields": [
+      {
+        "name": "start",
+        "present": true
+      },
+      {
+        "name": "end",
+        "present": true
+      },
+      {
+        "name": "extent",
+        "present": true
+      }
+    ],
+    "BrushExport": true,
+    "BoundsExport": true,
+    "BrushHandleRenderProps": true
+  }
+}

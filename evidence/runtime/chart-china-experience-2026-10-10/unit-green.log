@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-chart-variant-consumption.test.ts (8 tests | 1 failed) 70ms
+   × the real China exporter preserves current settings and includes all licensed local geometry 19ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-chart-variant-consumption.test.ts > the real China exporter preserves current settings and includes all licensed local geometry
+AssertionError: expected [ 'main.tsx', 'index.html', …(10) ] to have a length of 11 but got 12
+
+- Expected
++ Received
+
+- 11
++ 12
+
+ ❯ scripts/verify-chart-variant-consumption.test.ts:57:30
+     55|   const files=exporter.files({provinceId:"440000",selectedId:"440100",…
+     56|   expect(()=>assertDownloadClosure(files,"china-real")).not.toThrow();
+     57|   expect(Object.keys(files)).toHaveLength(11);
+       |                              ^
+     58|   expect(Object.keys(files).some(path=>path.includes("world.geojson"))…
+     59|   expect(files["main.tsx"]).toContain('"provinceId":"440000","selected…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 49 passed (50)
+   Start at  11:03:14
+   Duration  6.79s (transform 2.86s, setup 502ms, import 4.58s, tests 4.94s, environment 1.76s)
+

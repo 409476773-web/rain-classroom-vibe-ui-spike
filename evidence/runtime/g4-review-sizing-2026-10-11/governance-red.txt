@@ -1,0 +1,76 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g4-sizing-review.test.ts (5 tests | 5 failed) 130ms
+     × adds only the independently authorized review and leaves previous Gates unchanged 10ms
+     × requires both scoped automated checks and independent review before completion 2ms
+     × checks every actual before byte and the finite current source inventory 47ms
+     × cannot re-sign an old record, raw token, before snapshot or prior Gate 36ms
+     × rejects a changed Manifest capability or republished Registry even if after SHA is updated 35ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g4-sizing-review.test.ts > G4 title/data sizing and icons retain their exact predecessor > adds only the independently authorized review and leaves previous Gates unchanged
+TypeError: hasG4SizingReviewAuthorization is not a function
+ ❯ scripts/g4-sizing-review.test.ts:46:61
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  scripts/g4-sizing-review.test.ts > G4 title/data sizing and icons retain their exact predecessor > requires both scoped automated checks and independent review before completion
+TypeError: hasG4SizingReviewAuthorization is not a function
+ ❯ scripts/g4-sizing-review.test.ts:54:12
+     52|   it("requires both scoped automated checks and independent review bef…
+     53|     const phase = authorized(), entry = phase.componentRefinements.g4C…
+     54|     expect(hasG4SizingReviewAuthorization(phase)).toBe(false); entry.a…
+       |            ^
+     55|     entry.independentReview = "passed-scoped"; expect(hasG4SizingRevie…
+     56|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  scripts/g4-sizing-review.test.ts > G4 title/data sizing and icons retain their exact predecessor > checks every actual before byte and the finite current source inventory
+TypeError: g4SizingReviewSourcePaths is not iterable
+ ❯ fixture scripts/g4-sizing-review.test.ts:28:22
+     26|     const bytes = readFileSync(join(root, evidence, "before", file)); …
+     27|   }
+     28|   for (const file of g4SizingReviewSourcePaths) copy(file, readFileSyn…
+       |                      ^
+     29|   const metadata = { scope: review().scope, evidence: review().evidenc…
+     30|   for (const name of ["typography", "item", "progress"]) {
+ ❯ scripts/g4-sizing-review.test.ts:58:48
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  scripts/g4-sizing-review.test.ts > G4 title/data sizing and icons retain their exact predecessor > cannot re-sign an old record, raw token, before snapshot or prior Gate
+TypeError: g4SizingReviewSourcePaths is not iterable
+ ❯ fixture scripts/g4-sizing-review.test.ts:28:22
+     26|     const bytes = readFileSync(join(root, evidence, "before", file)); …
+     27|   }
+     28|   for (const file of g4SizingReviewSourcePaths) copy(file, readFileSyn…
+       |                      ^
+     29|   const metadata = { scope: review().scope, evidence: review().evidenc…
+     30|   for (const name of ["typography", "item", "progress"]) {
+ ❯ scripts/g4-sizing-review.test.ts:64:56
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  scripts/g4-sizing-review.test.ts > G4 title/data sizing and icons retain their exact predecessor > rejects a changed Manifest capability or republished Registry even if after SHA is updated
+TypeError: g4SizingReviewSourcePaths is not iterable
+ ❯ fixture scripts/g4-sizing-review.test.ts:28:22
+     26|     const bytes = readFileSync(join(root, evidence, "before", file)); …
+     27|   }
+     28|   for (const file of g4SizingReviewSourcePaths) copy(file, readFileSyn…
+       |                      ^
+     29|   const metadata = { scope: review().scope, evidence: review().evidenc…
+     30|   for (const name of ["typography", "item", "progress"]) {
+ ❯ scripts/g4-sizing-review.test.ts:74:56
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  23:15:10
+   Duration  798ms (transform 78ms, setup 102ms, import 80ms, tests 130ms, environment 389ms)
+

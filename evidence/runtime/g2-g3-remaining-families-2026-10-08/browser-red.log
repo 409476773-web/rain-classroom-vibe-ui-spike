@@ -1,0 +1,157 @@
+
+Running 6 tests using 1 worker
+
+(node:50461) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/g2-g3-remaining-families.spec.ts:7:1 › navigation opens below its trigger without resizing the toolbar and retains current destination (1.5s)
+(node:50469) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/g2-g3-remaining-families.spec.ts:27:1 › context menus have readable disabled states, restrained separators and bounded rows (1.3s)
+(node:50859) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/e2e/g2-g3-remaining-families.spec.ts:41:1 › menubar uses neutral open feedback and muted disabled commands (5.9s)
+(node:50887) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/e2e/g2-g3-remaining-families.spec.ts:55:1 › hover card has a real content width limit and a usable linked object (7.2s)
+(node:51759) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 tests/e2e/g2-g3-remaining-families.spec.ts:68:1 › skeletons remain visible on their surface and stop motion for reduced-motion (1.2s)
+(node:51764) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  6 tests/e2e/g2-g3-remaining-families.spec.ts:80:1 › all remaining pages fit narrow screens and sheet retains draft and focus (1.1s)
+
+
+  1) tests/e2e/g2-g3-remaining-families.spec.ts:7:1 › navigation opens below its trigger without resizing the toolbar and retains current destination 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 32
+    Received: 90
+
+      13 |   const content = page.locator(".rain-navigation-menu-content");
+      14 |   await expect(content).toBeVisible();
+    > 15 |   expect((await root.boundingBox())!.height).toBe(height);
+         |                                              ^
+      16 |   const triggerBox = (await trigger.boundingBox())!, contentBox = (await content.boundingBox())!;
+      17 |   expect(contentBox.width).toBeGreaterThanOrEqual(192);
+      18 |   expect(contentBox.y).toBeGreaterThanOrEqual(triggerBox.y + triggerBox.height);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g2-g3-remaining-families.spec.ts:15:46
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-n-960d4-retains-current-destination/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-n-960d4-retains-current-destination/error-context.md
+
+  2) tests/e2e/g2-g3-remaining-families.spec.ts:27:1 › context menus have readable disabled states, restrained separators and bounded rows 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 160
+    Received:    147
+
+      30 |   const popup = page.locator('[data-rain-id="ui-context-menu"][data-slot="popup"]');
+      31 |   await expect(popup).toBeVisible();
+    > 32 |   expect((await popup.boundingBox())!.width).toBeGreaterThanOrEqual(160);
+         |                                              ^
+      33 |   const disabled = page.getByRole("menuitem", { name: /删除/ });
+      34 |   await expect(disabled).toHaveCSS("color", "rgb(153, 160, 176)");
+      35 |   await expect(disabled).toHaveCSS("font-size", "14px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g2-g3-remaining-families.spec.ts:32:46
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-c-141cb-separators-and-bounded-rows/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-c-141cb-separators-and-bounded-rows/error-context.md
+
+  3) tests/e2e/g2-g3-remaining-families.spec.ts:41:1 › menubar uses neutral open feedback and muted disabled commands 
+
+    Error: expect(locator).toHaveCSS(expected) failed
+
+    Locator:  getByRole('menuitem', { name: '发布到真实课程', exact: true })
+    Expected: "rgb(153, 160, 176)"
+    Received: "rgb(73, 93, 135)"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCSS" with timeout 5000ms
+      - waiting for getByRole('menuitem', { name: '发布到真实课程', exact: true })
+        14 × locator resolved to <div tabindex="-1" role="menuitem" data-disabled="" data-slot="item" data-focus="item" id="base-ui-_r_g_" aria-disabled="true" class="rain-menu-item relative flex w-full min-w-rain-0 items-center gap-rain-10 rounded-rain-6 border-none px-rain-12 py-rain-6 text-left font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular no-underline cursor-pointer select-none outline-none">发布到真实课程</div>
+           - unexpected value "rgb(73, 93, 135)"
+
+
+      43 |   const trigger = page.getByRole("menuitem", { name: "文件", exact: true });
+      44 |   await trigger.click();
+    > 45 |   await expect(page.getByRole("menuitem", { name: "发布到真实课程", exact: true })).toHaveCSS("color", "rgb(153, 160, 176)");
+         |                                                                              ^
+      46 |   const surface = await trigger.evaluate(el => getComputedStyle(el).backgroundColor);
+      47 |   expect(surface).not.toBe("rgba(61, 123, 255, 0.65)");
+      48 |   const separator = page.getByRole("separator");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g2-g3-remaining-families.spec.ts:45:78
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-m-50515-and-muted-disabled-commands/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-m-50515-and-muted-disabled-commands/error-context.md
+
+  4) tests/e2e/g2-g3-remaining-families.spec.ts:55:1 › hover card has a real content width limit and a usable linked object 
+
+    Error: expect(locator).toHaveCSS(expected) failed
+
+    Locator:  locator('[data-rain-id="ui-hover-card"][data-slot="popup"]')
+    Expected: "320px"
+    Received: "1424px"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCSS" with timeout 5000ms
+      - waiting for locator('[data-rain-id="ui-hover-card"][data-slot="popup"]')
+        14 × locator resolved to <div data-open="" tabindex="-1" data-slot="popup" data-side="bottom" data-align="center" data-instant="focus" data-base-ui-focusable="" data-rain-id="ui-hover-card" class="rain-popup box-border min-w-rain-0 rounded-rain-10 border-solid border-rain-line-1 shadow-rain-overlay font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular rain-hover-card max-w-rain-320 p-rain-12">…</div>
+           - unexpected value "1424px"
+
+
+      59 |   const popup = page.locator('[data-rain-id="ui-hover-card"][data-slot="popup"]');
+      60 |   await expect(popup).toBeVisible();
+    > 61 |   await expect(popup).toHaveCSS("max-width", "320px");
+         |                       ^
+      62 |   expect((await popup.boundingBox())!.width).toBeLessThanOrEqual(320);
+      63 |   await page.screenshot({ path: `${captures}/hover-card-open.png` });
+      64 |   await link.click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g2-g3-remaining-families.spec.ts:61:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-h-5c4f7--and-a-usable-linked-object/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-h-5c4f7--and-a-usable-linked-object/error-context.md
+
+  5) tests/e2e/g2-g3-remaining-families.spec.ts:68:1 › skeletons remain visible on their surface and stop motion for reduced-motion 
+
+    Error: expect(received).not.toBe(expected) // Object.is equality
+
+    Expected: not "rgba(0, 0, 0, 0)"
+
+      70 |   const skeleton = page.locator('[data-rain-id="ui-skeleton"]').first();
+      71 |   const background = await skeleton.evaluate(el => getComputedStyle(el).backgroundColor);
+    > 72 |   expect(background).not.toBe("rgba(0, 0, 0, 0)");
+         |                          ^
+      73 |   await page.screenshot({ path: `${captures}/skeleton-light.png` });
+      74 |   await page.emulateMedia({ reducedMotion: "reduce" });
+      75 |   await expect(skeleton).toHaveCSS("animation-name", "none");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g2-g3-remaining-families.spec.ts:72:26
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-s-c07c4-p-motion-for-reduced-motion/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-s-c07c4-p-motion-for-reduced-motion/error-context.md
+
+  5 failed
+    tests/e2e/g2-g3-remaining-families.spec.ts:7:1 › navigation opens below its trigger without resizing the toolbar and retains current destination 
+    tests/e2e/g2-g3-remaining-families.spec.ts:27:1 › context menus have readable disabled states, restrained separators and bounded rows 
+    tests/e2e/g2-g3-remaining-families.spec.ts:41:1 › menubar uses neutral open feedback and muted disabled commands 
+    tests/e2e/g2-g3-remaining-families.spec.ts:55:1 › hover card has a real content width limit and a usable linked object 
+    tests/e2e/g2-g3-remaining-families.spec.ts:68:1 › skeletons remain visible on their surface and stop motion for reduced-motion 
+  1 passed (21.3s)

@@ -1,4 +1,5 @@
 import { DataTableRecipe } from "../../data-table-recipe";
+import "./page.css";
 
 /** BM-A reuses the accepted view and host state; the full dataset is local and fictional. */
 export function MaterialManagementScenario() {

@@ -8,7 +8,7 @@ maturity: "registry-candidate"
 modificationMode: "managed"
 migrationLabel: "rewrite-from-rain"
 sourcePath: "packages/ui/src/textarea/textarea.tsx"
-styleSourcePath: "packages/ui/src/field/field.styles.ts"
+styleSourcePath: "packages/ui/src/textarea/textarea.css"
 sourceVersion: "local-2026-09-13"
 publication: "unpublished"
 description: "Native multiline text editing with Rain field appearance and complete FormItem linkage."
@@ -31,7 +31,9 @@ props:
   - "status: default | warning | error"
   - "disabled / readOnly / required"
   - "className: root layout only"
-slots: []
+slots:
+  - "blockStart / blockEnd: ReactNode; existing native frame additions"
+  - "blockStartChangesValue / blockEndChangesValue: default true; false permits view/copy in readOnly; disabled blocks all actions"
 variants:
   - "outlined"
   - "filled"
@@ -93,7 +95,7 @@ visualLineage:
   redesignedTraits:
     - "Rain Next field recipe, Reading/Small, native rows and resizing"
   intentionallyNotInherited:
-    - "Vue implementation, duplicated JS size constants, autosize, custom resize handle and footer/count"
+    - "Vue implementation, duplicated JS size constants, autosize and custom resize handle"
 figmaMapping: "not-established"
 migrationNotes: "Local native React implementation; not copied from shadcn; no Classic writes."
 verification:
@@ -103,3 +105,11 @@ verification:
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/bm-b-rn10/verification.md"
 integrationSource: "evidence/runtime/bm-b-rn10/textarea-source.json"
+
+g5Extension:
+  scope: "block-start-and-end-native-textarea-additions"
+  sourceLock: "evidence/runtime/g5-components-2026-10-12/source-lock.json"
+  evidence: "evidence/runtime/g5-components-2026-10-12/verification.md"
+  automated: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"

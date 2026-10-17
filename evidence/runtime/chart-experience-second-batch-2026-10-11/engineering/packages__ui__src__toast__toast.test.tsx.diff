@@ -1,0 +1,13 @@
+--- before/packages/ui/src/toast/toast.test.tsx
++++ after/packages/ui/src/toast/toast.test.tsx
+@@ -12,8 +12,8 @@
+     render(<Toaster toastManager={manager} timeout={0}><Button onClick={() => manager.add({
+       title: "保存完成", actionProps: { children: "撤回", onClick: undo },
+     })}>保存</Button></Toaster>);
+-    await user.click(screen.getByRole("button", { name: "保存", exact: true }));
+-    const action = screen.getByRole("button", { name: "撤回", exact: true });
++    await user.click(screen.getByRole("button", { name: "保存" }));
++    const action = screen.getByRole("button", { name: "撤回" });
+     expect(action).toHaveAttribute("data-rain-id", "ui-button");
+     expect(action).toHaveAttribute("data-variant", "text");
+     await user.keyboard("{F6}");

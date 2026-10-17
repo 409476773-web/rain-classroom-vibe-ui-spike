@@ -1,0 +1,38 @@
+
+Running 1 test using 1 worker
+
+(node:28408) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/button-group-repair.spec.ts:11:1 › all five explicit sizes align text, borders and separators without narrow overflow (1.0m)
+
+
+  1) [chromium] › tests/e2e/button-group-repair.spec.ts:11:1 › all five explicit sizes align text, borders and separators without narrow overflow 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.evaluate: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByRole('group', { name: 'mini 横向按钮组', exact: true })
+
+
+      19 |         for (const kind of ["横向","文字","竖向"]) {
+      20 |           const group=page.getByRole("group",{name:`${expected.size} ${kind}按钮组`,exact:true});
+    > 21 |           const geometry=await group.evaluate(el=>[...el.children].map(child=>{const s=getComputedStyle(child),r=child.getBoundingClientRect();return {slot:child.getAttribute('data-slot'),height:r.height,font:s.fontSize,line:s.lineHeight,tl:s.borderTopLeftRadius,tr:s.borderTopRightRadius,opacity:s.opacity,disabled:child.hasAttribute('disabled'),childOpacity:child.querySelector('[data-slot="label"]')?getComputedStyle(child.querySelector('[data-slot="label"]')!).opacity:null};}));
+         |                                      ^
+      22 |           for(const item of geometry.filter(item=>item.slot!=='button-group-separator')) {
+      23 |             expect(item.height).toBe(expected.height);
+      24 |             expect(item.font).toBe(expected.font);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts:21:38
+
+    Error Context: evidence/runtime/button-group-sizes-2026-10-08/browser-red/results/button-group-repair-all-fi-051be-ors-without-narrow-overflow-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/button-group-sizes-2026-10-08/browser-red/results/button-group-repair-all-fi-051be-ors-without-narrow-overflow-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/button-group-sizes-2026-10-08/browser-red/results/button-group-repair-all-fi-051be-ors-without-narrow-overflow-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/button-group-repair.spec.ts:11:1 › all five explicit sizes align text, borders and separators without narrow overflow 

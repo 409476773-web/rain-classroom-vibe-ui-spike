@@ -1,0 +1,275 @@
+{
+  "scope": "T04 local candidate; 16 visual requirements plus E04/E05; functional and geometry checks do not approve design",
+  "runAt": "2026-09-23T06:14:13.478983+00:00",
+  "baselineReference": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/docs/rain_navigation_rebuild_v0.3/execution/runtime-baseline.json",
+  "baselineFingerprint": {
+    "headCommit": "321e1a0c1b5f9284e0fcb5167fa059d6174b1752",
+    "workingTreePatchSha256": "24ca2ea178c98efbff7be9a68a40824360127f28c4dfe54b5ddd85dcc061eae1",
+    "relevantUntrackedFileHashes": [
+      {
+        "path": "apps/prototype/src/scenarios/token-first-g3/page.test.tsx",
+        "sha256": "9094e4585a9b99ff6c964c7eb1b97fd745a475bfd0f4ecd33763eef3a7d678a6"
+      },
+      {
+        "path": "apps/prototype/src/scenarios/token-first-g3/README.md",
+        "sha256": "b4d232d1b5a178dd5e6068923d0b5dfc60a264d670ce37e069ff3afb4df088fb"
+      },
+      {
+        "path": "apps/prototype/src/scenarios/token-first-g3/page.css",
+        "sha256": "f2c24f3bbe762b7b4de4d84e1a651339ff6fad4a61e7e9f10caa66e6fb249f25"
+      },
+      {
+        "path": "apps/prototype/src/scenarios/token-first-g3/page.tsx",
+        "sha256": "d0caccf921185e17ab658968c03aa2acf38963d7ae8ac309f8f2c7dc62b19572"
+      }
+    ],
+    "lockfileSha256": "e905860d944717713398d0090c3f5f76d7fe93ef58c623b9b36f22486ffa3b2d"
+  },
+  "currentSourceHashes": [
+    {
+      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/apps/prototype/src/scenarios/token-first-g3/rebuild/top-navigation.tsx",
+      "sha256": "33081f8a0c9f912125e3d0efeaa690214607220245641f21a61fb47ff8366c2b"
+    },
+    {
+      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/apps/prototype/src/scenarios/token-first-g3/rebuild/top-navigation.css",
+      "sha256": "afc76d385685390fef6185aeedbf2a21d91eba8ddaf5350d79d0c2dfd25622be"
+    },
+    {
+      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/apps/prototype/src/scenarios/token-first-g3/rebuild/top-navigation.test.tsx",
+      "sha256": "e4f9cedf39b35f6e841cf14c22102d3a3cb58a7ed1da778bb22f7918d56ee147"
+    },
+    {
+      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-rebuild-topnav.spec.ts",
+      "sha256": "9989a86aeb7f71dea1f9673629ca6a29c9bb79c6c60748d40dbfb649f45b4c3c"
+    }
+  ],
+  "command": "pnpm exec playwright test --config playwright.navigation-rebuild.config.ts navigation-rebuild-topnav.spec.ts --output=evidence/runtime/navigation-rebuild-v03/topnav-tests --reporter=list",
+  "exitCode": 0,
+  "browserTests": {
+    "passed": 11,
+    "failed": 0
+  },
+  "unitTests": {
+    "passed": 3,
+    "failed": 0,
+    "command": "pnpm exec vitest run apps/prototype/src/scenarios/token-first-g3/rebuild/top-navigation.test.tsx",
+    "log": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-unit.log"
+  },
+  "typecheck": {
+    "command": "pnpm --filter @rain-next/prototype typecheck",
+    "exitCode": 0,
+    "log": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-typecheck.log"
+  },
+  "cases": [
+    {
+      "id": "V-N01-01",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Clicking 考试管理 changes hash page=exams and visible page heading; all links are real routeHref destinations.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--552f1-current-and-keyboard-access/N01-1200x800-keyboard.png"
+      ]
+    },
+    {
+      "id": "V-N01-02",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Reload after navigation preserves aria-current=page on 考试管理; asserted in the browser.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--552f1-current-and-keyboard-access/N01-1200x800-keyboard.png"
+      ]
+    },
+    {
+      "id": "V-N01-03",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "All eight links including long Chinese label are present; at 700px nav scrollWidth exceeds clientWidth and sequential Tab reaches every link in viewport.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--552f1-current-and-keyboard-access/N01-700x800-overflow.png"
+      ]
+    },
+    {
+      "id": "V-N01-04",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Current link keeps underline while focus outline is solid, nonzero and differs from surface; non-current settings focus is also verified.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--552f1-current-and-keyboard-access/N01-current-hover-focus.png",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--552f1-current-and-keyboard-access/N01-1200x800-keyboard.png"
+      ]
+    },
+    {
+      "id": "V-N02-01",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Unit rerender preserves all eight hrefs. Actual page selector N01↔N02 retains scene=platform,page=exams, visible heading and current link; tested both directions.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-unit.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--e2264-current-and-keyboard-access/N02-1200x800-keyboard.png"
+      ]
+    },
+    {
+      "id": "V-N02-02",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "While 资源中心 is hovered, 考试管理 retains aria-current and its computed background; the two computed surfaces differ.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--e2264-current-and-keyboard-access/N02-current-hover-focus.png"
+      ]
+    },
+    {
+      "id": "V-N02-03",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Focused current item has a solid nonzero outline with color distinct from its filled surface; computed values attached by Playwright.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--e2264-current-and-keyboard-access/N02-current-hover-focus.png"
+      ]
+    },
+    {
+      "id": "V-N02-04",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Component contains eight native links in labelled navigation; unit asserts absence of tab/radio roles; browser confirms no tabs.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-unit.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--e2264-current-and-keyboard-access/N02-1200x800-keyboard.png"
+      ]
+    },
+    {
+      "id": "V-N03-01",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Click opens; Escape closes and focuses trigger. Separate test confirms outside click closes and Tab can leave the panel.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--3a581-ependent-parent-destination/N03-current-a-open-b.png"
+      ]
+    },
+    {
+      "id": "V-N03-02",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Opening resource panel leaves exams aria-current=page; closing leaves URL exactly unchanged.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--3a581-ependent-parent-destination/N03-current-a-open-b.png"
+      ]
+    },
+    {
+      "id": "V-N03-03",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Pointer moves from trigger to last popup link and popup stays visible; independent hover fixture also passes pointer continuity.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--3a581-ependent-parent-destination/N03-current-a-open-b.png"
+      ]
+    },
+    {
+      "id": "V-N03-04",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Parent 资源中心 is a separate link; focus+Enter navigates to page=resources and visible 资源中心 heading.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--3a581-ependent-parent-destination/N03-current-a-open-b.png"
+      ]
+    },
+    {
+      "id": "V-N04-01",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Long feedback description has scrollHeight <= clientHeight; four links remain distinct; popup rectangles remain within tested viewports.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--7a1fe-e-areas-reach-the-same-tool/N04-rich-two-column.png",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--073fb--edge-collision-at-1200x650/N04-1200x650.png"
+      ]
+    },
+    {
+      "id": "V-N04-02",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Opening from keyboard focuses first rich link, Tab follows all four in source order; geometry asserts row-major two-column positions.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--7a1fe-e-areas-reach-the-same-tool/N04-rich-two-column.png"
+      ]
+    },
+    {
+      "id": "V-N04-03",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "At 390px computed grid has one column and all four links remain present; captured long text is fully visible. Desktop 1200/1440/1920 remains two columns.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--e4b21-d-edge-collision-at-390x844/N04-390x844.png",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--c9851--edge-collision-at-1440x900/N04-1440x900.png"
+      ]
+    },
+    {
+      "id": "V-N04-04",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Bottom-right whitespace in first link reaches tool-outline and visible 课程提纲 page; reopening and clicking its title reaches same href and page.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--7a1fe-e-areas-reach-the-same-tool/N04-rich-two-column.png"
+      ]
+    },
+    {
+      "id": "E04",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Four task-specific tools have title+description; default click and keyboard open/selection work. At narrow width a complete single column renders. Local targets display tool-specific sample work; no AI service claim.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--7a1fe-e-areas-reach-the-same-tool/N04-rich-two-column.png",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--e4b21-d-edge-collision-at-390x844/N04-390x844.png"
+      ]
+    },
+    {
+      "id": "E05",
+      "status": "pass",
+      "designStatus": "pending-review",
+      "observed": "Current exams/open resources are independently verified; Escape preserves URL/current and returns trigger focus. Tab exits popup to next top link, proving no navigation focus trap.",
+      "artifacts": [
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-browser.log",
+        "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--3a581-ependent-parent-destination/N03-current-a-open-b.png"
+      ]
+    }
+  ],
+  "visualInspection": {
+    "status": "agent-render-inspected-not-human-approved",
+    "observed": "Desktop long descriptions do not overlap; current/hover/focus remain distinct. Dark A portal and light B render independently. At 390px rich popup is a complete single column; overall existing shell horizontal overflow was separately reported to parent.",
+    "artifacts": [
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--c9851--edge-collision-at-1440x900/N04-1440x900.png",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--ec1fe-h-portal-scopes-independent/N04-A-dark-B-light.png",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--e4b21-d-edge-collision-at-390x844/N04-390x844.png",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--e2264-current-and-keyboard-access/N02-current-hover-focus.png",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild-v03/topnav-tests/navigation-rebuild-topnav--552f1-current-and-keyboard-access/N01-700x800-overflow.png"
+    ]
+  },
+  "notRun": [
+    "Screen-reader/assistive-technology session",
+    "Human visual design approval",
+    "Automatic text contrast audit for these new topnav nodes"
+  ],
+  "additionalVerified": [
+    "A surface and density changes preserve B dimensions/colors",
+    "Each Portal resolves own theme",
+    "Base UI built-in delayed hover with click/keyboard fallback",
+    "Scope-derived global current: course->courses; tool-*->resources"
+  ],
+  "publicDefaultsChanged": false,
+  "designReview": "pending-review"
+}

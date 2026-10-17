@@ -5,6 +5,16 @@ import { describe, expect, it } from "vitest";
 import { TypographyPanel } from "./typography-panel";
 
 describe("TypographyPanel", () => {
+  it("offers 16/17/18px headings and keeps Data options within 28px", () => {
+    render(createElement(TypographyPanel));
+    const preset = screen.getByRole("combobox", { name: "排版方案" });
+    const size = screen.getByRole("combobox", { name: "字号" });
+    fireEvent.change(preset, { target: { value: "heading-page" } });
+    expect(within(size).getAllByRole("option").map(option => Number((option as HTMLOptionElement).value))).toEqual([16, 17, 18]);
+    fireEvent.change(preset, { target: { value: "data-default" } });
+    expect(size).toHaveValue("28");
+    expect(within(size).getAllByRole("option").every(option => Number((option as HTMLOptionElement).value) <= 28)).toBe(true);
+  });
   it("offers the ten complete presets and keeps their actual font verification explicit", () => {
     render(createElement(TypographyPanel));
     expect(within(screen.getByRole("combobox", { name: "排版方案" })).getAllByRole("option")).toHaveLength(10);
@@ -54,16 +64,21 @@ describe("TypographyPanel", () => {
     expect(line).toHaveValue("28");
     fireEvent.change(size, { target: { value: "9" } });
     expect(line).toHaveValue("18");
-    fireEvent.change(size, { target: { value: "40" } });
-    expect(line).toHaveValue("40");
-    fireEvent.change(size, { target: { value: "36" } });
-    expect(line).toHaveValue("40");
+    if (presetName === "data-default") {
+      fireEvent.change(size, { target: { value: "28" } });
+      expect(line).toHaveValue("28");
+    } else {
+      fireEvent.change(size, { target: { value: "40" } });
+      expect(line).toHaveValue("40");
+      fireEvent.change(size, { target: { value: "36" } });
+      expect(line).toHaveValue("40");
+    }
     fireEvent.change(line, { target: { value: "equal" } });
     fireEvent.change(size, { target: { value: "9" } });
     expect(line).toHaveValue("equal");
     expect(screen.getByRole("status")).toHaveTextContent("9px / 9px");
     fireEvent.click(screen.getByRole("button", { name: "恢复完整方案" }));
     expect(screen.getByTestId("typography-live-preview")).toBeVisible();
-    expect(line).toHaveValue(presetName === "data-default" ? "42" : presetName === "reading-default" ? "26" : "22");
+    expect(line).toHaveValue(presetName === "data-default" ? "36" : presetName === "reading-default" ? "26" : "22");
   });
 });

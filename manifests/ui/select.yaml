@@ -9,10 +9,11 @@ modificationMode: "managed"
 sourcePath: "packages/ui/src/select/select.tsx"
 styleSourcePath: "packages/ui/src/select/select.styles.ts"
 sharedFrameSource: "packages/ui/src/field/field.styles.ts"
-sourceVersion: "local-2026-09-10"
+sourceVersion: "local-2026-10-13"
 publication: "unpublished"
 description: "从候选集中单选或多选的字段；可组合候选搜索、清空与完整键盘行为，适合筛选和表单条件。"
 useWhen:
+  - "展开面板需要在目标浏览器中使用统一 Rain 视觉；简单单选也使用本组件。"
   - "候选较多、标签较长或需要搜索时，使用 Select 选择筛选条件或字段值；由宿主拥有查询和生效范围。"
   - "Choose identities from a finite candidate set with complete value, search, clear and keyboard behavior."
 doNotUseWhen:
@@ -46,6 +47,7 @@ props:
   - "value / defaultValue / onValueChange: scalar-or-null for single; readonly array for multiple"
   - "onValueChange details: select, deselect, remove or clear; actual known selectedOptions"
   - "appearance / size / status / readOnly / disabled / required"
+  - "name / form: opt into Base UI form serialization and associate an optional external form"
   - "placeholder / clearable: true by default / clearLabel"
   - "display: summary by default; count or tags for multiple"
   - "maxCount: finite nonnegative integer; additions only"
@@ -102,6 +104,7 @@ compositionRules:
   - "Value, query and open are independently controlled; same-value selection does not emit a value callback."
   - "Single choice closes; multiple choice retains query and open state; actual closing clears the query, while clearing values does not."
   - "Only the host requests data, rejects stale responses, saves the form or cancels a draft."
+  - "Named fields submit through the existing Base UI input; multiple values use repeated names. Required uses the serialized nonempty value; unnamed fields retain host validation. Form reset remains host-owned."
   - "Loading and failure hide stale candidates while values, clear and search stay available."
   - "FormItem owns label, feedback and field status; internal search clears that context and remains independently normal."
   - "Selected values use formal Tag with a Select-specific Local Recipe; the Tag master retains its existing behavior."
@@ -118,7 +121,7 @@ accessibility:
   - "Escape and single confirmation return focus; Tab and outside clicks keep external focus."
   - "Tag removal moves to the next or previous removal action only while focus still belongs to that interaction."
   - "IME uses a temporary draft and commits once; Enter never submits the outer form."
-  - "Readonly content stays selectable and focusable; disabled blocks actions. Native form submission/constraint-validation bridging is not provided."
+  - "Readonly content stays selectable and focusable; disabled blocks actions and form submission. Named fields bridge required and FormData through Base UI without a platform picker or a second value store."
   - "Synthetic IME and browser semantics are checked separately from real-device IME and full screen-reader review."
 visualLineage:
   rainClassicReferences:
@@ -176,3 +179,10 @@ insideFieldLabels:
   humanGateScope: "input-search-input-select-inside-labels-runtime-visual-only"
   contrastAcceptance: "not-granted"
   publication: "not-authorized"
+
+formUnification:
+  decisionSource: "用户要求所有目标浏览器展开后统一雨课堂视觉，并授权最小范围修改。"
+  scope: "named-form-integration-and-native-demo-consolidation"
+  plan: "docs/plans/2026-10-13-select-unification.md"
+  evidence: "evidence/runtime/select-unification-2026-10-13/verification.md"
+  humanGate: "awaiting_human"

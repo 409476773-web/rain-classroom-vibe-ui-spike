@@ -1,0 +1,43 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+···········x
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/asset-index.test.ts > keeps the asset index traceable, current and separate from local experiments and acceptance
+AssertionError: expected '# Rain 资产检索索引\n\n由 `scripts/asset-ind…' to be '# Rain 资产检索索引\n\n由 `scripts/asset-ind…' // Object.is equality
+
+- Expected
++ Received
+
+@@ -30,11 +30,11 @@
+  | **AvatarGroup** | 横向交叠成员头像，More 独立查看剩余成员。 | AvatarGroup · `@rain-next/ui` · [源码](../../packages/ui/src/avatar/avatar-group.tsx) | [合同](../../manifests/ui/avatar-group.yaml) · [依赖](../../registry/avatar.json) | registry-candidate / registry-candidate | passed / accepted / not-granted / unpublished |
+  | **Avatar** | 单头像：人物图片与雨课堂默认图，加载与解码失败稳定回退。 | Avatar · `@rain-next/ui` · [源码](../../packages/ui/src/avatar/avatar.tsx) | [合同](../../manifests/ui/avatar.yaml) · [依赖](../../registry/avatar.json) | registry-candidate / registry-candidate | passed / accepted / not-granted / unpublished |
+  | **Breadcrumb** | 单档 13px 面包屑：返回上级、整项展开同级菜单、按容器折叠祖先与截断提示。 | Breadcrumb · `@rain-next/ui` · [源码](../../packages/ui/src/breadcrumb/breadcrumb.tsx) | [合同](../../manifests/ui/breadcrumb.yaml) · [依赖](../../registry/breadcrumb.json) | registry-candidate / registry-candidate | scoped-passed / accepted / not-granted / unpublished |
+  | **Button Group** | 相关命令在视觉上相连，每个按钮仍独立执行操作。 | ButtonGroup, ButtonGroupText, ButtonGroupSeparator, buttonGroupVariants · `@rain-next/ui` · [源码](../../packages/ui/src/button-group/button-group.tsx) | [合同](../../manifests/ui/button-group.yaml) · [依赖](../../registry/g2-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |
+  | **Card** | 独立内容对象的非交互容器。默认使用完整 Recipe，有明确需求时再调整其中的部件。 | Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter · `@rain-next/ui` · [源码](../../packages/ui/src/card/card.tsx) | [合同](../../manifests/ui/card.yaml) · [依赖](../../registry/card.json) | registry-candidate / registry-candidate | passed / awaiting_human / not-granted / unpublished |
+- | **面积图 AreaChart** | 图表：连续时间趋势、清晰线与轻渐变面积，保留原生聚焦；支持96×32 / 128×48迷你尺寸配方。 | AreaChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/area-chart.tsx) | [合同](../../manifests/ui/chart-area.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
++ | **面积图 AreaChart** | 图表：连续时间趋势、清晰线与轻渐变面积，保留原生聚焦；支持96×40迷你尺寸配方。 | AreaChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/area-chart.tsx) | [合同](../../manifests/ui/chart-area.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+  | **柱状图 BarChart** | 图表：类别比较、互斥堆叠、同色渐变与圆头渐隐柱。 | BarChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/bar-chart.tsx) | [合同](../../manifests/ui/chart-bar.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+  | **K线图 CandlestickChart** | 图表：开高低收时间序列、方向颜色、平盘与原生烛形交互。 | CandlestickChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/candlestick-chart.tsx) | [合同](../../manifests/ui/chart-candlestick.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+  | **分区地图 ChoroplethChart** | 图表：地区强度映射、同源色阶和无数据状态；固定Natural Earth世界GeoJSON与演示数值。 | ChoroplethChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/choropleth/choropleth-chart.tsx) | [合同](../../manifests/ui/chart-choropleth.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+  | **组合图 ComposedChart** | 图表：面积、柱、线组合报告，人数与完成率使用各自坐标轴。 | ComposedChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/composed-chart.tsx) | [合同](../../manifests/ui/chart-composed.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+  | **漏斗图 FunnelChart** | 图表：固定阶段转化人数、原生层叠光感及入口分母比例。 | FunnelChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/funnel-chart.tsx) | [合同](../../manifests/ui/chart-funnel.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+
+ ❯ scripts/asset-index.test.ts:66:73
+     64|   const assets = readAssets(root);
+     65|   const markdown = renderAssetIndex(assets);
+     66|   expect(readFileSync(resolve(root, "docs/ai/asset-index.md"), "utf8")…
+       |                                                                         ^
+     67|   for (const file of ["docs/ai/README.md", "docs/ai/asset-index.md"]) {
+     68|     for (const match of readFileSync(resolve(root, file), "utf8").matc…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 11 passed (12)
+   Start at  10:35:58
+   Duration  1.69s (transform 354ms, setup 189ms, import 467ms, tests 1.76s, environment 384ms)
+

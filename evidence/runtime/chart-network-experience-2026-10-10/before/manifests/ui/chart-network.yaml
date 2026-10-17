@@ -1,0 +1,121 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-chart-network"
+name: "网络关系图 NetworkChart"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "react-only"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/charts/network/network-chart.tsx"
+styleSourcePath: "packages/ui/src/charts/styles.css"
+sourceOrigin: "rain-local"
+sourceVersion: "rain-local-2026-10-10"
+description: "自然错位的柔光网络与结构化名称卡可切换，配色独立；节点类别、边类型与方向分别表达，保留相邻聚焦、选择详情、完整关系列表及精确表。"
+useWhen:
+  - "教学元素与知识点、知识点先备/迁移、课程先修/相似或理论实践联动，需要读取明确连接和方向。"
+doNotUseWhen:
+  - "需要守恒流量和权重带宽时使用Sankey；普通产业卡片或概念示意不自动解释成网络。"
+  - "需要图编辑器、力导模拟、拖拽缩放，或任意密集/重叠/千节点输入的完整自动布局保证。"
+anatomy:
+  - "ui-chart-network根、图表标题、节点/关系图例、自适应SVG、原稿式实心等边三角箭头与径向渐变或名称卡、窄屏完整关系列表、可操作节点列表、选择详情和清除按钮、节点/关系精确Table。"
+parts:
+  - "NetworkChart"
+  - "layoutNetwork"
+props:
+  - "nodes: NetworkNode{id,label,category,x?,y?}[]；稳定唯一ID、非空名称与类别，坐标成对且有限。"
+  - "edges: NetworkEdge{id,source,target,relation,directed,value?}[]；稳定唯一ID、有效端点、自环拒绝；value可选有限非负，0和未提供分开。"
+  - "categories: NetworkCategory{id,label,color?}[]；唯一非空ID和名称，每个节点类别必须声明。"
+  - "relations: NetworkRelation[]；独立关系类型配置，lineStyle为solid/dashed/dotted，边方向由directed决定。"
+  - "variant?: glow | structured；默认glow，呈现样式与data-recipe配色独立。"
+  - "caption: 图表、完整关系列表与精确表名称；reducedMotion主动减少运动并保留系统设置。"
+  - "onNodeSelect(node|null): 点击图形或键盘列表选择同一原始节点；清除或输入移除选中节点时回传null。"
+  - "className/style及普通根div属性；data-recipe选现有局部配方。"
+slots:
+  - "关系筛选、数据状态和请求由宿主在图外组合；组件内保留节点选择列表、详情和精确读数。"
+variants:
+  - "柔光网络glow：实色中心渐隐、外置名称、普通节点无深色描边；结构化关系structured：名称卡和类别色点，按传入坐标呈现，关系身份一致。"
+  - "有向/无向、节点类别、独立实/虚/点线关系、同节点对的多关系弧线与多节点环路。"
+  - "成对0至1坐标原样保留，其他坐标单位整体拟合；无坐标使用确定的自然环绕布局，连接较多的单个节点可位于内部。不修改原数据。"
+states:
+  - "正常、空节点、单节点无边、长名、非法结构拒绝；非法状态由宿主显示错误。"
+  - "指向、列表聚焦、选中、邻接强调、筛选隐藏选中节点后的清除、reduce即时终态。"
+dependencies:
+  - "React/React DOM、既有motion/react与Bklit DEFAULT_CHART_ENTER_TRANSITION；没有新安装依赖或常驻力导模拟。"
+  - "直接复用Rain Button与Table：button.styles/local-recipe/rain-class-names/table.styles/table.css；既有class-variance-authority@0.7.1与tailwind-merge。"
+  - "Rain Foundations、Tailwind桥接/源码扫描、UI根styles及其实际CSS/资产闭包，charts独立样式。"
+tokens:
+  - "现有--chart-1至05、--chart-tooltip-background、--chart-marker-border与继承文字currentColor、Rain UI字体、Button/Table、Focus；不新增全局Token或图表色阶。"
+layoutConstraints:
+  - "当前四组Mock为8至11节点、10至19边；视框960×560、圆半径24 SVG单位、结构化卡144×44。容器宽度不超过620px时显示全部关系列表，保留选择、详情和精确表。"
+  - "图中名称按估算字宽截短并最多分为两行，按钮/详情/表格保留全文。有限曲线候选避让节点与名称，不保证任意密集、重叠坐标或特殊字体的最优和完整避让。"
+  - "结构化使用卡片侧边端口与朝外控制点，同侧关系分开接入；来源与目标卡片内部均纳入曲线避让。"
+  - "两样式共用原稿ARROW_EQUILATERAL箭头，长度5倍线宽、高度5.7735倍线宽，沿曲线切向，尖端停在既有端点；关系色、透明度及高亮线宽同步。"
+compositionRules:
+  - "categories与relations按稳定ID显式配置颜色或保持声明顺序，筛选不按当前节点顺序重配身份色。"
+  - "权重只作详情/表格原始读数，线宽、距离和圆面积不表达权重，未提供不补0。"
+  - "宿主先验证完整原始结构并准备当前样式完整位置再筛选，不让筛选遮掩未知端点或重新拟合节点；悬停、选择和换色不重算几何。"
+  - "业务宿主柔光保留自然错位布局；结构化纯来源→目标映射使用两侧，其余按声明节点类别分列。分组列不表示先修阶段，全部关系保留；切回柔光恢复原位置。"
+  - "样式切换保持选中ID，形状与边端口同时更新；柔光数据更新保留短过渡，结构化节点位置与边路径即时同步，避免端口换侧插值穿进卡片，高亮透明度仍有短过渡。"
+  - "Playground /#chart-network展示四组业务样本及真实下载；原17 Bklit、Matrix及170官网身份保持。"
+allowedModifications:
+  - "宿主提供节点/边、类别/关系配置、有限成对坐标、caption、呈现样式、局部配方及关系筛选输入。"
+restrictedModifications:
+  - "不把概念距离解释为相关度、不补不存在的关系、不让权重隐式控制几何或把未提供转换成0。"
+  - "不以新增本地图型冒充Bklit官网变体或写入vendor上游来源锁。"
+accessibility:
+  - "SVG aria-hidden；具名Rain Button节点列表可聚焦，Enter/Space通过原生按钮选择，aria-pressed表达选择，与鼠标图形点击同详情。"
+  - "邻接聚焦与选择独立，具名详情区域提供方向、类型和原始读数；节点/边语义Table保留caption与行标题。"
+  - "窄屏全部关系列表保留方向和类型；精确TableScrollArea支持左右键横滚，长名保留全文，图形方向同时在表格文字表达。"
+  - "useId隔离多实例marker/gradient；柔光几何与两样式高亮使用短过渡，结构化几何、系统或显式reduce即时完成，无常驻模拟。"
+  - "真实Safari/VoiceOver、物理触屏、forced-colors、深色与完整对比度尚未完成验证；自动检查不代替这些Gate。"
+examples:
+  - "apps/playground/src/docs/components/chart-business/network-examples.tsx"
+  - "apps/playground/src/docs/components/chart-business/network-data.ts"
+  - "apps/playground/src/docs/components/chart-business/network-page.tsx"
+recipes:
+  - "monochrome-blue"
+  - "category-near"
+  - "category-wide"
+defaultRecipe: "monochrome-blue"
+antiPatterns:
+  - "按过滤后的节点索引重配类别色，把固定圆半径或节点距离解释成权重。"
+  - "SVG隐藏但只附只读表，没有等价可操作节点列表；每次hover重新随机布局。"
+relatedComponents:
+  - "ui-button"
+  - "ui-table"
+  - "ui-chart-sankey"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Figma MbWg1ft5zk1JRQiQ6dS30e / 2901:130074；计划指定CH-065/070/083/086业务关系参考。"
+  externalReferences:
+    - "现有P08关系参考的径向柔光、实/虚/点线与锁定Bklit运动基础；本地实现复用现有React/Motion。"
+  retainedTraits:
+    - "元素/知识点与课程的节点类别、不同连接类型、有向先备及反馈关系；原稿式自然错位、径向柔光与细曲线、小箭头。"
+  redesignedTraits:
+    - "vendor外Rain共享实现、确定性布局、边界避让、独立呈现样式与配色、稳定身份、鼠标/键盘同选择、窄屏完整关系列表及精确Table。"
+  intentionallyNotInherited:
+    - "原设计Mock不进入共享UI，不自动把CH-116/139卡片或概念示意当网络，不包含随机力导、编辑或千节点承诺。"
+figmaMapping:
+  status: "reference-only"
+  fileKey: "MbWg1ft5zk1JRQiQ6dS30e"
+  nodeId: "2901:130074"
+  codeConnect: "not-established"
+sourceEvidence:
+  - "packages/ui/src/charts/network/README.md"
+  - "evidence/runtime/chart-business-expansion/p4/baseline.md"
+  - "evidence/runtime/chart-business-expansion/p4/verification.md"
+  - "evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md"
+  - "evidence/runtime/chart-network-arrow-feedback-2026-10-10/verification.md"
+migrationNotes:
+  - "Rain本地共享候选；原17 Bklit加Matrix/Network为19入口，170官网集合不变；未发布、未迁移、未写Figma。"
+verification:
+  automated: "network-scoped-passed; broader-checks-blocked-outside-network"
+  scope: "2026-10-10 arrow feedback: 7 files/83 Network-scoped unit and 7 Chromium browser tests passed; layout/geometry/host/fixtures unchanged by protected hashes. UI typecheck, Prototype standard build, Playground runtime typecheck and Vite build passed. Playground standard build blocked by 3 China test typing errors; broader 95-unit run has 93 passes and 2 China color/export failures. 19 Registry closures, 170 official variants type/build and 16 Network download closures passed using installed dependency cache; full business download type/build/browser not reached because China export closure failed. Whole-repository verification not claimed."
+  independentReview: "prior-structured-review-only; arrow-source-and-browser-appearance-reviewed-locally"
+  humanGate: "glow-layout-and-material-accepted; revised-arrows-and-structured-awaiting-user-review"
+  glowVisualHumanGate: "passed-layout-and-node-material-only; arrow-feedback-open"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/chart-network-arrow-feedback-2026-10-10/verification.md"

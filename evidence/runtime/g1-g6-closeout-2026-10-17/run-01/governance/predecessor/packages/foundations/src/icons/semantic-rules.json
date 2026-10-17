@@ -1,0 +1,2735 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "title": "Rain Next 图标选择规范",
+    "scope": "58 个讨论资产的语义合同（原 42 项及本次新增 16 项）；不是 897 项全库语义确认或运行时可用性清单。",
+    "figmaFileKey": "olqwu95QD6n4Y3IAwUdgF4",
+    "confirmationDate": "2026-09-03",
+    "maturity": "registry-candidate",
+    "publication": "unpublished",
+    "sources": {
+      "original": {
+        "label": "首次图标语义说明",
+        "url": "https://www.figma.com/design/olqwu95QD6n4Y3IAwUdgF4?node-id=2201-85"
+      },
+      "extended": {
+        "label": "常见且语义相对固定的 icon",
+        "url": "https://www.figma.com/design/olqwu95QD6n4Y3IAwUdgF4?node-id=2201-707"
+      },
+      "confirmation": {
+        "label": "用户逐项确认及实施计划",
+        "path": "docs/plans/2026-09-03-icon-library-migration.md"
+      },
+      "preflight": {
+        "label": "42 项图形与接入预检",
+        "path": "docs/audits/2026-09-03-icon-migration-preflight.md"
+      },
+      "paired-controls": {
+        "label": "常用固定语义图标与状态配对补充",
+        "url": "https://www.figma.com/design/olqwu95QD6n4Y3IAwUdgF4?node-id=2244-285"
+      },
+      "pair-confirmation": {
+        "label": "用户确认9组语义及开始修改授权",
+        "path": "docs/plans/2026-09-07-icon-button-implementation.md"
+      }
+    },
+    "supplementConfirmationDate": "2026-09-07"
+  },
+  "guidance": [
+    "先按实际行为与组件场景查规则，再查正式资产；中文关键词仅供人和 AI 检索，不参与 resolveSemanticIcon 的运行时匹配。",
+    "优先级：当前明确指定 → 可追溯的已确认组件规范 → 已确认场景规则 → 默认。唯一规则直接使用，不重复确认。",
+    "同一语义的线性/实心默认只覆盖本文件已登记版本；不按 SVG fill、bold、圆圈或形状猜测，不能推广到全库。",
+    "是否出现图标、前后位置、事件、页面打开方式与可访问名称由宿主和实际交互决定。",
+    "普通图标颜色跟随宿主，状态语义色由状态宿主提供；固有配色只有经过资产证据确认后保留。",
+    "more-vertical、close-bold 通常只在用户明确要求，或具体组件的已确认规范明确指定时使用；旧实现、历史说明、窄空间或 AI 偏好不是确认依据。",
+    "Checkbox/Radio 内部形态遵循各自组件规范。",
+    "同优先级冲突先检查规则来源；实际行为不足先查页面上下文，仍无法决定时才澄清缺失部分。",
+    "未知语义可继续查询完整图库并记录有依据的任务局部选择，不自动晋升全局默认。",
+    "指定资产不存在或不可用时明确报告，不能偷偷换成近似 SVG、Unicode 或外部同名图标。",
+    "资产身份、语义确认、渲染可用性、Human Gate 与发布分别记录；没有传入 availableAssets 时不会声明资产已可导入。",
+    "已确认的状态配对由宿主按实际业务状态选择当前正式图标；可用 explicitVariant: filled 查询配对资产。选中、展开与加载不会在 resolveSemanticIcon 或 IconButton 内自动选择业务图形。",
+    "收藏通过 target: star 或 heart 区分；含糊的喜欢通过 context: heart、thumbs-up 或 applause 区分。关键词重叠不代表图形可以互作唯一默认。",
+    "筛选由条件是否生效选择 filter / filter-filled；面板展开独立决定 aria-expanded 与浅底反馈，关闭面板不清除筛选结果。"
+  ],
+  "sourceCorrections": [
+    {
+      "sourceId": "extended",
+      "assetIds": [
+        "icon/info",
+        "icon/info-filled"
+      ],
+      "originalText": "普通题型",
+      "confirmedText": "普通提示",
+      "status": "user-confirmed",
+      "figmaWrite": "not-performed"
+    },
+    {
+      "sourceId": "extended",
+      "assetIds": [
+        "icon/share-alt"
+      ],
+      "originalText": "分享",
+      "confirmedText": "按钮内页面跳转提示",
+      "status": "user-confirmed",
+      "figmaWrite": "not-performed"
+    }
+  ],
+  "assets": [
+    {
+      "assetId": "icon/edit-pencil",
+      "name": "icon/edit-pencil",
+      "slug": "edit-pencil",
+      "exportName": "EditPencilIcon",
+      "importPath": "@rain-next/ui/icons/edit-pencil",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "183:574",
+        "componentKey": "f704fc5409bdc8d05e7ed07bcdb98ff21a1af770"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/edit-pencil-filled",
+      "name": "icon/edit-pencil-filled",
+      "slug": "edit-pencil-filled",
+      "exportName": "EditPencilFilledIcon",
+      "importPath": "@rain-next/ui/icons/edit-pencil-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "183:540",
+        "componentKey": "8d3b347010ebd80bfe0c7c24d93adf66fb6187a8"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/arrow-down",
+      "name": "icon/arrow-down",
+      "slug": "arrow-down",
+      "exportName": "ArrowDownIcon",
+      "importPath": "@rain-next/ui/icons/arrow-down",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "63:76",
+        "componentKey": "457881b00122d6cdfc873ab4dd68c5cbaaebd1dd"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/arrow-up",
+      "name": "icon/arrow-up",
+      "slug": "arrow-up",
+      "exportName": "ArrowUpIcon",
+      "importPath": "@rain-next/ui/icons/arrow-up",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "63:69",
+        "componentKey": "052ecb572199b2383143b8dd59b4dac04abf398c"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/double-arrow-down",
+      "name": "icon/double-arrow-down",
+      "slug": "double-arrow-down",
+      "exportName": "DoubleArrowDownIcon",
+      "importPath": "@rain-next/ui/icons/double-arrow-down",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "71:35",
+        "componentKey": "b717884e9b614be3ff1414d40c1a83b889cbfb0b"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/double-arrow-up",
+      "name": "icon/double-arrow-up",
+      "slug": "double-arrow-up",
+      "exportName": "DoubleArrowUpIcon",
+      "importPath": "@rain-next/ui/icons/double-arrow-up",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "71:32",
+        "componentKey": "ee711c2c79a23b136ed33edd260849fd98b8a1bc"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/chevron-down",
+      "name": "icon/chevron-down",
+      "slug": "chevron-down",
+      "exportName": "ChevronDownIcon",
+      "importPath": "@rain-next/ui/icons/chevron-down",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "8:17",
+        "componentKey": "60c169aa3c2e000171a6bab361ccc9a1bba8cc5f"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/chevron-up",
+      "name": "icon/chevron-up",
+      "slug": "chevron-up",
+      "exportName": "ChevronUpIcon",
+      "importPath": "@rain-next/ui/icons/chevron-up",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "52:33",
+        "componentKey": "202d6a21466956cca5464e70b8fcac44d3bd9505"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/button-loading",
+      "name": "icon/button-loading",
+      "slug": "button-loading",
+      "exportName": "ButtonLoadingIcon",
+      "importPath": "@rain-next/ui/icons/button-loading",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "207:33",
+        "componentKey": "93cf004533993728cbfc12d16bc8790469acf961"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/add",
+      "name": "icon/add",
+      "slug": "add",
+      "exportName": "AddIcon",
+      "importPath": "@rain-next/ui/icons/add",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "51:32",
+        "componentKey": "65ccddef5f0df45fe6dbadd684222a40d4847973"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/add-bold",
+      "name": "icon/add-bold",
+      "slug": "add-bold",
+      "exportName": "AddBoldIcon",
+      "importPath": "@rain-next/ui/icons/add-bold",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "71:54",
+        "componentKey": "ce4fac61be3c0c9537e75a2b508fd76993f493a8"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/add-circle-filled",
+      "name": "icon/add-circle-filled",
+      "slug": "add-circle-filled",
+      "exportName": "AddCircleFilledIcon",
+      "importPath": "@rain-next/ui/icons/add-circle-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "67:89",
+        "componentKey": "db2e3a3f66d5095a420482e1b04a4080aa9c4bda"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/add-circle-outline",
+      "name": "icon/add-circle-outline",
+      "slug": "add-circle-outline",
+      "exportName": "AddCircleOutlineIcon",
+      "importPath": "@rain-next/ui/icons/add-circle-outline",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "67:32",
+        "componentKey": "29f00db906409cd23fc62f40208be3fb2292888b"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/alert-circle",
+      "name": "icon/alert-circle",
+      "slug": "alert-circle",
+      "exportName": "AlertCircleIcon",
+      "importPath": "@rain-next/ui/icons/alert-circle",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "67:64",
+        "componentKey": "81475b3d4f15b3eb8a0c43b0488fc7afde908a8c"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/alert-filled",
+      "name": "icon/alert-filled",
+      "slug": "alert-filled",
+      "exportName": "AlertFilledIcon",
+      "importPath": "@rain-next/ui/icons/alert-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "68:50",
+        "componentKey": "9f1ee5b4ae6419f0061e531fe5e5db061d457857"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/check-bold",
+      "name": "icon/check-bold",
+      "slug": "check-bold",
+      "exportName": "CheckBoldIcon",
+      "importPath": "@rain-next/ui/icons/check-bold",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "71:48",
+        "componentKey": "1b0f9ddf7c24e04d4c4a31ee7dd45ec5947b0b8b"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/circle-check",
+      "name": "icon/circle-check",
+      "slug": "circle-check",
+      "exportName": "CircleCheckIcon",
+      "importPath": "@rain-next/ui/icons/circle-check",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "67:42",
+        "componentKey": "0f0f2df3e7b62b884dece2342be2f05bc5524da6"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/circle-check-filled",
+      "name": "icon/circle-check-filled",
+      "slug": "circle-check-filled",
+      "exportName": "CircleCheckFilledIcon",
+      "importPath": "@rain-next/ui/icons/circle-check-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "63:85",
+        "componentKey": "14f3852a4f9795f2939445f3e6ff3c88726bf241"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/circle-close",
+      "name": "icon/circle-close",
+      "slug": "circle-close",
+      "exportName": "CircleCloseIcon",
+      "importPath": "@rain-next/ui/icons/circle-close",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "67:39",
+        "componentKey": "35667b841b056adf89b57b3a376a9b54876099df"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/circle-close-filled",
+      "name": "icon/circle-close-filled",
+      "slug": "circle-close-filled",
+      "exportName": "CircleCloseFilledIcon",
+      "importPath": "@rain-next/ui/icons/circle-close-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "63:88",
+        "componentKey": "4e6fdc1ee2aa1741fee2a321926675729d9c17b2"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/close",
+      "name": "icon/close",
+      "slug": "close",
+      "exportName": "CloseIcon",
+      "importPath": "@rain-next/ui/icons/close",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "8:2",
+        "componentKey": "191c67961efb298fdbba15974f9be943e3aa2f86"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/close-bold",
+      "name": "icon/close-bold",
+      "slug": "close-bold",
+      "exportName": "CloseBoldIcon",
+      "importPath": "@rain-next/ui/icons/close-bold",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "71:51",
+        "componentKey": "b4e171f9ce34dd00eb23c608f508c4403c31b3a1"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/delete",
+      "name": "icon/delete",
+      "slug": "delete",
+      "exportName": "DeleteIcon",
+      "importPath": "@rain-next/ui/icons/delete",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "51:50",
+        "componentKey": "84b9588997bd9645fa0f5723d01b125bbcd05ff7"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/filter",
+      "name": "icon/filter",
+      "slug": "filter",
+      "exportName": "FilterIcon",
+      "importPath": "@rain-next/ui/icons/filter",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "63:56",
+        "componentKey": "19b109c81381baa1d59f5b219d98f017a5bb6ed3"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/help",
+      "name": "icon/help",
+      "slug": "help",
+      "exportName": "HelpIcon",
+      "importPath": "@rain-next/ui/icons/help",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "8:14",
+        "componentKey": "28a38a953f0a60202451ec332c01ed5663e6a421"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/help-filled",
+      "name": "icon/help-filled",
+      "slug": "help-filled",
+      "exportName": "HelpFilledIcon",
+      "importPath": "@rain-next/ui/icons/help-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "68:47",
+        "componentKey": "5f489b44b2d0672f66310b74603804ae03f55495"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/info",
+      "name": "icon/info",
+      "slug": "info",
+      "exportName": "InfoIcon",
+      "importPath": "@rain-next/ui/icons/info",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "67:58",
+        "componentKey": "fc6cf38dee253b8a7ea4791617e2a620208c9179"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/info-filled",
+      "name": "icon/info-filled",
+      "slug": "info-filled",
+      "exportName": "InfoFilledIcon",
+      "importPath": "@rain-next/ui/icons/info-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "68:44",
+        "componentKey": "f00d5dc798de2d5f9b905ed3ed583e12197b317f"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/minus",
+      "name": "icon/minus",
+      "slug": "minus",
+      "exportName": "MinusIcon",
+      "importPath": "@rain-next/ui/icons/minus",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "51:38",
+        "componentKey": "768cdf68883291003c35f3c8de429fd14f19dea5"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/minus-circle-filled",
+      "name": "icon/minus-circle-filled",
+      "slug": "minus-circle-filled",
+      "exportName": "MinusCircleFilledIcon",
+      "importPath": "@rain-next/ui/icons/minus-circle-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "67:92",
+        "componentKey": "af609b522d175fd31b3d98801a58d3fc514bf532"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/minus-circle-outline",
+      "name": "icon/minus-circle-outline",
+      "slug": "minus-circle-outline",
+      "exportName": "MinusCircleOutlineIcon",
+      "importPath": "@rain-next/ui/icons/minus-circle-outline",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "67:36",
+        "componentKey": "9bc8be2dae2a365ff00d4412b901a91eab55875c"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/more-horizontal",
+      "name": "icon/more-horizontal",
+      "slug": "more-horizontal",
+      "exportName": "MoreHorizontalIcon",
+      "importPath": "@rain-next/ui/icons/more-horizontal",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "52:68",
+        "componentKey": "32703c42896327633f6d9206ece468ad5aebaa15"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/more-horizontal-filled",
+      "name": "icon/more-horizontal-filled",
+      "slug": "more-horizontal-filled",
+      "exportName": "MoreHorizontalFilledIcon",
+      "importPath": "@rain-next/ui/icons/more-horizontal-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "68:62",
+        "componentKey": "aa81e1584b286134cea48187ef502e26edf98325"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/more-vertical",
+      "name": "icon/more-vertical",
+      "slug": "more-vertical",
+      "exportName": "MoreVerticalIcon",
+      "importPath": "@rain-next/ui/icons/more-vertical",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "52:74",
+        "componentKey": "d6f1533fb923e959672c75c96807a38f6a7890a9"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/publish",
+      "name": "icon/publish",
+      "slug": "publish",
+      "exportName": "PublishIcon",
+      "importPath": "@rain-next/ui/icons/publish",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "182:645",
+        "componentKey": "e5a199cdd35fa5f8ff31d057d7ca030965cc6b26"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/publish-filled",
+      "name": "icon/publish-filled",
+      "slug": "publish-filled",
+      "exportName": "PublishFilledIcon",
+      "importPath": "@rain-next/ui/icons/publish-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "182:695",
+        "componentKey": "1deaf4063c16a6d9b80b0e44ee3f54286a49bddf"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/published",
+      "name": "icon/published",
+      "slug": "published",
+      "exportName": "PublishedIcon",
+      "importPath": "@rain-next/ui/icons/published",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "186:546",
+        "componentKey": "b160fbedb7964e48fa929f9dc7e913db339216b0"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/refresh",
+      "name": "icon/refresh",
+      "slug": "refresh",
+      "exportName": "RefreshIcon",
+      "importPath": "@rain-next/ui/icons/refresh",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "51:80",
+        "componentKey": "f08c4b9ff968b5f8b8e3ec20f871c4a90764c928"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/search",
+      "name": "icon/search",
+      "slug": "search",
+      "exportName": "SearchIcon",
+      "importPath": "@rain-next/ui/icons/search",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "8:20",
+        "componentKey": "e8f8a7d2b1b3a90d73e089760cc9d42a83a3f269"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/settings-3",
+      "name": "icon/settings-3",
+      "slug": "settings-3",
+      "exportName": "Settings3Icon",
+      "importPath": "@rain-next/ui/icons/settings-3",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "183:581",
+        "componentKey": "bb74ab1d584b7bc29efc63d3f2cee30e270d79e6"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/settings-3-filled",
+      "name": "icon/settings-3-filled",
+      "slug": "settings-3-filled",
+      "exportName": "Settings3FilledIcon",
+      "importPath": "@rain-next/ui/icons/settings-3-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "183:546",
+        "componentKey": "542b8550abf41a7c714ff1e2e720fb20718b7e61"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/share-alt",
+      "name": "icon/share-alt",
+      "slug": "share-alt",
+      "exportName": "ShareAltIcon",
+      "importPath": "@rain-next/ui/icons/share-alt",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "184:606",
+        "componentKey": "3ddfc9c445e18ce7c4b441c0a6a63c909f445dc6"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/rating-star",
+      "name": "icon/rating-star",
+      "slug": "rating-star",
+      "exportName": "RatingStarIcon",
+      "importPath": "@rain-next/ui/icons/rating-star",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "166:84",
+        "componentKey": "4924e295e0c7a440af1c5d5b093b982c34893633"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/rating-star-100",
+      "name": "icon/rating-star-100",
+      "slug": "rating-star-100",
+      "exportName": "RatingStar100Icon",
+      "importPath": "@rain-next/ui/icons/rating-star-100",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "166:74",
+        "componentKey": "e8949a5a99ba339f5afb28e104270424eba63fbd"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/favorite",
+      "name": "icon/favorite",
+      "slug": "favorite",
+      "exportName": "FavoriteIcon",
+      "importPath": "@rain-next/ui/icons/favorite",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "63:48",
+        "componentKey": "193e9bc5daf3814cfddb2ed58c8fafe02df401cc"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/favorite-filled",
+      "name": "icon/favorite-filled",
+      "slug": "favorite-filled",
+      "exportName": "FavoriteFilledIcon",
+      "importPath": "@rain-next/ui/icons/favorite-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "63:51",
+        "componentKey": "09fc08c5b64413c8b512dba40905e5e47a38c581"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/like",
+      "name": "icon/like",
+      "slug": "like",
+      "exportName": "LikeIcon",
+      "importPath": "@rain-next/ui/icons/like",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "182:630",
+        "componentKey": "e079f31aa066beb514f0b3efd4a08a0f138bc690"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/like-filled",
+      "name": "icon/like-filled",
+      "slug": "like-filled",
+      "exportName": "LikeFilledIcon",
+      "importPath": "@rain-next/ui/icons/like-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "61:36",
+        "componentKey": "02cef3be833aa38d66ece34d38f6a258cb4711ab"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/dislike",
+      "name": "icon/dislike",
+      "slug": "dislike",
+      "exportName": "DislikeIcon",
+      "importPath": "@rain-next/ui/icons/dislike",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "182:633",
+        "componentKey": "afd699814798866b78fe565978c5f0d2353d74dc"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/dislike-filled",
+      "name": "icon/dislike-filled",
+      "slug": "dislike-filled",
+      "exportName": "DislikeFilledIcon",
+      "importPath": "@rain-next/ui/icons/dislike-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "182:686",
+        "componentKey": "f9c4863c29d747c8b8940af93f8069035ff6bdb2"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/like-alt-2",
+      "name": "icon/like-alt-2",
+      "slug": "like-alt-2",
+      "exportName": "LikeAlt2Icon",
+      "importPath": "@rain-next/ui/icons/like-alt-2",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "183:623",
+        "componentKey": "3c199ca2e647b50a5383820d3bd8045b872df18a"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/like-alt",
+      "name": "icon/like-alt",
+      "slug": "like-alt",
+      "exportName": "LikeAltIcon",
+      "importPath": "@rain-next/ui/icons/like-alt",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "183:602",
+        "componentKey": "61d3541e87224b0feda666d26d0a8fa7fc84cee3"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/pin-top-alt-2",
+      "name": "icon/pin-top-alt-2",
+      "slug": "pin-top-alt-2",
+      "exportName": "PinTopAlt2Icon",
+      "importPath": "@rain-next/ui/icons/pin-top-alt-2",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "184:624",
+        "componentKey": "388ab4ae629ce5a04923e662480c99b00c5a47d9"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/pin",
+      "name": "icon/pin",
+      "slug": "pin",
+      "exportName": "PinIcon",
+      "importPath": "@rain-next/ui/icons/pin",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "184:511",
+        "componentKey": "568f51fe99bfd30a177b6e4271c3c9f0735c0b6f"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/pin-top-alt",
+      "name": "icon/pin-top-alt",
+      "slug": "pin-top-alt",
+      "exportName": "PinTopAltIcon",
+      "importPath": "@rain-next/ui/icons/pin-top-alt",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "184:514",
+        "componentKey": "db1483b1cf566a3c8e79aa47a37ea3d1f21fdd61"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/filter-filled",
+      "name": "icon/filter-filled",
+      "slug": "filter-filled",
+      "exportName": "FilterFilledIcon",
+      "importPath": "@rain-next/ui/icons/filter-filled",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "122:84",
+        "componentKey": "3f0b9e381594969a69a4ab3efb3ec585e791c1f9"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/expand",
+      "name": "icon/expand",
+      "slug": "expand",
+      "exportName": "ExpandIcon",
+      "importPath": "@rain-next/ui/icons/expand",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "70:35",
+        "componentKey": "34f02ab987613e4c815e0dd97992955cbb6bf209"
+      },
+      "publication": "unverified"
+    },
+    {
+      "assetId": "icon/collapse",
+      "name": "icon/collapse",
+      "slug": "collapse",
+      "exportName": "CollapseIcon",
+      "importPath": "@rain-next/ui/icons/collapse",
+      "colorMode": "host",
+      "source": {
+        "fileKey": "olqwu95QD6n4Y3IAwUdgF4",
+        "nodeId": "70:32",
+        "componentKey": "2b64bd7fde195296c1b120707fba20f2049c4df1"
+      },
+      "publication": "unverified"
+    }
+  ],
+  "rules": [
+    {
+      "id": "edit",
+      "label": "编辑",
+      "assetId": "icon/edit-pencil",
+      "match": [
+        {
+          "intent": [
+            "edit"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "original",
+        "confirmation"
+      ],
+      "keywords": [
+        "编辑",
+        "修改"
+      ],
+      "useWhen": "需要图标的编辑操作。",
+      "doNotUseWhen": [
+        "不因一级按钮、悬停、按下、选中或禁用改为实心。",
+        "不以旧 icon/edit 自动替代默认。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/edit-pencil-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "expand",
+      "label": "内容展开",
+      "assetId": "icon/arrow-down",
+      "match": [
+        {
+          "intent": [
+            "expand"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "original",
+        "confirmation"
+      ],
+      "keywords": [
+        "展开",
+        "内容展开"
+      ],
+      "useWhen": "一般组件或页面的内容展开。",
+      "doNotUseWhen": [
+        "全屏、放大与缩放。",
+        "带展开文案的文字按钮优先使用双箭头。"
+      ],
+      "variants": [
+        {
+          "variant": "solid-triangle",
+          "assetId": "icon/chevron-down",
+          "condition": "通常仅在用户明确要求实心三角时使用。"
+        }
+      ]
+    },
+    {
+      "id": "collapse",
+      "label": "内容收起",
+      "assetId": "icon/arrow-up",
+      "match": [
+        {
+          "intent": [
+            "collapse"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "original",
+        "confirmation"
+      ],
+      "keywords": [
+        "收起",
+        "内容收起"
+      ],
+      "useWhen": "一般组件或页面的内容收起。",
+      "doNotUseWhen": [
+        "退出全屏或缩小。",
+        "带收起文案的文字按钮优先使用双箭头。"
+      ],
+      "variants": [
+        {
+          "variant": "solid-triangle",
+          "assetId": "icon/chevron-up",
+          "condition": "通常仅在用户明确要求实心三角时使用。"
+        }
+      ]
+    },
+    {
+      "id": "text-button-expand",
+      "label": "带展开文案的文字按钮",
+      "assetId": "icon/double-arrow-down",
+      "match": [
+        {
+          "intent": [
+            "expand"
+          ],
+          "context": [
+            "text-button-with-action-label"
+          ]
+        }
+      ],
+      "priority": "scene",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "original",
+        "confirmation"
+      ],
+      "keywords": [
+        "展开更多",
+        "展开文字按钮"
+      ],
+      "useWhen": "带展开文案的文字按钮；优先于通用内容展开。",
+      "doNotUseWhen": [
+        "更多操作菜单。",
+        "没有展开文案的其他文字按钮。"
+      ],
+      "variants": [
+        {
+          "variant": "solid-triangle",
+          "assetId": "icon/chevron-down",
+          "condition": "通常仅在用户明确要求实心三角时使用。"
+        }
+      ]
+    },
+    {
+      "id": "text-button-collapse",
+      "label": "带收起文案的文字按钮",
+      "assetId": "icon/double-arrow-up",
+      "match": [
+        {
+          "intent": [
+            "collapse"
+          ],
+          "context": [
+            "text-button-with-action-label"
+          ]
+        }
+      ],
+      "priority": "scene",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "original",
+        "confirmation"
+      ],
+      "keywords": [
+        "收起文字按钮"
+      ],
+      "useWhen": "带收起文案的文字按钮；优先于通用内容收起。",
+      "doNotUseWhen": [
+        "其他文字按钮。"
+      ],
+      "variants": [
+        {
+          "variant": "solid-triangle",
+          "assetId": "icon/chevron-up",
+          "condition": "通常仅在用户明确要求实心三角时使用。"
+        }
+      ]
+    },
+    {
+      "id": "create-object",
+      "label": "新建对象",
+      "assetId": "icon/add-bold",
+      "match": [
+        {
+          "intent": [
+            "create"
+          ]
+        },
+        {
+          "intent": [
+            "add"
+          ],
+          "target": [
+            "object"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "新建",
+        "创建",
+        "新建课程",
+        "新建试卷"
+      ],
+      "useWhen": "实际创建新的对象，即使文案写作添加课程。",
+      "doNotUseWhen": [
+        "加入已有集合。",
+        "数值增加。",
+        "bold 不等于实心变体。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "add-to-collection",
+      "label": "向集合添加项目",
+      "assetId": "icon/add-circle-outline",
+      "match": [
+        {
+          "intent": [
+            "add"
+          ],
+          "target": [
+            "collection"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "添加",
+        "加入",
+        "添加成员",
+        "添加题目"
+      ],
+      "useWhen": "向当前集合加入成员、题目等项目。",
+      "doNotUseWhen": [
+        "实际创建对象。",
+        "数值增加。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/add-circle-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "increase-value",
+      "label": "增加数值",
+      "assetId": "icon/add",
+      "match": [
+        {
+          "intent": [
+            "increase"
+          ]
+        },
+        {
+          "intent": [
+            "add"
+          ],
+          "target": [
+            "value"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "加",
+        "增加数值",
+        "增加数量"
+      ],
+      "useWhen": "数值或数量增量操作。",
+      "doNotUseWhen": [
+        "新建对象。",
+        "向集合添加项目。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "delete-object",
+      "label": "删除对象",
+      "assetId": "icon/delete",
+      "match": [
+        {
+          "intent": [
+            "delete"
+          ]
+        },
+        {
+          "intent": [
+            "remove"
+          ],
+          "target": [
+            "object"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "删除",
+        "删除对象",
+        "删除记录"
+      ],
+      "useWhen": "删除对象或记录本身。",
+      "doNotUseWhen": [
+        "仅移出集合但保留原对象。",
+        "清空输入值。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "remove-from-collection",
+      "label": "从集合移除项目",
+      "assetId": "icon/minus-circle-outline",
+      "match": [
+        {
+          "intent": [
+            "remove"
+          ],
+          "target": [
+            "collection"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "移除",
+        "减去",
+        "移出集合"
+      ],
+      "useWhen": "从集合移除项目，不一定删除原对象。",
+      "doNotUseWhen": [
+        "删除对象本身。",
+        "数值减少。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/minus-circle-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "decrease-value",
+      "label": "减少数值",
+      "assetId": "icon/minus",
+      "match": [
+        {
+          "intent": [
+            "decrease"
+          ]
+        },
+        {
+          "intent": [
+            "remove"
+          ],
+          "target": [
+            "value"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "减",
+        "减少数值",
+        "减少数量"
+      ],
+      "useWhen": "数值或数量减量操作。",
+      "doNotUseWhen": [
+        "删除对象。",
+        "从集合移除项目。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "search",
+      "label": "搜索",
+      "assetId": "icon/search",
+      "match": [
+        {
+          "intent": [
+            "search"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "搜索",
+        "查询"
+      ],
+      "useWhen": "搜索入口或搜索输入框。",
+      "doNotUseWhen": [],
+      "variants": []
+    },
+    {
+      "id": "filter",
+      "label": "筛选",
+      "assetId": "icon/filter",
+      "match": [
+        {
+          "intent": [
+            "filter"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation",
+        "paired-controls",
+        "pair-confirmation"
+      ],
+      "keywords": [
+        "筛选",
+        "过滤"
+      ],
+      "useWhen": "筛选操作。",
+      "doNotUseWhen": [],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/filter-filled",
+          "condition": "宿主明确表示筛选条件已生效时使用；是否展开筛选面板不决定此配对图形。"
+        }
+      ]
+    },
+    {
+      "id": "settings",
+      "label": "设置",
+      "assetId": "icon/settings-3",
+      "match": [
+        {
+          "intent": [
+            "settings"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "设置"
+      ],
+      "useWhen": "设置入口。",
+      "doNotUseWhen": [],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/settings-3-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "more-actions",
+      "label": "更多操作菜单",
+      "assetId": "icon/more-horizontal",
+      "match": [
+        {
+          "intent": [
+            "more-actions"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "更多操作",
+        "更多菜单"
+      ],
+      "useWhen": "展开额外操作菜单的入口。",
+      "doNotUseWhen": [
+        "展开更多内容。",
+        "空间较窄、竖向布局不自动改用竖向三点。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/more-horizontal-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "close",
+      "label": "普通关闭",
+      "assetId": "icon/close",
+      "match": [
+        {
+          "intent": [
+            "close"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "关闭",
+        "关闭页面",
+        "关闭弹层"
+      ],
+      "useWhen": "普通页面或弹层关闭。",
+      "doNotUseWhen": [
+        "清空输入或选择器值。",
+        "错误结果提示。",
+        "更醒目不构成使用 close-bold 的依据。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "clear-value",
+      "label": "清空已有值",
+      "assetId": "icon/circle-close",
+      "match": [
+        {
+          "intent": [
+            "clear"
+          ],
+          "context": [
+            "input",
+            "select"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "清空",
+        "清除选择",
+        "清除输入"
+      ],
+      "useWhen": "输入框或选择器已有值的清空操作，颜色随控件。",
+      "doNotUseWhen": [
+        "关闭页面或弹层。",
+        "不因为叉号外形自动使用错误颜色。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/circle-close-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "error-result",
+      "label": "失败或错误提示",
+      "assetId": "icon/circle-close",
+      "match": [
+        {
+          "intent": [
+            "error",
+            "failure"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "status",
+      "statusRole": "error",
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "错误",
+        "失败",
+        "操作失败"
+      ],
+      "useWhen": "操作失败或错误结果提示，颜色由错误状态宿主提供。",
+      "doNotUseWhen": [
+        "清空输入时仍是操作色。",
+        "普通关闭。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/circle-close-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "selected-item",
+      "label": "菜单或列表选中",
+      "assetId": "icon/check-bold",
+      "match": [
+        {
+          "intent": [
+            "select"
+          ],
+          "context": [
+            "menu",
+            "list"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "selection",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "选中",
+        "菜单选中",
+        "列表选中"
+      ],
+      "useWhen": "菜单或列表选中标记，颜色跟随选中样式。",
+      "doNotUseWhen": [
+        "Checkbox 或 Radio 内部形态。",
+        "成功、正确、已完成结果提示。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "success-result",
+      "label": "成功结果提示",
+      "assetId": "icon/circle-check",
+      "match": [
+        {
+          "intent": [
+            "success"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "status",
+      "statusRole": "success",
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "成功",
+        "发布成功",
+        "发送成功"
+      ],
+      "useWhen": "成功结果提示，包括发布或发送成功反馈。",
+      "doNotUseWhen": [
+        "内容当前已发布状态。",
+        "菜单或列表选中。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/circle-check-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "correct-result",
+      "label": "正确结果提示",
+      "assetId": "icon/circle-check",
+      "match": [
+        {
+          "intent": [
+            "correct"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "status",
+      "statusRole": "correct",
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "正确",
+        "结果正确"
+      ],
+      "useWhen": "结果正确的提示。",
+      "doNotUseWhen": [
+        "菜单或列表选中。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/circle-check-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "completed-result",
+      "label": "已完成结果提示",
+      "assetId": "icon/circle-check",
+      "match": [
+        {
+          "intent": [
+            "completed"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "status",
+      "statusRole": "completed",
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "已完成",
+        "完成结果"
+      ],
+      "useWhen": "通用已完成结果提示。",
+      "doNotUseWhen": [
+        "未讨论的具体业务状态。",
+        "内容当前已发布应使用 published。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/circle-check-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "warning",
+      "label": "警告提示",
+      "assetId": "icon/alert-circle",
+      "match": [
+        {
+          "intent": [
+            "warning"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "status",
+      "statusRole": "warning",
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "警告",
+        "风险",
+        "异常提示"
+      ],
+      "useWhen": "风险、警告或异常提示，颜色由警告状态宿主提供。",
+      "doNotUseWhen": [],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/alert-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "information",
+      "label": "普通提示",
+      "assetId": "icon/info",
+      "match": [
+        {
+          "intent": [
+            "info",
+            "information"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "information",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "普通提示",
+        "中性提示",
+        "信息提示"
+      ],
+      "useWhen": "普通或中性的用户提示。",
+      "doNotUseWhen": [
+        "题型图标或题型关键词。",
+        "Figma 原标题纠错不代表已回写源文件。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/info-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "help",
+      "label": "疑问与帮助",
+      "assetId": "icon/help",
+      "match": [
+        {
+          "intent": [
+            "help"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "information",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "疑问",
+        "帮助",
+        "补充说明"
+      ],
+      "useWhen": "中性帮助、疑问或补充说明。",
+      "doNotUseWhen": [],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/help-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "refresh",
+      "label": "刷新与重试",
+      "assetId": "icon/refresh",
+      "match": [
+        {
+          "intent": [
+            "refresh",
+            "retry",
+            "reload"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "刷新",
+        "重试",
+        "重新加载"
+      ],
+      "useWhen": "刷新、重试或重新加载。",
+      "doNotUseWhen": [
+        "重新编辑仍是编辑。",
+        "再次发送仍按发送规则。",
+        "Loading 不能用静态 refresh 替代。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "restore-defaults",
+      "label": "恢复默认或初始值",
+      "assetId": "icon/refresh",
+      "match": [
+        {
+          "intent": [
+            "restore"
+          ],
+          "target": [
+            "defaults",
+            "initial-values"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "恢复默认设置",
+        "恢复初始值",
+        "重置为默认"
+      ],
+      "useWhen": "恢复明确指回到默认设置或初始值。",
+      "doNotUseWhen": [
+        "撤销上一步。",
+        "恢复已删除内容。",
+        "其他未确认的恢复行为。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "publish-action",
+      "label": "发布或发送操作",
+      "assetId": "icon/publish",
+      "match": [
+        {
+          "intent": [
+            "publish",
+            "send"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "发布",
+        "发送",
+        "再次发送"
+      ],
+      "useWhen": "发起发布或发送操作，颜色随控件。",
+      "doNotUseWhen": [
+        "成功反馈用 circle-check。",
+        "已发布业务状态用 published。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/publish-filled",
+          "condition": "通常仅在用户明确要求同语义实心版时使用。"
+        }
+      ]
+    },
+    {
+      "id": "published-state",
+      "label": "内容已发布",
+      "assetId": "icon/published",
+      "match": [
+        {
+          "intent": [
+            "published"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "status",
+      "statusRole": "published",
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "已发布",
+        "当前已发布"
+      ],
+      "useWhen": "标记内容当前处于已发布状态。",
+      "doNotUseWhen": [
+        "不是 publish 的实心版本。",
+        "不是发布成功反馈。",
+        "不自动用作已发送业务状态。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "button-page-navigation",
+      "label": "按钮内页面跳转提示",
+      "assetId": "icon/share-alt",
+      "match": [
+        {
+          "intent": [
+            "navigate"
+          ],
+          "context": [
+            "button"
+          ],
+          "target": [
+            "page"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "extended",
+        "confirmation"
+      ],
+      "keywords": [
+        "跳转",
+        "前往页面",
+        "页面跳转"
+      ],
+      "useWhen": "在按钮内需要图标提示点击后前往另一个页面时使用。",
+      "doNotUseWhen": [
+        "分享或转发。",
+        "不决定是否展示图标、前后位置或当前页/新标签打开方式。",
+        "同页锚点、弹层、抽屉或内容展开。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "loading",
+      "label": "加载指示",
+      "assetId": "icon/button-loading",
+      "match": [
+        {
+          "intent": [
+            "loading"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "original",
+        "confirmation"
+      ],
+      "keywords": [
+        "加载",
+        "Loading"
+      ],
+      "useWhen": "加载指示保留正式图形、透明渐隐及宿主颜色。",
+      "doNotUseWhen": [
+        "静态进度图。",
+        "用 refresh 替代加载资产。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "favorite-star",
+      "label": "加星收藏",
+      "assetId": "icon/rating-star",
+      "match": [
+        {
+          "intent": [
+            "favorite"
+          ],
+          "target": [
+            "star"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "paired-controls",
+        "pair-confirmation"
+      ],
+      "keywords": [
+        "收藏",
+        "加星",
+        "星标"
+      ],
+      "useWhen": "采用星形标记的收藏或加星操作；宿主明确选择 star 语义。",
+      "doNotUseWhen": [
+        "未区分星形与爱心的含糊收藏。",
+        "数值评分与半星评分需按其组件规范选择。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/rating-star-100",
+          "condition": "宿主明确需要已加星的配对图形时使用；不因 hover、pressed 或 disabled 自动换图。"
+        }
+      ]
+    },
+    {
+      "id": "favorite-heart",
+      "label": "爱心收藏与喜欢",
+      "assetId": "icon/favorite",
+      "match": [
+        {
+          "intent": [
+            "favorite"
+          ],
+          "target": [
+            "heart"
+          ]
+        },
+        {
+          "intent": [
+            "like"
+          ],
+          "context": [
+            "heart"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "paired-controls",
+        "pair-confirmation"
+      ],
+      "keywords": [
+        "收藏",
+        "喜欢",
+        "爱心"
+      ],
+      "useWhen": "采用爱心标记的收藏或喜欢操作；宿主明确选择 heart 语义。",
+      "doNotUseWhen": [
+        "拇指点赞或鼓掌鼓励。",
+        "未区分图形含义的含糊收藏或喜欢。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/favorite-filled",
+          "condition": "宿主明确需要已收藏或已喜欢的爱心配对图形时使用。"
+        }
+      ]
+    },
+    {
+      "id": "thumbs-up",
+      "label": "拇指点赞",
+      "assetId": "icon/like",
+      "match": [
+        {
+          "intent": [
+            "thumbs-up"
+          ]
+        },
+        {
+          "intent": [
+            "like"
+          ],
+          "context": [
+            "thumbs-up"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "paired-controls",
+        "pair-confirmation"
+      ],
+      "keywords": [
+        "喜欢",
+        "点赞",
+        "赞同"
+      ],
+      "useWhen": "通过拇指向上表达点赞或赞同。",
+      "doNotUseWhen": [
+        "爱心收藏或鼓掌鼓励。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/like-filled",
+          "condition": "宿主明确需要已点赞的配对图形时使用。"
+        }
+      ]
+    },
+    {
+      "id": "thumbs-down",
+      "label": "拇指点踩",
+      "assetId": "icon/dislike",
+      "match": [
+        {
+          "intent": [
+            "thumbs-down"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "paired-controls",
+        "pair-confirmation"
+      ],
+      "keywords": [
+        "不喜欢",
+        "点踩",
+        "不赞同"
+      ],
+      "useWhen": "通过拇指向下表达点踩或不赞同。",
+      "doNotUseWhen": [
+        "通用错误、失败或删除操作。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/dislike-filled",
+          "condition": "宿主明确需要已点踩的配对图形时使用。"
+        }
+      ]
+    },
+    {
+      "id": "applaud",
+      "label": "鼓掌鼓励与恭喜",
+      "assetId": "icon/like-alt-2",
+      "match": [
+        {
+          "intent": [
+            "applaud"
+          ]
+        },
+        {
+          "intent": [
+            "like"
+          ],
+          "context": [
+            "applause"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "paired-controls",
+        "pair-confirmation"
+      ],
+      "keywords": [
+        "喜欢",
+        "鼓励",
+        "恭喜",
+        "鼓掌"
+      ],
+      "useWhen": "使用双手鼓掌图形表达鼓励、喝彩或恭喜。",
+      "doNotUseWhen": [
+        "普通拇指点赞或爱心收藏。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/like-alt",
+          "condition": "用户确认的后掌填充版；前方手掌仍保留空心，不是整枚图形完全实心。"
+        }
+      ]
+    },
+    {
+      "id": "pin",
+      "label": "图钉固定",
+      "assetId": "icon/pin",
+      "match": [
+        {
+          "intent": [
+            "pin"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "paired-controls",
+        "pair-confirmation"
+      ],
+      "keywords": [
+        "pin",
+        "图钉",
+        "固定"
+      ],
+      "useWhen": "使用图钉标记固定对象或入口。",
+      "doNotUseWhen": [
+        "带顶端横线和上箭头的置顶操作。"
+      ],
+      "variants": [
+        {
+          "variant": "filled",
+          "assetId": "icon/pin-top-alt",
+          "condition": "用户确认由斜向线框图钉切换为直立实心图钉；保留正式资产的方向变化，不重画为同轮廓。"
+        }
+      ]
+    },
+    {
+      "id": "pin-to-top",
+      "label": "置顶操作",
+      "assetId": "icon/pin-top-alt-2",
+      "match": [
+        {
+          "intent": [
+            "pin-to-top"
+          ]
+        }
+      ],
+      "priority": "default",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "paired-controls",
+        "pair-confirmation"
+      ],
+      "keywords": [
+        "置顶"
+      ],
+      "useWhen": "使用顶端横线与带竖杆的上箭头表达置顶。",
+      "doNotUseWhen": [
+        "图钉固定配对。",
+        "返回页面顶部的滚动导航。",
+        "未提供独立的实心版或取消置顶图形；同一图形是否表示持续状态由宿主决定。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "panel-expand",
+      "label": "侧栏与目录面板展开",
+      "assetId": "icon/expand",
+      "match": [
+        {
+          "intent": [
+            "expand"
+          ],
+          "context": [
+            "sidebar",
+            "directory-panel"
+          ]
+        }
+      ],
+      "priority": "scene",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "paired-controls",
+        "pair-confirmation"
+      ],
+      "keywords": [
+        "展开",
+        "侧栏展开",
+        "目录展开"
+      ],
+      "useWhen": "侧栏或目录面板的展开入口，图形为内容横线与朝右三角。",
+      "doNotUseWhen": [
+        "通用内容展开仍使用 arrow-down。",
+        "带展开文案的文字按钮仍使用 double-arrow-down。",
+        "全屏、放大与缩放。"
+      ],
+      "variants": []
+    },
+    {
+      "id": "panel-collapse",
+      "label": "侧栏与目录面板收起",
+      "assetId": "icon/collapse",
+      "match": [
+        {
+          "intent": [
+            "collapse"
+          ],
+          "context": [
+            "sidebar",
+            "directory-panel"
+          ]
+        }
+      ],
+      "priority": "scene",
+      "hostRole": "control",
+      "statusRole": null,
+      "confirmation": "user-confirmed",
+      "sourceIds": [
+        "paired-controls",
+        "pair-confirmation"
+      ],
+      "keywords": [
+        "收起",
+        "侧栏收起",
+        "目录收起"
+      ],
+      "useWhen": "侧栏或目录面板的收起入口，图形为内容横线与朝左三角。",
+      "doNotUseWhen": [
+        "通用内容收起仍使用 arrow-up。",
+        "带收起文案的文字按钮仍使用 double-arrow-up。",
+        "退出全屏与缩小。"
+      ],
+      "variants": []
+    }
+  ],
+  "alternatives": [
+    {
+      "assetId": "icon/more-vertical",
+      "ruleIds": [
+        "more-actions"
+      ],
+      "label": "竖向更多操作备选",
+      "condition": "通常仅用户明确要求，或适用组件的已确认规范明确指定；需要可追溯来源。",
+      "allowedBy": [
+        "explicit",
+        "component-spec"
+      ]
+    },
+    {
+      "assetId": "icon/close-bold",
+      "ruleIds": [
+        "close"
+      ],
+      "label": "粗线关闭备选",
+      "condition": "通常仅用户明确要求，或适用组件的已确认规范明确指定；不是实心版本。",
+      "allowedBy": [
+        "explicit",
+        "component-spec"
+      ]
+    }
+  ],
+  "blockedRequests": [
+    {
+      "match": {
+        "intent": [
+          "select"
+        ],
+        "context": [
+          "checkbox",
+          "radio"
+        ]
+      },
+      "code": "component-owned",
+      "message": "复选框与单选框内部形态遵循组件规范。"
+    },
+    {
+      "match": {
+        "intent": [
+          "expand",
+          "collapse"
+        ],
+        "target": [
+          "fullscreen",
+          "zoom"
+        ]
+      },
+      "code": "outside-confirmed-scope",
+      "message": "全屏与缩放不属于本次内容展开/收起默认。"
+    }
+  ],
+  "diagnostics": {
+    "unknown-intent": "没有覆盖该实际行为的已确认规则；可检索完整图库，不猜默认。",
+    "unknown-asset": "资产身份未被当前规则身份表或提供的可用目录确认。",
+    "unavailable-asset": "已知或指定资产未列入提供的可用资产集合，不能替换近似图标。",
+    "missing-context": "缺少会改变选型的实际行为或场景字段。",
+    "conflicting-rules": "同一优先级出现多个匹配规则，须核对来源，不能按文件顺序决定。",
+    "unsupported-variant": "当前场景没有已确认的此种样式映射。",
+    "invalid-component-spec": "组件例外缺少适用组件、已确认状态或可追溯来源，或不属于已登记备选。",
+    "invalid-asset-name": "必须提供正式 icon/<slug> 资产身份。"
+  },
+  "examples": [
+    {
+      "label": "默认编辑",
+      "request": {
+        "intent": "edit"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/edit-pencil"
+      }
+    },
+    {
+      "label": "明确实心编辑",
+      "request": {
+        "intent": "edit",
+        "explicitVariant": "filled"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/edit-pencil-filled"
+      }
+    },
+    {
+      "label": "文字按钮展开",
+      "request": {
+        "intent": "expand",
+        "context": "text-button-with-action-label"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/double-arrow-down"
+      }
+    },
+    {
+      "label": "只有添加文案且行为缺失",
+      "request": {
+        "intent": "add"
+      },
+      "expected": {
+        "status": "ambiguous"
+      }
+    },
+    {
+      "label": "实际创建对象",
+      "request": {
+        "intent": "add",
+        "target": "object"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/add-bold"
+      }
+    },
+    {
+      "label": "向集合加项目",
+      "request": {
+        "intent": "add",
+        "target": "collection"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/add-circle-outline"
+      }
+    },
+    {
+      "label": "输入清空",
+      "request": {
+        "intent": "clear",
+        "context": "input"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/circle-close",
+        "hostRole": "control"
+      }
+    },
+    {
+      "label": "失败结果",
+      "request": {
+        "intent": "error"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/circle-close",
+        "hostRole": "status"
+      }
+    },
+    {
+      "label": "按钮内跳转",
+      "request": {
+        "intent": "navigate",
+        "context": "button",
+        "target": "page"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/share-alt"
+      }
+    },
+    {
+      "label": "分享无新增默认",
+      "request": {
+        "intent": "share"
+      },
+      "expected": {
+        "status": "unknown"
+      }
+    },
+    {
+      "label": "保留复选框规范",
+      "request": {
+        "intent": "select",
+        "context": "checkbox"
+      },
+      "expected": {
+        "status": "unknown"
+      }
+    },
+    {
+      "label": "恢复默认值",
+      "request": {
+        "intent": "restore",
+        "target": "defaults"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/refresh"
+      }
+    },
+    {
+      "label": "恢复删除内容无新增默认",
+      "request": {
+        "intent": "restore",
+        "target": "deleted-content"
+      },
+      "expected": {
+        "status": "unknown"
+      }
+    },
+    {
+      "label": "已发送状态无新增默认",
+      "request": {
+        "intent": "sent"
+      },
+      "expected": {
+        "status": "unknown"
+      }
+    },
+    {
+      "label": "普通提示",
+      "request": {
+        "intent": "info"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/info"
+      }
+    },
+    {
+      "label": "加星收藏",
+      "request": {
+        "intent": "favorite",
+        "target": "star"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/rating-star"
+      }
+    },
+    {
+      "label": "已收藏爱心配对",
+      "request": {
+        "intent": "favorite",
+        "target": "heart",
+        "explicitVariant": "filled"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/favorite-filled"
+      }
+    },
+    {
+      "label": "含糊收藏不强制默认",
+      "request": {
+        "intent": "favorite"
+      },
+      "expected": {
+        "status": "ambiguous",
+        "code": "missing-context",
+        "missingFields": [
+          "target"
+        ]
+      }
+    },
+    {
+      "label": "含糊喜欢不强制默认",
+      "request": {
+        "intent": "like"
+      },
+      "expected": {
+        "status": "ambiguous",
+        "code": "missing-context",
+        "missingFields": [
+          "context"
+        ]
+      }
+    },
+    {
+      "label": "点赞面性配对",
+      "request": {
+        "intent": "thumbs-up",
+        "explicitVariant": "filled"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/like-filled"
+      }
+    },
+    {
+      "label": "点踩面性配对",
+      "request": {
+        "intent": "thumbs-down",
+        "explicitVariant": "filled"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/dislike-filled"
+      }
+    },
+    {
+      "label": "鼓掌后掌填充版",
+      "request": {
+        "intent": "applaud",
+        "explicitVariant": "filled"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/like-alt"
+      }
+    },
+    {
+      "label": "图钉固定配对",
+      "request": {
+        "intent": "pin",
+        "explicitVariant": "filled"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/pin-top-alt"
+      }
+    },
+    {
+      "label": "置顶使用单个正式图形",
+      "request": {
+        "intent": "pin-to-top"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/pin-top-alt-2"
+      }
+    },
+    {
+      "label": "不杜撰置顶面性版本",
+      "request": {
+        "intent": "pin-to-top",
+        "explicitVariant": "filled"
+      },
+      "expected": {
+        "status": "unknown",
+        "code": "unsupported-variant"
+      }
+    },
+    {
+      "label": "筛选已生效配对",
+      "request": {
+        "intent": "filter",
+        "explicitVariant": "filled"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/filter-filled"
+      }
+    },
+    {
+      "label": "侧栏展开",
+      "request": {
+        "intent": "expand",
+        "context": "sidebar"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/expand"
+      }
+    },
+    {
+      "label": "目录面板收起",
+      "request": {
+        "intent": "collapse",
+        "context": "directory-panel"
+      },
+      "expected": {
+        "status": "selected",
+        "assetId": "icon/collapse"
+      }
+    }
+  ]
+}

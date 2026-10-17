@@ -1,0 +1,103 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ❯ scripts/verify-chart-business-consumption.test.ts (13 tests | 1 failed) 692ms
+   × business downloads contain their real helpers and preserve selected state and shared scale 13ms
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx (19 tests | 1 failed) 22724ms
+   × municipalities and province-only source branches do not fabricate another city layer 6909ms
+ ❯ apps/playground/src/docs/components/chart-business/matrix-examples.test.tsx (7 tests | 2 failed) 22983ms
+   × business examples render five public MatrixCharts and switch the similarity scale to 12 by 12 7154ms
+   × business examples put the selected recipe on each chart to preserve the requested colors 9061ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-chart-business-consumption.test.ts > business downloads contain their real helpers and preserve selected state and shared scale
+AssertionError: expected 'import { createRoot } from "react-dom…' to contain 'state="zero" size="mini"'
+
+- Expected
++ Received
+
+- state="zero" size="mini"
++ import { createRoot } from "react-dom/client";
++ import { useState } from "react";
++ import { MotionConfig } from "motion/react";
++ import "@rain-next/foundations/tokens.css";
++ import "@rain-next/foundations/typography.css";
++ import "@rain-next/foundations/focus.css";
++ import { ChartExample } from "./chart-examples";
++ import type { ChartBoundaryScenario } from "./chart-data";
++ import { useChartReducedMotion } from "./chart-variants/shared";
++
++ function App() {
++   const [revision, setRevision] = useState(0);
++   const [boundaryScenario, setBoundaryScenario] = useState<ChartBoundaryScenario>("normal");
++   const reduced = useChartReducedMotion();
++   return <MotionConfig reducedMotion="user">
++     <main style={{ maxWidth: 880, margin: "auto", padding: "var(--rain-space-24)" }}>
++       <button onClick={() => setRevision(value => value + 1)}>更新数据</button>
++       <div className="rain-chart" data-rain-id="chart-bar" data-recipe="monochrome-blue">
++         <ChartExample id="bar" recipe="monochrome-blue" revision={revision} reduced={reduced} state="zero" boundaryScenario={boundaryScenario} onBoundaryScenarioChange={setBoundaryScenario} size="mini" miniSize="compact" seriesCount={3} />
++       </div>
++     </main>
++   </MotionConfig>;
++ }
++
++ createRoot(document.getElementById("root")!).render(<App />);
+
+ ❯ scripts/verify-chart-business-consumption.test.ts:76:67
+     74|   const missing={...files}; delete missing["chart-business/mini-data.t…
+     75|   expect(()=>assertDownloadClosure(missing,"business")).toThrow(/mini-…
+     76|   expect(chartExampleCode("bar","monochrome-blue","zero","mini")).toCo…
+       |                                                                   ^
+     77|   expect(chartExampleCode("matrix","monochrome-blue","normal","standar…
+     78| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > municipalities and province-only source branches do not fabricate another city layer
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx:157:1
+    155| });
+    156|
+    157| test("municipalities and province-only source branches do not fabricat…
+       | ^
+    158|   const view = render(<ChinaRegionExamples reduced />);
+    159|   fireEvent.click(await regionButton(view, /^北京市$/));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/matrix-examples.test.tsx > business examples render five public MatrixCharts and switch the similarity scale to 12 by 12
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/playground/src/docs/components/chart-business/matrix-examples.test.tsx:6:1
+      4| import { MatrixExamples } from "./matrix-examples";
+      5|
+      6| test("business examples render five public MatrixCharts and switch the…
+       | ^
+      7|   const user = userEvent.setup();
+      8|   const view = render(<MatrixExamples />);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/matrix-examples.test.tsx > business examples put the selected recipe on each chart to preserve the requested colors
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/playground/src/docs/components/chart-business/matrix-examples.test.tsx:49:1
+     47| });
+     48|
+     49| test("business examples put the selected recipe on each chart to prese…
+       | ^
+     50|   const view = render(<MatrixExamples recipe="intensity" />);
+     51|   for (const table of view.getAllByRole("table")) expect(table.closest…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  3 failed | 53 passed (56)
+      Tests  4 failed | 720 passed (724)
+   Start at  14:16:22
+   Duration  26.87s (transform 12.30s, setup 18.28s, import 60.92s, tests 119.71s, environment 72.83s)
+

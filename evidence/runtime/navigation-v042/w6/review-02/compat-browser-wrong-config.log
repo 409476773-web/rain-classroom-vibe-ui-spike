@@ -1,0 +1,448 @@
+
+Running 13 tests using 1 worker
+
+(node:51719) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/e2e/navigation-v042-w6.spec.ts:3:37 › E1 source selection, all-class search and missing-current draft at 1200 (135ms)
+(node:51728) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 tests/e2e/navigation-v042-w6.spec.ts:3:37 › E1 source selection, all-class search and missing-current draft at 1440 (126ms)
+(node:51734) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 tests/e2e/navigation-v042-w6.spec.ts:3:37 › E1 source selection, all-class search and missing-current draft at 1600 (124ms)
+(node:51741) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 tests/e2e/navigation-v042-w6.spec.ts:8:1 › E2 activity and group details remain one stable identity (121ms)
+(node:51747) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 tests/e2e/navigation-v042-w6.spec.ts:9:1 › E3 score stays visible while keyed draft survives display and mode without implicit save (121ms)
+(node:51753) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 tests/e2e/navigation-v042-w6.spec.ts:10:1 › E4 nonmodal temporary knowledge preserves geometry, playback and exact focus exit (121ms)
+(node:51759) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 tests/e2e/navigation-v042-w6.spec.ts:11:1 › E5 instance-local density leaves B selection, draft and computed geometry unchanged (122ms)
+(node:51765) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 tests/e2e/navigation-v042-w6.spec.ts:12:37 › E6 unseen review identity, two-side recovery and explicit local save at 1200 (138ms)
+(node:51771) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 tests/e2e/navigation-v042-w6.spec.ts:12:37 › E6 unseen review identity, two-side recovery and explicit local save at 1440 (135ms)
+(node:51778) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  10 tests/e2e/navigation-v042-w6.spec.ts:12:37 › E6 unseen review identity, two-side recovery and explicit local save at 1600 (122ms)
+(node:51784) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  11 tests/e2e/navigation-v042-w6.spec.ts:14:1 › public controls render compiled Rain styles in independent consumer (121ms)
+(node:51790) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  12 tests/e2e/navigation-v042-w6.spec.ts:24:1 › consumer deactivation clears temporary workspace and focus sessions while preserving business drafts (122ms)
+(node:51796) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  13 tests/e2e/navigation-v042-w6.spec.ts:41:1 › consumer deactivation closes portaled scope search and retains host draft (119ms)
+
+
+  1) tests/e2e/navigation-v042-w6.spec.ts:3:37 › E1 source selection, all-class search and missing-current draft at 1200 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:4:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-c9fab-ssing-current-draft-at-1200/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-c9fab-ssing-current-draft-at-1200/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-c9fab-ssing-current-draft-at-1200/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-c9fab-ssing-current-draft-at-1200/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/navigation-v042-w6.spec.ts:3:37 › E1 source selection, all-class search and missing-current draft at 1440 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:4:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-16a4e-ssing-current-draft-at-1440/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-16a4e-ssing-current-draft-at-1440/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-16a4e-ssing-current-draft-at-1440/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-16a4e-ssing-current-draft-at-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/navigation-v042-w6.spec.ts:3:37 › E1 source selection, all-class search and missing-current draft at 1600 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:4:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-fe23c-ssing-current-draft-at-1600/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-fe23c-ssing-current-draft-at-1600/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-fe23c-ssing-current-draft-at-1600/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E1-sour-fe23c-ssing-current-draft-at-1600/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/navigation-v042-w6.spec.ts:8:1 › E2 activity and group details remain one stable identity 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E2
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E2", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:8:98
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E2-acti-d5c50--remain-one-stable-identity/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E2-acti-d5c50--remain-one-stable-identity/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E2-acti-d5c50--remain-one-stable-identity/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E2-acti-d5c50--remain-one-stable-identity/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/e2e/navigation-v042-w6.spec.ts:9:1 › E3 score stays visible while keyed draft survives display and mode without implicit save 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:9:130
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E3-scor-844ef--mode-without-implicit-save/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E3-scor-844ef--mode-without-implicit-save/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E3-scor-844ef--mode-without-implicit-save/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E3-scor-844ef--mode-without-implicit-save/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) tests/e2e/navigation-v042-w6.spec.ts:10:1 › E4 nonmodal temporary knowledge preserves geometry, playback and exact focus exit 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:10:123
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E4-nonm-8cd7a-ayback-and-exact-focus-exit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E4-nonm-8cd7a-ayback-and-exact-focus-exit/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E4-nonm-8cd7a-ayback-and-exact-focus-exit/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E4-nonm-8cd7a-ayback-and-exact-focus-exit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) tests/e2e/navigation-v042-w6.spec.ts:11:1 › E5 instance-local density leaves B selection, draft and computed geometry unchanged 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E5
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E5", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:11:125
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E5-inst-69762-computed-geometry-unchanged/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E5-inst-69762-computed-geometry-unchanged/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E5-inst-69762-computed-geometry-unchanged/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E5-inst-69762-computed-geometry-unchanged/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) tests/e2e/navigation-v042-w6.spec.ts:12:37 › E6 unseen review identity, two-side recovery and explicit local save at 1200 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:12:206
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-3a2f1-explicit-local-save-at-1200/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-3a2f1-explicit-local-save-at-1200/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-3a2f1-explicit-local-save-at-1200/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-3a2f1-explicit-local-save-at-1200/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) tests/e2e/navigation-v042-w6.spec.ts:12:37 › E6 unseen review identity, two-side recovery and explicit local save at 1440 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:12:206
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-4d0d8-explicit-local-save-at-1440/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-4d0d8-explicit-local-save-at-1440/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-4d0d8-explicit-local-save-at-1440/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-4d0d8-explicit-local-save-at-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) tests/e2e/navigation-v042-w6.spec.ts:12:37 › E6 unseen review identity, two-side recovery and explicit local save at 1600 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E6", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:12:206
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-ee817-explicit-local-save-at-1600/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-ee817-explicit-local-save-at-1600/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-ee817-explicit-local-save-at-1600/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-E6-unse-ee817-explicit-local-save-at-1600/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) tests/e2e/navigation-v042-w6.spec.ts:14:1 › public controls render compiled Rain styles in independent consumer 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E3", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:15:19
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-public--54700-les-in-independent-consumer/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-public--54700-les-in-independent-consumer/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-public--54700-les-in-independent-consumer/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-public--54700-les-in-independent-consumer/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) tests/e2e/navigation-v042-w6.spec.ts:24:1 › consumer deactivation clears temporary workspace and focus sessions while preserving business drafts 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E4", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:25:19
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-4224c--preserving-business-drafts/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-4224c--preserving-business-drafts/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-4224c--preserving-business-drafts/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-4224c--preserving-business-drafts/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) tests/e2e/navigation-v042-w6.spec.ts:41:1 › consumer deactivation closes portaled scope search and retains host draft 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1
+    Call log:
+      - navigating to "http://127.0.0.1:5198/navigation-v042-w6-consumer.html#E1", waiting until "load"
+
+
+      1 | import {test,expect,type Page} from '@playwright/test';
+    > 2 | async function open(page:Page,id:string){await page.goto(`/navigation-v042-w6-consumer.html#${id}`);const root=page.locator(`[data-scene="${id}"]`);await expect(root).toBeVisible();return root;}
+        |                                                     ^
+      3 | for(const width of [1200,1440,1600])test(`E1 source selection, all-class search and missing-current draft at ${width}`,async({page})=>{
+      4 |  await page.setViewportSize({width,height:1100});const root=await open(page,'E1');const draft=root.getByRole('textbox',{name:'资源说明草稿'});await draft.fill('公共资源的独立草稿');
+      5 |  await root.getByRole('button',{name:'更多班级',exact:true}).click();await page.getByRole('textbox',{name:'搜索范围'}).fill('237');await page.getByRole('button',{name:/跨学科项目课程.*237班/}).click();await expect(root.getByRole('heading',{name:/237班资源/})).toBeVisible();await draft.fill('237班独立草稿');await root.getByRole('tab',{name:'公共资源包',exact:true}).click();await expect(draft).toHaveValue('公共资源的独立草稿');
+        at open (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:2:53)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.spec.ts:42:19
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-c0b6c-arch-and-retains-host-draft/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-c0b6c-arch-and-retains-host-draft/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-c0b6c-arch-and-retains-host-draft/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/browser-artifacts/navigation-v042-w6-consume-c0b6c-arch-and-retains-host-draft/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13 failed
+    tests/e2e/navigation-v042-w6.spec.ts:3:37 › E1 source selection, all-class search and missing-current draft at 1200 
+    tests/e2e/navigation-v042-w6.spec.ts:3:37 › E1 source selection, all-class search and missing-current draft at 1440 
+    tests/e2e/navigation-v042-w6.spec.ts:3:37 › E1 source selection, all-class search and missing-current draft at 1600 
+    tests/e2e/navigation-v042-w6.spec.ts:8:1 › E2 activity and group details remain one stable identity 
+    tests/e2e/navigation-v042-w6.spec.ts:9:1 › E3 score stays visible while keyed draft survives display and mode without implicit save 
+    tests/e2e/navigation-v042-w6.spec.ts:10:1 › E4 nonmodal temporary knowledge preserves geometry, playback and exact focus exit 
+    tests/e2e/navigation-v042-w6.spec.ts:11:1 › E5 instance-local density leaves B selection, draft and computed geometry unchanged 
+    tests/e2e/navigation-v042-w6.spec.ts:12:37 › E6 unseen review identity, two-side recovery and explicit local save at 1200 
+    tests/e2e/navigation-v042-w6.spec.ts:12:37 › E6 unseen review identity, two-side recovery and explicit local save at 1440 
+    tests/e2e/navigation-v042-w6.spec.ts:12:37 › E6 unseen review identity, two-side recovery and explicit local save at 1600 
+    tests/e2e/navigation-v042-w6.spec.ts:14:1 › public controls render compiled Rain styles in independent consumer 
+    tests/e2e/navigation-v042-w6.spec.ts:24:1 › consumer deactivation clears temporary workspace and focus sessions while preserving business drafts 
+    tests/e2e/navigation-v042-w6.spec.ts:41:1 › consumer deactivation closes portaled scope search and retains host draft 

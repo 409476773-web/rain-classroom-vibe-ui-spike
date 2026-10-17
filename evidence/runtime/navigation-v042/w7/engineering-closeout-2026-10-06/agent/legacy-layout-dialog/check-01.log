@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ✓ scripts/layouts-v1.test.ts (4 tests) 3778ms
+   ✓ adds only workspace Layout links and preserves protected UI and Foundations at the frozen RN15 checkpoint  3671ms
+ ❯ scripts/dialog-v2.test.ts (3 tests | 1 failed) 115ms
+   ✓ limits RN-05 authorization, headless imports and candidate metadata 17ms
+   ✓ keeps layout variable and forced-color exemptions exact and rejects extra paint 91ms
+   × retains upstream contents and the protected pre-batch UI at the frozen RN15 checkpoint 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/dialog-v2.test.ts > retains upstream contents and the protected pre-batch UI at the frozen RN15 checkpoint
+TypeError: The URL must be of scheme file
+ ❯ scripts/dialog-v2.test.ts:61:19
+     59|   const status = parseYamlSubset(read("status/current-phase.yaml"));
+     60|   const transitions = JSON.parse(read("evidence/runtime/rn15-delivery/…
+     61|   const archive = fileURLToPath(new URL("../evidence/runtime/rn14-edit…
+       |                   ^
+     62|   expect(createHash("sha256").update(readFileSync(archive)).digest("he…
+     63|   expect(createHash("sha256").update(read("evidence/runtime/rn15-deliv…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 6 passed (7)
+   Start at  01:41:31
+   Duration  5.66s (transform 323ms, setup 208ms, import 560ms, tests 3.89s, environment 810ms)
+
+JSON report written to /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-06/agent/legacy-layout-dialog/check-01-results.json

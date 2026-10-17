@@ -1,0 +1,13 @@
+# Network structured feedback
+
+Goal: fix the structured cards' cramped links and corner hooks from the user's 2026-10-10 screenshot. The user accepted the current glow view; preserve it exactly. System Mode, existing unpublished candidate; no new dependency or public API.
+
+Root cause: circular-node spacing and center-based Bézier controls are reused for wide rectangles. A control may lie inside its endpoint card, causing a backward tangent or a path through that card. Previous checks tested foreign cards and endpoints only, missing the interior of source/target cards.
+
+Design: shared structured geometry uses explicit card-face ports and outward controls, including endpoint-card avoidance. The example host prepares its complete graph before filtering: pure directed source-to-target mappings use two sides; graphs with feedback or mixed links group by their existing node categories. These columns are reading groups, not inferred dependency stages. Keep every edge, direction, original value, selection, palette and filter; restore the accepted coordinates when switching back to glow. Change card glyph and path together when changing style; update structured position/path synchronously on data changes because interpolating between different card faces crosses the card interior. Keep opacity and glow transitions.
+
+Scope: private geometry/tests, component glyph/geometry transition and regression, example host/tests, browser checks, README/Manifest/phase and separate feedback evidence. Fixtures, public exports, palette, glow geometry and unrelated work are protected. Ten current targets copied before their respective edits to `/tmp/rain-network-structured-20261010-before`.
+
+Methods: D02 for card alignment and enough line space, I02 for truthful independent relations/direction, D05 for the existing narrow complete-list mode. Validate actual source and target card interiors and normal/long, updates, parallel/reverse paths, selection/filter stability and real SVG fonts. Compare all 24 accepted glow geometries before/after byte-for-byte. Large arbitrary graphs and full accessibility/contrast remain independent gates.
+
+Delivery: implemented and checked locally. Failed-first layout/endpoint checks and the port-face interpolation regression now pass; final 95 scoped unit, 7 Chromium browser, UI typecheck, both standard application builds, 19 Registry closures, 170 official variants and 66 business downloads (16 Network) passed. See `evidence/runtime/chart-network-structured-feedback-2026-10-10/verification.md`. Current glow view accepted; structured visual review pending. No publication, Figma, migration or Git operation.

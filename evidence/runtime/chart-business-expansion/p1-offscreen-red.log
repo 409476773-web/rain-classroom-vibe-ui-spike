@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+(node:65166) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-business-embedding.spec.ts:29:1 › 40-row updates preserve SVG IDs and portal tooltip escapes the scrolling table (1.4s)
+
+
+  1) tests/e2e/chart-business-embedding.spec.ts:29:1 › 40-row updates preserve SVG IDs and portal tooltip escapes the scrolling table 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 40
+    Received:    160
+
+      31 |   await expect(page.locator('.rain-business-table tbody tr')).toHaveCount(40);
+      32 |   const target=page.locator('.rain-business-table tbody tr').first().getByRole('button'); await target.scrollIntoViewIfNeeded(); await target.hover();
+    > 33 |   expect(await page.locator('.rain-business-table svg').count()).toBeLessThanOrEqual(40);
+         |                                                                  ^
+      34 |   const tooltip=page.getByRole('tooltip'); await expect(tooltip).toBeVisible();
+      35 |   expect(await tooltip.evaluate(node=>node.closest('.rain-business-table-scroll')===null)).toBe(true);
+      36 |   await page.getByRole('button',{name:'更新数据',exact:true}).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-embedding.spec.ts:33:66
+
+    Error Context: evidence/runtime/chart-business-expansion/browser-results/chart-business-embedding-4-c803b-escapes-the-scrolling-table/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-business-expansion/browser-results/chart-business-embedding-4-c803b-escapes-the-scrolling-table/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-business-expansion/browser-results/chart-business-embedding-4-c803b-escapes-the-scrolling-table/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-business-embedding.spec.ts:29:1 › 40-row updates preserve SVG IDs and portal tooltip escapes the scrolling table 

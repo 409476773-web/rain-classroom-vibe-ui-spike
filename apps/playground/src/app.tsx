@@ -1,5 +1,9 @@
-import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from "react";
 
+import { BreadcrumbPage } from "./docs/components/breadcrumb-page";
+import { TreePage } from "./docs/components/tree-page";
+import { ManageTreePage } from "./docs/components/manage-tree-page";
+import { AlertPage } from "./docs/components/alert-page";
 import { CoreUiPage } from "./docs/components/core-ui-page";
 import { InputNumberPage } from "./docs/components/input-number-page";
 import { InputPage } from "./docs/components/input-page";
@@ -25,15 +29,28 @@ import { AvatarPage } from "./docs/components/avatar-page";
 import { DialogPage } from "./docs/components/dialog-page";
 import { TabsPage } from "./docs/components/tabs-page";
 import { OverviewPage } from "./routes/overview-page";
+import { componentDocEntries, type ComponentDocId } from "./docs/components/component-catalog";
+const ComponentAssetPage = lazy(() => import("./docs/components/component-asset-page").then(module => ({ default: module.ComponentAssetPage })));
 
 const IconsPage = lazy(() => import("./docs/icons-page").then((module) => ({ default: module.IconsPage })));
 
+const NavigationV042Page = lazy(() => import("./docs/components/navigation-v042-page").then(module => ({ default: module.NavigationV042Page })));
+
 type AppRoute = {
+  componentId?: ComponentDocId;
   focusTargetId: string;
-  view: "input-number" | "avatar" | "table" | "layouts" | "dialog" | "card" | "tabs" | "components" | "foundations" | "token-foundations" | "icons" | "overview" | "text-button" | "text-button-help" | "button-tokens" | "icon-button" | "question-number" | "option-button" | "input" | "select" | "dropdown" | "tag" | "checkbox" | "radio" | "selection-cards" | "selection-patterns" | "selection-playground";
+  view: "component-asset" | "navigation-v042" | "tree" | "manage-tree" | "breadcrumb" | "alert" | "input-number" | "avatar" | "table" | "layouts" | "dialog" | "card" | "tabs" | "components" | "foundations" | "token-foundations" | "icons" | "overview" | "text-button" | "text-button-help" | "button-tokens" | "icon-button" | "question-number" | "option-button" | "input" | "select" | "dropdown" | "tag" | "checkbox" | "radio" | "selection-cards" | "selection-patterns" | "selection-playground";
 };
 
 function resolveRoute(hash: string): AppRoute {
+  hash = hash.split("?")[0] ?? "";
+  if (hash === "#navigation-v042") return { focusTargetId: "navigation-v042-title", view: "navigation-v042" };
+  if (hash === "#tree") return { focusTargetId: "tree-title", view: "tree" };
+  if (hash === "#manage-tree") return { focusTargetId: "manage-tree-title", view: "manage-tree" };
+  if (hash === "#breadcrumb") return { focusTargetId: "breadcrumb-title", view: "breadcrumb" };
+  if (hash === "#alert") return { focusTargetId: "alert-title", view: "alert" };
+  const component = componentDocEntries.find(item => hash === `#${item.id}`);
+  if (component) return { focusTargetId: `${component.id}-title`, view: "component-asset", componentId: component.id };
   if (hash === "#avatar") return { focusTargetId: "avatar-title", view: "avatar" };
   if (hash === "#layouts") return { focusTargetId: "layouts-title", view: "layouts" };
   if (hash === "#table") return { focusTargetId: "table-title", view: "table" };
@@ -46,7 +63,7 @@ function resolveRoute(hash: string): AppRoute {
   if (hash === "#selection-cards") return { focusTargetId: "selection-cards-title", view: "selection-cards" };
   if (hash === "#radio") return { focusTargetId: "radio-title", view: "radio" };
   if (hash === "#checkbox") return { focusTargetId: "checkbox-title", view: "checkbox" };
-  if (hash === "#select") return { focusTargetId: "select-title", view: "select" };
+  if (hash === "#select" || hash === "#native-select") return { focusTargetId: "select-title", view: "select" };
   if (hash === "#tag") return { focusTargetId: "tag-title", view: "tag" };
   if (hash === "#input-number") return { focusTargetId: "input-number-title", view: "input-number" };
   if (hash === "#input") return { focusTargetId: "input-title", view: "input" };
@@ -87,8 +104,11 @@ function resolveRoute(hash: string): AppRoute {
 }
 
 function RouteFocus({ targetId, navigationCount }: { targetId: string; navigationCount: number }) {
+  const previousTarget = useRef<string | null>(null);
   useEffect(() => {
-    if (navigationCount > 0) document.getElementById(targetId)?.focus();
+    const sameDestinationDocument = previousTarget.current === targetId && (targetId === "navigation-list-title" || targetId === "navigation-bar-title");
+    if (navigationCount > 0 && !sameDestinationDocument) document.getElementById(targetId)?.focus();
+    previousTarget.current = targetId;
   }, [navigationCount, targetId]);
   return null;
 }
@@ -113,7 +133,19 @@ export function App() {
   }, []);
 
   let page: ReactNode;
-  if (route.view === "avatar") {
+  if (route.view === "component-asset" && route.componentId) {
+    page = <ComponentAssetPage key={route.componentId} component={route.componentId} navigationCount={location.navigationCount} />;
+  } else if (route.view === "navigation-v042") {
+    page = <NavigationV042Page />;
+  } else if (route.view === "tree") {
+    page = <TreePage />;
+  } else if (route.view === "manage-tree") {
+    page = <ManageTreePage />;
+  } else if (route.view === "breadcrumb") {
+    page = <BreadcrumbPage />;
+  } else if (route.view === "alert") {
+    page = <AlertPage />;
+  } else if (route.view === "avatar") {
     page = <AvatarPage />;
   } else if (route.view === "table") {
     page = <TablePage />;
@@ -171,7 +203,7 @@ export function App() {
   }
 
   return (
-    <Suspense fallback={<main aria-busy="true" className="playground-shell" data-rain-id="icons-loading"><p role="status">正在打开图标库…</p></main>}>
+    <Suspense fallback={<main aria-busy="true" className="playground-shell" data-rain-id="playground-loading"><p role="status">正在打开页面…</p></main>}>
       {page}
       <RouteFocus targetId={route.focusTargetId} navigationCount={location.navigationCount} />
     </Suspense>

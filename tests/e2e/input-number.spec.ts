@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 const evidence = "evidence/runtime/input-number";
+test.beforeAll(() => mkdirSync(evidence, { recursive: true }));
 test.beforeEach(async ({ page }) => { await page.goto("/#input-number"); await expect(page.getByRole("heading", { name: "InputNumber 数字输入框" })).toBeVisible(); });
 
 test("embedded fields align at 32px and reserve five digits without jumping width", async ({ page }, testInfo) => {

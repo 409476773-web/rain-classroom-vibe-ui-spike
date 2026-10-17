@@ -1,0 +1,391 @@
+
+Running 20 tests using 1 worker
+
+(node:17674) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/e2e/g4-components.spec.ts:23:1 › catalog links focus G4 headings, copy usable examples and preserve adjacent documentation (1.0s)
+  ✓   2 [desktop] › tests/e2e/g4-components.spec.ts:44:1 › three G4 pages expose examples, API, copyable code, themes and inherited density (1.8s)
+  ✓   3 [desktop] › tests/e2e/g4-components.spec.ts:85:1 › Typography uses existing measured roles and separates value from Chinese unit (555ms)
+  ✓   4 [desktop] › tests/e2e/g4-components.spec.ts:111:1 › Typography paragraphs keep the registered line heights on actual text nodes (594ms)
+  ✘   5 [desktop] › tests/e2e/g4-components.spec.ts:144:1 › Typography sizing reaches existing consumers and limits named preset choices (1.5s)
+(node:17685) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 [desktop] › tests/e2e/g4-components.spec.ts:219:1 › Item lists aligned readable resources and keeps native keyboard navigation (813ms)
+(node:17690) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [desktop] › tests/e2e/g4-components.spec.ts:322:1 › Item reading dialogs return focus and native downloads match the readable document (1.4s)
+  ✓   8 [desktop] › tests/e2e/g4-components.spec.ts:357:1 › Progress keeps actual quantities and external pause/error states (1.0s)
+  ✓   9 [desktop] › tests/e2e/g4-components.spec.ts:415:1 › reduced motion and forced colors retain progress and native-link meaning (850ms)
+  ✓  10 [desktop] › tests/e2e/g4-components.spec.ts:436:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles (1.3s)
+(node:18824) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [narrow] › tests/e2e/g4-components.spec.ts:23:1 › catalog links focus G4 headings, copy usable examples and preserve adjacent documentation (926ms)
+  ✓  12 [narrow] › tests/e2e/g4-components.spec.ts:44:1 › three G4 pages expose examples, API, copyable code, themes and inherited density (1.5s)
+  ✓  13 [narrow] › tests/e2e/g4-components.spec.ts:85:1 › Typography uses existing measured roles and separates value from Chinese unit (538ms)
+  ✓  14 [narrow] › tests/e2e/g4-components.spec.ts:111:1 › Typography paragraphs keep the registered line heights on actual text nodes (580ms)
+  ✘  15 [narrow] › tests/e2e/g4-components.spec.ts:144:1 › Typography sizing reaches existing consumers and limits named preset choices (1.5s)
+(node:19207) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  16 [narrow] › tests/e2e/g4-components.spec.ts:219:1 › Item lists aligned readable resources and keeps native keyboard navigation (806ms)
+(node:20493) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  17 [narrow] › tests/e2e/g4-components.spec.ts:322:1 › Item reading dialogs return focus and native downloads match the readable document (1.5s)
+  ✓  18 [narrow] › tests/e2e/g4-components.spec.ts:357:1 › Progress keeps actual quantities and external pause/error states (1.0s)
+  ✓  19 [narrow] › tests/e2e/g4-components.spec.ts:415:1 › reduced motion and forced colors retain progress and native-link meaning (709ms)
+  ✓  20 [narrow] › tests/e2e/g4-components.spec.ts:436:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles (1.2s)
+
+
+  1) [desktop] › tests/e2e/g4-components.spec.ts:144:1 › Typography sizing reaches existing consumers and limits named preset choices 
+
+    Error: input
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "16px"
+    Received: "68px"
+
+      150 |     const measured = await heading.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight }));
+      151 |     facts.push({ id, measured });
+    > 152 |     expect.soft(measured.size, id).toBe("16px");
+          |                                    ^
+      153 |     expect.soft(measured.line, id).toBe("24px");
+      154 |   }
+      155 |   await page.goto("/#foundations");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:36
+
+    Error: input
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "24px"
+    Received: "71.4px"
+
+      151 |     facts.push({ id, measured });
+      152 |     expect.soft(measured.size, id).toBe("16px");
+    > 153 |     expect.soft(measured.line, id).toBe("24px");
+          |                                    ^
+      154 |   }
+      155 |   await page.goto("/#foundations");
+      156 |   const statistic = page.locator('[data-rain-id="foundation-type-data"]');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:153:36
+
+    Error: select
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "16px"
+    Received: "68px"
+
+      150 |     const measured = await heading.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight }));
+      151 |     facts.push({ id, measured });
+    > 152 |     expect.soft(measured.size, id).toBe("16px");
+          |                                    ^
+      153 |     expect.soft(measured.line, id).toBe("24px");
+      154 |   }
+      155 |   await page.goto("/#foundations");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:36
+
+    Error: select
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "24px"
+    Received: "71.4px"
+
+      151 |     facts.push({ id, measured });
+      152 |     expect.soft(measured.size, id).toBe("16px");
+    > 153 |     expect.soft(measured.line, id).toBe("24px");
+          |                                    ^
+      154 |   }
+      155 |   await page.goto("/#foundations");
+      156 |   const statistic = page.locator('[data-rain-id="foundation-type-data"]');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:153:36
+
+    Error: input-number
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "16px"
+    Received: "68px"
+
+      150 |     const measured = await heading.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight }));
+      151 |     facts.push({ id, measured });
+    > 152 |     expect.soft(measured.size, id).toBe("16px");
+          |                                    ^
+      153 |     expect.soft(measured.line, id).toBe("24px");
+      154 |   }
+      155 |   await page.goto("/#foundations");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:36
+
+    Error: input-number
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "24px"
+    Received: "71.4px"
+
+      151 |     facts.push({ id, measured });
+      152 |     expect.soft(measured.size, id).toBe("16px");
+    > 153 |     expect.soft(measured.line, id).toBe("24px");
+          |                                    ^
+      154 |   }
+      155 |   await page.goto("/#foundations");
+      156 |   const statistic = page.locator('[data-rain-id="foundation-type-data"]');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:153:36
+
+    Error: tag
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "16px"
+    Received: "68px"
+
+      150 |     const measured = await heading.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight }));
+      151 |     facts.push({ id, measured });
+    > 152 |     expect.soft(measured.size, id).toBe("16px");
+          |                                    ^
+      153 |     expect.soft(measured.line, id).toBe("24px");
+      154 |   }
+      155 |   await page.goto("/#foundations");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:36
+
+    Error: tag
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "24px"
+    Received: "71.4px"
+
+      151 |     facts.push({ id, measured });
+      152 |     expect.soft(measured.size, id).toBe("16px");
+    > 153 |     expect.soft(measured.line, id).toBe("24px");
+          |                                    ^
+      154 |   }
+      155 |   await page.goto("/#foundations");
+      156 |   const statistic = page.locator('[data-rain-id="foundation-type-data"]');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:153:36
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop] › tests/e2e/g4-components.spec.ts:219:1 › Item lists aligned readable resources and keeps native keyboard navigation 
+
+    Error: expect(received).toContain(expected) // indexOf
+
+    Expected substring: "arrow-right"
+    Received string:    "url(\"data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_52_60'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='7'%20y='2'%20width='11'%20height='20'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M17.2069%2012.707C17.5975%2012.3165%2017.5975%2011.6833%2017.2069%2011.2928L8.72168%202.80752C8.33108%202.41702%207.69798%202.41702%207.30748%202.80752C6.91688%203.19802%206.91688%203.83122%207.30748%204.22172L15.0856%2011.9999L7.30748%2019.7781C6.91688%2020.1686%206.91688%2020.8018%207.30748%2021.1923C7.69798%2021.5828%208.33108%2021.5828%208.72168%2021.1923L17.2069%2012.707Z'%20fill='%231D2129'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_52_60)'%3e%3crect%20width='24'%20height='24'%20fill='%231D2129'/%3e%3c/g%3e%3c/svg%3e\")"
+
+      303 |     expect.soft(measured.color).toBe(measured.expectedColor);
+      304 |     expect(measured.hidden).toBe("true");
+    > 305 |     expect(measured.mask).toContain("arrow-right");
+          |                           ^
+      306 |     await link.screenshot({ path: `${evidence}/item-${info.project.name}-navigation-${theme}.png` });
+      307 |     await navigationIcon.screenshot({ path: `${evidence}/item-${info.project.name}-arrow-right-${theme}.png` });
+      308 |   }
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:305:27
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [narrow] › tests/e2e/g4-components.spec.ts:144:1 › Typography sizing reaches existing consumers and limits named preset choices 
+
+    Error: input
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "16px"
+    Received: "36px"
+
+      150 |     const measured = await heading.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight }));
+      151 |     facts.push({ id, measured });
+    > 152 |     expect.soft(measured.size, id).toBe("16px");
+          |                                    ^
+      153 |     expect.soft(measured.line, id).toBe("24px");
+      154 |   }
+      155 |   await page.goto("/#foundations");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:36
+
+    Error: input
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "24px"
+    Received: "37.8px"
+
+      151 |     facts.push({ id, measured });
+      152 |     expect.soft(measured.size, id).toBe("16px");
+    > 153 |     expect.soft(measured.line, id).toBe("24px");
+          |                                    ^
+      154 |   }
+      155 |   await page.goto("/#foundations");
+      156 |   const statistic = page.locator('[data-rain-id="foundation-type-data"]');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:153:36
+
+    Error: select
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "16px"
+    Received: "36px"
+
+      150 |     const measured = await heading.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight }));
+      151 |     facts.push({ id, measured });
+    > 152 |     expect.soft(measured.size, id).toBe("16px");
+          |                                    ^
+      153 |     expect.soft(measured.line, id).toBe("24px");
+      154 |   }
+      155 |   await page.goto("/#foundations");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:36
+
+    Error: select
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "24px"
+    Received: "37.8px"
+
+      151 |     facts.push({ id, measured });
+      152 |     expect.soft(measured.size, id).toBe("16px");
+    > 153 |     expect.soft(measured.line, id).toBe("24px");
+          |                                    ^
+      154 |   }
+      155 |   await page.goto("/#foundations");
+      156 |   const statistic = page.locator('[data-rain-id="foundation-type-data"]');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:153:36
+
+    Error: input-number
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "16px"
+    Received: "36px"
+
+      150 |     const measured = await heading.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight }));
+      151 |     facts.push({ id, measured });
+    > 152 |     expect.soft(measured.size, id).toBe("16px");
+          |                                    ^
+      153 |     expect.soft(measured.line, id).toBe("24px");
+      154 |   }
+      155 |   await page.goto("/#foundations");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:36
+
+    Error: input-number
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "24px"
+    Received: "37.8px"
+
+      151 |     facts.push({ id, measured });
+      152 |     expect.soft(measured.size, id).toBe("16px");
+    > 153 |     expect.soft(measured.line, id).toBe("24px");
+          |                                    ^
+      154 |   }
+      155 |   await page.goto("/#foundations");
+      156 |   const statistic = page.locator('[data-rain-id="foundation-type-data"]');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:153:36
+
+    Error: tag
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "16px"
+    Received: "36px"
+
+      150 |     const measured = await heading.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight }));
+      151 |     facts.push({ id, measured });
+    > 152 |     expect.soft(measured.size, id).toBe("16px");
+          |                                    ^
+      153 |     expect.soft(measured.line, id).toBe("24px");
+      154 |   }
+      155 |   await page.goto("/#foundations");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:152:36
+
+    Error: tag
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "24px"
+    Received: "37.8px"
+
+      151 |     facts.push({ id, measured });
+      152 |     expect.soft(measured.size, id).toBe("16px");
+    > 153 |     expect.soft(measured.line, id).toBe("24px");
+          |                                    ^
+      154 |   }
+      155 |   await page.goto("/#foundations");
+      156 |   const statistic = page.locator('[data-rain-id="foundation-type-data"]');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:153:36
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [narrow] › tests/e2e/g4-components.spec.ts:219:1 › Item lists aligned readable resources and keeps native keyboard navigation 
+
+    Error: expect(received).toContain(expected) // indexOf
+
+    Expected substring: "arrow-right"
+    Received string:    "url(\"data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_52_60'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='7'%20y='2'%20width='11'%20height='20'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M17.2069%2012.707C17.5975%2012.3165%2017.5975%2011.6833%2017.2069%2011.2928L8.72168%202.80752C8.33108%202.41702%207.69798%202.41702%207.30748%202.80752C6.91688%203.19802%206.91688%203.83122%207.30748%204.22172L15.0856%2011.9999L7.30748%2019.7781C6.91688%2020.1686%206.91688%2020.8018%207.30748%2021.1923C7.69798%2021.5828%208.33108%2021.5828%208.72168%2021.1923L17.2069%2012.707Z'%20fill='%231D2129'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_52_60)'%3e%3crect%20width='24'%20height='24'%20fill='%231D2129'/%3e%3c/g%3e%3c/svg%3e\")"
+
+      303 |     expect.soft(measured.color).toBe(measured.expectedColor);
+      304 |     expect(measured.hidden).toBe("true");
+    > 305 |     expect(measured.mask).toContain("arrow-right");
+          |                           ^
+      306 |     await link.screenshot({ path: `${evidence}/item-${info.project.name}-navigation-${theme}.png` });
+      307 |     await navigationIcon.screenshot({ path: `${evidence}/item-${info.project.name}-arrow-right-${theme}.png` });
+      308 |   }
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:305:27
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g4-review-sizing-2026-10-11/browser-green/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    [desktop] › tests/e2e/g4-components.spec.ts:144:1 › Typography sizing reaches existing consumers and limits named preset choices 
+    [desktop] › tests/e2e/g4-components.spec.ts:219:1 › Item lists aligned readable resources and keeps native keyboard navigation 
+    [narrow] › tests/e2e/g4-components.spec.ts:144:1 › Typography sizing reaches existing consumers and limits named preset choices 
+    [narrow] › tests/e2e/g4-components.spec.ts:219:1 › Item lists aligned readable resources and keeps native keyboard navigation 
+  16 passed (23.7s)

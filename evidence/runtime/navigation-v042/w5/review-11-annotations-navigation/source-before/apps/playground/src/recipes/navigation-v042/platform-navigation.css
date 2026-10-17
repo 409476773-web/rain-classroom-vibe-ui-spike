@@ -1,0 +1,41 @@
+/* Review07: existing platform rail instances use public category Tokens.
+   This mapping travels with the recipes; it does not alter shared defaults. */
+:is(.nv43-platform, .nv5-platform, .nv44-global, .nv43-rail-demo) .rain-navigation-list.rain-navigation-family {
+  --rain-local-navigation-family-text: var(--rain-category-text-neutral-2);
+  --rain-local-navigation-family-hover: var(--rain-category-fill-neutral-alpha-2);
+  --rain-local-navigation-family-current: var(--rain-category-fill-brand-solid-3);
+  --rain-local-navigation-family-current-ink: var(--rain-category-text-brand-1);
+  --rain-local-navigation-family-current-hover: var(--rain-category-fill-brand-solid-3);
+}
+/* R4 review06 has a more specific scene mapping; repeat the platform boundary
+   rather than widening this feedback to the classroom or object navigation. */
+.rain-workspace .rain-workspace__region:is(.nv43-platform, .nv5-platform, .nv44-global) .rain-navigation-list.rain-navigation-family {
+  --rain-local-navigation-family-hover: var(--rain-category-fill-neutral-alpha-2);
+  --rain-local-navigation-family-current: var(--rain-category-fill-brand-solid-3);
+  --rain-local-navigation-family-current-hover: var(--rain-category-fill-brand-solid-3);
+}
+.rain-workspace .rain-workspace__region:is(.nv43-platform, .nv5-platform, .nv44-global)[data-rain-theme="dark"] .rain-navigation-list.rain-navigation-family {
+  --rain-local-navigation-family-text: var(--rain-category-text-neutral-2);
+  --rain-local-navigation-family-current-ink: var(--rain-category-text-neutral-1);
+}
+/* Legacy host rules painted the entry over the family row, hiding its state. */
+.rain-workspace .rain-workspace__region:is(.nv43-platform, .nv5-platform, .nv44-global) .rain-navigation-list.rain-navigation-family .rain-navigation-family__entry {
+  background: transparent;
+  color: inherit;
+}
+/* Label-free platform rails still use the complete target: center the icon in it. */
+.rain-workspace .rain-workspace__region:is(.nv43-platform, .nv5-platform, .nv44-global) .rain-navigation-list[data-appearance="icons"] .rain-navigation-family__entry {
+  justify-content: center;
+}
+.rain-workspace .rain-workspace__region:is(.nv43-platform, .nv5-platform, .nv44-global) .rain-navigation-list.rain-navigation-family .rain-navigation-family__item[data-active="true"] .rain-navigation-family__entry {
+  background: transparent;
+  color: var(--rain-local-navigation-family-current-ink);
+}
+/* R2 consumes the existing Sidebar rather than NavigationList. */
+.nv42-r2 .nv42-global-region .nv42-rail [data-slot="item"]:not([data-active]):not([aria-disabled="true"]):hover {
+  background: var(--rain-category-fill-neutral-alpha-2);
+}
+.nv42-r2 .nv42-global-region .nv42-rail [data-slot="item"][data-active] {
+  background: var(--rain-category-fill-brand-solid-3);
+  color: var(--rain-category-text-brand-1);
+}

@@ -1,0 +1,256 @@
+
+Running 10 tests using 1 worker
+
+(node:26446) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/e2e/navigation-v042-review09-r1-r3.spec.ts:4:2 › R2 1200 content filter native radio supports vertical and horizontal keyboard (5.8s)
+(node:26470) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 tests/e2e/navigation-v042-review09-r1-r3.spec.ts:13:2 › R2 1200 compact platform icons have Rain hover and focus Tooltip (5.8s)
+(node:26483) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 tests/e2e/navigation-v042-review09-r1-r3.spec.ts:19:2 › R3 1200 selected file list object feedback follows existing grid selection (858ms)
+(node:26498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 tests/e2e/navigation-v042-review09-r1-r3.spec.ts:4:2 › R2 1440 content filter native radio supports vertical and horizontal keyboard (5.8s)
+(node:26513) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 tests/e2e/navigation-v042-review09-r1-r3.spec.ts:13:2 › R2 1440 compact platform icons have Rain hover and focus Tooltip (5.8s)
+(node:26522) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 tests/e2e/navigation-v042-review09-r1-r3.spec.ts:19:2 › R3 1440 selected file list object feedback follows existing grid selection (853ms)
+(node:26527) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 tests/e2e/navigation-v042-review09-r1-r3.spec.ts:4:2 › R2 1600 content filter native radio supports vertical and horizontal keyboard (5.8s)
+(node:26537) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 tests/e2e/navigation-v042-review09-r1-r3.spec.ts:13:2 › R2 1600 compact platform icons have Rain hover and focus Tooltip (5.8s)
+(node:26546) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 tests/e2e/navigation-v042-review09-r1-r3.spec.ts:19:2 › R3 1600 selected file list object feedback follows existing grid selection (869ms)
+(node:26552) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 tests/e2e/navigation-v042-review09-r1-r3.spec.ts:29:1 › R2 field dialog Escape returns focus to its original Tree node and preserves edit mode (918ms)
+
+
+  1) tests/e2e/navigation-v042-review09-r1-r3.spec.ts:4:2 › R2 1200 content filter native radio supports vertical and horizontal keyboard 
+
+    Error: expect(locator).toBeChecked() failed
+
+    Locator:  locator('.rain-workspace').first().getByRole('radiogroup', { name: '内容类型', exact: true }).getByRole('radio', { name: '作业', exact: true })
+    Expected: checked
+    Received: unchecked
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeChecked" with timeout 5000ms
+      - waiting for locator('.rain-workspace').first().getByRole('radiogroup', { name: '内容类型', exact: true }).getByRole('radio', { name: '作业', exact: true })
+        14 × locator resolved to <button role="radio" tabindex="-1" aria-checked="false">作业</button>
+           - unexpected value "unchecked"
+
+
+      4 |  test(`R2 ${width} content filter native radio supports vertical and horizontal keyboard`,async({page})=>{
+      5 |   const root=await open(page,'R2',width),group=root.getByRole('radiogroup',{name:'内容类型',exact:true});
+    > 6 |   await group.getByRole('radio',{name:'全部',exact:true}).focus();await page.keyboard.press('ArrowDown');await expect(group.getByRole('radio',{name:'作业',exact:true})).toBeChecked();
+        |                                                                                                                                                                      ^
+      7 |   await page.keyboard.press('ArrowDown');await expect(group.getByRole('radio',{name:'考试',exact:true})).toBeChecked();
+      8 |   await page.keyboard.press('ArrowUp');await expect(group.getByRole('radio',{name:'作业',exact:true})).toBeChecked();
+      9 |   await page.keyboard.press('ArrowLeft');await expect(group.getByRole('radio',{name:'全部',exact:true})).toBeChecked();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review09-r1-r3.spec.ts:6:166
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-09-all-scenes/r1-r3/test-artifacts/navigation-v042-review09-r-e44f8-cal-and-horizontal-keyboard/error-context.md
+
+  2) tests/e2e/navigation-v042-review09-r1-r3.spec.ts:13:2 › R2 1200 compact platform icons have Rain hover and focus Tooltip 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('tooltip').filter({ hasText: /^课程$/ })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('tooltip').filter({ hasText: /^课程$/ })
+
+
+      13 |  test(`R2 ${width} compact platform icons have Rain hover and focus Tooltip`,async({page})=>{
+      14 |   const root=await open(page,'R2',width),target=root.locator('.nv42-rail-links').getByRole('link',{name:'课程',exact:true});
+    > 15 |   await expect(target).not.toHaveAttribute('title');await target.hover();const tip=page.getByRole('tooltip').filter({hasText:/^课程$/});await expect(tip).toBeVisible();
+         |                                                                                                                                                         ^
+      16 |   expect(await tip.evaluate(el=>getComputedStyle(el).backgroundColor)).toBe('rgb(47, 53, 69)');await page.keyboard.press('Escape');await expect(tip).toHaveCount(0);await target.focus();await expect(tip).toBeVisible();
+      17 |   await page.keyboard.press('Tab');await expect(tip).toHaveCount(0);
+      18 |  });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review09-r1-r3.spec.ts:15:153
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-09-all-scenes/r1-r3/test-artifacts/navigation-v042-review09-r-0d724-ain-hover-and-focus-Tooltip/error-context.md
+
+  3) tests/e2e/navigation-v042-review09-r1-r3.spec.ts:19:2 › R3 1200 selected file list object feedback follows existing grid selection 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "rgb(229, 238, 255)"
+    Received: "rgba(0, 0, 0, 0)"
+
+      21 |   const label='第一章 函数、极限与连续.pdf',checkbox=root.getByRole('checkbox',{name:`选择 ${label}`,exact:true});await checkbox.locator('..').click();await expect(checkbox).toBeChecked();
+      22 |   const row=root.getByRole('table',{name:'云盘文件列表'}).locator('tbody tr').nth(1),bg=()=>row.evaluate(el=>getComputedStyle(el).backgroundColor);
+    > 23 |   await page.mouse.move(1250,1000);expect(await bg()).toBe('rgb(229, 238, 255)');await row.hover();expect(await bg()).toBe('rgb(198, 216, 255)');
+         |                                                       ^
+      24 |   await row.getByRole('button',{name:label,exact:true}).click();await expect(checkbox).toBeChecked();
+      25 |   const query=root.getByRole('textbox',{name:'搜索当前范围内的文件'});await query.fill('教学大纲');await expect(root.locator('tbody tr')).toHaveCount(1);await query.fill('');await expect(checkbox).toBeChecked();
+      26 |   await root.getByRole('radio',{name:'网格',exact:true}).locator('..').click();await expect(root.locator('.nv43-file-card').filter({hasText:label}).getByRole('checkbox')).toBeChecked();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review09-r1-r3.spec.ts:23:55
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-09-all-scenes/r1-r3/test-artifacts/navigation-v042-review09-r-75459-ows-existing-grid-selection/error-context.md
+
+  4) tests/e2e/navigation-v042-review09-r1-r3.spec.ts:4:2 › R2 1440 content filter native radio supports vertical and horizontal keyboard 
+
+    Error: expect(locator).toBeChecked() failed
+
+    Locator:  locator('.rain-workspace').first().getByRole('radiogroup', { name: '内容类型', exact: true }).getByRole('radio', { name: '作业', exact: true })
+    Expected: checked
+    Received: unchecked
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeChecked" with timeout 5000ms
+      - waiting for locator('.rain-workspace').first().getByRole('radiogroup', { name: '内容类型', exact: true }).getByRole('radio', { name: '作业', exact: true })
+        14 × locator resolved to <button role="radio" tabindex="-1" aria-checked="false">作业</button>
+           - unexpected value "unchecked"
+
+
+      4 |  test(`R2 ${width} content filter native radio supports vertical and horizontal keyboard`,async({page})=>{
+      5 |   const root=await open(page,'R2',width),group=root.getByRole('radiogroup',{name:'内容类型',exact:true});
+    > 6 |   await group.getByRole('radio',{name:'全部',exact:true}).focus();await page.keyboard.press('ArrowDown');await expect(group.getByRole('radio',{name:'作业',exact:true})).toBeChecked();
+        |                                                                                                                                                                      ^
+      7 |   await page.keyboard.press('ArrowDown');await expect(group.getByRole('radio',{name:'考试',exact:true})).toBeChecked();
+      8 |   await page.keyboard.press('ArrowUp');await expect(group.getByRole('radio',{name:'作业',exact:true})).toBeChecked();
+      9 |   await page.keyboard.press('ArrowLeft');await expect(group.getByRole('radio',{name:'全部',exact:true})).toBeChecked();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review09-r1-r3.spec.ts:6:166
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-09-all-scenes/r1-r3/test-artifacts/navigation-v042-review09-r-74834-cal-and-horizontal-keyboard/error-context.md
+
+  5) tests/e2e/navigation-v042-review09-r1-r3.spec.ts:13:2 › R2 1440 compact platform icons have Rain hover and focus Tooltip 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('tooltip').filter({ hasText: /^课程$/ })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('tooltip').filter({ hasText: /^课程$/ })
+
+
+      13 |  test(`R2 ${width} compact platform icons have Rain hover and focus Tooltip`,async({page})=>{
+      14 |   const root=await open(page,'R2',width),target=root.locator('.nv42-rail-links').getByRole('link',{name:'课程',exact:true});
+    > 15 |   await expect(target).not.toHaveAttribute('title');await target.hover();const tip=page.getByRole('tooltip').filter({hasText:/^课程$/});await expect(tip).toBeVisible();
+         |                                                                                                                                                         ^
+      16 |   expect(await tip.evaluate(el=>getComputedStyle(el).backgroundColor)).toBe('rgb(47, 53, 69)');await page.keyboard.press('Escape');await expect(tip).toHaveCount(0);await target.focus();await expect(tip).toBeVisible();
+      17 |   await page.keyboard.press('Tab');await expect(tip).toHaveCount(0);
+      18 |  });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review09-r1-r3.spec.ts:15:153
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-09-all-scenes/r1-r3/test-artifacts/navigation-v042-review09-r-480d0-ain-hover-and-focus-Tooltip/error-context.md
+
+  6) tests/e2e/navigation-v042-review09-r1-r3.spec.ts:19:2 › R3 1440 selected file list object feedback follows existing grid selection 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "rgb(229, 238, 255)"
+    Received: "rgba(0, 0, 0, 0)"
+
+      21 |   const label='第一章 函数、极限与连续.pdf',checkbox=root.getByRole('checkbox',{name:`选择 ${label}`,exact:true});await checkbox.locator('..').click();await expect(checkbox).toBeChecked();
+      22 |   const row=root.getByRole('table',{name:'云盘文件列表'}).locator('tbody tr').nth(1),bg=()=>row.evaluate(el=>getComputedStyle(el).backgroundColor);
+    > 23 |   await page.mouse.move(1250,1000);expect(await bg()).toBe('rgb(229, 238, 255)');await row.hover();expect(await bg()).toBe('rgb(198, 216, 255)');
+         |                                                       ^
+      24 |   await row.getByRole('button',{name:label,exact:true}).click();await expect(checkbox).toBeChecked();
+      25 |   const query=root.getByRole('textbox',{name:'搜索当前范围内的文件'});await query.fill('教学大纲');await expect(root.locator('tbody tr')).toHaveCount(1);await query.fill('');await expect(checkbox).toBeChecked();
+      26 |   await root.getByRole('radio',{name:'网格',exact:true}).locator('..').click();await expect(root.locator('.nv43-file-card').filter({hasText:label}).getByRole('checkbox')).toBeChecked();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review09-r1-r3.spec.ts:23:55
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-09-all-scenes/r1-r3/test-artifacts/navigation-v042-review09-r-81385-ows-existing-grid-selection/error-context.md
+
+  7) tests/e2e/navigation-v042-review09-r1-r3.spec.ts:4:2 › R2 1600 content filter native radio supports vertical and horizontal keyboard 
+
+    Error: expect(locator).toBeChecked() failed
+
+    Locator:  locator('.rain-workspace').first().getByRole('radiogroup', { name: '内容类型', exact: true }).getByRole('radio', { name: '作业', exact: true })
+    Expected: checked
+    Received: unchecked
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeChecked" with timeout 5000ms
+      - waiting for locator('.rain-workspace').first().getByRole('radiogroup', { name: '内容类型', exact: true }).getByRole('radio', { name: '作业', exact: true })
+        14 × locator resolved to <button role="radio" tabindex="-1" aria-checked="false">作业</button>
+           - unexpected value "unchecked"
+
+
+      4 |  test(`R2 ${width} content filter native radio supports vertical and horizontal keyboard`,async({page})=>{
+      5 |   const root=await open(page,'R2',width),group=root.getByRole('radiogroup',{name:'内容类型',exact:true});
+    > 6 |   await group.getByRole('radio',{name:'全部',exact:true}).focus();await page.keyboard.press('ArrowDown');await expect(group.getByRole('radio',{name:'作业',exact:true})).toBeChecked();
+        |                                                                                                                                                                      ^
+      7 |   await page.keyboard.press('ArrowDown');await expect(group.getByRole('radio',{name:'考试',exact:true})).toBeChecked();
+      8 |   await page.keyboard.press('ArrowUp');await expect(group.getByRole('radio',{name:'作业',exact:true})).toBeChecked();
+      9 |   await page.keyboard.press('ArrowLeft');await expect(group.getByRole('radio',{name:'全部',exact:true})).toBeChecked();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review09-r1-r3.spec.ts:6:166
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-09-all-scenes/r1-r3/test-artifacts/navigation-v042-review09-r-05e9b-cal-and-horizontal-keyboard/error-context.md
+
+  8) tests/e2e/navigation-v042-review09-r1-r3.spec.ts:13:2 › R2 1600 compact platform icons have Rain hover and focus Tooltip 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('tooltip').filter({ hasText: /^课程$/ })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('tooltip').filter({ hasText: /^课程$/ })
+
+
+      13 |  test(`R2 ${width} compact platform icons have Rain hover and focus Tooltip`,async({page})=>{
+      14 |   const root=await open(page,'R2',width),target=root.locator('.nv42-rail-links').getByRole('link',{name:'课程',exact:true});
+    > 15 |   await expect(target).not.toHaveAttribute('title');await target.hover();const tip=page.getByRole('tooltip').filter({hasText:/^课程$/});await expect(tip).toBeVisible();
+         |                                                                                                                                                         ^
+      16 |   expect(await tip.evaluate(el=>getComputedStyle(el).backgroundColor)).toBe('rgb(47, 53, 69)');await page.keyboard.press('Escape');await expect(tip).toHaveCount(0);await target.focus();await expect(tip).toBeVisible();
+      17 |   await page.keyboard.press('Tab');await expect(tip).toHaveCount(0);
+      18 |  });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review09-r1-r3.spec.ts:15:153
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-09-all-scenes/r1-r3/test-artifacts/navigation-v042-review09-r-973a2-ain-hover-and-focus-Tooltip/error-context.md
+
+  9) tests/e2e/navigation-v042-review09-r1-r3.spec.ts:19:2 › R3 1600 selected file list object feedback follows existing grid selection 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "rgb(229, 238, 255)"
+    Received: "rgba(0, 0, 0, 0)"
+
+      21 |   const label='第一章 函数、极限与连续.pdf',checkbox=root.getByRole('checkbox',{name:`选择 ${label}`,exact:true});await checkbox.locator('..').click();await expect(checkbox).toBeChecked();
+      22 |   const row=root.getByRole('table',{name:'云盘文件列表'}).locator('tbody tr').nth(1),bg=()=>row.evaluate(el=>getComputedStyle(el).backgroundColor);
+    > 23 |   await page.mouse.move(1250,1000);expect(await bg()).toBe('rgb(229, 238, 255)');await row.hover();expect(await bg()).toBe('rgb(198, 216, 255)');
+         |                                                       ^
+      24 |   await row.getByRole('button',{name:label,exact:true}).click();await expect(checkbox).toBeChecked();
+      25 |   const query=root.getByRole('textbox',{name:'搜索当前范围内的文件'});await query.fill('教学大纲');await expect(root.locator('tbody tr')).toHaveCount(1);await query.fill('');await expect(checkbox).toBeChecked();
+      26 |   await root.getByRole('radio',{name:'网格',exact:true}).locator('..').click();await expect(root.locator('.nv43-file-card').filter({hasText:label}).getByRole('checkbox')).toBeChecked();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review09-r1-r3.spec.ts:23:55
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-09-all-scenes/r1-r3/test-artifacts/navigation-v042-review09-r-a4d03-ows-existing-grid-selection/error-context.md
+
+  9 failed
+    tests/e2e/navigation-v042-review09-r1-r3.spec.ts:4:2 › R2 1200 content filter native radio supports vertical and horizontal keyboard 
+    tests/e2e/navigation-v042-review09-r1-r3.spec.ts:13:2 › R2 1200 compact platform icons have Rain hover and focus Tooltip 
+    tests/e2e/navigation-v042-review09-r1-r3.spec.ts:19:2 › R3 1200 selected file list object feedback follows existing grid selection 
+    tests/e2e/navigation-v042-review09-r1-r3.spec.ts:4:2 › R2 1440 content filter native radio supports vertical and horizontal keyboard 
+    tests/e2e/navigation-v042-review09-r1-r3.spec.ts:13:2 › R2 1440 compact platform icons have Rain hover and focus Tooltip 
+    tests/e2e/navigation-v042-review09-r1-r3.spec.ts:19:2 › R3 1440 selected file list object feedback follows existing grid selection 
+    tests/e2e/navigation-v042-review09-r1-r3.spec.ts:4:2 › R2 1600 content filter native radio supports vertical and horizontal keyboard 
+    tests/e2e/navigation-v042-review09-r1-r3.spec.ts:13:2 › R2 1600 compact platform icons have Rain hover and focus Tooltip 
+    tests/e2e/navigation-v042-review09-r1-r3.spec.ts:19:2 › R3 1600 selected file list object feedback follows existing grid selection 
+  1 passed (42.0s)

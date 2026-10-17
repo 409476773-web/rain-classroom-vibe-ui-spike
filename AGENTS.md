@@ -51,7 +51,9 @@ Rain Next 的核心目标是：
 
 不得为了节省上下文而跳过相关 Evidence、Benchmark、Manifest 或 ADR，也不得每次无差别加载全部资料。
 
-生成或改造原型页面前，先读 [原型设计入口](docs/ai/prototype-design.md)，按主任务读取命中的组合、参考图与组件合同。用几行记录适用原因、保持关系和必要变化；交付前查看真实整页与必要状态。反馈按该入口回流到组件合同、组合指南或页面局部记录，不把单页数值升级为全库默认。独立 Starter 随附同一设计入口，避免只交付源码而丢失使用依据。
+生成、优化或评审原型界面时，使用 [Rain Designer](.agents/skills/rain-designer/SKILL.md)，并读取 [本库接入说明](docs/ai/prototype-design.md)。方法在 Skill 中维护；品牌、组件合同、真实导出与实现边界按本库说明查找。当前上下文中已读的内容可复用，不重复启动流程。
+
+先理解当前任务和信息关系，再核对和复用合适能力。历史页面不作为默认模板；只有明确要求参考/还原，或核实具体资产用法时，才读取相关示例。[原设计经验库](docs/ai/information-design.md)保留项目案例与历史来源，按需查阅，不与 Skill 并行启动方法流程。记录所读依据、选择原因与实际检查；反馈按当前授权回流到组件合同、组合指南或页面局部记录，有可复用的新经验及证据才更新，没有新发现不追加。纯讨论或只读任务不自动写入；局部选择不升级为全库规则，AI 自查不替代用户验收，不创建后台任务。独立 Starter 同样保留设计入口与消费边界。
 
 涉及图标时，先阅读 [图标选择规范](docs/ai/icon-selection.md)，再查询 `@rain-next/foundations/icons/catalog` 的身份、可用性与静态引用。按实际行为选择；唯一已确认规则直接使用。仅 `availability: available` 的资产可导入，未定义用途不等于不可用。使用 `@rain-next/ui/icons/<slug>` 单图标入口并加载已有 UI 样式；目录预览入口仅供完整图库页面使用。普通图标颜色由宿主提供，不在页面补写白色、重画 SVG 或用近似字符替代。来源与未解决项见 [图标来源记录](evidence/icons/README.md)。
 
@@ -205,7 +207,7 @@ Prototype Mode 不要求每一个页面私有结构都先设计稳定公共 API�
 - **Layout**：空间关系、分区、滚动、固定区、响应式与容器规则。
 - **Pattern**：可重复的交互或信息组织规则，如 Filter Bar、Table Toolbar、Form Section。
 - **Block**：面向明确业务目标、具有较高设计完成度、预期可复制和改造的源码资产，可覆盖一个或多个区域。
-- **Template**：完整页面或场景骨架，是生成页面的起点，不是不可修改的成品页面。
+- **Template**：完整页面或场景骨架，可在任务匹配时采用，不是生成页面的默认起点或不可修改的成品页面。
 - **Local Prototype**：只服务当前原型的页面私有实现，不属于公共架构层。
 
 ### 6.2 AI 资产检索顺序
@@ -217,6 +219,7 @@ Template → Block → Pattern → Layout → UI → Primitive
 规则：
 
 - Foundations 是所有层共享的基础，不属于页面资产检索链。
+- 此顺序用于理解当前任务后核对可复用能力，不要求先找相似旧整页并沿用其结构。
 - AI 应优先选择语义匹配度足够的高层资产。
 - “层级更高”不等于“必须使用”。当 Template 或 Block 与任务语义不匹配、改造成本过高或引入无关结构时，应退回较低层重新组合。
 - 不得在已有合适 Template、Block 或 Pattern 时，无理由直接堆砌基础 UI。
@@ -930,6 +933,8 @@ AI 不得：
 ---
 
 ## 19. 交付要求
+
+导航 v0.4.2 任务按需加载 [实施 Skill](docs/ai/skills/rain-navigation-implementation/SKILL.md)、[消费 Skill](docs/ai/skills/rain-navigation-composition/SKILL.md) 与 [W6 独立消费合同](docs/ai/navigation-v042-w6.md)。本链接不改变其他组件的工作流程或既有 Gate。
 
 每次交付必须明确列出：
 

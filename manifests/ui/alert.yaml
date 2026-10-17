@@ -1,0 +1,112 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-alert"
+name: "Alert"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/alert/alert.tsx"
+styleSourcePath: "packages/ui/src/alert/alert.css"
+sourceVersion: "local-2026-09-20"
+description: "页面内持续提示，四种状态、内容与操作组合；单段文字默认无图标，复合内容使用状态色面状图标和同色正文。"
+useWhen:
+  - "在相关内容附近持续说明信息、结果、风险或失败，并提供处理入口。"
+doNotUseWhen:
+  - "瞬时操作反馈用 Message/Toast；强制回应的重要确认用 AlertDialog；字段错误由 FormItem 承担。"
+anatomy:
+  - "root"
+  - "icon"
+  - "content"
+  - "title"
+  - "description"
+  - "actions"
+  - "close"
+parts:
+  - "root"
+props:
+  - "tone: info(default) / success / warning / error"
+  - "presentation: page(default) / banner; independent of tone"
+  - "icon: formal noninteractive ReactElement or false; compound content defaults to a tone icon, plain text defaults to no icon"
+  - "onClose?: request callback; closeLabel defaults to 关闭提示; no callback means no close button"
+  - "native div attributes, role, aria-live, ref and explicit localRecipe"
+slots:
+  - "children: plain text or AlertTitle, AlertDescription, AlertActions"
+variants:
+  - "four tones"
+  - "page/banner"
+  - "explicit alertClassicShortRecipe"
+states:
+  - "static"
+  - "dynamic host-owned feedback"
+  - "host-controlled visibility"
+dependencies:
+  - "React"
+  - "DensityProvider"
+  - "IconButton"
+  - "formal Rain status icons"
+  - "RainLocalRecipe"
+tokens:
+  - "Info uses Brand Fill Alpha4, Border3, Icon1 and Text1; success/warning/error use their state Fill Alpha2, Border2, Icon1 and Text1"
+  - "Tone Text/Family/1 body text; 14/22 UI, 14/24 description; title weight600"
+  - "Default padding4/16, compact4/12; content-rich alerts14px block padding; radius6; line1; icon16; close24/14"
+layoutConstraints:
+  - "Natural height, complete wrapping, first-line icon alignment, no single-line ellipsis"
+  - "Actions follow description; single-message actions share a row where space permits and stack in narrow containers"
+  - "Banner is square with a bottom border; host owns page positioning"
+compositionRules:
+  - "单段文字默认使用同色正文且不显示图标；标题、说明或操作等复合内容默认显示面状状态图标；icon=false 可显式关闭"
+  - "Host owns visibility, request lifecycle, focus recovery and persistent issue access"
+  - "No auto-close, queue, timers, storage or destructive action inferred from tone"
+allowedModifications:
+  - "Content, tone, presentation, decorative icon, close callback, native semantics and localRecipe"
+restrictedModifications:
+  - "No business state or new palette in shared Alert; no interactive custom icon"
+accessibility:
+  - "Static default has no live region; host opts into status/alert only when required"
+  - "Tone meaning is written in content; decorative status icon is aria-hidden"
+  - "Native close button supports keyboard, never submits forms; host restores focus after removal"
+  - "Forced-colors uses system colors; meaningful text contrast stays independently reviewable"
+examples:
+  - "packages/ui/src/alert/README.md"
+  - "apps/playground/src/docs/components/alert-page.tsx"
+recipes:
+  - "alertClassicShortRecipe: explicit same-color short text without icon; contrast findings tracked separately"
+antiPatterns:
+  - "Closing hides the only unresolved-issue entry"
+  - "Every static notice is role=alert"
+  - "Using an Alert as a modal or transient queue"
+relatedComponents:
+  - "ui-alert-dialog"
+  - "ui-button"
+  - "ui-link"
+  - "ui-icon-button"
+  - "ui-form-item"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "雨课堂_前端规范/src/components/YktAlert.vue"
+    - "雨课堂_前端规范/src/styles/index.scss:2108"
+  externalReferences:
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048 Alert; MIT"
+  retainedTraits:
+    - "Four state families, shallow surfaces, light borders, page/banner, host-owned closing"
+  redesignedTraits:
+    - "State-family body text, filled status icons for compound content, optional compound parts, wrapping, actions and density"
+  intentionallyNotInherited:
+    - "Fixed32px, single-line ellipsis, Vue API aliases, always-on live region"
+figmaMapping: null
+migrationNotes: "New shared candidate; legacy Vue and local G1 adapter remain unchanged."
+humanGate: "accepted"
+humanGateScope: "alert-current-runtime-visual-only"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "passed"
+  scope: "Alert and its playground integration; contrast findings remain pending"
+  independentReview: "passed-scoped"
+  evidence: "evidence/runtime/alert/verification.md"
+  humanGate: "accepted"
+  humanGateScope: "alert-current-runtime-visual-only"
+  contrastAcceptance: "not-granted"

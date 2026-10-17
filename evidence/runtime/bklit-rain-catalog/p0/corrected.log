@@ -1,0 +1,47 @@
+
+Running 9 tests using 1 worker
+
+(node:41624) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/bklit-catalog.spec.ts:15:3 › [P2] funnel renders, reads and updates at 1440px (2.8s)
+  ✓  2 tests/e2e/bklit-catalog.spec.ts:15:3 › [P2] funnel renders, reads and updates at 900px (1.2s)
+  ✓  3 tests/e2e/bklit-catalog.spec.ts:15:3 › [P2] funnel renders, reads and updates at 390px (1.2s)
+  ✓  4 tests/e2e/bklit-catalog.spec.ts:15:3 › [P3] sankey renders, reads and updates at 1440px (2.8s)
+  ✓  5 tests/e2e/bklit-catalog.spec.ts:15:3 › [P3] sankey renders, reads and updates at 900px (1.2s)
+  ✘  6 tests/e2e/bklit-catalog.spec.ts:15:3 › [P3] sankey renders, reads and updates at 390px (897ms)
+(node:41658) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  7 tests/e2e/bklit-catalog.spec.ts:15:3 › [P3] heatmap renders, reads and updates at 1440px (3.0s)
+  ✓  8 tests/e2e/bklit-catalog.spec.ts:15:3 › [P3] heatmap renders, reads and updates at 900px (1.4s)
+  ✓  9 tests/e2e/bklit-catalog.spec.ts:15:3 › [P3] heatmap renders, reads and updates at 390px (1.4s)
+
+
+  1) tests/e2e/bklit-catalog.spec.ts:15:3 › [P3] sankey renders, reads and updates at 390px ────────
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 30
+    Received:   12
+
+      39 |       labelColor: [...svg.querySelectorAll("text")].map(t => getComputedStyle(t).fill).slice(0,12),
+      40 |     }));
+    > 41 |     expect(geometry.width).toBeGreaterThan(30); expect(geometry.height).toBeGreaterThan(30); expect(geometry.invalid).toBe(0);
+         |                            ^
+      42 |     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
+      43 |     expect(overflow).toBe(false);
+      44 |     const hoverable = !["gauge","live-line"].includes(id);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/bklit-catalog.spec.ts:41:28
+
+    Error Context: evidence/runtime/bklit-rain-catalog/p3/corrected-test-results/bklit-catalog--P3-sankey-renders-reads-and-updates-at-390px/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/p3/corrected-test-results/bklit-catalog--P3-sankey-renders-reads-and-updates-at-390px/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/p3/corrected-test-results/bklit-catalog--P3-sankey-renders-reads-and-updates-at-390px/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/bklit-catalog.spec.ts:15:3 › [P3] sankey renders, reads and updates at 390px ─────────
+  8 passed (16.8s)

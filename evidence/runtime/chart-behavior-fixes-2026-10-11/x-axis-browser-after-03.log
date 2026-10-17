@@ -1,0 +1,67 @@
+
+Running 2 tests using 1 worker
+
+(node:91568) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-x-axis-resize.spec.ts:91:3 › line no-preference: earliest resize frames retain axis identity, hover and data reads (6.9s)
+(node:91575) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/chart-x-axis-resize.spec.ts:143:1 › native consumer: same-size data positions animate normally and mounted media changes become immediate (1.0s)
+
+
+  1) tests/e2e/chart-x-axis-resize.spec.ts:91:3 › line no-preference: earliest resize frames retain axis identity, hover and data reads 
+
+    Error: Timeout 5000ms exceeded while waiting on the predicate
+
+      124 |         await page.mouse.move(box.x + 80, box.y + box.height / 2);
+      125 |         await expect(host.locator(category ? ".rain-category-tooltip" : ".rain-chart-tooltip")).toBeVisible();
+    > 126 |       }).toPass({ timeout: 5000, intervals: [50] });
+          |          ^
+      127 |       await page.mouse.move(0, 0);
+      128 |       await host.screenshot({ path: `${evidence}/${family}-${reducedMotion}-390.png` });
+      129 |     } finally {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-x-axis-resize.spec.ts:126:10
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/x-axis/after-03/results/chart-x-axis-resize-line-n-5060e-entity-hover-and-data-reads/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/x-axis/after-03/results/chart-x-axis-resize-line-n-5060e-entity-hover-and-data-reads/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/x-axis/after-03/results/chart-x-axis-resize-line-n-5060e-entity-hover-and-data-reads/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-x-axis-resize.spec.ts:143:1 › native consumer: same-size data positions animate normally and mounted media changes become immediate 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 170
+    Received: 185.781
+
+    Expected precision:    3
+    Expected difference: < 0.0005
+    Received difference:   15.781000000000006
+
+      160 |     const normalPositions = normal.samples.filter(sample => sample.reason === "raf").map(sample => Number.parseFloat(sample.ticks.find(tick => tick.label === "Sep 2")!.position));
+      161 |     expect(normalPositions.some(left => left > 170.5 && left < 299.5)).toBe(true);
+    > 162 |     expect(Number.parseFloat(await position())).toBeCloseTo(170, 3);
+          |                                                 ^
+      163 |     await page.emulateMedia({ reducedMotion: "reduce" });
+      164 |     await beginFrames(page, "[data-test-axis-host]", null, 8);
+      165 |     await page.getByRole("button", { name: "Change time domain" }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-x-axis-resize.spec.ts:162:49
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/x-axis/after-03/results/chart-x-axis-resize-native-d1e9b-ia-changes-become-immediate/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/x-axis/after-03/results/chart-x-axis-resize-native-d1e9b-ia-changes-become-immediate/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/x-axis/after-03/results/chart-x-axis-resize-native-d1e9b-ia-changes-become-immediate/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/chart-x-axis-resize.spec.ts:91:3 › line no-preference: earliest resize frames retain axis identity, hover and data reads 
+    tests/e2e/chart-x-axis-resize.spec.ts:143:1 › native consumer: same-size data positions animate normally and mounted media changes become immediate 

@@ -1,0 +1,32 @@
+--- before/apps/playground/src/docs/components/chart-business/network-examples.tsx
++++ apps/playground/src/docs/components/chart-business/network-examples.tsx
+@@ -1,4 +1,5 @@
+ import { useEffect, useMemo, useState } from "react";
++import { AnimatePresence, motion, useIsPresent } from "motion/react";
+ import { NetworkChart, layoutNetwork, type NetworkNode, type NetworkEdge, type RainChartRecipe, type NetworkChartVariant } from "@rain-next/ui/charts";
+ import { makeNetworkFixtures, type NetworkFixtureId, type NetworkChartState } from "./network-data";
+ import "./network-page.css";
+@@ -11,6 +12,7 @@
+ }
+ 
+ function NetworkExample({ fixture, relation, recipe, variant, reduced }: { fixture: ReturnType<typeof makeNetworkFixtures>[number]; relation: string; recipe: RainChartRecipe; variant: NetworkChartVariant; reduced: boolean }) {
++  const present = useIsPresent();
+   const [selectedId, setSelectedId] = useState<string | null>(null);
+   const prepared = useMemo(() => {
+     try {
+@@ -37,7 +39,7 @@
+   useEffect(() => { if (error) setSelectedId(null); }, [error]);
+   const filtered = useMemo(() => filterNetwork(prepared.nodes, fixture.edges, relation), [prepared.nodes, fixture.edges, relation]);
+   const selected = filtered.nodes.find(node => node.id === selectedId);
+-  return <section className="rain-network-example rain-chart" data-network-example={fixture.id} data-recipe={recipe}>
++  return <section className="rain-network-example rain-chart" data-network-example={fixture.id} data-recipe={recipe} inert={!present} aria-hidden={!present || undefined}>
+     <header><span className="rain-network-reference">{fixture.reference}</span><h2>{fixture.title}</h2></header>
+     <p className="rain-network-description">{fixture.description}</p>
+     {error ? <p className="rain-network-state" role="alert">已拒绝无效数据：{error}</p> : <>
+@@ -50,5 +52,5 @@
+ 
+ export function NetworkExamples({ fixtureId, state = "normal", revision = 0, relation = "all", recipe = "monochrome-blue", variant = "glow", reduced = false }: { fixtureId?: NetworkFixtureId; state?: NetworkChartState; revision?: number; relation?: string; recipe?: RainChartRecipe; variant?: NetworkChartVariant; reduced?: boolean }) {
+   const fixtures = useMemo(() => makeNetworkFixtures(revision, state), [revision, state]);
+-  return <>{fixtures.filter(fixture => !fixtureId || fixture.id === fixtureId).map(fixture => <NetworkExample key={fixture.id} fixture={fixture} relation={relation} recipe={recipe} variant={variant} reduced={reduced} />)}</>;
++  return <div style={{ position: "relative" }}><AnimatePresence mode="popLayout" initial={false}>{fixtures.filter(fixture => !fixtureId || fixture.id === fixtureId).map(fixture => <motion.div key={fixture.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : .18 }}><NetworkExample fixture={fixture} relation={relation} recipe={recipe} variant={variant} reduced={reduced} /></motion.div>)}</AnimatePresence></div>;
+ }

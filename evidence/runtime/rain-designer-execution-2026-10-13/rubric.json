@@ -1,0 +1,45 @@
+{
+  "purpose": "评测专用预设依据；不得提供给原版或候选版评审会话。",
+  "samples": [
+    {
+      "file": "resource-list.png",
+      "expected": "第二行标题可见文字相对其他同行标题及本行元信息偏右，破坏连续阅读起点。",
+      "geometryCorroboration": "其余标题/元信息 x=217，第二行标题 x=223；6px 仅为本夹具事实，不是全库规则。",
+      "scoring": "准确指出第二行标题的跨行或标题—元信息关系即命中；只泛称间距问题不算。"
+    },
+    {
+      "file": "notification-settings.png",
+      "expected": "邮箱错误说明呈现在电话输入框下方，视觉邻近关系把说明归给了电话字段。",
+      "geometryCorroboration": "说明距电话框下沿6px，距邮箱框下沿62px；ARIA 仍正确关联邮箱，不能虚构读屏关联错误。",
+      "scoring": "指出说明与对应邮箱字段的视觉归属错位即命中；不要求指定修复值。"
+    },
+    {
+      "file": "learning-units.png",
+      "expected": "无预设缺陷；摘要两行/一行/两行与不同单元高度，以及进行中状态强调均有内容或状态依据。",
+      "geometryCorroboration": "标题与摘要起点一致；摘要高48/24/48px。",
+      "scoring": "把自然行高或有意义的状态主次强制统一，计误报；允许有证据的新发现并单独复核，不机械判错。"
+    }
+  ],
+  "rendering": {
+    "browser": "151.0.7922.34",
+    "viewport": {
+      "width": 1024,
+      "height": 800
+    },
+    "dpr": 1,
+    "zoom": 1,
+    "theme": "light",
+    "font": "本机 PingFang SC；无字体拷贝"
+  },
+  "sha256": {
+    "fixture.css": "2977905ce9f9dfa7acfb050aab263fc06a7082f43947f4f96592c34c8beb941f",
+    "learning-units.html": "e2eeac74214b8be7f2805dad039fc78a4b38341811e49780eca9979a7f01524d",
+    "learning-units.png": "ddc1afddf98cac9b82c9ce384140ace8693e7413644cbb154b56513881d0b43f",
+    "notification-settings.html": "13abf9324e15883c8b71166029d860bcf25651c20551dd6b477c704ebc78f1c4",
+    "notification-settings.png": "ba822c98501fa29d6148ca20642f84ed04a7ac3ceafafb4d1c3437011c4c1eb9",
+    "rain.css": "a5cad719c930e7902affd7c6665f59d347fda9e0fd94a60c5efe96e339dcbbed",
+    "resource-list.html": "55d5abad68dd174410b614f1b0e1db46217b8ea7e8cb8356982f3c72f79873bd",
+    "resource-list.png": "f49672305a61779d34634a22048c336ebe2409df7051009fa50e74fa57797dd2"
+  },
+  "limits": "DOM几何只佐证预设条件；光学判断依据实际截图。三图已由制作代理与主代理独立AI预审，不是人工验收。静态素材不证明交互、无障碍或跨环境通过。"
+}

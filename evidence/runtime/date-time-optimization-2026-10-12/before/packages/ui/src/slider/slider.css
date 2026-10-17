@@ -1,0 +1,15 @@
+/* shadcn Base UI/Nova anatomy; Rain paint, hit areas and feedback tokens. */
+.rain-slider { display: flex; align-items: center; min-width: 0; width: 100%; }
+.rain-slider__control { position: relative; display: flex; flex: 1; align-items: center; min-width: 0; height: var(--rain-space-32); touch-action: none; user-select: none; cursor: pointer; }
+.rain-slider__track { position: relative; flex-grow: 1; height: var(--rain-space-4); overflow: hidden; border-radius: var(--rain-radius-full); background: var(--rain-category-fill-neutral-alpha-6); }
+.rain-slider__range { height: 100%; background: var(--rain-category-fill-brand-solid-2); }
+.rain-slider__thumb { display: block; flex-shrink: 0; box-sizing: border-box; width: var(--rain-space-12); height: var(--rain-space-12); border: var(--rain-line-thickness-1) solid var(--rain-category-border-brand-1); border-radius: var(--rain-radius-full); background: var(--rain-category-fill-brand-solid-2); transition: border-color var(--rain-motion-feedback-duration) var(--rain-motion-ease-out), box-shadow var(--rain-motion-feedback-duration) var(--rain-motion-ease-out); }
+.rain-slider__thumb::after { content: ""; position: absolute; inset: calc(-1 * var(--rain-space-8)); }
+.rain-slider__thumb:is(:hover, [data-dragging], :has(input:focus-visible)) { box-shadow: 0 0 0 var(--rain-space-4) var(--rain-field-focus-halo); }
+.rain-slider__thumb:has(input:focus-visible) { outline: var(--rain-line-thickness-2) solid var(--rain-field-focus-line); outline-offset: var(--rain-space-2); }
+.rain-slider[data-disabled] .rain-slider__control { cursor: not-allowed; }
+.rain-slider[data-disabled] .rain-slider__range { background: var(--rain-category-fill-neutral-alpha-2); }
+.rain-slider[data-disabled] .rain-slider__thumb { border-color: var(--rain-category-border-neutral-3); background: var(--rain-category-background-neutral-2); box-shadow: none; }
+@media (pointer: coarse) { .rain-slider__control { min-height: var(--rain-space-40); } .rain-slider__thumb::after { inset: calc(-1 * var(--rain-space-16)); } }
+@media (prefers-reduced-motion: reduce) { .rain-slider__thumb { transition: none; } }
+@media (forced-colors: active) { .rain-slider__track { background: GrayText; } .rain-slider__range { background: Highlight; } .rain-slider__thumb { background: Canvas; border-color: ButtonText; } .rain-slider__thumb:has(input:focus-visible) { outline-color: Highlight; } }

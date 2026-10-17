@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-tailwind-b2.test.ts (182 tests | 1 failed | 181 skipped) 55597ms
+     × emits only Rain utilities or the current explicit structural allowlist from real sources 4034ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > emits only Rain utilities or the current explicit structural allowlist from real sources
+AssertionError: packages/ui/src/sidebar/sidebar.tsx: expected 'a7c48c6fa67d60b48e5fbae80a0c7aea9af66…' to be undefined // Object.is equality
+
+- Expected:
+undefined
+
++ Received:
+"a7c48c6fa67d60b48e5fbae80a0c7aea9af666e79250c9ddc9eefb6d0f47dbf3"
+
+ ❯ scripts/verify-tailwind-b2.test.ts:3375:44
+    3373|       const g5Protected = JSON.parse(readFileSync(absolute("evidence/r…
+    3374|       for (const file of ["packages/ui/src/sidebar/sidebar.tsx", "pack…
+    3375|         expect(hash(absolute(file)), file).toBe(g5Protected[file]);
+       |                                            ^
+    3376|         verifiedPaths.add(file);
+    3377|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 181 skipped (182)
+   Start at  00:13:29
+   Duration  56.94s (transform 435ms, setup 155ms, import 571ms, tests 55.60s, environment 522ms)
+

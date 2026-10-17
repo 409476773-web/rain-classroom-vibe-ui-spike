@@ -1,0 +1,48 @@
+
+Running 1 test using 1 worker
+
+(node:55197) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/slider-refinement.spec.ts:151:1 › selected track is quieter at rest and responds to hover, focus and dragging (2.1s)
+
+
+  1) [desktop] › tests/e2e/slider-refinement.spec.ts:151:1 › selected track is quieter at rest and responds to hover, focus and dragging 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 2
+    + Received  + 2
+
+      Array [
+        21,
+    -   97,
+    -   248,
+    +   77,
+    +   190,
+      ]
+
+      163 |     const palette = await root.evaluate(node => getComputedStyle(node).getPropertyValue("--rain-category-fill-brand-solid-2").match(/[\d.]+/g)?.map(Number));
+      164 |     const channels = idle.match(/[\d.]+/g)!.map(Number);
+    > 165 |     expect(channels.slice(0, 3).map(value => idle.startsWith("color(srgb") ? Math.round(value * 255) : value)).toEqual(palette);
+          |                                                                                                                ^
+      166 |     expect(channels[3]).toBe(0.55);
+      167 |     await expect(page.locator('[data-slot="thumb-indicator"]')).toHaveCount(0);
+      168 |     await page.locator(".g5-panel").first().screenshot({ path: evidence + "/" + info.project.name + "-" + (theme === "浅色" ? "light" : "dark") + "-track-idle.png" });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/slider-refinement.spec.ts:165:112
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/slider-refinement-2026-10-13/browser/results/slider-refinement-selected-97edd-to-hover-focus-and-dragging-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/slider-refinement-2026-10-13/browser/results/slider-refinement-selected-97edd-to-hover-focus-and-dragging-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/slider-refinement-2026-10-13/browser/results/slider-refinement-selected-97edd-to-hover-focus-and-dragging-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/slider-refinement-2026-10-13/browser/results/slider-refinement-selected-97edd-to-hover-focus-and-dragging-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [desktop] › tests/e2e/slider-refinement.spec.ts:151:1 › selected track is quieter at rest and responds to hover, focus and dragging 

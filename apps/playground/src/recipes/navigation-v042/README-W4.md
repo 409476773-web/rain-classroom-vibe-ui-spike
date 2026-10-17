@@ -1,0 +1,11 @@
+# W4 S1–S6 state samples
+
+`WorkspaceStateSample` composes the shared W4 controller and measured restore bar. S1 reuses R1 plan, S2 R3 errors, S3 R6 nested editing, S4 R4 interaction/grading, and S6 R5 classroom playback. S5 reproduces the approved document editor; it has real content tabs, three commands per tool group, caller-owned teaching-target draft and ribbon modes 111 / 83 / 41 / 0 px. The temporary ribbon is 112 px and retains the original owner height. S4 grading contains the student queue and end review region only.
+
+`createNavigationWorkspaceSpec(scene,instanceId,variant)` records immutable reference geometry. Stable IDs identify modes, selections and mock workspace keys; hover starts disabled. The shared consumers accept a `workspace` override rather than duplicating business pages inside S samples. Consumer business state is distinct from layout preferences.
+
+Baseline: `reference/approved-v0.4.2.html`, SHA-256 `d2574eaae899bb48b7a3201914861d27b23e0bc58a05bf1a75898eba697dd03c`. Live-operated 24-state reference captures are in `evidence/runtime/navigation-v042/w4/reference/2026-10-01T11-15-07-260Z`, with stable repeated captures and expanded inner measurements in `2026-10-01T11-55-02-325Z`. Intermediate comparison `w4/compare/2026-10-01T11-48-27-187Z` exposed business and typography differences; it is not completion evidence. The final comparison and G2 decision are recorded by the root task.
+
+Local recipes adapt existing Button/Popover/Tabs/Tag visuals; layout imports no UI dependency. Public defaults, global Tokens and Classic are unchanged. S5 uses existing canonical icon assets; the reference's teaching-target flag has no installed canonical equivalent and currently maps to GraduationCap. This glyph difference remains explicit visual-review scope rather than a new shared SVG.
+
+Focused sample tests verify measured default modes/widths, workspace identity, all four ribbon budgets and temporary recovery, caller draft retention through focus/all-hidden/context changes, and distinct draft/control IDs between instances. Typecheck and automated checks do not imply human visual acceptance, VoiceOver acceptance, Registry publication, Figma writes or Git publication.

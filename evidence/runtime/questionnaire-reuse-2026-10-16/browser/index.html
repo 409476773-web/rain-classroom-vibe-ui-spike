@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Questionnaire 复用改造前后对照</title>
+<style>
+body{margin:0;padding:24px;font:14px/1.6 system-ui,sans-serif;background:#f5f6f8;color:#17213a}h1{font-size:22px;margin:0 0 8px}p{margin:8px 0}nav{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}label{display:flex;gap:8px;align-items:center}select{font:inherit;padding:6px;border:1px solid #bbc3d0;border-radius:6px}main{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}figure{margin:0;min-width:0}figcaption{font-weight:600;margin-bottom:8px}img{display:block;max-width:100%;height:auto;background:white;border:1px solid #d7dce4}a{color:#1561f8}footer{margin-top:24px}@media(max-width:640px){body{padding:16px}main{grid-template-columns:1fr}}
+</style>
+<h1>Questionnaire 复用改造前后对照</h1>
+<p>旧版来自本轮冻结的源码与样式基线。普通 Radio、Checkbox、选择卡片的已测结构、样式和几何一致；问答选项和单行字段采用共享呈现，视觉变化待人工确认。</p>
+<nav>
+<label>内容<select id="kind"><option value="questionnaire">问答选择与字段</option><option value="ordinary">普通选择控件与卡片</option></select></label>
+<label>宽度<select id="viewport"><option value="narrow">390px</option><option value="desktop">1440px</option></select></label>
+<label>主题<select id="theme"><option value="light">浅色</option><option value="dark">深色</option></select></label>
+<label>密度<select id="density"><option value="default">默认</option><option value="compact">紧凑</option></select></label>
+</nav>
+<main><figure><figcaption>改造前</figcaption><img id="before" alt="改造前截图"></figure><figure><figcaption>改造后</figcaption><img id="after" alt="改造后截图"></figure></main>
+<footer><p>完整回归43/43、扩展专项12/12通过；错误边框修正及自定义render复核4/4通过。截图和自动验证不代替人工视觉、对比度、Safari、VoiceOver 或真实设备验收。</p><p><a href="verification.md">浏览器验证记录</a> · <a href="full.log">完整回归日志</a> · <a href="specialized-final.log">专项日志</a> · <a href="affected-final.log">修正复核日志</a></p></footer>
+<script>
+const controls=["kind","viewport","theme","density"].map(id=>document.getElementById(id));
+function render(){const[kind,viewport,theme,density]=controls.map(control=>control.value);for(const era of ["before","after"])document.getElementById(era).src=`${kind}-${era}-${theme}-${density}-${viewport}.png`;}
+controls.forEach(control=>control.addEventListener("change",render));render();
+</script>
+</html>

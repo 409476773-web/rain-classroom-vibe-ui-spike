@@ -1,0 +1,12 @@
+/* Existing Rain G2 source adaptation; source-lock and MIT notice retained. */
+@layer base {
+  .rain-g2-button-group { isolation: isolate; }
+  .rain-g2-button-group > :focus-visible { position: relative; z-index: 1; }
+  .rain-g2-button-group[data-orientation="horizontal"] > [data-slot]:not(:last-child) { border-start-end-radius: 0; border-end-end-radius: 0; }
+  .rain-g2-button-group[data-orientation="horizontal"] > [data-slot] + [data-slot] { border-start-start-radius: 0; border-end-start-radius: 0; margin-inline-start: calc(-1 * var(--rain-line-thickness-1)); }
+  .rain-g2-button-group[data-orientation="vertical"] > [data-slot]:not(:last-child) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  .rain-g2-button-group[data-orientation="vertical"] > [data-slot] + [data-slot] { border-top-left-radius: 0; border-top-right-radius: 0; margin-top: calc(-1 * var(--rain-line-thickness-1)); }
+  .rain-g2-button-group-text { padding-inline: var(--rain-space-12); border: var(--rain-line-thickness-1) solid var(--rain-color-border-default); border-radius: var(--rain-radius-4); color: var(--rain-color-text-secondary); background: var(--rain-color-surface-subtle); }
+  .rain-g2-button-group-separator { display: flex; align-self: stretch; padding-block: var(--rain-space-4); }
+  .rain-g2-button-group-separator > .rain-separator { height: auto; }
+}

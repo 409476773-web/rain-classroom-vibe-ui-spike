@@ -1,0 +1,803 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-examples.test.tsx (9 tests | 9 failed) 164ms
+   × line default missing data retains dates, real zero and gaps 15ms
+   × area default missing data retains dates, real zero and gaps 2ms
+   × composed default missing data retains dates, real zero and gaps 1ms
+   × line missing mini keeps its frame and never turns the missing latest value into zero 8ms
+   × area missing mini keeps its frame and never turns the missing latest value into zero 1ms
+   × default standard bar explains its all-zero reference range beside the plot 25ms
+   × default mini bar explains its all-zero reference range beside the plot 3ms
+   × sunburst keyboard drill and return restore focus, retain valid focus and reset invalid data paths 107ms
+   × the long sunburst supplies a real extra drill level with conserved totals 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-examples.test.tsx > line default missing data retains dates, real zero and gaps
+ FAIL  apps/playground/src/docs/components/chart-examples.test.tsx > area default missing data retains dates, real zero and gaps
+ FAIL  apps/playground/src/docs/components/chart-examples.test.tsx > composed default missing data retains dates, real zero and gaps
+AssertionError: expected  to have a length of 24 but got +0
+
+- Expected
++ Received
+
+- 24
++ 0
+
+ ❯ apps/playground/src/docs/components/chart-examples.test.tsx:20:16
+     18|   const view = render(<ChartExample id={id} state="missing" reduced />…
+     19|   const rows = view.container.querySelectorAll("tbody tr");
+     20|   expect(rows).toHaveLength(24);
+       |                ^
+     21|   expect(rows[1]).toHaveTextContent("缺测");
+     22|   expect(rows[2]?.querySelector("td")).toHaveTextContent("0");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-examples.test.tsx > line missing mini keeps its frame and never turns the missing latest value into zero
+ FAIL  apps/playground/src/docs/components/chart-examples.test.tsx > area missing mini keeps its frame and never turns the missing latest value into zero
+Error: expect(received).toHaveTextContent()
+
+received value must be a Node.
+Received has type:  Null
+Received has value: null
+ ❯ apps/playground/src/docs/components/chart-examples.test.tsx:38:69
+     36| test.each(["line", "area"] as const)("%s missing mini keeps its frame …
+     37|   const view = render(<ChartExample id={id} state="missing" size="mini…
+     38|   expect(view.container.querySelector(".rain-chart-metric strong")).to…
+       |                                                                     ^
+     39|   expect(view.container.querySelector(".rain-business-mini-slot")).toH…
+     40|   expect(view.container.querySelector("svg")).not.toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-examples.test.tsx > default standard bar explains its all-zero reference range beside the plot
+TestingLibraryElementError: Unable to find an element with the text: /全零.*量程.*1/. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<label[39m
+      [33mclass[39m=[32m"rain-chart-example-control"[39m
+    [36m>[39m
+      [0m柱形 [0m
+      [36m<select[39m
+        [33maria-label[39m=[32m"柱形配方"[39m
+      [36m>[39m
+        [36m<option[39m
+          [33mvalue[39m=[32m"grouped"[39m
+        [36m>[39m
+          [0m分组柱[0m
+        [36m</option>[39m
+        [36m<option[39m
+          [33mvalue[39m=[32m"stacked"[39m
+        [36m>[39m
+          [0m互斥等级堆叠[0m
+        [36m</option>[39m
+      [36m</select>[39m
+    [36m</label>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"relative w-full overflow-visible rain-chart-plot"[39m
+      [33mdata-rain-id[39m=[32m"ui-chart-bar"[39m
+      [33mdata-slot[39m=[32m"chart-root"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mstyle[39m=[32m"width: 100%; height: 100%;"[39m
+      [36m/>[39m
+    [36m</div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"legend-container flex flex-col gap-2 rain-chart-legend"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"rain-chart-legend-button"[39m
+          [33mstyle[39m=[32m"display: flex; align-items: center; gap: 8px; border: 0px; border-radius: 8px; padding: 6px 8px; font: inherit; color: var(--legend-foreground); background: transparent; opacity: 1; cursor: pointer;"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mstyle[39m=[32m"width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; background: var(--chart-1);"[39m
+          [36m/>[39m
+          [36m<span>[39m
+            [0m参与人数 · 人[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"rain-chart-legend-button"[39m
+          [33mstyle[39m=[32m"display: flex; align-items: center; gap: 8px; border: 0px; border-radius: 8px; padding: 6px 8px; font: inherit; color: var(--legend-foreground); background: transparent; opacity: 1; cursor: pointer;"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mstyle[39m=[32m"width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; background: var(--chart-2);"[39m
+          [36m/>[39m
+          [36m<span>[39m
+            [0m完成人数 · 人[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"rain-chart-legend-button"[39m
+          [33mstyle[39m=[32m"display: flex; align-items: center; gap: 8px; border: 0px; border-radius: 8px; padding: 6px 8px; font: inherit; color: var(--legend-foreground); background: transparent; opacity: 1; cursor: pointer;"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mstyle[39m=[32m"width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; background: var(--chart-3);"[39m
+          [36m/>[39m
+          [36m<span>[39m
+            [0m复习人数 · 人[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+    [36m<details[39m
+      [33mclass[39m=[32m"rain-chart-data"[39m
+    [36m>[39m
+      [36m<summary>[39m
+        [0m查看精确数据[0m
+      [36m</summary>[39m
+      [36m<div[39m
+        [33maria-label[39m=[32m"精确数据表，可横向滚动"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m>[39m
+        [36m<table>[39m
+          [36m<caption>[39m
+            [0m示例精确数据[0m
+          [36m</caption>[39m
+          [36m<thead>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"col"[39m
+              [36m>[39m
+                [0m课程[0m
+              [36m</th>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"col"[39m
+              [36m>[39m
+                [0m参与人数 · 人[0m
+              [36m</th>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"col"[39m
+              [36m>[39m
+                [0m完成人数 · 人[0m
+              [36m</th>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"col"[39m
+              [36m>[39m
+                [0m复习人数 · 人[0m
+              [36m</th>[39m
+            [36m</tr>[39m
+          [36m</thead>[39m
+          [36m<tbody>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m课程一[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m课程二[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m课程三[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m课程四[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m课程五[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m课程六[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+          [36m</tbody>[39m
+        [36m</table>[39m
+      [36m</div>[39m
+    [36m</details>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/chart-examples.test.tsx:53:15
+     51| test.each(["standard", "mini"] as const)("default %s bar explains its …
+     52|   const view = render(<ChartExample id="bar" state="zero" size={size} …
+     53|   expect(view.getByText(/全零.*量程.*1/)).toBeVisible();
+       |               ^
+     54|   view.rerender(<ChartExample id="bar" state="normal" size={size} redu…
+     55|   expect(view.queryByText(/全零.*量程.*1/)).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-examples.test.tsx > default mini bar explains its all-zero reference range beside the plot
+TestingLibraryElementError: Unable to find an element with the text: /全零.*量程.*1/. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"rain-business-standalone-mini"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"rain-business-mini"[39m
+        [33mdata-mini-kind[39m=[32m"columns"[39m
+        [33mdata-mini-state[39m=[32m"zero"[39m
+        [33mdata-size[39m=[32m"compact"[39m
+        [33mstyle[39m=[32m"--mini-reading-gap: 8px;"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"rain-business-mini-slot"[39m
+          [33mstyle[39m=[32m"width: 96px; height: 32px;"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"rain-business-mini-plot"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"relative w-full overflow-visible"[39m
+              [33mdata-rain-id[39m=[32m"ui-chart-bar"[39m
+              [33mdata-slot[39m=[32m"chart-root"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mstyle[39m=[32m"width: 100%; height: 100%;"[39m
+              [36m/>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+    [36m<details[39m
+      [33mclass[39m=[32m"rain-chart-data"[39m
+    [36m>[39m
+      [36m<summary>[39m
+        [0m查看精确数据[0m
+      [36m</summary>[39m
+      [36m<div[39m
+        [33maria-label[39m=[32m"精确数据表，可横向滚动"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m>[39m
+        [36m<table>[39m
+          [36m<caption>[39m
+            [0m示例精确数据[0m
+          [36m</caption>[39m
+          [36m<thead>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"col"[39m
+              [36m>[39m
+                [0m类别[0m
+              [36m</th>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"col"[39m
+              [36m>[39m
+                [0m数量[0m
+              [36m</th>[39m
+            [36m</tr>[39m
+          [36m</thead>[39m
+          [36m<tbody>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m课程一[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m课程二[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m课程三[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m课程四[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m课程五[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+            [36m<tr>[39m
+              [36m<th[39m
+                [33mscope[39m=[32m"row"[39m
+              [36m>[39m
+                [0m课程六[0m
+              [36m</th>[39m
+              [36m<td>[39m
+                [0m0[0m
+              [36m</td>[39m
+            [36m</tr>[39m
+          [36m</tbody>[39m
+        [36m</table>[39m
+      [36m</div>[39m
+    [36m</details>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/chart-examples.test.tsx:53:15
+     51| test.each(["standard", "mini"] as const)("default %s bar explains its …
+     52|   const view = render(<ChartExample id="bar" state="zero" size={size} …
+     53|   expect(view.getByText(/全零.*量程.*1/)).toBeVisible();
+       |               ^
+     54|   view.rerender(<ChartExample id="bar" state="normal" size={size} redu…
+     55|   expect(view.queryByText(/全零.*量程.*1/)).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-examples.test.tsx > sunburst keyboard drill and return restore focus, retain valid focus and reset invalid data paths
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "查看基础课程"
+
+Here are the accessible roles:
+
+  heading:
+
+  Name "学习内容":
+  [36m<h3[39m
+    [33mclass[39m=[32m"rain-chart-sunburst-title"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  img:
+
+  Name "Sunburst chart of 学习内容":
+  [36m<svg[39m
+    [33maria-label[39m=[32m"Sunburst chart of 学习内容"[39m
+    [33mrole[39m=[32m"img"[39m
+    [33mstyle[39m=[32m"display: block; overflow: visible; opacity: 0;"[39m
+    [33mviewBox[39m=[32m"-180 -180 360 360"[39m
+    [33mwidth[39m=[32m"100%"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  group:
+
+  Name "":
+  [36m<details[39m
+    [33mclass[39m=[32m"rain-chart-data"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  table:
+
+  Name "示例精确数据":
+  [36m<table />[39m
+
+  --------------------------------------------------
+  caption:
+
+  Name "示例精确数据":
+  [36m<caption />[39m
+
+  --------------------------------------------------
+  rowgroup:
+
+  Name "":
+  [36m<thead />[39m
+
+  Name "":
+  [36m<tbody />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "叶项路径 人次":
+  [36m<tr />[39m
+
+  Name "学习内容 / 基础课程 / 视频 120":
+  [36m<tr />[39m
+
+  Name "学习内容 / 基础课程 / 阅读 90":
+  [36m<tr />[39m
+
+  Name "学习内容 / 基础课程 / 练习 60":
+  [36m<tr />[39m
+
+  Name "学习内容 / 进阶课程 / 视频 148":
+  [36m<tr />[39m
+
+  Name "学习内容 / 进阶课程 / 阅读 118":
+  [36m<tr />[39m
+
+  Name "学习内容 / 进阶课程 / 练习 88":
+  [36m<tr />[39m
+
+  Name "学习内容 / 应用课程 / 视频 176":
+  [36m<tr />[39m
+
+  Name "学习内容 / 应用课程 / 阅读 146":
+  [36m<tr />[39m
+
+  Name "学习内容 / 应用课程 / 练习 116":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "叶项路径":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "人次":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  rowheader:
+
+  Name "学习内容 / 基础课程 / 视频":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "学习内容 / 基础课程 / 阅读":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "学习内容 / 基础课程 / 练习":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "学习内容 / 进阶课程 / 视频":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "学习内容 / 进阶课程 / 阅读":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "学习内容 / 进阶课程 / 练习":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "学习内容 / 应用课程 / 视频":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "学习内容 / 应用课程 / 阅读":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "学习内容 / 应用课程 / 练习":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  cell:
+
+  Name "120":
+  [36m<td />[39m
+
+  Name "90":
+  [36m<td />[39m
+
+  Name "60":
+  [36m<td />[39m
+
+  Name "148":
+  [36m<td />[39m
+
+  Name "118":
+  [36m<td />[39m
+
+  Name "88":
+  [36m<td />[39m
+
+  Name "176":
+  [36m<td />[39m
+
+  Name "146":
+  [36m<td />[39m
+
+  Name "116":
+  [36m<td />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"rain-chart-sunburst"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"rain-chart-radial-plot"[39m
+        [33mdata-rain-id[39m=[32m"ui-chart-sunburst"[39m
+        [33mdata-slot[39m=[32m"chart-root"[39m
+        [33mstyle[39m=[32m"max-width: 100%; width: 360px;"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"rain-chart-sunburst-heading"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mclass[39m=[32m"rain-chart-sunburst-title"[39m
+          [36m>[39m
+            [0m学习内容[0m
+          [36m</h3>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto w-full"[39m
+          [33mstyle[39m=[32m"aspect-ratio: 1 / 1; max-width: 360px;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-label[39m=[32m"Sunburst chart of 学习内容"[39m
+            [33mrole[39m=[32m"img"[39m
+            [33mstyle[39m=[32m"display: block; overflow: visible; opacity: 0;"[39m
+            [33mviewBox[39m=[32m"-180 -180 360 360"[39m
+            [33mwidth[39m=[32m"100%"[39m
+          [36m>[39m
+            [36m<g[39m
+              [33mopacity[39m=[32m"1"[39m
+              [33mstyle[39m=[32m"cursor: default; transform-origin: 50% 50%; transform: scale(0); transform-box: fill-box;"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"transparent"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"var(--chart-3)"[39m
+                [33mfill-opacity[39m=[32m"0.85"[39m
+                [33mpointer-events[39m=[32m"none"[39m
+                [33mstroke[39m=[32m"var(--chart-background)"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"1"[39m
+              [36m/>[39m
+            [36m</g>[39m
+            [36m<g[39m
+              [33mopacity[39m=[32m"1"[39m
+              [33mstyle[39m=[32m"cursor: default; transform-origin: 50% 50%; transform: scale(0); transform-box: fill-box;"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"transparent"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"var(--chart-3)"[39m
+                [33mfill-opacity[39m=[32m"0.85"[39m
+                [33mpointer-events[39m=[32m"none"[39m
+                [33mstroke[39m=[32m"var(--chart-background)"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"1"[39m
+              [36m/>[39m
+            [36m</g>[39m
+            [36m<g[39m
+              [33mopacity[39m=[32m"1"[39m
+              [33mstyle[39m=[32m"cursor: default; transform-origin: 50% 50%; transform: scale(0); transform-box: fill-box;"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"transparent"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"var(--chart-3)"[39m
+                [33mfill-opacity[39m=[32m"0.85"[39m
+                [33mpointer-events[39m=[32m"none"[39m
+                [33mstroke[39m=[32m"var(--chart-background)"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"1"[39m
+              [36m/>[39m
+            [36m</g>[39m
+            [36m<g[39m
+              [33mopacity[39m=[32m"1"[39m
+              [33mstyle[39m=[32m"cursor: default; transform-origin: 50% 50%; transform: scale(0); transform-box: fill-box;"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"transparent"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"var(--chart-2)"[39m
+                [33mfill-opacity[39m=[32m"0.85"[39m
+                [33mpointer-events[39m=[32m"none"[39m
+                [33mstroke[39m=[32m"var(--chart-background)"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"1"[39m
+              [36m/>[39m
+            [36m</g>[39m
+            [36m<g[39m
+              [33mopacity[39m=[32m"1"[39m
+              [33mstyle[39m=[32m"cursor: default; transform-origin: 50% 50%; transform: scale(0); transform-box: fill-box;"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"transparent"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"var(--chart-2)"[39m
+                [33mfill-opacity[39m=[32m"0.85"[39m
+                [33mpointer-events[39m=[32m"none"[39m
+                [33mstroke[39m=[32m"var(--chart-background)"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"1"[39m
+              [36m/>[39m
+            [36m</g>[39m
+            [36m<g[39m
+              [33mopacity[39m=[32m"1"[39m
+              [33mstyle[39m=[32m"cursor: default; transform-origin: 50% 50%; transform: scale(0); transform-box: fill-box;"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"transparent"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"var(--chart-2)"[39m
+                [33mfill-opacity[39m=[32m"0.85"[39m
+                [33mpointer-events[39m=[32m"none"[39m
+                [33mstroke[39m=[32m"var(--chart-background)"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"1"[39m
+              [36m/>[39m
+            [36m</g>[39m
+            [36m<g[39m
+              [33mopacity[39m=[32m"1"[39m
+              [33mstyle[39m=[32m"cursor: default; transform-origin: 50% 50%; transform: scale(0); transform-box: fill-box;"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"transparent"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m""[39m
+                [33mfill[39m=[32m"var(--chart-1)"[39m
+                [33mfill-opacity[39m=[32m"0.85"[39m
+                [33mpointer-events[39m=[32m"none"[39m
+  ...
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/chart-examples.test.tsx:60:22
+     58| test("sunburst keyboard drill and return restore focus, retain valid f…
+     59|   const view = render(<ChartExample id="sunburst" reduced />);
+     60|   const drill = view.getByRole("button", { name: "查看基础课程" });
+       |                      ^
+     61|   drill.focus(); fireEvent.click(drill, { detail: 0 });
+     62|   const back = view.getByRole("link", { name: "返回学习内容" });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-examples.test.tsx > the long sunburst supplies a real extra drill level with conserved totals
+AssertionError: Target cannot be null or undefined.
+ ❯ apps/playground/src/docs/components/chart-examples.test.tsx:84:53
+     82| test("the long sunburst supplies a real extra drill level with conserv…
+     83|   const normal = makeHierarchy(), long = makeHierarchy(0, "long");
+     84|   expect(long.children![0]!.children![0]!.children).toHaveLength(2);
+       |                                                     ^
+     85|   expect(hierarchyLeaves(long).reduce((sum, leaf) => sum + leaf.value,…
+     86| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 failed (9)
+   Start at  22:56:45
+   Duration  2.59s (transform 1.18s, setup 95ms, import 1.88s, tests 164ms, environment 359ms)
+

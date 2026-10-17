@@ -1,0 +1,161 @@
+{
+  "config": {
+    "argv": [
+      "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/.pnpm/@playwright+test@1.62.1/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "tests/e2e/date-time-optimization.config.ts"
+    ],
+    "configFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/date-time-optimization.config.ts",
+    "rootDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/date-time-optimization-2026-10-12/browser/css-zoom-stress/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "css-zoom-stress390",
+        "name": "css-zoom-stress390",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "date-time-optimization.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/date-time-optimization-2026-10-12/browser//css-zoom-stress/report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "date-time-optimization.spec.ts",
+      "file": "date-time-optimization.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "D16 additional CSS zoom stress at 390px keeps all content reachable",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "css-zoom-stress390",
+              "projectName": "css-zoom-stress390",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5936,
+                  "error": {
+                    "message": "Error: the complete panel stays within the viewport after layout settles\n\nthe complete panel stays within the viewport after layout settles\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m1\u001b[39m\nReceived:    \u001b[31m978\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+                    "stack": "Error: the complete panel stays within the viewport after layout settles\n\nthe complete panel stays within the viewport after layout settles\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m1\u001b[39m\nReceived:    \u001b[31m978\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at assertPanelGeometry (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/date-time-optimization.spec.ts:41:88)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/date-time-optimization.spec.ts:348:9",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/date-time-optimization.spec.ts",
+                      "column": 88,
+                      "line": 41
+                    },
+                    "snippet": "  39 |     const bounds = await popup.boundingBox(), viewport = page.viewportSize()!;\n  40 |     return Math.max(-bounds!.x, -bounds!.y, bounds!.x + bounds!.width - viewport.width, bounds!.y + bounds!.height - viewport.height);\n> 41 |   }, { message: \"the complete panel stays within the viewport after layout settles\" }).toBeLessThanOrEqual(1);\n     |                                                                                        ^\n  42 |   const sheet = await popup.evaluate(node => node.classList.contains(\"rain-date-picker__sheet\"));\n  43 |   const content = popup.locator(sheet ? \".rain-sheet-body\" : \".rain-date-picker__body\");\n  44 |   const actions = popup.locator('[data-slot=\"actions\"]');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/date-time-optimization.spec.ts",
+                        "column": 88,
+                        "line": 41
+                      },
+                      "message": "Error: the complete panel stays within the viewport after layout settles\n\nthe complete panel stays within the viewport after layout settles\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m1\u001b[39m\nReceived:    \u001b[31m978\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  39 |     const bounds = await popup.boundingBox(), viewport = page.viewportSize()!;\n  40 |     return Math.max(-bounds!.x, -bounds!.y, bounds!.x + bounds!.width - viewport.width, bounds!.y + bounds!.height - viewport.height);\n> 41 |   }, { message: \"the complete panel stays within the viewport after layout settles\" }).toBeLessThanOrEqual(1);\n     |                                                                                        ^\n  42 |   const sheet = await popup.evaluate(node => node.classList.contains(\"rain-date-picker__sheet\"));\n  43 |   const content = popup.locator(sheet ? \".rain-sheet-body\" : \".rain-date-picker__body\");\n  44 |   const actions = popup.locator('[data-slot=\"actions\"]');\n    at assertPanelGeometry (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/date-time-optimization.spec.ts:41:88)\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/date-time-optimization.spec.ts:348:9"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T07:11:45.090Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/date-time-optimization-2026-10-12/browser/css-zoom-stress/results/date-time-optimization-D16-17f8a-keeps-all-content-reachable-css-zoom-stress390/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/date-time-optimization-2026-10-12/browser/css-zoom-stress/results/date-time-optimization-D16-17f8a-keeps-all-content-reachable-css-zoom-stress390/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/date-time-optimization-2026-10-12/browser/css-zoom-stress/results/date-time-optimization-D16-17f8a-keeps-all-content-reachable-css-zoom-stress390/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/date-time-optimization.spec.ts",
+                    "column": 88,
+                    "line": 41
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "682184f6ef59f6c231ff-ff2d7dd990160304a21a",
+          "file": "date-time-optimization.spec.ts",
+          "line": 340,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-12T07:11:44.826Z",
+    "duration": 6449.035,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

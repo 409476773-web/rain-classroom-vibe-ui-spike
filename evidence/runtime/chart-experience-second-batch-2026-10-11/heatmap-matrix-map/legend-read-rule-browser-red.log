@@ -1,0 +1,55 @@
+
+Running 1 test using 1 worker
+
+(node:23211) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 1440px reduce: actual default calendar reads missing, zero and current update values through pointer and keyboard (7.5s)
+
+
+  1) tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 1440px reduce: actual default calendar reads missing, zero and current update values through pointer and keyboard 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 4
+    + Received  + 4
+
+      Array [
+    -   0.3,
+    -   0.3,
+        1,
+    -   0.3,
+    -   0.3,
+    +   1,
+    +   1,
+    +   1,
+    +   1,
+      ]
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      94 |       await expect(tooltip).toHaveCount(0);
+      95 |       await level.click();
+    > 96 |       await expect.poll(() => host.getByRole("button", { name: /^等级 / }).evaluateAll(nodes => nodes.map(node => Number(getComputedStyle(node).opacity)))).toEqual([.3, .3, 1, .3, .3]);
+         |                                                                                                                                                           ^
+      97 |       facts.escapeThenClick = { readLevel: 2, temporary: true };
+      98 |       facts.levelActions = [];
+      99 |       for (const action of ["Enter", "Space", "click"] as const) {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-second-batch-heatmap-map.spec.ts:96:155
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/legend-read-rule-red/test-results/chart-second-batch-heatmap-4db1f-hrough-pointer-and-keyboard/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/legend-read-rule-red/test-results/chart-second-batch-heatmap-4db1f-hrough-pointer-and-keyboard/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/legend-read-rule-red/test-results/chart-second-batch-heatmap-4db1f-hrough-pointer-and-keyboard/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/legend-read-rule-red/test-results/chart-second-batch-heatmap-4db1f-hrough-pointer-and-keyboard/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 1440px reduce: actual default calendar reads missing, zero and current update values through pointer and keyboard 

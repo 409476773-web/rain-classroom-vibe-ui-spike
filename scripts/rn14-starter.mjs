@@ -62,10 +62,11 @@ export function exportStarter(destination, { milestone = "M1" } = {}) {
   /** @type {Record<string, string>} */
   const exportedFiles = {};
   const entries = ["pnpm-lock.yaml", "pnpm-workspace.yaml", "tsconfig.base.json", "apps/prototype/package.json", "apps/prototype/tsconfig.json", "apps/prototype/vite.config.ts", "apps/prototype/index.html", "apps/prototype/src/styles.css", "apps/prototype/src/data-table-recipe.tsx", "apps/prototype/src/data-table-recipe.css"];
-  entries.push("docs/ai/prototype-design.md", "docs/ai/form-composition.md",
+  entries.push(...filesIn(join(root, ".agents/skills/rain-designer")).map(path => relative(root, path)));
+  entries.push("docs/ai/prototype-design.md", "docs/ai/information-design.md", "docs/ai/form-composition.md", "docs/ai/g4-components.md", "docs/ai/g6-components.md", "manifests/recipes/data-table.yaml", "manifests/recipes/conversation-composer.yaml", "manifests/recipes/attachment-workflow.yaml",
     "evidence/runtime/design-knowledge/form-desktop.png", "evidence/runtime/design-knowledge/form-narrow.png",
     "evidence/runtime/bm-b-rn10/section-surfaces-2026-09-15.md", "evidence/runtime/bm-b-rn10/header-hint-2026-09-15.md");
-  for (const name of ["tabs", "radio-group", "checkable-tag-group", "select", "input", "search-input", "button", "dropdown-menu", "icon-button", "form-item", "dialog", "alert-dialog", "textarea"]) entries.push(`manifests/ui/${name}.yaml`);
+  for (const name of ["tabs", "radio-group", "checkable-tag-group", "select", "input", "search-input", "button", "dropdown-menu", "icon-button", "form-item", "dialog", "alert-dialog", "textarea", "typography", "item", "progress", "aspect-ratio", "attachment", "direction", "drawer", "input-otp", "carousel", "bubble", "marker", "message", "message-scroller", "questionnaire"]) entries.push(`manifests/ui/${name}.yaml`);
   for (const name of ["foundations", "ui", "layouts"]) {
     entries.push(`packages/${name}/package.json`, `packages/${name}/tsconfig.json`);
     entries.push(...filesIn(join(root, `packages/${name}/src`)).map(path => relative(root, path)));
@@ -78,8 +79,87 @@ export function exportStarter(destination, { milestone = "M1" } = {}) {
     const bytes = readFileSync(join(root, file));
     sourceFiles[file] = sha(bytes);
     mkdirSync(dirname(join(output, file)), { recursive: true });
-    writeFileSync(join(output, file), bytes);
-    exportedFiles[file] = sha(bytes);
+    // M1/M2 keep their existing scene entry points; navigation has a dedicated delivery package.
+    const navigationCase = "当前导航E1–E6已在2026-10-05获得运行视觉、本地AI消费与实例隔离审阅确认，见[消费合同](navigation-v042-w6.md)及[决定范围](../../evidence/runtime/navigation-v042/g3-acceptance-review02/acceptance.json)。这是可参考的本地组合案例，候选仍未发布，完整质量门单列。";
+    const guide = file === "docs/ai/prototype-design.md" ? bytes.toString("utf8") : null;
+    if (guide?.includes("navigation-v042-w6.md") && guide.split(navigationCase).length !== 2) throw new Error("Starter navigation guidance differs from its single recorded paragraph");
+    let exported = guide?.includes(navigationCase) ? Buffer.from(guide.replace(navigationCase,
+      "导航工作包的消费指南与验收材料在专用导航交付包中；当前 M1/M2 Starter 仅开放对应业务场景，以下组合经验可作为参考。")) : bytes;
+    if (file === "docs/ai/prototype-design.md") {
+      const original = "使用 [G6 组件指南](./g6-components.md) 和 Registry/Manifest";
+      if (exported.toString("utf8").split(original).length !== 2) throw new Error("Starter G6 guidance changed");
+      exported = Buffer.from(exported.toString("utf8").replace(original, "使用本包附带的 [G6 组件指南](./g6-components.md) 和对应 Manifest，按 sourcePath、随包组件 README 与 package.json/pnpm-lock.yaml 核对当前可用能力"));
+    }
+    if (file === "docs/ai/g6-components.md") {
+      let text = bytes.toString("utf8");
+      for (const [original, portable] of [
+  [
+    "依赖与源码见 `registry/g6-assets.json`。",
+    "源码与依赖按本包各 Manifest 的 sourcePath、随包组件 README、packages/ui/package.json、apps/prototype/package.json 及 pnpm-lock.yaml 核对。`registry/g6-assets.json` 是原工作区追溯材料，本 Starter 未附带。"
+  ],
+  [
+    "Registry每项列出真实来源、Parts、依赖与可获取文件，Manifest不得省略；",
+    "本 Starter 附带12个对应 Manifest、组件源码与 README；按 Manifest 的 sourcePath 定位实现，并按随包 package.json 和 pnpm-lock.yaml 核对依赖。Registry 独立消费及其下游来源闭包未随本包提供；"
+  ],
+  [
+    "Message、Scroller和Questionnaire完整可运行组合见三组独立Playground页面和本轮独立消费夹具。",
+    "Message、Scroller和Questionnaire的三组 Playground 页面、原独立消费夹具及 Manifest 中的 sourceEvidence/examples 是原工作区追溯材料，本 Starter 未附带，不能声称已读取或验证。随包组件 README 可供核对 API 与组合说明。"
+  ],
+  [
+    "Default、局改和未改兄弟需要在实际任务中检查；来源、逐项差额与验证范围见本轮 `source-differences.md`、各组件README、`verification.md`。",
+    "Default、局改和未改兄弟需要在实际任务中检查；各组件 README 已随包附带。`source-differences.md`、`verification.md` 及来源证据是原工作区追溯材料，本 Starter 未附带，不能将其视为本包已完成验证。"
+  ],
+  [
+    "源码包消费的TypeScript采用Bundler模块解析、react-jsx、allowImportingTsExtensions及noEmit；本地未发布的Rain包通过tarball与精确override统一为单一Foundations实例，不能向npm请求私有0.0.0包。独立消费夹具记录安装及构建日志。",
+    "本 Starter 使用 workspace 结构，安装、类型检查与构建按[本库接入说明](prototype-design.md)执行。原工作区的 tarball/精确 override 独立消费夹具及其安装构建日志未随本包附带，不能用该方式替换本包 workspace 锁，也不要向 npm 请求私有0.0.0包。"
+  ]
+]) {
+        if (text.split(original).length !== 2) throw new Error("Starter G6 consumer reference changed");
+        text = text.replace(original, portable);
+      }
+      exported = Buffer.from(text);
+    }
+    if (["docs/ai/information-design.md", "docs/ai/g4-components.md", "docs/ai/m2-trial-guide.md"].includes(file)) {
+      let text = bytes.toString("utf8");
+      // These optional case traces live in their own work packages; keep the methods readable here.
+      const traces = file === "docs/ai/information-design.md" ? [
+        "[Breadcrumb验证记录](../../evidence/runtime/breadcrumb/verification.md)",
+        "[导航使用指南](navigation-v042.md#g1-人工视觉验收--2026-10-01)",
+        "[Tree实施规则与审核记录](../plans/2026-09-25-tree-implementation-rules.md)",
+        "[导航review-04与review-07及验收范围](navigation-v042.md#g1-人工视觉验收--2026-10-01)",
+        "[独立消费合同](navigation-v042-w6.md)",
+        "[当前人工决定](../../evidence/runtime/navigation-v042/g3-acceptance-review02/acceptance.json)",
+        "[网络体验记录](../../evidence/runtime/chart-network-experience-2026-10-10/verification.md)",
+        "[P3反馈记录](../../evidence/runtime/chart-business-expansion/p3/feedback-2026-10-09/verification.md)",
+        "[确认台账](../../evidence/runtime/chart-experience-second-batch-2026-10-11/human-review.md)",
+        "[逐图规则](chart-legend-rules.md)",
+      ] : file === "docs/ai/g4-components.md" ? [
+        "[视觉反馈记录](../../evidence/runtime/g4-visual-refinement-2026-10-11/verification.md)",
+        "[字号与图标反馈记录](../../evidence/runtime/g4-review-sizing-2026-10-11/verification.md)",
+        "[来源锁](../../evidence/runtime/g4-components-2026-10-11/source-lock.json)",
+        "[本轮记录](../../evidence/runtime/g4-components-2026-10-11/verification.md)",
+        "[页面验收记录](../../evidence/runtime/g4-pages-acceptance-2026-10-12/verification.md)",
+      ] : [
+        "[修订证据](../../evidence/runtime/generation-quality/bm-c-feedback/review.md)",
+        "[本轮证据](../../evidence/runtime/generation-quality/bm-c-composition/review.md)",
+        "[本轮记录](../../evidence/runtime/generation-quality/composition-refinement/review.md)",
+        "[本轮证据](../../evidence/runtime/generation-quality/bm-c-primary-workflow/review.md)",
+        "[本轮证据](../../evidence/runtime/generation-quality/bm-c-directory-detail/review.md)",
+        "[本轮证据](../../evidence/runtime/generation-quality/bm-c-question-switch/review.md)",
+      ];
+      for (const link of traces) {
+        if (text.split(link).length !== 2) throw new Error(`Starter optional case trace changed: ${link}`);
+        text = text.replace(link, link.slice(1, link.indexOf("]")) + "（原工作区追溯材料；本 Starter 未附带）");
+      }
+      exported = Buffer.from(text);
+    }
+    if (file === "docs/ai/g6-components.md" || file === "packages/ui/src/conversation-composer/README.md") {
+      // These current API guides are portable; their original review logs stay in the owning workspace.
+      exported = Buffer.from(exported.toString("utf8").replace(/\[([^\]]+)\]\(((?:\.\.\/)+(?:evidence\/runtime|docs\/plans)\/[^)]+)\)/g,
+        (_link, label) => `${label}（原工作区追溯材料；本 Starter 未附带）`));
+    }
+    writeFileSync(join(output, file), exported);
+    exportedFiles[file] = sha(exported);
   }
   const manifest = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
   manifest.name = "@rain-next/rn14-local-starter";
@@ -88,7 +168,7 @@ export function exportStarter(destination, { milestone = "M1" } = {}) {
     .replace('import { TextbookFormScenario } from "./scenarios/bm-b/page";', 'import { TextbookFormScenario } from "./scenarios/bm-b/page";\nimport { GradingWorkbenchScenario } from "./scenarios/bm-c/page";\nimport { LearningReportScenario } from "./scenarios/bm-d/page";')
     .replace('  const form = route === "#bm-b";', '  if (route === "#bm-c") return <DensityProvider density="default"><GradingWorkbenchScenario /></DensityProvider>;\n  if (route === "#bm-d") return <DensityProvider density="default"><LearningReportScenario /></DensityProvider>;\n  const form = route === "#bm-b";')
     .replace('<Inline gap={16} align="center"><Button', '<Inline gap={16} align="center"><Button variant="secondary" onClick={() => { location.hash = "bm-c"; }}>作业批改</Button><Button variant="secondary" onClick={() => { location.hash = "bm-d"; }}>学习报告</Button><Button') : main;
-  const instructions = "# Rain Next 本地原型\n\n生成或修改页面前，先读 [原型设计指南](docs/ai/prototype-design.md)，再按任务读取组合、参考图和组件合同；按指南保存设计依据、首稿和实际检查。\n\n默认 Prototype Mode：共享 packages 与锁文件保持只读，优先已有 Variant、页面 Local Recipe、Local Fork。业务状态由页面持有；不扩大旧视觉接受，不自动发布、迁移、写入 Figma 或执行 Git 操作。用户的新任务指令优先。\n";
+  const instructions = "# Rain Next 本地原型\n\n生成、优化或评审原型界面时，使用 [Rain Designer](.agents/skills/rain-designer/SKILL.md)，并读取 [本库接入说明](docs/ai/prototype-design.md)。先理解当前任务和信息关系，再核对和复用合适能力；历史整页不作为默认模板，示例仅在明确要求参考/还原或核实具体用法时读取。设计方法在 Skill 中维护，品牌、组件 API、真实导出与实现边界按本库说明查找；已读内容可复用，不循环启动。记录依据、选择原因、实际检查与未验证项，局部参数不升级为全库规则，AI 自查不替代用户验收。\n\n默认 Prototype Mode：共享 packages 与锁文件保持只读，优先已有 Variant、页面 Local Recipe、Local Fork。业务状态由页面持有；不扩大旧视觉接受，不自动发布、迁移、写入 Figma 或执行 Git 操作。用户的新任务指令优先。\n";
   sourceFiles["scripts/rn14-starter.mjs"] = sha(readFileSync(join(root, "scripts/rn14-starter.mjs")));
   for (const [file, content] of Object.entries({ "package.json": json(manifest), "apps/prototype/src/main.tsx": entry, "AGENTS.md": instructions })) {
     sourceFiles[file] = sha(readFileSync(join(root, file)));

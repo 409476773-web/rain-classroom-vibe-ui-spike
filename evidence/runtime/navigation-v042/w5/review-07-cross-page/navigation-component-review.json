@@ -1,0 +1,52 @@
+{
+  "recordedAt": "2026-10-03T05:56:57.250Z",
+  "scope": "NavigationList shared candidate icon part and disabled-hover style; no props, selection logic, public Token, A1Tabs/A4 source or ObjectNavigator changes",
+  "sourceSha256": {
+    "packages/ui/src/navigation/navigation-families.css": "16a0f032e48195ff62aab11d127c98de170eb982209d594bb4ac4aeb084ae64e",
+    "packages/ui/src/navigation/navigation-families.tsx": "d4f37feb15552b975412042a4f0b979c66c99d88b660b4944c99cf89d2b0ef21",
+    "packages/ui/src/navigation/navigation-families.test.tsx": "3b990c28d0022610d6da033c3ae16a0e07e03a9387f96d29b0f24782c2a05153"
+  },
+  "fixes": [
+    {
+      "id": "actual-rain-icon-size",
+      "before": "10 of 12 platform recipes: compact 12px versus expanded 14px; actual Rain icon is span mask missed by leading > svg style.",
+      "after": "Official Rain icons fixed to existing --rain-space-18 within NavigationList; R2 uses Sidebar with unchanged15, S5 host explicitly20 unchanged.24 combinations preserve icon geometry within each page."
+    },
+    {
+      "id": "disabled-hover",
+      "before": "Disabled destination row showed the enabled hover background.",
+      "after": "NavigationList hover excludes data-disabled=true; native disabled-link current/href/tabindex and modified activation contract untouched."
+    }
+  ],
+  "checks": {
+    "familyUnit": {
+      "passed": 10,
+      "log": "evidence/runtime/navigation-v042/w5/review-07-cross-page/navigation-families-unit.log"
+    },
+    "platformGeometry": {
+      "combinations": 24,
+      "menuIcons": 96,
+      "pageErrors": 0,
+      "phase": "shared icon fix; recipe colors interim",
+      "facts": "evidence/runtime/navigation-v042/w5/review-07-cross-page/navigation-icons-after/measurements.json"
+    },
+    "w3Browser": {
+      "passed": 6,
+      "failed": 1,
+      "failure": "R3 grid old direct-child button selector after another source owner revised file-grid anatomy; awaiting updated runtime check",
+      "log": "evidence/runtime/navigation-v042/w5/review-07-cross-page/w3-families-browser.log"
+    },
+    "gallery": {
+      "combinations": 24,
+      "pageErrors": 0,
+      "nestedControls": 0,
+      "facts": "evidence/runtime/navigation-v042/w5/review-07-cross-page/gallery-audit/facts.json",
+      "log": "evidence/runtime/navigation-v042/w5/review-07-cross-page/gallery-audit-02.log"
+    }
+  },
+  "remaining": [
+    "Final platform recipe color measurements await root Token mapping source freeze.",
+    "A2/A5 hidden portrait Avatar use and A4/Connections blank unmatched-search feedback reported to parent; outside this source owner.",
+    "Human G2, broad accessibility/contrast/assistive technology and W6-W8 remain separate."
+  ]
+}

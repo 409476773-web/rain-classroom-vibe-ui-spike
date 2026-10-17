@@ -1,0 +1,1621 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/drawer/drawer-body.test.tsx (1 test | 1 failed) 3ms
+   × exports a native scrolling Body with forwarded ref and events 3ms
+ ❯ apps/playground/src/docs/components/g6-task-drawer.test.tsx (5 tests | 5 failed) 1671ms
+   × shows two native value choices and previews the draft in the same dialog 305ms
+   × protects cancellation and returns safe confirmation focus to its invoker 132ms
+   × opens the same discard decision for Escape and the header close 1088ms
+   × validates an empty title before saving and focuses the related control 89ms
+   × keeps a failed draft, blocks pending exits and retries the latest submitted values 56ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/drawer/drawer-body.test.tsx > exports a native scrolling Body with forwarded ref and events
+AssertionError: expected { Drawer: [Function Drawer], …(10), …(1) } to have property "DrawerBody"
+ ❯ packages/ui/src/drawer/drawer-body.test.tsx:7:17
+      5|
+      6| it("exports a native scrolling Body with forwarded ref and events", ()…
+      7|   expect(parts).toHaveProperty("DrawerBody");
+       |                 ^
+      8|   const Body = (parts as typeof parts & { DrawerBody: import("react").…
+      9|   const ref = createRef<HTMLDivElement>(), onScroll = vi.fn();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  apps/playground/src/docs/components/g6-task-drawer.test.tsx > shows two native value choices and previews the draft in the same dialog
+TestingLibraryElementError: Unable to find an accessible element with the role "radio" and name "小组讨论"
+
+Here are the accessible roles:
+
+  presentation:
+
+  Name "":
+  [36m<div[39m
+    [33mclass[39m=[32m"rain-drawer__viewport"[39m
+    [33mdata-modal[39m=[32m"true"[39m
+    [33mdata-open[39m=[32m""[39m
+    [33mdata-slot[39m=[32m"drawer-viewport"[39m
+    [33mdir[39m=[32m"ltr"[39m
+    [33mrole[39m=[32m"presentation"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  dialog:
+
+  Name "编辑课前任务":
+  [36m<div[39m
+    [33maria-describedby[39m=[32m"base-ui-_r_h_"[39m
+    [33maria-labelledby[39m=[32m"base-ui-_r_g_"[39m
+    [33mclass[39m=[32m"rain-drawer__popup g6-task-drawer"[39m
+    [33mdata-base-ui-focusable[39m=[32m""[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-open[39m=[32m""[39m
+    [33mdata-rain-id[39m=[32m"ui-drawer"[39m
+    [33mdata-rain-theme[39m=[32m"light"[39m
+    [33mdata-slot[39m=[32m"drawer-popup"[39m
+    [33mdata-snap-points[39m=[32m""[39m
+    [33mdata-swipe-axis[39m=[32m"y"[39m
+    [33mdata-swipe-direction[39m=[32m"down"[39m
+    [33mdir[39m=[32m"ltr"[39m
+    [33mid[39m=[32m"_r_1_"[39m
+    [33mrole[39m=[32m"dialog"[39m
+    [33mstyle[39m=[32m"--drawer-swipe-movement-x: 0px; --drawer-swipe-movement-y: 0px; --drawer-swipe-progress: 0; --nested-drawers: 0; --drawer-snap-point-offset: 0px; --drawer-swipe-strength: 1; --rain-density-control-height: 36px; --rain-density-control-padding-inline: 14px; --rain-density-item-gap: 10px;"[39m
+    [33mtabindex[39m=[32m"-1"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "编辑课前任务":
+  [36m<h2[39m
+    [33mclass[39m=[32m"rain-drawer__title"[39m
+    [33mdata-slot[39m=[32m"drawer-title"[39m
+    [33mid[39m=[32m"base-ui-_r_g_"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"rain-drawer__description"[39m
+    [33mdata-slot[39m=[32m"drawer-description"[39m
+    [33mid[39m=[32m"base-ui-_r_h_"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p />[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "半屏编辑":
+  [36m<button[39m
+    [33maria-pressed[39m=[32m"true"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"small"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "展开编辑":
+  [36m<button[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"small"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "完成方式：个人记录":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"menu"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-secondary-text bg-rain-button-secondary border-rain-button-secondary-border hover:bg-rain-button-secondary-hover active:bg-rain-button-secondary-pressed active:border-rain-button-strong-brand-border"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"medium"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"secondary"[39m
+    [33mid[39m=[32m"base-ui-_r_o_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "查看学生任务预览":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-regular-height text-rain-button-text-regular text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-base-ui-click-trigger[39m=[32m""[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"regular"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mid[39m=[32m"base-ui-_r_r_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "取消修改":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-secondary-text bg-rain-button-secondary border-rain-button-secondary-border hover:bg-rain-button-secondary-hover active:bg-rain-button-secondary-pressed active:border-rain-button-strong-brand-border"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"medium"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"secondary"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "关闭编辑":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-regular-height text-rain-button-text-regular text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"regular"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "保存草稿":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:shadow-rain-button-focus-primary h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-on-color-foreground bg-rain-button-primary border-rain-action-ghost hover:bg-rain-button-primary-hover active:bg-rain-button-primary-pressed active:border-rain-button-strong-brand-border"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"medium"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"primary"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "任务标题":
+  [36m<input[39m
+    [33maria-labelledby[39m=[32m"rain-field-_r_i_-label"[39m
+    [33mclass[39m=[32m"rain-input__control min-w-0 w-full flex-1 border-none bg-transparent p-rain-0 text-inherit outline-none placeholder:text-rain-category-text-neutral-5 disabled:cursor-not-allowed disabled:placeholder:text-rain-category-text-neutral-6"[39m
+    [33mdata-slot[39m=[32m"control"[39m
+    [33mid[39m=[32m"rain-field-_r_i_"[39m
+    [33mname[39m=[32m"taskTitle"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"保留在预览中的草稿"[39m
+  [36m/>[39m
+
+  Name "任务要求":
+  [36m<textarea[39m
+    [33maria-describedby[39m=[32m"rain-field-_r_k_-help"[39m
+    [33maria-labelledby[39m=[32m"rain-field-_r_k_-label"[39m
+    [33mclass[39m=[32m"rain-input__control min-w-0 w-full flex-1 border-none bg-transparent p-rain-0 text-inherit outline-none placeholder:text-rain-category-text-neutral-5 disabled:cursor-not-allowed disabled:placeholder:text-rain-category-text-neutral-6 block min-h-0 resize-none px-rain-12 py-rain-8"[39m
+    [33mdata-slot[39m=[32m"control"[39m
+    [33mid[39m=[32m"rain-field-_r_k_"[39m
+    [33mname[39m=[32m"taskInstructions"[39m
+    [33mrows[39m=[32m"5"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  strong:
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m"position: relative; height: calc(100dvh - 768px); width: calc(100vw - 1024px); box-sizing: border-box; overflow-y: hidden; overflow-x: hidden; scroll-behavior: unset;"[39m
+[36m>[39m
+  [36m<div[39m
+    [33maria-hidden[39m=[32m"true"[39m
+    [33mdata-base-ui-inert[39m=[32m""[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mdata-density[39m=[32m"default"[39m
+      [33mdata-rain-id[39m=[32m"foundation-density-context"[39m
+      [33mdata-slot[39m=[32m"density-context"[39m
+      [33mstyle[39m=[32m"--rain-density-control-height: 36px; --rain-density-control-padding-inline: 14px; --rain-density-item-gap: 10px;"[39m
+    [36m>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"component-doc core-ui-shell"[39m
+        [33mdata-asset-identity[39m=[32m"local-experiment"[39m
+        [33mdata-rain-id[39m=[32m"doc-drawer"[39m
+        [33mdata-rain-theme[39m=[32m"light"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"component-doc__header"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"rain-link"[39m
+            [33mdata-density[39m=[32m"default"[39m
+            [33mdata-focus[39m=[32m"item"[39m
+            [33mdata-rain-id[39m=[32m"ui-link"[39m
+            [33mdata-slot[39m=[32m"root"[39m
+            [33mdata-state[39m=[32m"default"[39m
+            [33mdata-variant[39m=[32m"standalone"[39m
+            [33mhref[39m=[32m"#components"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mdata-slot[39m=[32m"label"[39m
+            [36m>[39m
+              [0m返回组件目录[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"component-doc__title"[39m
+          [36m>[39m
+            [36m<h1[39m
+              [33mid[39m=[32m"drawer-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0mDrawer 拖动抽屉[0m
+            [36m</h1>[39m
+            [36m<span>[39m
+              [0mUI[0m
+              [0m · [0m
+              [0m共享候选 · 尚未发布[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m保留课程上下文，处理一段短任务；滑动、分段高度和退出保护保持真实可操作。[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33maria-label[39m=[32m"预览设置"[39m
+            [33mclass[39m=[32m"component-doc__settings"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"true"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-brand bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"brand"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-brand"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m浅色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"default"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-default"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m深色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block ga...
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/g6-task-drawer.test.tsx:16:27
+     14|   const { user, field } = await openTask();
+     15|   await user.clear(field); await user.type(field, "保留在预览中的草稿");
+     16|   await user.click(screen.getByRole("radio", { name: "小组讨论" }));
+       |                           ^
+     17|   await user.click(screen.getByRole("button", { name: "预览任务" }));
+     18|   expect(screen.getAllByRole("dialog")).toHaveLength(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  apps/playground/src/docs/components/g6-task-drawer.test.tsx > protects cancellation and returns safe confirmation focus to its invoker
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "取消"
+
+Here are the accessible roles:
+
+  presentation:
+
+  Name "":
+  [36m<div[39m
+    [33mclass[39m=[32m"rain-drawer__viewport"[39m
+    [33mdata-modal[39m=[32m"true"[39m
+    [33mdata-open[39m=[32m""[39m
+    [33mdata-slot[39m=[32m"drawer-viewport"[39m
+    [33mdir[39m=[32m"ltr"[39m
+    [33mrole[39m=[32m"presentation"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  dialog:
+
+  Name "编辑课前任务":
+  [36m<div[39m
+    [33maria-describedby[39m=[32m"base-ui-_r_1d_"[39m
+    [33maria-labelledby[39m=[32m"base-ui-_r_1c_"[39m
+    [33mclass[39m=[32m"rain-drawer__popup g6-task-drawer"[39m
+    [33mdata-base-ui-focusable[39m=[32m""[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-open[39m=[32m""[39m
+    [33mdata-rain-id[39m=[32m"ui-drawer"[39m
+    [33mdata-rain-theme[39m=[32m"light"[39m
+    [33mdata-slot[39m=[32m"drawer-popup"[39m
+    [33mdata-snap-points[39m=[32m""[39m
+    [33mdata-swipe-axis[39m=[32m"y"[39m
+    [33mdata-swipe-direction[39m=[32m"down"[39m
+    [33mdir[39m=[32m"ltr"[39m
+    [33mid[39m=[32m"_r_t_"[39m
+    [33mrole[39m=[32m"dialog"[39m
+    [33mstyle[39m=[32m"--drawer-swipe-movement-x: 0px; --drawer-swipe-movement-y: 0px; --drawer-swipe-progress: 0; --nested-drawers: 0; --drawer-snap-point-offset: 0px; --drawer-swipe-strength: 1; --rain-density-control-height: 36px; --rain-density-control-padding-inline: 14px; --rain-density-item-gap: 10px;"[39m
+    [33mtabindex[39m=[32m"-1"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "编辑课前任务":
+  [36m<h2[39m
+    [33mclass[39m=[32m"rain-drawer__title"[39m
+    [33mdata-slot[39m=[32m"drawer-title"[39m
+    [33mid[39m=[32m"base-ui-_r_1c_"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"rain-drawer__description"[39m
+    [33mdata-slot[39m=[32m"drawer-description"[39m
+    [33mid[39m=[32m"base-ui-_r_1d_"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p />[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "半屏编辑":
+  [36m<button[39m
+    [33maria-pressed[39m=[32m"true"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"small"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "展开编辑":
+  [36m<button[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"small"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "完成方式：个人记录":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"menu"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-secondary-text bg-rain-button-secondary border-rain-button-secondary-border hover:bg-rain-button-secondary-hover active:bg-rain-button-secondary-pressed active:border-rain-button-strong-brand-border"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"medium"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"secondary"[39m
+    [33mid[39m=[32m"base-ui-_r_1k_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "查看学生任务预览":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-regular-height text-rain-button-text-regular text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-base-ui-click-trigger[39m=[32m""[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"regular"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mid[39m=[32m"base-ui-_r_1n_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "取消修改":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-secondary-text bg-rain-button-secondary border-rain-button-secondary-border hover:bg-rain-button-secondary-hover active:bg-rain-button-secondary-pressed active:border-rain-button-strong-brand-border"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"medium"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"secondary"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "关闭编辑":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-regular-height text-rain-button-text-regular text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"regular"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "保存草稿":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:shadow-rain-button-focus-primary h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-on-color-foreground bg-rain-button-primary border-rain-action-ghost hover:bg-rain-button-primary-hover active:bg-rain-button-primary-pressed active:border-rain-button-strong-brand-border"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"medium"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"primary"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "任务标题":
+  [36m<input[39m
+    [33maria-labelledby[39m=[32m"rain-field-_r_1e_-label"[39m
+    [33mclass[39m=[32m"rain-input__control min-w-0 w-full flex-1 border-none bg-transparent p-rain-0 text-inherit outline-none placeholder:text-rain-category-text-neutral-5 disabled:cursor-not-allowed disabled:placeholder:text-rain-category-text-neutral-6"[39m
+    [33mdata-slot[39m=[32m"control"[39m
+    [33mid[39m=[32m"rain-field-_r_1e_"[39m
+    [33mname[39m=[32m"taskTitle"[39m
+    [33mrequired[39m=[32m""[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m"找一个值得追问的问题（草稿）"[39m
+  [36m/>[39m
+
+  Name "任务要求":
+  [36m<textarea[39m
+    [33maria-describedby[39m=[32m"rain-field-_r_1g_-help"[39m
+    [33maria-labelledby[39m=[32m"rain-field-_r_1g_-label"[39m
+    [33mclass[39m=[32m"rain-input__control min-w-0 w-full flex-1 border-none bg-transparent p-rain-0 text-inherit outline-none placeholder:text-rain-category-text-neutral-5 disabled:cursor-not-allowed disabled:placeholder:text-rain-category-text-neutral-6 block min-h-0 resize-none px-rain-12 py-rain-8"[39m
+    [33mdata-slot[39m=[32m"control"[39m
+    [33mid[39m=[32m"rain-field-_r_1g_"[39m
+    [33mname[39m=[32m"taskInstructions"[39m
+    [33mrows[39m=[32m"5"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  strong:
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m"position: relative; height: calc(100dvh - 768px); width: calc(100vw - 1024px); box-sizing: border-box; overflow-y: hidden; overflow-x: hidden; scroll-behavior: unset;"[39m
+[36m>[39m
+  [36m<div[39m
+    [33maria-hidden[39m=[32m"true"[39m
+    [33mdata-base-ui-inert[39m=[32m""[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mdata-density[39m=[32m"default"[39m
+      [33mdata-rain-id[39m=[32m"foundation-density-context"[39m
+      [33mdata-slot[39m=[32m"density-context"[39m
+      [33mstyle[39m=[32m"--rain-density-control-height: 36px; --rain-density-control-padding-inline: 14px; --rain-density-item-gap: 10px;"[39m
+    [36m>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"component-doc core-ui-shell"[39m
+        [33mdata-asset-identity[39m=[32m"local-experiment"[39m
+        [33mdata-rain-id[39m=[32m"doc-drawer"[39m
+        [33mdata-rain-theme[39m=[32m"light"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"component-doc__header"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"rain-link"[39m
+            [33mdata-density[39m=[32m"default"[39m
+            [33mdata-focus[39m=[32m"item"[39m
+            [33mdata-rain-id[39m=[32m"ui-link"[39m
+            [33mdata-slot[39m=[32m"root"[39m
+            [33mdata-state[39m=[32m"default"[39m
+            [33mdata-variant[39m=[32m"standalone"[39m
+            [33mhref[39m=[32m"#components"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mdata-slot[39m=[32m"label"[39m
+            [36m>[39m
+              [0m返回组件目录[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"component-doc__title"[39m
+          [36m>[39m
+            [36m<h1[39m
+              [33mid[39m=[32m"drawer-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0mDrawer 拖动抽屉[0m
+            [36m</h1>[39m
+            [36m<span>[39m
+              [0mUI[0m
+              [0m · [0m
+              [0m共享候选 · 尚未发布[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m保留课程上下文，处理一段短任务；滑动、分段高度和退出保护保持真实可操作。[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33maria-label[39m=[32m"预览设置"[39m
+            [33mclass[39m=[32m"component-doc__settings"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"true"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-brand bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"brand"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-brand"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m浅色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"default"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-default"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m深色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block ga...
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/g6-task-drawer.test.tsx:30:25
+     28|   const { user, field } = await openTask();
+     29|   await user.type(field, "（草稿）");
+     30|   const cancel = screen.getByRole("button", { name: "取消", exact: true …
+       |                         ^
+     31|   await user.click(cancel);
+     32|   const choice = await screen.findByRole("alertdialog", { name: "放弃未保存…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  apps/playground/src/docs/components/g6-task-drawer.test.tsx > opens the same discard decision for Escape and the header close
+TestingLibraryElementError: Unable to find role="alertdialog"
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m"position: relative; height: calc(100dvh - 768px); width: calc(100vw - 1024px); box-sizing: border-box; overflow-y: hidden; overflow-x: hidden; scroll-behavior: unset;"[39m
+[36m>[39m
+  [36m<div[39m
+    [33maria-hidden[39m=[32m"true"[39m
+    [33mdata-base-ui-inert[39m=[32m""[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mdata-density[39m=[32m"default"[39m
+      [33mdata-rain-id[39m=[32m"foundation-density-context"[39m
+      [33mdata-slot[39m=[32m"density-context"[39m
+      [33mstyle[39m=[32m"--rain-density-control-height: 36px; --rain-density-control-padding-inline: 14px; --rain-density-item-gap: 10px;"[39m
+    [36m>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"component-doc core-ui-shell"[39m
+        [33mdata-asset-identity[39m=[32m"local-experiment"[39m
+        [33mdata-rain-id[39m=[32m"doc-drawer"[39m
+        [33mdata-rain-theme[39m=[32m"light"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"component-doc__header"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"rain-link"[39m
+            [33mdata-density[39m=[32m"default"[39m
+            [33mdata-focus[39m=[32m"item"[39m
+            [33mdata-rain-id[39m=[32m"ui-link"[39m
+            [33mdata-slot[39m=[32m"root"[39m
+            [33mdata-state[39m=[32m"default"[39m
+            [33mdata-variant[39m=[32m"standalone"[39m
+            [33mhref[39m=[32m"#components"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mdata-slot[39m=[32m"label"[39m
+            [36m>[39m
+              [0m返回组件目录[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"component-doc__title"[39m
+          [36m>[39m
+            [36m<h1[39m
+              [33mid[39m=[32m"drawer-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0mDrawer 拖动抽屉[0m
+            [36m</h1>[39m
+            [36m<span>[39m
+              [0mUI[0m
+              [0m · [0m
+              [0m共享候选 · 尚未发布[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m保留课程上下文，处理一段短任务；滑动、分段高度和退出保护保持真实可操作。[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33maria-label[39m=[32m"预览设置"[39m
+            [33mclass[39m=[32m"component-doc__settings"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"true"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-brand bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"brand"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-brand"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m浅色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"default"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-default"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m深色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block ga...
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m"position: relative; height: calc(100dvh - 768px); width: calc(100vw - 1024px); box-sizing: border-box; overflow-y: hidden; overflow-x: hidden; scroll-behavior: unset;"[39m
+[36m>[39m
+  [36m<div[39m
+    [33maria-hidden[39m=[32m"true"[39m
+    [33mdata-base-ui-inert[39m=[32m""[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mdata-density[39m=[32m"default"[39m
+      [33mdata-rain-id[39m=[32m"foundation-density-context"[39m
+      [33mdata-slot[39m=[32m"density-context"[39m
+      [33mstyle[39m=[32m"--rain-density-control-height: 36px; --rain-density-control-padding-inline: 14px; --rain-density-item-gap: 10px;"[39m
+    [36m>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"component-doc core-ui-shell"[39m
+        [33mdata-asset-identity[39m=[32m"local-experiment"[39m
+        [33mdata-rain-id[39m=[32m"doc-drawer"[39m
+        [33mdata-rain-theme[39m=[32m"light"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"component-doc__header"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"rain-link"[39m
+            [33mdata-density[39m=[32m"default"[39m
+            [33mdata-focus[39m=[32m"item"[39m
+            [33mdata-rain-id[39m=[32m"ui-link"[39m
+            [33mdata-slot[39m=[32m"root"[39m
+            [33mdata-state[39m=[32m"default"[39m
+            [33mdata-variant[39m=[32m"standalone"[39m
+            [33mhref[39m=[32m"#components"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mdata-slot[39m=[32m"label"[39m
+            [36m>[39m
+              [0m返回组件目录[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"component-doc__title"[39m
+          [36m>[39m
+            [36m<h1[39m
+              [33mid[39m=[32m"drawer-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0mDrawer 拖动抽屉[0m
+            [36m</h1>[39m
+            [36m<span>[39m
+              [0mUI[0m
+              [0m · [0m
+              [0m共享候选 · 尚未发布[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m保留课程上下文，处理一段短任务；滑动、分段高度和退出保护保持真实可操作。[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33maria-label[39m=[32m"预览设置"[39m
+            [33mclass[39m=[32m"component-doc__settings"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"true"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-brand bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"brand"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-brand"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m浅色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"default"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-default"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m深色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block ga...
+ ❯ waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ apps/playground/src/docs/components/g6-task-drawer.test.tsx:48:23
+     46|   await user.type(field, "未保存");
+     47|   await user.keyboard("{Escape}");
+     48|   expect(await screen.findByRole("alertdialog")).toHaveAccessibleName(…
+       |                       ^
+     49|   await user.keyboard("{Escape}");
+     50|   await waitFor(() => expect(screen.queryByRole("alertdialog")).toBeNu…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  apps/playground/src/docs/components/g6-task-drawer.test.tsx > validates an empty title before saving and focuses the related control
+Error: expect(element).toHaveAttribute("aria-invalid", "true") // element.getAttribute("aria-invalid") === "true"
+
+Expected the element to have attribute:
+  aria-invalid="true"
+Received:
+  null
+ ❯ apps/playground/src/docs/components/g6-task-drawer.test.tsx:59:17
+     57|   await user.clear(field);
+     58|   await user.click(screen.getByRole("button", { name: "保存草稿" }));
+     59|   expect(field).toHaveAttribute("aria-invalid", "true");
+       |                 ^
+     60|   expect(field).toHaveFocus();
+     61|   expect(screen.getByText("请填写任务标题。", { exact: true })).toBeInTheDocum…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  apps/playground/src/docs/components/g6-task-drawer.test.tsx > keeps a failed draft, blocks pending exits and retries the latest submitted values
+TestingLibraryElementError: Unable to find an accessible element with the role "radio" and name "首次保存失败"
+
+Here are the accessible roles:
+
+  main:
+
+  Name "":
+  [36m<main[39m
+    [33mclass[39m=[32m"component-doc core-ui-shell"[39m
+    [33mdata-asset-identity[39m=[32m"local-experiment"[39m
+    [33mdata-rain-id[39m=[32m"doc-drawer"[39m
+    [33mdata-rain-theme[39m=[32m"light"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  banner:
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"component-doc__header"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  link:
+
+  Name "返回组件目录":
+  [36m<a[39m
+    [33mclass[39m=[32m"rain-link"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"item"[39m
+    [33mdata-rain-id[39m=[32m"ui-link"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"standalone"[39m
+    [33mhref[39m=[32m"#components"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Drawer 拖动抽屉":
+  [36m<h1[39m
+    [33mid[39m=[32m"drawer-title"[39m
+    [33mtabindex[39m=[32m"-1"[39m
+  [36m/>[39m
+
+  Name "课程任务草稿":
+  [36m<h2 />[39m
+
+  Name "找一个值得追问的问题":
+  [36m<h3[39m
+    [33mdata-testid[39m=[32m"drawer-saved-title"[39m
+  [36m/>[39m
+
+  Name "四个打开方向":
+  [36m<h2 />[39m
+
+  Name "页面交互与焦点约束":
+  [36m<h2 />[39m
+
+  Name "使用边界":
+  [36m<h2[39m
+    [33mid[39m=[32m"drawer-usage"[39m
+  [36m/>[39m
+
+  Name "适合用在":
+  [36m<h3 />[39m
+
+  Name "避免用在":
+  [36m<h3 />[39m
+
+  Name "API 与结构":
+  [36m<h2[39m
+    [33mid[39m=[32m"drawer-api"[39m
+  [36m/>[39m
+
+  Name "调用示例":
+  [36m<h2[39m
+    [33mid[39m=[32m"drawer-code"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p[39m
+    [33mdata-testid[39m=[32m"drawer-observation-count"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"component-doc__source"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "浅色":
+  [36m<button[39m
+    [33maria-pressed[39m=[32m"true"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-brand bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"small"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"brand"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "深色":
+  [36m<button[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"small"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "紧凑密度":
+  [36m<button[39m
+    [33maria-pressed[39m=[32m"false"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"small"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "编辑课前任务":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:shadow-rain-button-focus-primary h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-on-color-foreground bg-rain-button-primary border-rain-action-ghost hover:bg-rain-button-primary-hover active:bg-rain-button-primary-pressed active:border-rain-button-strong-brand-border"[39m
+    [33mdata-base-ui-click-trigger[39m=[32m""[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"medium"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"primary"[39m
+    [33mid[39m=[32m"base-ui-_r_3i_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "从底部打开":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-secondary-text bg-rain-button-secondary border-rain-button-secondary-border hover:bg-rain-button-secondary-hover active:bg-rain-button-secondary-pressed active:border-rain-button-strong-brand-border"[39m
+    [33mdata-base-ui-click-trigger[39m=[32m""[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"medium"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"secondary"[39m
+    [33mid[39m=[32m"base-ui-_r_3k_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "从顶部打开":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-secondary-text bg-rain-button-secondary border-rain-button-secondary-border hover:bg-rain-button-secondary-hover active:bg-rain-button-secondary-pressed active:border-rain-button-strong-brand-border"[39m
+    [33mdata-base-ui-click-trigger[39m=[32m""[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"medium"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"secondary"[39m
+    [33mid[39m=[32m"base-ui-_r_3m_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "从左侧打开":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-secondary-text bg-rain-button-secondary border-rain-button-secondary-border hover:bg-rain-button-secondary-hover active:bg-rain-button-secondary-pressed active:border-rain-button-strong-brand-border"[39m
+    [33mdata-base-ui-click-trigger[39m=[32m""[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"medium"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"secondary"[39m
+    [33mid[39m=[32m"base-ui-_r_3o_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "从右侧打开":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-secondary-text bg-rain-button-secondary border-rain-button-secondary-border hover:bg-rain-button-secondary-hover active:bg-rain-button-secondary-pressed active:border-rain-button-strong-brand-border"[39m
+    [33mdata-base-ui-click-trigger[39m=[32m""[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"medium"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"secondary"[39m
+    [33mid[39m=[32m"base-ui-_r_3q_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "记录一次观察":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:border-rain-button-strong-brand-border focus-visible:shadow-rain-button-focus-rest h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-secondary-text bg-rain-button-secondary border-rain-button-secondary-border hover:bg-rain-button-secondary-hover active:bg-rain-button-secondary-pressed active:border-rain-button-strong-brand-border"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"medium"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"secondary"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "打开非模态记录":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-regular-height text-rain-button-text-regular text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-base-ui-click-trigger[39m=[32m""[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"regular"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mid[39m=[32m"base-ui-_r_3s_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "打开焦点约束记录":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-regular-height text-rain-button-text-regular text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-base-ui-click-trigger[39m=[32m""[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"regular"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mid[39m=[32m"base-ui-_r_3u_"[39m
+    [33mtabindex[39m=[32m"0"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "复制代码":
+  [36m<button[39m
+    [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-regular-height text-rain-button-text-regular text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+    [33mdata-density[39m=[32m"default"[39m
+    [33mdata-focus[39m=[32m"control"[39m
+    [33mdata-rain-id[39m=[32m"ui-button"[39m
+    [33mdata-size[39m=[32m"regular"[39m
+    [33mdata-slot[39m=[32m"root"[39m
+    [33mdata-state[39m=[32m"default"[39m
+    [33mdata-tone[39m=[32m"default"[39m
+    [33mdata-variant[39m=[32m"text"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  status:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"g6-interaction-feedback"[39m
+    [33mrole[39m=[32m"status"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<span[39m
+    [33mrole[39m=[32m"status"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  strong:
+
+  Name "":
+  [36m<strong />[39m
+
+  --------------------------------------------------
+  region:
+
+  Name "使用边界":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"drawer-usage"[39m
+    [33mclass[39m=[32m"component-doc__usage"[39m
+  [36m/>[39m
+
+  Name "API 与结构":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"drawer-api"[39m
+    [33mclass[39m=[32m"component-doc__api"[39m
+  [36m/>[39m
+
+  Name "调用示例":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"drawer-code"[39m
+    [33mclass[39m=[32m"component-doc__calling"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  list:
+
+  Name "":
+  [36m<ul />[39m
+
+  Name "":
+  [36m<ul />[39m
+
+  --------------------------------------------------
+  listitem:
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  --------------------------------------------------
+  table:
+
+  Name "Drawer 拖动抽屉 常用接口":
+  [36m<table />[39m
+
+  --------------------------------------------------
+  caption:
+
+  Name "Drawer 拖动抽屉 常用接口":
+  [36m<caption />[39m
+
+  --------------------------------------------------
+  rowgroup:
+
+  Name "":
+  [36m<thead />[39m
+
+  Name "":
+  [36m<tbody />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "名称 类型 默认 说明":
+  [36m<tr />[39m
+
+  Name "open / onOpenChange boolean / (open, details) => void — 受控状态；details.cancel() 可以阻止尚未确认的退出。":
+  [36m<tr />[39m
+
+  Name "swipeDirection down / up / left / right down 保留来源四方向；页面底部编辑为主场景。":
+  [36m<tr />[39m
+
+  Name "snapPoints / snapPoint Array<number | string> / number | string | null — 纵向分段高度及受控位置；数字0—1为视口比例。":
+  [36m<tr />[39m
+
+  Name "modal true / false / trap-focus true 真实焦点与页面交互策略，与有无遮罩分开。":
+  [36m<tr />[39m
+
+  Name "showSwipeHandle boolean false 可选可视拖动把手，不增加假的独立交互控件。":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "名称":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "类型":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "默认":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "说明":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  rowheader:
+
+  Name "open / onOpenChange":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "swipeDirection":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "snapPoints / snapPoint":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "modal":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "showSwipeHandle":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  code:
+
+  Name "":
+  [36m<code />[39m
+
+  Name "":
+  [36m<code />[39m
+
+  Name "":
+  [36m<code />[39m
+
+  Name "":
+  [36m<code />[39m
+
+  Name "":
+  [36m<code />[39m
+
+  Name "":
+  [36m<code />[39m
+
+  Name "":
+  [36m<code />[39m
+
+  Name "":
+  [36m<code />[39m
+
+  Name "":
+  [36m<code />[39m
+
+  Name "":
+  [36m<code />[39m
+
+  Name "":
+  [36m<code />[39m
+
+  Name "":
+  [36m<code />[39m
+
+  --------------------------------------------------
+  cell:
+
+  Name "boolean / (open, details) => void":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "受控状态；details.cancel() 可以阻止尚未确认的退出。":
+  [36m<td />[39m
+
+  Name "down / up / left / right":
+  [36m<td />[39m
+
+  Name "down":
+  [36m<td />[39m
+
+  Name "保留来源四方向；页面底部编辑为主场景。":
+  [36m<td />[39m
+
+  Name "Array<number | string> / number | string | null":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "纵向分段高度及受控位置；数字0—1为视口比例。":
+  [36m<td />[39m
+
+  Name "true / false / trap-focus":
+  [36m<td />[39m
+
+  Name "true":
+  [36m<td />[39m
+
+  Name "真实焦点与页面交互策略，与有无遮罩分开。":
+  [36m<td />[39m
+
+  Name "boolean":
+  [36m<td />[39m
+
+  Name "false":
+  [36m<td />[39m
+
+  Name "可选可视拖动把手，不增加假的独立交互控件。":
+  [36m<td />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m"position: relative; height: calc(100dvh - 768px); width: calc(100vw - 1024px); box-sizing: border-box; overflow-y: hidden; overflow-x: hidden; scroll-behavior: unset;"[39m
+[36m>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mdata-density[39m=[32m"default"[39m
+      [33mdata-rain-id[39m=[32m"foundation-density-context"[39m
+      [33mdata-slot[39m=[32m"density-context"[39m
+      [33mstyle[39m=[32m"--rain-density-control-height: 36px; --rain-density-control-padding-inline: 14px; --rain-density-item-gap: 10px;"[39m
+    [36m>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"component-doc core-ui-shell"[39m
+        [33mdata-asset-identity[39m=[32m"local-experiment"[39m
+        [33mdata-rain-id[39m=[32m"doc-drawer"[39m
+        [33mdata-rain-theme[39m=[32m"light"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"component-doc__header"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"rain-link"[39m
+            [33mdata-density[39m=[32m"default"[39m
+            [33mdata-focus[39m=[32m"item"[39m
+            [33mdata-rain-id[39m=[32m"ui-link"[39m
+            [33mdata-slot[39m=[32m"root"[39m
+            [33mdata-state[39m=[32m"default"[39m
+            [33mdata-variant[39m=[32m"standalone"[39m
+            [33mhref[39m=[32m"#components"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mdata-slot[39m=[32m"label"[39m
+            [36m>[39m
+              [0m返回组件目录[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"component-doc__title"[39m
+          [36m>[39m
+            [36m<h1[39m
+              [33mid[39m=[32m"drawer-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0mDrawer 拖动抽屉[0m
+            [36m</h1>[39m
+            [36m<span>[39m
+              [0mUI[0m
+              [0m · [0m
+              [0m共享候选 · 尚未发布[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m保留课程上下文，处理一段短任务；滑动、分段高度和退出保护保持真实可操作。[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33maria-label[39m=[32m"预览设置"[39m
+            [33mclass[39m=[32m"component-doc__settings"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"true"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-brand bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"brand"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-brand"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m浅色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"default"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-default"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m深色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-...
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/g6-task-drawer.test.tsx:67:27
+     65|   const user = userEvent.setup();
+     66|   render(<G6InteractionPage component="drawer" />);
+     67|   await user.click(screen.getByRole("radio", { name: "首次保存失败" }));
+       |                           ^
+     68|   await user.click(screen.getByRole("button", { name: "编辑课前任务" }));
+     69|   const field = await screen.findByRole("textbox", { name: "任务标题" });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  6 failed (6)
+   Start at  17:12:08
+   Duration  5.63s (transform 737ms, setup 214ms, import 3.55s, tests 1.67s, environment 791ms)
+

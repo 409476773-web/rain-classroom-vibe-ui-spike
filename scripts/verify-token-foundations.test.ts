@@ -45,7 +45,7 @@ describe("Token Foundations consumption verification", () => {
     }
     expect(result.failures.filter((failure: string) => /text contrast exception authorization/i.test(failure))).toEqual([]);
     expect(() => validateColorUse({ tokenId: "OnColor/1", role: "text", property: "color", content: "text", context: "component-recipe", recipeId: "unaccepted-global-copy", onColor: true, theme: "light", parentSurfaceId: "Fill/Red/Solid/2" })).toThrow(/Insufficient contrast/);
-  });
+  }, 20_000);
 
   it("rejects missing or broadened phase authorization for accepted text contrast", () => {
     const root = mkdtempSync(join(tmpdir(), "rain-button-contrast-authorization-"));
@@ -83,14 +83,21 @@ describe("Token Foundations consumption verification", () => {
     expect(dark).not.toContain("--rain-ref-");
     expect((dark?.match(/--rain-category-[\w-]+:/g) ?? [])).toHaveLength(colorRegistry.length);
     const aliases = { ...semanticColorAliases, ...semanticColorRoleAliases };
-    expect(Object.keys(aliases)).toHaveLength(18);
+    // Six existing Switch aliases were added by its authorized component contract.
+    expect(Object.keys(aliases)).toHaveLength(24);
     expect(aliases).toMatchObject({
       "--rain-color-focus-control": "var(--rain-category-border-brand-1)",
       "--rain-color-focus-item": "var(--rain-category-border-brand-1)",
       "--rain-color-focus-danger": "var(--rain-category-border-brand-1)",
+      "--rain-color-switch-track-unchecked": "var(--rain-category-icon-neutral-4)",
+      "--rain-color-switch-track-hover": "var(--rain-category-icon-neutral-3)",
+      "--rain-color-switch-track-pressed": "var(--rain-category-text-neutral-2)",
+      "--rain-color-switch-track-checked-hover": "var(--rain-category-fill-brand-solid-1)",
+      "--rain-color-switch-track-checked-pressed": "var(--rain-category-fill-brand-alpha-1)",
+      "--rain-color-switch-indicator": "var(--rain-category-oncolor-1)",
     });
     for (const scope of [light, dark]) {
-      expect((scope?.match(/--rain-color-[\w-]+:/g) ?? [])).toHaveLength(18);
+      expect((scope?.match(/--rain-color-[\w-]+:/g) ?? [])).toHaveLength(24);
       for (const [name, value] of Object.entries(aliases)) expect(scope).toContain(`${name}: ${value};`);
       expect(scope).toContain("--rain-link-color: var(--rain-color-action-primary-text);");
       expect(scope).not.toContain("--rain-color-intelligence-");

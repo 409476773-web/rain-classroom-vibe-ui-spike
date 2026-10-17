@@ -1,0 +1,56 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx (8 tests | 2 failed) 185ms
+   × Scatter's first queued frame reads the current data instead of briefly committing the previous point 5ms
+   × Scatter never commits a queued point after interactions become unavailable 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/scatter-interaction.test.tsx > Scatter's first queued frame reads the current data instead of briefly committing the previous point
+AssertionError: expected { Object (date, value) } to be { Object (date, value) } // Object.is equality
+
+- Expected
++ Received
+
+  {
+    "date": 2026-09-01T16:00:00.000Z,
+-   "value": 7,
++   "value": 0,
+  }
+
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx:123:50
+    121|   view.rerender({ data: updated });
+    122|   act(() => clock.flush());
+    123|   expect(view.result.current.tooltipData?.point).toBe(updated[1]);
+       |                                                  ^
+    124|   expect(view.result.current.tooltipData?.point.value).toBe(7);
+    125|   expect(clock.frames.size).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/ui/src/charts/scatter-interaction.test.tsx > Scatter never commits a queued point after interactions become unavailable
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx:139:96
+    137|   view.rerender({ canInteract: false });
+    138|   act(() => clock.flush());
+    139|   expect(commits.filter(commit => !commit.canInteract).every(commit =>…
+       |                                                                                                ^
+    140|   expect(view.result.current.tooltipData).toBeNull();
+    141|   expect(clock.frames.size).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 6 passed (8)
+   Start at  15:06:05
+   Duration  878ms (transform 81ms, setup 100ms, import 115ms, tests 185ms, environment 386ms)
+

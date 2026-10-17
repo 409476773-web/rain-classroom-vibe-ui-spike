@@ -1,0 +1,35 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/attachment-states-demo.test.tsx (9 tests | 1 failed) 776ms
+   × uses the confirmed short inline upload treatment in both state surfaces 21ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/attachment-states-demo.test.tsx > uses the confirmed short inline upload treatment in both state surfaces
+AssertionError: expected <span></span> to be null
+
+- Expected:
+null
+
++ Received:
+<span>
+  24 MB
+</span>
+
+ ❯ apps/playground/src/docs/components/attachment-states-demo.test.tsx:110:40
+    108|     const video = row("课堂录像.mp4", surface);
+    109|     expect(video.getByRole("progressbar").parentElement).toHaveTextCon…
+    110|     expect(video.queryByText("24 MB")).toBeNull();
+       |                                        ^
+    111|     expect(video.queryByText("上传中 42%")).toBeNull();
+    112|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  15:42:37
+   Duration  5.33s (transform 1.00s, setup 100ms, import 4.00s, tests 776ms, environment 366ms)
+

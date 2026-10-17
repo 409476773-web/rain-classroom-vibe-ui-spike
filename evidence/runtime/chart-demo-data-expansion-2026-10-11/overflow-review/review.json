@@ -1,0 +1,153 @@
+{
+  "timestamp": "2026-10-11T03:42:48.257Z",
+  "status": "diagnosis-complete",
+  "classification": "Existing native XAxis resize transition sampled before settling; not introduced by this demo-data change.",
+  "rootCause": {
+    "element": "span.whitespace-nowrap.text-chart-label.text-xs inside absolute XAxisLabel divs",
+    "layout": "The chart container is already 324px wide/right357, while left-positioned Sep24/17 labels still occupy the previous 1440px layout coordinates.",
+    "transition": "x-axis.tsx:71-77 applies a CSS left tween; animatePosition is xDomain==null at line662; chart-phase.ts:25 sets 500ms.",
+    "sample": "Current profit-loss immediate main Sep24 right993.265625 while container right357; after the existing transition it is within viewport.",
+    "notCulprit": "Long code/table rectangles are held inside existing overflow containers; those rectangles remain wide even when document scrollWidth settles to390."
+  },
+  "rows": [
+    {
+      "family": "profit-loss",
+      "current": {
+        "initialWidth": 993,
+        "initialAtMs": 74,
+        "firstObservedStableWidth": 390,
+        "firstObservedStableAtMs": 757,
+        "after1000msWidth": 390,
+        "after1000msSampleAtMs": 1279,
+        "updatedFirstRow": "9月1日-12"
+      },
+      "baselineDataOverlay": {
+        "initialWidth": 993,
+        "initialAtMs": 72,
+        "firstObservedStableWidth": 390,
+        "firstObservedStableAtMs": 733,
+        "after1000msWidth": 390,
+        "after1000msSampleAtMs": 1247,
+        "updatedFirstRow": "9月1日-8"
+      }
+    },
+    {
+      "family": "scatter",
+      "current": {
+        "initialWidth": 982,
+        "initialAtMs": 160,
+        "firstObservedStableWidth": 390,
+        "firstObservedStableAtMs": 502,
+        "after1000msWidth": 390,
+        "after1000msSampleAtMs": 1605,
+        "updatedFirstRow": "9月1日218151"
+      },
+      "baselineDataOverlay": {
+        "initialWidth": 980,
+        "initialAtMs": 166,
+        "firstObservedStableWidth": 390,
+        "firstObservedStableAtMs": 474,
+        "after1000msWidth": 390,
+        "after1000msSampleAtMs": 1575,
+        "updatedFirstRow": "9月1日202113"
+      }
+    },
+    {
+      "family": "composed",
+      "current": {
+        "initialWidth": 952,
+        "initialAtMs": 303,
+        "firstObservedStableWidth": 390,
+        "firstObservedStableAtMs": 694,
+        "after1000msWidth": 390,
+        "after1000msSampleAtMs": 1935,
+        "updatedFirstRow": "9月1日151218100"
+      },
+      "baselineDataOverlay": {
+        "initialWidth": 952,
+        "initialAtMs": 302,
+        "firstObservedStableWidth": 390,
+        "firstObservedStableAtMs": 678,
+        "after1000msWidth": 390,
+        "after1000msSampleAtMs": 1921,
+        "updatedFirstRow": "9月1日11320285"
+      }
+    }
+  ],
+  "sources": [
+    {
+      "path": "packages/ui/src/charts/vendor/charts/x-axis.tsx",
+      "beforeSha256": "4939f322a603bd8957a787a1e3a8475365e1d2267b3f6e698f229cd79c7ca8aa",
+      "sha256": "4939f322a603bd8957a787a1e3a8475365e1d2267b3f6e698f229cd79c7ca8aa",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/ui/src/charts/vendor/charts/chart-phase.ts",
+      "beforeSha256": "1dd53632aa57857f0302c2f8376b1882da324451040f47b35fad50167a2f15a4",
+      "sha256": "1dd53632aa57857f0302c2f8376b1882da324451040f47b35fad50167a2f15a4",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/ui/src/charts/vendor/charts/chart-context.tsx",
+      "beforeSha256": "fe6b9db951663880b408f18def13e74727daa9bbf5832fbb8f2d4cf1ce81fa73",
+      "sha256": "fe6b9db951663880b408f18def13e74727daa9bbf5832fbb8f2d4cf1ce81fa73",
+      "byteIdentical": true
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-variants/profit-loss.tsx",
+      "beforeSha256": "5551c73d520ff3525bcc5b86e42de52770968148224455d5cbd91b5bb9b3443c",
+      "sha256": "5551c73d520ff3525bcc5b86e42de52770968148224455d5cbd91b5bb9b3443c",
+      "byteIdentical": true
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-examples.css",
+      "beforeSha256": "672453575553817c8f814eebc32da20a182cac1418b6fd0b1471a70c5c8f6991",
+      "sha256": "672453575553817c8f814eebc32da20a182cac1418b6fd0b1471a70c5c8f6991",
+      "byteIdentical": true
+    }
+  ],
+  "baselineEvidence": {
+    "method": "Only the browser module response for chart-data.ts was replaced with the transformed saved before source; the working tree was not modified.",
+    "intercepts": 3,
+    "beforeCoreSha256": "d6094a235ceb31bb913c941ba7f05135a78695ad902ee90a20782a1d848ef257",
+    "currentCoreSha256": "7c34e857fc75bec3df3e9357d854c5111d6f1e05f52334b99396b677014f1aeb",
+    "rowsDemonstrateOldData": true
+  },
+  "attempts": [
+    {
+      "name": "sandbox-launch",
+      "exitCode": 1,
+      "reason": "macOS Chromium bootstrap MachPort sandbox permission; browser pages were not started.",
+      "log": "reproduce-sandbox.log"
+    },
+    {
+      "name": "initial-current-diagnostic",
+      "exitCode": 0,
+      "log": "reproduce.log"
+    },
+    {
+      "name": "current-with1000ms-observation",
+      "exitCode": 0,
+      "log": "reproduce-current-final.log"
+    },
+    {
+      "name": "baseline-data-overlay-with1000ms-observation",
+      "exitCode": 0,
+      "log": "reproduce-baseline-data.log"
+    }
+  ],
+  "pageErrors": {
+    "current": [],
+    "baselineDataOverlay": []
+  },
+  "testDisposition": {
+    "recommendation": "Await expect.poll of the identical document.documentElement.scrollWidth <= innerWidth + 1 predicate; preserve the threshold and fail on timeout.",
+    "parentReportedResult": "Root applied only that T13 await and reran profit-loss/scatter/composed updates/replays at1440/390: all three families passed in20.9s.",
+    "notChanged": "No source, CSS, renderer, graph parameter, data fixture, or overflow threshold was changed by this diagnostic."
+  },
+  "limits": [
+    "The baseline overlay restores the original core demo data, not an entire old-host deployment. The relevant XAxis, phase, context, ProfitLoss renderer and CSS are independently byte-identical to before.",
+    "Checkpoint times include browser actions and screenshot work; firstObservedStableAtMs is the first recorded settled sample, not an exact transition-duration measurement.",
+    "The native 500ms position transition still exists; this report establishes settled-width behavior and a source-identical old-data reproduction."
+  ]
+}

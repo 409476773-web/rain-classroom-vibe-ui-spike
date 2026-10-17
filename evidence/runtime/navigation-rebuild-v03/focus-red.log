@@ -1,0 +1,40 @@
+
+Running 1 test using 1 worker
+
+(node:42133) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-rebuild-a11y.spec.ts:23:1 › N03 N04 dark popup keyboard focus has 3:1 contrast against its adjacent surface (740ms)
+
+
+  1) tests/e2e/navigation-rebuild-a11y.spec.ts:23:1 › N03 N04 dark popup keyboard focus has 3:1 contrast against its adjacent surface 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 3
+    Received:    2.572793361121892
+
+      32 |   const colors=await link.evaluate(el=>({outline:getComputedStyle(el).outlineColor,background:getComputedStyle(el.closest('.nr-topnav-popup')!).backgroundColor,width:getComputedStyle(el).outlineWidth,visible:el.matches(':focus-visible')}));
+      33 |   const ratio=contrastRatio(colors.outline,colors.background,'rgb(255,255,255)');
+    > 34 |   facts.push({recipe,...colors,ratio});expect(colors.visible).toBe(true);expect(ratio).toBeGreaterThanOrEqual(3);
+         |                                                                                        ^
+      35 |   await page.screenshot({path:`evidence/runtime/navigation-rebuild-v03/${recipe}-dark-focus.png`});
+      36 |  }
+      37 |  writeFileSync('evidence/runtime/navigation-rebuild-v03/dark-focus-contrast.json',JSON.stringify(facts,null,2));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-rebuild-a11y.spec.ts:34:88
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-a11y-N0-7b1d2-gainst-its-adjacent-surface/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-a11y-N0-7b1d2-gainst-its-adjacent-surface/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-a11y-N0-7b1d2-gainst-its-adjacent-surface/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-a11y-N0-7b1d2-gainst-its-adjacent-surface/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/navigation-rebuild-a11y.spec.ts:23:1 › N03 N04 dark popup keyboard focus has 3:1 contrast against its adjacent surface 

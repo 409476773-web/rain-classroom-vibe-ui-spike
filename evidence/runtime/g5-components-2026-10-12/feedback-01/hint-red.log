@@ -1,0 +1,37 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/date-picker/date-picker.test.tsx (18 tests | 1 failed | 17 skipped) 269ms
+   × commits only on Confirm, restores trigger focus, and does not emit unchanged values 268ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/date-picker/date-picker.test.tsx > commits only on Confirm, restores trigger focus, and does not emit unchanged values
+Error: expect(element).not.toBeInTheDocument()
+
+expected document not to contain element, found <div
+  aria-label="日期选择提示"
+  class="rain-date-picker__hint"
+  data-invalid="false"
+  data-slot="draft-hint"
+  id="rain-date-picker-_r_0_-draft-hint"
+  role="status"
+>
+  点击确定后生效
+</div> instead
+ ❯ packages/ui/src/date-picker/date-picker.test.tsx:16:45
+     14|   const trigger = screen.getByRole("button", { name: "上课日期" });
+     15|   await user.click(trigger);
+     16|   expect(screen.queryByText("点击确定后生效")).not.toBeInTheDocument();
+       |                                             ^
+     17|   expect(screen.getByRole("dialog")).not.toHaveAttribute("aria-describ…
+     18|   await user.click(day(13));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 17 skipped (18)
+   Start at  13:21:51
+   Duration  3.64s (transform 273ms, setup 137ms, import 2.66s, tests 269ms, environment 476ms)
+

@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+(node:59243) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/bklit-catalog.spec.ts:7:1 › [feedback] stacked bars use the cumulative domain through recipe, series and data changes (969ms)
+
+
+  1) tests/e2e/bklit-catalog.spec.ts:7:1 › [feedback] stacked bars use the cumulative domain through recipe, series and data changes 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 23
+    Received:    -244.32000732421875
+
+      29 |         await page.screenshot({ path: `${evidence}/stacked-bars-${width}-${count}-${recipe}.png`, fullPage: true });
+      30 |         expect(geometry.count).toBe(count * 6);
+    > 31 |         expect(geometry.minTop).toBeGreaterThanOrEqual(23);
+         |                                 ^
+      32 |         expect(geometry.maxBottom).toBeLessThanOrEqual(geometry.height - 37);
+      33 |         expect(geometry.maxTick).toBeGreaterThanOrEqual(count === 3 ? 102 : 132);
+      34 |       }
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/bklit-catalog.spec.ts:31:33
+
+    Error Context: evidence/runtime/bklit-rain-catalog/feedback-2026-10-08/red/test-results/bklit-catalog--feedback-st-90f9b-ipe-series-and-data-changes/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/feedback-2026-10-08/red/test-results/bklit-catalog--feedback-st-90f9b-ipe-series-and-data-changes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/feedback-2026-10-08/red/test-results/bklit-catalog--feedback-st-90f9b-ipe-series-and-data-changes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/bklit-catalog.spec.ts:7:1 › [feedback] stacked bars use the cumulative domain through recipe, series and data changes 

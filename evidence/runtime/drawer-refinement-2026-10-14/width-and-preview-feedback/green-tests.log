@@ -1,0 +1,47 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/g6-task-details-drawer.test.tsx (7 tests | 7 failed) 39ms
+   × keeps one right-hand non-modal popup while the operable list changes its current task 20ms
+   × allows outside pointer actions without dismissing the active task 3ms
+   × browses in order without wrapping and keeps focus on an available navigation control 3ms
+   × resets reading scroll for a new task and restores the latest task entry on close 3ms
+   × returns to the current task after Escape and reopens the requested task 4ms
+   × changes preview scope independently of width while keeping the same task popup 3ms
+   × preserves the chosen width across tasks and resets the new task to preview 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/g6-task-details-drawer.test.tsx > keeps one right-hand non-modal popup while the operable list changes its current task
+ FAIL  apps/playground/src/docs/components/g6-task-details-drawer.test.tsx > allows outside pointer actions without dismissing the active task
+ FAIL  apps/playground/src/docs/components/g6-task-details-drawer.test.tsx > browses in order without wrapping and keeps focus on an available navigation control
+ FAIL  apps/playground/src/docs/components/g6-task-details-drawer.test.tsx > resets reading scroll for a new task and restores the latest task entry on close
+ FAIL  apps/playground/src/docs/components/g6-task-details-drawer.test.tsx > returns to the current task after Escape and reopens the requested task
+ FAIL  apps/playground/src/docs/components/g6-task-details-drawer.test.tsx > changes preview scope independently of width while keeping the same task popup
+ FAIL  apps/playground/src/docs/components/g6-task-details-drawer.test.tsx > preserves the chosen width across tasks and resets the new task to preview
+ReferenceError: ResizeObserver is not defined
+ ❯ apps/playground/src/docs/components/g6-task-details-drawer.tsx:96:22
+     94|     };
+     95|     sync();
+     96|     const observer = new ResizeObserver(sync);
+       |                      ^
+     97|     observer.observe(node);
+     98|     return () => observer.disconnect();
+ ❯ Object.react_stack_bottom_frame node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:25989:20
+ ❯ runWithFiberInDEV node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:874:13
+ ❯ commitHookEffectListMount node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:13249:29
+ ❯ commitHookLayoutEffects node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:13213:11
+ ❯ commitLayoutEffectOnFiber node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:13951:13
+ ❯ recursivelyTraverseLayoutEffects node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:15159:11
+ ❯ commitLayoutEffectOnFiber node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:14031:11
+ ❯ flushLayoutEffects node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:18138:15
+ ❯ commitRoot node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:17954:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed (7)
+   Start at  23:54:54
+   Duration  3.71s (transform 592ms, setup 108ms, import 2.92s, tests 39ms, environment 399ms)
+

@@ -1,0 +1,24 @@
+import fs from 'node:fs/promises';import crypto from 'node:crypto';
+import {parseYamlSubset} from '../../../../../scripts/verification-helpers.mjs';
+const base='evidence/runtime/navigation-v042/w5/review-12-pale-splitters',sha=async p=>crypto.createHash('sha256').update(await fs.readFile(p)).digest('hex'),recordedAt=new Date().toISOString();
+const lock=JSON.parse(await fs.readFile(`${base}/production-source-freeze-final.json`));
+const platform='apps/playground/src/recipes/navigation-v042/platform-navigation.css',scope=lock.authority+' Same-turn user follow-up: all leftmost navigation-unit icons shrink20→18px in expanded/compact modes; retain20px centered slots,40px rows, text/gap,23px Logo and16px utility icons.';
+const before=JSON.parse(await fs.readFile(`${base}/metadata-before.json`)),raw={};
+for(const p of Object.keys(before))raw[p]=await fs.readFile(p,'utf8');
+await fs.writeFile(`${base}/metadata-before-icon-feedback.json`,JSON.stringify(raw,null,2)+'\n',{flag:'wx'});
+for(const [p,h]of Object.entries(lock.filesSha256))if(p!==platform&&await sha(p)!==h)throw Error('Unexpected source drift '+p);
+lock.filesSha256[platform]=await sha(platform);lock.recordedAt=recordedAt;lock.authority=scope;
+await fs.writeFile(`${base}/production-source-freeze-final.json`,JSON.stringify(lock,null,2)+'\n');
+const mapping=(obj,indent=0)=>Object.entries(obj).flatMap(([key,v])=>{const sp=' '.repeat(indent);if(Array.isArray(v))return v.length?[sp+key+':',...v.flatMap(x=>{if(x&&typeof x==='object'){const lines=mapping(x,indent+4);return[sp+'  - '+lines[0].trimStart(),...lines.slice(1)];}return[sp+'  - '+JSON.stringify(x)];})]:[sp+key+': []'];if(v&&typeof v==='object')return[sp+key+':',...mapping(v,indent+2)];return[sp+key+': '+JSON.stringify(v)];});
+const replace=(text,key,v)=>{const match=new RegExp(`^${key}:.*$`,'m').exec(text);if(!match)throw Error('Missing '+key);const after=text.indexOf('\n',match.index)+1,next=text.slice(after).search(/^[A-Za-z_][\w-]*:/m),end=next<0?text.length:after+next;return text.slice(0,match.index)+mapping({[key]:v}).join('\n')+'\n\n'+text.slice(end);};
+for(const [p,t]of Object.entries(raw)){
+ if(p.startsWith('registry/')){const d=JSON.parse(t),s=d.currentSourceSnapshot??d.sourceSnapshot;if(platform in s.filesSha256)s.filesSha256[platform]=lock.filesSha256[platform];s.recordedAt=recordedAt;s.scope=scope;if(d.currentFeedbackRevision12){d.currentFeedbackRevision12.scope=scope;d.currentFeedbackRevision12.recordedAt=recordedAt;}else{d.reviewRevisionScope=scope;d.currentFeedbackVerification.scope=scope;d.currentFeedbackVerification.recordedAt=recordedAt;}await fs.writeFile(p,JSON.stringify(d,null,2)+'\n');}
+ else{const d=parseYamlSubset(t);let text=t;const tokens=d.platformNavigationFeedbackTokens;tokens.sourceSha256=lock.filesSha256[platform];tokens.scope=scope;tokens.platformUnitIcon={size:'18px',centeredSlot:'20px',rowHeight:'40px',scope:'navigation unit icons only; Logo and utilities unchanged'};text=replace(text,'platformNavigationFeedbackTokens',tokens);const key=p.endsWith('navigation-r2.yaml')?'currentFeedbackRevision12':'currentFeedbackRevision';d[key].scope=scope;d[key].recordedAt=recordedAt;text=replace(text,key,d[key]);if(p.endsWith('navigation-r2.yaml')){const s=d.currentFeedbackSourceSnapshot;s.recordedAt=recordedAt;for(const f of s.sourceFiles)if(f.path===platform)f.sha256=lock.filesSha256[platform];text=replace(text,'currentFeedbackSourceSnapshot',s);}parseYamlSubset(text);await fs.writeFile(p,text);}
+}
+const validation=JSON.parse(await fs.readFile(`${base}/metadata-validation.json`));validation.recordedAt=recordedAt;validation.scope=scope;validation.sameTurnIconFeedback=true;let entries=0;const errors=[];
+for(const p of Object.keys(raw).filter(p=>p.startsWith('registry/'))){const d=JSON.parse(await fs.readFile(p)),s=d.currentSourceSnapshot??d.sourceSnapshot;for(const [f,h]of Object.entries(s.filesSha256)){entries++;if(await sha(f)!==h)errors.push(`${p}:${f}`);}}
+for(const p of Object.keys(raw).filter(p=>p.startsWith('manifests/'))){const d=parseYamlSubset(await fs.readFile(p,'utf8')),s=p.endsWith('navigation-r2.yaml')?d.currentFeedbackSourceSnapshot:d;if(s.sourceSha256!==await sha(s.sourcePath)||s.styleSourceSha256!==await sha(s.styleSourcePath))errors.push(p);if(d.platformNavigationFeedbackTokens.sourceSha256!==await sha(platform))errors.push(p+':platform');}
+validation.currentRegistryHashEntries=entries;validation.errors=errors;validation.status=errors.length?'failed':'passed';
+await fs.writeFile(`${base}/metadata-validation.json`,JSON.stringify(validation,null,2)+'\n');
+await fs.writeFile(`${base}/metadata-final-locks.json`,JSON.stringify({recordedAt,filesSha256:Object.fromEntries(await Promise.all(Object.keys(raw).map(async p=>[p,await sha(p)])))},null,2)+'\n');
+console.log(JSON.stringify({status:validation.status,sourceFiles:43,hashEntries:entries,errors}));if(errors.length)process.exitCode=1;

@@ -1,0 +1,51 @@
+{
+  "status": "frozen-before-first-review",
+  "authority": "AI-authored and independently visually checked by primary agent; not human acceptance",
+  "cases": [
+    {
+      "image": "01.png",
+      "role": "known-regression",
+      "findings": [
+        {
+          "id": "BMA-NAME",
+          "expected": "资料名称表头与正文标题的可见文字起点错开"
+        },
+        {
+          "id": "BMA-ACTION",
+          "expected": "操作表头与更多标签的可见文字起点错开"
+        }
+      ]
+    },
+    {
+      "image": "02.png",
+      "role": "unseen-positive",
+      "findings": [
+        {
+          "id": "LIST-START",
+          "expected": "第二行课堂观察记录与讨论标题比其元信息和其他同行角色标题右移，跨行阅读起点不一致"
+        }
+      ]
+    },
+    {
+      "image": "03.png",
+      "role": "unseen-positive",
+      "findings": [
+        {
+          "id": "FORM-ERROR",
+          "expected": "请输入完整的邮箱地址说明位于联系电话下方，与通知邮箱字段视觉分离、归属混淆"
+        }
+      ]
+    },
+    {
+      "image": "04.png",
+      "role": "negative-control",
+      "protectedDifferences": [
+        "主标题/正文/元信息字号字重有层级",
+        "长短摘要自然形成不同条目高度",
+        "进行中强调，已完成与待开始较弱"
+      ],
+      "expected": "这些合理差异不应被要求统一；当前静态组织无需为一致而强改"
+    }
+  ],
+  "scoring": "具体定位对象与关系才计发现。像素精确值非必需，未看源码的原因不能冒充已确认。答案外发现单独核对；不把建议/疑点自动判成错误。静态图不能支持交互、其他窗口/状态、无障碍全面通过。"
+}

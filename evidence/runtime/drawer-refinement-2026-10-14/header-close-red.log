@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/g6-task-drawer.test.tsx (6 tests | 1 failed | 5 skipped) 158ms
+   × puts directional and record close actions in the header as named icon buttons 157ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/g6-task-drawer.test.tsx > puts directional and record close actions in the header as named icon buttons
+Error: expect(element).toHaveAttribute("data-rain-id", "ui-icon-button") // element.getAttribute("data-rain-id") === "ui-icon-button"
+
+Expected the element to have attribute:
+  data-rain-id="ui-icon-button"
+Received:
+  data-rain-id="ui-button"
+ ❯ apps/playground/src/docs/components/g6-task-drawer.test.tsx:91:19
+     89|     const dialog = await screen.findByRole("dialog");
+     90|     const close = within(dialog).getByRole("button", { name: `关闭${side…
+     91|     expect(close).toHaveAttribute("data-rain-id", "ui-icon-button");
+       |                   ^
+     92|     expect(close.closest('[data-slot="drawer-header"]')).not.toBeNull(…
+     93|     expect(dialog.querySelector('[data-slot="drawer-footer"]')).toBeNu…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  17:44:10
+   Duration  4.56s (transform 732ms, setup 137ms, import 3.60s, tests 158ms, environment 545ms)
+

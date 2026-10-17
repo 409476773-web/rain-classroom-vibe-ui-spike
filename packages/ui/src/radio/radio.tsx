@@ -3,6 +3,9 @@ import { useDensity } from "@rain-next/foundations";
 import { getRainLocalRecipePart, type RainLocalRecipe } from "../recipes/local-recipe";
 import { rainCn } from "../utils/rain-class-names";
 import { useDefaultReset } from "../utils/use-default-reset";
+import { SelectionControlContent, SelectionControlSurface } from "../selection-control/selection-control";
+
+export { RadioIndicator } from "../selection-control/selection-control";
 
 export type RadioPart = "root" | "input" | "control" | "label" | "description";
 type RadioRecipe = RainLocalRecipe<RadioPart, "ui-radio">;
@@ -22,15 +25,6 @@ const nonEmpty = (value: unknown): value is string => typeof value === "string" 
 const ids = (...values: (string | false | undefined)[]) => values.filter(Boolean).join(" ") || undefined;
 const validValue = (value: unknown) => value === null || nonEmpty(value);
 
-/** Internal passive visual shared by native controls and menus; no input or interaction state. */
-export function RadioIndicator({ checked, className }: { checked: boolean; className?: string }) {
-  return <span data-slot="canvas" className="flex h-rain-24 w-rain-24 flex-none items-center justify-center" aria-hidden="true">
-      <span data-slot="control" className={rainCn("inline-flex h-rain-18 w-rain-18 flex-none box-border items-center justify-center rounded-rain-full border-solid border-rain-line-1", className)}>
-        {checked && <span data-slot="mark" className="h-rain-6 w-rain-6 rounded-rain-full" />}
-      </span>
-    </span>;
-}
-
 /** Internal card composition seam; not exported by the public UI entry. */
 export const RadioControl = forwardRef<HTMLInputElement, RadioProps & { renderContent?: (ids: { labelId: string; descriptionId: string }) => ReactNode }>(function RadioControl({
   checked, onCheckedChange, name, value, label, description, disabled = false, className, localRecipe, renderContent,
@@ -45,10 +39,10 @@ export const RadioControl = forwardRef<HTMLInputElement, RadioProps & { renderCo
   if (!nonEmpty(name) || !nonEmpty(value) || typeof checked !== "boolean" || typeof onCheckedChange !== "function") throw new Error("Radio requires name, value, checked and onCheckedChange.");
   if ((!nonEmpty(label) && !nonEmpty(inputProps["aria-label"]) && !nonEmpty(inputProps["aria-labelledby"]))
     || (label !== undefined && !nonEmpty(label)) || (description !== undefined && !nonEmpty(description))) throw new Error("Radio requires a label or accessible name and valid description.");
-  return <label data-rain-id="ui-radio" data-slot="root" data-density={density} data-state={checked ? "checked" : "unchecked"}
-    data-disabled={unavailable} data-rain-state={unavailable ? "disabled" : checked ? "checked" : "unchecked"} data-local-recipe={localRecipe?.id}
-    className={rainCn("rain-radio relative inline-flex min-w-rain-0 max-w-full items-start gap-rain-8 align-middle font-rain-ui cursor-pointer has-[:disabled]:cursor-not-allowed", className, getRainLocalRecipePart(localRecipe, "root"))}>
-    <input {...inputProps} ref={ref} type="radio" name={name} value={value} checked={checked} disabled={unavailable}
+  return <SelectionControlSurface state={{ kind: "radio", checked, disabled: unavailable }}
+    labelProps={{ "data-density": density, "data-local-recipe": localRecipe?.id, className: rainCn(className, getRainLocalRecipePart(localRecipe, "root")) }}
+    indicatorClassName={getRainLocalRecipePart(localRecipe, "control")}
+    input={<input {...inputProps} ref={ref} type="radio" name={name} value={value} checked={checked} disabled={unavailable}
       aria-disabled={unavailable || undefined}
       aria-labelledby={inputProps["aria-labelledby"] ?? (inputProps["aria-label"] ? undefined : `${generated}-label`)}
       aria-describedby={ids(inputProps["aria-describedby"], description && `${generated}-description`)}
@@ -62,13 +56,11 @@ export const RadioControl = forwardRef<HTMLInputElement, RadioProps & { renderCo
           return;
         }
         if (input.checked && !checked) onCheckedChange(true);
-      }} />
-    <RadioIndicator checked={checked} className={getRainLocalRecipePart(localRecipe, "control")} />
-    {renderContent ? renderContent({ labelId: `${generated}-label`, descriptionId: `${generated}-description` }) : (label || description) && <span data-slot="content" className="flex min-w-rain-0 flex-col gap-rain-4 break-words">
-      {label && <span id={`${generated}-label`} data-slot="label" className={rainCn("text-rain-size-15 leading-rain-24 font-rain-semibold", getRainLocalRecipePart(localRecipe, "label"))}>{label}</span>}
-      {description && <span id={`${generated}-description`} data-slot="description" className={rainCn("text-rain-size-13 leading-rain-22 font-rain-regular", getRainLocalRecipePart(localRecipe, "description"))}>{description}</span>}
-    </span>}
-  </label>;
+      }} />}>
+    {renderContent ? renderContent({ labelId: `${generated}-label`, descriptionId: `${generated}-description` }) :
+      <SelectionControlContent label={label} description={description} labelId={`${generated}-label`} descriptionId={`${generated}-description`}
+        labelClassName={getRainLocalRecipePart(localRecipe, "label")} descriptionClassName={getRainLocalRecipePart(localRecipe, "description")} />}
+  </SelectionControlSurface>;
 });
 RadioControl.displayName = "RadioControl";
 export const Radio = forwardRef<HTMLInputElement, RadioProps>((props, ref) => <RadioControl {...props} ref={ref} />);

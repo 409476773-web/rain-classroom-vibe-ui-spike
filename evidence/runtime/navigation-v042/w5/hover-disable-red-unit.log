@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+-----------x----
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/layouts/src/workspace.test.tsx > cancels a queued hover preview when the enhancement is disabled but keeps explicit recovery
+Error: expect(element).toHaveAttribute("data-temporary", "false") // element.getAttribute("data-temporary") === "false"
+
+Expected the element to have attribute:
+  data-temporary="false"
+Received:
+  data-temporary="true"
+ ❯ packages/layouts/src/workspace.test.tsx:125:17
+    123|   fireEvent.pointerEnter(restore);act(()=>vi.advanceTimersByTime(120))…
+    124|   act(()=>vi.advanceTimersByTime(500));const panel=document.querySelec…
+    125|   expect(panel).toHaveAttribute('data-temporary','false');expect(panel…
+       |                 ^
+    126|   fireEvent.click(restore);expect(panel).toHaveAttribute('data-tempora…
+    127|   view.unmount();expect(vi.getTimerCount()).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 skipped (16)
+   Start at  22:15:22
+   Duration  823ms (transform 100ms, setup 91ms, import 202ms, tests 82ms, environment 361ms)
+

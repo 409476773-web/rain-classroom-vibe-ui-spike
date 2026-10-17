@@ -1,0 +1,91 @@
+import { createHash } from "node:crypto";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
+import { describe, expect, it } from "vitest";
+import { getG4PageAcceptanceBindings, getG4SizingReviewSourceBindings, getG4SourceBindings, getG4VisualRefinementSourceBindings, hasG5ComponentsAuthorization, parseYamlSubset, validateG4SourceDirectives } from "./verification-helpers.mjs";
+import { verifyG5Components } from "./verify-g5-components.mjs";
+const phase = () => parseYamlSubset(readFileSync("status/current-phase.yaml", "utf8")) as any;
+const g4Readers = [getG4PageAcceptanceBindings, getG4SizingReviewSourceBindings, getG4VisualRefinementSourceBindings, getG4SourceBindings];
+const g5Evidence = "evidence/runtime/g5-components-2026-10-12/";
+const sha = (bytes: Buffer | string) => createHash("sha256").update(bytes).digest("hex");
+function successorFixture() {
+  const directory = mkdtempSync(join(tmpdir(), "rain-g5-g4-successor-"));
+  const record = JSON.parse(readFileSync(g5Evidence + "source-bindings.json", "utf8"));
+  const protectedFiles = JSON.parse(readFileSync(g5Evidence + "protected-source-sha256.json", "utf8"));
+  const copy = (file: string, bytes = readFileSync(file)) => { const target = join(directory, file); mkdirSync(dirname(target), { recursive: true }); writeFileSync(target, bytes); };
+  for (const file of new Set([...Object.keys(record.sourceFiles), ...Object.keys(protectedFiles), ...["baseline.json", "protected-source-sha256.json", "source-bindings.json", "before/current-phase.yaml", "before/scripts/verification-helpers.mjs", "before/scripts/g4-page-acceptance.test.ts"].map(file => g5Evidence + file)])) copy(file);
+  return { directory, record, copy };
+}
+describe("G5 finite authorized implementation", () => {
+  it("retains the exact approved scope and does not transfer gates", () => {
+    expect(hasG5ComponentsAuthorization(phase())).toBe(true);
+    for (const [key, value] of [["scope", "all-ui"], ["humanGate", "accepted"], ["contrastAcceptance", "accepted"], ["publication", "published"], ["gitOperations", "authorized"], ["extraSource", "unrelated.tsx"]] as const) {
+      const current = phase(); current.componentRefinements.g5Components[key] = value;
+      expect(hasG5ComponentsAuthorization(current), key).toBe(false);
+    }
+  });
+  it("requires scoped verification and independent review before completion", () => {
+    const current = phase(), entry = current.componentRefinements.g5Components;
+    Object.assign(entry, { implementation: "completed", automatedVerification: "not-run", independentReview: "not-run" });
+    expect(hasG5ComponentsAuthorization(current)).toBe(false);
+    Object.assign(entry, { automatedVerification: "passed-scoped", independentReview: "passed-scoped" });
+    expect(hasG5ComponentsAuthorization(current)).toBe(true);
+  });
+  it("allows only the single authorized G5 page scan alongside the preserved G4 sources", () => {
+    const current = phase(), source = readFileSync("apps/playground/src/styles.css", "utf8");
+    const directive = '@source "./docs/components/g5-component-pages.tsx";';
+    expect(validateG4SourceDirectives(source, current)).toEqual([]);
+    expect(validateG4SourceDirectives(source + '\n/* @source "./docs/components"; */', current)).toEqual([]);
+    const g4Only = structuredClone(current); delete g4Only.componentRefinements.g5Components;
+    expect(validateG4SourceDirectives(source, g4Only)).not.toEqual([]);
+    expect(validateG4SourceDirectives(source.replace(directive + "\n", ""), g4Only)).toEqual([]);
+    const invalidG5 = structuredClone(current); invalidG5.componentRefinements.g5Components.scope = "all-ui";
+    expect(validateG4SourceDirectives(source, invalidG5)).not.toEqual([]);
+    for (const changed of [
+      source + "\n" + directive,
+      source + '\n@source "./docs/components/unrelated-page.tsx";',
+      source.replace(directive, '@source "./docs/components";'),
+      source.replace('@source not "./docs/components";', ""),
+      source + '\n  @source "./docs/components";',
+      source.replace(directive, `${directive} ${directive}`),
+    ]) {
+      expect(validateG4SourceDirectives(changed, current)).not.toEqual([]);
+    }
+  });
+  it("verifies actual bindings, existing sources, fixed dependencies, exports and token consumers", () => {
+    const result = verifyG5Components();
+    expect(result.assets).toBe(5); expect(result.capabilities).toBe(8);
+    expect(result.humanGate).toBe("awaiting_human"); expect(result.contrastAcceptance).toBe("not-granted");
+  });
+  it("preserves the accepted G4 proof through the verified finite G5 successor", () => {
+    const current = phase();
+    for (const read of g4Readers) expect(() => read(process.cwd(), current), read.name).not.toThrow();
+    expect(sha(readFileSync("evidence/runtime/g4-pages-acceptance-2026-10-12/source-bindings.json"))).toBe("b53c1d91276a740cc6389a9b08319c36eec4291c0a0a1ee00fbcf28a3326ec56");
+    expect(sha(readFileSync("evidence/runtime/g4-pages-acceptance-2026-10-12/acceptance.json"))).toBe("5377a2153b4a663d9883131571d9846fe10f588a1daacb35523e1b58fa5c011e");
+  });
+  it("does not strip unauthorized G5 permissions or altered earlier Gates", () => {
+    const invalidG5 = phase(); invalidG5.componentRefinements.g5Components.humanGate = "accepted";
+    const changedGate = phase(); changedGate.componentRefinements.tokenFirstV12.humanGate = "not-recorded";
+    for (const read of g4Readers) {
+      expect(() => read(process.cwd(), invalidG5), read.name).toThrow(/G5 requires/);
+      expect(() => read(process.cwd(), changedGate), read.name).toThrow(/G5 must preserve/);
+    }
+  });
+  it("rejects changed G5 source before allowing any G4 predecessor substitution", () => {
+    const { directory, copy } = successorFixture();
+    try {
+      const file = "packages/ui/src/combobox/combobox.tsx"; copy(file, Buffer.concat([readFileSync(file), Buffer.from("\n")]));
+      for (const read of g4Readers) expect(() => read(directory, phase()), read.name).toThrow(/G5 current source changed/);
+    } finally { rmSync(directory, { recursive: true }); }
+  });
+  it("cannot re-sign the frozen G4 test snapshot through the G5 inventory", () => {
+    const { directory, record, copy } = successorFixture();
+    try {
+      const file = g5Evidence + "before/scripts/g4-page-acceptance.test.ts", changed = Buffer.concat([readFileSync(file), Buffer.from("\n")]);
+      copy(file, changed); record.sourceFiles[file] = sha(changed);
+      copy(g5Evidence + "source-bindings.json", Buffer.from(JSON.stringify(record)));
+      for (const read of g4Readers) expect(() => read(directory, phase()), read.name).toThrow(/G5 must retain the frozen G4 acceptance snapshot/);
+    } finally { rmSync(directory, { recursive: true }); }
+  });
+});

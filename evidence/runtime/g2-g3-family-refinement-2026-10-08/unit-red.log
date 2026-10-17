@@ -1,0 +1,29 @@
+ ❯ apps/playground/src/docs/components/component-doc.test.tsx (1 test | 1 failed) 111ms
+   × applies the document preview theme to the page and restores the previous theme on leaving 111ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/component-doc.test.tsx > applies the document preview theme to the page and restores the previous theme on leaving
+Error: expect(element).toHaveAttribute("data-rain-theme", "dark") // element.getAttribute("data-rain-theme") === "dark"
+
+Expected the element to have attribute:
+  data-rain-theme="dark"
+Received:
+  data-rain-theme="light"
+ ❯ apps/playground/src/docs/components/component-doc.test.tsx:12:36
+     10|   const view = render(<ComponentDoc id="test" title="文档" description="…
+     11|   fireEvent.click(screen.getByRole("button", { name: "深色", exact: true…
+     12|   expect(document.documentElement).toHaveAttribute("data-rain-theme", …
+       |                                    ^
+     13|   view.unmount();
+     14|   expect(document.documentElement).toHaveAttribute("data-rain-theme", …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  15:25:58
+   Duration  1.85s (transform 605ms, setup 117ms, import 1.06s, tests 111ms, environment 422ms)
+
+

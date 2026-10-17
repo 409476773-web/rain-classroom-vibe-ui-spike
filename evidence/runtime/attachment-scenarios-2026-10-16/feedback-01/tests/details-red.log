@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/attachment-workflow/attachment-list.test.tsx (27 tests | 1 failed) 2025ms
+   × retains all simultaneous resource, permission and replacement reasons in file information 91ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/attachment-workflow/attachment-list.test.tsx > retains all simultaneous resource, permission and replacement reasons in file information
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  文件链接已失效
+Received:
+  文件信息需要完整查看的很长很长的课程资料文件名.pdfPDF · 1 KB转换失败，请重试文件类型：application/pdf关闭
+ ❯ packages/ui/src/attachment-workflow/attachment-list.test.tsx:317:18
+    315|   await user.click(await menuAction(user, paper.name, "文件信息"));
+    316|   const dialog = screen.getByRole("dialog", { name: "文件信息" });
+    317|   expect(dialog).toHaveTextContent("文件链接已失效");
+       |                  ^
+    318|   expect(dialog).toHaveTextContent("教师禁止下载此文件");
+    319|   expect(dialog).toHaveTextContent("新版课程.pdf");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 26 passed (27)
+   Start at  17:04:18
+   Duration  3.77s (transform 524ms, setup 173ms, import 897ms, tests 2.03s, environment 556ms)
+

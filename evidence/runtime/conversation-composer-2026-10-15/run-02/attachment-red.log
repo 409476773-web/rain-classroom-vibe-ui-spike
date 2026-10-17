@@ -1,0 +1,78 @@
+[WebServer] (node:9580) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:9582) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:9588) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/conversation-composer.spec.ts:55:1 › files and sending recover locally while drafts remain owned by each conversation (2.8s)
+(node:9605) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [narrow] › tests/e2e/conversation-composer.spec.ts:55:1 › files and sending recover locally while drafts remain owned by each conversation (2.2s)
+
+
+  1) [desktop] › tests/e2e/conversation-composer.spec.ts:55:1 › files and sending recover locally while drafts remain owned by each conversation 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 283
+    Received:    251
+
+      61 |   await expect(form.getByRole('button',{name:'发送',exact:true})).toBeEnabled();
+      62 |   const fileCard=form.locator('.rain-composer__file .rain-attachment'),title=await fileCard.locator('[data-slot="attachment-title"]').boundingBox(),icon=await fileCard.locator(':scope > .rain-icon').boundingBox(),actions=await fileCard.locator('[data-slot="attachment-actions"]').boundingBox();
+    > 63 |   expect(title!.x).toBeGreaterThanOrEqual(icon!.x+icon!.width+4);
+         |                    ^
+      64 |   expect(title!.x+title!.width).toBeLessThanOrEqual(actions!.x);
+      65 |   await section.getByRole('button',{name:'模拟发送失败：关',exact:true}).click();await form.getByRole('textbox').fill('失败后保留这段话');await form.getByRole('button',{name:'发送',exact:true}).click();
+      66 |   await expect(form).toContainText('发送失败，内容已保留');await expect(form.getByRole('textbox')).toHaveValue('失败后保留这段话');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts:63:20
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-02/browser/attachment-red/results/conversation-composer-file-20bab--owned-by-each-conversation-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/conversation-composer-2026-10-15/run-02/browser/attachment-red/results/conversation-composer-file-20bab--owned-by-each-conversation-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-02/browser/attachment-red/results/conversation-composer-file-20bab--owned-by-each-conversation-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/conversation-composer-2026-10-15/run-02/browser/attachment-red/results/conversation-composer-file-20bab--owned-by-each-conversation-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [narrow] › tests/e2e/conversation-composer.spec.ts:55:1 › files and sending recover locally while drafts remain owned by each conversation 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 79
+    Received:    47
+
+      61 |   await expect(form.getByRole('button',{name:'发送',exact:true})).toBeEnabled();
+      62 |   const fileCard=form.locator('.rain-composer__file .rain-attachment'),title=await fileCard.locator('[data-slot="attachment-title"]').boundingBox(),icon=await fileCard.locator(':scope > .rain-icon').boundingBox(),actions=await fileCard.locator('[data-slot="attachment-actions"]').boundingBox();
+    > 63 |   expect(title!.x).toBeGreaterThanOrEqual(icon!.x+icon!.width+4);
+         |                    ^
+      64 |   expect(title!.x+title!.width).toBeLessThanOrEqual(actions!.x);
+      65 |   await section.getByRole('button',{name:'模拟发送失败：关',exact:true}).click();await form.getByRole('textbox').fill('失败后保留这段话');await form.getByRole('button',{name:'发送',exact:true}).click();
+      66 |   await expect(form).toContainText('发送失败，内容已保留');await expect(form.getByRole('textbox')).toHaveValue('失败后保留这段话');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts:63:20
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-02/browser/attachment-red/results/conversation-composer-file-20bab--owned-by-each-conversation-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/conversation-composer-2026-10-15/run-02/browser/attachment-red/results/conversation-composer-file-20bab--owned-by-each-conversation-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/conversation-composer-2026-10-15/run-02/browser/attachment-red/results/conversation-composer-file-20bab--owned-by-each-conversation-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/conversation-composer-2026-10-15/run-02/browser/attachment-red/results/conversation-composer-file-20bab--owned-by-each-conversation-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/e2e/conversation-composer.spec.ts:55:1 › files and sending recover locally while drafts remain owned by each conversation 
+    [narrow] › tests/e2e/conversation-composer.spec.ts:55:1 › files and sending recover locally while drafts remain owned by each conversation 

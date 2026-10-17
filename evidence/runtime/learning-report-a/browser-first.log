@@ -1,0 +1,91 @@
+
+Running 2 tests using 1 worker
+
+(node:72020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/learning-report-a.spec.ts:9:1 › report A keeps global filters, local chart readings and loading states consistent (30.0s)
+(node:72171) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/e2e/learning-report-a.spec.ts:63:1 › report A renders readable scoped layouts, themes and chart roles without changing the original report (1.0s)
+
+
+  1) tests/e2e/learning-report-a.spec.ts:9:1 › report A keeps global filters, local chart readings and loading states consistent 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('checkbox', { name: '下次加载失败' })
+        - locator resolved to <input value="on" class="sr-only" type="checkbox" data-slot="input" aria-checked="false" data-focus="control" aria-labelledby="_r_t_-label"/>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+      - retrying click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <html lang="zh-CN">…</html> intercepts pointer events
+      - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        14 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <html lang="zh-CN">…</html> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+      - retrying click action
+        - waiting 500ms
+
+
+      44 |   await expect(page.getByRole("table").getByRole("row")).toHaveCount(4);
+      45 |   await page.locator(".bm-d-footer summary").click();
+    > 46 |   await page.getByRole("checkbox", { name: "下次加载失败" }).check();
+         |                                                        ^
+      47 |   await page.getByRole("button", { name: "刷新报告" }).click();
+      48 |   await expect(metrics).toHaveCount(0);
+      49 |   await expect(page.getByRole("alert")).toContainText("报告加载失败");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/learning-report-a.spec.ts:46:56
+
+    Error Context: test-results/learning-report-a-report-A-ea453-d-loading-states-consistent/error-context.md
+
+  1 failed
+    tests/e2e/learning-report-a.spec.ts:9:1 › report A keeps global filters, local chart readings and loading states consistent 
+  1 passed (31.8s)

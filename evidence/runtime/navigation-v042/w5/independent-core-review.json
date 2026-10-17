@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "reviewId": "navigation-v042-w5-independent-core",
+  "reviewedAt": "2026-10-01T13:29:08Z",
+  "reviewer": {
+    "agent": "w3_components",
+    "independentOf": [
+      "pure Workspace state core implementation",
+      "r4-r6.tsx implementation and four reviewed revisions"
+    ],
+    "authoredAssetsExcluded": [
+      "packages/layouts/src/workspace.tsx",
+      "packages/layouts/src/workspace.css",
+      "packages/layouts/src/workspace.test.tsx",
+      "apps/playground/src/recipes/navigation-v042/workspace-states.tsx",
+      "apps/playground/src/recipes/navigation-v042/workspace-states.css",
+      "W3 navigation families",
+      "R6 local CSS calibration"
+    ]
+  },
+  "mode": "read-only code review and focused regression execution",
+  "scope": {
+    "pureCore": [
+      "packages/layouts/src/workspace-state.ts",
+      "packages/layouts/src/workspace-state.test.ts"
+    ],
+    "recipeSeam": [
+      "r4-r6.tsx useSpec and reservedWidth calls",
+      "R6 minMainWidth call",
+      "globalRegion conservative budget reservation",
+      "AdaptationNotice forced/space filtering",
+      "r4-r6.test.tsx R6 1280 budget regression"
+    ],
+    "topics": [
+      "requested/effective/session separation",
+      "viewport budget and recipe reserve",
+      "focus snapshot and override restoration",
+      "versioned preference payload whitelist and storage failure",
+      "workspace/subscene/instance identity separation"
+    ]
+  },
+  "reference": {
+    "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/docs/rain-navigation-codex-workpack/reference/approved-v0.4.2.html",
+    "sha256": "d2574eaae899bb48b7a3201914861d27b23e0bc58a05bf1a75898eba697dd03c",
+    "contracts": [
+      "docs/06-VISIBILITY-AND-STATE.md",
+      "frozen source vMinMain / vApply / resolveVisibility / vMode"
+    ],
+    "budgetEvidence": "evidence/runtime/navigation-v042/w5/compare/2026-10-01T12-51-14-907Z/PDF-budget-precise-measurement.json"
+  },
+  "closedFindings": [
+    {
+      "id": "r6-main-budget",
+      "status": "confirmed-fixed",
+      "evidence": "R6 useSpec explicitly passes620; R4 interaction560/grading510 and R5 560 match vMinMain; all useSpec calls reserve44. R6 1280 regression asserts forced global hidden, fields expanded, notice and retained course draft."
+    },
+    {
+      "id": "fractional-width-clamp",
+      "status": "confirmed-fixed",
+      "evidence": "clampWidth rounds first and then clamps to min/current max. The regression checks100.4 and100.6 exact bounds through initialization, resize and version2 loading."
+    },
+    {
+      "id": "constrained-global-toggle",
+      "status": "confirmed-fixed",
+      "evidence": "TOGGLE_GLOBAL expansion delegates to SHOW_REGION with viewportWidth, so forced expansion opens a peek; collapse remains SET preference compact.1300 regression asserts requested expanded, temporary compact base, unchanged main width and a clean collapse."
+    },
+    {
+      "id": "expanded-global-conservative-budget",
+      "status": "confirmed-fixed",
+      "evidence": "globalRegion boundaryWidth5 now preserves the frozen resolver conservative reservation for expanded global navigation. The source comment explicitly distinguishes this budget from an additional DOM splitter."
+    }
+  ],
+  "verification": {
+    "command": "pnpm exec vitest run packages/layouts/src/workspace-state.test.ts apps/playground/src/recipes/navigation-v042/r4-r6.test.tsx",
+    "exitCode": 0,
+    "testFilesPassed": 2,
+    "testsPassed": 32,
+    "testsFailed": 0,
+    "executedAtLocal": "2026-10-01 21:29:05 Asia/Shanghai",
+    "result": "passed"
+  },
+  "implementationSnapshotSha256": {
+    "packages/layouts/src/workspace-state.ts": "f41cde5f5fb26a86517021e862a8c73dc592de9f718829c7ce353c2d22e9dcc5",
+    "packages/layouts/src/workspace-state.test.ts": "51318a59cb48ac3344a5992100830bcef5b3a51b97bb8a3ea5c92a945d7209eb",
+    "apps/playground/src/recipes/navigation-v042/r4-r6.tsx": "ef9b99a63326328f85bd0fb029e04816b3362ea1b4b3fa610ebf273bda34cf7b",
+    "apps/playground/src/recipes/navigation-v042/r4-r6.test.tsx": "e329d4a2fea05b4d7755c72170dd87541615ac3463b706110e5f009b8fc7f9a9"
+  },
+  "outcome": {
+    "reviewedScope": "no remaining blockers in this bounded review",
+    "openFindings": [],
+    "humanGate": "pending; this review does not approve G2 visual or G3 system lifecycle",
+    "adapterAndSSamplesIndependentReview": "not assessed; reviewer authored those assets"
+  },
+  "limits": [
+    "No additional source changes were made during this confirmation; only this review record was created.",
+    "No new browser or screenshot run was performed for this confirmation. Native DOM focus, nested popup, drag, hover timer, mounted draft and rendering behavior are outside this independent pure-core conclusion.",
+    "Focused tests and this review do not establish production readiness, complete W6 E1-E6 execution, visual acceptance, publication or Git authorization."
+  ]
+}

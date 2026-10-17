@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-live-lifecycle.test.tsx (3 tests | 3 failed) 53ms
+   × default live pause and replay preserve the same chart, points and frozen window 32ms
+   × default live automatic offscreen and background stopping cleans only its own producer and native clock 11ms
+   × default live restores and republishes the actual paused points and manual clock 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-live-lifecycle.test.tsx > default live pause and replay preserve the same chart, points and frozen window
+ FAIL  apps/playground/src/docs/components/chart-live-lifecycle.test.tsx > default live automatic offscreen and background stopping cleans only its own producer and native clock
+ FAIL  apps/playground/src/docs/components/chart-live-lifecycle.test.tsx > default live restores and republishes the actual paused points and manual clock
+TypeError: LocalResizeObserver is not a constructor
+ ❯ node_modules/.pnpm/@visx+responsive@4.0.1-alpha.0_react@19.2.8/node_modules/@visx/responsive/esm/hooks/useParentSize.js:39:22
+     37|   useEffect(() => {
+     38|     const LocalResizeObserver = resizeObserverPolyfill || window.Resiz…
+     39|     const observer = new LocalResizeObserver(entries => {
+       |                      ^
+     40|       entries.forEach(entry => {
+     41|         const {
+ ❯ Object.react_stack_bottom_frame node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:25989:20
+ ❯ runWithFiberInDEV node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:874:13
+ ❯ commitHookEffectListMount node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:13249:29
+ ❯ commitHookPassiveMountEffects node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:13336:11
+ ❯ commitPassiveMountOnFiber node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:15484:13
+ ❯ recursivelyTraversePassiveMountEffects node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:15439:11
+ ❯ commitPassiveMountOnFiber node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:15718:11
+ ❯ recursivelyTraversePassiveMountEffects node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:15439:11
+ ❯ commitPassiveMountOnFiber node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:15476:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  14:57:57
+   Duration  3.05s (transform 1.44s, setup 101ms, import 2.34s, tests 53ms, environment 380ms)
+

@@ -1,0 +1,59 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-boundaries-navigation.test.ts (11 tests | 2 failed) 8286ms
+     × accepts the current finite registered sources without treating archived copies as live code 511ms
+     ✓ rejects an unknown live source: unapproved-navigation.ts  512ms
+     ✓ rejects an unknown live source: apps/playground/src/recipes/navigation-v042/unapproved.tsx  511ms
+     ✓ rejects an unknown live source: packages/ui/src/navigation/unapproved.ts  539ms
+     ✓ rejects an unknown live source: packages/layouts/src/unapproved.ts  522ms
+     ✓ rejects an unknown live source: tests/e2e/unapproved-navigation.spec.ts  510ms
+     ✓ rejects an unapproved Headless module even inside a registered G3 wrapper  499ms
+     ✓ rejects Foundations importing UI through a known source  494ms
+     ✓ rejects an unauthorized direct package dependency  503ms
+     ✓ retains the exact historical evidence allowlist  494ms
+     × does not switch to the data/source domain when the accepted parent phase is invalid 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > accepts the current finite registered sources without treating archived copies as live code
+AssertionError: expected 'Boundary verification failed:\n- Scop…' to match /Boundary verification passed/
+
+- Expected:
+/Boundary verification passed/
+
++ Received:
+"Boundary verification failed:
+- Scoped asset source is missing: evidence/runtime/navigation-v042/w6/review-02/README.md
+- Scoped asset source is missing: evidence/runtime/navigation-v042/w6/review-02/review-summary.json
+"
+
+ ❯ scripts/verify-boundaries-navigation.test.ts:74:27
+     72|   it("accepts the current finite registered sources without treating a…
+     73|     const result = verify("registered-baseline");
+     74|     expect(result.output).toMatch(/Boundary verification passed/);
+       |                           ^
+     75|     expect(result.status).toBe(0);
+     76|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > does not switch to the data/source domain when the accepted parent phase is invalid
+Error: ENOENT: no such file or directory, open '/var/folders/2h/mp7rp10x1plgfqrm94_0dcdm0000gn/T/rain-navigation-boundary-7t8Prg/status/phase-status.json'
+ ❯ scripts/verify-boundaries-navigation.test.ts:124:31
+    122|   it("does not switch to the data/source domain when the accepted pare…
+    123|     const file = "status/phase-status.json";
+    124|     const status = JSON.parse(readFileSync(join(fixtureRoot, file), "u…
+       |                               ^
+    125|     status.navigationComponentsV042.humanGate = "pending";
+    126|     const archive = join(fixtureRoot, "evidence/runtime/navigation-v04…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 9 passed (11)
+   Start at  17:26:28
+   Duration  8.49s (transform 19ms, setup 105ms, import 12ms, tests 8.29s, environment 0ms)
+
+JSON report written to /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundaries-test-results.json

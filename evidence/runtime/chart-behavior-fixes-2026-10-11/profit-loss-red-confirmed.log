@@ -1,0 +1,294 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+xxxxxx···········x···xx·
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/profit-loss-segments.test.tsx > exact-zero sign changes retain every observation in correctly signed contiguous segments: [ -1, +0, 1 ]
+AssertionError: expected [ [ true, [ -1, +0, 1 ] ] ] to deeply equal [ [ false, [ -1, +0 ] ], …(1) ]
+
+- Expected
++ Received
+
+  [
+    [
+-     false,
++     true,
+      [
+        -1,
+-       0,
+-     ],
+-   ],
+-   [
+-     true,
+-     [
+        0,
+        1,
+      ],
+    ],
+  ]
+
+ ❯ packages/ui/src/charts/profit-loss-segments.test.tsx:27:97
+     25| ])("exact-zero sign changes retain every observation in correctly sign…
+     26|   const segments = splitProfitLossSegments({ data: makeRows(values), d…
+     27|   expect(segments.map(segment => [segment.isPositive, segment.data.map…
+       |                                                                                                 ^
+     28| });
+     29|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  packages/ui/src/charts/profit-loss-segments.test.tsx > exact-zero sign changes retain every observation in correctly signed contiguous segments: [ 1, +0, -1 ]
+AssertionError: expected [ [ false, [ 1, +0, -1 ] ] ] to deeply equal [ [ true, [ 1, +0 ] ], …(1) ]
+
+- Expected
++ Received
+
+  [
+    [
+-     true,
++     false,
+      [
+        1,
+-       0,
+-     ],
+-   ],
+-   [
+-     false,
+-     [
+        0,
+        -1,
+      ],
+    ],
+  ]
+
+ ❯ packages/ui/src/charts/profit-loss-segments.test.tsx:27:97
+     25| ])("exact-zero sign changes retain every observation in correctly sign…
+     26|   const segments = splitProfitLossSegments({ data: makeRows(values), d…
+     27|   expect(segments.map(segment => [segment.isPositive, segment.data.map…
+       |                                                                                                 ^
+     28| });
+     29|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  packages/ui/src/charts/profit-loss-segments.test.tsx > exact-zero sign changes retain every observation in correctly signed contiguous segments: [ -2, +0, +0, 3 ]
+AssertionError: expected [ [ true, [ -2, +0, +0, 3 ] ] ] to deeply equal [ [ false, [ -2, +0, +0 ] ], …(1) ]
+
+- Expected
++ Received
+
+  [
+    [
+-     false,
++     true,
+      [
+        -2,
+-       0,
+        0,
+-     ],
+-   ],
+-   [
+-     true,
+-     [
+        0,
+        3,
+      ],
+    ],
+  ]
+
+ ❯ packages/ui/src/charts/profit-loss-segments.test.tsx:27:97
+     25| ])("exact-zero sign changes retain every observation in correctly sign…
+     26|   const segments = splitProfitLossSegments({ data: makeRows(values), d…
+     27|   expect(segments.map(segment => [segment.isPositive, segment.data.map…
+       |                                                                                                 ^
+     28| });
+     29|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  packages/ui/src/charts/profit-loss-segments.test.tsx > exact-zero sign changes retain every observation in correctly signed contiguous segments: [ 2, +0, +0, -3 ]
+AssertionError: expected [ [ false, [ 2, +0, +0, -3 ] ] ] to deeply equal [ [ true, [ 2, +0, +0 ] ], …(1) ]
+
+- Expected
++ Received
+
+  [
+    [
+-     true,
++     false,
+      [
+        2,
+-       0,
+        0,
+-     ],
+-   ],
+-   [
+-     false,
+-     [
+        0,
+        -3,
+      ],
+    ],
+  ]
+
+ ❯ packages/ui/src/charts/profit-loss-segments.test.tsx:27:97
+     25| ])("exact-zero sign changes retain every observation in correctly sign…
+     26|   const segments = splitProfitLossSegments({ data: makeRows(values), d…
+     27|   expect(segments.map(segment => [segment.isPositive, segment.data.map…
+       |                                                                                                 ^
+     28| });
+     29|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  packages/ui/src/charts/profit-loss-segments.test.tsx > exact-zero sign changes retain every observation in correctly signed contiguous segments: [ -1, +0, 1, +0, -2 ]
+AssertionError: expected [ [ false, [ -1, +0, 1, +0, -2 ] ] ] to deeply equal [ [ false, [ -1, +0 ] ], …(2) ]
+
+- Expected
++ Received
+
+@@ -2,23 +2,11 @@
+    [
+      false,
+      [
+        -1,
+        0,
+-     ],
+-   ],
+-   [
+-     true,
+-     [
+-       0,
+        1,
+-       0,
+-     ],
+-   ],
+-   [
+-     false,
+-     [
+        0,
+        -2,
+      ],
+    ],
+  ]
+
+ ❯ packages/ui/src/charts/profit-loss-segments.test.tsx:27:97
+     25| ])("exact-zero sign changes retain every observation in correctly sign…
+     26|   const segments = splitProfitLossSegments({ data: makeRows(values), d…
+     27|   expect(segments.map(segment => [segment.isPositive, segment.data.map…
+       |                                                                                                 ^
+     28| });
+     29|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  packages/ui/src/charts/profit-loss-segments.test.tsx > exact-zero sign changes retain every observation in correctly signed contiguous segments: [ 1, +0, -1, +0, 2 ]
+AssertionError: expected [ [ true, [ 1, +0, -1, +0, 2 ] ] ] to deeply equal [ [ true, [ 1, +0 ] ], …(2) ]
+
+- Expected
++ Received
+
+@@ -2,23 +2,11 @@
+    [
+      true,
+      [
+        1,
+        0,
+-     ],
+-   ],
+-   [
+-     false,
+-     [
+-       0,
+        -1,
+-       0,
+-     ],
+-   ],
+-   [
+-     true,
+-     [
+        0,
+        2,
+      ],
+    ],
+  ]
+
+ ❯ packages/ui/src/charts/profit-loss-segments.test.tsx:27:97
+     25| ])("exact-zero sign changes retain every observation in correctly sign…
+     26|   const segments = splitProfitLossSegments({ data: makeRows(values), d…
+     27|   expect(segments.map(segment => [segment.isPositive, segment.data.map…
+       |                                                                                                 ^
+     28| });
+     29|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  packages/ui/src/charts/profit-loss-segments.test.tsx > an exact-zero boundary shares the original row without mutating dates or observations
+AssertionError: expected [ { data: [ { …(2) }, …(2) ], …(1) } ] to have a length of 2 but got 1
+
+- Expected
++ Received
+
+- 2
++ 1
+
+ ❯ packages/ui/src/charts/profit-loss-segments.test.tsx:65:20
+     63|   data.forEach(Object.freeze);
+     64|   const segments = splitProfitLossSegments({ data, dataKey: "value", x…
+     65|   expect(segments).toHaveLength(2);
+       |                    ^
+     66|   expect(segments[0]!.data[0]).toBe(data[0]);
+     67|   expect(segments[0]!.data.at(-1)).toBe(data[1]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+ FAIL  packages/ui/src/charts/profit-loss-segments.test.tsx > custom x/data keys retain numeric zero-boundary identity without inventing a Date
+AssertionError: expected [ false ] to deeply equal [ true, false ]
+
+- Expected
++ Received
+
+  [
+-   true,
+    false,
+  ]
+
+ ❯ packages/ui/src/charts/profit-loss-segments.test.tsx:90:55
+     88|   const data = [{ observedAt: 1000, net: 1 }, { observedAt: 2000, net:…
+     89|   const segments = splitProfitLossSegments({ data, dataKey: "net", xDa…
+     90|   expect(segments.map(segment => segment.isPositive)).toEqual([true, f…
+       |                                                       ^
+     91|   expect(segments[0]!.data.at(-1)).toBe(data[1]);
+     92|   expect(segments[1]!.data[0]).toBe(data[1]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+
+ FAIL  packages/ui/src/charts/profit-loss-segments.test.tsx > the real profit/loss renderer uses both existing sign colors across an exact zero
+AssertionError: expected [ 'var(--color-emerald-500)' ] to deeply equal [ 'var(--color-red-500)', …(1) ]
+
+- Expected
++ Received
+
+  [
+-   "var(--color-red-500)",
+    "var(--color-emerald-500)",
+  ]
+
+ ❯ packages/ui/src/charts/profit-loss-segments.test.tsx:109:58
+    107|   const view = render(chart(makeRows([-1, 0, 1])));
+    108|   const paths = [...view.container.querySelectorAll('[data-slot="profi…
+    109|   expect(paths.map(path => path.getAttribute("stroke"))).toEqual([PROF…
+       |                                                          ^
+    110|   expect(paths.every(path => !/NaN|Infinity/.test(path.getAttribute("d…
+    111| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 failed | 15 passed (24)
+   Start at  12:08:47
+   Duration  1.11s (transform 220ms, setup 109ms, import 439ms, tests 33ms, environment 442ms)
+

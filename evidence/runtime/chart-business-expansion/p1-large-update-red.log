@@ -1,0 +1,38 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts (10 tests | 1 failed) 7ms
+   × the large-update fixture covers increase and decrease on the same scale 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > the large-update fixture covers increase and decrease on the same scale
+AssertionError: expected [ 25, 28, 31 ] to deeply equal [ 25, 75, 50 ]
+
+- Expected
++ Received
+
+  [
+    25,
+-   75,
+-   50,
++   28,
++   31,
+  ]
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts:25:49
+     23| test("the large-update fixture covers increase and decrease on the sam…
+     24|   const snapshots = [0,1,2].map(revision => makeMiniRows(revision));
+     25|   expect(snapshots.map(rows => rows[0]!.count)).toEqual([25,75,50]);
+       |                                                 ^
+     26|   expect(snapshots.map(rows => rows[0]!.id)).toEqual(["college-1","col…
+     27|   expect(snapshots.map(getComparisonMax)).toEqual([100,100,100]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  23:01:09
+   Duration  551ms (transform 21ms, setup 90ms, import 13ms, tests 7ms, environment 358ms)
+

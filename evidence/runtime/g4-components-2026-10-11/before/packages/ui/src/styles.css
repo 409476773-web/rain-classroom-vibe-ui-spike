@@ -1,0 +1,1166 @@
+@import "./navigation/navigation.css";
+@import "./navigation/navigation-families.css";
+@import "./tree/tree.css";
+
+.rain-icon {
+  display: inline-block;
+  flex: none;
+  color: inherit;
+  vertical-align: middle;
+}
+
+/* G3 local component recipes: visual values stay at component scope until the post-visual Token Gate. */
+.rain-scroll-area-scrollbar[data-orientation="vertical"] { flex-direction: column; }
+.rain-scroll-area-scrollbar[data-orientation="horizontal"] { flex-direction: row; }
+.rain-scroll-area-scrollbar[data-hovering], .rain-scroll-area-scrollbar[data-scrolling] { background-color: var(--rain-category-fill-neutral-alpha-6); }
+
+.rain-sheet { --rain-local-g3-sheet-size: min(420px, 100vw); border-color:var(--rain-category-border-neutral-3); }
+.rain-sheet[data-side="right"] { inset-block:0; inset-inline-end:0; width:var(--rain-local-g3-sheet-size); border-inline-start:var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+.rain-sheet[data-side="left"] { inset-block:0; inset-inline-start:0; width:var(--rain-local-g3-sheet-size); border-inline-end:var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+.rain-sheet[data-side="top"] { inset-inline:0; inset-block-start:0; max-height:min(420px,100dvh); border-block-end:var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+.rain-sheet[data-side="bottom"] { inset-inline:0; inset-block-end:0; max-height:min(420px,100dvh); border-block-start:var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+.rain-sheet-backdrop { background-color:var(--rain-overlay-focus); }
+.rain-sheet-header { display:flex; flex:none; align-items:flex-start; justify-content:space-between; gap:var(--rain-space-16); padding:var(--rain-space-24); }
+.rain-sheet-header > div { min-width:0; }
+.rain-sheet-header [data-slot="title"], .rain-sheet-header [data-slot="description"] { padding:0; }
+.rain-sheet-header [data-slot="description"] { margin-top:var(--rain-space-4); }
+.rain-sheet-body { min-width:0; min-height:0; flex:1; overflow:auto; overscroll-behavior:contain; padding:var(--rain-space-16) var(--rain-space-24) var(--rain-space-24); }
+.rain-sheet-footer { display:flex; flex:none; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:var(--rain-space-8); padding:var(--rain-space-16) var(--rain-space-24); padding-bottom:max(var(--rain-space-16),env(safe-area-inset-bottom)); border-block-start:var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+
+.rain-sidebar { --rain-local-g3-sidebar-width: 256px; width: var(--rain-local-g3-sidebar-width); flex: 0 0 var(--rain-local-g3-sidebar-width); transition: width 180ms ease; }
+.rain-sidebar[data-collapsed="true"] { width: 64px; flex-basis: 64px; }
+.rain-sidebar[data-collapsed="true"] [data-slot="label"] { width: 0; overflow: hidden; opacity: 0; }
+.rain-sidebar[data-collapsed="true"] [data-slot="item"] { justify-content: center; }
+
+/* @rain-css-exception g3-family-geometry: existing 320px list cap and inherited Density; no new public spacing scale. */
+.rain-command-input { height: var(--rain-density-control-height, var(--rain-space-36)); }
+.rain-command-list { max-height: 320px; }
+.rain-command [data-slot="empty"]:empty { display: none; }
+.rain-command-item, .rain-sidebar-item { min-height: var(--rain-density-control-height, var(--rain-space-36)); }
+.rain-sidebar [data-slot="icon"] > .rain-icon { width: var(--rain-space-18); height: var(--rain-space-18); }
+.rain-sidebar[data-collapsed="true"] [data-slot="item"] { gap: 0; padding-inline: 0; }
+.rain-sidebar[data-collapsed="true"] [data-slot="header"] { justify-content: center; }
+@media (prefers-reduced-motion: reduce) { .rain-sidebar { transition: none; } }
+
+/* @rain-css-exception g3-family-popup-geometry: existing intended dimensions; no additions to the public spacing scale. */
+.rain-g3-menu-popup.rain-menu { min-width: min(160px, var(--available-width), calc(100vw - var(--rain-space-16))); }
+.rain-g3-menu-item, .rain-g3-menu-trigger, .rain-navigation-menu-link { min-height:var(--rain-density-control-height, var(--rain-space-36)); }
+.rain-g3-menu-item { color:var(--rain-category-text-neutral-1); }
+.rain-g3-menu-item[data-disabled] { color:var(--rain-category-text-neutral-6); }
+.rain-g3-menu-separator { margin-block:var(--rain-space-6); border:0; border-block-start:var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+.rain-navigation-menu > .rain-navigation-menu-viewport { position:absolute; inset-block-start:calc(100% + var(--rain-space-8)); inset-inline-start:0; z-index:40; width:max-content; max-width:calc(100vw - var(--rain-space-16)); }
+.rain-navigation-menu-content { min-width:192px; max-width:calc(100vw - var(--rain-space-16)); }
+.rain-hover-card { width:min(320px, var(--available-width), calc(100vw - var(--rain-space-16))); max-width:320px; }
+
+.rain-checkbox {
+  --rain-local-checkbox-boundary: rgb(from var(--rain-category-border-neutral-1) r g b / 65%);
+  color: var(--rain-category-text-neutral-3);
+}
+.rain-checkbox [data-slot="control"] {
+  background-color: var(--rain-category-background-neutral-1);
+  border-color: var(--rain-local-checkbox-boundary);
+  background-clip: padding-box;
+  position: relative;
+}
+.rain-checkbox[data-state="checked"] [data-slot="control"],
+.rain-checkbox[data-state="mixed"] [data-slot="control"] {
+  background-color: var(--rain-category-fill-brand-solid-2);
+  border-color: var(--rain-category-border-brand-1);
+  color: var(--rain-category-oncolor-1);
+}
+.rain-checkbox:is(:has(input:disabled), [data-menu-control][data-disabled="true"]) [data-slot="control"] {
+  background-color: var(--rain-category-fill-neutral-solid-2);
+  border-color: var(--rain-category-border-neutral-2);
+  color: var(--rain-category-icon-neutral-4);
+}
+.rain-checkbox:has(input:disabled) [data-slot="label"] {
+  color: var(--rain-category-text-neutral-4);
+}
+.rain-checkbox-group {
+  color: var(--rain-category-text-neutral-3);
+}
+.rain-checkbox-group[data-invalid="true"] > [data-slot="message"] {
+  color: var(--rain-category-text-red-1);
+}
+
+/* @rain-css-exception checkbox-interaction-highlight: a 21px Figma highlight inside the existing 24px canvas, shared by native input and menu state. */
+@media (hover: hover) and (forced-colors: none) {
+  .rain-checkbox:is(:has(input:enabled):hover, [data-menu-control][data-highlighted]:not([data-disabled="true"])) [data-slot="canvas"]::before {
+    background-color: var(--rain-category-fill-neutral-alpha-3);
+  }
+  .rain-checkbox[data-state="unchecked"]:is(:has(input:enabled):hover, [data-menu-control][data-highlighted]:not([data-disabled="true"])) [data-slot="control"] {
+    border-color: rgb(from var(--rain-category-border-neutral-1) r g b / 85%);
+    background-color: transparent;
+  }
+}
+@media (forced-colors: none) {
+  /* ponytail: pressed uses native :active; add explicit pointer state only if held-touch feedback is required. */
+  .rain-checkbox:is(:has(input:enabled):is(:active, :has(input:active)), .rain-menu-item:active:not([data-disabled]) > [data-menu-control]:not([data-disabled="true"])) [data-slot="canvas"]::before {
+    background-color: var(--rain-category-fill-neutral-alpha-2);
+  }
+  .rain-checkbox[data-state="unchecked"]:is(:has(input:enabled):is(:active, :has(input:active)), .rain-menu-item:active:not([data-disabled]) > [data-menu-control]:not([data-disabled="true"])) [data-slot="control"] {
+    border-color: rgb(from var(--rain-category-border-neutral-1) r g b / 85%);
+    background-color: transparent;
+  }
+  .rain-checkbox:is([data-state="checked"], [data-state="mixed"]):is(:has(input:enabled):is(:active, :has(input:active)), .rain-menu-item:active:not([data-disabled]) > [data-menu-control]:not([data-disabled="true"])) [data-slot="control"] {
+    background-color: var(--rain-category-fill-brand-solid-1);
+    color: var(--rain-category-oncolor-1);
+  }
+}
+.rain-checkbox [data-slot="canvas"] {
+  position: relative;
+}
+.rain-checkbox [data-slot="canvas"]::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--rain-space-6) / 4);
+  border-radius: var(--rain-radius-4);
+  pointer-events: none;
+}
+
+/* @rain-css-exception checkbox-focus: the native input owns Focus; its visible control receives the shared indicator. */
+.rain-checkbox:has(input:focus-visible) [data-slot="control"] {
+  outline: var(--rain-focus-width) solid var(--rain-focus-control);
+  outline-offset: var(--rain-focus-offset);
+  box-shadow: 0 0 0 3px var(--rain-focus-control-halo);
+}
+/* @rain-css-exception checkbox-forced-colors: keep boolean and mixed marks visible with system colors. */
+@media (forced-colors: active) {
+  .rain-checkbox [data-slot="control"] {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    border-color: ButtonText;
+    color: ButtonText;
+  }
+  .rain-checkbox[data-state="checked"] [data-slot="control"],
+  .rain-checkbox[data-state="mixed"] [data-slot="control"] {
+    background-color: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+  }
+  .rain-checkbox:is(:has(input:disabled), [data-menu-control][data-disabled="true"]) [data-slot="control"] {
+    background-color: Canvas;
+    border-color: GrayText;
+    color: GrayText;
+  }
+  .rain-checkbox:has(input:focus-visible) [data-slot="control"] {
+    outline: 2px solid CanvasText;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+}
+
+/* @rain-css-exception switch-geometry: preserve the legacy Switch hit areas and track/thumb measurements while colors stay semantic. */
+.rain-switch {
+  --rain-switch-hit-size: var(--rain-space-32);
+  --rain-switch-track-width: var(--rain-space-28);
+  --rain-switch-track-height: var(--rain-space-16);
+  --rain-switch-indicator-size: var(--rain-space-12);
+  --rain-switch-inset: var(--rain-space-2);
+  --rain-switch-shift: var(--rain-space-12);
+  --rain-switch-track-unchecked: var(--rain-color-switch-track-unchecked);
+  --rain-switch-track-checked: var(--rain-color-action-primary);
+  --rain-switch-track-hover: var(--rain-color-switch-track-hover);
+  --rain-switch-track-pressed: var(--rain-color-switch-track-pressed);
+  --rain-switch-indicator: var(--rain-color-switch-indicator);
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  width: var(--rain-switch-hit-size);
+  height: var(--rain-switch-hit-size);
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--rain-space-0);
+  border: 0;
+  border-radius: var(--rain-radius-full);
+  background: transparent;
+  color: var(--rain-switch-indicator);
+  cursor: pointer;
+  appearance: none;
+}
+.rain-switch[data-size="small"] {
+  --rain-switch-hit-size: var(--rain-space-28);
+  --rain-switch-track-width: var(--rain-space-24);
+  --rain-switch-track-height: var(--rain-space-14);
+  --rain-switch-indicator-size: var(--rain-space-10);
+  --rain-switch-shift: var(--rain-space-10);
+}
+.rain-switch[data-size="large"] {
+  --rain-switch-hit-size: calc(var(--rain-space-40) + var(--rain-space-4));
+  --rain-switch-track-width: calc(var(--rain-space-40) - var(--rain-space-2));
+  --rain-switch-track-height: var(--rain-space-20);
+  --rain-switch-indicator-size: 15px;
+  --rain-switch-inset: 2.5px;
+  --rain-switch-shift: 18px;
+}
+.rain-switch [data-slot="track"] {
+  box-sizing: border-box;
+  display: inline-flex;
+  width: var(--rain-switch-track-width);
+  height: var(--rain-switch-track-height);
+  align-items: center;
+  padding: var(--rain-switch-inset);
+  border-radius: var(--rain-radius-full);
+  background-color: var(--rain-switch-track-unchecked);
+  transition: background-color 160ms ease;
+}
+.rain-switch [data-slot="indicator"] {
+  box-sizing: border-box;
+  display: inline-flex;
+  width: var(--rain-switch-indicator-size);
+  height: var(--rain-switch-indicator-size);
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--rain-radius-full);
+  background-color: var(--rain-switch-indicator);
+  transform: translateX(0);
+  transition: transform 160ms ease;
+}
+.rain-switch[data-state="checked"] [data-slot="track"] { background-color: var(--rain-switch-track-checked); }
+.rain-switch[data-state="checked"] [data-slot="indicator"] { transform: translateX(var(--rain-switch-shift)); }
+.rain-switch:dir(rtl)[data-state="checked"] [data-slot="indicator"] { transform: translateX(calc(-1 * var(--rain-switch-shift))); }
+.rain-switch:focus-visible {
+  outline: var(--rain-focus-width) solid var(--rain-focus-control);
+  outline-offset: var(--rain-focus-offset);
+  box-shadow: 0 0 0 3px var(--rain-focus-control-halo);
+}
+@media (hover: hover) and (forced-colors: none) {
+  .rain-switch:not([data-disabled="true"]):not([data-loading="true"]):hover [data-slot="track"] { background-color: var(--rain-switch-track-hover); }
+  .rain-switch[data-state="checked"]:not([data-disabled="true"]):not([data-loading="true"]):hover [data-slot="track"] { background-color: var(--rain-color-switch-track-checked-hover); }
+}
+@media (forced-colors: none) {
+  .rain-switch:not([data-disabled="true"]):not([data-loading="true"]):active [data-slot="track"] { background-color: var(--rain-switch-track-pressed); }
+  .rain-switch[data-state="checked"]:not([data-disabled="true"]):not([data-loading="true"]):active [data-slot="track"] { background-color: var(--rain-color-switch-track-checked-pressed); }
+}
+.rain-switch[data-disabled="true"] {
+  cursor: not-allowed;
+  color: color-mix(in srgb, var(--rain-switch-indicator) 40%, transparent);
+}
+.rain-switch[data-disabled="true"] [data-slot="track"] {
+  background-color: color-mix(in srgb, var(--rain-switch-track-unchecked) 40%, transparent);
+}
+.rain-switch[data-disabled="true"][data-state="checked"] [data-slot="track"] {
+  background-color: color-mix(in srgb, var(--rain-switch-track-checked) 40%, transparent);
+}
+.rain-switch[data-loading="true"]:not([data-disabled="true"]) { cursor: progress; }
+.rain-switch [data-slot="loading-indicator"] {
+  display: block;
+  width: calc(100% - var(--rain-space-2));
+  height: calc(100% - var(--rain-space-2));
+  flex: none;
+  background-color: currentColor;
+  animation: rain-switch-loading-spin 800ms linear infinite;
+}
+.rain-switch[data-loading="true"] [data-slot="indicator"] { color: var(--rain-switch-track-unchecked); }
+.rain-switch[data-disabled="true"][data-loading="true"] [data-slot="indicator"] {
+  color: color-mix(in srgb, var(--rain-switch-track-unchecked) 40%, transparent);
+}
+@keyframes rain-switch-loading-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .rain-switch [data-slot="track"], .rain-switch [data-slot="indicator"] { transition: none; }
+  .rain-switch [data-slot="loading-indicator"] { animation: none; }
+}
+/* @rain-css-exception switch-forced-colors: retain checked, disabled and focus meaning with system colors. */
+@media (forced-colors: active) {
+  .rain-switch { forced-color-adjust: none; }
+  .rain-switch [data-slot="track"] { background-color: Canvas; outline: 1px solid ButtonText; }
+  .rain-switch [data-slot="indicator"] { background-color: ButtonText; }
+  .rain-switch[data-state="checked"] [data-slot="track"] { background-color: Highlight; outline-color: Highlight; }
+  .rain-switch[data-state="checked"] [data-slot="indicator"] { background-color: HighlightText; }
+  .rain-switch[data-disabled="true"] [data-slot="track"] { background-color: Canvas; outline-color: GrayText; }
+  .rain-switch[data-disabled="true"] [data-slot="indicator"] { background-color: GrayText; }
+  .rain-switch:focus-visible { outline: 2px solid CanvasText; outline-offset: 2px; box-shadow: none; }
+}
+
+.rain-radio {
+  --rain-local-radio-boundary: rgb(from var(--rain-category-border-neutral-1) r g b / 65%);
+  color: var(--rain-category-text-neutral-3);
+}
+.rain-radio [data-slot="control"] {
+  background-color: var(--rain-category-background-neutral-1);
+  border-color: var(--rain-local-radio-boundary);
+  background-clip: padding-box;
+  position: relative;
+}
+.rain-radio[data-state="checked"] [data-slot="control"] {
+  background-color: var(--rain-category-fill-brand-solid-2);
+  border-color: var(--rain-category-border-brand-1);
+  color: var(--rain-category-oncolor-1);
+}
+.rain-radio:is(:has(input:disabled), [data-menu-control][data-disabled="true"]) [data-slot="control"] {
+  background-color: var(--rain-category-fill-neutral-solid-2);
+  border-color: var(--rain-category-border-neutral-2);
+  color: var(--rain-category-icon-neutral-4);
+}
+.rain-radio:has(input:disabled) [data-slot="label"] {
+  color: var(--rain-category-text-neutral-4);
+}
+.rain-radio-group {
+  color: var(--rain-category-text-neutral-3);
+}
+.rain-radio-group[data-invalid="true"] > [data-slot="message"] {
+  color: var(--rain-category-text-red-1);
+}
+
+/* @rain-css-exception radio-interaction-highlight: a 23px Figma highlight inside the existing 24px canvas, shared by native input and menu state. */
+@media (hover: hover) and (forced-colors: none) {
+  .rain-radio:is(:has(input:enabled):hover, [data-menu-control][data-highlighted]:not([data-disabled="true"])) [data-slot="canvas"]::before {
+    background-color: var(--rain-category-fill-neutral-alpha-3);
+  }
+  .rain-radio[data-state="unchecked"]:is(:has(input:enabled):hover, [data-menu-control][data-highlighted]:not([data-disabled="true"])) [data-slot="control"] {
+    border-color: rgb(from var(--rain-category-border-neutral-1) r g b / 85%);
+    background-color: transparent;
+  }
+}
+@media (forced-colors: none) {
+  /* ponytail: pressed uses native :active; add explicit pointer state only if held-touch feedback is required. */
+  .rain-radio:is(:has(input:enabled):is(:active, :has(input:active)), .rain-menu-item:active:not([data-disabled]) > [data-menu-control]:not([data-disabled="true"])) [data-slot="canvas"]::before {
+    background-color: var(--rain-category-fill-neutral-alpha-2);
+  }
+  .rain-radio[data-state="unchecked"]:is(:has(input:enabled):is(:active, :has(input:active)), .rain-menu-item:active:not([data-disabled]) > [data-menu-control]:not([data-disabled="true"])) [data-slot="control"] {
+    border-color: rgb(from var(--rain-category-border-neutral-1) r g b / 85%);
+    background-color: transparent;
+  }
+  .rain-radio[data-state="checked"]:is(:has(input:enabled):is(:active, :has(input:active)), .rain-menu-item:active:not([data-disabled]) > [data-menu-control]:not([data-disabled="true"])) [data-slot="control"] {
+    background-color: var(--rain-category-fill-brand-solid-1);
+    color: var(--rain-category-oncolor-1);
+  }
+}
+.rain-radio [data-slot="canvas"] {
+  position: relative;
+}
+.rain-radio [data-slot="canvas"]::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--rain-space-2) / 4);
+  border-radius: var(--rain-radius-full);
+  pointer-events: none;
+}
+
+/* @rain-css-exception radio-focus: the native input owns Focus; its visible control receives the shared indicator. */
+.rain-radio:has(input:focus-visible) [data-slot="control"] {
+  outline: var(--rain-focus-width) solid var(--rain-focus-control);
+  outline-offset: var(--rain-focus-offset);
+  box-shadow: 0 0 0 3px var(--rain-focus-control-halo);
+}
+/* @rain-css-exception radio-forced-colors: keep selected dots visible with system colors. */
+@media (forced-colors: active) {
+  .rain-radio [data-slot="control"] {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    border-color: ButtonText;
+    color: ButtonText;
+  }
+  .rain-radio[data-state="checked"] [data-slot="control"] {
+    background-color: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+  }
+  .rain-radio:is(:has(input:disabled), [data-menu-control][data-disabled="true"]) [data-slot="control"] {
+    background-color: Canvas;
+    border-color: GrayText;
+    color: GrayText;
+  }
+  .rain-radio:has(input:focus-visible) [data-slot="control"] {
+    outline: 2px solid CanvasText;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+}
+.rain-radio [data-slot="mark"] { background-color: currentColor; }
+
+
+/* @rain-css-exception option-button-focus: bridge shared input Focus to its visible label. */
+.rain-option-button:has(input:focus-visible) {
+  outline: var(--rain-focus-width) solid var(--rain-focus-item);
+  outline-offset: var(--rain-focus-offset);
+  box-shadow: 0 0 0 3px var(--rain-focus-control-halo);
+}
+
+/* @rain-css-exception option-button-forced-colors: preserve choice and disabled state. */
+@media (forced-colors: active) {
+  .rain-option-button [data-slot="control"] {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    color: CanvasText;
+    outline: 1px solid ButtonText;
+  }
+  .rain-option-button[data-checked="true"] [data-slot="control"] {
+    background-color: Highlight;
+    color: HighlightText;
+    outline: none;
+  }
+  .rain-option-button:has(input:disabled) [data-slot="control"] {
+    color: GrayText;
+  }
+  .rain-option-button:has(input:focus-visible) {
+    outline: 2px solid CanvasText;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+}
+
+/* @rain-css-exception question-number-feedback-space: contain the 14px marker without inventing a spacing token. */
+.rain-question-number:is([data-size="36"], [data-size="40"]):has(> [data-slot="feedback"]) {
+  padding-bottom: calc(var(--rain-space-14) / 2);
+}
+
+/* @rain-css-exception question-number-forced-colors: preserve location and glyphs with system colors. */
+@media (forced-colors: active) {
+  .rain-question-number [data-slot="control"],
+  .rain-question-number [data-slot="feedback"] {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    color: CanvasText;
+    border-color: ButtonText;
+  }
+
+  .rain-question-number[data-current="true"] [data-slot="control"] {
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  .rain-question-number:disabled [data-slot="control"] {
+    color: GrayText;
+  }
+}
+
+/* @rain-css-exception icon-size-inheritance: public utilities can select an explicit box. */
+@layer base {
+  .rain-icon {
+    width: 1em;
+    height: 1em;
+  }
+}
+
+/* @rain-css-exception icon-button-loading-mask: same canonical asset and optical correction as Button. */
+.rain-icon-button [data-slot="loading-indicator"] {
+  background-color: currentColor;
+  -webkit-mask: url("./icons/assets/button-loading.png") center / var(--rain-icon-button-loading-mask-size) no-repeat;
+  mask: url("./icons/assets/button-loading.png") center / var(--rain-icon-button-loading-mask-size) no-repeat;
+  animation: rain-button-loading-spin var(--rain-icon-button-loading-duration) var(--rain-icon-button-loading-timing-function) infinite;
+}
+
+/* @rain-css-exception icon-button-forced-colors */
+@media (forced-colors: active) {
+  .rain-icon-button [data-slot="loading-indicator"] {
+    forced-color-adjust: none;
+    background-color: CanvasText;
+  }
+}
+
+/* @rain-css-exception icon-button-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .rain-icon-button [data-slot="loading-indicator"] {
+    animation: none;
+  }
+}
+
+.rain-icon[data-icon-color-mode="host"] {
+  background-color: currentColor;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  mask-mode: alpha;
+}
+
+.rain-icon > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (forced-colors: active) {
+  .rain-icon[data-icon-color-mode="host"] {
+    forced-color-adjust: none;
+  }
+
+  /* @rain-css-exception button-loading-mask */
+  .rain-button [data-slot="loading-indicator"] {
+    forced-color-adjust: none;
+  }
+}
+
+/* @rain-css-exception button-loading-mask */
+.rain-button [data-slot="loading-indicator"] {
+  background: currentColor;
+  /* The canonical 24px canvas contains a 20px ring. Keep the accepted visible Button size. */
+  -webkit-mask: url("./icons/assets/button-loading.png") center / var(--rain-button-loading-mask-size) no-repeat;
+  mask: url("./icons/assets/button-loading.png") center / var(--rain-button-loading-mask-size) no-repeat;
+  animation: rain-button-loading-spin var(--rain-button-loading-duration) var(--rain-button-loading-timing-function) infinite;
+}
+
+/* @rain-css-exception button-loading-mask */
+@keyframes rain-button-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* @rain-css-exception select-formal-dependencies: portal sizing and selected Tag recipe. */
+.rain-select__positioner { width: var(--anchor-width); }
+.rain-select__popup { --rain-popup-width: var(--anchor-width); width: 100%; }
+.rain-select [data-slot="tag"] [data-rain-id="ui-tag"] { margin-block: 0; }
+.rain-select [data-slot="tag"] .rain-tag__remove { margin: 0; }
+.rain-select [data-slot="tag"] .rain-tag__remove::after { inset: 0; }
+.rain-select [data-slot="tag"] .rain-tag__remove > span {
+  width: var(--rain-icon-size-14); height: var(--rain-icon-size-14); color: inherit;
+}
+@media (pointer: coarse) {
+  .rain-select [data-slot="tag"] [data-rain-id="ui-tag"] { height: auto; min-block-size: var(--rain-select-touch-target-size); }
+  .rain-select__popup [data-slot="option"] { min-block-size: var(--rain-select-touch-target-size); }
+}
+
+/* @rain-css-exception input-native-control-reset: preserve field typography across native input types. */
+.rain-input__control,
+.rain-select__control {
+  font: inherit;
+  -webkit-text-fill-color: currentColor;
+}
+
+/* @rain-css-exception field-inside-label-width: reserve room for values when a field title is long. */
+.rain-field-label { max-width: 50%; }
+
+/* @rain-css-exception select-value-layout: selected values grow with their content and retain four-pixel block padding. */
+.rain-select [data-slot="frame"][data-display="tags"] {
+  height: auto;
+  padding-block: var(--rain-space-4);
+}
+
+/* @rain-css-exception select-clear-visibility: keep a stable slot; keyboard focus and touch can always reach the action. */
+.rain-select [data-slot="clear-action"] { opacity: 0; }
+.rain-select:is(:hover, :focus-within, [data-state="open"]) [data-slot="clear-action"] { opacity: 1; }
+@media (hover: none), (pointer: coarse) {
+  .rain-select [data-slot="clear-action"] { opacity: 1; }
+}
+/* @rain-css-exception select-touch-targets: larger non-overlapping controls on coarse pointers. */
+@media (pointer: coarse) {
+  .rain-select [data-slot="frame"],
+  .rain-select [data-slot="tag"] { height: auto; min-block-size: var(--rain-select-touch-target-size); }
+  .rain-select__control,
+  .rain-select__action { min-inline-size: var(--rain-select-touch-target-size); min-block-size: var(--rain-select-touch-target-size); }
+  .rain-select > [data-slot="frame"] > [data-slot="clear-slot"] { inline-size: var(--rain-select-touch-target-size); block-size: var(--rain-select-touch-target-size); }
+  .rain-select [data-slot="option"] { min-block-size: var(--rain-select-touch-target-size); }
+}
+
+/* @rain-css-exception field-focus-and-underline: one frame owns the accepted local focus, including read-only and validation. */
+.rain-field-frame {
+  --rain-focus-control: var(--rain-field-focus-line);
+  --rain-focus-control-halo: var(--rain-field-focus-halo);
+  --rain-field-focus-line: var(--rain-category-border-brand-1);
+  --rain-field-focus-halo: var(--rain-category-fill-brand-alpha-3);
+  --rain-field-readonly-line: var(--rain-category-border-neutral-1);
+}
+.rain-field-frame[data-status="warning"] {
+  --rain-field-focus-line: var(--rain-category-border-orange-1);
+  --rain-field-focus-halo: var(--rain-category-fill-orange-alpha-1);
+  --rain-field-readonly-line: var(--rain-category-border-orange-1);
+}
+.rain-field-frame[data-status="error"] {
+  --rain-field-focus-line: var(--rain-category-border-red-1);
+  --rain-field-focus-halo: var(--rain-category-fill-red-alpha-1);
+  --rain-field-readonly-line: var(--rain-category-border-red-1);
+}
+.rain-field-frame[data-permission="editable"]:not([data-appearance="underlined"]):has(> [data-slot="control"]:focus-visible) {
+  outline: var(--rain-line-thickness-1) solid var(--rain-field-focus-line);
+  outline-offset: 0;
+  border-color: transparent;
+  box-shadow: 0 0 0 3px var(--rain-field-focus-halo);
+}
+.rain-field-frame[data-permission="readonly"]:not([data-pointer-focus]):has(> [data-slot="control"]:focus-visible) {
+  outline: var(--rain-line-thickness-1) solid var(--rain-field-readonly-line);
+  outline-offset: 0;
+  box-shadow: none;
+}
+.rain-field-frame[data-appearance="underlined"] {
+  border-radius: 0;
+  border-top-color: transparent;
+  border-inline-color: transparent;
+}
+.rain-field-frame[data-appearance="underlined"][data-permission="editable"]:is(:focus-within, [data-open="true"]) {
+  border-bottom-color: var(--rain-field-focus-line);
+  outline: none;
+  box-shadow: none;
+}
+.rain-field-frame[data-appearance="underlined"][data-permission="editable"]:not([data-status="default"]):is(:focus-within, [data-open="true"]),
+.rain-field-frame[data-appearance="underlined"][data-permission="readonly"]:not([data-pointer-focus]):has(> [data-slot="control"]:focus-visible) {
+  background-image: linear-gradient(var(--rain-field-focus-line), var(--rain-field-focus-line));
+  background-size: 100% var(--rain-line-thickness-1);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  outline: none;
+  box-shadow: none;
+}
+.rain-field-frame[data-appearance="underlined"][data-permission="readonly"]:not([data-pointer-focus]):has(> [data-slot="control"]:focus-visible) {
+  border-bottom-color: var(--rain-field-readonly-line);
+  background-image: linear-gradient(var(--rain-field-readonly-line), var(--rain-field-readonly-line));
+}
+
+/* @rain-css-exception input-clear-visibility: visibility also excludes hidden actions from keyboard focus. */
+@media (hover: hover) and (pointer: fine) {
+  .rain-input:not(:hover):not(:focus-within) .rain-input__clear {
+    visibility: hidden;
+  }
+}
+
+/* @rain-css-exception input-forced-colors: native system colors preserve the field boundary and actions. */
+@media (forced-colors: active) {
+  .rain-input { background: Canvas; color: CanvasText; border-color: CanvasText; }
+  .rain-input [data-slot="control"]::placeholder { color: GrayText; }
+  .rain-input [data-slot="clear-action"], .rain-input [data-slot="count"] { color: CanvasText; }
+  .rain-input[data-state="disabled"] { border-color: GrayText; color: GrayText; }
+}
+
+/* @rain-css-exception tag-vertical-layout: intrinsic single-column text preserves vertical labels under text enlargement. */
+.rain-tag-vertical [data-slot="content"] { flex-direction: column; }
+.rain-tag-vertical [data-slot="label"] { width: 1em; white-space: normal; overflow: visible; overflow-wrap: anywhere; text-align: center; }
+
+/* @rain-css-exception tag-domain-details: registered native shapes, reminder offset and batch alpha. */
+.rain-tag-status-dot { background-color: currentColor; width: var(--rain-tag-status-dot); height: var(--rain-tag-status-dot); }
+.rain-tag-reminder { background-color: currentColor; width: var(--rain-tag-reminder-diameter); height: var(--rain-tag-reminder-diameter); border-width: var(--rain-tag-reminder-ring); top: var(--rain-tag-reminder-offset); right: var(--rain-tag-reminder-offset); }
+.rain-tag-batch__front { align-self: start; margin-left: auto; }
+.rain-tag-batch__back { left: 0; opacity: var(--rain-tag-batch-back-alpha); }
+.rain-tag-score { display: inline-grid; grid-template-columns: 1fr; grid-template-rows: 1fr auto 1fr; row-gap: var(--rain-space-2); }
+.rain-tag-score > [data-slot="label"] { grid-row: 2; grid-column: 1; }
+.rain-tag-score[data-state="unscored"] > [data-slot="score-badge"] { visibility: hidden; }
+.rain-tag-score-badge { grid-row: 1; grid-column: 1; align-self: start; justify-self: end; border-top-left-radius: 0; border-bottom-right-radius: 0; border-top-right-radius: inherit; }
+
+/* @rain-css-exception tag-processing-motion: use the existing loading motion and honor reduced motion. */
+.rain-tag-processing { animation: rain-button-loading-spin var(--rain-button-loading-duration) var(--rain-button-loading-timing-function) infinite; }
+@media (prefers-reduced-motion: reduce) { .rain-tag-processing { animation: none; } }
+
+/* @rain-css-exception tag-domain-forced-colors: preserve dots and the scored boundary in system colors. */
+@media (forced-colors: active) {
+  .rain-tag-status-dot { background: CanvasText; }
+  .rain-tag-reminder { background: Highlight; border-color: Canvas; forced-color-adjust: none; }
+  .rain-tag-score-badge { color: CanvasText; border: var(--rain-line-thickness-1) solid CanvasText; }
+}
+
+/* @rain-css-exception tag-disabled-action: disabled buttons do not paint pointer feedback. */
+.rain-tag__remove:disabled { background-color: transparent; }
+
+
+
+/* @rain-css-exception tag-select-layer: local layer 40 and 20rem menu cap match the approved overlay trial; Base UI owns available space. */
+.rain-tag-select__positioner { z-index: 40; max-width: calc(100vw - 16px); }
+.rain-tag-select__popup { min-width: min(100%, var(--anchor-width)); width: max-content; max-width: min(20rem, var(--available-width)); max-height: min(20rem, var(--available-height)); overflow-y: auto; overscroll-behavior: contain; }
+
+/* @rain-css-exception tag-select-interaction: reuse the accepted Tag multiply state and expand hit area without changing visual geometry. */
+.rain-tag-select__trigger { isolation: isolate; min-height: calc(1lh + var(--rain-line-thickness-1) * 2); margin-block: calc(var(--rain-space-6) / 2); }
+.rain-tag-select__trigger:not(:disabled):hover > .rain-tag__overlay { opacity: var(--rain-tag-hover-opacity); }
+.rain-tag-select__trigger:not(:disabled):active > .rain-tag__overlay { opacity: var(--rain-tag-pressed-opacity); }
+.rain-tag-select__trigger::after { content: ""; position: absolute; inset: calc(var(--rain-space-6) / -2) 0; }
+@media (pointer: coarse) {
+  .rain-tag-select__trigger { margin-block: var(--rain-space-14); }
+  .rain-tag-select__trigger::after { inset-block: calc(var(--rain-space-14) * -1); }
+  .rain-tag-select__option { min-height: var(--rain-select-touch-target-size); }
+}
+
+/* @rain-css-exception tag-select-forced-colors: preserve selected, active and disabled options with system colors. */
+@media (forced-colors: active) {
+  .rain-tag-select__popup { color: CanvasText; background: Canvas; border-color: CanvasText; }
+  .rain-tag-select__option[data-highlighted] { outline: 2px solid Highlight; outline-offset: -2px; }
+  .rain-tag-select__option[data-selected], .rain-tag-select__option [data-slot="indicator"] { color: CanvasText; }
+  .rain-tag-select__option[data-disabled], .rain-tag-select__option[data-disabled] [data-slot="indicator"] { color: GrayText; }
+}
+
+.rain-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  color: var(--rain-color-text-primary);
+}
+
+.rain-badge [data-slot="content"] {
+  display: inline-flex;
+  align-items: center;
+}
+
+.rain-badge__indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rain-color-text-inverse);
+  background: var(--rain-badge-neutral-fill);
+  border: 1px solid var(--rain-color-surface-panel);
+  border-radius: var(--rain-radius-full);
+}
+
+.rain-badge[data-type="dot"] .rain-badge__indicator {
+  width: 6px;
+  height: 6px;
+}
+
+.rain-badge[data-type="count"] .rain-badge__indicator,
+.rain-badge[data-type="label"] .rain-badge__indicator {
+  min-width: 18px;
+  height: 18px;
+  padding-inline: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.rain-badge[data-size="small"]:is([data-type="count"], [data-type="label"]) .rain-badge__indicator {
+  min-width: 16px;
+  height: 16px;
+  padding-inline: 4px;
+  font-size: 9px;
+}
+
+.rain-badge[data-tone="info"] .rain-badge__indicator {
+  background: var(--rain-color-semantic-info);
+}
+
+.rain-badge[data-tone="success"] .rain-badge__indicator {
+  background: var(--rain-color-semantic-success);
+}
+
+.rain-badge[data-tone="warning"] .rain-badge__indicator {
+  color: var(--rain-color-text-primary);
+  background: var(--rain-color-semantic-warning-surface);
+  border-color: var(--rain-color-semantic-warning);
+}
+
+.rain-badge[data-tone="error"] .rain-badge__indicator {
+  background: var(--rain-color-semantic-error);
+}
+
+.rain-badge[data-tone="processing"] .rain-badge__indicator {
+  background: var(--rain-color-brand-primary);
+}
+
+.rain-badge[data-placement="top-end"] .rain-badge__indicator,
+.rain-badge[data-placement="bottom-end"] .rain-badge__indicator {
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+
+.rain-badge[data-placement="top-end"] .rain-badge__indicator {
+  top: 0;
+  transform: translate(50%, -50%);
+}
+
+.rain-badge[data-placement="bottom-end"] .rain-badge__indicator {
+  bottom: 0;
+  transform: translate(50%, 50%);
+}
+
+.rain-badge[data-placement="inline-end"] {
+  gap: 6px;
+}
+
+.rain-badge[data-placement="standalone"] .rain-badge__indicator {
+  position: static;
+}
+
+.rain-surface {
+  color: var(--rain-color-text-primary);
+}
+
+.rain-surface[data-variant="page"] {
+  background: var(--rain-color-surface-page);
+  border: 0;
+  border-radius: 0;
+}
+
+.rain-surface[data-variant="panel"] {
+  background: var(--rain-color-surface-panel);
+  border: 1px solid var(--rain-color-border-default);
+  border-radius: var(--rain-radius-8);
+}
+
+.rain-surface[data-variant="raised"] {
+  background: var(--rain-color-surface-raised);
+  border: 1px solid var(--rain-color-border-strong);
+  border-radius: var(--rain-radius-8);
+  box-shadow: var(--rain-shadow-none);
+}
+
+@media (forced-colors: active) {
+  /* @rain-css-exception button-forced-colors */
+  .rain-button:focus-visible {
+    outline: 2px solid CanvasText;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+
+  .rain-field-frame[data-appearance][data-permission]:not([data-pointer-focus]):has(> [data-slot="control"]:focus-visible) {
+    outline: 2px solid CanvasText;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+  .rain-field-frame[data-appearance="underlined"][data-permission]:not([data-pointer-focus]):is(:has(> [data-slot="control"]:focus-visible), [data-open="true"]) {
+    border-top-width: 0;
+    border-bottom: 2px solid Highlight;
+    background-image: none;
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rain-input {
+    transition: none;
+  }
+
+  /* @rain-css-exception button-reduced-motion */
+  .rain-button [data-slot="loading-indicator"] {
+    animation: none;
+  }
+}
+
+:root {
+  /* Native Link candidates remain independent from the Button Tailwind recipe. */
+  --rain-link-hover-color: var(--rain-color-action-primary-hover);
+  --rain-link-pressed-color: var(--rain-color-action-primary-pressed);
+}
+
+.rain-link {
+  box-sizing: border-box;
+  font-family: inherit;
+  font-weight: 400;
+  background: transparent;
+  border-radius: var(--rain-radius-6);
+  transition: color 100ms ease;
+}
+
+.rain-link,
+.rain-link:visited {
+  color: var(--rain-link-color);
+}
+
+.rain-link:hover {
+  color: var(--rain-link-hover-color);
+}
+
+.rain-link:active {
+  color: var(--rain-link-pressed-color);
+}
+
+.rain-link[data-variant="standalone"] {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  height: 26px;
+  padding-inline: 6px;
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.rain-link[data-variant="inline"] {
+  display: inline;
+  font: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  white-space: normal;
+}
+
+@media (forced-colors: active) {
+  .rain-link:focus-visible {
+    outline: 2px solid CanvasText;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rain-link {
+    transition: none;
+  }
+}
+/* @rain-css-exception option-button-card-layout: content-driven columns using existing spacing. */
+.rain-option-group[data-layout="cards"] > [data-slot="items"] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--rain-space-32) * 8)), 1fr));
+}
+
+/* @rain-css-exception option-button-review-forced-colors: preserve result meaning when system colors replace semantic fills. */
+@media (forced-colors: active) {
+  .rain-option-button [data-slot="feedback"] {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+    white-space: normal;
+    color: CanvasText;
+  }
+  .rain-option-button[data-feedback="correct"],
+  .rain-option-button[data-feedback="wrong"] {
+    gap: var(--rain-space-8);
+  }
+}
+
+/* @rain-css-exception tag-link-composition: inherit the full Tag recipe while preserving native Link behavior. */
+.rain-link-tag { padding-inline: 0; isolation: isolate; }
+.rain-tag .rain-tag__main,
+.rain-tag .rain-tag__main:is(:visited, :hover, :active) {
+  position: relative;
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  align-self: center;
+  height: 100%;
+  padding-inline: var(--rain-space-8);
+  border-radius: inherit;
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.rain-tag[data-size="20"] .rain-tag__main { padding-inline: var(--rain-space-6); }
+.rain-tag[data-size="28"] .rain-tag__main { padding-inline: var(--rain-space-12); }
+.rain-tag[data-removable="true"] .rain-tag__main { padding-inline-end: 0; }
+.rain-tag__main > [data-slot="label"] { display: inline-flex; min-width: 0; }
+.rain-tag__main > [data-slot="new-tab-hint"] { flex: none; }
+
+/* @rain-css-exception tag-state-composition: exact source multiply and group opacity are measured as compound paint. */
+.rain-checkable-tag { isolation: isolate; }
+.rain-checkable-tag [data-slot="selection-mark"] > [data-icon="icon/check-bold"] { color: color-mix(in srgb, currentColor var(--rain-tag-selection-alpha), transparent); }
+.rain-tag__overlay { z-index: -1; border-radius: inherit; opacity: 0; }
+.rain-tag__main:hover .rain-tag__overlay,
+.rain-checkable-tag:hover > .rain-tag__overlay { opacity: var(--rain-tag-hover-opacity); }
+.rain-tag__main:active .rain-tag__overlay,
+.rain-checkable-tag:active > .rain-tag__overlay { opacity: var(--rain-tag-pressed-opacity); }
+
+/* @rain-css-exception tag-choice-focus: bridge native input focus to the current visible Tag. */
+.rain-checkable-tag:has(input:focus-visible) {
+  outline: var(--rain-focus-width) solid var(--rain-focus-item);
+  outline-offset: var(--rain-focus-offset);
+  box-shadow: 0 0 0 3px var(--rain-focus-control-halo);
+}
+
+/* @rain-css-exception tag-touch-targets: reserve separate transparent targets around size-adaptive feedback, with larger vertical reach on touch. */
+.rain-checkable-tag, .rain-link-tag, .rain-tag[data-removable="true"] { margin-block: calc(var(--rain-space-6) / 2); }
+.rain-tag__remove { position: relative; margin-inline: calc(var(--rain-space-6) / 2); margin-inline-end: calc(var(--rain-space-6) / 2 - var(--rain-space-2)); }
+.rain-checkable-tag::after, .rain-tag a.rain-tag__main::after, .rain-tag__remove::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block: calc(var(--rain-space-6) / -2);
+}
+.rain-tag__remove::after { inset-inline: calc(var(--rain-space-6) / -2); }
+@media (pointer: coarse) {
+  .rain-checkable-tag, .rain-link-tag, .rain-tag[data-removable="true"] { margin-block: var(--rain-space-14); }
+  .rain-checkable-tag::after, .rain-tag a.rain-tag__main::after, .rain-tag__remove::after {
+    inset-block: calc(-1 * var(--rain-space-14));
+  }
+}
+
+/* @rain-css-exception tag-forced-colors: retain the selected mark, actions and disabled meaning with system colors. */
+@media (forced-colors: active) {
+  .rain-tag { border-color: CanvasText; color: CanvasText; background-color: Canvas; }
+  .rain-tag [data-slot="leading-icon"], .rain-tag [data-slot="selection-mark"], .rain-tag__remove { color: CanvasText; }
+  .rain-tag [data-slot="selection-mark"] > [data-icon="icon/check-bold"] { color: inherit; }
+  .rain-tag__overlay { display: none; }
+  .rain-tag[data-state="disabled"], .rain-tag[data-state="disabled"] .rain-tag__remove { color: GrayText; border-color: GrayText; opacity: 1; }
+  .rain-checkable-tag:has(input:focus-visible) { outline: 2px solid CanvasText; outline-offset: 2px; box-shadow: none; }
+}
+
+/* @rain-css-exception selection-card-layout: V0.3 content rails and inside stroke, using established Tokens. */
+.rain-selection-card {
+  box-sizing: border-box;
+  min-width: var(--rain-space-0);
+  max-width: 100%;
+  border: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3);
+  border-radius: var(--rain-radius-8);
+  background-color: var(--rain-category-background-neutral-1);
+  color: var(--rain-category-text-neutral-3);
+  font-family: var(--rain-font-ui);
+  overflow-wrap: anywhere;
+}
+.rain-selection-card:has(> .rain-selection-card__selection > input:checked),
+.rain-selection-card:has(> .rain-selection-card__selection > input[type="checkbox"]:indeterminate) {
+  border-color: var(--rain-category-border-brand-1);
+  background-image: linear-gradient(var(--rain-category-fill-brand-alpha-4), var(--rain-category-fill-brand-alpha-4));
+}
+.rain-selection-card__selection {
+  padding: calc(var(--rain-space-16) - var(--rain-line-thickness-1));
+  box-sizing: border-box;
+  border-radius: var(--rain-radius-8);
+}
+.rain-selection-card:has(> [data-slot="actions"]) > .rain-selection-card__selection {
+  padding-bottom: var(--rain-space-0);
+}
+.rain-selection-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--rain-space-12);
+  margin-top: var(--rain-space-12);
+  padding: var(--rain-space-0) calc(var(--rain-space-16) - var(--rain-line-thickness-1)) calc(var(--rain-space-16) - var(--rain-line-thickness-1)) calc(var(--rain-space-16) + var(--rain-space-24) + var(--rain-space-8) - var(--rain-line-thickness-1));
+}
+.rain-selection-card__identity {
+  display: inline-flex;
+  flex: none;
+  width: var(--rain-space-40);
+  height: var(--rain-space-40);
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--rain-radius-8);
+  background-color: var(--rain-category-fill-brand-alpha-4);
+  color: var(--rain-category-text-brand-1);
+  font-size: var(--rain-font-size-20);
+  line-height: var(--rain-line-height-24);
+  font-weight: var(--rain-font-weight-semibold);
+}
+.rain-selection-card__accent {
+  color: var(--rain-category-text-brand-1);
+}
+.rain-selection-card__recommendation {
+  display: inline-flex;
+  min-height: var(--rain-line-height-22);
+  border: none;
+  padding: var(--rain-space-0) var(--rain-space-6);
+  border-radius: var(--rain-radius-4);
+  font-size: var(--rain-font-size-11);
+  line-height: var(--rain-line-height-22);
+  font-weight: var(--rain-font-weight-semibold);
+}
+.rain-selection-recipe-preview .rain-selection-card__selection {
+  padding-bottom: calc(var(--rain-space-18) - var(--rain-line-thickness-1));
+}
+.rain-selection-recipe-preview .rain-selection-card__body,
+.rain-selection-recipe-preview [data-slot="supplementary"] {
+  gap: var(--rain-space-12);
+}
+.rain-selection-recipe-preview [data-slot="summary"],
+.rain-selection-recipe-comparison [data-slot="summary"] {
+  gap: var(--rain-space-6);
+}
+.rain-selection-card__artwork {
+  display: block;
+  width: 100%;
+  aspect-ratio: 7 / 3;
+  object-fit: contain;
+}
+.rain-selection-recipe-comparison .rain-selection-card__body {
+  gap: var(--rain-space-16);
+}
+.rain-selection-recipe-with-preview [data-slot="summary"] > span > [data-slot="label"] {
+  flex: 0 1 auto;
+}
+.rain-selection-recipe-comparison [data-slot="description"] {
+  min-height: calc(var(--rain-line-height-22) * 2);
+}
+.rain-selection-card__detail {
+  display: grid;
+  grid-template-columns: minmax(var(--rain-space-0), calc(var(--rain-space-24) + var(--rain-space-2))) minmax(var(--rain-space-0), 1fr);
+  column-gap: var(--rain-space-10);
+}
+.rain-selection-card__detail [data-slot="detail-value"] {
+  min-width: var(--rain-space-0);
+  color: var(--rain-category-text-neutral-1);
+}
+/* @rain-css-exception selection-card-forced-colors: preserve selection and independent actions in system colors. */
+@media (forced-colors: active) {
+  .rain-selection-card {
+    background-color: Canvas;
+    border-color: ButtonText;
+    color: CanvasText;
+  }
+  .rain-selection-card:has(> .rain-selection-card__selection > input:checked),
+  .rain-selection-card:has(> .rain-selection-card__selection > input[type="checkbox"]:indeterminate) {
+    background-color: Canvas;
+    background-image: none;
+    border-color: Highlight;
+  }
+  .rain-selection-card:has(> .rain-selection-card__selection > input:disabled) { border-color: GrayText; }
+  .rain-selection-card__identity,
+  .rain-selection-card__recommendation {
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+  .rain-selection-card__accent,
+  .rain-selection-card__detail [data-slot="detail-value"] { color: CanvasText; }
+}
+
+/* @rain-css-exception tabs-geometry: Foundations dimensions, scoped parts, measurement, direction and scrolling. Paints remain in tabs.styles.ts. */
+.rain-tabs { display: flex; flex-direction: column; gap: var(--tabs-panel-gap); min-width: 0; }
+.rain-tabs[data-position="bottom"] { flex-direction: column-reverse; }
+.rain-tabs[data-position="start"] { flex-direction: row; }
+.rain-tabs[data-position="end"] { flex-direction: row-reverse; }
+.rain-tabs__nav { position: relative; min-width: 0; }
+.rain-tabs__nav-row { position: relative; display: flex; align-items: flex-end; gap: var(--rain-space-8); }
+.rain-tabs[data-position="bottom"] > .rain-tabs__nav > .rain-tabs__nav-row { align-items: flex-start; }
+.rain-tabs__nav-row > [data-part^="extra-"] { flex: none; }
+.rain-tabs__viewport { min-width: 0; flex: 1; }
+.rain-tabs__viewport[data-mode="scroll"] { overflow: auto; padding: var(--rain-space-4); margin: calc(-1 * var(--rain-space-4)); }
+.rain-tabs__tray { position: relative; display: flex; align-items: center; width: max-content; gap: var(--tabs-gap); border-radius: var(--tabs-radius); }
+.rain-tabs__nav[data-align="center"] > .rain-tabs__nav-row > .rain-tabs__viewport > .rain-tabs__tray { margin-inline: auto; }
+.rain-tabs__list { display: flex; align-items: center; gap: var(--tabs-gap); }
+.rain-tabs__disabled-frame { display: contents; }
+.rain-tabs__tab, .rain-tabs__more, .rain-tabs__measure-item {
+  box-sizing: border-box; position: relative; display: inline-flex; flex: none; align-items: center; justify-content: center;
+  padding: 0 var(--tabs-padding); border: var(--tabs-border) solid transparent; border-radius: var(--tabs-radius); background: transparent;
+  font-family: var(--rain-font-ui); font-size: var(--tabs-font); line-height: var(--tabs-line); font-weight: var(--rain-font-weight-regular);
+  letter-spacing: var(--rain-letter-spacing-default); white-space: nowrap; cursor: pointer;
+}
+.rain-tabs__tab[hidden] { display: none; }
+.rain-tabs__tab[data-disabled="true"] { cursor: not-allowed; }
+.rain-tabs__paint { position: absolute; inset: calc(var(--tabs-inset) - var(--tabs-border)); border-width: var(--tabs-border); border-style: solid; border-radius: var(--tabs-paint-radius); pointer-events: none; }
+.rain-tabs__item-content { display: inline-flex; align-items: center; gap: var(--tabs-content-gap); min-width: 0; max-width: 100%; height: 100%; }
+.rain-tabs__label { position: relative; min-width: 2em; max-width: 16ch; overflow: hidden; text-overflow: ellipsis; }
+.rain-tabs__tab[data-selected="true"] .rain-tabs__label, .rain-tabs__measure-item[data-selected="true"] .rain-tabs__label { font-weight: var(--rain-font-weight-semibold); }
+.rain-tabs__count { position: relative; flex: none; max-width: calc(100% - 2 * var(--tabs-font) - var(--tabs-content-gap)); overflow: hidden; text-overflow: ellipsis; font-family: var(--rain-font-ui); font-size: var(--tabs-count-font); line-height: var(--tabs-count-line); font-weight: var(--rain-font-weight-regular); }
+.rain-tabs__icon ~ .rain-tabs__count { max-width: calc(100% - 2 * var(--tabs-font) - var(--tabs-icon) - 2 * var(--tabs-content-gap)); }
+.rain-tabs__icon { position: relative; display: inline-flex; flex: none; width: var(--tabs-icon); height: var(--tabs-icon); }
+.rain-tabs__icon > :is(svg, [data-rain-id="icon"]) { width: 100%; height: 100%; }
+.rain-tabs__indicator { position: absolute; bottom: 0; left: 0; right: 0; height: var(--tabs-indicator); border-radius: var(--rain-radius-full); pointer-events: none; }
+.rain-tabs__tab:is([data-position="top"], [data-position="bottom"])[data-indicator-size="stretch"] .rain-tabs__indicator { inset-inline: var(--tabs-padding); }
+.rain-tabs__tab[data-indicator-size="content"] .rain-tabs__item-content { position: relative; }
+.rain-tabs__tab[data-indicator-size="content"] .rain-tabs__indicator { max-width: var(--tabs-max-indicator); margin-inline: auto; }
+.rain-tabs__tab[data-position="bottom"] .rain-tabs__indicator { top: 0; bottom: auto; }
+.rain-tabs__divider { position: absolute; inset: auto 0 0; height: var(--rain-space-1); pointer-events: none; }
+.rain-tabs__nav[data-position="bottom"] > .rain-tabs__nav-row > .rain-tabs__divider { top: 0; bottom: auto; }
+.rain-tabs__indicator { z-index: 1; }
+.rain-tabs__panels { flex: 1; min-width: 0; }
+.rain-tabs__description { margin-top: var(--rain-space-8); }
+.rain-tabs:is([data-position="start"], [data-position="end"]) > .rain-tabs__nav { width: var(--tabs-nav-width); flex: none; }
+.rain-tabs:is([data-position="start"], [data-position="end"]) > .rain-tabs__nav > .rain-tabs__nav-row { flex-direction: column; align-items: stretch; }
+.rain-tabs__nav:is([data-position="start"], [data-position="end"]) > .rain-tabs__nav-row > .rain-tabs__viewport { overflow-x: hidden; overflow-y: auto; padding-inline-end: var(--rain-space-12); margin-inline-end: calc(-1 * var(--rain-space-12)); }
+.rain-tabs__nav:is([data-position="start"], [data-position="end"]) > .rain-tabs__nav-row > .rain-tabs__viewport > .rain-tabs__tray { width: 100%; }
+.rain-tabs__nav:is([data-position="start"], [data-position="end"]) > .rain-tabs__nav-row > .rain-tabs__viewport > .rain-tabs__tray > .rain-tabs__list { width: 100%; flex-direction: column; align-items: stretch; }
+.rain-tabs__tab:is([data-position="start"], [data-position="end"]) { width: 100%; min-width: 0; }
+.rain-tabs__tab:is([data-position="start"], [data-position="end"]) .rain-tabs__label { max-width: none; }
+.rain-tabs__tab[data-item-align="left"] { justify-content: flex-start; }
+.rain-tabs__tab[data-item-align="left"] .rain-tabs__label { text-align: left; }
+.rain-tabs__tab[data-item-align="right"] { justify-content: flex-end; }
+.rain-tabs[data-label-lines="2"] > .rain-tabs__nav .rain-tabs__tab .rain-tabs__label { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; white-space: normal; overflow-wrap: anywhere; }
+.rain-tabs__tab[data-position="start"] .rain-tabs__indicator { inset: 0 0 0 auto; width: var(--tabs-indicator); height: auto; }
+.rain-tabs__tab[data-position="end"] .rain-tabs__indicator { inset: 0 auto 0 0; width: var(--tabs-indicator); height: auto; }
+.rain-tabs__tab:is([data-position="start"], [data-position="end"])[data-indicator-size="content"] .rain-tabs__item-content { position: static; }
+.rain-tabs__tab:is([data-position="start"], [data-position="end"])[data-indicator-size="content"] .rain-tabs__indicator { top: 50%; bottom: auto; height: min(var(--tabs-height), var(--tabs-max-indicator)); transform: translateY(-50%); }
+.rain-tabs__nav[data-position="start"] > .rain-tabs__nav-row > .rain-tabs__divider { inset: 0 0 0 auto; width: var(--rain-space-1); height: auto; }
+.rain-tabs__nav[data-position="end"] > .rain-tabs__nav-row > .rain-tabs__divider { inset: 0 auto 0 0; width: var(--rain-space-1); height: auto; }
+.rain-tabs__measure { position: absolute; left: 0; top: 0; visibility: hidden; pointer-events: none; width: 0; height: 0; overflow: hidden; white-space: nowrap; }
+.rain-tabs__measure-item { width: max-content; }
+/* @rain-css-exception tabs-touch-targets: reserve non-overlapping 44px targets while retaining each visual recipe. */
+@media (pointer: coarse) {
+  .rain-tabs__tab, .rain-tabs__more, .rain-tabs__measure-item { min-width: calc(var(--rain-space-32) + var(--rain-space-12)); }
+  .rain-tabs__tab, .rain-tabs__more { margin-block: max(0px, calc((var(--rain-space-32) + var(--rain-space-12) - var(--tabs-height)) / 2)); }
+  .rain-tabs__tab::after, .rain-tabs__more::after { content: ""; position: absolute; inset-inline: 0; inset-block: min(0px, calc((var(--tabs-height) - var(--rain-space-32) - var(--rain-space-12)) / 2)); }
+  .rain-tabs__description > summary { min-height: calc(var(--rain-space-32) + var(--rain-space-12)); display: flex; align-items: center; }
+}
+/* @rain-css-exception tabs-forced-colors: current paint boundary uses system colors; shared Focus remains independent. */
+@media (forced-colors: active) {
+  .rain-tabs__tab[data-selected="true"] > .rain-tabs__paint { border: var(--rain-space-2) solid Highlight; }
+  .rain-tabs__tab[data-disabled="true"] { color: GrayText; }
+  .rain-tabs__tab[data-disabled="true"] :is(.rain-tabs__label, .rain-tabs__count, .rain-tabs__icon) { color: GrayText; }
+}

@@ -1,0 +1,42 @@
+
+Running 1 test using 1 worker
+
+(node:39119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/token-first-g1.spec.ts:48:1 › G1 toolbar dimensions, filtering, keyboard and sibling isolation (5.2s)
+
+
+  1) tests/e2e/token-first-g1.spec.ts:48:1 › G1 toolbar dimensions, filtering, keyboard and sibling isolation 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: getByRole('region', { name: 'default 工具栏' }).getByRole('tab')
+    Timeout: 5000ms
+    - Expected  - 4
+    + Received  + 1
+
+    - Array [
+    -   "A 卷",
+    -   "B 卷",
+    - ]
+    + Array []
+
+    Call log:
+      - Expect "toHaveText" with timeout 5000ms
+      - waiting for getByRole('region', { name: 'default 工具栏' }).getByRole('tab')
+        14 × locator resolved to 0 elements
+
+
+      50 |   const toolbar = page.getByRole("region", { name: "default 工具栏" });
+      51 |   const sibling = page.getByRole("region", { name: "sibling 工具栏" });
+    > 52 |   await expect(toolbar.getByRole("tab")).toHaveText(["A 卷", "B 卷"]);
+         |                                          ^
+      53 |   await expect(toolbar.getByRole("combobox")).toHaveCount(0);
+      54 |   await expect(toolbar.locator("label").filter({ hasText: "查找作答" })).toHaveCount(0);
+      55 |   await expect(toolbar.locator('[data-rain-id="icon-search"]')).toHaveCount(1);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/token-first-g1.spec.ts:52:42
+
+    Error Context: test-results/token-first-g1-G1-toolbar--393c6-board-and-sibling-isolation/error-context.md
+
+  1 failed
+    tests/e2e/token-first-g1.spec.ts:48:1 › G1 toolbar dimensions, filtering, keyboard and sibling isolation 

@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/g3-component-pages.test.tsx (8 tests | 1 failed) 785ms
+   × keeps reading details separate from edits and only commits a saved form 94ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/g3-component-pages.test.tsx > keeps reading details separate from edits and only commits a saved form
+Error: expect(element).toHaveAttribute("data-variant", "primary") // element.getAttribute("data-variant") === "primary"
+
+Expected the element to have attribute:
+  data-variant="primary"
+Received:
+  data-variant="secondary"
+ ❯ apps/playground/src/docs/components/g3-component-pages.test.tsx:33:64
+     31|   fireEvent.click(screen.getByRole("button", { name: "编辑资料" }));
+     32|   dialog = await screen.findByRole("dialog", { name: "编辑资料" });
+     33|   expect(within(dialog).getByRole("button", { name: "保存修改" })).toHaveA…
+       |                                                                ^
+     34|   expect(within(dialog).getByRole("button", { name: "取消" })).toHaveAtt…
+     35|   expect(within(dialog).getByRole("textbox", { name: "资料名称" })).toHave…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 passed (8)
+   Start at  10:46:19
+   Duration  2.78s (transform 725ms, setup 101ms, import 1.36s, tests 785ms, environment 443ms)
+

@@ -1,0 +1,115 @@
+/* @rain-css-exception carousel-examples: accepted v0.4 media composition, host viewport height, responsive slide width and control safe areas; public Carousel owns motion and control appearance. */
+@layer components {
+  .carousel-example { min-width:0; width:100%; color:var(--rain-color-text-primary); font-family:var(--rain-font-ui); }
+  .carousel-example__options { display:flex; flex-wrap:wrap; align-items:center; gap:var(--rain-space-12) var(--rain-space-24); padding-bottom:var(--rain-space-20); }
+  .carousel-example__choice { display:inline-flex; align-items:center; gap:var(--rain-space-8); font-size:var(--rain-font-size-12); line-height:var(--rain-line-height-20); }
+  .carousel-example__choice > span { color:var(--rain-color-text-secondary); white-space:nowrap; }
+  .carousel-example__choice .rain-native-select { min-width:104px; max-width:164px; }
+  .carousel-example__stage { position:relative; min-width:0; }
+  .carousel-example__heading { display:flex; align-items:center; justify-content:space-between; gap:var(--rain-space-20); margin-block-end:var(--rain-space-20); }
+  .carousel-example__heading h3 { margin:var(--rain-space-4) 0 0; font-size:var(--rain-font-size-20); line-height:1.5; font-weight:600; }
+  .carousel-example__arrows { display:flex; align-items:center; gap:var(--rain-space-10); flex-shrink:0; }
+  .carousel-example[data-layout="inline"]:not([data-scene="continuous"]) .carousel-example__stage { display:grid; gap:var(--rain-space-12); align-items:center; }
+  .carousel-example[data-layout="inline"] .carousel-example__stage > [data-slot="carousel-content"] { grid-area:track; }
+  .carousel-example[data-layout="inline"][data-placement="bottom"] .carousel-example__stage { grid-template-areas:"track" "indicators"; }
+  .carousel-example[data-layout="inline"][data-placement="top"] .carousel-example__stage { grid-template-areas:"indicators" "track"; }
+  .carousel-example[data-layout="inline"][data-placement="start"] .carousel-example__stage { grid-template-areas:"indicators track"; grid-template-columns:32px minmax(0,1fr); }
+  .carousel-example[data-layout="inline"][data-placement="end"] .carousel-example__stage { grid-template-areas:"track indicators"; grid-template-columns:minmax(0,1fr) 32px; }
+  .carousel-example__stage > [data-slot="carousel-content"] { border-radius:var(--rain-radius-12); }
+  .carousel-example[data-scene="courses"] .carousel-example__stage > [data-slot="carousel-content"] { border-radius:0; }
+  .carousel-example__controls[data-layout="inline"] { margin-block-start:var(--rain-space-12); }
+  .carousel-example__poster { position:relative; display:grid; grid-template-columns:46% 54%; min-height:320px; border:var(--rain-line-thickness-1) solid var(--rain-color-border-subtle); border-radius:var(--rain-radius-12); overflow:hidden; background:var(--rain-color-brand-primary-subtle); }
+  .carousel-example__poster[data-kind="1"] { background:var(--rain-color-surface-raised); }
+  .carousel-example__poster[data-kind="2"] { background:var(--rain-color-semantic-success-surface); }
+  .carousel-example__poster[data-kind="3"] { background:var(--rain-color-semantic-warning-surface); }
+  .carousel-example__poster-copy { position:relative; z-index:1; padding:38px 12px 38px 38px; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; min-width:0; }
+  .carousel-example__kicker { display:block; font-size:var(--rain-font-size-12); line-height:1.6; font-weight:500; letter-spacing:.04em; color:var(--rain-color-text-secondary); margin:0; }
+  .carousel-example__poster-copy > .carousel-example__kicker { color:var(--rain-color-text-primary); }
+  .carousel-example__poster h3 { margin:18px 0 14px; font-size:30px; line-height:1.3; font-weight:600; letter-spacing:-.025em; }
+  .carousel-example__summary { max-width:27em; margin:0; color:var(--rain-color-text-secondary); font-size:var(--rain-font-size-14); line-height:1.9; }
+  .carousel-example__poster-action { display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin-block-start:26px; }
+  .carousel-example__poster-action > span { color:var(--rain-color-text-secondary); font-size:var(--rain-font-size-12); line-height:var(--rain-line-height-20); }
+  .carousel-example__poster-art { display:flex; align-items:center; min-width:0; padding:var(--rain-space-12); }
+  .carousel-example__poster-art svg { width:100%; height:100%; max-height:294px; }
+  .carousel-example[data-layout="overlay"] .carousel-example__poster-copy { padding-inline-start:64px; padding-block:48px 64px; }
+  .carousel-example__course-slide { flex-basis:31%; }
+  .carousel-example__course { overflow:hidden; height:100%; border:var(--rain-line-thickness-1) solid var(--rain-color-border-subtle); border-radius:var(--rain-radius-10); background:var(--rain-color-surface-panel); }
+  .carousel-example__cover { position:relative; aspect-ratio:1.72; overflow:hidden; }
+  .carousel-example__cover svg { width:100%; height:100%; }
+  .carousel-example__cover > span { position:absolute; inset-inline-start:var(--rain-space-16); inset-block-end:var(--rain-space-12); background:var(--rain-color-surface-panel); padding:3px var(--rain-space-8); color:var(--rain-color-text-primary); border-radius:var(--rain-radius-4); font-size:11px; }
+  .carousel-example[data-layout="overlay"] .carousel-example__cover > span { display:none; }
+  /* The host derives a side capsule's minimum media height from actual snaps. */
+  .carousel-example[data-scene="courses"][data-layout="overlay"]:is([data-placement="start"],[data-placement="end"]) .carousel-example__cover svg { position:absolute; inset:0; }
+  .carousel-example__course-copy { padding:18px; }
+  .carousel-example__course-copy > .carousel-example__kicker { font-size:11px; font-weight:400; letter-spacing:normal; margin-block-end:7px; }
+  .carousel-example[data-layout="inline"] .carousel-example__course-copy > .carousel-example__kicker { display:none; }
+  .carousel-example__course-copy h3 { margin:0 0 7px; font-size:var(--rain-font-size-16); line-height:var(--rain-line-height-24); font-weight:600; }
+  .carousel-example__course-copy p { margin:0 0 var(--rain-space-20); font-size:var(--rain-font-size-12); line-height:1.6; color:var(--rain-color-text-secondary); }
+  .carousel-example__course-copy > button { width:100%; }
+  .carousel-example__footer { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--rain-space-12); min-height:48px; margin-block-start:var(--rain-space-8); }
+  .carousel-example__muted { color:var(--rain-color-text-secondary); font-size:var(--rain-font-size-12); line-height:var(--rain-line-height-20); }
+  .carousel-example__playback { display:flex; align-items:center; gap:var(--rain-space-12); }
+  .carousel-example__playback [role="status"] { min-width:64px; }
+  .carousel-example[data-vertical="true"] .carousel-example__content { height:336px; }
+  .carousel-example[data-vertical="true"] .carousel-example__poster { height:320px; min-height:320px; }
+  .carousel-example[data-vertical="true"] .carousel-example__poster-copy { padding:26px 12px 26px 32px; }
+  .carousel-example[data-vertical="true"] .carousel-example__poster h3 { font-size:28px; }
+  .carousel-example[data-vertical="true"][data-layout="overlay"] .carousel-example__content { height:392px; }
+  .carousel-example[data-vertical="true"][data-layout="overlay"] .carousel-example__poster { height:376px; min-height:376px; }
+  .carousel-example[data-vertical="true"][data-layout="overlay"] .carousel-example__poster-copy { padding:40px 12px 56px 64px; }
+  .carousel-example[data-scene="continuous"] .carousel-example__course-slide { flex-basis:308px; padding-inline-start:var(--rain-space-20); }
+  .carousel-example[data-scene="continuous"] .carousel-example__content { margin-inline-start:calc(var(--rain-space-20) * -1); }
+  .carousel-example[data-scene="continuous"] .carousel-example__course-copy p { margin-block-end:0; }
+  .carousel-example[data-scene="continuous"][data-vertical="true"] .carousel-example__stage { max-width:640px; margin-inline:auto; }
+  .carousel-example[data-scene="continuous"][data-vertical="true"] .carousel-example__content { height:460px; }
+  .carousel-example[data-scene="continuous"][data-vertical="true"] .rain-carousel__viewport { height:460px; }
+  .carousel-example[data-scene="continuous"][data-vertical="true"] .carousel-example__content { margin-inline-start:0; margin-block-start:calc(var(--rain-space-20) * -1); }
+  .carousel-example[data-scene="continuous"][data-vertical="true"] .carousel-example__course-slide { flex-basis:auto; padding-inline-start:0; padding-block-start:var(--rain-space-20); }
+  .carousel-example[data-scene="continuous"][data-vertical="true"] .carousel-example__course { display:grid; grid-template-columns:45% 55%; }
+  .carousel-example[data-scene="continuous"][data-vertical="true"] .carousel-example__cover { aspect-ratio:1.4; }
+  .carousel-example[data-scene="continuous"][data-vertical="true"] .carousel-example__course-copy { align-self:center; }
+  .carousel-example__dialog-art { aspect-ratio:2; overflow:hidden; border-radius:var(--rain-radius-8); margin-block-end:var(--rain-space-20); }
+  .carousel-example__dialog-art svg { width:100%; height:100%; }
+  /* Preserve the original boundary scenarios with controls in their own row. */
+  .carousel-example-boundary .g6-interaction-carousel-frame,.g6-interaction-carousel-frame.carousel-example-boundary { padding-inline:0; }
+  .carousel-example-boundary .rain-carousel__controls { margin-block-start:var(--rain-space-12); }
+  .component-doc[data-rain-theme="dark"] .carousel-example__poster[data-kind="0"] { background:var(--rain-category-fill-brand-solid-4); }
+  @media (max-width:900px) {
+    .carousel-example__poster h3 { font-size:26px; }
+    .carousel-example__poster { min-height:326px; }
+    .carousel-example__poster-copy { padding:28px 8px 28px 28px; }
+    .carousel-example__course-slide { flex-basis:45%; }
+  }
+  @media (max-width:600px) {
+    .carousel-example__heading { gap:var(--rain-space-12); }
+    .carousel-example__heading > div:first-child { min-width:0; }
+    .carousel-example__heading h3 { font-size:var(--rain-font-size-16); }
+    .carousel-example__arrows { gap:var(--rain-space-4); }
+    .carousel-example__options { gap:var(--rain-space-12) var(--rain-space-16); }
+    .carousel-example__choice .rain-native-select { min-width:96px; max-width:140px; }
+    .carousel-example__poster { display:flex; flex-direction:column-reverse; min-height:0; }
+    .carousel-example__poster-art { height:192px; padding:0; }
+    .carousel-example__poster-art svg { width:100%; }
+    .carousel-example__poster-copy,.carousel-example[data-layout="overlay"] .carousel-example__poster-copy { padding:22px; }
+    .carousel-example__kicker { font-size:11px; }
+    .carousel-example__poster h3 { font-size:25px; margin:var(--rain-space-10) 0; }
+    .carousel-example__summary { line-height:1.75; }
+    .carousel-example__poster-action { margin-block-start:var(--rain-space-20); gap:var(--rain-space-10); }
+    .carousel-example__poster-action > span { font-size:11px; }
+    .carousel-example__course-slide { flex-basis:calc(100% - 42px); }
+    .carousel-example[data-vertical="true"] .carousel-example__content { height:508px; }
+    .carousel-example[data-vertical="true"] .carousel-example__poster { height:492px; min-height:492px; }
+    .carousel-example[data-vertical="true"] .carousel-example__poster-copy { flex:1; }
+    .carousel-example[data-vertical="true"] .carousel-example__poster h3 { font-size:25px; }
+    .carousel-example[data-vertical="true"][data-layout="overlay"] .carousel-example__content { height:552px; }
+    .carousel-example[data-vertical="true"][data-layout="overlay"] .carousel-example__poster { height:536px; min-height:536px; }
+    .carousel-example[data-vertical="true"][data-layout="overlay"] .carousel-example__poster-copy { padding:22px 64px 60px 22px; }
+    .carousel-example[data-vertical="true"][data-layout="overlay"] .carousel-example__poster h3 { font-size:24px; }
+    .carousel-example[data-scene="continuous"][data-vertical="true"] .carousel-example__content { height:430px; }
+    .carousel-example[data-scene="continuous"][data-vertical="true"] .rain-carousel__viewport { height:430px; }
+    .carousel-example[data-scene="continuous"][data-vertical="true"] .carousel-example__course-copy { padding:var(--rain-space-12); }
+    .carousel-example[data-scene="continuous"][data-vertical="true"] .carousel-example__course-copy h3 { font-size:var(--rain-font-size-14); line-height:var(--rain-line-height-22); }
+    .carousel-example[data-scene="continuous"][data-vertical="true"] .carousel-example__course-copy p { font-size:11px; }
+    .carousel-example__playback { gap:var(--rain-space-8); }
+  }
+}

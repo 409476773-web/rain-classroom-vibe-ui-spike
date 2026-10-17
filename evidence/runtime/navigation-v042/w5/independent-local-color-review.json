@@ -1,0 +1,31 @@
+{
+  "recordedAt": "2026-10-01T15:29:08.040043+00:00",
+  "reviewer": "w4_audit",
+  "status": "passed-scoped-read-only",
+  "scope": "Final S-only toolbar Recipe and actual wrapper selector calibration; excludes reviewer-authored pure core/R4-R6, full N01-N38/a11y and Human Gates",
+  "filesSha256": {
+    "apps/playground/src/recipes/navigation-v042/workspace-states.tsx": "8331d2313a00c717b6574a2ad8cc315cb7eaadb2d43921fde916ce42e0f74602",
+    "apps/playground/src/recipes/navigation-v042/workspace-states.css": "fa659316080c7774b3f352be0c5a7db4a6b3d12a348416f66d654689fc94dff7"
+  },
+  "confirmed": {
+    "S4ReviewHead": "Actual .nv44-shared[data-scene=S4] match; #fff/#242833/14px/21px/304x40",
+    "S5Focus": "Actual frozen reference and candidate computed: 88x32, icon16x16, #566276, pressed #eaf1ff and #bdcff1",
+    "toolbarCallers": "RestoreBar and DocumentHeader compatible; S5 version label/icon inherit host font and color",
+    "sharedButton": "Source unchanged; no public defaults modified",
+    "pdfFocus": "Separate nv5-icon-button 28x28 without toolbar Recipe; excluded"
+  },
+  "intermediateFindings": [
+    {
+      "id": "S-COLOR-SCOPE",
+      "issue": "Initial new selectors matched only S5 nv44-workspace, not nv44-shared for other S scenes",
+      "closure": "Selectors corrected to actual wrappers and S4 data-scene; source/candidate recaptured; intermediate capture retained"
+    },
+    {
+      "id": "S-COLOR-EARLY-RULE",
+      "issue": "Reviewer initially suggested early #1959c5 pressed color from a source rule",
+      "closure": "Suggestion withdrawn after actual frozen-source computed and final v042 cascade confirmed #566276; no design change applied"
+    }
+  ],
+  "remainingLogicP1P2": [],
+  "historicalReviews": "Original independent-core-review.json and independent-adapter-review.json source snapshots retained; this is a separate final local scope"
+}

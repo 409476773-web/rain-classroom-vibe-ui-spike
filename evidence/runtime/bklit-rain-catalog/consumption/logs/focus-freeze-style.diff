@@ -1,0 +1,27 @@
+diff --git a/tmp/rain-chart-independent-final-20261008-YvK5Tz/source-packages/ui/src/charts/styles.css b/tmp/rain-chart-independent-freeze-final-20261008-oBt3OL/source-packages/ui/src/charts/styles.css
+index fbc7c81..dfc9503 100644
+--- a/tmp/rain-chart-independent-final-20261008-YvK5Tz/source-packages/ui/src/charts/styles.css
++++ b/tmp/rain-chart-independent-freeze-final-20261008-oBt3OL/source-packages/ui/src/charts/styles.css
+@@ -44,8 +44,10 @@
+   --legend: var(--background); --legend-foreground: var(--chart-label);
+   --legend-muted: var(--muted); --legend-muted-foreground: var(--muted-foreground);
+   --legend-track: var(--border);
+-  --chart-scale-01: #f5f4ff; --chart-scale-02: #dfe1ff;
+-  --chart-scale-03: #a1a9ff; --chart-scale-04: #7c7dfd; --chart-scale-05: #4a31d1;
++  --rain-local-chart-scale-01: #f5f4ff; --rain-local-chart-scale-02: #dfe1ff;
++  --rain-local-chart-scale-03: #a1a9ff; --rain-local-chart-scale-04: #7c7dfd; --rain-local-chart-scale-05: #4a31d1;
++  --chart-scale-01: var(--rain-local-chart-scale-01); --chart-scale-02: var(--rain-local-chart-scale-02);
++  --chart-scale-03: var(--rain-local-chart-scale-03); --chart-scale-04: var(--rain-local-chart-scale-04); --chart-scale-05: var(--rain-local-chart-scale-05);
+   --chart-scale-pattern-color: var(--rain-category-border-neutral-2);
+   --chart-no-data: var(--rain-category-background-neutral-3);
+   --rain-local-chart-positive: #30a87b; --rain-local-chart-negative: #ed6b70;
+@@ -83,7 +85,8 @@
+ .rain-chart .legend-container { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: var(--rain-space-4); }
+ .rain-chart .legend-container :is(.text-sm,.text-base) { font-size: var(--rain-font-size-12); font-weight: var(--rain-font-weight-regular); }
+ .rain-chart .tabular-nums.leading-none { font-family: var(--rain-font-data); }
+-.rain-chart :is(button,a,select,summary,[tabindex]):focus-visible { outline: 2px solid var(--rain-brand-primary); outline-offset: 3px; }
++.rain-chart :is(button,a,select,summary,[tabindex]):focus-visible { outline: var(--rain-focus-width) solid var(--rain-focus-control); outline-offset: var(--rain-focus-offset); box-shadow: 0 0 0 3px var(--rain-focus-control-halo); }
++@media (forced-colors: active) { .rain-chart :is(button,a,select,summary,[tabindex]):focus-visible { outline: 2px solid CanvasText; outline-offset: 2px; box-shadow: none; } }
+ .rain-chart-plot { height: 320px; width: 100%; min-width: 0; }
+ .rain-chart-flow { height: 340px; width: 100%; }
+ .rain-chart-mini { width: 96px; height: 40px; }

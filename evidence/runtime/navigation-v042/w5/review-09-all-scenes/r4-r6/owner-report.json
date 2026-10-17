@@ -1,0 +1,88 @@
+{
+  "scope": "Review09 owner R4 interaction/grading, R5 replay, R6 form/table/board/album; local recipes only",
+  "source": {
+    "r4-r6.tsx": "58f12cdd823520ced1b771d21450bf4db90daf11091e1c2ac41d5a92fb4b7cf1",
+    "r4-r6.css": "6668b862954b17e6045d1ebc98e53589411e50f0e767d1f1b7f52a6c7d896864",
+    "r4-r6.test.tsx": "96f69342ac75ef74b735f2689f77ecba052ff2a9da7002131934a535ef916d83"
+  },
+  "issues": [
+    {
+      "id": "R4-grading-search-count",
+      "reproduction": "搜索学生姓名或学号：找不到匹配对象",
+      "before": "列表无匹配学生；队列标题仍6人",
+      "cause": "标题使用硬编码6人，未消费visible.length",
+      "after": "显示0 / 6人；清除搜索回到6人",
+      "verification": "empty-unit-red.log -> empty-unit-green.log; empty-after-results.json"
+    },
+    {
+      "id": "R4-search-context-feedback",
+      "reproduction": "R4互动或批改输入不匹配名称",
+      "before": "共享ObjectNavigator已有role=status 暂无可用对象；文案未区分搜索与数据为空",
+      "cause": "局部配方未消费已有emptyLabel属性",
+      "after": "复用ObjectNavigator.emptyLabel显示未找到匹配的小组/学生；无搜索时保持数据空态语义",
+      "verification": "existing Input clear action restores filter/current object and draft"
+    },
+    {
+      "id": "R6-workspace-search-feedback",
+      "reproduction": "搜索工作区：找不到匹配对象",
+      "before": "3个导航分别显示暂无可用导航，且保留置顶工作区/我的文档栏目",
+      "cause": "每个导航独立处理空状态，配方未汇总搜索结果",
+      "after": "全零匹配以现有Empty+EmptyTitle文本呈现一次；部分匹配仅保留有结果的组及标题；清除搜索还原所有组",
+      "verification": "13 owner unit and9 empty scenarios at1200/1440/1600"
+    }
+  ],
+  "tokenDecision": {
+    "scope": "R5/R6 body paint only; preserve approved geometry, data, artwork and R4 Review08",
+    "roles": {
+      "reading": "CategoryBackgroundNeutral1",
+      "canvas": "CategoryBackgroundNeutral3/4",
+      "text": "CategoryTextNeutral1/2/3/5/6; existing Second2 for slide topic",
+      "selection": "CategoryFillBrandAlpha4, BorderBrand3, TextBrand1",
+      "separator": "CategoryBorderNeutral3/4",
+      "input": "existing40/80 Input/Textarea geometry, borderNeutral3/backgroundNeutral1/textNeutral3",
+      "state": "existing category green status paints",
+      "slider": "prior native16px input with4px Token track retained"
+    },
+    "measured": "palette-before.json -> palette-after.json -> palette-comparison.json:63 changed paint nodes,0 geometry/font/padding differences",
+    "theme": "S6 existing inverse GUI:platformdata-rain-theme=dark;bodyTextNeutral1 remains light rgb20/35/70;R6 default Light four views measured"
+  },
+  "checks": {
+    "ownerUnit": {
+      "passed": 13,
+      "new": 3,
+      "log": "empty-unit-green.log"
+    },
+    "candidateBrowser": {
+      "passed": 29,
+      "defaultRenderCases": 21,
+      "extendedBusinessInteractionCases": 4,
+      "shortWindow480Cases": 4,
+      "json": "after-results.json"
+    },
+    "emptyBrowser": {
+      "passed": 9,
+      "json": "empty-after-results.json"
+    },
+    "paletteMeasurement": {
+      "scenarios": 6,
+      "geometryDifferences": 0,
+      "json": "palette-comparison.json"
+    },
+    "pageErrors": 0
+  },
+  "diagnostics": {
+    "beforeAudit": "First driver captured21 default screenshots then was interrupted while long selectors awaited. Interactive diagnostic before-results.json shows7 passes +1 incorrect manual-tab activation expectation. Product Tabs correctly moves focus withArrowRight and selects withEnter; after driver follows this behavior and passes. Not a product fix."
+  },
+  "notVerified": [
+    "R1–R3 and S1–S6 audited by the other owners and root; this report covers R4–R6 only",
+    "Safari/Firefox; assistive technology/VoiceOver; contrast audit",
+    "Real media/PDF marking/back-end grading/sharing/upload, deliberately Mock",
+    "R6 inverse prop lacks direct GUI switch; do not claim an actual R6 inverse browser run",
+    "No new HumanGate acceptance, globalToken/publication/Classic/Figma/Git/dependencies changes"
+  ],
+  "baseline": "Approved baseline source and prior measured geometry retained; existing workpack immutable reference evidence still applies. No new reference操作 run claimed for Review09 owner.",
+  "method": {
+    "id": "V01",
+    "reason": "按表面/主次文字/状态职责选择现有颜色家族；用真实palette与geometry比较检查层级，不把局部决定升级全库默认"
+  }
+}

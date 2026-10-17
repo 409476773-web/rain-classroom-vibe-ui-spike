@@ -1,0 +1,48 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/g6-task-drawer.test.tsx (5 tests | 5 failed) 332ms
+   × shows two native value choices and previews the draft in the same dialog 147ms
+   × protects cancellation and returns safe confirmation focus to its invoker 43ms
+   × opens the same discard decision for Escape and the header close 40ms
+   × validates an empty title before saving and focuses the related control 37ms
+   × keeps a failed draft, blocks pending exits and retries the latest submitted values 65ms
+ ❯ apps/playground/src/docs/components/g6-interaction-pages.test.tsx (7 tests | 2 failed) 5537ms
+   × cancels a task draft and reopens the saved value without submitting 3716ms
+   × uses source close cancellation to keep a dirty task, then explicitly discards it 44ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/g6-interaction-pages.test.tsx > cancels a task draft and reopens the saved value without submitting
+ FAIL  apps/playground/src/docs/components/g6-interaction-pages.test.tsx > uses source close cancellation to keep a dirty task, then explicitly discards it
+ FAIL  apps/playground/src/docs/components/g6-task-drawer.test.tsx > shows two native value choices and previews the draft in the same dialog
+ FAIL  apps/playground/src/docs/components/g6-task-drawer.test.tsx > protects cancellation and returns safe confirmation focus to its invoker
+ FAIL  apps/playground/src/docs/components/g6-task-drawer.test.tsx > opens the same discard decision for Escape and the header close
+ FAIL  apps/playground/src/docs/components/g6-task-drawer.test.tsx > validates an empty title before saving and focuses the related control
+ FAIL  apps/playground/src/docs/components/g6-task-drawer.test.tsx > keeps a failed draft, blocks pending exits and retries the latest submitted values
+Error: Input size must be 24, 28, 32 or 36.
+ ❯ Input packages/ui/src/input/input.tsx:104:55
+    102|   const resolvedSize = size ?? (density === "compact" ? 24 : 32);
+    103|   if (!["outlined", "filled", "underlined"].includes(appearance)) thro…
+    104|   if (![24, 28, 32, 36].includes(resolvedSize)) throw new Error("Input…
+       |                                                       ^
+    105|   if (maxLength !== undefined && (!Number.isInteger(maxLength) || maxL…
+    106|   for (const text of [prefixText, suffixText]) {
+ ❯ Object.react_stack_bottom_frame node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:25904:20
+ ❯ renderWithHooks node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:7662:22
+ ❯ updateForwardRef node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:9724:19
+ ❯ beginWork node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:12117:18
+ ❯ runWithFiberInDEV node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:874:13
+ ❯ performUnitOfWork node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22
+ ❯ workLoopSync node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41
+ ❯ renderRootSync node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:17450:11
+ ❯ performWorkOnRoot node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:16583:35
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+
+ Test Files  2 failed | 2 passed (4)
+      Tests  7 failed | 9 passed (16)
+   Start at  17:16:24
+   Duration  7.42s (transform 2.08s, setup 1.31s, import 4.78s, tests 6.10s, environment 4.74s)
+

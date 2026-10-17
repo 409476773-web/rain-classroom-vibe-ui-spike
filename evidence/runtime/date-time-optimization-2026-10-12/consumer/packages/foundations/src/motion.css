@@ -1,0 +1,70 @@
+:root {
+  --rain-motion-feedback-duration: 140ms;
+  --rain-motion-overlay-duration: 180ms;
+  --rain-motion-region-duration: 220ms;
+  --rain-motion-ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+[data-motion="feedback"] {
+  transition-property: transform, border-color;
+  transition-duration: var(--rain-motion-feedback-duration);
+  transition-timing-function: var(--rain-motion-ease-out);
+}
+
+[data-motion="overlay"] {
+  animation-name: rain-overlay-transition;
+  animation-duration: var(--rain-motion-overlay-duration);
+  animation-timing-function: var(--rain-motion-ease-out);
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: both;
+}
+
+[data-motion="region"] {
+  transform-origin: top;
+  animation-name: rain-region-transition;
+  animation-duration: var(--rain-motion-region-duration);
+  animation-timing-function: var(--rain-motion-ease-out);
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: both;
+}
+
+@keyframes rain-region-transition {
+  from {
+    opacity: 0.92;
+    transform: translateY(-4px) scaleY(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes rain-overlay-transition {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --rain-motion-feedback-duration: 0ms;
+    --rain-motion-overlay-duration: 0ms;
+    --rain-motion-region-duration: 0ms;
+  }
+
+  [data-motion="feedback"],
+  [data-motion="overlay"],
+  [data-motion="region"] {
+    animation: none;
+    scroll-behavior: auto;
+    transition-duration: 0ms;
+  }
+}

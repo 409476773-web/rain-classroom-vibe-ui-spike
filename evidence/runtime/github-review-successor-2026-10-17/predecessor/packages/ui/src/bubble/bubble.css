@@ -1,0 +1,69 @@
+/* @rain-css-exception ui-bubble: owned source Parts, Rain paint and logical reaction geometry. */
+@layer components {
+  .rain-bubble { max-width: 80%; gap: var(--rain-space-4); }
+  .rain-bubble[data-align="end"] { align-self: flex-end; }
+  .rain-bubble__content {
+    box-sizing: border-box;
+    border: var(--rain-line-thickness-1) solid transparent;
+    border-radius: var(--rain-radius-12);
+    padding: var(--rain-space-8) var(--rain-space-12);
+    color: var(--rain-category-text-neutral-2);
+  }
+  .rain-bubble[data-align="end"] > .rain-bubble__content { align-self: flex-end; }
+  .rain-bubble__content:is(button, a) {
+    outline: none;
+    text-align: start;
+    text-decoration: none;
+    transition: color var(--rain-motion-feedback-duration), background-color var(--rain-motion-feedback-duration);
+  }
+  .rain-bubble__content:is(button, a):focus-visible {
+    border-color: var(--rain-focus-control);
+    box-shadow: 0 0 0 3px var(--rain-focus-control-halo);
+  }
+  .rain-bubble__content:is(button:disabled, [aria-disabled="true"]) { cursor: not-allowed; }
+  .rain-bubble--default > .rain-bubble__content { background-color: var(--rain-category-fill-brand-solid-2); color: var(--rain-category-oncolor-1); }
+  .rain-bubble--secondary > .rain-bubble__content { background-color: var(--rain-category-background-neutral-2); }
+  .rain-bubble--muted > .rain-bubble__content { background-color: var(--rain-category-fill-neutral-solid-5); }
+  .rain-bubble--tinted > .rain-bubble__content { background-color: var(--rain-category-fill-brand-solid-4); color: var(--rain-category-text-brand-1); }
+  .rain-bubble--outline > .rain-bubble__content { background-color: var(--rain-category-background-neutral-1); border-color: var(--rain-category-border-neutral-3); }
+  .rain-bubble--ghost { max-width: 100%; }
+  .rain-bubble--ghost > .rain-bubble__content { background-color: transparent; border: none; border-radius: var(--rain-space-0); padding: var(--rain-space-0); }
+  .rain-bubble--ghost > .rain-bubble__content:is(button, a):focus-visible { outline: var(--rain-focus-width) solid var(--rain-focus-control); outline-offset: var(--rain-focus-offset); }
+  .rain-bubble--destructive > .rain-bubble__content { background-color: var(--rain-category-fill-red-solid-3); color: var(--rain-category-text-red-1); }
+  .rain-bubble__reactions {
+    flex-shrink: 0;
+    gap: var(--rain-space-4);
+    padding: var(--rain-space-2) var(--rain-space-6);
+    border-radius: var(--rain-radius-full);
+    background-color: var(--rain-category-fill-neutral-solid-5);
+    box-shadow: 0 0 0 3px var(--rain-category-background-neutral-1);
+    color: var(--rain-category-text-neutral-2);
+    font-family: var(--rain-font-ui);
+    font-size: var(--rain-font-size-14);
+    line-height: var(--rain-line-height-22);
+  }
+  .rain-bubble__reactions:has(button) { padding: var(--rain-space-0); }
+  .rain-bubble__reactions--top { top: 0; transform: translateY(-75%); }
+  .rain-bubble__reactions--bottom { bottom: 0; transform: translateY(75%); }
+  .rain-bubble__reactions--start { inset-inline-start: var(--rain-space-12); }
+  .rain-bubble__reactions--end { inset-inline-end: var(--rain-space-12); }
+  .rain-bubble[data-density="compact"] > .rain-bubble__content { padding-block: var(--rain-space-6); }
+  .rain-bubble--ghost[data-density="compact"] > .rain-bubble__content { padding: var(--rain-space-0); }
+  @media (hover: hover) {
+    .rain-bubble--default > .rain-bubble__content:is(button:not(:disabled), a[href]):hover { background-color: var(--rain-category-fill-brand-alpha-1); }
+    .rain-bubble--secondary > .rain-bubble__content:is(button:not(:disabled), a[href]):hover,
+    .rain-bubble--muted > .rain-bubble__content:is(button:not(:disabled), a[href]):hover,
+    .rain-bubble--outline > .rain-bubble__content:is(button:not(:disabled), a[href]):hover,
+    .rain-bubble--ghost > .rain-bubble__content:is(button:not(:disabled), a[href]):hover { background-color: var(--rain-category-fill-neutral-solid-4); }
+    .rain-bubble--tinted > .rain-bubble__content:is(button:not(:disabled), a[href]):hover { background-color: var(--rain-category-fill-brand-solid-3); }
+    .rain-bubble--destructive > .rain-bubble__content:is(button:not(:disabled), a[href]):hover { background-color: var(--rain-category-fill-red-alpha-1); }
+  }
+  @media (prefers-reduced-motion: reduce) { .rain-bubble__content { transition: none; } }
+  @media (forced-colors: active) {
+    .rain-bubble > .rain-bubble__content { color: CanvasText; background: Canvas; border-color: CanvasText; }
+    .rain-bubble--ghost > .rain-bubble__content { border: none; }
+    .rain-bubble__content:is(a[href]) { color: LinkText; }
+    .rain-bubble__content:is(button, a):focus-visible { outline: 2px solid Highlight; box-shadow: none; }
+    .rain-bubble__reactions { color: CanvasText; background: Canvas; border: 1px solid CanvasText; box-shadow: none; }
+  }
+}

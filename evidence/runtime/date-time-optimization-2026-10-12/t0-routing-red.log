@@ -1,0 +1,47 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g5-evidence-paths.test.ts (3 tests | 2 failed) 699ms
+   × routes the date browser report and result files to the explicit evidence directory 240ms
+   × routes the G5 browser report and result files to the explicit evidence directory 232ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g5-evidence-paths.test.ts > routes the date browser report and result files to the explicit evidence directory
+AssertionError: expected '/Users/wenchengkai/CodexFile/雨课堂-shad…' to be '/Users/wenchengkai/CodexFile/雨课堂-shad…' // Object.is equality
+
+Expected: "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/date-time-optimization-2026-10-12/test-route/dates/results"
+Received: "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/g5-components-2026-10-12/browser-dates//results"
+
+ ❯ scripts/g5-evidence-paths.test.ts:18:28
+     16|   const config = configFor("dates");
+     17|   const directory = resolve(process.env.RAIN_G5_EVIDENCE_DIR!);
+     18|   expect(config.outputDir).toBe(resolve(directory, "results"));
+       |                            ^
+     19|   expect(config.reporter).toContainEqual(["json", { outputFile: resolv…
+     20| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/g5-evidence-paths.test.ts > routes the G5 browser report and result files to the explicit evidence directory
+AssertionError: expected '../../evidence/runtime/g5-components-…' to be '/tmp/rain-g5-route-check/results' // Object.is equality
+
+Expected: "/tmp/rain-g5-route-check/results"
+Received: "../../evidence/runtime/g5-components-2026-10-12/browser/results"
+
+ ❯ scripts/g5-evidence-paths.test.ts:26:28
+     24|   vi.resetModules();
+     25|   const config = configFor("components");
+     26|   expect(config.outputDir).toBe("/tmp/rain-g5-route-check/results");
+       |                            ^
+     27|   expect(config.reporter).toContainEqual(["json", { outputFile: "/tmp/…
+     28| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  14:06:51
+   Duration  1.27s (transform 19ms, setup 106ms, import 9ms, tests 699ms, environment 367ms)
+

@@ -1,0 +1,181 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-boundary-download.test.tsx (4 tests | 4 failed) 11ms
+   × pie: the real download restores the selected boundary and keeps its control editable 6ms
+   × ring: the real download restores the selected boundary and keeps its control editable 2ms
+   × funnel: the real download restores the selected boundary and keeps its control editable 1ms
+   × sankey: the real download restores the selected boundary and keeps its control editable 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-boundary-download.test.tsx > pie: the real download restores the selected boundary and keeps its control editable
+AssertionError: expected 'import { createRoot } from "react-dom…' to contain 'useState<ChartBoundaryScenario>("pie-…'
+
+- Expected
++ Received
+
+- useState<ChartBoundaryScenario>("pie-small")
++ import { createRoot } from "react-dom/client";
++ import { useState } from "react";
++ import { MotionConfig } from "motion/react";
++ import "@rain-next/foundations/tokens.css";
++ import "@rain-next/foundations/typography.css";
++ import "@rain-next/foundations/focus.css";
++ import { ChartExample } from "./chart-examples";
++ import { useChartReducedMotion } from "./chart-variants/shared";
++
++ function App() {
++   const [revision, setRevision] = useState(2);
++   const reduced = useChartReducedMotion();
++   return <MotionConfig reducedMotion="user">
++     <main style={{ maxWidth: 880, margin: "auto", padding: "var(--rain-space-24)" }}>
++       <button onClick={() => setRevision(value => value + 1)}>更新数据</button>
++       <div className="rain-chart" data-rain-id="chart-pie" data-recipe="monochrome-blue">
++         <ChartExample id="pie" recipe="monochrome-blue" revision={revision} reduced={reduced} state="normal" size="standard" miniSize="compact" seriesCount={3} />
++       </div>
++     </main>
++   </MotionConfig>;
++ }
++
++ createRoot(document.getElementById("root")!).render(<App />);
+
+ ❯ apps/playground/src/docs/components/chart-boundary-download.test.tsx:8:18
+      6|     const files = chartExampleFiles({ id, recipe: "monochrome-blue", r…
+      7|     const main = files["main.tsx"]!;
+      8|     expect(main).toContain(`useState<ChartBoundaryScenario>("${boundar…
+       |                  ^
+      9|     expect(main).toContain("boundaryScenario={boundaryScenario}");
+     10|     expect(main).toContain("onBoundaryScenarioChange={setBoundaryScena…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-boundary-download.test.tsx > ring: the real download restores the selected boundary and keeps its control editable
+AssertionError: expected 'import { createRoot } from "react-dom…' to contain 'useState<ChartBoundaryScenario>("ring…'
+
+- Expected
++ Received
+
+- useState<ChartBoundaryScenario>("ring-zero-goal")
++ import { createRoot } from "react-dom/client";
++ import { useState } from "react";
++ import { MotionConfig } from "motion/react";
++ import "@rain-next/foundations/tokens.css";
++ import "@rain-next/foundations/typography.css";
++ import "@rain-next/foundations/focus.css";
++ import { ChartExample } from "./chart-examples";
++ import { useChartReducedMotion } from "./chart-variants/shared";
++
++ function App() {
++   const [revision, setRevision] = useState(2);
++   const reduced = useChartReducedMotion();
++   return <MotionConfig reducedMotion="user">
++     <main style={{ maxWidth: 880, margin: "auto", padding: "var(--rain-space-24)" }}>
++       <button onClick={() => setRevision(value => value + 1)}>更新数据</button>
++       <div className="rain-chart" data-rain-id="chart-ring" data-recipe="monochrome-blue">
++         <ChartExample id="ring" recipe="monochrome-blue" revision={revision} reduced={reduced} state="normal" size="standard" miniSize="compact" seriesCount={3} />
++       </div>
++     </main>
++   </MotionConfig>;
++ }
++
++ createRoot(document.getElementById("root")!).render(<App />);
+
+ ❯ apps/playground/src/docs/components/chart-boundary-download.test.tsx:8:18
+      6|     const files = chartExampleFiles({ id, recipe: "monochrome-blue", r…
+      7|     const main = files["main.tsx"]!;
+      8|     expect(main).toContain(`useState<ChartBoundaryScenario>("${boundar…
+       |                  ^
+      9|     expect(main).toContain("boundaryScenario={boundaryScenario}");
+     10|     expect(main).toContain("onBoundaryScenarioChange={setBoundaryScena…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-boundary-download.test.tsx > funnel: the real download restores the selected boundary and keeps its control editable
+AssertionError: expected 'import { createRoot } from "react-dom…' to contain 'useState<ChartBoundaryScenario>("funn…'
+
+- Expected
++ Received
+
+- useState<ChartBoundaryScenario>("funnel-missing")
++ import { createRoot } from "react-dom/client";
++ import { useState } from "react";
++ import { MotionConfig } from "motion/react";
++ import "@rain-next/foundations/tokens.css";
++ import "@rain-next/foundations/typography.css";
++ import "@rain-next/foundations/focus.css";
++ import { ChartExample } from "./chart-examples";
++ import { useChartReducedMotion } from "./chart-variants/shared";
++
++ function App() {
++   const [revision, setRevision] = useState(2);
++   const reduced = useChartReducedMotion();
++   return <MotionConfig reducedMotion="user">
++     <main style={{ maxWidth: 880, margin: "auto", padding: "var(--rain-space-24)" }}>
++       <button onClick={() => setRevision(value => value + 1)}>更新数据</button>
++       <div className="rain-chart" data-rain-id="chart-funnel" data-recipe="monochrome-blue">
++         <ChartExample id="funnel" recipe="monochrome-blue" revision={revision} reduced={reduced} state="normal" size="standard" miniSize="compact" seriesCount={3} />
++       </div>
++     </main>
++   </MotionConfig>;
++ }
++
++ createRoot(document.getElementById("root")!).render(<App />);
+
+ ❯ apps/playground/src/docs/components/chart-boundary-download.test.tsx:8:18
+      6|     const files = chartExampleFiles({ id, recipe: "monochrome-blue", r…
+      7|     const main = files["main.tsx"]!;
+      8|     expect(main).toContain(`useState<ChartBoundaryScenario>("${boundar…
+       |                  ^
+      9|     expect(main).toContain("boundaryScenario={boundaryScenario}");
+     10|     expect(main).toContain("onBoundaryScenarioChange={setBoundaryScena…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-boundary-download.test.tsx > sankey: the real download restores the selected boundary and keeps its control editable
+AssertionError: expected 'import { createRoot } from "react-dom…' to contain 'useState<ChartBoundaryScenario>("sank…'
+
+- Expected
++ Received
+
+- useState<ChartBoundaryScenario>("sankey-zero-link")
++ import { createRoot } from "react-dom/client";
++ import { useState } from "react";
++ import { MotionConfig } from "motion/react";
++ import "@rain-next/foundations/tokens.css";
++ import "@rain-next/foundations/typography.css";
++ import "@rain-next/foundations/focus.css";
++ import { ChartExample } from "./chart-examples";
++ import { useChartReducedMotion } from "./chart-variants/shared";
++
++ function App() {
++   const [revision, setRevision] = useState(2);
++   const reduced = useChartReducedMotion();
++   return <MotionConfig reducedMotion="user">
++     <main style={{ maxWidth: 880, margin: "auto", padding: "var(--rain-space-24)" }}>
++       <button onClick={() => setRevision(value => value + 1)}>更新数据</button>
++       <div className="rain-chart" data-rain-id="chart-sankey" data-recipe="monochrome-blue">
++         <ChartExample id="sankey" recipe="monochrome-blue" revision={revision} reduced={reduced} state="normal" size="standard" miniSize="compact" seriesCount={3} />
++       </div>
++     </main>
++   </MotionConfig>;
++ }
++
++ createRoot(document.getElementById("root")!).render(<App />);
+
+ ❯ apps/playground/src/docs/components/chart-boundary-download.test.tsx:8:18
+      6|     const files = chartExampleFiles({ id, recipe: "monochrome-blue", r…
+      7|     const main = files["main.tsx"]!;
+      8|     expect(main).toContain(`useState<ChartBoundaryScenario>("${boundar…
+       |                  ^
+      9|     expect(main).toContain("boundaryScenario={boundaryScenario}");
+     10|     expect(main).toContain("onBoundaryScenarioChange={setBoundaryScena…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  13:47:57
+   Duration  1.63s (transform 559ms, setup 98ms, import 1.06s, tests 11ms, environment 380ms)
+

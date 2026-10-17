@@ -1,0 +1,112 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-slider"
+name: "Slider"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/slider/slider.tsx"
+styleSourcePath: "packages/ui/src/slider/slider.css"
+sourceVersion: "local-2026-10-13-slider-refinement"
+description: "水平连续数值或双端范围选择，保留边界身份。"
+useWhen:
+  - "调整比例或连续阈值，并显示读数。"
+doNotUseWhen:
+  - "精确数值唯一输入或离散选项。"
+anatomy:
+  - "Root / Control / Track / Indicator / Thumb / Marks / ValueTooltip"
+parts:
+  - "Root / Control / Track / Indicator / Thumb / Marks / ValueTooltip"
+props:
+  - "range=false:number；range=true:readonly[number,number]；value / defaultValue。"
+  - "min=0 / max=100 / step=1；onValueChange / onValueCommitted；thumbLabels / getAriaValueText；name / form / disabled。"
+  - "marks:readonly SliderMark[]，仅绘制范围内有限、唯一值的纯文本关键刻度；不改变步长。"
+  - "formatValue(value,index):string；同时用于操作中读数和默认aria-valuetext，已有getAriaValueText优先。"
+  - "showValue=true；悬停、聚焦或拖动时只显示活动端读数，浮层不增加Tab停靠点。"
+  - "范围可见提示使用下限/上限与formatValue；thumbLabels提供每端完整辅助名称，不作为可见提示前缀。"
+slots: []
+variants:
+  - "Rain local recipe"
+states:
+  - "default"
+  - "disabled"
+  - "focus-visible"
+  - "hover"
+  - "dragging"
+  - "equal-range"
+dependencies:
+  - "react"
+  - "@base-ui/react/slider@1.8.0"
+  - "FormItem"
+  - "Tooltip"
+tokens:
+  - "Fill/Brand/Solid/2 with declared 55% resting leaf Alpha for matching track and thumb ring; opaque Fill/Brand/Solid/2 for hover, focus and dragging"
+  - "Fill/Neutral/Alpha/5"
+  - "Background/Neutral/1 thumb core; no central indicator"
+  - "Text/Neutral/3; shared control Focus"
+  - "Motion/Feedback/140ms"
+layoutConstraints:
+  - "宽度由宿主提供；保留区域密度与窄屏布局。"
+  - "default 16px / compact 12px滑钮，2px浅色外圈与表面色内芯，无中心点；轨道4px；可见尺寸与扩大命中区域分别验证。"
+  - "刻度围绕可见轨道定位，视觉间距与扩大命中区分离；与edge滑钮同一可达范围对齐，仅提供少量有意义的短标签。"
+compositionRules:
+  - "位置即时更新；轨道静止浅蓝，悬停、聚焦或拖动时增强，颜色/阴影反馈过渡。"
+  - "相邻InputNumber用于精确输入；双端输入组成明确的下限—上限字段组，业务提交由宿主控制。"
+  - "输入number/null草稿与滑块最后有效值分开；空、越界、跨端冲突不静默归零或钳制。"
+  - "小数步长在组合层校验，不改变InputNumber全库编辑、precision或step合同。"
+  - "当前值、固定参照刻度与业务结果分别表达；窄容器读数同步，固定60刻度明确写默认60。"
+  - "显式保存组合显示本次待保存；操作结束应用组合区分预览与已应用，非法草稿说明未应用并保留有效范围。"
+  - "音量与倍速使用紧凑参数行；状态预设和外观对照置于主要组合之后，不增加公共外观Variant。"
+allowedModifications:
+  - "宿主内容、className、既有variant；数据与保存由宿主拥有。"
+restrictedModifications:
+  - "不硬编码颜色或构建第二字段状态/浮层引擎。"
+accessibility:
+  - "原生range表单输入；Base UI键盘、拖动和结束回调；双端独立名称。"
+  - "常规端点碰撞none；仅从完全重合滑钮开始的指针操作按展开方向选择端点，首次接受的不相等变化后固定该端；触控命中区扩大。"
+  - "每端aria-valuemin/max随另一端更新；相等时保留固定顺序和独立名称。"
+  - "值提示复用Tooltip定位；值由aria-valuetext播报，保留字段说明且避免重复数值描述。"
+  - "Escape关闭数值提示并保留焦点；提示内容可悬停，拖动时持续跟手。"
+  - "重合时向左展开下限、向右展开上限；不改变固定Tab顺序、端点辅助名称或原生变更/结束回调。轨道点击和非重合操作保持原引擎行为。"
+examples:
+  - "#slider"
+recipes:
+  - "G5可操作表单与筛选样例"
+antiPatterns:
+  - "精确数值唯一输入或离散选项。"
+relatedComponents:
+  - "FormItem"
+  - "Input"
+  - "InputNumber"
+  - "Tooltip"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Rain字段、菜单、图标与Token体系"
+  externalReferences:
+    - "shadcn Base UI / Nova at locked commit"
+  retainedTraits:
+    - "成熟来源部件与引擎语义/生命周期"
+  redesignedTraits:
+    - "Rain现有Token绑定与局部动效"
+  intentionallyNotInherited:
+    - "上游默认palette与cn"
+figmaMapping:
+  status: "reference-only"
+source:
+  repository: "https://github.com/shadcn-ui/ui"
+  commit: "3ba91b1cc83e1bbe4ab35a422ff2a694849c5048"
+  license: "MIT"
+  evidence: "evidence/runtime/g5-components-2026-10-12/source-lock.json"
+migrationNotes:
+  - "固定来源适配；未发布候选，人工视觉与对比度验收单独记录。"
+verification:
+  automated: "scoped-passed"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/slider-closeout-2026-10-13/verification.md"
+  previousVisualAcceptance: "evidence/runtime/slider-experience-2026-10-13/acceptance.json"

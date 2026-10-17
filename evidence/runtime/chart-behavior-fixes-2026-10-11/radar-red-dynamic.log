@@ -1,0 +1,81 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/radar-motion.test.tsx (7 tests | 6 failed) 74ms
+   × radar with 'animate=false' paints all series at their final coordinates without waiting 37ms
+   × radar with 'a zero enter budget' paints all series at their final coordinates without waiting 6ms
+   × radar with 'a zero enter transition' paints all series at their final coordinates without waiting 5ms
+   × system reduced motion bypasses the radar's normal area stagger 6ms
+   × disabling radar animation during entry immediately replaces the collapsed geometry 8ms
+   × a system reduced-motion change during entry immediately reveals all final coordinates 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > radar with 'animate=false' paints all series at their final coordinates without waiting
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > radar with 'a zero enter budget' paints all series at their final coordinates without waiting
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > radar with 'a zero enter transition' paints all series at their final coordinates without waiting
+AssertionError: expected +0 to be close to -100.8, received difference is 100.8, but expected 5e-9
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:52:67
+     50|     });
+     51|     expect(coordinates).toHaveLength(expected.length);
+     52|     coordinates.forEach((coordinate, index) => expect(coordinate).toBe…
+       |                                                                   ^
+     53|     const points = [...group.querySelectorAll("circle")];
+     54|     expect(points).toHaveLength(metrics.length);
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:52:17
+ ❯ expectTargetGeometry packages/ui/src/charts/radar-motion.test.tsx:44:10
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:69:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > system reduced motion bypasses the radar's normal area stagger
+AssertionError: expected +0 to be close to -100.8, received difference is 100.8, but expected 5e-9
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:52:67
+     50|     });
+     51|     expect(coordinates).toHaveLength(expected.length);
+     52|     coordinates.forEach((coordinate, index) => expect(coordinate).toBe…
+       |                                                                   ^
+     53|     const points = [...group.querySelectorAll("circle")];
+     54|     expect(points).toHaveLength(metrics.length);
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:52:17
+ ❯ expectTargetGeometry packages/ui/src/charts/radar-motion.test.tsx:44:10
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:77:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > disabling radar animation during entry immediately replaces the collapsed geometry
+AssertionError: expected +0 to be close to -100.8, received difference is 100.8, but expected 5e-9
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:52:67
+     50|     });
+     51|     expect(coordinates).toHaveLength(expected.length);
+     52|     coordinates.forEach((coordinate, index) => expect(coordinate).toBe…
+       |                                                                   ^
+     53|     const points = [...group.querySelectorAll("circle")];
+     54|     expect(points).toHaveLength(metrics.length);
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:52:17
+ ❯ expectTargetGeometry packages/ui/src/charts/radar-motion.test.tsx:44:10
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:85:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > a system reduced-motion change during entry immediately reveals all final coordinates
+AssertionError: expected +0 to be close to -100.8, received difference is 100.8, but expected 5e-9
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:52:67
+     50|     });
+     51|     expect(coordinates).toHaveLength(expected.length);
+     52|     coordinates.forEach((coordinate, index) => expect(coordinate).toBe…
+       |                                                                   ^
+     53|     const points = [...group.querySelectorAll("circle")];
+     54|     expect(points).toHaveLength(metrics.length);
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:52:17
+ ❯ expectTargetGeometry packages/ui/src/charts/radar-motion.test.tsx:44:10
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:96:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed | 1 passed (7)
+   Start at  12:12:01
+   Duration  837ms (transform 98ms, setup 94ms, import 223ms, tests 74ms, environment 361ms)
+

@@ -1,0 +1,160 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx (6 tests | 5 failed) 2032ms
+   × Scatter refreshes the current date's point and axes when values change without another pointer event 1019ms
+   × Scatter preserves date identity when preceding dates are inserted 1005ms
+   × Scatter clears an absent current date instead of binding its old index to another date 2ms
+   × Scatter allows a single finger to scroll while retaining exact touch reading and cancellation 3ms
+   × Scatter retains the existing two-finger time selection and clears it after cancellation 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/scatter-interaction.test.tsx > Scatter refreshes the current date's point and axes when values change without another pointer event
+AssertionError: expected { Object (date, value) } to be { Object (date, value) } // Object.is equality
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div />[39m
+  [36m</body>[39m
+[36m</html>[39m
+
+- Expected
++ Received
+
+  {
+    "date": 2026-09-01T16:00:00.000Z,
+-   "value": 7,
++   "value": 0,
+  }
+
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx:39:70
+     37|   const updated = original.map(entry => ({ ...entry, date: new Date(en…
+     38|   view.rerender({ data: updated, width: 600 });
+     39|   await waitFor(() => expect(view.result.current.tooltipData?.point).t…
+       |                                                                      ^
+     40|   expect(view.result.current.tooltipData?.point.value).toBe(7);
+     41|   expect(view.result.current.tooltipData?.x).toBe(300);
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  packages/ui/src/charts/scatter-interaction.test.tsx > Scatter preserves date identity when preceding dates are inserted
+AssertionError: expected { Object (date, value) } to be { Object (date, value) } // Object.is equality
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div />[39m
+  [36m</body>[39m
+[36m</html>[39m
+
+- Expected
++ Received
+
+  {
+    "date": 2026-09-01T16:00:00.000Z,
+-   "value": 3,
++   "value": 0,
+  }
+
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx:50:70
+     48|   const updated = [point(0, 1), ...original.map(entry => ({ ...entry, …
+     49|   view.rerender({ data: updated });
+     50|   await waitFor(() => expect(view.result.current.tooltipData?.point).t…
+       |                                                                      ^
+     51|   expect(view.result.current.tooltipData?.index).toBe(2);
+     52|   expect(view.result.current.tooltipData?.x).toBe(200);
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  packages/ui/src/charts/scatter-interaction.test.tsx > Scatter clears an absent current date instead of binding its old index to another date
+AssertionError: expected { point: { …(2) }, index: 1, …(2) } to be null
+
+- Expected:
+null
+
++ Received:
+{
+  "index": 1,
+  "point": {
+    "date": 2026-09-01T16:00:00.000Z,
+    "value": 0,
+  },
+  "x": 150,
+  "yPositions": {
+    "value": 100,
+  },
+}
+
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx:60:43
+     58|   inspect(view.result);
+     59|   view.rerender({ data: [original[0]!, original[2]!] });
+     60|   expect(view.result.current.tooltipData).toBeNull();
+       |                                           ^
+     61| });
+     62|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  packages/ui/src/charts/scatter-interaction.test.tsx > Scatter allows a single finger to scroll while retaining exact touch reading and cancellation
+AssertionError: expected "vi.fn()" to not be called at all, but actually been called 1 times
+
+Received:
+
+  1st vi.fn() call:
+
+    Array []
+
+
+Number of calls: 1
+
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx:86:36
+     84|   const event = touchEvent([{ clientX: 150, clientY: 80 }]);
+     85|   act(() => view.result.current.interactionHandlers.onTouchStart?.(eve…
+     86|   expect(event.preventDefault).not.toHaveBeenCalled();
+       |                                    ^
+     87|   expect(view.result.current.interactionStyle.touchAction).toBe("pan-y…
+     88|   await waitFor(() => expect(view.result.current.tooltipData?.point).t…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  packages/ui/src/charts/scatter-interaction.test.tsx > Scatter retains the existing two-finger time selection and clears it after cancellation
+AssertionError: expected { startX: +0, endX: 150, …(3) } to be null
+
+- Expected:
+null
+
++ Received:
+{
+  "active": true,
+  "endIndex": 1,
+  "endX": 150,
+  "startIndex": 0,
+  "startX": 0,
+}
+
+ ❯ packages/ui/src/charts/scatter-interaction.test.tsx:104:41
+    102|   expect(view.result.current.selection).toMatchObject({ startIndex: 0,…
+    103|   act(() => view.result.current.interactionHandlers.onTouchCancel?.());
+    104|   expect(view.result.current.selection).toBeNull();
+       |                                         ^
+    105| });
+    106|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 1 passed (6)
+   Start at  14:56:33
+   Duration  2.73s (transform 88ms, setup 101ms, import 124ms, tests 2.03s, environment 385ms)
+

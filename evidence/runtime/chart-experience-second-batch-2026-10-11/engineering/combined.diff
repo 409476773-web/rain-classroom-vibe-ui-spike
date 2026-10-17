@@ -1,0 +1,154 @@
+--- before/packages/ui/src/toast/toast.test.tsx
++++ after/packages/ui/src/toast/toast.test.tsx
+@@ -12,8 +12,8 @@
+     render(<Toaster toastManager={manager} timeout={0}><Button onClick={() => manager.add({
+       title: "保存完成", actionProps: { children: "撤回", onClick: undo },
+     })}>保存</Button></Toaster>);
+-    await user.click(screen.getByRole("button", { name: "保存", exact: true }));
+-    const action = screen.getByRole("button", { name: "撤回", exact: true });
++    await user.click(screen.getByRole("button", { name: "保存" }));
++    const action = screen.getByRole("button", { name: "撤回" });
+     expect(action).toHaveAttribute("data-rain-id", "ui-button");
+     expect(action).toHaveAttribute("data-variant", "text");
+     await user.keyboard("{F6}");
+
+--- before/tests/e2e/chart-feedback.config.ts
++++ after/tests/e2e/chart-feedback.config.ts
+@@ -3,5 +3,5 @@
+   testDir: ".", testMatch: "chart-feedback-*.spec.ts", workers: 2, retries: 0,
+   timeout: 45_000, reporter: "list",
+   outputDir: "../../evidence/runtime/chart-variants/feedback-2026-10-08/final-browser-results",
+-  use: { ...devices["Desktop Chrome"], baseURL: "http://127.0.0.1:5173", reducedMotion: "reduce", trace: "retain-on-failure" },
++  use: { ...devices["Desktop Chrome"], baseURL: "http://127.0.0.1:5173", contextOptions: { reducedMotion: "reduce" }, trace: "retain-on-failure" },
+ });
+
+--- before/tests/e2e/chart-feedback-legend-tooltip.config.ts
++++ after/tests/e2e/chart-feedback-legend-tooltip.config.ts
+@@ -4,5 +4,5 @@
+   timeout: 30_000,
+   outputDir: "../../evidence/runtime/chart-variants/feedback-2026-10-08/legend-tooltip/test-results",
+   reporter: "list",
+-  use: { ...devices["Desktop Chrome"], baseURL: "http://127.0.0.1:5173", reducedMotion: "reduce", trace: "retain-on-failure" },
++  use: { ...devices["Desktop Chrome"], baseURL: "http://127.0.0.1:5173", contextOptions: { reducedMotion: "reduce" }, trace: "retain-on-failure" },
+ });
+
+--- before/manifests/contracts/token-foundations-v1.json
++++ after/manifests/contracts/token-foundations-v1.json
+@@ -54877,93 +54877,6 @@
+       "sourceCommit": "5d699897b2dde26374cf15501dbaadbc52cea982",
+       "evidenceRef": "packages/ui/src/charts/README.md",
+       "filePath": "apps/playground/src/docs/components/chart-business/china-region-page.css",
+-      "selector": ".rain-china-regions [data-slot=\"region-name\"]",
+-      "property": "color",
+-      "value": "var(--rain-category-text-neutral-3)",
+-      "parentSurfaces": [
+-        "Background/Neutral/1"
+-      ],
+-      "use": {
+-        "tokenId": "Text/Neutral/3",
+-        "property": "color",
+-        "content": "text",
+-        "role": "text",
+-        "context": "component-recipe",
+-        "interaction": "non-interactive",
+-        "critical": true,
+-        "recipeId": "chart-rain-base",
+-        "evidenceRef": "packages/ui/src/charts/README.md"
+-      }
+-    },
+-    {
+-      "scope": "rain-chart-business",
+-      "supportedThemes": [
+-        "light"
+-      ],
+-      "darkAcceptance": "not-granted",
+-      "contrastReview": "pending-review",
+-      "contrastMeasurementScope": "full-opacity-against-declared-opaque-surfaces; graph-overlap-gradients-and-faded-states-await-runtime-review",
+-      "sourceCommit": "5d699897b2dde26374cf15501dbaadbc52cea982",
+-      "evidenceRef": "packages/ui/src/charts/README.md",
+-      "filePath": "apps/playground/src/docs/components/chart-business/china-region-page.css",
+-      "selector": ".rain-china-regions [data-slot=\"value\"]",
+-      "property": "color",
+-      "value": "var(--rain-category-text-neutral-3)",
+-      "parentSurfaces": [
+-        "Background/Neutral/1"
+-      ],
+-      "use": {
+-        "tokenId": "Text/Neutral/3",
+-        "property": "color",
+-        "content": "text",
+-        "role": "text",
+-        "context": "component-recipe",
+-        "interaction": "non-interactive",
+-        "critical": true,
+-        "recipeId": "chart-rain-base",
+-        "evidenceRef": "packages/ui/src/charts/README.md"
+-      }
+-    },
+-    {
+-      "scope": "rain-chart-business",
+-      "supportedThemes": [
+-        "light"
+-      ],
+-      "darkAcceptance": "not-granted",
+-      "contrastReview": "pending-review",
+-      "contrastMeasurementScope": "full-opacity-against-declared-opaque-surfaces; graph-overlap-gradients-and-faded-states-await-runtime-review",
+-      "sourceCommit": "5d699897b2dde26374cf15501dbaadbc52cea982",
+-      "evidenceRef": "packages/ui/src/charts/README.md",
+-      "filePath": "apps/playground/src/docs/components/chart-business/china-region-page.css",
+-      "selector": ".rain-china-regions button[aria-pressed=\"true\"]",
+-      "property": "outline",
+-      "value": "1px solid var(--rain-category-border-neutral-3)",
+-      "parentSurfaces": [
+-        "Background/Neutral/1"
+-      ],
+-      "use": {
+-        "tokenId": "Border/Neutral/3",
+-        "property": "border-color",
+-        "content": "essential-boundary",
+-        "role": "border",
+-        "context": "component-recipe",
+-        "interaction": "interactive",
+-        "critical": false,
+-        "recipeId": "chart-rain-base",
+-        "evidenceRef": "packages/ui/src/charts/README.md"
+-      }
+-    },
+-    {
+-      "scope": "rain-chart-business",
+-      "supportedThemes": [
+-        "light"
+-      ],
+-      "darkAcceptance": "not-granted",
+-      "contrastReview": "pending-review",
+-      "contrastMeasurementScope": "full-opacity-against-declared-opaque-surfaces; graph-overlap-gradients-and-faded-states-await-runtime-review",
+-      "sourceCommit": "5d699897b2dde26374cf15501dbaadbc52cea982",
+-      "evidenceRef": "packages/ui/src/charts/README.md",
+-      "filePath": "apps/playground/src/docs/components/chart-business/china-region-page.css",
+       "selector": ".rain-china-detail",
+       "property": "color",
+       "value": "var(--rain-category-text-neutral-3)",
+
+--- before/manifests/ui/chart-network.yaml
++++ after/manifests/ui/chart-network.yaml
+@@ -114,7 +114,7 @@
+ migrationNotes:
+   - "Rain本地共享候选；原17 Bklit加Matrix/Network为19入口，170官网集合不变；未发布、未迁移、未写Figma。"
+ verification:
+-  automated: "local-experience-verification-completed; whole-repository-not-claimed"
++  automated: "scoped-passed"
+   scope: "2026-10-10 experience: 8 files/93 scoped unit/color/export/contract checks, 10 Chromium browser cases including visible transition-frame collision checks, UI typecheck and both standard host builds passed. 19 Registry closures, 170 official variants type/build and 66 business downloads including 16 Network type/build/browser passed using installed dependency cache. Whole-tests typecheck reports 4 diagnostics outside Network (Toast tests and two legacy chart-feedback configs); no Network diagnostics. Hashes are in the evidence record."
+   independentReview: "prior-structured-review-only; current-local-source-and-automated-browser-review"
+   humanGate: "passed-current-four-local-fixtures-interaction-and-motion; user-confirmed-2026-10-10"
+
+--- before/docs/ai/asset-index.md
++++ after/docs/ai/asset-index.md
+@@ -42,7 +42,7 @@
+ | **日历热图 HeatmapChart** | 图表：按周列和日期格读取学习强度，顺序色阶区分有效0与缺测。 | HeatmapChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/heatmap/heatmap-chart.tsx) | [合同](../../manifests/ui/chart-heatmap.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+ | **折线图 LineChart** | 图表：连续时间的多系列趋势、真实端点与聚焦读数。 | LineChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/line-chart.tsx) | [合同](../../manifests/ui/chart-line.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+ | **实时折线 LiveLineChart** | 图表：即时观测、有界实时数据、暂停恢复和手动追加。 | LiveLineChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/live-line-chart.tsx) | [合同](../../manifests/ui/chart-live-line.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+-| **网络关系图 NetworkChart** | 自然错位的柔光网络与结构化名称卡可切换，配色独立；节点类别、边类型与方向分别表达，保留相邻聚焦、选择详情、完整关系列表及精确表。 | NetworkChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/network/network-chart.tsx) | [合同](../../manifests/ui/chart-network.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
++| **网络关系图 NetworkChart** | 柔光网络与结构化名称卡可安全过渡；连续节点/连线命中、就近读数、临时预览与固定详情、进入视野后出场，保留稳定筛选路径及精确表。 | NetworkChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/network/network-chart.tsx) | [合同](../../manifests/ui/chart-network.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / passed-current-four-local-fixtures-interaction-and-motion; user-confirmed-2026-10-10 / not-granted / unpublished |
+ | **饼图与环饼 PieChart** | 图表：互斥类别占比、饼图/环饼形态与原生扇区聚焦。 | PieChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/pie-chart.tsx) | [合同](../../manifests/ui/chart-pie.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+ | **盈亏线 ProfitLossLine** | 图表：0基准两侧的正负变化、过零连续性与分段色彩。 | ProfitLossLine · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/profit-loss-line.tsx) | [合同](../../manifests/ui/chart-profit-loss.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+ | **雷达图 RadarChart** | 图表：固定维度次序、统一尺度的多系列能力比较。 | RadarChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/radar-chart.tsx) | [合同](../../manifests/ui/chart-radar.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |

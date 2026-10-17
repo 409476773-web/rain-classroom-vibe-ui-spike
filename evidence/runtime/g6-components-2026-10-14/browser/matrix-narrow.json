@@ -1,0 +1,62 @@
+[
+  {
+    "id": "data-table",
+    "width": 390,
+    "copied": "import { DataTableRecipe } from \"./data-table-recipe\";\n<DataTableRecipe />\n// 先复制该配方及样式到应用，再修改 ColumnDef<Material> 与宿主操作。\n// 公共 Table 保持原生表格；TanStack 8.21.3 留在应用。"
+  },
+  {
+    "id": "aspect-ratio",
+    "width": 390,
+    "copied": "<AspectRatio ratio={16 / 9}>\n  <img src={cover} alt=\"课程封面\" style={{ width:\"100%\", height:\"100%\", objectFit:\"cover\" }} />\n</AspectRatio>\n// 文件标题放在比例区域外。"
+  },
+  {
+    "id": "attachment",
+    "width": 390,
+    "copied": "<Attachment state=\"done\">\n  <AttachmentMedia><FileIcon /></AttachmentMedia>\n  <AttachmentContent><AttachmentTitle>课程导读.pdf</AttachmentTitle><AttachmentDescription>PDF · 1.8 MB</AttachmentDescription></AttachmentContent>\n  <AttachmentTrigger aria-label=\"预览课程导读.pdf\" onClick={openPreview} />\n  <AttachmentActions><AttachmentAction aria-label=\"移除课程导读.pdf\" onClick={remove}>移除</AttachmentAction></AttachmentActions>\n</Attachment>"
+  },
+  {
+    "id": "direction",
+    "width": 390,
+    "copied": "<div dir=\"rtl\">\n  <DirectionProvider direction=\"rtl\"><Slider defaultValue={40} aria-label=\"数值\" /></DirectionProvider>\n</div>"
+  },
+  {
+    "id": "drawer",
+    "width": 390,
+    "copied": "<Drawer open={open} onOpenChange={(next, details) => {\n  if (!next && hasUnsavedChanges) { details.cancel(); showExitChoice(); return; }\n  setOpen(next);\n}} showSwipeHandle snapPoints={[0.5, 0.85]} snapPoint={snap} onSnapPointChange={setSnap}>\n  <DrawerTrigger render={<Button>编辑课前任务</Button>} />\n  <DrawerContent><DrawerHeader><DrawerTitle>课前任务</DrawerTitle></DrawerHeader>\n    {/* 宿主正文独立滚动；Footer留在可见位置。 */}\n    <DrawerFooter><DrawerClose render={<Button>关闭</Button>} /></DrawerFooter>\n  </DrawerContent>\n</Drawer>"
+  },
+  {
+    "id": "input-otp",
+    "width": 390,
+    "copied": "<FormItem label=\"课堂验证码\" status={error ? \"error\" : \"default\"} message={error}>\n  <InputOTP name=\"classroomCode\" maxLength={6} value={code} onChange={setCode}\n    pattern={\"^\\\\d+$\"} onComplete={() => setLengthComplete(true)}>\n    <InputOTPGroup>{[0, 1, 2, 3, 4, 5].map(index => <InputOTPSlot key={index} index={index} />)}</InputOTPGroup>\n  </InputOTP>\n</FormItem>\n// form onSubmit读取FormData，显式验证；onComplete不自动提交。"
+  },
+  {
+    "id": "carousel",
+    "width": 390,
+    "copied": "<Carousel aria-label=\"课程学习资料\" tabIndex={0} opts={{ align: \"start\" }} setApi={setApi}>\n  <CarouselContent>{materials.map(material =>\n    <CarouselItem key={material.id} aria-label={material.title}>{/* 资料内容 */}</CarouselItem>\n  )}</CarouselContent>\n  <CarouselPrevious /><CarouselNext />\n</Carousel>\n// Content的className设置inner布局；宿主留出外置导航空间。\n// setApi订阅select/reInit，并对称off；不另造selectedIndex状态机。"
+  },
+  {
+    "id": "bubble",
+    "width": 390,
+    "copied": "<Bubble variant=\"tinted\"><BubbleContent>{text}</BubbleContent>\n  <BubbleReactions><Button variant=\"text\" aria-pressed={helpful} onClick={toggle}>有帮助</Button></BubbleReactions>\n</Bubble>"
+  },
+  {
+    "id": "marker",
+    "width": 390,
+    "copied": "<Marker variant=\"separator\"><MarkerContent>今天</MarkerContent></Marker>\n<Marker><MarkerIcon><CircleCheckIcon /></MarkerIcon><MarkerContent>资料处理完成</MarkerContent></Marker>"
+  },
+  {
+    "id": "message",
+    "width": 390,
+    "copied": "<Message><MessageAvatar>{avatar}</MessageAvatar><MessageContent>\n  <MessageHeader>课程助教</MessageHeader><Bubble variant=\"ghost\"><BubbleContent>{text}</BubbleContent></Bubble>\n  <MessageFooter><Button variant=\"text\" onClick={copy}>复制回答</Button></MessageFooter>\n</MessageContent></Message>"
+  },
+  {
+    "id": "message-scroller",
+    "width": 390,
+    "copied": "<MessageScrollerProvider autoScroll>\n  <MessageScroller><MessageScrollerViewport><MessageScrollerContent>\n    {messages.map(m=><MessageScrollerItem key={m.id} messageId={m.id} scrollAnchor={m.role===\"student\"}>{m.content}</MessageScrollerItem>)}\n  </MessageScrollerContent></MessageScrollerViewport><MessageScrollerButton /></MessageScroller>\n</MessageScrollerProvider>"
+  },
+  {
+    "id": "questionnaire",
+    "width": 390,
+    "copied": "const items=[{name:\"goal\",required:true,choices:[{value:\"review\"}]},{name:\"note\"}];\n<Questionnaire items={items} onSubmit={e=>{e.preventDefault(); save(new FormData(e.currentTarget));}}>\n <QuestionnaireProgress /><QuestionnaireItem name=\"goal\" required><QuestionnaireTitle>学习目标</QuestionnaireTitle><QuestionnaireChoice value=\"review\">复习</QuestionnaireChoice><QuestionnaireError /></QuestionnaireItem>\n <QuestionnaireItem name=\"note\"><QuestionnaireTitle>补充</QuestionnaireTitle><QuestionnaireInput aria-label=\"补充说明\" /></QuestionnaireItem>\n <QuestionnaireActions><QuestionnairePrevious /><QuestionnaireSkip /><QuestionnaireNext /><QuestionnaireSubmit /></QuestionnaireActions>\n</Questionnaire>"
+  }
+]

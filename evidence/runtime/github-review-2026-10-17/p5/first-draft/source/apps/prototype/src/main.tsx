@@ -1,0 +1,12 @@
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { DensityProvider } from "@rain-next/foundations";
+import { ResourceUpdatePage } from "./scenarios/resource-update/page";
+import "@rain-next/foundations/tokens.css";
+import "@rain-next/foundations/typography.css";
+import "@rain-next/foundations/motion.css";
+import "@rain-next/foundations/focus.css";
+import "@rain-next/ui/styles.css";
+import "@rain-next/layouts/styles.css";
+import "./styles.css";
+createRoot(document.getElementById("root")!).render(<StrictMode><DensityProvider density="default"><ResourceUpdatePage /></DensityProvider></StrictMode>);

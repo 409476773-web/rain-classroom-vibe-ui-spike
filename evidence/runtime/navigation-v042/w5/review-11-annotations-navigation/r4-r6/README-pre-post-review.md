@@ -1,0 +1,15 @@
+# Review11 R4–R6 annotations18–38
+
+Local feature implementation follows the user’s annotations using existing Rain UI parts and category Tokens. The approved HTML was actually opened, operated and captured at original 1200/1440/1600 widths in `reference/` (12 cases, zero page errors); it remains a protected visual lineage, with intentional annotation-driven revisions documented separately.
+
+Business before evidence is complete: `before-results.json` contains 29 successful scene/interaction checks, including 21 scene-width screenshots; `before-annotations.json` contains 16 computed measurement cases covering R4/R5/R6 and inherited S3/S4/S6. Both lock the original two source hashes.
+
+Implemented scope: R4 interaction queue and discussion metadata/rhythm; R5 event type/time separation, existing normative Checkbox, exact 68px minimum footer with 10px padding, 15px headings, pale times and 32/14 Knowledge header icons; R6 lighter board groups, regular count weight, left aligned album cards and existing small category/status Tags. All filter/search/count/selection, grading drafts, replay seeking/following, view switching and record/form state handlers are preserved.
+
+The existing `NavigationContentItem.description` string contract is retained using `已提交 | 积极参与`; activity/event metadata use the existing ReactNode metadata slot. No public API was widened. R4 grading has no annotation18–38 business style match and no Platform helper. The default RecipeWorkspace recovery toolbar correction also applies to R4 grading when an inverse caller uses that default toolbar; S callers provide their own WorkspaceToolbar. Its light business content and grading handlers remain protected.
+
+The coordinated Platform helper change applies to R4 interaction/R5/R6 and inherited S4 interaction/S6/S3: existing collapse/expand icons track state, account copy appears only when expanded, existing Avatar/notice handlers remain intact, and notification/help use existing 28/16 IconButton parts. The approved deep-frame reference leaves the recovery toolbar light, so the local dark toolbar branch was removed; the platform owner exclusively supplies common rail palette/geometry CSS.
+
+Validation before final global rail freeze: 12 new targeted browser contracts passed, the frozen business source passed Playground typecheck, and all 13 existing focused unit tests pass after parent’s copy-only update of the obsolete queue-summary wording assertions. The initial unchanged-test failure and accidental evidence-backup collection failure remain recorded in `focused-tests.log`; final verification excludes `evidence/**` and is recorded in `focused-tests-final.log`. Before test copy remains protected.
+
+After measurements and screenshots, annotation coverage, final source hashes and any limits are recorded by the final closure evidence. Automated checks do not replace human visual review or full contrast/assistive-technology acceptance. No new dependency, global Token/shared default/breakpoint, Classic/Figma/Git/publication change was made by this owner.

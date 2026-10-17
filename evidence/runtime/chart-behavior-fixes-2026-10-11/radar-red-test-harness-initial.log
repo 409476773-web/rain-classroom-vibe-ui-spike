@@ -1,0 +1,82 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/radar-motion.test.tsx (6 tests | 6 failed) 114ms
+   × radar with 'animate=false' paints all series at their final coordinates without waiting 38ms
+   × radar with 'a zero enter budget' paints all series at their final coordinates without waiting 7ms
+   × radar with 'a zero enter transition' paints all series at their final coordinates without waiting 6ms
+   × system reduced motion bypasses the radar's normal area stagger 5ms
+   × disabling radar animation during entry immediately replaces the collapsed geometry 7ms
+   × ordinary radar retains the existing stagger and enter transition 49ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > radar with 'animate=false' paints all series at their final coordinates without waiting
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > radar with 'a zero enter budget' paints all series at their final coordinates without waiting
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > radar with 'a zero enter transition' paints all series at their final coordinates without waiting
+AssertionError: expected +0 to be close to -100.8, received difference is 100.8, but expected 5e-9
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:42:67
+     40|     });
+     41|     expect(coordinates).toHaveLength(expected.length);
+     42|     coordinates.forEach((coordinate, index) => expect(coordinate).toBe…
+       |                                                                   ^
+     43|     const points = [...group.querySelectorAll("circle")];
+     44|     expect(points).toHaveLength(metrics.length);
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:42:17
+ ❯ expectTargetGeometry packages/ui/src/charts/radar-motion.test.tsx:34:10
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:59:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > system reduced motion bypasses the radar's normal area stagger
+AssertionError: expected +0 to be close to -100.8, received difference is 100.8, but expected 5e-9
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:42:67
+     40|     });
+     41|     expect(coordinates).toHaveLength(expected.length);
+     42|     coordinates.forEach((coordinate, index) => expect(coordinate).toBe…
+       |                                                                   ^
+     43|     const points = [...group.querySelectorAll("circle")];
+     44|     expect(points).toHaveLength(metrics.length);
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:42:17
+ ❯ expectTargetGeometry packages/ui/src/charts/radar-motion.test.tsx:34:10
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:67:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > disabling radar animation during entry immediately replaces the collapsed geometry
+AssertionError: expected +0 to be close to -100.8, received difference is 100.8, but expected 5e-9
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:42:67
+     40|     });
+     41|     expect(coordinates).toHaveLength(expected.length);
+     42|     coordinates.forEach((coordinate, index) => expect(coordinate).toBe…
+       |                                                                   ^
+     43|     const points = [...group.querySelectorAll("circle")];
+     44|     expect(points).toHaveLength(metrics.length);
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:42:17
+ ❯ expectTargetGeometry packages/ui/src/charts/radar-motion.test.tsx:34:10
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:75:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > ordinary radar retains the existing stagger and enter transition
+AssertionError: expected '1' to be '0' // Object.is equality
+
+Expected: "0"
+Received: "1"
+
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:88:93
+     86|   });
+     87|   expect(view.container.querySelector("circle")?.getAttribute("cy")).t…
+     88|   expect(getComputedStyle(view.container.querySelector('svg g[style*="…
+       |                                                                                             ^
+     89| });
+     90|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed (6)
+   Start at  12:09:27
+   Duration  913ms (transform 108ms, setup 95ms, import 240ms, tests 114ms, environment 374ms)
+

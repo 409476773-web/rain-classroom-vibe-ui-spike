@@ -14,6 +14,28 @@ import {
 } from "./typography-contract";
 
 describe("public typography contract", () => {
+  it("defaults headings to 16px and permits only explicit 17/18px exceptions", () => {
+    for (const name of ["heading-section", "heading-page"]) {
+      expect(resolveTypographyPreset(name).composition).toMatchObject({ fontSize: 16, lineHeight: 24 });
+      for (const fontSize of [17, 18]) expect(resolveTypographyPreset(name, { fontSize }).validation.valid).toBe(true);
+      for (const fontSize of [14, 19, 24]) {
+        const result = resolveTypographyPreset(name, { fontSize, lineHeight: 32 });
+        expect(result.validation.issues).toContain("heading-font-size-limit");
+        expect(result.style).toBeUndefined();
+      }
+    }
+  });
+
+  it("keeps key Data at 28px or smaller while retaining the raw size identities", () => {
+    expect(resolveTypographyPreset("data-default").composition).toMatchObject({ fontSize: 28, lineHeight: 36 });
+    expect(resolveTypographyPreset("data-default", { fontSize: 24, lineHeight: 32 }).validation.valid).toBe(true);
+    for (const fontSize of [32, 36, 40]) {
+      const composition = { ...typographyPresets["data-default"], fontSize, lineHeight: 48 };
+      expect(validateTypographyComposition(composition).issues).toContain("data-font-size-limit");
+      expect(resolveTypographyPreset("data-default", { fontSize, lineHeight: 48 }).style).toBeUndefined();
+      expect(Object.hasOwn(fontSizeTokens, fontSize)).toBe(true);
+    }
+  });
   it("permits TagSelect Solid labels only at the inherited 20/24/28 geometry", () => {
     const context = { recipeId: "tag-solid", componentId: "ui-tag-select", part: "label", appearance: "solid" };
     const value = { ...typographyPresets["ui-compact"], fontWeight: 700 };
@@ -113,7 +135,8 @@ describe("public typography contract", () => {
     expect(validateTypographyComposition({ ...typographyPresets["ui-default"], letterSpacing: "0.02em" }).valid).toBe(false);
     const before = resolveTypographyPreset("heading-section");
     const changed = resolveTypographyPreset("heading-section", { fontSize: 20, lineHeight: 28 });
-    expect(changed.validation.valid).toBe(true);
+    expect(changed.validation.valid).toBe(false);
+    expect(changed.validation.issues).toContain("heading-font-size-limit");
     expect(changed.composition).toMatchObject({ fontRole: "ui", fontWeight: 600, letterSpacing: "default" });
     expect(resolveTypographyPreset("heading-section")).toEqual(before);
   });

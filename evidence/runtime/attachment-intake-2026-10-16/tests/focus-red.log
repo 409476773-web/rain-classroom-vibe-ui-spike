@@ -1,0 +1,90 @@
+
+Running 2 tests using 1 worker
+
+(node:40472) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/attachment-intake-regression.spec.ts:28:1 › keyboard selection returns focus to the replacement entry after the first file is added (7.0s)
+(node:40487) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [narrow] › tests/e2e/attachment-intake-regression.spec.ts:28:1 › keyboard selection returns focus to the replacement entry after the first file is added (6.9s)
+
+
+  1) [desktop] › tests/e2e/attachment-intake-regression.spec.ts:28:1 › keyboard selection returns focus to the replacement entry after the first file is added 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByTestId('attachment-scenario-ordinary').getByRole('button', { name: '添加课程附件', exact: true })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByTestId('attachment-scenario-ordinary').getByRole('button', { name: '添加课程附件', exact: true })
+        14 × locator resolved to <button type="button" data-slot="root" data-size="medium" aria-label="添加课程附件" data-tone="default" data-focus="control" data-state="default" data-density="default" data-variant="tertiary" data-rain-id="ui-button" data-intake-trigger="true" aria-describedby="_r_3_-hint" class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-…>…</button>
+           - unexpected value "inactive"
+
+
+      35 |   await (await choosing).setFiles({ name: "键盘选择.txt", mimeType: "text/plain", buffer: Buffer.from("keyboard file bytes") });
+      36 |   await expect(entry).toHaveText("添加文件");
+    > 37 |   await expect(entry).toBeFocused();
+         |                       ^
+      38 | });
+      39 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-intake-regression.spec.ts:37:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/attachment-intake-2026-10-16/focus-red/attachment-intake-regressi-8dc2f-ter-the-first-file-is-added-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/attachment-intake-2026-10-16/focus-red/attachment-intake-regressi-8dc2f-ter-the-first-file-is-added-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/attachment-intake-2026-10-16/focus-red/attachment-intake-regressi-8dc2f-ter-the-first-file-is-added-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/attachment-intake-2026-10-16/focus-red/attachment-intake-regressi-8dc2f-ter-the-first-file-is-added-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [narrow] › tests/e2e/attachment-intake-regression.spec.ts:28:1 › keyboard selection returns focus to the replacement entry after the first file is added 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByTestId('attachment-scenario-ordinary').getByRole('button', { name: '添加课程附件', exact: true })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByTestId('attachment-scenario-ordinary').getByRole('button', { name: '添加课程附件', exact: true })
+        14 × locator resolved to <button type="button" data-slot="root" data-size="medium" aria-label="添加课程附件" data-tone="default" data-focus="control" data-state="default" data-density="default" data-variant="tertiary" data-rain-id="ui-button" data-intake-trigger="true" aria-describedby="_r_3_-hint" class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-…>…</button>
+           - unexpected value "inactive"
+
+
+      35 |   await (await choosing).setFiles({ name: "键盘选择.txt", mimeType: "text/plain", buffer: Buffer.from("keyboard file bytes") });
+      36 |   await expect(entry).toHaveText("添加文件");
+    > 37 |   await expect(entry).toBeFocused();
+         |                       ^
+      38 | });
+      39 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-intake-regression.spec.ts:37:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/attachment-intake-2026-10-16/focus-red/attachment-intake-regressi-8dc2f-ter-the-first-file-is-added-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/attachment-intake-2026-10-16/focus-red/attachment-intake-regressi-8dc2f-ter-the-first-file-is-added-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/attachment-intake-2026-10-16/focus-red/attachment-intake-regressi-8dc2f-ter-the-first-file-is-added-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/attachment-intake-2026-10-16/focus-red/attachment-intake-regressi-8dc2f-ter-the-first-file-is-added-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/e2e/attachment-intake-regression.spec.ts:28:1 › keyboard selection returns focus to the replacement entry after the first file is added 
+    [narrow] › tests/e2e/attachment-intake-regression.spec.ts:28:1 › keyboard selection returns focus to the replacement entry after the first file is added 

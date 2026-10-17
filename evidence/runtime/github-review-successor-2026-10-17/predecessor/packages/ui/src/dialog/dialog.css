@@ -1,0 +1,41 @@
+@layer components {
+  .rain-dialog-portal { position: relative; z-index: 30; }
+  .rain-dialog-portal .rain-dialog-portal { z-index: 50; }
+  /* Base UI releases its internal hit shield on close; retain an unpainted shield through exit. */
+  .rain-dialog-portal[data-modal="true"]:has(> .rain-dialog[data-ending-style])::before { content: ""; position: fixed; inset: 0; z-index: 30; }
+  .rain-dialog-backdrop { position: fixed; inset: 0; z-index: 30; opacity: 1; transition: opacity var(--rain-motion-overlay-duration) var(--rain-motion-ease-out); }
+  .rain-dialog-backdrop[data-mask="separation"] { background-color: var(--rain-overlay-separation); }
+  .rain-dialog-backdrop[data-mask="focus"] { background-color: var(--rain-overlay-focus); }
+  .rain-dialog-backdrop[data-mask="modal"] { background-color: var(--rain-overlay-modal); }
+  .rain-dialog-backdrop[data-mask="immersive"] { background-color: var(--rain-overlay-immersive); }
+  .rain-dialog {
+    --rain-dialog-inset: var(--rain-space-40);
+    position: fixed; top: calc(var(--rain-dialog-viewport-top, 0px) + var(--rain-dialog-viewport-height, 100dvh) / 2); left: calc(var(--rain-dialog-viewport-left, 0px) + var(--rain-dialog-viewport-width, 100vw) / 2); transform: translate(-50%, -50%) scale(1); z-index: 31;
+    width: var(--rain-popup-width); max-width: calc(var(--rain-dialog-viewport-width, 100vw) - var(--rain-dialog-inset) * 2);
+    min-height: min(var(--rain-dialog-min-height), calc(var(--rain-dialog-viewport-height, 100dvh) - var(--rain-dialog-inset) * 2));
+    max-height: calc(var(--rain-dialog-viewport-height, 100dvh) - var(--rain-dialog-inset) * 2);
+    background-color: var(--rain-category-background-neutral-1); color: var(--rain-category-text-neutral-2); overflow-wrap: anywhere;
+    opacity: 1; transition: opacity var(--rain-motion-overlay-duration) var(--rain-motion-ease-out), transform var(--rain-motion-overlay-duration) var(--rain-motion-ease-out);
+  }
+  .rain-dialog[data-inset="60"] { --rain-dialog-inset: var(--rain-dialog-inset-large); }
+  .rain-dialog[data-width="viewport"] { width: calc(var(--rain-dialog-viewport-width, 100vw) - var(--rain-dialog-inset) * 2); }
+  .rain-dialog[data-starting-style], .rain-dialog[data-ending-style] { opacity: 0; transform: translate(-50%, -50%) scale(.98); }
+  .rain-dialog[data-width="viewport"][data-starting-style], .rain-dialog[data-width="viewport"][data-ending-style] { transform: translate(-50%, -50%); }
+  .rain-dialog-backdrop[data-starting-style], .rain-dialog-backdrop[data-ending-style] { opacity: 0; }
+  /* Base UI nests portal containers. Keep the handoff opaque until the child unmounts. */
+  .rain-dialog-portal:has(.rain-dialog-portal[data-modal="true"]) > .rain-dialog-backdrop { visibility: hidden; }
+  .rain-dialog-portal .rain-dialog-portal > .rain-dialog-backdrop { opacity: 1; transition: none; }
+  .rain-dialog-portal:has(> .rain-dialog[data-ending-style]) .rain-dialog-portal > .rain-dialog-backdrop[data-ending-style] { opacity: 0; transition: opacity var(--rain-motion-overlay-duration) var(--rain-motion-ease-out); }
+  .rain-dialog-title { color: var(--rain-category-text-neutral-1); }
+  .rain-dialog-description { color: var(--rain-category-text-neutral-3); }
+  .rain-dialog-body { overscroll-behavior: contain; }
+  @media (max-width: 640px) { .rain-dialog, .rain-dialog[data-inset="60"] { --rain-dialog-inset: var(--rain-space-16); } }
+  .rain-dialog-portal[data-narrow] > .rain-dialog { --rain-dialog-inset: var(--rain-space-16); }
+  .rain-dialog-portal[data-short] > .rain-dialog { overflow-y: auto; overscroll-behavior: contain; }
+  .rain-dialog-portal[data-short] > .rain-dialog .rain-dialog-body { flex-shrink: 0; overflow-y: visible; }
+  /* Very short viewports scroll the full popup so header and actions stay reachable. */
+  @media (max-height: 360px) { .rain-dialog { overflow-y: auto; overscroll-behavior: contain; } .rain-dialog-body { flex-shrink: 0; overflow-y: visible; } }
+}
+@media (forced-colors: active) { .rain-dialog { background-color: Canvas; color: CanvasText; border-color: ButtonText; box-shadow: none; } }
+:where(.rain-dialog) { border-color: var(--rain-category-border-neutral-3); }
+:where(.rain-dialog-footer[data-divider]) { border-top-width: var(--rain-line-thickness-1); border-top-style: solid; border-color: var(--rain-category-border-neutral-4); }

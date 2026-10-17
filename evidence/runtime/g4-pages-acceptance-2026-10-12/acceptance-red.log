@@ -1,0 +1,34 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g4-page-acceptance.test.ts (2 tests | 2 failed) 17ms
+     × records only the explicit page decision and preserves all earlier Gates 14ms
+     × checks current metadata against actual originals and retains all three frozen source chains 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g4-page-acceptance.test.ts > user acceptance of the three current G4 pages > records only the explicit page decision and preserves all earlier Gates
+TypeError: Cannot convert undefined or null to object
+ ❯ scripts/g4-page-acceptance.test.ts:16:14
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/g4-page-acceptance.test.ts > user acceptance of the three current G4 pages > checks current metadata against actual originals and retains all three frozen source chains
+TypeError: getG4PageAcceptanceBindings is not a function
+ ❯ scripts/g4-page-acceptance.test.ts:23:43
+     21|
+     22|   it("checks current metadata against actual originals and retains all…
+     23|     const current = phase(), acceptance = getG4PageAcceptanceBindings(…
+       |                                           ^
+     24|     expect(Object.keys(acceptance.sourceFiles)).toHaveLength(6);
+     25|     for (const read of [getG4SizingReviewSourceBindings, getG4VisualRe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  09:52:18
+   Duration  986ms (transform 85ms, setup 173ms, import 85ms, tests 17ms, environment 611ms)
+

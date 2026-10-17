@@ -1,0 +1,70 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/rn14-starter.test.ts (5 tests | 4 failed) 3850ms
+   × delivers reachable design guidance and locks it with each standalone starter 694ms
+   × distributes the complete Rain Designer snapshot in M1 and detects each missing or changed method file 549ms
+   × distributes the complete Rain Designer snapshot in M2 and detects each missing or changed method file 549ms
+   × exports a fixed local starter without links to the source workspace and detects changed shared files 790ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/rn14-starter.test.ts > delivers reachable design guidance and locks it with each standalone starter
+AssertionError: docs/ai/prototype-design.md: g4-components.md: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ scripts/rn14-starter.test.ts:30:62
+     28|           const target = resolve(output, dirname(file), href.split("#"…
+     29|           expect(target.startsWith(output + "/"), `${file}: outside st…
+     30|           expect(existsSync(target), `${file}: ${match[1]}`).toBe(true…
+       |                                                              ^
+     31|           if (target.endsWith(".md")) pending.push(target.slice(output…
+     32|         }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  scripts/rn14-starter.test.ts > distributes the complete Rain Designer snapshot in M1 and detects each missing or changed method file
+ FAIL  scripts/rn14-starter.test.ts > distributes the complete Rain Designer snapshot in M2 and detects each missing or changed method file
+AssertionError: .agents/skills/rain-designer/SKILL.md: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ scripts/rn14-starter.test.ts:71:52
+     69|     const lock = exportStarter(output, { milestone });
+     70|     for (const file of files) {
+     71|       expect(existsSync(join(output, file)), file).toBe(true);
+       |                                                    ^
+     72|       const original = readFileSync(join(root, file));
+     73|       expect(readFileSync(join(output, file))).toEqual(original);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  scripts/rn14-starter.test.ts > exports a fixed local starter without links to the source workspace and detects changed shared files
+Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged
+ ❯ fail scripts/verification-helpers.mjs:3496:30
+    3494|
+    3495| export function getValidatedTailwindB2History(status) {
+    3496|   const fail = () => { throw new Error("Invalid Token Foundations V1 h…
+       |                              ^
+    3497|   const history = status?.phaseHistory?.tailwindB2;
+    3498|   if (status?.currentPhase?.id !== "token-foundations-v1" || !history
+ ❯ getValidatedTailwindB2History scripts/verification-helpers.mjs:3557:67
+ ❯ scripts/rn14-starter.test.ts:151:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 1 passed (5)
+   Start at  13:23:55
+   Duration  4.15s (transform 95ms, setup 105ms, import 100ms, tests 3.85s, environment 0ms)
+

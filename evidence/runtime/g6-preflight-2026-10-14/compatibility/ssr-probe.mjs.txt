@@ -1,0 +1,10 @@
+import assert from "node:assert/strict";
+import { createElement as h } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { MessageScroller as M } from "@shadcn/react/message-scroller";
+import { Questionnaire as Q } from "@shadcn/react/questionnaire";
+const scroller = renderToStaticMarkup(h(M.Provider, null, h(M.Root, null, h(M.Viewport, {"aria-label":"会话"}, h(M.Content, null, h(M.Item, {messageId:"a",scrollAnchor:true}, "你好"))), h(M.Button, {"aria-label":"最新"}))));
+assert.match(scroller, /role="region"/);assert.match(scroller, /aria-label="会话"/);assert.match(scroller, /tabindex="0"/);assert.match(scroller, /role="log"/);assert.match(scroller, /data-message-id="a"/);
+const questionnaire = renderToStaticMarkup(h(Q.Root, {items:[{name:"a",required:true,choices:[{value:"1"}]},{name:"b",required:false}]}, h(Q.Progress), h(Q.Item, {name:"a",required:true}, h(Q.Title,null,"选择"), h(Q.Choices,null,h(Q.Choice,{value:"1"},h(Q.ChoiceInput),h(Q.ChoiceLabel,null,"一"))),h(Q.Input,{"aria-label":"其他"}),h(Q.Error)),h(Q.Item,{name:"b"},h(Q.Title,null,"补充")),h(Q.Previous),h(Q.Skip),h(Q.Next),h(Q.Submit)));
+assert.match(questionnaire, /<form/);assert.match(questionnaire, /<fieldset/);assert.match(questionnaire, /<legend/);assert.match(questionnaire, /type="radio"/);assert.match(questionnaire, /role="progressbar"/);assert.match(questionnaire, /inert/);
+console.log(JSON.stringify({package:"@shadcn/react",version:"0.3.1",ssrSmoke:"passed",assertions:11}));

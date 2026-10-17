@@ -1,0 +1,9 @@
+# Matrix heat-tone color-reading adaptation
+
+Only the color reader inside the `heat readout tone follows the painted light-to-dark and dark-to-light fill without a plate` E2E test was changed. The prior reader recognized only `rgb()`/`rgba()` and `color(srgb ...)`. Chromium reports interpolated matrix backgrounds as `oklab(...)`; those strings produced an empty channel list, which the old formula reduced to luminance zero. A pale background such as `oklab(0.971074 0.00512484 -0.0137073)` was therefore incorrectly treated as black, yielding a spurious best ratio of 21 and rejecting the actual dark readout. The preserved diagnostics contain 185 frames across both directions: all 111 unsupported-color frames were also the 111 rejected frames.
+
+The test now creates one unattached 1×1 canvas per sampled transition, requests an sRGB 2D context, clears the pixel, paints the computed CSS color and reads the three native sRGB channels. It then applies the same WCAG luminance and contrast formulas as before. This follows the project's existing native-canvas sampling pattern and adds no dependency. The existing shared contrast helper also uses string parsing, so it was not broadened for this local repair.
+
+The 0.1 contrast-choice tolerance, requestAnimationFrame sampling throughout the original 900-ms interval, both `normal` and `zero` transitions, changing-fill assertion, transparent readout-container requirement, and every final assertion remain unchanged. Product data, renderers, colors, DOM and CSS were not modified. The original failing painted-color facts were preserved separately as `business-matrix-tone-original-diagnostic.json` before the independent rerun.
+
+The isolated test loads successfully (`business-matrix-tone-e2e-list.log`, exit 0). The root agent independently reruns the full target after copying the adapted spec; this note does not preclaim that result.

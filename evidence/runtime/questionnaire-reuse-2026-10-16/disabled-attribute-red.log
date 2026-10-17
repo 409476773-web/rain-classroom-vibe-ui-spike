@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/questionnaire/questionnaire-reuse.test.tsx (27 tests | 1 failed) 1328ms
+     × keeps the engine's presence-based disabled attributes on enabled and disabled labels 27ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/questionnaire/questionnaire-reuse.test.tsx > Questionnaire shared control compatibility > keeps the engine's presence-based disabled attributes on enabled and disabled labels
+Error: expect(element).not.toHaveAttribute("data-disabled") // element.hasAttribute("data-disabled")
+
+Expected the element not to have attribute:
+  data-disabled
+Received:
+  data-disabled="false"
+ ❯ packages/ui/src/questionnaire/questionnaire-reuse.test.tsx:76:77
+     74|     for (const raw of [true, false]) {
+     75|       render(<Comparison raw={raw} />);
+     76|       expect(screen.getByRole("radio", { name: "选项 A" }).parentElement…
+       |                                                                             ^
+     77|       expect(screen.getByRole("radio", { name: "禁用 B" }).parentElement…
+     78|       cleanup();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 26 passed (27)
+   Start at  21:12:44
+   Duration  2.47s (transform 231ms, setup 170ms, import 343ms, tests 1.33s, environment 502ms)
+

@@ -1,0 +1,98 @@
+schemaVersion: "1.0"
+kind: "RainPatternManifest"
+id: "pattern-manage-tree"
+name: "ManageTree"
+category: "pattern"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "rewrite-from-rain"
+modificationMode: "forkable"
+publication: "unpublished"
+sourcePath: "apps/playground/src/patterns/manage-tree/manage-tree.tsx"
+styleSourcePath: "apps/playground/src/patterns/manage-tree/manage-tree.css"
+sourceVersion: "local-2026-09-27"
+description: "组合 Tree 的显式草稿编辑、增删移动、冲突恢复与原子保存 Pattern。"
+useWhen:
+  - "需要对层级结构分批编辑并显式保存。"
+doNotUseWhen:
+  - "只需查看、展开、勾选或选择节点。"
+anatomy:
+  - "toolbar"
+  - "Tree"
+  - "inline editor"
+  - "confirmation"
+props:
+  - "data/revision 为已提交权威快照；mode 和 viewState 可由宿主受控。"
+  - "adapter 提供创建、权限、未加载子树 planDelete、标题及提交快照校验；onSave 返回完整树、版本与临时 key 映射。"
+  - "onFeedback 必填；loadLatest 仅在用户确认放弃冲突草稿后调用。"
+  - "withTitle/withChildren 回写 source 领域字段时须提供 isSameNode；treeOptions 不得覆盖 data 或视图状态。"
+  - "viewState 包含 checkState 与稳定 scrollAnchor；保存按一次快照映射所有 key。"
+slots:
+  - "treeOptions.renderEmpty：复用 Tree 的空数据／搜索无结果入口。"
+  - "renderEditor：同一字段缓冲、校验、显式确认与取消，支持业务 Dialog。"
+  - "renderActions：组合默认操作、按当前权限执行的领域编辑入口和 tree 状态上下文。"
+variants:
+  - "view"
+  - "edit"
+states:
+  - "clean"
+  - "dirty"
+  - "saving"
+  - "loading-latest"
+  - "error"
+  - "conflict"
+dependencies:
+  - "Tree、Button、Input、IconButton、Popover、AlertDialog、正式图标"
+tokens:
+  - "Rain 现有 Category 色、间距与 Focus。"
+layoutConstraints:
+  - "复用 Tree A 版关系线与标题首行对齐；标题输入原位出现。"
+compositionRules:
+  - "标题输入缓冲只在 Enter 或确认后进入草稿，整体保存与确认分开。"
+  - "保存失败与冲突保留草稿；成功映射 key 并退出编辑。"
+allowedModifications:
+  - "业务节点创建、权限、校验、保存端点与轻量反馈。"
+restrictedModifications:
+  - "不得把本地模拟持久化当作真实服务端事务。"
+accessibility:
+  - "F2 打开标题编辑；确认、取消与冲突动作有具名按钮；正式读屏验收待执行。"
+examples:
+  - "apps/playground/src/docs/components/manage-tree-page.tsx"
+  - "apps/playground/src/docs/components/manage-tree-domain-examples.tsx"
+recipes: []
+antiPatterns:
+  - "失焦时静默提交标题。"
+  - "冲突时自动覆盖或丢弃草稿。"
+relatedComponents:
+  - "ui-tree"
+  - "ui-button"
+  - "ui-input"
+visualLineage:
+  rainClassicReferences:
+    - "docs/plans/2026-09-25-tree-implementation-rules.md#2-必须继承替换及修复的内容"
+  externalReferences: []
+  retainedTraits:
+    - "草稿、changeset、版本保存与临时 key 映射。"
+  redesignedTraits:
+    - "标题原位编辑、显式提交、冲突保留。"
+  intentionallyNotInherited:
+    - "输入时直接修改草稿和 Vue 层级。"
+figmaMapping:
+  status: "accepted-local-visual-reference-only"
+verification:
+  automated: "scoped-passed"
+  independentReview: "scoped-passed-2026-09-27-domain-fields-cancellation-permission-and-changeset"
+  humanGate: "accepted-web-prototype-foundation-runtime-visual-2026-09-29"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/manage-tree/verification.md"
+  supplementalVisualDecision:
+    acceptedAt: "2026-09-29"
+    userStatement: "两个示例都通过"
+    scope: "domain-field-editor-and-save-failure-recovery-demonstration"
+    evidence: "evidence/runtime/tree/closeout/verification.md"
+  prototypeCompletion:
+    status: "completed"
+    acceptedAt: "2026-09-29"
+    userStatement: "如果是这样的话，现在这个Tree视觉我已经人工检验通过，可以算作tree组件基础建设已完成。"
+    scope: "companion-manage-tree-web-high-fidelity-prototype-foundation"
+    evidence: "evidence/runtime/tree/closeout/verification.md"

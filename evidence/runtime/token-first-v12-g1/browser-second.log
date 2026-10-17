@@ -1,0 +1,63 @@
+
+Running 3 tests using 1 worker
+
+(node:18279) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/token-first-g1.spec.ts:7:1 › G1 toolbar dimensions, filtering, keyboard and sibling isolation (308ms)
+(node:18288) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/token-first-g1.spec.ts:29:1 › G1 cards, local menu paint, nested portal, dynamic theme and focus return (5.3s)
+(node:18317) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 tests/e2e/token-first-g1.spec.ts:56:1 › G1 built layouts: two directions each, narrow windows, chart data and fonts (958ms)
+
+
+  1) tests/e2e/token-first-g1.spec.ts:7:1 › G1 toolbar dimensions, filtering, keyboard and sibling isolation 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 36
+    Received: 22
+
+      20 |   const geometry = await toolbar.evaluate(el => [...el.querySelectorAll('.rain-input, .rain-select [data-slot="frame"], button')].filter(e => e.getBoundingClientRect().height > 0).map(e => ({ role: e.getAttribute("role") || e.tagName, height: e.getBoundingClientRect().height })));
+      21 |   expect(geometry.length).toBeGreaterThanOrEqual(3);
+    > 22 |   for (const box of geometry) expect(box.height).toBe(36);
+         |                                                  ^
+      23 |   await toolbar.getByRole("switch").press("Tab");
+      24 |   expect(await page.locator(":focus-visible").count()).toBe(1);
+      25 |   await page.screenshot({ path: `${evidence}/samples-first.png`, fullPage: true });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/token-first-g1.spec.ts:22:50
+
+    Error Context: test-results/token-first-g1-G1-toolbar--393c6-board-and-sibling-isolation/error-context.md
+
+  2) tests/e2e/token-first-g1.spec.ts:29:1 › G1 cards, local menu paint, nested portal, dynamic theme and focus return 
+
+    Error: expect(locator).toHaveCSS(expected) failed
+
+    Locator:  getByRole('menu')
+    Expected: "rgb(247, 249, 255)"
+    Received: "rgb(255, 255, 255)"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCSS" with timeout 5000ms
+      - waiting for getByRole('menu')
+        14 × locator resolved to <div id="_r_1b_" role="menu" data-open="" tabindex="-1" data-side="bottom" data-align="start" data-slot="content" data-base-ui-focusable="" data-rootownerid="_r_1a_" data-rain-id="ui-dropdown-menu" aria-labelledby="base-ui-_r_1d_" data-local-recipe="g1-review-menu" class="rain-popup box-border min-w-rain-0 rounded-rain-10 border-solid border-rain-line-1 shadow-rain-overlay font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular rain-menu p-rain-8 bg-rain-category-back…>…</div>
+           - unexpected value "rgb(255, 255, 255)"
+
+
+      33 |   expect(paints[0]).toBe(paints[2]); expect(paints[1]).not.toBe(paints[0]);
+      34 |   await cards.nth(1).getByRole("button", { name: "更多操作" }).click();
+    > 35 |   await expect(page.getByRole("menu")).toHaveCSS("background-color", paints[1]!);
+         |                                        ^
+      36 |   await page.getByRole("menuitem", { name: "标记为复核", exact: true }).click();
+      37 |   await expect(cards.nth(1).getByRole("status")).toContainText("已标记复核");
+      38 |   await expect(cards.nth(2).getByRole("status")).toHaveCount(0);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/token-first-g1.spec.ts:35:40
+
+    Error Context: test-results/token-first-g1-G1-cards-lo-07529-amic-theme-and-focus-return/error-context.md
+
+  2 failed
+    tests/e2e/token-first-g1.spec.ts:7:1 › G1 toolbar dimensions, filtering, keyboard and sibling isolation 
+    tests/e2e/token-first-g1.spec.ts:29:1 › G1 cards, local menu paint, nested portal, dynamic theme and focus return 
+  1 passed (7.7s)

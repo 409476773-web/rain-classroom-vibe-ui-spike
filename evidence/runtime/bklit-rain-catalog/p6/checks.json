@@ -1,0 +1,178 @@
+{
+  "date": "2026-10-08",
+  "scope": "17 native Bklit charts; local unpublished Rain candidate; Chromium only",
+  "source": {
+    "commit": "5d699897b2dde26374cf15501dbaadbc52cea982",
+    "nativeFiles": 163,
+    "independentInstalledFiles": 173
+  },
+  "results": [
+    {
+      "id": "catalog",
+      "command": "pnpm exec playwright test --config tests/e2e/bklit-catalog.config.ts --output evidence/runtime/bklit-rain-catalog/p6/test-results/catalog",
+      "exitCode": 0,
+      "log": "p6/catalog.log",
+      "status": "passed",
+      "passed": 60
+    },
+    {
+      "id": "playground",
+      "command": "pnpm exec playwright test --config tests/e2e/charts-playground.config.ts --output evidence/runtime/bklit-rain-catalog/p6/test-results/playground",
+      "exitCode": 0,
+      "log": "p6/playground.log",
+      "status": "passed",
+      "passed": 4
+    },
+    {
+      "id": "playground-build",
+      "command": "pnpm --filter @rain-next/playground build",
+      "exitCode": 0,
+      "log": "p6/playground-build.log",
+      "status": "passed"
+    },
+    {
+      "id": "prototype-build",
+      "command": "pnpm --filter @rain-next/prototype exec vite build --config vite.bklit-catalog.config.ts",
+      "exitCode": 0,
+      "log": "p6/prototype-build.log",
+      "status": "passed"
+    },
+    {
+      "id": "tests-typecheck",
+      "command": "pnpm exec tsc --noEmit --project tsconfig.tests.json",
+      "exitCode": 0,
+      "log": "p6/tests-typecheck.log",
+      "status": "passed"
+    },
+    {
+      "id": "contracts",
+      "command": "pnpm exec vitest run scripts/charts.test.ts scripts/chart-color-consumers.test.ts scripts/asset-index.test.ts packages/ui/src/charts/chart-motion.test.tsx apps/playground/src/routes/component-assets.test.tsx",
+      "exitCode": 1,
+      "log": "p6/contracts.log",
+      "status": "failed",
+      "passed": 13,
+      "failed": 1,
+      "reason": "asset-index test exceeded existing 5s timeout under concurrent builds/browser work; no assertion failure",
+      "rerun": "contracts-green"
+    },
+    {
+      "id": "asset-index-check",
+      "command": "node scripts/asset-index.mjs --check",
+      "exitCode": 0,
+      "log": "p6/asset-index-check.log",
+      "status": "passed"
+    },
+    {
+      "id": "governance-tokens",
+      "command": "pnpm verify:tokens",
+      "exitCode": 1,
+      "log": "p6/governance-tokens.log",
+      "status": "failed"
+    }
+  ],
+  "additional": [
+    {
+      "id": "contracts-green",
+      "command": "pnpm exec vitest run scripts/charts.test.ts scripts/chart-color-consumers.test.ts scripts/asset-index.test.ts packages/ui/src/charts/chart-motion.test.tsx apps/playground/src/routes/component-assets.test.tsx",
+      "exitCode": 0,
+      "passed": 14,
+      "log": "p6/contracts-green.log",
+      "status": "passed",
+      "note": "isolated rerun; no timeout/code/test configuration change"
+    },
+    {
+      "id": "native-rain-browser-final",
+      "command": "RAIN_BKLIT_EVIDENCE_DIR=evidence/runtime/bklit-rain-catalog/p6/native-rain pnpm exec playwright test --config tests/e2e/bklit-rain-validation.config.ts --output evidence/runtime/bklit-rain-catalog/p6/test-results/native-rain",
+      "exitCode": 0,
+      "passed": 6,
+      "log": "p5/native-rain-browser-final.log"
+    },
+    {
+      "id": "g2-browser-final",
+      "command": "RAIN_CHART_EVIDENCE_DIR=evidence/runtime/bklit-rain-catalog/p6/g2 pnpm exec playwright test --config tests/e2e/chart-library-validation.config.ts --output evidence/runtime/bklit-rain-catalog/p6/test-results/g2",
+      "exitCode": 0,
+      "passed": 4,
+      "log": "p5/g2-browser-final.log"
+    },
+    {
+      "id": "ui-build",
+      "command": "pnpm --filter @rain-next/ui build",
+      "exitCode": 0,
+      "log": "p5/ui-build-final.log"
+    },
+    {
+      "id": "prototype-typecheck",
+      "command": "pnpm --filter @rain-next/prototype typecheck",
+      "exitCode": 0,
+      "log": "p6/prototype-typecheck.log"
+    },
+    {
+      "id": "styles-check",
+      "command": "node scripts/generate-chart-styles.mjs --check",
+      "exitCode": 0,
+      "log": "p5/styles-check-final.log"
+    },
+    {
+      "id": "asset-find-组合",
+      "command": "node scripts/asset-index.mjs --find 组合",
+      "exitCode": 0,
+      "log": "p6/find-composed.log"
+    },
+    {
+      "id": "asset-find-进度",
+      "command": "node scripts/asset-index.mjs --find 进度",
+      "exitCode": 0,
+      "log": "p6/find-progress.log"
+    },
+    {
+      "id": "asset-find-地区",
+      "command": "node scripts/asset-index.mjs --find 地区",
+      "exitCode": 0,
+      "log": "p6/find-region.log"
+    },
+    {
+      "id": "independent-consumption",
+      "exitCode": 0,
+      "passed": 23,
+      "screenshots": 18,
+      "installedCanonicalHashes": 173,
+      "externalSymlinks": 0,
+      "evidence": "consumption/README.md"
+    },
+    {
+      "id": "final-phase-color-contract",
+      "command": "pnpm exec vitest run scripts/chart-color-consumers.test.ts",
+      "exitCode": 0,
+      "passed": 4,
+      "log": "p6/final-phase-color-contract.log",
+      "note": "Rechecked final completed phase authorization without granting pending contrast."
+    },
+    {
+      "id": "preservation",
+      "exitCode": 0,
+      "log": "p6/preservation.json",
+      "unexpectedChanges": 0,
+      "missingOriginalSourceFiles": 0,
+      "knownHistoricalEvidenceUnrestored": 13
+    }
+  ],
+  "finalBrowserChecks": 97,
+  "governance": "not-passed",
+  "tokenRegistration": "4 sources / 131 exact declarations passed",
+  "contrast": {
+    "status": "pending-review",
+    "contrastFindings": 27,
+    "weakEligibilityFindings": 16,
+    "acceptedExceptions": 0,
+    "theme": "light only"
+  },
+  "humanGate": "awaiting-user-review",
+  "publication": "unpublished",
+  "git": "no commit/push/PR",
+  "historicalEvidence": {
+    "overwritten": 14,
+    "restored": 1,
+    "unrestored": 13,
+    "details": "p5/legacy-regression/historical-evidence-overwrite.json"
+  }
+}

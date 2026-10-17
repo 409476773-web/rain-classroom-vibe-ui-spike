@@ -1,0 +1,56 @@
+--- before/scripts/rn14-starter.mjs
++++ current/scripts/rn14-starter.mjs
+@@ -63,10 +63,10 @@
+   const exportedFiles = {};
+   const entries = ["pnpm-lock.yaml", "pnpm-workspace.yaml", "tsconfig.base.json", "apps/prototype/package.json", "apps/prototype/tsconfig.json", "apps/prototype/vite.config.ts", "apps/prototype/index.html", "apps/prototype/src/styles.css", "apps/prototype/src/data-table-recipe.tsx", "apps/prototype/src/data-table-recipe.css"];
+   entries.push(...filesIn(join(root, ".agents/skills/rain-designer")).map(path => relative(root, path)));
+-  entries.push("docs/ai/prototype-design.md", "docs/ai/information-design.md", "docs/ai/form-composition.md", "docs/ai/g4-components.md",
++  entries.push("docs/ai/prototype-design.md", "docs/ai/information-design.md", "docs/ai/form-composition.md", "docs/ai/g4-components.md", "docs/ai/g6-components.md", "manifests/recipes/data-table.yaml",
+     "evidence/runtime/design-knowledge/form-desktop.png", "evidence/runtime/design-knowledge/form-narrow.png",
+     "evidence/runtime/bm-b-rn10/section-surfaces-2026-09-15.md", "evidence/runtime/bm-b-rn10/header-hint-2026-09-15.md");
+-  for (const name of ["tabs", "radio-group", "checkable-tag-group", "select", "input", "search-input", "button", "dropdown-menu", "icon-button", "form-item", "dialog", "alert-dialog", "textarea", "typography", "item", "progress"]) entries.push(`manifests/ui/${name}.yaml`);
++  for (const name of ["tabs", "radio-group", "checkable-tag-group", "select", "input", "search-input", "button", "dropdown-menu", "icon-button", "form-item", "dialog", "alert-dialog", "textarea", "typography", "item", "progress", "aspect-ratio", "attachment", "direction", "drawer", "input-otp", "carousel", "bubble", "marker", "message", "message-scroller", "questionnaire"]) entries.push(`manifests/ui/${name}.yaml`);
+   for (const name of ["foundations", "ui", "layouts"]) {
+     entries.push(`packages/${name}/package.json`, `packages/${name}/tsconfig.json`);
+     entries.push(...filesIn(join(root, `packages/${name}/src`)).map(path => relative(root, path)));
+@@ -85,6 +85,40 @@
+     if (guide?.includes("navigation-v042-w6.md") && guide.split(navigationCase).length !== 2) throw new Error("Starter navigation guidance differs from its single recorded paragraph");
+     let exported = guide?.includes(navigationCase) ? Buffer.from(guide.replace(navigationCase,
+       "导航工作包的消费指南与验收材料在专用导航交付包中；当前 M1/M2 Starter 仅开放对应业务场景，以下组合经验可作为参考。")) : bytes;
++    if (file === "docs/ai/prototype-design.md") {
++      const original = "使用 [G6 组件指南](./g6-components.md) 和 Registry/Manifest";
++      if (exported.toString("utf8").split(original).length !== 2) throw new Error("Starter G6 guidance changed");
++      exported = Buffer.from(exported.toString("utf8").replace(original, "使用本包附带的 [G6 组件指南](./g6-components.md) 和对应 Manifest，按 sourcePath、随包组件 README 与 package.json/pnpm-lock.yaml 核对当前可用能力"));
++    }
++    if (file === "docs/ai/g6-components.md") {
++      let text = bytes.toString("utf8");
++      for (const [original, portable] of [
++  [
++    "依赖与源码见 `registry/g6-assets.json`。",
++    "源码与依赖按本包各 Manifest 的 sourcePath、随包组件 README、packages/ui/package.json、apps/prototype/package.json 及 pnpm-lock.yaml 核对。`registry/g6-assets.json` 是原工作区追溯材料，本 Starter 未附带。"
++  ],
++  [
++    "Registry每项列出真实来源、Parts、依赖与可获取文件，Manifest不得省略；",
++    "本 Starter 附带12个对应 Manifest、组件源码与 README；按 Manifest 的 sourcePath 定位实现，并按随包 package.json 和 pnpm-lock.yaml 核对依赖。Registry 独立消费及其下游来源闭包未随本包提供；"
++  ],
++  [
++    "Message、Scroller和Questionnaire完整可运行组合见三组独立Playground页面和本轮独立消费夹具。",
++    "Message、Scroller和Questionnaire的三组 Playground 页面、原独立消费夹具及 Manifest 中的 sourceEvidence/examples 是原工作区追溯材料，本 Starter 未附带，不能声称已读取或验证。随包组件 README 可供核对 API 与组合说明。"
++  ],
++  [
++    "Default、局改和未改兄弟需要在实际任务中检查；来源、逐项差额与验证范围见本轮 `source-differences.md`、各组件README、`verification.md`。",
++    "Default、局改和未改兄弟需要在实际任务中检查；各组件 README 已随包附带。`source-differences.md`、`verification.md` 及来源证据是原工作区追溯材料，本 Starter 未附带，不能将其视为本包已完成验证。"
++  ],
++  [
++    "源码包消费的TypeScript采用Bundler模块解析、react-jsx、allowImportingTsExtensions及noEmit；本地未发布的Rain包通过tarball与精确override统一为单一Foundations实例，不能向npm请求私有0.0.0包。独立消费夹具记录安装及构建日志。",
++    "本 Starter 使用 workspace 结构，安装、类型检查与构建按[本库接入说明](prototype-design.md)执行。原工作区的 tarball/精确 override 独立消费夹具及其安装构建日志未随本包附带，不能用该方式替换本包 workspace 锁，也不要向 npm 请求私有0.0.0包。"
++  ]
++]) {
++        if (text.split(original).length !== 2) throw new Error("Starter G6 consumer reference changed");
++        text = text.replace(original, portable);
++      }
++      exported = Buffer.from(text);
++    }
+     if (["docs/ai/information-design.md", "docs/ai/g4-components.md", "docs/ai/m2-trial-guide.md"].includes(file)) {
+       let text = bytes.toString("utf8");
+       // These optional case traces live in their own work packages; keep the methods readable here.

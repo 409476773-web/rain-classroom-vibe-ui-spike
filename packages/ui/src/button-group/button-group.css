@@ -1,0 +1,25 @@
+/* Existing Rain G2 source adaptation; source-lock and MIT notice retained. */
+@layer utilities {
+  .rain-g2-button-group { isolation: isolate; }
+  .rain-g2-button-group > :focus-visible { position: relative; z-index: 1; }
+  /* Shared edges remain opaque; only the disabled button's content fades. */
+  .rain-g2-button-group > .rain-button[data-state="disabled"]:not([data-variant="text"]) { opacity: 1; }
+  .rain-g2-button-group > .rain-button[data-state="disabled"][data-variant="primary"] > [data-slot] { opacity: var(--rain-button-disabled-opacity-primary); }
+  .rain-g2-button-group > .rain-button[data-state="disabled"]:is([data-variant="secondary"], [data-variant="tertiary"]) > [data-slot] { opacity: var(--rain-button-disabled-opacity-rest); }
+  /* Child Button owns size; :where keeps connected corner rules stronger. */
+  .rain-g2-button-group:has(> :where(.rain-button[data-size="mini"]:not([data-variant="text"]))) > .rain-g2-button-group-text { min-height: var(--rain-button-mini-height); font-size: var(--rain-button-mini-font-size); line-height: var(--rain-button-mini-line-height); border-radius: var(--rain-button-mini-radius); }
+  .rain-g2-button-group:has(> :where(.rain-button[data-size="small"]:not([data-variant="text"]))) > .rain-g2-button-group-text { min-height: var(--rain-button-small-height); font-size: var(--rain-button-small-font-size); line-height: var(--rain-button-small-line-height); border-radius: var(--rain-button-small-radius); }
+  .rain-g2-button-group:has(> :where(.rain-button[data-size="medium"]:not([data-variant="text"]))) > .rain-g2-button-group-text { min-height: var(--rain-button-medium-height); font-size: var(--rain-button-medium-font-size); line-height: var(--rain-button-medium-line-height); border-radius: var(--rain-button-medium-radius); }
+  .rain-g2-button-group:has(> :where(.rain-button[data-size="large"]:not([data-variant="text"]))) > .rain-g2-button-group-text { min-height: var(--rain-button-large-height); font-size: var(--rain-button-large-font-size); line-height: var(--rain-button-large-line-height); border-radius: var(--rain-button-large-radius); }
+  .rain-g2-button-group:has(> :where(.rain-button[data-size="xl"]:not([data-variant="text"]))) > .rain-g2-button-group-text { min-height: var(--rain-button-xl-height); font-size: var(--rain-button-xl-font-size); line-height: var(--rain-button-xl-line-height); border-radius: var(--rain-button-xl-radius); }
+  .rain-g2-button-group[data-orientation="horizontal"] > [data-slot]:not(:last-child) { border-start-end-radius: 0; border-end-end-radius: 0; }
+  .rain-g2-button-group[data-orientation="horizontal"] > [data-slot] + [data-slot] { border-start-start-radius: 0; border-end-start-radius: 0; border-inline-start-width: 0; }
+  .rain-g2-button-group[data-orientation="horizontal"] > [data-slot]:has(+ .rain-g2-button-group-separator) { border-inline-end-width: 0; }
+  .rain-g2-button-group[data-orientation="vertical"] > [data-slot]:not(:last-child) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  .rain-g2-button-group[data-orientation="vertical"] > [data-slot] + [data-slot] { border-top-left-radius: 0; border-top-right-radius: 0; border-block-start-width: 0; }
+  .rain-g2-button-group[data-orientation="vertical"] > [data-slot]:has(+ .rain-g2-button-group-separator) { border-block-end-width: 0; }
+  .rain-g2-button-group-text { padding-inline: var(--rain-space-12); border: var(--rain-line-thickness-1) solid var(--rain-color-border-default); border-radius: var(--rain-button-medium-radius); font-size: var(--rain-button-medium-font-size); line-height: var(--rain-button-medium-line-height); color: var(--rain-color-text-secondary); background: var(--rain-color-surface-subtle); }
+  .rain-g2-button-group-separator { display: flex; align-self: stretch; }
+  .rain-g2-button-group-separator > .rain-separator { background-color: var(--rain-button-tertiary-border); }
+  .rain-g2-button-group-separator[data-orientation="vertical"] > .rain-separator { height: auto; }
+}

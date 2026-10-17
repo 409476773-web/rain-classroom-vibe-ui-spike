@@ -1,18 +1,18 @@
 # Rain Next
 
-**2026-09-16 完整项目审阅：** 请先读 [GitHub 审阅入口](GITHUB_REVIEW.md)，其中列出最新版本、另外两份工作区分支、上传范围与核验边界。
-
 用于雨课堂高保真交互原型的 React 源码组件体系。Rain Token 决定视觉，Tailwind 负责受约束组合；Rain Classic 保持独立，仅作为来源参考。
 
-**当前是可运行的本地候选库，尚未发布。** 部分组件已完成限定范围的人工视觉验收，仍有颜色、真实设备和正式业务场景验证未完成。本说明更新至 2026-09-15，不把某个批次的通过记录当作全库当前通过。
+**当前是可运行的本地候选库，尚未发布。** 部分组件已完成限定范围的人工视觉验收，仍有颜色、真实设备和正式业务场景验证未完成。本说明更新至 2026-10-17；最新 G1–G6 收尾与后续 P5/P6 的范围见[本轮计划](docs/plans/2026-10-17-g1-g6-closeout-and-p5-p6.md)，实际结果见[收尾记录](evidence/runtime/g1-g6-closeout-2026-10-17/run-01/verification.md)。不把历史批次的通过记录当作全库当前通过。
 
 日常使用从 [Rain按需使用入口](docs/ai/README.md) 开始；[资产索引](docs/ai/asset-index.md)直接从现有Manifest/Registry生成，按命中项读取合同、源码和验证边界。
 
 ## 开始审核
 
+本次 GitHub 审核从 [2026-10-17 审核入口](GITHUB_REVIEW.md)开始，以当前 `main` 和固定分支 `review/2026-10-17-component-library` 为范围。最新建设遗漏复查、已集成修订、验证日志和边界见[本轮送审报告](docs/review/2026-10-17/report.md)。
+
 1. 先读 [协作合同](AGENTS.md)与 [Spike 范围](SPIKE_BRIEF.md)，了解品牌、组合和生命周期边界。
 2. 按下面的组件表进入当前源码和证据。[阶段记录](status/current-phase.yaml)顶层是 2026-09-05 的 Token 总阶段；后续进展在 `tokenRefinements` / `componentRefinements`，冻结历史不回填。
-3. 看 [本次收口计划与执行记录](docs/plans/2026-09-12-existing-assets-closure.md)、[颜色待决清单](docs/audits/2026-09-12-color-closure-review.md)及 [早期基础组件合同](docs/audits/2026-09-12-core-ui-contracts.md)。
+3. 看 [9月12日历史收口计划与执行记录](docs/plans/2026-09-12-existing-assets-closure.md)、[颜色待决清单](docs/audits/2026-09-12-color-closure-review.md)及 [早期基础组件合同](docs/audits/2026-09-12-core-ui-contracts.md)。本轮结果以顶部10月17日入口为准。
 4. 需要设计来源时，再沿 [Visual Evidence](evidence/visual-evidence.yaml)、组件 Manifest 和对应审计链接展开。早期实现计划中的“待建设”不覆盖后续已有实现。
 
 审核意见请给出具体组件、源码位置、触发条件和影响；将可复现缺陷、未完成能力、已接受的设计决定和建议分开。已记录颜色不足仍需处理；已接受例外也不代表达到原对比度门槛。
@@ -72,10 +72,10 @@ pnpm test:e2e
 
 RN-13已补[基础组件本地源码关系](registry/core-ui.json)，包含Button、Input、SearchInput、FormItem及上述早期资产。它仍是工作区源码记录；独立干净消费属于RN-14。TextButton通过 `Button variant="text"` 提供，导航使用Link，不另建同义组件。
 
-## 尚未建设与验证边界
+## 当前能力与验证边界
 
-- 本工作树仍缺少部分后续公共组件；Table Primitives与资料配方已由RN-08建设，不能从局部示例推导其他完整业务Benchmark已交付。
-- 布局拖动调宽、尺寸持久化与导航 Sidebar；现有 Split.Sidebar 仅为主从布局中的侧区。
+- G1–G6 的 46 项能力已有实际源码或明确的组合对应；加上 G0 的 18 项，覆盖冻结 64 项目录的结构映射。Label/Field 复用 FormItem，Input Group 为局部组合，Data Table 为配方；不按目录名称重复建设同义组件。运行可用范围与验收差额见[本轮收尾记录](evidence/runtime/g1-g6-closeout-2026-10-17/run-01/verification.md)。
+- Resizable、Sidebar 与可恢复工作区已建成，按[资产索引](docs/ai/asset-index.md)及[工作区合同](docs/ai/navigation-workspaces-v042.md)使用。真实设备、辅助技术、各组合的对比度与完整业务接入仍按具体资产证据分别判断。
 - [四个业务 Benchmark](benchmarks/benchmark-registry.yaml)中，BM-A由RN-09建立独立场景，BM-B由RN-10建设教材大表单；M2已完成C/D限定技术实现，见[体验入口](docs/ai/m2-trial-guide.md)。用户已指出C/D的页面设计问题，当前画面不作为推荐视觉模板；后续按[生成质量改进计划](docs/plans/2026-09-15-rain-generation-quality-improvement.md)推进，各自验收独立。
 
 RN-10 教材大表单：在独立 prototype 打开 `#bm-b`，点击“编辑教材”。覆盖分组、单/双列、宽/窄容器、长文本、校验、固定底栏和模拟附件上传；“演示选项”可触发下次保存/上传失败。运行 `pnpm --filter @rain-next/prototype dev --port 5201 --strictPort` 后访问 `http://127.0.0.1:5201/#bm-b`。本地原型与技术验证见[实施记录](docs/plans/2026-09-15-bm-b-rn10.md)和[本批证据](evidence/runtime/bm-b-rn10/verification.md)；当前BM-B运行视觉已完成[整体验收](evidence/runtime/dialog-bm-b-visual-2026-09-15/verification.md)，不代表真实上传或持久化。
@@ -87,4 +87,4 @@ RN-10 教材大表单：在独立 prototype 打开 `#bm-b`，点击“编辑教�
 
 目标字体为 PingFang SC，关键数据数字使用 LINE Seed。仓库不分发字体文件；其他机器可能使用回退字形。已有本机字体证据见 [字体环境](evidence/runtime/day-2/font-environment.md)，不能据此宣称另一台机器命中相同字体。真实输入法、屏幕阅读器、触屏与完整跨浏览器检查按各批记录分别保留。
 
-代码托管到 [GitHub 私有审核仓库](https://github.com/409476773-web/rain-classroom-vibe-ui-spike)，供有访问权限的审核者查看源码和证据。上传授权与执行范围见[送审续步](docs/plans/2026-09-12-existing-assets-closure.md#github-私有送审续步)；实际提交以仓库 `main` 分支为准。Git 托管、人工验收、资产成熟度、包或 Registry 发布和业务采用各自独立。
+代码托管到 [GitHub 私有审核仓库](https://github.com/409476773-web/rain-classroom-vibe-ui-spike)，供有访问权限的审核者查看源码和证据。上传授权与执行范围见[本轮送审报告](docs/review/2026-10-17/report.md)；实际提交以仓库 `main` 分支为准。Git 托管、人工验收、资产成熟度、包或 Registry 发布和业务采用各自独立。

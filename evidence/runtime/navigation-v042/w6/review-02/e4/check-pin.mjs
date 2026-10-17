@@ -1,0 +1,33 @@
+import { chromium, expect } from '@playwright/test';
+import { writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+const browser = await chromium.launch({ headless: true });
+const page = await browser.newPage({ viewport: { width: 1343, height: 747 } });
+const faults = [];
+page.on('pageerror', error => faults.push(error.message));
+try {
+  await page.goto('http://127.0.0.1:5204/navigation-v042-w6-consumer.html#E4');
+  const root = page.locator('[data-scene="E4"]');
+  const panel = root.locator('.rain-workspace__region[data-region-id="knowledge-index"]');
+  await root.getByRole('button', { name: '讲稿 02:10', exact: true }).click();
+  await root.getByRole('textbox', { name: '回放笔记', exact: true }).fill('固定面板仍保留笔记');
+  const before = await root.locator('.w6-replay-main').boundingBox();
+  await root.getByRole('button', { name: '临时查看知识索引', exact: true }).click();
+  await expect(panel).toHaveAttribute('data-temporary', 'true');
+  const pin = root.getByRole('button', { name: '固定知识索引', exact: true });
+  const pinContract = await pin.getAttribute('data-workspace-action');
+  await pin.click();
+  const result = { recordedAt: new Date().toISOString(), pinContract, panelTemporary: await panel.getAttribute('data-temporary'), panelMode: await panel.getAttribute('data-mode'), panelVisible: await panel.isVisible(), mainBefore: before, mainAfter: await root.locator('.w6-replay-main').boundingBox(), playbackTime: await root.getByTestId('playback-time').textContent(), notes: await root.getByRole('textbox', { name: '回放笔记', exact: true }).inputValue(), faults };
+  await writeFile(new URL(process.env.RAIN_PIN_RESULT ?? 'pin-current.json', import.meta.url), JSON.stringify(result, null, 2) + '\n');
+  console.log(JSON.stringify(result));
+  await expect(panel).toBeVisible();
+  await expect(panel).toHaveAttribute('data-temporary', 'false');
+  await expect(panel).toHaveAttribute('data-mode', 'expanded');
+  await expect(root.getByTestId('playback-time')).toHaveText('02:10');
+  await expect(root.getByRole('textbox', { name: '回放笔记', exact: true })).toHaveValue('固定面板仍保留笔记');
+  await root.getByRole('button', { name: '进入专注', exact: true }).click();
+  await root.getByRole('button', { name: '退出专注', exact: true }).click();
+  await expect(panel).toBeVisible();
+  await expect(panel).toHaveAttribute('data-temporary', 'false');
+  await page.screenshot({ path: fileURLToPath(new URL('E4-pinned-1343x747.png', import.meta.url)) });
+} finally { await browser.close(); }

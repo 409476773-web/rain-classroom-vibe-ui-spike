@@ -1,0 +1,167 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-chart-line"
+name: "折线图 LineChart"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "react-only"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/charts/vendor/charts/line-chart.tsx"
+styleSourcePath: "packages/ui/src/charts/styles.css"
+sourceVersion: "bklit@5d699897b2dde26374cf15501dbaadbc52cea982/rain-local-2026-10-09"
+description: "图表：连续时间的多系列趋势、真实端点与聚焦读数。"
+useWhen:
+  - "连续时间中比较同量纲系列、变化与峰值。"
+doNotUseWhen:
+  - "任意XY散点、分类柱比较，或需要未验证的缺口插值。"
+anatomy:
+  - "宿主标题/单位、原生图形、精确读数/数据表。"
+parts:
+  - "LineChart"
+  - "Line"
+  - "Grid"
+  - "XAxis"
+  - "YAxis"
+  - "ChartTooltip"
+  - "ChartLegend"
+  - "Background"
+  - "ReferenceArea"
+  - "ChartMarkers"
+  - "ChartBrush"
+  - "ChartBrushLayout"
+  - "ProjectionLine"
+  - "ProjectionLineEndMarker"
+  - "LineSeriesTerminalMarker"
+props:
+  - "xMode=time默认日期；显式category使用xDataKey稳定字符串ID、xLabel(datum)显示名称，输入顺序等距定位，同名不同ID保留。"
+  - "data 日期有序；Line.dataKey 逐系列注册值域，xDataKey 默认 date。"
+  - "curve、stroke、showMarkers、fadeEdges 可按原生Props配置；示例保留端点不淡出。"
+slots:
+  - "原生children/提示render回调；宿主布局、业务筛选及数据表。"
+variants:
+  - "多系列标准折线"
+  - "单趋势；适用迷你尺寸"
+states:
+  - "正常、悬停/焦点、更新/重播；动效/减少动效分别检查。"
+  - "0有效；null缺测断线，静态和连续更新均不跨缺口；NaN/Infinity拒绝；不宣称插值、提示固定或图例隐藏。"
+  - "空/无效状态由宿主先校验并说明，非通用数据适配器。"
+dependencies:
+  - "React/React DOM、Rain Foundations；实际固定npm及类型依赖见registry/charts.json。"
+tokens:
+  - "Rain表面、文字、网格、提示、指示器和Focus角色，公共规则见packages/ui/src/charts/README.md。"
+  - "分类角色保持系列身份，单趋势使用trend-soft。"
+layoutConstraints:
+  - "坐标图默认320px高，长数字及单点须检查margin和标记。"
+  - ".rain-chart为独立样式作用域，需可测量尺寸；不依赖实验页祖先或全局Bklit reset。"
+compositionRules:
+  - "category不使用Date或时间降采样；分类Brush/Projection、日期标记/参考区域及LiveXAxis明确拒绝。时间模式保持原合同。"
+  - "局部MiniSize紧凑96×32 / 舒展128×48；旧日期Tooltip、单点marker及重播保留；走势自域不暗示跨行绝对人数可比。"
+  - "MiniSize属于可下载局部配方，不是公共图表size枚举；尺寸事实源为chart-business/mini-layout.ts。"
+  - "有效Date与有限数值，指标单位由宿主明确。"
+  - "保留Bklit原生Parts与默认展示强度；数据/单位/分母与色标、提示和表值一致。"
+allowedModifications:
+  - "通过原生Props/Parts选择已列配方、尺寸、标签、单位及受控状态；宿主拥有数据校验。"
+restrictedModifications:
+  - "不改全局Token、品牌主蓝或偷偷扩大到未支持数据合同；不从vendor私有路径绕过公共入口。"
+accessibility:
+  - "宿主提供标题、单位、文本状态和精确数据表；图例可用renderItem接入button焦点。"
+  - "原生hover不代表所有点键盘可达；真实读屏/物理触屏/完整对比度未登记通过。"
+examples:
+  - "/#chart-category"
+  - "apps/playground/src/docs/components/chart-business/category-examples.tsx"
+  - "apps/playground/src/docs/components/chart-business/mini-layout.ts"
+  - "/#chart-business"
+  - "apps/playground/src/docs/components/chart-business/mini-examples.tsx"
+  - "/#chart-line"
+  - "apps/playground/src/docs/components/chart-examples.tsx"
+  - "apps/playground/src/docs/components/chart-data.ts"
+  - "apps/playground/src/docs/components/chart-variants/trend.tsx"
+  - "apps/prototype/bklit-catalog.html#chart-line"
+recipes:
+  - "monochrome-blue"
+  - "trend-soft"
+  - "category-near"
+  - "category-wide"
+  - "category-solid"
+defaultRecipe: "category-near"
+antiPatterns:
+  - "任意XY散点、分类柱比较，或需要未验证的缺口插值。"
+relatedComponents:
+  - "ui-chart-area"
+  - "ui-chart-scatter"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Figma MbWg1ft5zk1JRQiQ6dS30e / 2901:130074 图表分类参考；设计稿配色与渐变提炼，不要求逐像素复制。"
+    - "docs/plans/2026-10-07-chart-reference-recipes-design.md"
+  externalReferences:
+    - "https://github.com/bklit/bklit-ui/tree/5d699897b2dde26374cf15501dbaadbc52cea982/packages/ui/src/charts"
+  retainedTraits:
+    - "Bklit原生图形、Compound API、默认运动与交互表现。"
+  redesignedTraits:
+    - "Rain配色/渐变、字体职责、浅辅助文字、Regular图例和必要轴距；源码必要补丁见source-lock。"
+  intentionallyNotInherited:
+    - "Bklit全局reset和默认石灰色组；未复制业务Mock为UI依赖。"
+figmaMapping:
+  status: "reference-only"
+  fileKey: "MbWg1ft5zk1JRQiQ6dS30e"
+  nodeId: "2901:130074"
+  codeConnect: "not-established"
+sourceEvidence:
+  - "evidence/runtime/chart-mini-typography-feedback-2026-10-09/verification.md"
+  - "packages/ui/src/charts/vendor/source-lock.json"
+  - "evidence/runtime/bklit-rain-catalog/p0/source-audit.md"
+  - "evidence/runtime/bklit-rain-catalog/verification.md"
+migrationNotes:
+  - "本地共享候选；未发布、未写回Figma、未迁移Rain Classic或生产业务。"
+  - "共同安装、数据状态和升级合同见packages/ui/src/charts/README.md；用途选择见docs/ai/charts.md。"
+verification:
+  automated: "scoped-passed"
+  independentReview: "scoped-passed"
+  humanGate: "awaiting-user-review"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/bklit-rain-catalog/verification.md"
+
+variantCoverage:
+  sourceReference: "apps/playground/src/docs/components/chart-variants/reference.json"
+  plan: "docs/plans/2026-10-08-chart-variants-implementation-plan.md"
+  count: 18
+  implementation: "completed"
+  automatedVerification: "scoped-passed-170-directory"
+  evidence: "evidence/runtime/chart-variants/run-_tv8jhva/verification.md"
+  perVariantEvidence: "evidence/runtime/chart-variants/run-_tv8jhva/per-variant-results.json"
+  visualHumanGate: "awaiting-user-review"
+  ids:
+    - "line-trio-brush"
+    - "line-projection"
+    - "line-linear"
+    - "line-event-markers"
+    - "line-segment-selection"
+    - "line-multiple-lines"
+    - "line-x-axis"
+    - "line-x-y-axis"
+    - "line-series-markers"
+    - "line-loading"
+    - "line-loading-sweep"
+    - "line-dashed-tail"
+    - "line-left-y-axis"
+    - "line-dual-y-axis"
+    - "line-pattern-background"
+    - "line-dot-grid-background"
+    - "line-reference-band"
+    - "line-pattern-reference-band"
+  callContract:
+    - "事件标注、独立预测/终端标记与实测系列区分；曲线6选项同步复制。"
+    - "Brush概览、主图和精确表使用同一日期范围；重置恢复30行。"
+  limitations:
+    - "盈亏来源项映射到既有独立profit-loss页；Line页18项，来源家族19项。"
+
+categoryBusinessIncrement:
+  scope: "P3 T12-T15 shared category/missing/per-axis behavior and original bar regression"
+  implementation: "completed-local-technical-delivery"
+  automatedVerification: "368-unit-19-scoped-browser-170-official-and-34-business-independent-consumers"
+  evidence: "evidence/runtime/chart-business-expansion/p3/verification.md"
+  visualHumanGate: "awaiting-user-review"
+  contrastAcceptance: "not-granted"

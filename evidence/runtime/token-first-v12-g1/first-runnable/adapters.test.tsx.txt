@@ -1,0 +1,26 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { expect, test } from "vitest";
+import { Alert, AlertTitle } from "./alert";
+import { Switch } from "./switch";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "./accordion";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./collapsible";
+
+test("source adapters preserve named keyboard controls, disabled state and quiet static messages", async () => {
+  const user = userEvent.setup();
+  render(<><Alert><AlertTitle>评分仅保存在当前演示</AlertTitle></Alert>
+    <Switch aria-label="仅看待批改" /><Switch disabled aria-label="不可编辑设置" />
+    <Accordion><AccordionItem value="rubric"><AccordionTrigger>评分细则</AccordionTrigger><AccordionContent>明确惯性不是力。</AccordionContent></AccordionItem></Accordion>
+    <Collapsible><CollapsibleTrigger>更多说明</CollapsibleTrigger><CollapsibleContent>刷新将恢复示例数据。</CollapsibleContent></Collapsible></>);
+  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  const toggle = screen.getByRole("switch", { name: "仅看待批改" });
+  toggle.focus(); await user.keyboard(" "); expect(toggle).toHaveAttribute("aria-checked", "true");
+  const disabled = screen.getByRole("switch", { name: "不可编辑设置" });
+  expect(disabled).toHaveAttribute("aria-disabled", "true");
+  await user.click(disabled); expect(disabled).toHaveAttribute("aria-checked", "false");
+  const trigger = screen.getByRole("button", { name: "评分细则" });
+  trigger.focus(); await user.keyboard("{Enter}"); expect(trigger).toHaveAttribute("aria-expanded", "true");
+  expect(screen.getByText("明确惯性不是力。")).toBeVisible();
+  await user.click(screen.getByRole("button", { name: "更多说明" }));
+  expect(screen.getByText("刷新将恢复示例数据。")).toBeVisible();
+});

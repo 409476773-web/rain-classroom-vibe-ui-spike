@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx (12 tests | 1 failed) 113ms
+   × date positions respond to the actual container before its debounced width reaches chart context 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > date positions respond to the actual container before its debounced width reaches chart context
+AssertionError: expected '300px' to contain '%'
+
+Expected: "%"
+Received: "300px"
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:192:27
+    190|   const chart = fixture();
+    191|   const tick = chart.dateLabel();
+    192|   expect(tick.style.left).toContain("%");
+       |                           ^
+    193|   // Only the host shrinks: React still holds width=600 until ParentSi…
+    194|   expect(left(tick, 390)).toBe(195);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 passed (12)
+   Start at  12:21:06
+   Duration  939ms (transform 144ms, setup 98ms, import 284ms, tests 113ms, environment 362ms)
+

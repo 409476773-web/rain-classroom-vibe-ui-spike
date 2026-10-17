@@ -1,0 +1,59 @@
+
+Running 8 tests using 1 worker
+
+(node:56972) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium-dpr1] › tests/e2e/navigation-v042-w7.spec.ts:82:1 › N11 real wheel scroll in a constrained S2 host survives hide and restore (1.5s)
+  ✘  2 [chromium-dpr1] › tests/e2e/navigation-v042-w7.spec.ts:133:1 › N06 N04 hover bridges the entry and panel, Escape suppresses rebound, reentry remains usable (7.5s)
+(node:57359) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [chromium-dpr1] › tests/e2e/navigation-v042-w7.spec.ts:153:1 › N07 queued hover cannot open a panel after switching S3 to S6 (2.1s)
+  ✓  4 [chromium-dpr1] › tests/e2e/navigation-v042-w7.spec.ts:165:1 › N18 inverse temporary platform retains the account, native links, focus and close recovery (1.4s)
+  ✓  5 [chromium-dpr1] › tests/e2e/navigation-v042-w7.spec.ts:232:41 › N21 N23 W7 matrix scope caps and search 200 classes at 1200 (2.7s)
+  ✓  6 [chromium-dpr1] › tests/e2e/navigation-v042-w7.spec.ts:232:41 › N21 N23 W7 matrix scope caps and search 200 classes at 1440 (2.6s)
+  ✓  7 [chromium-dpr1] › tests/e2e/navigation-v042-w7.spec.ts:232:41 › N21 N23 W7 matrix scope caps and search 200 classes at 1600 (3.1s)
+  ✓  8 [chromium-dpr1] › tests/e2e/navigation-v042-w7.spec.ts:287:1 › N29 N27 same-label scopes retain separate IDs and drafts through removal, restoration and disabled results (2.4s)
+
+
+  1) [chromium-dpr1] › tests/e2e/navigation-v042-w7.spec.ts:133:1 › N06 N04 hover bridges the entry and panel, Escape suppresses rebound, reentry remains usable 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('candidate-canvas').locator('.rain-workspace').first().locator('.rain-workspace__region[data-region-id="context"]')
+    Expected: "true"
+    Received: "false"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for getByTestId('candidate-canvas').locator('.rain-workspace').first().locator('.rain-workspace__region[data-region-id="context"]')
+        14 × locator resolved to <div inert="" hidden="" aria-label="工作区" data-side="start" data-mode="hidden" data-forced="false" data-temporary="false" data-region-id="context" id="_r_2_-workspace-context" class="rain-workspace__region nv5-document-context">…</div>
+           - unexpected value "false"
+
+
+      148 |   await root.locator('.nv44-identity').hover();
+      149 |   await entry.hover();
+    > 150 |   await expect(pane).toHaveAttribute('data-temporary', 'true');
+          |                      ^
+      151 | });
+      152 |
+      153 | test('N07 queued hover cannot open a panel after switching S3 to S6', async ({ page }) => {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w7.spec.ts:150:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w7/test-artifacts/navigation-v042-w7-N06-N04-13aea-ound-reentry-remains-usable-chromium-dpr1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w7/test-artifacts/navigation-v042-w7-N06-N04-13aea-ound-reentry-remains-usable-chromium-dpr1/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w7/test-artifacts/navigation-v042-w7-N06-N04-13aea-ound-reentry-remains-usable-chromium-dpr1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w7/test-artifacts/navigation-v042-w7-N06-N04-13aea-ound-reentry-remains-usable-chromium-dpr1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium-dpr1] › tests/e2e/navigation-v042-w7.spec.ts:133:1 › N06 N04 hover bridges the entry and panel, Escape suppresses rebound, reentry remains usable 
+  7 passed (24.7s)

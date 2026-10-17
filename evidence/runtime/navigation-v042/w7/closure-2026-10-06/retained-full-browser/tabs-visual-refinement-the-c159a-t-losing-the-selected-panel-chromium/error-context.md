@@ -1,0 +1,2740 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tabs-visual-refinement.spec.ts >> the preview switches between capped and original stretch geometry without losing the selected panel
+- Location: tests/e2e/tabs-visual-refinement.spec.ts:50:1
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByRole('region', { name: '选择一套完整外观' }).getByRole('combobox', { name: '蓝线长度', exact: true })
+
+```
+
+# Page snapshot
+
+```yaml
+- main [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - link "返回组件总览" [ref=e6] [cursor=pointer]:
+        - /url: "#components"
+      - heading "Tabs 分区切换" [level=1] [ref=e8]
+      - paragraph [ref=e9]: 在同一页面里切换内容。默认使用完整导航与面板，首次打开后保留本页草稿。
+      - generic [ref=e10]:
+        - button "浅色主题" [ref=e11] [cursor=pointer]
+        - button "深色主题" [ref=e13] [cursor=pointer]
+    - region [ref=e15]:
+      - heading "课程分区" [level=2] [ref=e16]
+      - paragraph [ref=e17]: 数量 0 会保留；没有数量时不占位。导出是独立操作，窄屏下移到单独一行。
+      - generic [ref=e18]:
+        - generic "分区导航" [ref=e19]:
+          - generic [ref=e20]:
+            - tablist "课程内容" [ref=e23]:
+              - tab "课程概览" [selected] [ref=e24] [cursor=pointer]
+              - tab "待评作业" [ref=e27] [cursor=pointer]:
+                - generic [ref=e28]:
+                  - generic [ref=e29]: 待评作业
+                  - generic [ref=e30]: (0)
+                - generic [ref=e31]: 数量 0
+              - tab "课程资料" [ref=e32] [cursor=pointer]
+              - tab "学生" [ref=e37] [cursor=pointer]:
+                - generic [ref=e38]:
+                  - generic [ref=e41]: 学生
+                  - generic [ref=e42]: (128)
+                - generic [ref=e43]: 数量 128
+            - button "导出" [ref=e45] [cursor=pointer]
+        - tabpanel "课程概览" [ref=e48]:
+          - generic [ref=e49]:
+            - paragraph [ref=e50]: 课程概览的模拟课程内容。切换分区后，已输入的草稿会留在本页。
+            - textbox "课程概览备注" [ref=e52]:
+              - /placeholder: 填写一条备注
+            - generic [ref=e54]:
+              - button "保存备注" [ref=e55] [cursor=pointer]
+              - status
+    - region [ref=e57]:
+      - heading "选择一套完整外观" [level=2] [ref=e58]
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - combobox "示例外观" [ref=e62] [cursor=pointer]:
+            - generic "线条" [ref=e64]
+          - generic [ref=e68]: 已选：线条
+        - textbox [ref=e69]: line
+        - generic [ref=e70]:
+          - combobox "示例尺寸" [ref=e72] [cursor=pointer]:
+            - generic "紧凑 · 32" [ref=e74]
+          - generic [ref=e78]: 已选：紧凑 · 32
+        - textbox [ref=e79]: "32"
+        - generic [ref=e80]:
+          - combobox "示例位置" [ref=e82] [cursor=pointer]:
+            - generic "底部" [ref=e84]
+          - generic [ref=e88]: 已选：底部
+        - textbox [ref=e89]: bottom
+        - generic [ref=e90]:
+          - combobox "蓝线长度" [active] [ref=e92] [cursor=pointer]:
+            - generic "自适应长度" [ref=e94]
+          - generic [ref=e98]: 已选：自适应长度
+        - textbox [ref=e99]: stretch
+        - generic [ref=e100]:
+          - combobox "横向宽度" [ref=e102] [cursor=pointer]:
+            - generic "按内容宽度" [ref=e104]
+          - generic [ref=e108]: 已选：按内容宽度
+        - textbox [ref=e109]: natural
+      - generic [ref=e110]:
+        - generic "分区导航" [ref=e111]:
+          - tablist "外观示例" [ref=e115]:
+            - tab "课程概览" [ref=e116] [cursor=pointer]
+            - tab "待评作业" [selected] [ref=e119] [cursor=pointer]:
+              - generic [ref=e120]:
+                - generic [ref=e121]: 待评作业
+                - generic [ref=e122]: (0)
+              - generic [ref=e123]: 数量 0
+            - tab "课程资料" [ref=e124] [cursor=pointer]
+            - tab "学生" [ref=e129] [cursor=pointer]:
+              - generic [ref=e130]:
+                - generic [ref=e133]: 学生
+                - generic [ref=e134]: (128)
+              - generic [ref=e135]: 数量 128
+        - tabpanel "待评作业" [ref=e137]:
+          - generic [ref=e138]:
+            - paragraph [ref=e139]: 待评作业的模拟课程内容。切换分区后，已输入的草稿会留在本页。
+            - textbox "待评作业备注" [ref=e141]:
+              - /placeholder: 填写一条备注
+              - text: 长度变化后保留
+            - generic [ref=e143]:
+              - button "保存备注" [ref=e144] [cursor=pointer]
+              - status
+    - generic [ref=e146]:
+      - generic [ref=e147]:
+        - heading "底板局部分区" [level=2] [ref=e148]
+        - generic [ref=e149]:
+          - generic "分区导航" [ref=e150]:
+            - tablist "底板编辑" [ref=e154]:
+              - tab "课程概览" [selected] [ref=e155] [cursor=pointer]
+              - tab "待评作业" [ref=e158] [cursor=pointer]:
+                - generic [ref=e159]:
+                  - generic [ref=e160]: 待评作业
+                  - generic [ref=e161]: (0)
+                - generic [ref=e162]: 数量 0
+          - tabpanel "课程概览" [ref=e164]:
+            - generic [ref=e165]:
+              - paragraph [ref=e166]: 课程概览的模拟课程内容。切换分区后，已输入的草稿会留在本页。
+              - textbox "课程概览备注" [ref=e168]:
+                - /placeholder: 填写一条备注
+              - generic [ref=e170]:
+                - button "保存备注" [ref=e171] [cursor=pointer]
+                - status
+      - generic [ref=e173]:
+        - heading "浅底局部分区" [level=2] [ref=e174]
+        - generic [ref=e175]:
+          - generic "分区导航" [ref=e176]:
+            - tablist "浅底编辑" [ref=e180]:
+              - tab "课程概览" [selected] [ref=e181] [cursor=pointer]
+              - tab "待评作业" [ref=e184] [cursor=pointer]:
+                - generic [ref=e185]:
+                  - generic [ref=e186]: 待评作业
+                  - generic [ref=e187]: (0)
+                - generic [ref=e188]: 数量 0
+          - tabpanel "课程概览" [ref=e190]:
+            - generic [ref=e191]:
+              - paragraph [ref=e192]: 课程概览的模拟课程内容。切换分区后，已输入的草稿会留在本页。
+              - textbox "课程概览备注" [ref=e194]:
+                - /placeholder: 填写一条备注
+              - generic [ref=e196]:
+                - button "保存备注" [ref=e197] [cursor=pointer]
+                - status
+    - generic [ref=e199]:
+      - heading "纵向设置与长名称" [level=2] [ref=e200]
+      - paragraph [ref=e201]: 同组采用双行高度、名称左对齐；空间不足时移到顶部。名称或数量省略时，悬停或键盘聚焦可查看全文。
+      - generic [ref=e202]:
+        - generic "分区导航" [ref=e203]:
+          - tablist "课程设置" [ref=e207]:
+            - tab "基本信息" [selected] [ref=e208] [cursor=pointer]
+            - tab "学生与教学班" [ref=e212] [cursor=pointer]:
+              - generic [ref=e213]:
+                - generic [ref=e216]: 学生与教学班
+                - generic [ref=e217]: (128)
+              - generic [ref=e218]: 数量 128
+            - tab "课程资源与在线教学设置" [ref=e219] [cursor=pointer]
+            - tab "通知偏好" [ref=e224] [cursor=pointer]
+            - tab "评分方式" [ref=e228] [cursor=pointer]
+            - tab "课堂互动" [ref=e232] [cursor=pointer]
+            - tab "归档设置" [ref=e236] [cursor=pointer]
+            - tab "课程权限" [ref=e240] [cursor=pointer]
+        - tabpanel "基本信息" [ref=e245]:
+          - generic [ref=e246]:
+            - paragraph [ref=e247]: 基本信息的模拟课程内容。切换分区后，已输入的草稿会留在本页。
+            - textbox "基本信息备注" [ref=e249]:
+              - /placeholder: 填写一条备注
+            - generic [ref=e251]:
+              - button "保存备注" [ref=e252] [cursor=pointer]
+              - status
+    - generic [ref=e254]:
+      - heading "使用合同" [level=2] [ref=e255]
+      - paragraph [ref=e256]: 用于内容分区。独立页面导航使用链接；新建、关闭、拖动工作区标签暂不提供。默认手动键盘模式：方向键移动焦点，Enter 或 Space 切换内容；点击直接切换。automatic 可用于即时、轻量内容。
+      - table [ref=e257]:
+        - rowgroup [ref=e258]:
+          - row [ref=e259]:
+            - columnheader "选项" [ref=e260]
+            - columnheader "默认与范围" [ref=e261]
+        - rowgroup [ref=e262]:
+          - row [ref=e263]:
+            - cell "items / value" [ref=e264]
+            - cell "唯一的 string 或 number 身份；1 与字符串“1”不同。null 表示不选中。受控模式只响应宿主接受的值。" [ref=e265]
+          - row [ref=e266]:
+            - cell "appearance / size" [ref=e267]
+            - cell "line / contained / soft；28 / 32 / 38。未指定尺寸时，compact 使用 32，default 使用 38。" [ref=e268]
+          - row [ref=e269]:
+            - cell "position / overflow" [ref=e270]
+            - cell "top 默认，另有 bottom / start / end。横向默认 More，scroll 可选；纵向为 scroll。" [ref=e271]
+          - row [ref=e272]:
+            - cell "align / itemAlign" [ref=e273]
+            - cell "横向 start 或 center；纵向项内 left / center / right，默认 center。" [ref=e274]
+          - row [ref=e275]:
+            - cell "labelLines / widthMode" [ref=e276]
+            - cell "纵向默认单行，可选整组双行并左对齐，高度 46 / 52 / 60。横向默认 natural；equal 等分可用宽度，空间不足时沿用 More 或滚动。" [ref=e277]
+          - row [ref=e278]:
+            - cell "collapseBelow" [ref=e279]
+            - cell "纵向场景显式指定可用宽度阈值，低于阈值转为顶部横向；本页示例使用 560px，选择与草稿继续保留。" [ref=e280]
+          - row [ref=e281]:
+            - cell "indicatorSize / showDivider" [ref=e282]
+            - cell "Line 独有，默认 content：蓝线在内容范围内居中，最大长度随 28／32／38 尺寸设为 24／28／32px。stretch 保留自适应方式；等分排列时随项宽伸展。纵向限长居中；分隔线默认关闭。" [ref=e283]
+          - row [ref=e284]:
+            - cell "panelMount" [ref=e285]
+            - cell "lazy-retain 默认；eager-retain 提前挂载；unmount 离开销毁。项目可单独覆盖。" [ref=e286]
+          - row [ref=e287]:
+            - cell "count" [ref=e288]
+            - cell "0 与数字字符串显示括号；null、undefined、空字符串隐藏。自定义缩写需要 countAccessibleLabel。" [ref=e289]
+          - row [ref=e290]:
+            - cell "disabled / disabledReason" [ref=e291]
+            - cell "禁用项跳过键盘；完整名称和可选原因可从“分区说明”读取。受控回显可保留已选禁用项。" [ref=e292]
+      - paragraph [ref=e293]: 默认直接使用完整 Tabs。明确需要改变布局时，使用同一个 Tabs.Root 下的一组 Tabs.Nav 与 Tabs.Panels；这三个部分同步出现，Suspense 放在 item.content 内。Root 内外与嵌套实例各自独立。
+      - code [ref=e295]: "<Tabs aria-label=\"课程内容\" items={items} /> <Tabs aria-label=\"自适应蓝线\" items={items} indicatorSize=\"stretch\" /> <Tabs.Root aria-label=\"课程内容\" items={items}> <Tabs.Nav extraEnd={<Button>导出</Button>} /> <Tabs.Panels /> </Tabs.Root>"
+      - paragraph [ref=e296]: Parts：root、nav、list、tab、icon、label、count、indicator、extra-start、extra-end、more、panel。先选 Existing Variant，再为明确差异声明 Local Recipe；结构变化使用 Local Fork。各 Part 保留 data-slot 与追踪属性。
+      - paragraph [ref=e297]: 浅底外观取消选中态的常驻描边，以填充、文字颜色和字重表示当前项；键盘焦点框独立保留。普通 Label/Count 仍仅在已登记的 Background/Neutral/1 底面上获得限定用途裁决，不构成通用对比度豁免。
+      - paragraph [ref=e298]: 保留 DOM 不等于持久化、缓存数据或暂停媒体。离开页面、删除身份或主动销毁会失去本页状态；网络请求、媒体和隐藏时副作用由内容宿主处理。
+      - paragraph [ref=e299]: 当前为工作区 registry-candidate，managed 修改级别；运行视觉 Human Gate、真实屏幕阅读器、跨浏览器检查与发布仍分别记录。来源：Rain Classic Tabs、shadcn/ui、Ant Design、Material UI；行为采用当前 Base UI 1.8.0，视觉来自 Rain Token。
+    - group [ref=e300]:
+      - generic "交互与状态检查" [ref=e301]
+      - paragraph [ref=e302]: 以下为模拟数据和完整配方检查区。
+      - generic [ref=e303]:
+        - heading "公共组件连续区间" [level=2] [ref=e304]
+        - button "加宽导航" [ref=e305] [cursor=pointer]
+        - button "收窄导航" [ref=e307] [cursor=pointer]
+        - button "极窄导航" [ref=e309] [cursor=pointer]
+        - button "仅保留概览" [ref=e311] [cursor=pointer]
+        - button "保留前三分区" [ref=e313] [cursor=pointer]
+        - button "恢复全部分区" [ref=e315] [cursor=pointer]
+        - button "动态删除末项" [ref=e317] [cursor=pointer]
+        - generic [ref=e320]:
+          - generic "分区导航" [ref=e321]:
+            - generic [ref=e324]:
+              - tablist "课程分区" [ref=e325]:
+                - tab "概览" [selected] [ref=e326] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e331]
+              - button "更多分区" [ref=e336] [cursor=pointer]:
+                - generic [ref=e337]: 更多
+            - group [ref=e341]:
+              - generic "分区说明" [ref=e342]
+          - tabpanel "概览" [ref=e344]:
+            - textbox "概览草稿" [ref=e346]
+      - generic [ref=e348]:
+        - heading "隐藏期间的内容更新" [level=2] [ref=e349]
+        - button "隐藏示例" [ref=e350] [cursor=pointer]
+        - button "更新名称与数量" [ref=e352] [cursor=pointer]
+        - generic [ref=e355]:
+          - generic "分区导航" [ref=e356]:
+            - generic [ref=e359]:
+              - tablist "动态内容" [ref=e360]:
+                - tab "完整课堂记录与课后练习资料" [selected] [ref=e361] [cursor=pointer]
+                - tab "资源" [ref=e366] [cursor=pointer]
+              - button "更多分区" [ref=e371] [cursor=pointer]:
+                - generic [ref=e372]: 更多
+            - group [ref=e376]:
+              - generic "分区说明" [ref=e377]
+          - tabpanel "完整课堂记录与课后练习资料" [ref=e379]:
+            - textbox "动态草稿" [ref=e381]
+      - generic [ref=e383]:
+        - heading "独立的嵌套分区" [level=2] [ref=e384]
+        - generic [ref=e385]:
+          - generic "分区导航" [ref=e386]:
+            - tablist "外层分区" [ref=e390]:
+              - tab "外层一" [selected] [ref=e391] [cursor=pointer]
+              - tab "外层二" [ref=e394] [cursor=pointer]
+          - tabpanel "外层一" [ref=e398]:
+            - generic [ref=e399]:
+              - generic "分区导航" [ref=e400]:
+                - tablist "内层分区" [ref=e404]:
+                  - tab "内层一" [selected] [ref=e405] [cursor=pointer]
+                  - tab "内层二" [ref=e408] [cursor=pointer]
+              - tabpanel "内层一" [ref=e412]:
+                - textbox "内层草稿" [ref=e414]
+      - generic [ref=e416]:
+        - heading "独立操作与内容指示线" [level=2] [ref=e417]
+        - generic [ref=e418]:
+          - generic "分区导航" [ref=e419]:
+            - generic [ref=e420]:
+              - button "前置操作" [ref=e422] [cursor=pointer]
+              - tablist "top附加操作" [ref=e426]:
+                - tab "概览" [selected] [ref=e427] [cursor=pointer]:
+                  - generic [ref=e428]:
+                    - generic [ref=e431]: 概览
+                    - generic [ref=e432]: (0)
+                  - generic [ref=e433]: 数量 0
+                - tab "设置" [ref=e434] [cursor=pointer]
+                - tab "课" [ref=e437] [cursor=pointer]:
+                  - generic [ref=e438]:
+                    - generic [ref=e439]: 课
+                    - generic [ref=e440]: (123456789012)
+                  - generic [ref=e441]: 数量 123456789012
+              - button "后置操作" [ref=e443] [cursor=pointer]
+          - tabpanel "概览" [ref=e446]:
+            - paragraph [ref=e447]: 组合内容
+      - generic [ref=e448]:
+        - heading "独立操作与内容指示线" [level=2] [ref=e449]
+        - generic [ref=e450]:
+          - generic "分区导航" [ref=e451]:
+            - generic [ref=e452]:
+              - button "前置操作" [ref=e454] [cursor=pointer]
+              - tablist "bottom附加操作" [ref=e458]:
+                - tab "概览" [selected] [ref=e459] [cursor=pointer]:
+                  - generic [ref=e460]:
+                    - generic [ref=e463]: 概览
+                    - generic [ref=e464]: (0)
+                  - generic [ref=e465]: 数量 0
+                - tab "设置" [ref=e466] [cursor=pointer]
+                - tab "课" [ref=e469] [cursor=pointer]:
+                  - generic [ref=e470]:
+                    - generic [ref=e471]: 课
+                    - generic [ref=e472]: (123456789012)
+                  - generic [ref=e473]: 数量 123456789012
+              - button "后置操作" [ref=e475] [cursor=pointer]
+          - tabpanel "概览" [ref=e478]:
+            - paragraph [ref=e479]: 组合内容
+      - generic [ref=e481]:
+        - generic "分区导航" [ref=e482]:
+          - tablist "left纵向对齐" [ref=e486]:
+            - tab "概览" [selected] [ref=e487] [cursor=pointer]:
+              - generic [ref=e488]:
+                - generic [ref=e491]: 概览
+                - generic [ref=e492]: (0)
+              - generic [ref=e493]: 数量 0
+            - tab "设置" [ref=e494] [cursor=pointer]
+            - tab "课" [ref=e498] [cursor=pointer]:
+              - generic [ref=e499]:
+                - generic [ref=e501]: 课
+                - generic [ref=e502]: (123456789012)
+              - generic [ref=e503]: 数量 123456789012
+        - tabpanel "概览" [ref=e505]:
+          - paragraph [ref=e506]: 组合内容
+      - generic [ref=e508]:
+        - generic "分区导航" [ref=e509]:
+          - tablist "center纵向对齐" [ref=e513]:
+            - tab "概览" [selected] [ref=e514] [cursor=pointer]:
+              - generic [ref=e515]:
+                - generic [ref=e518]: 概览
+                - generic [ref=e519]: (0)
+              - generic [ref=e520]: 数量 0
+            - tab "设置" [ref=e521] [cursor=pointer]
+            - tab "课" [ref=e524] [cursor=pointer]:
+              - generic [ref=e525]:
+                - generic [ref=e526]: 课
+                - generic [ref=e527]: (123456789012)
+              - generic [ref=e528]: 数量 123456789012
+        - tabpanel "概览" [ref=e530]:
+          - paragraph [ref=e531]: 组合内容
+      - generic [ref=e533]:
+        - generic "分区导航" [ref=e534]:
+          - tablist "right纵向对齐" [ref=e538]:
+            - tab "概览" [selected] [ref=e539] [cursor=pointer]:
+              - generic [ref=e540]:
+                - generic [ref=e543]: 概览
+                - generic [ref=e544]: (0)
+              - generic [ref=e545]: 数量 0
+            - tab "设置" [ref=e546] [cursor=pointer]
+            - tab "课" [ref=e549] [cursor=pointer]:
+              - generic [ref=e550]:
+                - generic [ref=e551]: 课
+                - generic [ref=e552]: (123456789012)
+              - generic [ref=e553]: 数量 123456789012
+        - tabpanel "概览" [ref=e555]:
+          - paragraph [ref=e556]: 组合内容
+      - generic [ref=e557]:
+        - heading "initial-disabled" [level=2] [ref=e558]
+        - button "列表前操作" [ref=e559] [cursor=pointer]
+        - generic [ref=e562]:
+          - generic "分区导航" [ref=e563]:
+            - tablist "initial-disabled课程分区" [ref=e567]:
+              - tab "概览" [ref=e568] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [selected] [ref=e573]
+              - tab "学生" [ref=e578] [cursor=pointer]:
+                - generic [ref=e579]:
+                  - generic [ref=e582]: 学生
+                  - generic [ref=e583]: (0)
+                - generic [ref=e584]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e585] [cursor=pointer]
+              - tab "资源" [ref=e590] [cursor=pointer]
+              - tab "讨论" [ref=e595] [cursor=pointer]
+            - group [ref=e600]:
+              - generic "分区说明" [ref=e601]
+          - tabpanel "已归档的历史课程和完整资料" [ref=e603]:
+            - paragraph [ref=e604]: 已归档的历史课程和完整资料内容
+            - textbox "已归档的历史课程和完整资料草稿" [ref=e606]
+        - button "列表后操作" [ref=e608] [cursor=pointer]
+      - generic [ref=e610]:
+        - button "禁用当前分区" [ref=e611] [cursor=pointer]
+        - button "禁用资源分区" [ref=e613] [cursor=pointer]
+        - button "禁用全部分区" [ref=e615] [cursor=pointer]
+        - button "恢复可用分区" [ref=e617] [cursor=pointer]
+        - generic [ref=e619]:
+          - heading "dynamic-disabled" [level=2] [ref=e620]
+          - button "列表前操作" [ref=e621] [cursor=pointer]
+          - generic [ref=e624]:
+            - generic "分区导航" [ref=e625]:
+              - tablist "dynamic-disabled课程分区" [ref=e629]:
+                - tab "概览" [selected] [ref=e630] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e635]
+                - tab "学生" [ref=e640] [cursor=pointer]:
+                  - generic [ref=e641]:
+                    - generic [ref=e644]: 学生
+                    - generic [ref=e645]: (0)
+                  - generic [ref=e646]: 数量 0
+                - tab "完整课堂记录与课后练习资料" [ref=e647] [cursor=pointer]
+                - tab "资源" [ref=e652] [cursor=pointer]
+                - tab "讨论" [ref=e657] [cursor=pointer]
+              - group [ref=e662]:
+                - generic "分区说明" [ref=e663]
+            - tabpanel "概览" [ref=e665]:
+              - paragraph [ref=e666]: 概览内容
+              - textbox "概览草稿" [ref=e668]
+          - button "列表后操作" [ref=e670] [cursor=pointer]
+      - generic [ref=e672]:
+        - button "禁用当前分区" [ref=e673] [cursor=pointer]
+        - button "禁用资源分区" [ref=e675] [cursor=pointer]
+        - button "禁用全部分区" [ref=e677] [cursor=pointer]
+        - button "恢复可用分区" [ref=e679] [cursor=pointer]
+        - generic [ref=e681]:
+          - heading "dynamic-more" [level=2] [ref=e682]
+          - button "列表前操作" [ref=e683] [cursor=pointer]
+          - generic [ref=e686]:
+            - generic "分区导航" [ref=e687]:
+              - generic [ref=e690]:
+                - tablist "dynamic-more课程分区" [ref=e691]:
+                  - tab "概览" [selected] [ref=e692] [cursor=pointer]
+                  - tab "已归档的历史课程和完整资料" [disabled] [ref=e697]
+                  - tab "学生" [ref=e702] [cursor=pointer]:
+                    - generic [ref=e703]:
+                      - generic [ref=e706]: 学生
+                      - generic [ref=e707]: (0)
+                    - generic [ref=e708]: 数量 0
+                - button "更多分区" [ref=e709] [cursor=pointer]:
+                  - generic [ref=e710]: 更多
+              - group [ref=e714]:
+                - generic "分区说明" [ref=e715]
+            - tabpanel "概览" [ref=e717]:
+              - paragraph [ref=e718]: 概览内容
+              - textbox "概览草稿" [ref=e720]
+          - button "列表后操作" [ref=e722] [cursor=pointer]
+      - generic [ref=e724]:
+        - heading "manual" [level=2] [ref=e725]
+        - button "列表前操作" [ref=e726] [cursor=pointer]
+        - generic [ref=e729]:
+          - generic "分区导航" [ref=e730]:
+            - tablist "manual课程分区" [ref=e734]:
+              - tab "概览" [selected] [ref=e735] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e740]
+              - tab "学生" [ref=e745] [cursor=pointer]:
+                - generic [ref=e746]:
+                  - generic [ref=e749]: 学生
+                  - generic [ref=e750]: (0)
+                - generic [ref=e751]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e752] [cursor=pointer]
+              - tab "资源" [ref=e757] [cursor=pointer]
+              - tab "讨论" [ref=e762] [cursor=pointer]
+            - group [ref=e767]:
+              - generic "分区说明" [ref=e768]
+          - tabpanel "概览" [ref=e770]:
+            - paragraph [ref=e771]: 概览内容
+            - textbox "概览草稿" [ref=e773]
+        - button "列表后操作" [ref=e775] [cursor=pointer]
+      - generic [ref=e777]:
+        - heading "automatic" [level=2] [ref=e778]
+        - button "列表前操作" [ref=e779] [cursor=pointer]
+        - generic [ref=e782]:
+          - generic "分区导航" [ref=e783]:
+            - tablist "automatic课程分区" [ref=e787]:
+              - tab "概览" [selected] [ref=e788] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e793]
+              - tab "学生" [ref=e798] [cursor=pointer]:
+                - generic [ref=e799]:
+                  - generic [ref=e802]: 学生
+                  - generic [ref=e803]: (0)
+                - generic [ref=e804]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e805] [cursor=pointer]
+              - tab "资源" [ref=e810] [cursor=pointer]
+              - tab "讨论" [ref=e815] [cursor=pointer]
+            - group [ref=e820]:
+              - generic "分区说明" [ref=e821]
+          - tabpanel "概览" [ref=e823]:
+            - paragraph [ref=e824]: 概览内容
+            - textbox "概览草稿" [ref=e826]
+        - button "列表后操作" [ref=e828] [cursor=pointer]
+      - generic [ref=e830]:
+        - heading "vertical" [level=2] [ref=e831]
+        - button "列表前操作" [ref=e832] [cursor=pointer]
+        - generic [ref=e835]:
+          - generic "分区导航" [ref=e836]:
+            - tablist "vertical课程分区" [ref=e840]:
+              - tab "概览" [selected] [ref=e841] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e846]
+              - tab "学生" [ref=e851] [cursor=pointer]:
+                - generic [ref=e852]:
+                  - generic [ref=e855]: 学生
+                  - generic [ref=e856]: (0)
+                - generic [ref=e857]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e858] [cursor=pointer]
+              - tab "资源" [ref=e863] [cursor=pointer]
+              - tab "讨论" [ref=e868] [cursor=pointer]
+            - group [ref=e873]:
+              - generic "分区说明" [ref=e874]
+          - tabpanel "概览" [ref=e876]:
+            - paragraph [ref=e877]: 概览内容
+            - textbox "概览草稿" [ref=e879]
+        - button "列表后操作" [ref=e881] [cursor=pointer]
+      - generic [ref=e883]:
+        - heading "more" [level=2] [ref=e884]
+        - button "列表前操作" [ref=e885] [cursor=pointer]
+        - generic [ref=e888]:
+          - generic "分区导航" [ref=e889]:
+            - generic [ref=e892]:
+              - tablist "more课程分区" [ref=e893]:
+                - tab "概览" [selected] [ref=e894] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e899]
+                - tab "学生" [ref=e904] [cursor=pointer]:
+                  - generic [ref=e905]:
+                    - generic [ref=e908]: 学生
+                    - generic [ref=e909]: (0)
+                  - generic [ref=e910]: 数量 0
+              - button "更多分区" [ref=e911] [cursor=pointer]:
+                - generic [ref=e912]: 更多
+            - group [ref=e916]:
+              - generic "分区说明" [ref=e917]
+          - tabpanel "概览" [ref=e919]:
+            - paragraph [ref=e920]: 概览内容
+            - textbox "概览草稿" [ref=e922]
+        - button "列表后操作" [ref=e924] [cursor=pointer]
+      - generic [ref=e926]:
+        - heading "controlled" [level=2] [ref=e927]
+        - button "列表前操作" [ref=e928] [cursor=pointer]
+        - generic [ref=e931]:
+          - generic "分区导航" [ref=e932]:
+            - generic [ref=e935]:
+              - tablist "controlled课程分区" [ref=e936]:
+                - tab "概览" [selected] [ref=e937] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e942]
+                - tab "学生" [ref=e947] [cursor=pointer]:
+                  - generic [ref=e948]:
+                    - generic [ref=e951]: 学生
+                    - generic [ref=e952]: (0)
+                  - generic [ref=e953]: 数量 0
+              - button "更多分区" [ref=e954] [cursor=pointer]:
+                - generic [ref=e955]: 更多
+            - group [ref=e959]:
+              - generic "分区说明" [ref=e960]
+          - tabpanel "概览" [ref=e962]:
+            - paragraph [ref=e963]: 概览内容
+            - textbox "概览草稿" [ref=e965]
+        - button "接受待处理选择" [ref=e967] [cursor=pointer]
+        - button "列表后操作" [ref=e969] [cursor=pointer]
+      - generic [ref=e971]:
+        - heading "focus-top" [level=2] [ref=e972]
+        - button "列表前操作" [ref=e973] [cursor=pointer]
+        - generic [ref=e976]:
+          - generic "分区导航" [ref=e977]:
+            - tablist "focus-top课程分区" [ref=e981]:
+              - tab "概览" [selected] [ref=e982] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e987]
+              - tab "学生" [ref=e992] [cursor=pointer]:
+                - generic [ref=e993]:
+                  - generic [ref=e996]: 学生
+                  - generic [ref=e997]: (0)
+                - generic [ref=e998]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e999] [cursor=pointer]
+              - tab "资源" [ref=e1004] [cursor=pointer]
+              - tab "讨论" [ref=e1009] [cursor=pointer]
+            - group [ref=e1014]:
+              - generic "分区说明" [ref=e1015]
+          - tabpanel "概览" [ref=e1017]:
+            - paragraph [ref=e1018]: 概览内容
+            - textbox "概览草稿" [ref=e1020]
+        - button "列表后操作" [ref=e1022] [cursor=pointer]
+      - generic [ref=e1024]:
+        - heading "focus-bottom" [level=2] [ref=e1025]
+        - button "列表前操作" [ref=e1026] [cursor=pointer]
+        - generic [ref=e1029]:
+          - generic "分区导航" [ref=e1030]:
+            - tablist "focus-bottom课程分区" [ref=e1034]:
+              - tab "概览" [selected] [ref=e1035] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1040]
+              - tab "学生" [ref=e1045] [cursor=pointer]:
+                - generic [ref=e1046]:
+                  - generic [ref=e1049]: 学生
+                  - generic [ref=e1050]: (0)
+                - generic [ref=e1051]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1052] [cursor=pointer]
+              - tab "资源" [ref=e1057] [cursor=pointer]
+              - tab "讨论" [ref=e1062] [cursor=pointer]
+            - group [ref=e1067]:
+              - generic "分区说明" [ref=e1068]
+          - tabpanel "概览" [ref=e1070]:
+            - paragraph [ref=e1071]: 概览内容
+            - textbox "概览草稿" [ref=e1073]
+        - button "列表后操作" [ref=e1075] [cursor=pointer]
+      - generic [ref=e1077]:
+        - heading "focus-start" [level=2] [ref=e1078]
+        - button "列表前操作" [ref=e1079] [cursor=pointer]
+        - generic [ref=e1082]:
+          - generic "分区导航" [ref=e1083]:
+            - tablist "focus-start课程分区" [ref=e1087]:
+              - tab "概览" [selected] [ref=e1088] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1093]
+              - tab "学生" [ref=e1098] [cursor=pointer]:
+                - generic [ref=e1099]:
+                  - generic [ref=e1102]: 学生
+                  - generic [ref=e1103]: (0)
+                - generic [ref=e1104]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1105] [cursor=pointer]
+              - tab "资源" [ref=e1110] [cursor=pointer]
+              - tab "讨论" [ref=e1115] [cursor=pointer]
+            - group [ref=e1120]:
+              - generic "分区说明" [ref=e1121]
+          - tabpanel "概览" [ref=e1123]:
+            - paragraph [ref=e1124]: 概览内容
+            - textbox "概览草稿" [ref=e1126]
+        - button "列表后操作" [ref=e1128] [cursor=pointer]
+      - generic [ref=e1130]:
+        - heading "focus-end" [level=2] [ref=e1131]
+        - button "列表前操作" [ref=e1132] [cursor=pointer]
+        - generic [ref=e1135]:
+          - generic "分区导航" [ref=e1136]:
+            - tablist "focus-end课程分区" [ref=e1140]:
+              - tab "概览" [selected] [ref=e1141] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1146]
+              - tab "学生" [ref=e1151] [cursor=pointer]:
+                - generic [ref=e1152]:
+                  - generic [ref=e1155]: 学生
+                  - generic [ref=e1156]: (0)
+                - generic [ref=e1157]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1158] [cursor=pointer]
+              - tab "资源" [ref=e1163] [cursor=pointer]
+              - tab "讨论" [ref=e1168] [cursor=pointer]
+            - group [ref=e1173]:
+              - generic "分区说明" [ref=e1174]
+          - tabpanel "概览" [ref=e1176]:
+            - paragraph [ref=e1177]: 概览内容
+            - textbox "概览草稿" [ref=e1179]
+        - button "列表后操作" [ref=e1181] [cursor=pointer]
+      - generic [ref=e1183]:
+        - heading "geometry-28" [level=2] [ref=e1184]
+        - button "列表前操作" [ref=e1185] [cursor=pointer]
+        - generic [ref=e1188]:
+          - generic "分区导航" [ref=e1189]:
+            - tablist "geometry-28课程分区" [ref=e1193]:
+              - tab "概览" [selected] [ref=e1194] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1199]
+              - tab "学生" [ref=e1204] [cursor=pointer]:
+                - generic [ref=e1205]:
+                  - generic [ref=e1208]: 学生
+                  - generic [ref=e1209]: (0)
+                - generic [ref=e1210]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1211] [cursor=pointer]
+              - tab "资源" [ref=e1216] [cursor=pointer]
+              - tab "讨论" [ref=e1221] [cursor=pointer]
+            - group [ref=e1226]:
+              - generic "分区说明" [ref=e1227]
+          - tabpanel "概览" [ref=e1229]:
+            - paragraph [ref=e1230]: 概览内容
+            - textbox "概览草稿" [ref=e1232]
+        - button "列表后操作" [ref=e1234] [cursor=pointer]
+      - generic [ref=e1236]:
+        - heading "geometry-32" [level=2] [ref=e1237]
+        - button "列表前操作" [ref=e1238] [cursor=pointer]
+        - generic [ref=e1241]:
+          - generic "分区导航" [ref=e1242]:
+            - tablist "geometry-32课程分区" [ref=e1246]:
+              - tab "概览" [selected] [ref=e1247] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1252]
+              - tab "学生" [ref=e1257] [cursor=pointer]:
+                - generic [ref=e1258]:
+                  - generic [ref=e1261]: 学生
+                  - generic [ref=e1262]: (0)
+                - generic [ref=e1263]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1264] [cursor=pointer]
+              - tab "资源" [ref=e1269] [cursor=pointer]
+              - tab "讨论" [ref=e1274] [cursor=pointer]
+            - group [ref=e1279]:
+              - generic "分区说明" [ref=e1280]
+          - tabpanel "概览" [ref=e1282]:
+            - paragraph [ref=e1283]: 概览内容
+            - textbox "概览草稿" [ref=e1285]
+        - button "列表后操作" [ref=e1287] [cursor=pointer]
+      - generic [ref=e1289]:
+        - heading "geometry-38" [level=2] [ref=e1290]
+        - button "列表前操作" [ref=e1291] [cursor=pointer]
+        - generic [ref=e1294]:
+          - generic "分区导航" [ref=e1295]:
+            - tablist "geometry-38课程分区" [ref=e1299]:
+              - tab "概览" [selected] [ref=e1300] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1305]
+              - tab "学生" [ref=e1310] [cursor=pointer]:
+                - generic [ref=e1311]:
+                  - generic [ref=e1314]: 学生
+                  - generic [ref=e1315]: (0)
+                - generic [ref=e1316]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1317] [cursor=pointer]
+              - tab "资源" [ref=e1322] [cursor=pointer]
+              - tab "讨论" [ref=e1327] [cursor=pointer]
+            - group [ref=e1332]:
+              - generic "分区说明" [ref=e1333]
+          - tabpanel "概览" [ref=e1335]:
+            - paragraph [ref=e1336]: 概览内容
+            - textbox "概览草稿" [ref=e1338]
+        - button "列表后操作" [ref=e1340] [cursor=pointer]
+      - generic [ref=e1342]:
+        - heading "line-28-top" [level=2] [ref=e1343]
+        - button "列表前操作" [ref=e1344] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e1346] [cursor=pointer]
+        - generic [ref=e1349]:
+          - generic "分区导航" [ref=e1350]:
+            - tablist "line-28-top课程分区" [ref=e1354]:
+              - tab "概览" [selected] [ref=e1355] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1360]
+              - tab "学生" [ref=e1365] [cursor=pointer]:
+                - generic [ref=e1366]:
+                  - generic [ref=e1369]: 学生
+                  - generic [ref=e1370]: (0)
+                - generic [ref=e1371]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1372] [cursor=pointer]
+              - tab "资源" [ref=e1377] [cursor=pointer]
+              - tab "讨论" [ref=e1382] [cursor=pointer]
+            - group [ref=e1387]:
+              - generic "分区说明" [ref=e1388]
+          - tabpanel "概览" [ref=e1390]:
+            - paragraph [ref=e1391]: 概览内容
+            - textbox "概览草稿" [ref=e1393]
+        - button "列表后操作" [ref=e1395] [cursor=pointer]
+      - generic [ref=e1397]:
+        - heading "line-28-bottom" [level=2] [ref=e1398]
+        - button "列表前操作" [ref=e1399] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e1401] [cursor=pointer]
+        - generic [ref=e1404]:
+          - generic "分区导航" [ref=e1405]:
+            - tablist "line-28-bottom课程分区" [ref=e1409]:
+              - tab "概览" [selected] [ref=e1410] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1415]
+              - tab "学生" [ref=e1420] [cursor=pointer]:
+                - generic [ref=e1421]:
+                  - generic [ref=e1424]: 学生
+                  - generic [ref=e1425]: (0)
+                - generic [ref=e1426]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1427] [cursor=pointer]
+              - tab "资源" [ref=e1432] [cursor=pointer]
+              - tab "讨论" [ref=e1437] [cursor=pointer]
+            - group [ref=e1442]:
+              - generic "分区说明" [ref=e1443]
+          - tabpanel "概览" [ref=e1445]:
+            - paragraph [ref=e1446]: 概览内容
+            - textbox "概览草稿" [ref=e1448]
+        - button "列表后操作" [ref=e1450] [cursor=pointer]
+      - generic [ref=e1452]:
+        - heading "line-28-start" [level=2] [ref=e1453]
+        - button "列表前操作" [ref=e1454] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e1456] [cursor=pointer]
+        - generic [ref=e1459]:
+          - generic "分区导航" [ref=e1460]:
+            - tablist "line-28-start课程分区" [ref=e1464]:
+              - tab "概览" [selected] [ref=e1465] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1470]
+              - tab "学生" [ref=e1475] [cursor=pointer]:
+                - generic [ref=e1476]:
+                  - generic [ref=e1479]: 学生
+                  - generic [ref=e1480]: (0)
+                - generic [ref=e1481]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1482] [cursor=pointer]
+              - tab "资源" [ref=e1487] [cursor=pointer]
+              - tab "讨论" [ref=e1492] [cursor=pointer]
+            - group [ref=e1497]:
+              - generic "分区说明" [ref=e1498]
+          - tabpanel "概览" [ref=e1500]:
+            - paragraph [ref=e1501]: 概览内容
+            - textbox "概览草稿" [ref=e1503]
+        - button "列表后操作" [ref=e1505] [cursor=pointer]
+      - generic [ref=e1507]:
+        - heading "line-28-end" [level=2] [ref=e1508]
+        - button "列表前操作" [ref=e1509] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e1511] [cursor=pointer]
+        - generic [ref=e1514]:
+          - generic "分区导航" [ref=e1515]:
+            - tablist "line-28-end课程分区" [ref=e1519]:
+              - tab "概览" [selected] [ref=e1520] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1525]
+              - tab "学生" [ref=e1530] [cursor=pointer]:
+                - generic [ref=e1531]:
+                  - generic [ref=e1534]: 学生
+                  - generic [ref=e1535]: (0)
+                - generic [ref=e1536]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1537] [cursor=pointer]
+              - tab "资源" [ref=e1542] [cursor=pointer]
+              - tab "讨论" [ref=e1547] [cursor=pointer]
+            - group [ref=e1552]:
+              - generic "分区说明" [ref=e1553]
+          - tabpanel "概览" [ref=e1555]:
+            - paragraph [ref=e1556]: 概览内容
+            - textbox "概览草稿" [ref=e1558]
+        - button "列表后操作" [ref=e1560] [cursor=pointer]
+      - generic [ref=e1562]:
+        - heading "line-32-top" [level=2] [ref=e1563]
+        - button "列表前操作" [ref=e1564] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e1566] [cursor=pointer]
+        - generic [ref=e1569]:
+          - generic "分区导航" [ref=e1570]:
+            - tablist "line-32-top课程分区" [ref=e1574]:
+              - tab "概览" [selected] [ref=e1575] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1580]
+              - tab "学生" [ref=e1585] [cursor=pointer]:
+                - generic [ref=e1586]:
+                  - generic [ref=e1589]: 学生
+                  - generic [ref=e1590]: (0)
+                - generic [ref=e1591]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1592] [cursor=pointer]
+              - tab "资源" [ref=e1597] [cursor=pointer]
+              - tab "讨论" [ref=e1602] [cursor=pointer]
+            - group [ref=e1607]:
+              - generic "分区说明" [ref=e1608]
+          - tabpanel "概览" [ref=e1610]:
+            - paragraph [ref=e1611]: 概览内容
+            - textbox "概览草稿" [ref=e1613]
+        - button "列表后操作" [ref=e1615] [cursor=pointer]
+      - generic [ref=e1617]:
+        - heading "line-32-bottom" [level=2] [ref=e1618]
+        - button "列表前操作" [ref=e1619] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e1621] [cursor=pointer]
+        - generic [ref=e1624]:
+          - generic "分区导航" [ref=e1625]:
+            - tablist "line-32-bottom课程分区" [ref=e1629]:
+              - tab "概览" [selected] [ref=e1630] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1635]
+              - tab "学生" [ref=e1640] [cursor=pointer]:
+                - generic [ref=e1641]:
+                  - generic [ref=e1644]: 学生
+                  - generic [ref=e1645]: (0)
+                - generic [ref=e1646]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1647] [cursor=pointer]
+              - tab "资源" [ref=e1652] [cursor=pointer]
+              - tab "讨论" [ref=e1657] [cursor=pointer]
+            - group [ref=e1662]:
+              - generic "分区说明" [ref=e1663]
+          - tabpanel "概览" [ref=e1665]:
+            - paragraph [ref=e1666]: 概览内容
+            - textbox "概览草稿" [ref=e1668]
+        - button "列表后操作" [ref=e1670] [cursor=pointer]
+      - generic [ref=e1672]:
+        - heading "line-32-start" [level=2] [ref=e1673]
+        - button "列表前操作" [ref=e1674] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e1676] [cursor=pointer]
+        - generic [ref=e1679]:
+          - generic "分区导航" [ref=e1680]:
+            - tablist "line-32-start课程分区" [ref=e1684]:
+              - tab "概览" [selected] [ref=e1685] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1690]
+              - tab "学生" [ref=e1695] [cursor=pointer]:
+                - generic [ref=e1696]:
+                  - generic [ref=e1699]: 学生
+                  - generic [ref=e1700]: (0)
+                - generic [ref=e1701]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1702] [cursor=pointer]
+              - tab "资源" [ref=e1707] [cursor=pointer]
+              - tab "讨论" [ref=e1712] [cursor=pointer]
+            - group [ref=e1717]:
+              - generic "分区说明" [ref=e1718]
+          - tabpanel "概览" [ref=e1720]:
+            - paragraph [ref=e1721]: 概览内容
+            - textbox "概览草稿" [ref=e1723]
+        - button "列表后操作" [ref=e1725] [cursor=pointer]
+      - generic [ref=e1727]:
+        - heading "line-32-end" [level=2] [ref=e1728]
+        - button "列表前操作" [ref=e1729] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e1731] [cursor=pointer]
+        - generic [ref=e1734]:
+          - generic "分区导航" [ref=e1735]:
+            - tablist "line-32-end课程分区" [ref=e1739]:
+              - tab "概览" [selected] [ref=e1740] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1745]
+              - tab "学生" [ref=e1750] [cursor=pointer]:
+                - generic [ref=e1751]:
+                  - generic [ref=e1754]: 学生
+                  - generic [ref=e1755]: (0)
+                - generic [ref=e1756]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1757] [cursor=pointer]
+              - tab "资源" [ref=e1762] [cursor=pointer]
+              - tab "讨论" [ref=e1767] [cursor=pointer]
+            - group [ref=e1772]:
+              - generic "分区说明" [ref=e1773]
+          - tabpanel "概览" [ref=e1775]:
+            - paragraph [ref=e1776]: 概览内容
+            - textbox "概览草稿" [ref=e1778]
+        - button "列表后操作" [ref=e1780] [cursor=pointer]
+      - generic [ref=e1782]:
+        - heading "line-38-top" [level=2] [ref=e1783]
+        - button "列表前操作" [ref=e1784] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e1786] [cursor=pointer]
+        - generic [ref=e1789]:
+          - generic "分区导航" [ref=e1790]:
+            - tablist "line-38-top课程分区" [ref=e1794]:
+              - tab "概览" [selected] [ref=e1795] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1800]
+              - tab "学生" [ref=e1805] [cursor=pointer]:
+                - generic [ref=e1806]:
+                  - generic [ref=e1809]: 学生
+                  - generic [ref=e1810]: (0)
+                - generic [ref=e1811]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1812] [cursor=pointer]
+              - tab "资源" [ref=e1817] [cursor=pointer]
+              - tab "讨论" [ref=e1822] [cursor=pointer]
+            - group [ref=e1827]:
+              - generic "分区说明" [ref=e1828]
+          - tabpanel "概览" [ref=e1830]:
+            - paragraph [ref=e1831]: 概览内容
+            - textbox "概览草稿" [ref=e1833]
+        - button "列表后操作" [ref=e1835] [cursor=pointer]
+      - generic [ref=e1837]:
+        - heading "line-38-bottom" [level=2] [ref=e1838]
+        - button "列表前操作" [ref=e1839] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e1841] [cursor=pointer]
+        - generic [ref=e1844]:
+          - generic "分区导航" [ref=e1845]:
+            - tablist "line-38-bottom课程分区" [ref=e1849]:
+              - tab "概览" [selected] [ref=e1850] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1855]
+              - tab "学生" [ref=e1860] [cursor=pointer]:
+                - generic [ref=e1861]:
+                  - generic [ref=e1864]: 学生
+                  - generic [ref=e1865]: (0)
+                - generic [ref=e1866]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1867] [cursor=pointer]
+              - tab "资源" [ref=e1872] [cursor=pointer]
+              - tab "讨论" [ref=e1877] [cursor=pointer]
+            - group [ref=e1882]:
+              - generic "分区说明" [ref=e1883]
+          - tabpanel "概览" [ref=e1885]:
+            - paragraph [ref=e1886]: 概览内容
+            - textbox "概览草稿" [ref=e1888]
+        - button "列表后操作" [ref=e1890] [cursor=pointer]
+      - generic [ref=e1892]:
+        - heading "line-38-start" [level=2] [ref=e1893]
+        - button "列表前操作" [ref=e1894] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e1896] [cursor=pointer]
+        - generic [ref=e1899]:
+          - generic "分区导航" [ref=e1900]:
+            - tablist "line-38-start课程分区" [ref=e1904]:
+              - tab "概览" [selected] [ref=e1905] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1910]
+              - tab "学生" [ref=e1915] [cursor=pointer]:
+                - generic [ref=e1916]:
+                  - generic [ref=e1919]: 学生
+                  - generic [ref=e1920]: (0)
+                - generic [ref=e1921]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1922] [cursor=pointer]
+              - tab "资源" [ref=e1927] [cursor=pointer]
+              - tab "讨论" [ref=e1932] [cursor=pointer]
+            - group [ref=e1937]:
+              - generic "分区说明" [ref=e1938]
+          - tabpanel "概览" [ref=e1940]:
+            - paragraph [ref=e1941]: 概览内容
+            - textbox "概览草稿" [ref=e1943]
+        - button "列表后操作" [ref=e1945] [cursor=pointer]
+      - generic [ref=e1947]:
+        - heading "line-38-end" [level=2] [ref=e1948]
+        - button "列表前操作" [ref=e1949] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e1951] [cursor=pointer]
+        - generic [ref=e1954]:
+          - generic "分区导航" [ref=e1955]:
+            - tablist "line-38-end课程分区" [ref=e1959]:
+              - tab "概览" [selected] [ref=e1960] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e1965]
+              - tab "学生" [ref=e1970] [cursor=pointer]:
+                - generic [ref=e1971]:
+                  - generic [ref=e1974]: 学生
+                  - generic [ref=e1975]: (0)
+                - generic [ref=e1976]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e1977] [cursor=pointer]
+              - tab "资源" [ref=e1982] [cursor=pointer]
+              - tab "讨论" [ref=e1987] [cursor=pointer]
+            - group [ref=e1992]:
+              - generic "分区说明" [ref=e1993]
+          - tabpanel "概览" [ref=e1995]:
+            - paragraph [ref=e1996]: 概览内容
+            - textbox "概览草稿" [ref=e1998]
+        - button "列表后操作" [ref=e2000] [cursor=pointer]
+      - generic [ref=e2002]:
+        - heading "contained-28-top" [level=2] [ref=e2003]
+        - button "列表前操作" [ref=e2004] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2006] [cursor=pointer]
+        - generic [ref=e2009]:
+          - generic "分区导航" [ref=e2010]:
+            - tablist "contained-28-top课程分区" [ref=e2014]:
+              - tab "概览" [selected] [ref=e2015] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2020]
+              - tab "学生" [ref=e2025] [cursor=pointer]:
+                - generic [ref=e2026]:
+                  - generic [ref=e2029]: 学生
+                  - generic [ref=e2030]: (0)
+                - generic [ref=e2031]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2032] [cursor=pointer]
+              - tab "资源" [ref=e2037] [cursor=pointer]
+              - tab "讨论" [ref=e2042] [cursor=pointer]
+            - group [ref=e2047]:
+              - generic "分区说明" [ref=e2048]
+          - tabpanel "概览" [ref=e2050]:
+            - paragraph [ref=e2051]: 概览内容
+            - textbox "概览草稿" [ref=e2053]
+        - button "列表后操作" [ref=e2055] [cursor=pointer]
+      - generic [ref=e2057]:
+        - heading "contained-28-bottom" [level=2] [ref=e2058]
+        - button "列表前操作" [ref=e2059] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2061] [cursor=pointer]
+        - generic [ref=e2064]:
+          - generic "分区导航" [ref=e2065]:
+            - tablist "contained-28-bottom课程分区" [ref=e2069]:
+              - tab "概览" [selected] [ref=e2070] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2075]
+              - tab "学生" [ref=e2080] [cursor=pointer]:
+                - generic [ref=e2081]:
+                  - generic [ref=e2084]: 学生
+                  - generic [ref=e2085]: (0)
+                - generic [ref=e2086]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2087] [cursor=pointer]
+              - tab "资源" [ref=e2092] [cursor=pointer]
+              - tab "讨论" [ref=e2097] [cursor=pointer]
+            - group [ref=e2102]:
+              - generic "分区说明" [ref=e2103]
+          - tabpanel "概览" [ref=e2105]:
+            - paragraph [ref=e2106]: 概览内容
+            - textbox "概览草稿" [ref=e2108]
+        - button "列表后操作" [ref=e2110] [cursor=pointer]
+      - generic [ref=e2112]:
+        - heading "contained-28-start" [level=2] [ref=e2113]
+        - button "列表前操作" [ref=e2114] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2116] [cursor=pointer]
+        - generic [ref=e2119]:
+          - generic "分区导航" [ref=e2120]:
+            - tablist "contained-28-start课程分区" [ref=e2124]:
+              - tab "概览" [selected] [ref=e2125] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2130]
+              - tab "学生" [ref=e2135] [cursor=pointer]:
+                - generic [ref=e2136]:
+                  - generic [ref=e2139]: 学生
+                  - generic [ref=e2140]: (0)
+                - generic [ref=e2141]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2142] [cursor=pointer]
+              - tab "资源" [ref=e2147] [cursor=pointer]
+              - tab "讨论" [ref=e2152] [cursor=pointer]
+            - group [ref=e2157]:
+              - generic "分区说明" [ref=e2158]
+          - tabpanel "概览" [ref=e2160]:
+            - paragraph [ref=e2161]: 概览内容
+            - textbox "概览草稿" [ref=e2163]
+        - button "列表后操作" [ref=e2165] [cursor=pointer]
+      - generic [ref=e2167]:
+        - heading "contained-28-end" [level=2] [ref=e2168]
+        - button "列表前操作" [ref=e2169] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2171] [cursor=pointer]
+        - generic [ref=e2174]:
+          - generic "分区导航" [ref=e2175]:
+            - tablist "contained-28-end课程分区" [ref=e2179]:
+              - tab "概览" [selected] [ref=e2180] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2185]
+              - tab "学生" [ref=e2190] [cursor=pointer]:
+                - generic [ref=e2191]:
+                  - generic [ref=e2194]: 学生
+                  - generic [ref=e2195]: (0)
+                - generic [ref=e2196]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2197] [cursor=pointer]
+              - tab "资源" [ref=e2202] [cursor=pointer]
+              - tab "讨论" [ref=e2207] [cursor=pointer]
+            - group [ref=e2212]:
+              - generic "分区说明" [ref=e2213]
+          - tabpanel "概览" [ref=e2215]:
+            - paragraph [ref=e2216]: 概览内容
+            - textbox "概览草稿" [ref=e2218]
+        - button "列表后操作" [ref=e2220] [cursor=pointer]
+      - generic [ref=e2222]:
+        - heading "contained-32-top" [level=2] [ref=e2223]
+        - button "列表前操作" [ref=e2224] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2226] [cursor=pointer]
+        - generic [ref=e2229]:
+          - generic "分区导航" [ref=e2230]:
+            - tablist "contained-32-top课程分区" [ref=e2234]:
+              - tab "概览" [selected] [ref=e2235] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2240]
+              - tab "学生" [ref=e2245] [cursor=pointer]:
+                - generic [ref=e2246]:
+                  - generic [ref=e2249]: 学生
+                  - generic [ref=e2250]: (0)
+                - generic [ref=e2251]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2252] [cursor=pointer]
+              - tab "资源" [ref=e2257] [cursor=pointer]
+              - tab "讨论" [ref=e2262] [cursor=pointer]
+            - group [ref=e2267]:
+              - generic "分区说明" [ref=e2268]
+          - tabpanel "概览" [ref=e2270]:
+            - paragraph [ref=e2271]: 概览内容
+            - textbox "概览草稿" [ref=e2273]
+        - button "列表后操作" [ref=e2275] [cursor=pointer]
+      - generic [ref=e2277]:
+        - heading "contained-32-bottom" [level=2] [ref=e2278]
+        - button "列表前操作" [ref=e2279] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2281] [cursor=pointer]
+        - generic [ref=e2284]:
+          - generic "分区导航" [ref=e2285]:
+            - tablist "contained-32-bottom课程分区" [ref=e2289]:
+              - tab "概览" [selected] [ref=e2290] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2295]
+              - tab "学生" [ref=e2300] [cursor=pointer]:
+                - generic [ref=e2301]:
+                  - generic [ref=e2304]: 学生
+                  - generic [ref=e2305]: (0)
+                - generic [ref=e2306]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2307] [cursor=pointer]
+              - tab "资源" [ref=e2312] [cursor=pointer]
+              - tab "讨论" [ref=e2317] [cursor=pointer]
+            - group [ref=e2322]:
+              - generic "分区说明" [ref=e2323]
+          - tabpanel "概览" [ref=e2325]:
+            - paragraph [ref=e2326]: 概览内容
+            - textbox "概览草稿" [ref=e2328]
+        - button "列表后操作" [ref=e2330] [cursor=pointer]
+      - generic [ref=e2332]:
+        - heading "contained-32-start" [level=2] [ref=e2333]
+        - button "列表前操作" [ref=e2334] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2336] [cursor=pointer]
+        - generic [ref=e2339]:
+          - generic "分区导航" [ref=e2340]:
+            - tablist "contained-32-start课程分区" [ref=e2344]:
+              - tab "概览" [selected] [ref=e2345] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2350]
+              - tab "学生" [ref=e2355] [cursor=pointer]:
+                - generic [ref=e2356]:
+                  - generic [ref=e2359]: 学生
+                  - generic [ref=e2360]: (0)
+                - generic [ref=e2361]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2362] [cursor=pointer]
+              - tab "资源" [ref=e2367] [cursor=pointer]
+              - tab "讨论" [ref=e2372] [cursor=pointer]
+            - group [ref=e2377]:
+              - generic "分区说明" [ref=e2378]
+          - tabpanel "概览" [ref=e2380]:
+            - paragraph [ref=e2381]: 概览内容
+            - textbox "概览草稿" [ref=e2383]
+        - button "列表后操作" [ref=e2385] [cursor=pointer]
+      - generic [ref=e2387]:
+        - heading "contained-32-end" [level=2] [ref=e2388]
+        - button "列表前操作" [ref=e2389] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2391] [cursor=pointer]
+        - generic [ref=e2394]:
+          - generic "分区导航" [ref=e2395]:
+            - tablist "contained-32-end课程分区" [ref=e2399]:
+              - tab "概览" [selected] [ref=e2400] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2405]
+              - tab "学生" [ref=e2410] [cursor=pointer]:
+                - generic [ref=e2411]:
+                  - generic [ref=e2414]: 学生
+                  - generic [ref=e2415]: (0)
+                - generic [ref=e2416]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2417] [cursor=pointer]
+              - tab "资源" [ref=e2422] [cursor=pointer]
+              - tab "讨论" [ref=e2427] [cursor=pointer]
+            - group [ref=e2432]:
+              - generic "分区说明" [ref=e2433]
+          - tabpanel "概览" [ref=e2435]:
+            - paragraph [ref=e2436]: 概览内容
+            - textbox "概览草稿" [ref=e2438]
+        - button "列表后操作" [ref=e2440] [cursor=pointer]
+      - generic [ref=e2442]:
+        - heading "contained-38-top" [level=2] [ref=e2443]
+        - button "列表前操作" [ref=e2444] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2446] [cursor=pointer]
+        - generic [ref=e2449]:
+          - generic "分区导航" [ref=e2450]:
+            - tablist "contained-38-top课程分区" [ref=e2454]:
+              - tab "概览" [selected] [ref=e2455] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2460]
+              - tab "学生" [ref=e2465] [cursor=pointer]:
+                - generic [ref=e2466]:
+                  - generic [ref=e2469]: 学生
+                  - generic [ref=e2470]: (0)
+                - generic [ref=e2471]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2472] [cursor=pointer]
+              - tab "资源" [ref=e2477] [cursor=pointer]
+              - tab "讨论" [ref=e2482] [cursor=pointer]
+            - group [ref=e2487]:
+              - generic "分区说明" [ref=e2488]
+          - tabpanel "概览" [ref=e2490]:
+            - paragraph [ref=e2491]: 概览内容
+            - textbox "概览草稿" [ref=e2493]
+        - button "列表后操作" [ref=e2495] [cursor=pointer]
+      - generic [ref=e2497]:
+        - heading "contained-38-bottom" [level=2] [ref=e2498]
+        - button "列表前操作" [ref=e2499] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2501] [cursor=pointer]
+        - generic [ref=e2504]:
+          - generic "分区导航" [ref=e2505]:
+            - tablist "contained-38-bottom课程分区" [ref=e2509]:
+              - tab "概览" [selected] [ref=e2510] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2515]
+              - tab "学生" [ref=e2520] [cursor=pointer]:
+                - generic [ref=e2521]:
+                  - generic [ref=e2524]: 学生
+                  - generic [ref=e2525]: (0)
+                - generic [ref=e2526]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2527] [cursor=pointer]
+              - tab "资源" [ref=e2532] [cursor=pointer]
+              - tab "讨论" [ref=e2537] [cursor=pointer]
+            - group [ref=e2542]:
+              - generic "分区说明" [ref=e2543]
+          - tabpanel "概览" [ref=e2545]:
+            - paragraph [ref=e2546]: 概览内容
+            - textbox "概览草稿" [ref=e2548]
+        - button "列表后操作" [ref=e2550] [cursor=pointer]
+      - generic [ref=e2552]:
+        - heading "contained-38-start" [level=2] [ref=e2553]
+        - button "列表前操作" [ref=e2554] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2556] [cursor=pointer]
+        - generic [ref=e2559]:
+          - generic "分区导航" [ref=e2560]:
+            - tablist "contained-38-start课程分区" [ref=e2564]:
+              - tab "概览" [selected] [ref=e2565] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2570]
+              - tab "学生" [ref=e2575] [cursor=pointer]:
+                - generic [ref=e2576]:
+                  - generic [ref=e2579]: 学生
+                  - generic [ref=e2580]: (0)
+                - generic [ref=e2581]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2582] [cursor=pointer]
+              - tab "资源" [ref=e2587] [cursor=pointer]
+              - tab "讨论" [ref=e2592] [cursor=pointer]
+            - group [ref=e2597]:
+              - generic "分区说明" [ref=e2598]
+          - tabpanel "概览" [ref=e2600]:
+            - paragraph [ref=e2601]: 概览内容
+            - textbox "概览草稿" [ref=e2603]
+        - button "列表后操作" [ref=e2605] [cursor=pointer]
+      - generic [ref=e2607]:
+        - heading "contained-38-end" [level=2] [ref=e2608]
+        - button "列表前操作" [ref=e2609] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2611] [cursor=pointer]
+        - generic [ref=e2614]:
+          - generic "分区导航" [ref=e2615]:
+            - tablist "contained-38-end课程分区" [ref=e2619]:
+              - tab "概览" [selected] [ref=e2620] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2625]
+              - tab "学生" [ref=e2630] [cursor=pointer]:
+                - generic [ref=e2631]:
+                  - generic [ref=e2634]: 学生
+                  - generic [ref=e2635]: (0)
+                - generic [ref=e2636]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2637] [cursor=pointer]
+              - tab "资源" [ref=e2642] [cursor=pointer]
+              - tab "讨论" [ref=e2647] [cursor=pointer]
+            - group [ref=e2652]:
+              - generic "分区说明" [ref=e2653]
+          - tabpanel "概览" [ref=e2655]:
+            - paragraph [ref=e2656]: 概览内容
+            - textbox "概览草稿" [ref=e2658]
+        - button "列表后操作" [ref=e2660] [cursor=pointer]
+      - generic [ref=e2662]:
+        - heading "soft-28-top" [level=2] [ref=e2663]
+        - button "列表前操作" [ref=e2664] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2666] [cursor=pointer]
+        - generic [ref=e2669]:
+          - generic "分区导航" [ref=e2670]:
+            - tablist "soft-28-top课程分区" [ref=e2674]:
+              - tab "概览" [selected] [ref=e2675] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2680]
+              - tab "学生" [ref=e2685] [cursor=pointer]:
+                - generic [ref=e2686]:
+                  - generic [ref=e2689]: 学生
+                  - generic [ref=e2690]: (0)
+                - generic [ref=e2691]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2692] [cursor=pointer]
+              - tab "资源" [ref=e2697] [cursor=pointer]
+              - tab "讨论" [ref=e2702] [cursor=pointer]
+            - group [ref=e2707]:
+              - generic "分区说明" [ref=e2708]
+          - tabpanel "概览" [ref=e2710]:
+            - paragraph [ref=e2711]: 概览内容
+            - textbox "概览草稿" [ref=e2713]
+        - button "列表后操作" [ref=e2715] [cursor=pointer]
+      - generic [ref=e2717]:
+        - heading "soft-28-bottom" [level=2] [ref=e2718]
+        - button "列表前操作" [ref=e2719] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2721] [cursor=pointer]
+        - generic [ref=e2724]:
+          - generic "分区导航" [ref=e2725]:
+            - tablist "soft-28-bottom课程分区" [ref=e2729]:
+              - tab "概览" [selected] [ref=e2730] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2735]
+              - tab "学生" [ref=e2740] [cursor=pointer]:
+                - generic [ref=e2741]:
+                  - generic [ref=e2744]: 学生
+                  - generic [ref=e2745]: (0)
+                - generic [ref=e2746]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2747] [cursor=pointer]
+              - tab "资源" [ref=e2752] [cursor=pointer]
+              - tab "讨论" [ref=e2757] [cursor=pointer]
+            - group [ref=e2762]:
+              - generic "分区说明" [ref=e2763]
+          - tabpanel "概览" [ref=e2765]:
+            - paragraph [ref=e2766]: 概览内容
+            - textbox "概览草稿" [ref=e2768]
+        - button "列表后操作" [ref=e2770] [cursor=pointer]
+      - generic [ref=e2772]:
+        - heading "soft-28-start" [level=2] [ref=e2773]
+        - button "列表前操作" [ref=e2774] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2776] [cursor=pointer]
+        - generic [ref=e2779]:
+          - generic "分区导航" [ref=e2780]:
+            - tablist "soft-28-start课程分区" [ref=e2784]:
+              - tab "概览" [selected] [ref=e2785] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2790]
+              - tab "学生" [ref=e2795] [cursor=pointer]:
+                - generic [ref=e2796]:
+                  - generic [ref=e2799]: 学生
+                  - generic [ref=e2800]: (0)
+                - generic [ref=e2801]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2802] [cursor=pointer]
+              - tab "资源" [ref=e2807] [cursor=pointer]
+              - tab "讨论" [ref=e2812] [cursor=pointer]
+            - group [ref=e2817]:
+              - generic "分区说明" [ref=e2818]
+          - tabpanel "概览" [ref=e2820]:
+            - paragraph [ref=e2821]: 概览内容
+            - textbox "概览草稿" [ref=e2823]
+        - button "列表后操作" [ref=e2825] [cursor=pointer]
+      - generic [ref=e2827]:
+        - heading "soft-28-end" [level=2] [ref=e2828]
+        - button "列表前操作" [ref=e2829] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2831] [cursor=pointer]
+        - generic [ref=e2834]:
+          - generic "分区导航" [ref=e2835]:
+            - tablist "soft-28-end课程分区" [ref=e2839]:
+              - tab "概览" [selected] [ref=e2840] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2845]
+              - tab "学生" [ref=e2850] [cursor=pointer]:
+                - generic [ref=e2851]:
+                  - generic [ref=e2854]: 学生
+                  - generic [ref=e2855]: (0)
+                - generic [ref=e2856]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2857] [cursor=pointer]
+              - tab "资源" [ref=e2862] [cursor=pointer]
+              - tab "讨论" [ref=e2867] [cursor=pointer]
+            - group [ref=e2872]:
+              - generic "分区说明" [ref=e2873]
+          - tabpanel "概览" [ref=e2875]:
+            - paragraph [ref=e2876]: 概览内容
+            - textbox "概览草稿" [ref=e2878]
+        - button "列表后操作" [ref=e2880] [cursor=pointer]
+      - generic [ref=e2882]:
+        - heading "soft-32-top" [level=2] [ref=e2883]
+        - button "列表前操作" [ref=e2884] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2886] [cursor=pointer]
+        - generic [ref=e2889]:
+          - generic "分区导航" [ref=e2890]:
+            - tablist "soft-32-top课程分区" [ref=e2894]:
+              - tab "概览" [selected] [ref=e2895] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2900]
+              - tab "学生" [ref=e2905] [cursor=pointer]:
+                - generic [ref=e2906]:
+                  - generic [ref=e2909]: 学生
+                  - generic [ref=e2910]: (0)
+                - generic [ref=e2911]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2912] [cursor=pointer]
+              - tab "资源" [ref=e2917] [cursor=pointer]
+              - tab "讨论" [ref=e2922] [cursor=pointer]
+            - group [ref=e2927]:
+              - generic "分区说明" [ref=e2928]
+          - tabpanel "概览" [ref=e2930]:
+            - paragraph [ref=e2931]: 概览内容
+            - textbox "概览草稿" [ref=e2933]
+        - button "列表后操作" [ref=e2935] [cursor=pointer]
+      - generic [ref=e2937]:
+        - heading "soft-32-bottom" [level=2] [ref=e2938]
+        - button "列表前操作" [ref=e2939] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2941] [cursor=pointer]
+        - generic [ref=e2944]:
+          - generic "分区导航" [ref=e2945]:
+            - tablist "soft-32-bottom课程分区" [ref=e2949]:
+              - tab "概览" [selected] [ref=e2950] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e2955]
+              - tab "学生" [ref=e2960] [cursor=pointer]:
+                - generic [ref=e2961]:
+                  - generic [ref=e2964]: 学生
+                  - generic [ref=e2965]: (0)
+                - generic [ref=e2966]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e2967] [cursor=pointer]
+              - tab "资源" [ref=e2972] [cursor=pointer]
+              - tab "讨论" [ref=e2977] [cursor=pointer]
+            - group [ref=e2982]:
+              - generic "分区说明" [ref=e2983]
+          - tabpanel "概览" [ref=e2985]:
+            - paragraph [ref=e2986]: 概览内容
+            - textbox "概览草稿" [ref=e2988]
+        - button "列表后操作" [ref=e2990] [cursor=pointer]
+      - generic [ref=e2992]:
+        - heading "soft-32-start" [level=2] [ref=e2993]
+        - button "列表前操作" [ref=e2994] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e2996] [cursor=pointer]
+        - generic [ref=e2999]:
+          - generic "分区导航" [ref=e3000]:
+            - tablist "soft-32-start课程分区" [ref=e3004]:
+              - tab "概览" [selected] [ref=e3005] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e3010]
+              - tab "学生" [ref=e3015] [cursor=pointer]:
+                - generic [ref=e3016]:
+                  - generic [ref=e3019]: 学生
+                  - generic [ref=e3020]: (0)
+                - generic [ref=e3021]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e3022] [cursor=pointer]
+              - tab "资源" [ref=e3027] [cursor=pointer]
+              - tab "讨论" [ref=e3032] [cursor=pointer]
+            - group [ref=e3037]:
+              - generic "分区说明" [ref=e3038]
+          - tabpanel "概览" [ref=e3040]:
+            - paragraph [ref=e3041]: 概览内容
+            - textbox "概览草稿" [ref=e3043]
+        - button "列表后操作" [ref=e3045] [cursor=pointer]
+      - generic [ref=e3047]:
+        - heading "soft-32-end" [level=2] [ref=e3048]
+        - button "列表前操作" [ref=e3049] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e3051] [cursor=pointer]
+        - generic [ref=e3054]:
+          - generic "分区导航" [ref=e3055]:
+            - tablist "soft-32-end课程分区" [ref=e3059]:
+              - tab "概览" [selected] [ref=e3060] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e3065]
+              - tab "学生" [ref=e3070] [cursor=pointer]:
+                - generic [ref=e3071]:
+                  - generic [ref=e3074]: 学生
+                  - generic [ref=e3075]: (0)
+                - generic [ref=e3076]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e3077] [cursor=pointer]
+              - tab "资源" [ref=e3082] [cursor=pointer]
+              - tab "讨论" [ref=e3087] [cursor=pointer]
+            - group [ref=e3092]:
+              - generic "分区说明" [ref=e3093]
+          - tabpanel "概览" [ref=e3095]:
+            - paragraph [ref=e3096]: 概览内容
+            - textbox "概览草稿" [ref=e3098]
+        - button "列表后操作" [ref=e3100] [cursor=pointer]
+      - generic [ref=e3102]:
+        - heading "soft-38-top" [level=2] [ref=e3103]
+        - button "列表前操作" [ref=e3104] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e3106] [cursor=pointer]
+        - generic [ref=e3109]:
+          - generic "分区导航" [ref=e3110]:
+            - tablist "soft-38-top课程分区" [ref=e3114]:
+              - tab "概览" [selected] [ref=e3115] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e3120]
+              - tab "学生" [ref=e3125] [cursor=pointer]:
+                - generic [ref=e3126]:
+                  - generic [ref=e3129]: 学生
+                  - generic [ref=e3130]: (0)
+                - generic [ref=e3131]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e3132] [cursor=pointer]
+              - tab "资源" [ref=e3137] [cursor=pointer]
+              - tab "讨论" [ref=e3142] [cursor=pointer]
+            - group [ref=e3147]:
+              - generic "分区说明" [ref=e3148]
+          - tabpanel "概览" [ref=e3150]:
+            - paragraph [ref=e3151]: 概览内容
+            - textbox "概览草稿" [ref=e3153]
+        - button "列表后操作" [ref=e3155] [cursor=pointer]
+      - generic [ref=e3157]:
+        - heading "soft-38-bottom" [level=2] [ref=e3158]
+        - button "列表前操作" [ref=e3159] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e3161] [cursor=pointer]
+        - generic [ref=e3164]:
+          - generic "分区导航" [ref=e3165]:
+            - tablist "soft-38-bottom课程分区" [ref=e3169]:
+              - tab "概览" [selected] [ref=e3170] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e3175]
+              - tab "学生" [ref=e3180] [cursor=pointer]:
+                - generic [ref=e3181]:
+                  - generic [ref=e3184]: 学生
+                  - generic [ref=e3185]: (0)
+                - generic [ref=e3186]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e3187] [cursor=pointer]
+              - tab "资源" [ref=e3192] [cursor=pointer]
+              - tab "讨论" [ref=e3197] [cursor=pointer]
+            - group [ref=e3202]:
+              - generic "分区说明" [ref=e3203]
+          - tabpanel "概览" [ref=e3205]:
+            - paragraph [ref=e3206]: 概览内容
+            - textbox "概览草稿" [ref=e3208]
+        - button "列表后操作" [ref=e3210] [cursor=pointer]
+      - generic [ref=e3212]:
+        - heading "soft-38-start" [level=2] [ref=e3213]
+        - button "列表前操作" [ref=e3214] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e3216] [cursor=pointer]
+        - generic [ref=e3219]:
+          - generic "分区导航" [ref=e3220]:
+            - tablist "soft-38-start课程分区" [ref=e3224]:
+              - tab "概览" [selected] [ref=e3225] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e3230]
+              - tab "学生" [ref=e3235] [cursor=pointer]:
+                - generic [ref=e3236]:
+                  - generic [ref=e3239]: 学生
+                  - generic [ref=e3240]: (0)
+                - generic [ref=e3241]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e3242] [cursor=pointer]
+              - tab "资源" [ref=e3247] [cursor=pointer]
+              - tab "讨论" [ref=e3252] [cursor=pointer]
+            - group [ref=e3257]:
+              - generic "分区说明" [ref=e3258]
+          - tabpanel "概览" [ref=e3260]:
+            - paragraph [ref=e3261]: 概览内容
+            - textbox "概览草稿" [ref=e3263]
+        - button "列表后操作" [ref=e3265] [cursor=pointer]
+      - generic [ref=e3267]:
+        - heading "soft-38-end" [level=2] [ref=e3268]
+        - button "列表前操作" [ref=e3269] [cursor=pointer]
+        - button "切换学生禁用状态" [ref=e3271] [cursor=pointer]
+        - generic [ref=e3274]:
+          - generic "分区导航" [ref=e3275]:
+            - tablist "soft-38-end课程分区" [ref=e3279]:
+              - tab "概览" [selected] [ref=e3280] [cursor=pointer]
+              - tab "已归档的历史课程和完整资料" [disabled] [ref=e3285]
+              - tab "学生" [ref=e3290] [cursor=pointer]:
+                - generic [ref=e3291]:
+                  - generic [ref=e3294]: 学生
+                  - generic [ref=e3295]: (0)
+                - generic [ref=e3296]: 数量 0
+              - tab "完整课堂记录与课后练习资料" [ref=e3297] [cursor=pointer]
+              - tab "资源" [ref=e3302] [cursor=pointer]
+              - tab "讨论" [ref=e3307] [cursor=pointer]
+            - group [ref=e3312]:
+              - generic "分区说明" [ref=e3313]
+          - tabpanel "概览" [ref=e3315]:
+            - paragraph [ref=e3316]: 概览内容
+            - textbox "概览草稿" [ref=e3318]
+        - button "列表后操作" [ref=e3320] [cursor=pointer]
+      - group [ref=e3322]:
+        - generic "布局与换向检查" [ref=e3323]
+        - generic [ref=e3324]:
+          - heading "按可用空间换向" [level=2] [ref=e3325]
+          - button "展开空间" [ref=e3326] [cursor=pointer]
+          - button "收窄空间" [ref=e3328] [cursor=pointer]
+          - button "切换左右侧" [ref=e3330] [cursor=pointer]
+          - button "更新长数量" [ref=e3332] [cursor=pointer]
+          - button "接受待处理选择" [ref=e3334] [cursor=pointer]
+          - generic [ref=e3337]:
+            - generic "分区导航" [ref=e3338]:
+              - tablist "响应式课程" [ref=e3342]:
+                - tab "课程概览" [selected] [ref=e3343] [cursor=pointer]
+                - tab "待评作业" [ref=e3347] [cursor=pointer]:
+                  - generic [ref=e3348]:
+                    - generic [ref=e3350]: 待评作业
+                    - generic [ref=e3351]: (0)
+                  - generic [ref=e3352]: 数量 0
+                - tab "课程资料" [ref=e3353] [cursor=pointer]
+                - tab "学生" [ref=e3358] [cursor=pointer]:
+                  - generic [ref=e3359]:
+                    - generic [ref=e3362]: 学生
+                    - generic [ref=e3363]: (128)
+                  - generic [ref=e3364]: 数量 128
+            - tabpanel "课程概览" [ref=e3366]:
+              - generic [ref=e3367]:
+                - paragraph [ref=e3368]: 课程概览的模拟课程内容。切换分区后，已输入的草稿会留在本页。
+                - textbox "课程概览备注" [ref=e3370]:
+                  - /placeholder: 填写一条备注
+                - generic [ref=e3372]:
+                  - button "保存备注" [ref=e3373] [cursor=pointer]
+                  - status
+          - textbox "分区外的备注" [ref=e3376]
+        - generic [ref=e3378]:
+          - heading "宿主确认后的换向" [level=2] [ref=e3379]
+          - button "展开空间" [ref=e3380] [cursor=pointer]
+          - button "收窄空间" [ref=e3382] [cursor=pointer]
+          - button "切换左右侧" [ref=e3384] [cursor=pointer]
+          - button "更新长数量" [ref=e3386] [cursor=pointer]
+          - button "接受待处理选择" [ref=e3388] [cursor=pointer]
+          - generic [ref=e3391]:
+            - generic "分区导航" [ref=e3392]:
+              - tablist "响应式课程" [ref=e3396]:
+                - tab "课程概览" [selected] [ref=e3397] [cursor=pointer]
+                - tab "待评作业" [ref=e3401] [cursor=pointer]:
+                  - generic [ref=e3402]:
+                    - generic [ref=e3404]: 待评作业
+                    - generic [ref=e3405]: (0)
+                  - generic [ref=e3406]: 数量 0
+                - tab "课程资料" [ref=e3407] [cursor=pointer]
+                - tab "学生" [ref=e3412] [cursor=pointer]:
+                  - generic [ref=e3413]:
+                    - generic [ref=e3416]: 学生
+                    - generic [ref=e3417]: (128)
+                  - generic [ref=e3418]: 数量 128
+            - tabpanel "课程概览" [ref=e3420]:
+              - generic [ref=e3421]:
+                - paragraph [ref=e3422]: 课程概览的模拟课程内容。切换分区后，已输入的草稿会留在本页。
+                - textbox "课程概览备注" [ref=e3424]:
+                  - /placeholder: 填写一条备注
+                - generic [ref=e3426]:
+                  - button "保存备注" [ref=e3427] [cursor=pointer]
+                  - status
+          - textbox "分区外的备注" [ref=e3430]
+        - generic [ref=e3432]:
+          - heading "自动激活与未选择状态" [level=2] [ref=e3433]
+          - button "切换可用空间" [ref=e3434] [cursor=pointer]
+          - generic "分区导航" [ref=e3438]:
+            - generic [ref=e3441]:
+              - tablist "自动激活换向" [ref=e3442]:
+                - tab "课程概览" [ref=e3443] [cursor=pointer]
+                - tab "待评作业" [ref=e3446] [cursor=pointer]:
+                  - generic [ref=e3447]:
+                    - generic [ref=e3448]: 待评作业
+                    - generic [ref=e3449]: (0)
+                  - generic [ref=e3450]: 数量 0
+              - button "更多分区" [ref=e3451] [cursor=pointer]:
+                - generic [ref=e3452]: 更多
+        - generic [ref=e3456]:
+          - heading "自动激活与禁用回显" [level=2] [ref=e3457]
+          - button "切换可用空间" [ref=e3458] [cursor=pointer]
+          - generic [ref=e3461]:
+            - generic "分区导航" [ref=e3462]:
+              - generic [ref=e3465]:
+                - tablist "自动激活换向" [ref=e3466]:
+                  - tab "课程资料" [ref=e3467] [cursor=pointer]
+                  - tab "学生" [disabled] [selected] [ref=e3472]:
+                    - generic [ref=e3473]:
+                      - generic [ref=e3476]: 学生
+                      - generic [ref=e3477]: (128)
+                    - generic [ref=e3478]: 数量 128
+                - button "更多分区" [ref=e3479] [cursor=pointer]:
+                  - generic [ref=e3480]: 更多
+              - group [ref=e3484]:
+                - generic "分区说明" [ref=e3485]
+            - tabpanel "学生" [ref=e3487]:
+              - generic [ref=e3488]:
+                - paragraph [ref=e3489]: 学生的模拟课程内容。切换分区后，已输入的草稿会留在本页。
+                - textbox "学生备注" [ref=e3491]:
+                  - /placeholder: 填写一条备注
+                - generic [ref=e3493]:
+                  - button "保存备注" [ref=e3494] [cursor=pointer]
+                  - status
+        - generic [ref=e3496]:
+          - heading "layout-line-28-top" [level=2] [ref=e3497]
+          - button "列表前操作" [ref=e3498] [cursor=pointer]
+          - generic [ref=e3501]:
+            - generic "分区导航" [ref=e3502]:
+              - tablist "layout-line-28-top课程分区" [ref=e3506]:
+                - tab "概览" [selected] [ref=e3507] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e3510]
+                - tab "学生" [ref=e3515] [cursor=pointer]:
+                  - generic [ref=e3516]:
+                    - generic [ref=e3517]: 学生
+                    - generic [ref=e3518]: (0)
+                  - generic [ref=e3519]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e3520] [cursor=pointer]:
+                  - generic [ref=e3521]:
+                    - generic [ref=e3524]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e3525]: (128)
+                  - generic [ref=e3526]: 数量 128
+                - tab "资源" [ref=e3527] [cursor=pointer]
+                - tab "讨论" [ref=e3530] [cursor=pointer]
+              - group [ref=e3535]:
+                - generic "分区说明" [ref=e3536]
+            - tabpanel "概览" [ref=e3538]:
+              - paragraph [ref=e3539]: 概览内容
+              - textbox "概览草稿" [ref=e3541]
+          - button "列表后操作" [ref=e3543] [cursor=pointer]
+        - generic [ref=e3545]:
+          - heading "layout-line-28-bottom" [level=2] [ref=e3546]
+          - button "列表前操作" [ref=e3547] [cursor=pointer]
+          - generic [ref=e3550]:
+            - generic "分区导航" [ref=e3551]:
+              - tablist "layout-line-28-bottom课程分区" [ref=e3555]:
+                - tab "概览" [selected] [ref=e3556] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e3559]
+                - tab "学生" [ref=e3564] [cursor=pointer]:
+                  - generic [ref=e3565]:
+                    - generic [ref=e3566]: 学生
+                    - generic [ref=e3567]: (0)
+                  - generic [ref=e3568]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e3569] [cursor=pointer]:
+                  - generic [ref=e3570]:
+                    - generic [ref=e3573]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e3574]: (128)
+                  - generic [ref=e3575]: 数量 128
+                - tab "资源" [ref=e3576] [cursor=pointer]
+                - tab "讨论" [ref=e3579] [cursor=pointer]
+              - group [ref=e3584]:
+                - generic "分区说明" [ref=e3585]
+            - tabpanel "概览" [ref=e3587]:
+              - paragraph [ref=e3588]: 概览内容
+              - textbox "概览草稿" [ref=e3590]
+          - button "列表后操作" [ref=e3592] [cursor=pointer]
+        - generic [ref=e3594]:
+          - heading "layout-line-28-start" [level=2] [ref=e3595]
+          - button "列表前操作" [ref=e3596] [cursor=pointer]
+          - generic [ref=e3599]:
+            - generic "分区导航" [ref=e3600]:
+              - tablist "layout-line-28-start课程分区" [ref=e3604]:
+                - tab "概览" [selected] [ref=e3605] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e3609]
+                - tab "学生" [ref=e3614] [cursor=pointer]:
+                  - generic [ref=e3615]:
+                    - generic [ref=e3617]: 学生
+                    - generic [ref=e3618]: (0)
+                  - generic [ref=e3619]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e3620] [cursor=pointer]:
+                  - generic [ref=e3621]:
+                    - generic [ref=e3624]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e3625]: (128)
+                  - generic [ref=e3626]: 数量 128
+                - tab "资源" [ref=e3627] [cursor=pointer]
+                - tab "讨论" [ref=e3631] [cursor=pointer]
+              - group [ref=e3636]:
+                - generic "分区说明" [ref=e3637]
+            - tabpanel "概览" [ref=e3639]:
+              - paragraph [ref=e3640]: 概览内容
+              - textbox "概览草稿" [ref=e3642]
+          - button "列表后操作" [ref=e3644] [cursor=pointer]
+        - generic [ref=e3646]:
+          - heading "layout-line-28-end" [level=2] [ref=e3647]
+          - button "列表前操作" [ref=e3648] [cursor=pointer]
+          - generic [ref=e3651]:
+            - generic "分区导航" [ref=e3652]:
+              - tablist "layout-line-28-end课程分区" [ref=e3656]:
+                - tab "概览" [selected] [ref=e3657] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e3661]
+                - tab "学生" [ref=e3666] [cursor=pointer]:
+                  - generic [ref=e3667]:
+                    - generic [ref=e3669]: 学生
+                    - generic [ref=e3670]: (0)
+                  - generic [ref=e3671]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e3672] [cursor=pointer]:
+                  - generic [ref=e3673]:
+                    - generic [ref=e3676]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e3677]: (128)
+                  - generic [ref=e3678]: 数量 128
+                - tab "资源" [ref=e3679] [cursor=pointer]
+                - tab "讨论" [ref=e3683] [cursor=pointer]
+              - group [ref=e3688]:
+                - generic "分区说明" [ref=e3689]
+            - tabpanel "概览" [ref=e3691]:
+              - paragraph [ref=e3692]: 概览内容
+              - textbox "概览草稿" [ref=e3694]
+          - button "列表后操作" [ref=e3696] [cursor=pointer]
+        - generic [ref=e3698]:
+          - heading "layout-line-32-top" [level=2] [ref=e3699]
+          - button "列表前操作" [ref=e3700] [cursor=pointer]
+          - generic [ref=e3703]:
+            - generic "分区导航" [ref=e3704]:
+              - tablist "layout-line-32-top课程分区" [ref=e3708]:
+                - tab "概览" [selected] [ref=e3709] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e3712]
+                - tab "学生" [ref=e3717] [cursor=pointer]:
+                  - generic [ref=e3718]:
+                    - generic [ref=e3719]: 学生
+                    - generic [ref=e3720]: (0)
+                  - generic [ref=e3721]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e3722] [cursor=pointer]:
+                  - generic [ref=e3723]:
+                    - generic [ref=e3726]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e3727]: (128)
+                  - generic [ref=e3728]: 数量 128
+                - tab "资源" [ref=e3729] [cursor=pointer]
+                - tab "讨论" [ref=e3732] [cursor=pointer]
+              - group [ref=e3737]:
+                - generic "分区说明" [ref=e3738]
+            - tabpanel "概览" [ref=e3740]:
+              - paragraph [ref=e3741]: 概览内容
+              - textbox "概览草稿" [ref=e3743]
+          - button "列表后操作" [ref=e3745] [cursor=pointer]
+        - generic [ref=e3747]:
+          - heading "layout-line-32-bottom" [level=2] [ref=e3748]
+          - button "列表前操作" [ref=e3749] [cursor=pointer]
+          - generic [ref=e3752]:
+            - generic "分区导航" [ref=e3753]:
+              - tablist "layout-line-32-bottom课程分区" [ref=e3757]:
+                - tab "概览" [selected] [ref=e3758] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e3761]
+                - tab "学生" [ref=e3766] [cursor=pointer]:
+                  - generic [ref=e3767]:
+                    - generic [ref=e3768]: 学生
+                    - generic [ref=e3769]: (0)
+                  - generic [ref=e3770]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e3771] [cursor=pointer]:
+                  - generic [ref=e3772]:
+                    - generic [ref=e3775]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e3776]: (128)
+                  - generic [ref=e3777]: 数量 128
+                - tab "资源" [ref=e3778] [cursor=pointer]
+                - tab "讨论" [ref=e3781] [cursor=pointer]
+              - group [ref=e3786]:
+                - generic "分区说明" [ref=e3787]
+            - tabpanel "概览" [ref=e3789]:
+              - paragraph [ref=e3790]: 概览内容
+              - textbox "概览草稿" [ref=e3792]
+          - button "列表后操作" [ref=e3794] [cursor=pointer]
+        - generic [ref=e3796]:
+          - heading "layout-line-32-start" [level=2] [ref=e3797]
+          - button "列表前操作" [ref=e3798] [cursor=pointer]
+          - generic [ref=e3801]:
+            - generic "分区导航" [ref=e3802]:
+              - tablist "layout-line-32-start课程分区" [ref=e3806]:
+                - tab "概览" [selected] [ref=e3807] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e3811]
+                - tab "学生" [ref=e3816] [cursor=pointer]:
+                  - generic [ref=e3817]:
+                    - generic [ref=e3819]: 学生
+                    - generic [ref=e3820]: (0)
+                  - generic [ref=e3821]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e3822] [cursor=pointer]:
+                  - generic [ref=e3823]:
+                    - generic [ref=e3826]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e3827]: (128)
+                  - generic [ref=e3828]: 数量 128
+                - tab "资源" [ref=e3829] [cursor=pointer]
+                - tab "讨论" [ref=e3833] [cursor=pointer]
+              - group [ref=e3838]:
+                - generic "分区说明" [ref=e3839]
+            - tabpanel "概览" [ref=e3841]:
+              - paragraph [ref=e3842]: 概览内容
+              - textbox "概览草稿" [ref=e3844]
+          - button "列表后操作" [ref=e3846] [cursor=pointer]
+        - generic [ref=e3848]:
+          - heading "layout-line-32-end" [level=2] [ref=e3849]
+          - button "列表前操作" [ref=e3850] [cursor=pointer]
+          - generic [ref=e3853]:
+            - generic "分区导航" [ref=e3854]:
+              - tablist "layout-line-32-end课程分区" [ref=e3858]:
+                - tab "概览" [selected] [ref=e3859] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e3863]
+                - tab "学生" [ref=e3868] [cursor=pointer]:
+                  - generic [ref=e3869]:
+                    - generic [ref=e3871]: 学生
+                    - generic [ref=e3872]: (0)
+                  - generic [ref=e3873]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e3874] [cursor=pointer]:
+                  - generic [ref=e3875]:
+                    - generic [ref=e3878]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e3879]: (128)
+                  - generic [ref=e3880]: 数量 128
+                - tab "资源" [ref=e3881] [cursor=pointer]
+                - tab "讨论" [ref=e3885] [cursor=pointer]
+              - group [ref=e3890]:
+                - generic "分区说明" [ref=e3891]
+            - tabpanel "概览" [ref=e3893]:
+              - paragraph [ref=e3894]: 概览内容
+              - textbox "概览草稿" [ref=e3896]
+          - button "列表后操作" [ref=e3898] [cursor=pointer]
+        - generic [ref=e3900]:
+          - heading "layout-line-38-top" [level=2] [ref=e3901]
+          - button "列表前操作" [ref=e3902] [cursor=pointer]
+          - generic [ref=e3905]:
+            - generic "分区导航" [ref=e3906]:
+              - tablist "layout-line-38-top课程分区" [ref=e3910]:
+                - tab "概览" [selected] [ref=e3911] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e3914]
+                - tab "学生" [ref=e3919] [cursor=pointer]:
+                  - generic [ref=e3920]:
+                    - generic [ref=e3921]: 学生
+                    - generic [ref=e3922]: (0)
+                  - generic [ref=e3923]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e3924] [cursor=pointer]:
+                  - generic [ref=e3925]:
+                    - generic [ref=e3928]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e3929]: (128)
+                  - generic [ref=e3930]: 数量 128
+                - tab "资源" [ref=e3931] [cursor=pointer]
+                - tab "讨论" [ref=e3934] [cursor=pointer]
+              - group [ref=e3939]:
+                - generic "分区说明" [ref=e3940]
+            - tabpanel "概览" [ref=e3942]:
+              - paragraph [ref=e3943]: 概览内容
+              - textbox "概览草稿" [ref=e3945]
+          - button "列表后操作" [ref=e3947] [cursor=pointer]
+        - generic [ref=e3949]:
+          - heading "layout-line-38-bottom" [level=2] [ref=e3950]
+          - button "列表前操作" [ref=e3951] [cursor=pointer]
+          - generic [ref=e3954]:
+            - generic "分区导航" [ref=e3955]:
+              - tablist "layout-line-38-bottom课程分区" [ref=e3959]:
+                - tab "概览" [selected] [ref=e3960] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e3963]
+                - tab "学生" [ref=e3968] [cursor=pointer]:
+                  - generic [ref=e3969]:
+                    - generic [ref=e3970]: 学生
+                    - generic [ref=e3971]: (0)
+                  - generic [ref=e3972]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e3973] [cursor=pointer]:
+                  - generic [ref=e3974]:
+                    - generic [ref=e3977]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e3978]: (128)
+                  - generic [ref=e3979]: 数量 128
+                - tab "资源" [ref=e3980] [cursor=pointer]
+                - tab "讨论" [ref=e3983] [cursor=pointer]
+              - group [ref=e3988]:
+                - generic "分区说明" [ref=e3989]
+            - tabpanel "概览" [ref=e3991]:
+              - paragraph [ref=e3992]: 概览内容
+              - textbox "概览草稿" [ref=e3994]
+          - button "列表后操作" [ref=e3996] [cursor=pointer]
+        - generic [ref=e3998]:
+          - heading "layout-line-38-start" [level=2] [ref=e3999]
+          - button "列表前操作" [ref=e4000] [cursor=pointer]
+          - generic [ref=e4003]:
+            - generic "分区导航" [ref=e4004]:
+              - tablist "layout-line-38-start课程分区" [ref=e4008]:
+                - tab "概览" [selected] [ref=e4009] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4013]
+                - tab "学生" [ref=e4018] [cursor=pointer]:
+                  - generic [ref=e4019]:
+                    - generic [ref=e4021]: 学生
+                    - generic [ref=e4022]: (0)
+                  - generic [ref=e4023]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4024] [cursor=pointer]:
+                  - generic [ref=e4025]:
+                    - generic [ref=e4028]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4029]: (128)
+                  - generic [ref=e4030]: 数量 128
+                - tab "资源" [ref=e4031] [cursor=pointer]
+                - tab "讨论" [ref=e4035] [cursor=pointer]
+              - group [ref=e4040]:
+                - generic "分区说明" [ref=e4041]
+            - tabpanel "概览" [ref=e4043]:
+              - paragraph [ref=e4044]: 概览内容
+              - textbox "概览草稿" [ref=e4046]
+          - button "列表后操作" [ref=e4048] [cursor=pointer]
+        - generic [ref=e4050]:
+          - heading "layout-line-38-end" [level=2] [ref=e4051]
+          - button "列表前操作" [ref=e4052] [cursor=pointer]
+          - generic [ref=e4055]:
+            - generic "分区导航" [ref=e4056]:
+              - tablist "layout-line-38-end课程分区" [ref=e4060]:
+                - tab "概览" [selected] [ref=e4061] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4065]
+                - tab "学生" [ref=e4070] [cursor=pointer]:
+                  - generic [ref=e4071]:
+                    - generic [ref=e4073]: 学生
+                    - generic [ref=e4074]: (0)
+                  - generic [ref=e4075]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4076] [cursor=pointer]:
+                  - generic [ref=e4077]:
+                    - generic [ref=e4080]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4081]: (128)
+                  - generic [ref=e4082]: 数量 128
+                - tab "资源" [ref=e4083] [cursor=pointer]
+                - tab "讨论" [ref=e4087] [cursor=pointer]
+              - group [ref=e4092]:
+                - generic "分区说明" [ref=e4093]
+            - tabpanel "概览" [ref=e4095]:
+              - paragraph [ref=e4096]: 概览内容
+              - textbox "概览草稿" [ref=e4098]
+          - button "列表后操作" [ref=e4100] [cursor=pointer]
+        - generic [ref=e4102]:
+          - heading "layout-contained-28-top" [level=2] [ref=e4103]
+          - button "列表前操作" [ref=e4104] [cursor=pointer]
+          - generic [ref=e4107]:
+            - generic "分区导航" [ref=e4108]:
+              - tablist "layout-contained-28-top课程分区" [ref=e4112]:
+                - tab "概览" [selected] [ref=e4113] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4116]
+                - tab "学生" [ref=e4121] [cursor=pointer]:
+                  - generic [ref=e4122]:
+                    - generic [ref=e4123]: 学生
+                    - generic [ref=e4124]: (0)
+                  - generic [ref=e4125]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4126] [cursor=pointer]:
+                  - generic [ref=e4127]:
+                    - generic [ref=e4130]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4131]: (128)
+                  - generic [ref=e4132]: 数量 128
+                - tab "资源" [ref=e4133] [cursor=pointer]
+                - tab "讨论" [ref=e4136] [cursor=pointer]
+              - group [ref=e4141]:
+                - generic "分区说明" [ref=e4142]
+            - tabpanel "概览" [ref=e4144]:
+              - paragraph [ref=e4145]: 概览内容
+              - textbox "概览草稿" [ref=e4147]
+          - button "列表后操作" [ref=e4149] [cursor=pointer]
+        - generic [ref=e4151]:
+          - heading "layout-contained-28-bottom" [level=2] [ref=e4152]
+          - button "列表前操作" [ref=e4153] [cursor=pointer]
+          - generic [ref=e4156]:
+            - generic "分区导航" [ref=e4157]:
+              - tablist "layout-contained-28-bottom课程分区" [ref=e4161]:
+                - tab "概览" [selected] [ref=e4162] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4165]
+                - tab "学生" [ref=e4170] [cursor=pointer]:
+                  - generic [ref=e4171]:
+                    - generic [ref=e4172]: 学生
+                    - generic [ref=e4173]: (0)
+                  - generic [ref=e4174]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4175] [cursor=pointer]:
+                  - generic [ref=e4176]:
+                    - generic [ref=e4179]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4180]: (128)
+                  - generic [ref=e4181]: 数量 128
+                - tab "资源" [ref=e4182] [cursor=pointer]
+                - tab "讨论" [ref=e4185] [cursor=pointer]
+              - group [ref=e4190]:
+                - generic "分区说明" [ref=e4191]
+            - tabpanel "概览" [ref=e4193]:
+              - paragraph [ref=e4194]: 概览内容
+              - textbox "概览草稿" [ref=e4196]
+          - button "列表后操作" [ref=e4198] [cursor=pointer]
+        - generic [ref=e4200]:
+          - heading "layout-contained-28-start" [level=2] [ref=e4201]
+          - button "列表前操作" [ref=e4202] [cursor=pointer]
+          - generic [ref=e4205]:
+            - generic "分区导航" [ref=e4206]:
+              - tablist "layout-contained-28-start课程分区" [ref=e4210]:
+                - tab "概览" [selected] [ref=e4211] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4215]
+                - tab "学生" [ref=e4220] [cursor=pointer]:
+                  - generic [ref=e4221]:
+                    - generic [ref=e4223]: 学生
+                    - generic [ref=e4224]: (0)
+                  - generic [ref=e4225]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4226] [cursor=pointer]:
+                  - generic [ref=e4227]:
+                    - generic [ref=e4230]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4231]: (128)
+                  - generic [ref=e4232]: 数量 128
+                - tab "资源" [ref=e4233] [cursor=pointer]
+                - tab "讨论" [ref=e4237] [cursor=pointer]
+              - group [ref=e4242]:
+                - generic "分区说明" [ref=e4243]
+            - tabpanel "概览" [ref=e4245]:
+              - paragraph [ref=e4246]: 概览内容
+              - textbox "概览草稿" [ref=e4248]
+          - button "列表后操作" [ref=e4250] [cursor=pointer]
+        - generic [ref=e4252]:
+          - heading "layout-contained-28-end" [level=2] [ref=e4253]
+          - button "列表前操作" [ref=e4254] [cursor=pointer]
+          - generic [ref=e4257]:
+            - generic "分区导航" [ref=e4258]:
+              - tablist "layout-contained-28-end课程分区" [ref=e4262]:
+                - tab "概览" [selected] [ref=e4263] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4267]
+                - tab "学生" [ref=e4272] [cursor=pointer]:
+                  - generic [ref=e4273]:
+                    - generic [ref=e4275]: 学生
+                    - generic [ref=e4276]: (0)
+                  - generic [ref=e4277]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4278] [cursor=pointer]:
+                  - generic [ref=e4279]:
+                    - generic [ref=e4282]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4283]: (128)
+                  - generic [ref=e4284]: 数量 128
+                - tab "资源" [ref=e4285] [cursor=pointer]
+                - tab "讨论" [ref=e4289] [cursor=pointer]
+              - group [ref=e4294]:
+                - generic "分区说明" [ref=e4295]
+            - tabpanel "概览" [ref=e4297]:
+              - paragraph [ref=e4298]: 概览内容
+              - textbox "概览草稿" [ref=e4300]
+          - button "列表后操作" [ref=e4302] [cursor=pointer]
+        - generic [ref=e4304]:
+          - heading "layout-contained-32-top" [level=2] [ref=e4305]
+          - button "列表前操作" [ref=e4306] [cursor=pointer]
+          - generic [ref=e4309]:
+            - generic "分区导航" [ref=e4310]:
+              - tablist "layout-contained-32-top课程分区" [ref=e4314]:
+                - tab "概览" [selected] [ref=e4315] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4318]
+                - tab "学生" [ref=e4323] [cursor=pointer]:
+                  - generic [ref=e4324]:
+                    - generic [ref=e4325]: 学生
+                    - generic [ref=e4326]: (0)
+                  - generic [ref=e4327]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4328] [cursor=pointer]:
+                  - generic [ref=e4329]:
+                    - generic [ref=e4332]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4333]: (128)
+                  - generic [ref=e4334]: 数量 128
+                - tab "资源" [ref=e4335] [cursor=pointer]
+                - tab "讨论" [ref=e4338] [cursor=pointer]
+              - group [ref=e4343]:
+                - generic "分区说明" [ref=e4344]
+            - tabpanel "概览" [ref=e4346]:
+              - paragraph [ref=e4347]: 概览内容
+              - textbox "概览草稿" [ref=e4349]
+          - button "列表后操作" [ref=e4351] [cursor=pointer]
+        - generic [ref=e4353]:
+          - heading "layout-contained-32-bottom" [level=2] [ref=e4354]
+          - button "列表前操作" [ref=e4355] [cursor=pointer]
+          - generic [ref=e4358]:
+            - generic "分区导航" [ref=e4359]:
+              - tablist "layout-contained-32-bottom课程分区" [ref=e4363]:
+                - tab "概览" [selected] [ref=e4364] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4367]
+                - tab "学生" [ref=e4372] [cursor=pointer]:
+                  - generic [ref=e4373]:
+                    - generic [ref=e4374]: 学生
+                    - generic [ref=e4375]: (0)
+                  - generic [ref=e4376]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4377] [cursor=pointer]:
+                  - generic [ref=e4378]:
+                    - generic [ref=e4381]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4382]: (128)
+                  - generic [ref=e4383]: 数量 128
+                - tab "资源" [ref=e4384] [cursor=pointer]
+                - tab "讨论" [ref=e4387] [cursor=pointer]
+              - group [ref=e4392]:
+                - generic "分区说明" [ref=e4393]
+            - tabpanel "概览" [ref=e4395]:
+              - paragraph [ref=e4396]: 概览内容
+              - textbox "概览草稿" [ref=e4398]
+          - button "列表后操作" [ref=e4400] [cursor=pointer]
+        - generic [ref=e4402]:
+          - heading "layout-contained-32-start" [level=2] [ref=e4403]
+          - button "列表前操作" [ref=e4404] [cursor=pointer]
+          - generic [ref=e4407]:
+            - generic "分区导航" [ref=e4408]:
+              - tablist "layout-contained-32-start课程分区" [ref=e4412]:
+                - tab "概览" [selected] [ref=e4413] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4417]
+                - tab "学生" [ref=e4422] [cursor=pointer]:
+                  - generic [ref=e4423]:
+                    - generic [ref=e4425]: 学生
+                    - generic [ref=e4426]: (0)
+                  - generic [ref=e4427]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4428] [cursor=pointer]:
+                  - generic [ref=e4429]:
+                    - generic [ref=e4432]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4433]: (128)
+                  - generic [ref=e4434]: 数量 128
+                - tab "资源" [ref=e4435] [cursor=pointer]
+                - tab "讨论" [ref=e4439] [cursor=pointer]
+              - group [ref=e4444]:
+                - generic "分区说明" [ref=e4445]
+            - tabpanel "概览" [ref=e4447]:
+              - paragraph [ref=e4448]: 概览内容
+              - textbox "概览草稿" [ref=e4450]
+          - button "列表后操作" [ref=e4452] [cursor=pointer]
+        - generic [ref=e4454]:
+          - heading "layout-contained-32-end" [level=2] [ref=e4455]
+          - button "列表前操作" [ref=e4456] [cursor=pointer]
+          - generic [ref=e4459]:
+            - generic "分区导航" [ref=e4460]:
+              - tablist "layout-contained-32-end课程分区" [ref=e4464]:
+                - tab "概览" [selected] [ref=e4465] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4469]
+                - tab "学生" [ref=e4474] [cursor=pointer]:
+                  - generic [ref=e4475]:
+                    - generic [ref=e4477]: 学生
+                    - generic [ref=e4478]: (0)
+                  - generic [ref=e4479]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4480] [cursor=pointer]:
+                  - generic [ref=e4481]:
+                    - generic [ref=e4484]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4485]: (128)
+                  - generic [ref=e4486]: 数量 128
+                - tab "资源" [ref=e4487] [cursor=pointer]
+                - tab "讨论" [ref=e4491] [cursor=pointer]
+              - group [ref=e4496]:
+                - generic "分区说明" [ref=e4497]
+            - tabpanel "概览" [ref=e4499]:
+              - paragraph [ref=e4500]: 概览内容
+              - textbox "概览草稿" [ref=e4502]
+          - button "列表后操作" [ref=e4504] [cursor=pointer]
+        - generic [ref=e4506]:
+          - heading "layout-contained-38-top" [level=2] [ref=e4507]
+          - button "列表前操作" [ref=e4508] [cursor=pointer]
+          - generic [ref=e4511]:
+            - generic "分区导航" [ref=e4512]:
+              - tablist "layout-contained-38-top课程分区" [ref=e4516]:
+                - tab "概览" [selected] [ref=e4517] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4520]
+                - tab "学生" [ref=e4525] [cursor=pointer]:
+                  - generic [ref=e4526]:
+                    - generic [ref=e4527]: 学生
+                    - generic [ref=e4528]: (0)
+                  - generic [ref=e4529]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4530] [cursor=pointer]:
+                  - generic [ref=e4531]:
+                    - generic [ref=e4534]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4535]: (128)
+                  - generic [ref=e4536]: 数量 128
+                - tab "资源" [ref=e4537] [cursor=pointer]
+                - tab "讨论" [ref=e4540] [cursor=pointer]
+              - group [ref=e4545]:
+                - generic "分区说明" [ref=e4546]
+            - tabpanel "概览" [ref=e4548]:
+              - paragraph [ref=e4549]: 概览内容
+              - textbox "概览草稿" [ref=e4551]
+          - button "列表后操作" [ref=e4553] [cursor=pointer]
+        - generic [ref=e4555]:
+          - heading "layout-contained-38-bottom" [level=2] [ref=e4556]
+          - button "列表前操作" [ref=e4557] [cursor=pointer]
+          - generic [ref=e4560]:
+            - generic "分区导航" [ref=e4561]:
+              - tablist "layout-contained-38-bottom课程分区" [ref=e4565]:
+                - tab "概览" [selected] [ref=e4566] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4569]
+                - tab "学生" [ref=e4574] [cursor=pointer]:
+                  - generic [ref=e4575]:
+                    - generic [ref=e4576]: 学生
+                    - generic [ref=e4577]: (0)
+                  - generic [ref=e4578]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4579] [cursor=pointer]:
+                  - generic [ref=e4580]:
+                    - generic [ref=e4583]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4584]: (128)
+                  - generic [ref=e4585]: 数量 128
+                - tab "资源" [ref=e4586] [cursor=pointer]
+                - tab "讨论" [ref=e4589] [cursor=pointer]
+              - group [ref=e4594]:
+                - generic "分区说明" [ref=e4595]
+            - tabpanel "概览" [ref=e4597]:
+              - paragraph [ref=e4598]: 概览内容
+              - textbox "概览草稿" [ref=e4600]
+          - button "列表后操作" [ref=e4602] [cursor=pointer]
+        - generic [ref=e4604]:
+          - heading "layout-contained-38-start" [level=2] [ref=e4605]
+          - button "列表前操作" [ref=e4606] [cursor=pointer]
+          - generic [ref=e4609]:
+            - generic "分区导航" [ref=e4610]:
+              - tablist "layout-contained-38-start课程分区" [ref=e4614]:
+                - tab "概览" [selected] [ref=e4615] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4619]
+                - tab "学生" [ref=e4624] [cursor=pointer]:
+                  - generic [ref=e4625]:
+                    - generic [ref=e4627]: 学生
+                    - generic [ref=e4628]: (0)
+                  - generic [ref=e4629]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4630] [cursor=pointer]:
+                  - generic [ref=e4631]:
+                    - generic [ref=e4634]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4635]: (128)
+                  - generic [ref=e4636]: 数量 128
+                - tab "资源" [ref=e4637] [cursor=pointer]
+                - tab "讨论" [ref=e4641] [cursor=pointer]
+              - group [ref=e4646]:
+                - generic "分区说明" [ref=e4647]
+            - tabpanel "概览" [ref=e4649]:
+              - paragraph [ref=e4650]: 概览内容
+              - textbox "概览草稿" [ref=e4652]
+          - button "列表后操作" [ref=e4654] [cursor=pointer]
+        - generic [ref=e4656]:
+          - heading "layout-contained-38-end" [level=2] [ref=e4657]
+          - button "列表前操作" [ref=e4658] [cursor=pointer]
+          - generic [ref=e4661]:
+            - generic "分区导航" [ref=e4662]:
+              - tablist "layout-contained-38-end课程分区" [ref=e4666]:
+                - tab "概览" [selected] [ref=e4667] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4671]
+                - tab "学生" [ref=e4676] [cursor=pointer]:
+                  - generic [ref=e4677]:
+                    - generic [ref=e4679]: 学生
+                    - generic [ref=e4680]: (0)
+                  - generic [ref=e4681]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4682] [cursor=pointer]:
+                  - generic [ref=e4683]:
+                    - generic [ref=e4686]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4687]: (128)
+                  - generic [ref=e4688]: 数量 128
+                - tab "资源" [ref=e4689] [cursor=pointer]
+                - tab "讨论" [ref=e4693] [cursor=pointer]
+              - group [ref=e4698]:
+                - generic "分区说明" [ref=e4699]
+            - tabpanel "概览" [ref=e4701]:
+              - paragraph [ref=e4702]: 概览内容
+              - textbox "概览草稿" [ref=e4704]
+          - button "列表后操作" [ref=e4706] [cursor=pointer]
+        - generic [ref=e4708]:
+          - heading "layout-soft-28-top" [level=2] [ref=e4709]
+          - button "列表前操作" [ref=e4710] [cursor=pointer]
+          - generic [ref=e4713]:
+            - generic "分区导航" [ref=e4714]:
+              - tablist "layout-soft-28-top课程分区" [ref=e4718]:
+                - tab "概览" [selected] [ref=e4719] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4722]
+                - tab "学生" [ref=e4727] [cursor=pointer]:
+                  - generic [ref=e4728]:
+                    - generic [ref=e4729]: 学生
+                    - generic [ref=e4730]: (0)
+                  - generic [ref=e4731]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4732] [cursor=pointer]:
+                  - generic [ref=e4733]:
+                    - generic [ref=e4736]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4737]: (128)
+                  - generic [ref=e4738]: 数量 128
+                - tab "资源" [ref=e4739] [cursor=pointer]
+                - tab "讨论" [ref=e4742] [cursor=pointer]
+              - group [ref=e4747]:
+                - generic "分区说明" [ref=e4748]
+            - tabpanel "概览" [ref=e4750]:
+              - paragraph [ref=e4751]: 概览内容
+              - textbox "概览草稿" [ref=e4753]
+          - button "列表后操作" [ref=e4755] [cursor=pointer]
+        - generic [ref=e4757]:
+          - heading "layout-soft-28-bottom" [level=2] [ref=e4758]
+          - button "列表前操作" [ref=e4759] [cursor=pointer]
+          - generic [ref=e4762]:
+            - generic "分区导航" [ref=e4763]:
+              - tablist "layout-soft-28-bottom课程分区" [ref=e4767]:
+                - tab "概览" [selected] [ref=e4768] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4771]
+                - tab "学生" [ref=e4776] [cursor=pointer]:
+                  - generic [ref=e4777]:
+                    - generic [ref=e4778]: 学生
+                    - generic [ref=e4779]: (0)
+                  - generic [ref=e4780]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4781] [cursor=pointer]:
+                  - generic [ref=e4782]:
+                    - generic [ref=e4785]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4786]: (128)
+                  - generic [ref=e4787]: 数量 128
+                - tab "资源" [ref=e4788] [cursor=pointer]
+                - tab "讨论" [ref=e4791] [cursor=pointer]
+              - group [ref=e4796]:
+                - generic "分区说明" [ref=e4797]
+            - tabpanel "概览" [ref=e4799]:
+              - paragraph [ref=e4800]: 概览内容
+              - textbox "概览草稿" [ref=e4802]
+          - button "列表后操作" [ref=e4804] [cursor=pointer]
+        - generic [ref=e4806]:
+          - heading "layout-soft-28-start" [level=2] [ref=e4807]
+          - button "列表前操作" [ref=e4808] [cursor=pointer]
+          - generic [ref=e4811]:
+            - generic "分区导航" [ref=e4812]:
+              - tablist "layout-soft-28-start课程分区" [ref=e4816]:
+                - tab "概览" [selected] [ref=e4817] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4821]
+                - tab "学生" [ref=e4826] [cursor=pointer]:
+                  - generic [ref=e4827]:
+                    - generic [ref=e4829]: 学生
+                    - generic [ref=e4830]: (0)
+                  - generic [ref=e4831]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4832] [cursor=pointer]:
+                  - generic [ref=e4833]:
+                    - generic [ref=e4836]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4837]: (128)
+                  - generic [ref=e4838]: 数量 128
+                - tab "资源" [ref=e4839] [cursor=pointer]
+                - tab "讨论" [ref=e4843] [cursor=pointer]
+              - group [ref=e4848]:
+                - generic "分区说明" [ref=e4849]
+            - tabpanel "概览" [ref=e4851]:
+              - paragraph [ref=e4852]: 概览内容
+              - textbox "概览草稿" [ref=e4854]
+          - button "列表后操作" [ref=e4856] [cursor=pointer]
+        - generic [ref=e4858]:
+          - heading "layout-soft-28-end" [level=2] [ref=e4859]
+          - button "列表前操作" [ref=e4860] [cursor=pointer]
+          - generic [ref=e4863]:
+            - generic "分区导航" [ref=e4864]:
+              - tablist "layout-soft-28-end课程分区" [ref=e4868]:
+                - tab "概览" [selected] [ref=e4869] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4873]
+                - tab "学生" [ref=e4878] [cursor=pointer]:
+                  - generic [ref=e4879]:
+                    - generic [ref=e4881]: 学生
+                    - generic [ref=e4882]: (0)
+                  - generic [ref=e4883]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4884] [cursor=pointer]:
+                  - generic [ref=e4885]:
+                    - generic [ref=e4888]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4889]: (128)
+                  - generic [ref=e4890]: 数量 128
+                - tab "资源" [ref=e4891] [cursor=pointer]
+                - tab "讨论" [ref=e4895] [cursor=pointer]
+              - group [ref=e4900]:
+                - generic "分区说明" [ref=e4901]
+            - tabpanel "概览" [ref=e4903]:
+              - paragraph [ref=e4904]: 概览内容
+              - textbox "概览草稿" [ref=e4906]
+          - button "列表后操作" [ref=e4908] [cursor=pointer]
+        - generic [ref=e4910]:
+          - heading "layout-soft-32-top" [level=2] [ref=e4911]
+          - button "列表前操作" [ref=e4912] [cursor=pointer]
+          - generic [ref=e4915]:
+            - generic "分区导航" [ref=e4916]:
+              - tablist "layout-soft-32-top课程分区" [ref=e4920]:
+                - tab "概览" [selected] [ref=e4921] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4924]
+                - tab "学生" [ref=e4929] [cursor=pointer]:
+                  - generic [ref=e4930]:
+                    - generic [ref=e4931]: 学生
+                    - generic [ref=e4932]: (0)
+                  - generic [ref=e4933]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4934] [cursor=pointer]:
+                  - generic [ref=e4935]:
+                    - generic [ref=e4938]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4939]: (128)
+                  - generic [ref=e4940]: 数量 128
+                - tab "资源" [ref=e4941] [cursor=pointer]
+                - tab "讨论" [ref=e4944] [cursor=pointer]
+              - group [ref=e4949]:
+                - generic "分区说明" [ref=e4950]
+            - tabpanel "概览" [ref=e4952]:
+              - paragraph [ref=e4953]: 概览内容
+              - textbox "概览草稿" [ref=e4955]
+          - button "列表后操作" [ref=e4957] [cursor=pointer]
+        - generic [ref=e4959]:
+          - heading "layout-soft-32-bottom" [level=2] [ref=e4960]
+          - button "列表前操作" [ref=e4961] [cursor=pointer]
+          - generic [ref=e4964]:
+            - generic "分区导航" [ref=e4965]:
+              - tablist "layout-soft-32-bottom课程分区" [ref=e4969]:
+                - tab "概览" [selected] [ref=e4970] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e4973]
+                - tab "学生" [ref=e4978] [cursor=pointer]:
+                  - generic [ref=e4979]:
+                    - generic [ref=e4980]: 学生
+                    - generic [ref=e4981]: (0)
+                  - generic [ref=e4982]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e4983] [cursor=pointer]:
+                  - generic [ref=e4984]:
+                    - generic [ref=e4987]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e4988]: (128)
+                  - generic [ref=e4989]: 数量 128
+                - tab "资源" [ref=e4990] [cursor=pointer]
+                - tab "讨论" [ref=e4993] [cursor=pointer]
+              - group [ref=e4998]:
+                - generic "分区说明" [ref=e4999]
+            - tabpanel "概览" [ref=e5001]:
+              - paragraph [ref=e5002]: 概览内容
+              - textbox "概览草稿" [ref=e5004]
+          - button "列表后操作" [ref=e5006] [cursor=pointer]
+        - generic [ref=e5008]:
+          - heading "layout-soft-32-start" [level=2] [ref=e5009]
+          - button "列表前操作" [ref=e5010] [cursor=pointer]
+          - generic [ref=e5013]:
+            - generic "分区导航" [ref=e5014]:
+              - tablist "layout-soft-32-start课程分区" [ref=e5018]:
+                - tab "概览" [selected] [ref=e5019] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e5023]
+                - tab "学生" [ref=e5028] [cursor=pointer]:
+                  - generic [ref=e5029]:
+                    - generic [ref=e5031]: 学生
+                    - generic [ref=e5032]: (0)
+                  - generic [ref=e5033]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e5034] [cursor=pointer]:
+                  - generic [ref=e5035]:
+                    - generic [ref=e5038]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e5039]: (128)
+                  - generic [ref=e5040]: 数量 128
+                - tab "资源" [ref=e5041] [cursor=pointer]
+                - tab "讨论" [ref=e5045] [cursor=pointer]
+              - group [ref=e5050]:
+                - generic "分区说明" [ref=e5051]
+            - tabpanel "概览" [ref=e5053]:
+              - paragraph [ref=e5054]: 概览内容
+              - textbox "概览草稿" [ref=e5056]
+          - button "列表后操作" [ref=e5058] [cursor=pointer]
+        - generic [ref=e5060]:
+          - heading "layout-soft-32-end" [level=2] [ref=e5061]
+          - button "列表前操作" [ref=e5062] [cursor=pointer]
+          - generic [ref=e5065]:
+            - generic "分区导航" [ref=e5066]:
+              - tablist "layout-soft-32-end课程分区" [ref=e5070]:
+                - tab "概览" [selected] [ref=e5071] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e5075]
+                - tab "学生" [ref=e5080] [cursor=pointer]:
+                  - generic [ref=e5081]:
+                    - generic [ref=e5083]: 学生
+                    - generic [ref=e5084]: (0)
+                  - generic [ref=e5085]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e5086] [cursor=pointer]:
+                  - generic [ref=e5087]:
+                    - generic [ref=e5090]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e5091]: (128)
+                  - generic [ref=e5092]: 数量 128
+                - tab "资源" [ref=e5093] [cursor=pointer]
+                - tab "讨论" [ref=e5097] [cursor=pointer]
+              - group [ref=e5102]:
+                - generic "分区说明" [ref=e5103]
+            - tabpanel "概览" [ref=e5105]:
+              - paragraph [ref=e5106]: 概览内容
+              - textbox "概览草稿" [ref=e5108]
+          - button "列表后操作" [ref=e5110] [cursor=pointer]
+        - generic [ref=e5112]:
+          - heading "layout-soft-38-top" [level=2] [ref=e5113]
+          - button "列表前操作" [ref=e5114] [cursor=pointer]
+          - generic [ref=e5117]:
+            - generic "分区导航" [ref=e5118]:
+              - tablist "layout-soft-38-top课程分区" [ref=e5122]:
+                - tab "概览" [selected] [ref=e5123] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e5126]
+                - tab "学生" [ref=e5131] [cursor=pointer]:
+                  - generic [ref=e5132]:
+                    - generic [ref=e5133]: 学生
+                    - generic [ref=e5134]: (0)
+                  - generic [ref=e5135]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e5136] [cursor=pointer]:
+                  - generic [ref=e5137]:
+                    - generic [ref=e5140]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e5141]: (128)
+                  - generic [ref=e5142]: 数量 128
+                - tab "资源" [ref=e5143] [cursor=pointer]
+                - tab "讨论" [ref=e5146] [cursor=pointer]
+              - group [ref=e5151]:
+                - generic "分区说明" [ref=e5152]
+            - tabpanel "概览" [ref=e5154]:
+              - paragraph [ref=e5155]: 概览内容
+              - textbox "概览草稿" [ref=e5157]
+          - button "列表后操作" [ref=e5159] [cursor=pointer]
+        - generic [ref=e5161]:
+          - heading "layout-soft-38-bottom" [level=2] [ref=e5162]
+          - button "列表前操作" [ref=e5163] [cursor=pointer]
+          - generic [ref=e5166]:
+            - generic "分区导航" [ref=e5167]:
+              - tablist "layout-soft-38-bottom课程分区" [ref=e5171]:
+                - tab "概览" [selected] [ref=e5172] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e5175]
+                - tab "学生" [ref=e5180] [cursor=pointer]:
+                  - generic [ref=e5181]:
+                    - generic [ref=e5182]: 学生
+                    - generic [ref=e5183]: (0)
+                  - generic [ref=e5184]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e5185] [cursor=pointer]:
+                  - generic [ref=e5186]:
+                    - generic [ref=e5189]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e5190]: (128)
+                  - generic [ref=e5191]: 数量 128
+                - tab "资源" [ref=e5192] [cursor=pointer]
+                - tab "讨论" [ref=e5195] [cursor=pointer]
+              - group [ref=e5200]:
+                - generic "分区说明" [ref=e5201]
+            - tabpanel "概览" [ref=e5203]:
+              - paragraph [ref=e5204]: 概览内容
+              - textbox "概览草稿" [ref=e5206]
+          - button "列表后操作" [ref=e5208] [cursor=pointer]
+        - generic [ref=e5210]:
+          - heading "layout-soft-38-start" [level=2] [ref=e5211]
+          - button "列表前操作" [ref=e5212] [cursor=pointer]
+          - generic [ref=e5215]:
+            - generic "分区导航" [ref=e5216]:
+              - tablist "layout-soft-38-start课程分区" [ref=e5220]:
+                - tab "概览" [selected] [ref=e5221] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e5225]
+                - tab "学生" [ref=e5230] [cursor=pointer]:
+                  - generic [ref=e5231]:
+                    - generic [ref=e5233]: 学生
+                    - generic [ref=e5234]: (0)
+                  - generic [ref=e5235]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e5236] [cursor=pointer]:
+                  - generic [ref=e5237]:
+                    - generic [ref=e5240]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e5241]: (128)
+                  - generic [ref=e5242]: 数量 128
+                - tab "资源" [ref=e5243] [cursor=pointer]
+                - tab "讨论" [ref=e5247] [cursor=pointer]
+              - group [ref=e5252]:
+                - generic "分区说明" [ref=e5253]
+            - tabpanel "概览" [ref=e5255]:
+              - paragraph [ref=e5256]: 概览内容
+              - textbox "概览草稿" [ref=e5258]
+          - button "列表后操作" [ref=e5260] [cursor=pointer]
+        - generic [ref=e5262]:
+          - heading "layout-soft-38-end" [level=2] [ref=e5263]
+          - button "列表前操作" [ref=e5264] [cursor=pointer]
+          - generic [ref=e5267]:
+            - generic "分区导航" [ref=e5268]:
+              - tablist "layout-soft-38-end课程分区" [ref=e5272]:
+                - tab "概览" [selected] [ref=e5273] [cursor=pointer]
+                - tab "已归档的历史课程和完整资料" [disabled] [ref=e5277]
+                - tab "学生" [ref=e5282] [cursor=pointer]:
+                  - generic [ref=e5283]:
+                    - generic [ref=e5285]: 学生
+                    - generic [ref=e5286]: (0)
+                  - generic [ref=e5287]: 数量 0
+                - tab "完整课堂记录与课后练习资料和拓展阅读的使用说明" [ref=e5288] [cursor=pointer]:
+                  - generic [ref=e5289]:
+                    - generic [ref=e5292]: 完整课堂记录与课后练习资料和拓展阅读的使用说明
+                    - generic [ref=e5293]: (128)
+                  - generic [ref=e5294]: 数量 128
+                - tab "资源" [ref=e5295] [cursor=pointer]
+                - tab "讨论" [ref=e5299] [cursor=pointer]
+              - group [ref=e5304]:
+                - generic "分区说明" [ref=e5305]
+            - tabpanel "概览" [ref=e5307]:
+              - paragraph [ref=e5308]: 概览内容
+              - textbox "概览草稿" [ref=e5310]
+          - button "列表后操作" [ref=e5312] [cursor=pointer]
+```
+
+# Test source
+
+```ts
+  1   | import { expect, test } from '@playwright/test';
+  2   | import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+  3   | import { resolve } from 'node:path';
+  4   | const output = resolve('evidence/runtime/tabs-visual-refinement');
+  5   | 
+  6   | test.beforeEach(async ({ page }) => {
+  7   |   await page.setViewportSize({ width: 1280, height: 1000 });
+  8   |   await page.goto('/#tabs');
+  9   |   await page.locator('[data-tabs-verification] > summary').click();
+  10  |   await page.locator('[data-tabs-refinement] > summary').click();
+  11  | });
+  12  | test.afterEach(async ({ page }) => expect((await page.pageErrors()).map(error => error.message)).toEqual([]));
+  13  | 
+  14  | test('default capped indicators cover every size, theme and position with short and long natural or equal content', async ({ page }) => {
+  15  |   const facts = [];
+  16  |   for (const theme of ['light', 'dark']) {
+  17  |     await page.getByRole('button', { name: theme === 'light' ? '浅色主题' : '深色主题', exact: true }).click();
+  18  |     for (const size of [28, 32, 38] as const) for (const position of ['top', 'bottom', 'start', 'end']) for (const equal of [false, true]) {
+  19  |       const scope = page.locator(`[data-public-case="${equal ? 'layout-' : ''}line-${size}-${position}"]`);
+  20  |       const root = scope.locator('[data-rain-id="ui-tabs"]');
+  21  |       await expect(root).toHaveAttribute('data-indicator-size', 'content');
+  22  |       for (const long of [false, true]) {
+  23  |         const tab = scope.getByRole('tab', { name: long ? /^完整课堂记录与课后练习资料/ : '概览', exact: !long });
+  24  |         await tab.click();
+  25  |         const fact = await tab.evaluate(node => {
+  26  |           const box = (element: Element) => { const r = element.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; };
+  27  |           return { tab: box(node), content: box(node.querySelector('[data-part="content"]')!), line: box(node.querySelector('[data-part="indicator"]')!) };
+  28  |         });
+  29  |         const vertical = position === 'start' || position === 'end', maximum = ({ 28: 24, 32: 28, 38: 32 })[size], thickness = size === 38 ? 3 : 2;
+  30  |         expect(vertical ? fact.line.height : fact.line.width).toBeCloseTo(Math.min(maximum, vertical ? fact.tab.height : fact.content.width), 1);
+  31  |         expect(vertical ? fact.line.width : fact.line.height).toBe(thickness);
+  32  |         if (vertical) {
+  33  |           expect(fact.line.y + fact.line.height / 2).toBeCloseTo(fact.tab.y + fact.tab.height / 2, 1);
+  34  |           expect(fact.line.x).toBe(position === 'start' ? fact.tab.x + fact.tab.width - thickness : fact.tab.x);
+  35  |         } else {
+  36  |           expect(fact.line.x + fact.line.width / 2).toBeCloseTo(fact.content.x + fact.content.width / 2, 1);
+  37  |           expect(fact.line.y).toBe(position === 'top' ? fact.tab.y + fact.tab.height - thickness : fact.tab.y);
+  38  |           if (equal && !long && size === 38) expect(fact.line.width).toBeLessThan(maximum);
+  39  |         }
+  40  |         facts.push({ theme, size, position, equal, long, ...fact });
+  41  |       }
+  42  |     }
+  43  |     await page.getByRole('region', { name: '选择一套完整外观' }).screenshot({ path: resolve(output, `indicator-${theme}.png`) });
+  44  |   }
+  45  |   expect(facts).toHaveLength(96);
+  46  |   mkdirSync(output, { recursive: true });
+  47  |   writeFileSync(resolve(output, 'indicator-facts.json'), JSON.stringify({ capturedAt: new Date().toISOString(), count: facts.length, defaultMode: 'content', maximums: { 28: 24, 32: 28, 38: 32 }, facts }, null, 2) + '\n');
+  48  | });
+  49  | 
+  50  | test('the preview switches between capped and original stretch geometry without losing the selected panel', async ({ page }) => {
+  51  |   const scope = page.getByRole('region', { name: '选择一套完整外观' });
+  52  |   const choose = async (label: string, name: string) => {
+> 53  |     await scope.getByRole('combobox', { name: label, exact: true }).click();
+      |                                                                     ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  54  |     await page.getByRole('option', { name, exact: true }).click();
+  55  |   };
+  56  |   await scope.getByRole('tab', { name: '待评作业', exact: true }).click();
+  57  |   const draft = scope.getByRole('textbox', { name: '待评作业备注' });
+  58  |   await draft.fill('长度变化后保留');
+  59  |   for (const [position, label] of [['top', '顶部'], ['bottom', '底部'], ['start', '左侧'], ['end', '右侧']]) {
+  60  |     await choose('示例位置', label!);
+  61  |     for (const [size, sizeLabel] of [[28, '小号 · 28'], [32, '紧凑 · 32'], [38, '常规 · 38']] as const) {
+  62  |       await choose('示例尺寸', sizeLabel);
+  63  |       await choose('蓝线长度', '自适应长度');
+  64  |       const tab = scope.getByRole('tab', { name: '待评作业', exact: true });
+  65  |       await expect(tab).toHaveAttribute('aria-selected', 'true');
+  66  |       await expect(tab).toHaveAttribute('data-indicator-size', 'stretch');
+  67  |       const fact = await tab.evaluate(node => ({ tab: { width: node.getBoundingClientRect().width, height: node.getBoundingClientRect().height }, line: { width: node.querySelector('[data-part="indicator"]')!.getBoundingClientRect().width, height: node.querySelector('[data-part="indicator"]')!.getBoundingClientRect().height } }));
+  68  |       expect(position === 'start' || position === 'end' ? fact.line.height : fact.line.width).toBe(position === 'start' || position === 'end' ? fact.tab.height : fact.tab.width - 16);
+  69  |       await choose('蓝线长度', '限制最大长度（默认）');
+  70  |       const line = tab.locator('[data-part="indicator"]');
+  71  |       await expect(line).toHaveCSS(position === 'start' || position === 'end' ? 'height' : 'width', `${({ 28: 24, 32: 28, 38: 32 })[size]}px`);
+  72  |       await expect(draft).toHaveValue('长度变化后保留');
+  73  |     }
+  74  |   }
+  75  |   await choose('示例外观', '底板');
+  76  |   await expect(scope.getByRole('combobox', { name: '蓝线长度' })).toHaveCount(0);
+  77  | });
+  78  | 
+  79  | test('contained first and last backgrounds have three-pixel outer gutters without doubled padding', async ({ page }) => {
+  80  |   const scope = page.locator('[data-public-case="contained-38-top"]');
+  81  |   const first = scope.getByRole('tab', { name: '概览', exact: true });
+  82  |   await first.click();
+  83  |   const gaps = await scope.evaluate(root => {
+  84  |     const tray = root.querySelector('.rain-tabs__tray')!.getBoundingClientRect();
+  85  |     const tabs = [...root.querySelectorAll('[role="tab"]')];
+  86  |     const a = tabs[0]!.querySelector('[data-part="paint"]')!.getBoundingClientRect();
+  87  |     const b = tabs.at(-1)!.querySelector('[data-part="paint"]')!.getBoundingClientRect();
+  88  |     const next = tabs[1]!.querySelector('[data-part="paint"]')!.getBoundingClientRect();
+  89  |     return { left: a.left - tray.left, right: tray.right - b.right, top: a.top - tray.top, bottom: tray.bottom - a.bottom, between: next.left - a.right };
+  90  |   });
+  91  |   expect(gaps).toEqual({ left: 3, right: 3, top: 3, bottom: 3, between: 8 });
+  92  | });
+  93  | 
+  94  | test('selected lines have rounded ends in horizontal and vertical positions', async ({ page }) => {
+  95  |   for (const position of ['top', 'bottom', 'start', 'end']) {
+  96  |     const scope = page.locator(`[data-public-case="line-38-${position}"]`);
+  97  |     const line = scope.locator('[aria-selected="true"] [data-part="indicator"]');
+  98  |     const radii = await line.evaluate(node => {
+  99  |       const style = getComputedStyle(node);
+  100 |       return [style.borderTopLeftRadius, style.borderTopRightRadius, style.borderBottomRightRadius, style.borderBottomLeftRadius].map(Number.parseFloat);
+  101 |     });
+  102 |     expect(radii.every(radius => radius >= 1.5)).toBe(true);
+  103 |   }
+  104 | });
+  105 | 
+  106 | test('scrolling vertical navigation keeps native scrollbars beyond the selected line and focus ring', async ({ page }) => {
+  107 |   const list = page.getByRole('tablist', { name: '课程设置', exact: true });
+  108 |   await list.getByRole('tab', { name: '基本信息', exact: true }).click();
+  109 |   const facts = await list.evaluate(node => {
+  110 |     const viewport = node.closest('.rain-tabs__viewport')!, tab = node.querySelector('[aria-selected="true"]')!;
+  111 |     return { scrollbarSpace: viewport.getBoundingClientRect().right - tab.getBoundingClientRect().right, scrolls: viewport.scrollHeight > viewport.clientHeight, width: tab.getBoundingClientRect().width };
+  112 |   });
+  113 |   expect(facts.scrolls).toBe(true); expect(facts.width).toBe(192);
+  114 |   expect(facts.scrollbarSpace).toBeGreaterThanOrEqual(12);
+  115 | });
+  116 | 
+  117 | test('equal horizontal columns consume the available width and preserve a readable minimum when More appears', async ({ page }) => {
+  118 |   const scope = page.locator('[data-public-case="layout-contained-38-top"]');
+  119 |   const widths = await scope.getByRole('tab').evaluateAll(tabs => tabs.map(tab => tab.getBoundingClientRect().width));
+  120 |   expect(Math.max(...widths) - Math.min(...widths)).toBeLessThan(0.1);
+  121 |   const used = await scope.evaluate(root => ({ tray: root.querySelector('.rain-tabs__tray')!.getBoundingClientRect().width, viewport: root.querySelector('.rain-tabs__viewport')!.clientWidth - 8 }));
+  122 |   expect(Math.abs(used.tray - used.viewport)).toBeLessThan(1);
+  123 |   const responsive = page.locator('[data-tabs-responsive="immediate"]');
+  124 |   await responsive.getByRole('button', { name: '收窄空间', exact: true }).click();
+  125 |   await expect(responsive.getByRole('button', { name: '更多分区' })).toBeVisible();
+  126 |   const geometry = await responsive.getByRole('tab').evaluateAll(tabs => tabs.map(tab => ({ width: tab.getBoundingClientRect().width, label: tab.querySelector('[data-part="label"]')!.getBoundingClientRect().width })));
+  127 |   expect(Math.max(...geometry.map(item => item.width)) - Math.min(...geometry.map(item => item.width))).toBeLessThan(0.1);
+  128 |   expect(geometry.every(item => item.label >= 30)).toBe(true);
+  129 | });
+  130 | 
+  131 | test('responsive orientation preserves Root identity, selection, panel drafts and direction keys on either side', async ({ page }) => {
+  132 |   const scope = page.locator('[data-tabs-responsive="immediate"]');
+  133 |   const root = scope.locator('[data-rain-id="ui-tabs"]');
+  134 |   await root.evaluate(node => node.setAttribute('data-identity-check', 'same-root'));
+  135 |   await scope.getByRole('textbox', { name: '课程概览备注' }).fill('换向后保留草稿');
+  136 |   const overview = scope.getByRole('tab', { name: '课程概览', exact: true });
+  137 |   await overview.click();
+  138 |   await overview.press('ArrowDown');
+  139 |   const tasks = scope.getByRole('tab', { name: '待评作业', exact: true });
+  140 |   await expect(tasks).toBeFocused();
+  141 |   await scope.locator('[data-responsive-width]').evaluate(node => (node as HTMLElement).style.width = '320px');
+  142 |   await expect(root).toHaveAttribute('data-position', 'top');
+  143 |   await expect(tasks).toBeFocused();
+  144 |   await expect(tasks).toHaveCSS('height', '38px');
+  145 |   await expect(scope.getByRole('tab', { name: '课程概览', exact: true, includeHidden: true })).toHaveAttribute('aria-selected', 'true');
+  146 |   await tasks.press('End');
+  147 |   await expect(scope.getByRole('tab', { name: '学生', exact: true })).toBeFocused();
+  148 |   await scope.getByRole('tab', { name: '学生', exact: true }).press('Enter');
+  149 |   await scope.locator('[data-responsive-width]').evaluate(node => (node as HTMLElement).style.width = '640px');
+  150 |   await expect(root).toHaveAttribute('data-position', 'start');
+  151 |   await expect(scope.getByRole('tab', { name: '学生', exact: true })).toHaveCSS('height', '60px');
+  152 |   await overview.click();
+  153 |   await expect(scope.getByRole('textbox', { name: '课程概览备注' })).toHaveValue('换向后保留草稿');
+```

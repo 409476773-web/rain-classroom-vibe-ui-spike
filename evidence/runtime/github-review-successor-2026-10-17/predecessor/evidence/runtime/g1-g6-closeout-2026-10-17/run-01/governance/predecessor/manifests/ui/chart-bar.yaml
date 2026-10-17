@@ -1,0 +1,177 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-chart-bar"
+name: "柱状图 BarChart"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "react-only"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/charts/vendor/charts/bar-chart.tsx"
+styleSourcePath: "packages/ui/src/charts/styles.css"
+sourceVersion: "bklit@5d699897b2dde26374cf15501dbaadbc52cea982/rain-local-2026-10-09"
+description: "图表：类别比较、互斥堆叠、同色渐变与圆头渐隐柱。"
+useWhen:
+  - "比较非负类别值，或累加互斥子项展示总量。"
+doNotUseWhen:
+  - "人数系列有重叠仍直接堆叠；本版合同不支持负柱。"
+anatomy:
+  - "宿主标题/单位、原生图形、精确读数/数据表。"
+parts:
+  - "BarChart"
+  - "Bar"
+  - "BarXAxis"
+  - "BarYAxis"
+  - "Grid"
+  - "ChartTooltip"
+  - "ChartLegend"
+  - "BarDepthProvider"
+  - "BarDepthBack"
+  - "BarDepthFront"
+  - "BarSquares"
+  - "Background"
+  - "ReferenceArea"
+  - "DataBar"
+props:
+  - "data类别键唯一；xDataKey显式指定；每个Bar.dataKey指向有限非负值。"
+  - "valueDomain=[0,upper]固定主数值轴，upper有限且大于0；省略维持自动域。"
+  - "BarXAxis/BarYAxis.formatLabel(id,datum)区分稳定ID与显示名称；提示用content读取label。"
+  - "DataBar value:number|null、maxValue、label；valueText补单位，decorative要求宿主已有具名精确读数。"
+  - "stacked决定分组/堆叠；Bar.lineCap与fill表达圆角/渐变，渐变id必须每实例唯一。"
+slots:
+  - "原生children/提示render回调；宿主布局、业务筛选及数据表。"
+variants:
+  - "分组"
+  - "互斥类别堆叠"
+  - "同色渐变"
+  - "圆头渐隐"
+states:
+  - "正常、悬停/焦点、更新/重播；动效/减少动效分别检查。"
+  - "0柱保留基线与表值；负值拒绝；无效数量拒绝，缺测不补零。"
+  - "空/无效状态由宿主先校验并说明，非通用数据适配器。"
+  - "DataBar区分0/null/非法/超域/无尺度全零，不静默截成满条，不自动解释为任务进度。"
+  - "2D保持连续更新与重排；3D深度层保留原有入场及更新兼容路径。"
+dependencies:
+  - "React/React DOM、Rain Foundations；实际固定npm及类型依赖见registry/charts.json。"
+tokens:
+  - "Rain表面、文字、网格、提示、指示器和Focus角色，公共规则见packages/ui/src/charts/README.md。"
+  - "P01同色顶到底opacity .95→.4；P02圆头顶到底opacity 1→0；稳定分类角色。"
+layoutConstraints:
+  - "横向BarYAxis类别标签使用现有13px / 20px，不改变原生颜色与Public Props。"
+  - "保留0基线，首尾柱与纵轴标签按真实柱边缘测距。"
+  - ".rain-chart为独立样式作用域，需可测量尺寸；不依赖实验页祖先或全局Bklit reset。"
+compositionRules:
+  - "业务横条轴与排名名称默认Text/Neutral/3，与既有表格按钮同层；轴局部取消透明淡化并保留悬停色过渡。排名首列随内容占宽、长名称封顶、窄屏名称上移，不改公共辅助文字默认。"
+  - "业务迷你普通读数统一13px / 20px；DataBar以真实宽度连续过渡，端点圆弧不随比例缩放，减少动效即时完成。"
+  - "局部MiniSize紧凑柱96×32 / 舒展128×48，数量与分段轨道厚6 / 8；人数域和每日域分别先求完整集合上限，不随筛选单行归一化。"
+  - "MiniSize属于可下载局部配方，不是公共图表size枚举；尺寸事实源为chart-business/mini-layout.ts。"
+  - "类别键唯一、值有限且非负；分组人数有重叠不相加，堆叠改用互斥等级人数。"
+  - "保留Bklit原生Parts与默认展示强度；数据/单位/分母与色标、提示和表值一致。"
+allowedModifications:
+  - "通过原生Props/Parts选择已列配方、尺寸、标签、单位及受控状态；宿主拥有数据校验。"
+restrictedModifications:
+  - "不改全局Token、品牌主蓝或偷偷扩大到未支持数据合同；不从vendor私有路径绕过公共入口。"
+accessibility:
+  - "宿主提供标题、单位、文本状态和精确数据表；图例可用renderItem接入button焦点。"
+  - "原生hover不代表所有点键盘可达；真实读屏/物理触屏/完整对比度未登记通过。"
+examples:
+  - "apps/playground/src/docs/components/chart-business/mini-layout.ts"
+  - "/#chart-business"
+  - "apps/playground/src/docs/components/chart-business/bar-examples.tsx"
+  - "apps/playground/src/docs/components/chart-business/embedding-examples.tsx"
+  - "/#chart-bar"
+  - "apps/playground/src/docs/components/chart-examples.tsx"
+  - "apps/playground/src/docs/components/chart-data.ts"
+  - "apps/playground/src/docs/components/chart-variants/bar.tsx"
+  - "apps/prototype/bklit-catalog.html#chart-bar"
+recipes:
+  - "monochrome-blue"
+  - "category-near"
+  - "category-wide"
+  - "category-solid"
+  - "bar-gradient"
+  - "bar-fade"
+defaultRecipe: "category-near"
+antiPatterns:
+  - "人数系列有重叠仍直接堆叠；本版合同不支持负柱。"
+relatedComponents:
+  - "ui-chart-composed"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Figma MbWg1ft5zk1JRQiQ6dS30e / 2901:130074 图表分类参考；设计稿配色与渐变提炼，不要求逐像素复制。"
+    - "docs/plans/2026-10-07-chart-reference-recipes-design.md"
+  externalReferences:
+    - "https://github.com/bklit/bklit-ui/tree/5d699897b2dde26374cf15501dbaadbc52cea982/packages/ui/src/charts"
+  retainedTraits:
+    - "Bklit原生图形、Compound API、默认运动与交互表现。"
+  redesignedTraits:
+    - "Rain配色/渐变、字体职责、浅辅助文字、Regular图例和必要轴距；源码必要补丁见source-lock。"
+  intentionallyNotInherited:
+    - "Bklit全局reset和默认石灰色组；未复制业务Mock为UI依赖。"
+figmaMapping:
+  status: "reference-only"
+  fileKey: "MbWg1ft5zk1JRQiQ6dS30e"
+  nodeId: "2901:130074"
+  codeConnect: "not-established"
+sourceEvidence:
+  - "evidence/runtime/chart-business-label-color-layout-2026-10-09/verification.md"
+  - "evidence/runtime/chart-mini-typography-feedback-2026-10-09/verification.md"
+  - "packages/ui/src/charts/vendor/source-lock.json"
+  - "evidence/runtime/bklit-rain-catalog/p0/source-audit.md"
+  - "evidence/runtime/bklit-rain-catalog/verification.md"
+migrationNotes:
+  - "本地共享候选；未发布、未写回Figma、未迁移Rain Classic或生产业务。"
+  - "共同安装、数据状态和升级合同见packages/ui/src/charts/README.md；用途选择见docs/ai/charts.md。"
+verification:
+  automated: "scoped-passed"
+  independentReview: "scoped-passed"
+  humanGate: "awaiting-user-review"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/bklit-rain-catalog/verification.md"
+
+variantCoverage:
+  sourceReference: "apps/playground/src/docs/components/chart-variants/reference.json"
+  plan: "docs/plans/2026-10-08-chart-variants-implementation-plan.md"
+  count: 21
+  implementation: "completed"
+  automatedVerification: "scoped-passed-170-directory"
+  evidence: "evidence/runtime/chart-variants/run-_tv8jhva/verification.md"
+  perVariantEvidence: "evidence/runtime/chart-variants/run-_tv8jhva/per-variant-results.json"
+  visualHumanGate: "awaiting-user-review"
+  ids:
+    - "bar-interactive"
+    - "bar-default"
+    - "bar-loading"
+    - "bar-3d-depth"
+    - "bar-3d-stacked"
+    - "bar-multiple-series"
+    - "bar-stacked"
+    - "bar-horizontal"
+    - "bar-dense-data"
+    - "bar-gradient"
+    - "bar-shape-gradient"
+    - "bar-shape-squircle-ring"
+    - "bar-pattern"
+    - "bar-no-gap"
+    - "bar-custom-tooltip"
+    - "bar-left-y-axis"
+    - "bar-dual-y-axis"
+    - "bar-pattern-background"
+    - "bar-dot-grid-background"
+    - "bar-reference-band"
+    - "bar-pattern-reference-band"
+  callContract:
+    - "6类别、60密集类别或90日日期序列；更新数据改变revision，不改变单位。"
+    - "双轴分别标明人数/完成率%，右轴独立缩放；3D互斥堆叠使用零段间隙。"
+  limitations:
+    - "仅有限非负值；渐变/图案/clip标识每实例唯一，负数仍不在合同内。"
+
+categoryBusinessIncrement:
+  scope: "P3 T12-T15 shared category/missing/per-axis behavior and original bar regression"
+  implementation: "completed-local-technical-delivery"
+  automatedVerification: "368-unit-19-scoped-browser-170-official-and-34-business-independent-consumers"
+  evidence: "evidence/runtime/chart-business-expansion/p3/verification.md"
+  visualHumanGate: "awaiting-user-review"
+  contrastAcceptance: "not-granted"

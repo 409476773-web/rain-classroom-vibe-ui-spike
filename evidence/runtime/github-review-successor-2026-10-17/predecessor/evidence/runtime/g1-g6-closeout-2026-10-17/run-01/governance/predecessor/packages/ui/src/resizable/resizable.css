@@ -1,0 +1,12 @@
+/* Local adaptation of the pinned Nova styles; behavior belongs to the upstream primitives. */
+@layer base {
+  .rain-g1-resizable { min-width: 0; min-height: 0; }
+  .rain-g1-resizable-handle { width: var(--rain-line-thickness-2); align-self: stretch; background: var(--rain-category-background-neutral-2); }
+  .rain-g1-resizable-handle[aria-orientation="horizontal"] { width: 100%; height: var(--rain-line-thickness-2); }
+  .rain-g1-resizable-grip { width: var(--rain-line-thickness-2); height: var(--rain-space-24); border-radius: var(--rain-radius-full); background: currentColor; color: var(--rain-category-icon-neutral-3); }
+  .rain-g1-resizable-handle[aria-orientation="horizontal"] .rain-g1-resizable-grip { width: var(--rain-space-24); height: var(--rain-line-thickness-2); }
+  .rain-g1-resizable-handle:is(:hover, :focus-visible, [data-separator="active"]) { background: var(--rain-category-background-neutral-4); }
+  .rain-g1-resizable-handle:is(:hover, :focus-visible, [data-separator="active"]) .rain-g1-resizable-grip { color: var(--rain-category-icon-brand-1); }
+}
+@media (forced-colors: active) { .rain-g1-resizable-grip { background: ButtonText; forced-color-adjust: none; } }
+@media (forced-colors: active) { .rain-g1-resizable-handle:focus-visible { outline: 2px solid Highlight; outline-offset: -2px; } }

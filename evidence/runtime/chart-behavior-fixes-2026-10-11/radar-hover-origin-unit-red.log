@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/radar-motion.test.tsx (8 tests | 1 failed | 7 skipped) 88ms
+   × disabling entry immediately preserves the active hover styles 87ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > disabling entry immediately preserves the active hover styles
+AssertionError: expected '0px 0px' to be '50% 50%' // Object.is equality
+
+Expected: "50% 50%"
+Received: "0px 0px"
+
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:110:41
+    108|     expect(path.getAttribute("stroke-width")).toBe(index === 0 ? "3" :…
+    109|     expect(group.style.transform).toBe(index === 0 ? "scale(1.05)" : "…
+    110|     expect(group.style.transformOrigin).toBe("50% 50%");
+       |                                         ^
+    111|     expect(group.style.transformBox).toBe("fill-box");
+    112|     expect([...group.querySelectorAll("circle")].every(point => point.…
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:105:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  12:42:26
+   Duration  1.32s (transform 127ms, setup 170ms, import 345ms, tests 88ms, environment 604ms)
+

@@ -1,0 +1,24 @@
+/* Local Recipe: a transparent viewport measuring frame for the independent right
+   Drawer. Rain Resizable's existing 2px line, grip and engine hit regions are reused. */
+.g6-drawer-width-control {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  height: 100dvh;
+  pointer-events: none;
+}
+.g6-drawer-width-control > [data-panel] { pointer-events: none; }
+.g6-drawer-width-control-handle {
+  pointer-events: auto;
+  cursor: col-resize;
+  user-select: none;
+}
+.g6-drawer-width-control-help {
+  position: fixed;
+  width: var(--rain-line-thickness-1);
+  height: var(--rain-line-thickness-1);
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}

@@ -1,0 +1,67 @@
+{
+  "recordedAt": "2026-10-05T08:45:17.443771+00:00",
+  "task": "Actual Safari and VoiceOver W7 environment validation",
+  "candidate": "navigation-v042-f43719b448cf6043",
+  "scope": [
+    "E1 scope selection",
+    "E3 student/question/grading identity",
+    "E4 temporary/pinned/focus/playback preservation",
+    "E6 side-area restoration"
+  ],
+  "environment": {
+    "safariVersion": "26.6.2",
+    "safariBuild": "21624.5.1.11.3",
+    "safaridriverVersionOutput": "Included with Safari 26.6.2 (21624.5.1.11.3)",
+    "macOSVersion": "26.6.2",
+    "macOSBuild": "25G83",
+    "versionCommands": [
+      "/usr/bin/safaridriver --version",
+      "/usr/bin/plutil -extract CFBundleShortVersionString raw /Applications/Safari.app/Contents/Info.plist",
+      "/usr/bin/plutil -extract CFBundleVersion raw /Applications/Safari.app/Contents/Info.plist",
+      "sw_vers"
+    ]
+  },
+  "actualSafari": {
+    "status": "not-run-environment-condition",
+    "attempt": {
+      "tool": "mcp__cua_repl.js",
+      "code": "let safari = await cua.getApp(\"Safari\");",
+      "result": "aborted by user after 1499.3s",
+      "returnedAppState": false,
+      "interruptionInitiatedBy": "root-agent-orchestrator",
+      "userPausedTask": false,
+      "resultInterpretation": "The raw tool text reports user interruption; the root agent deliberately interrupted the hung child tool call. This was not a human request to pause the task."
+    },
+    "reason": "Could not create a session: You must enable 'Allow remote automation' in the Developer section of Safari Settings to control Safari via WebDriver.",
+    "remoteAutomationCapability": "not-enabled; native new-session rejected HTTP 500",
+    "unverifiedPartialEffect": "The interrupted app-selection call may have selected/focused Safari; no returned state confirms or excludes this."
+  },
+  "voiceOver": {
+    "status": "not-run",
+    "reason": "Safari remote automation is not enabled; no actual controlled Safari test page or VoiceOver speech capture was acquired. No system-wide VoiceOver toggle was attempted.",
+    "initialState": "not-running; pgrep -x VoiceOver returned 1",
+    "enabledByThisTask": false,
+    "pythonAXTrusted": true,
+    "pythonAXTrustLimit": "Does not prove CUA host permission or VoiceOver speech capture capability."
+  },
+  "ownedChanges": {
+    "newHTTPService": false,
+    "voiceOverToggle": false,
+    "systemSettingsChange": false,
+    "sourceChange": false,
+    "newBrowserTestPage": false,
+    "temporaryDriverCreatedAndStopped": {
+      "ownedPID": 72759,
+      "exitCode": 0,
+      "noDriverLeftByTask": true
+    }
+  },
+  "limits": [
+    "Version discovery is not actual Safari behavioral validation.",
+    "No keyboard, pointer, focus, region, state announcement, or VoiceOver speech assertions are passed.",
+    "The interrupted tool call does not establish that the tool is unavailable or that macOS permission is missing.",
+    "No Playwright WebKit result is used as actual Safari evidence."
+  ],
+  "conclusion": "Actual Safari behavioral validation remains not-run because existing remote automation is disabled; no setting was changed. VoiceOver speech validation remains not-run. Native capability probing completed and owned driver was stopped.",
+  "nativeCapabilityEvidence": "native-capability.json"
+}

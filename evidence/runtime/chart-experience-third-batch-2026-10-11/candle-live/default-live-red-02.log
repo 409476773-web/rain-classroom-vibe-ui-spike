@@ -1,0 +1,67 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-live-lifecycle.test.tsx (3 tests | 3 failed) 276ms
+   × default live pause and replay preserve the same chart, points and frozen window 224ms
+   × default live automatic offscreen and background stopping cleans only its own producer and native clock 35ms
+   × default live restores and republishes the actual paused points and manual clock 16ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-live-lifecycle.test.tsx > default live pause and replay preserve the same chart, points and frozen window
+TypeError: Cannot read properties of null (reading 'getAttribute')
+ ❯ path apps/playground/src/docs/components/chart-live-lifecycle.test.tsx:35:87
+     33| const clockFrames = () => [...frames.values()].filter(callback => call…
+     34| const plot = (replay = 0, revision = 0) => <ChartExample id="live-line…
+     35| const path = (container: HTMLElement) => container.querySelector("path…
+       |                                                                                       ^
+     36| const rows = (container: HTMLElement) => container.querySelector("tbod…
+     37| async function visibility(visible: boolean) {
+ ❯ apps/playground/src/docs/components/chart-live-lifecycle.test.tsx:46:55
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-live-lifecycle.test.tsx > default live automatic offscreen and background stopping cleans only its own producer and native clock
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ apps/playground/src/docs/components/chart-live-lifecycle.test.tsx:66:25
+     64|   await act(async () => { await visibility(true); vi.advanceTimersByTi…
+     65|   expect(vi.getTimerCount()).toBe(1);
+     66|   expect(clockFrames()).toBe(1);
+       |                         ^
+     67|   expect(observers.length).toBeGreaterThan(0);
+     68|   const prior = rows(view.container);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-live-lifecycle.test.tsx > default live restores and republishes the actual paused points and manual clock
+AssertionError: expected …(60) to have a length of 2 but got 60
+
+- Expected
++ Received
+
+- 2
++ 60
+
+ ❯ apps/playground/src/docs/components/chart-live-lifecycle.test.tsx:98:55
+     96|   const change = vi.fn();
+     97|   const view = render(<ChartExample id="live-line" liveSettings={{ poi…
+     98|   expect(view.container.querySelectorAll("tbody tr")).toHaveLength(2);
+       |                                                       ^
+     99|   expect(rows(view.container)).toContain("77");
+    100|   expect(vi.getTimerCount()).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  14:58:29
+   Duration  3.47s (transform 1.68s, setup 99ms, import 2.53s, tests 276ms, environment 470ms)
+

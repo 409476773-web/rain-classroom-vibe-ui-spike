@@ -1,0 +1,15 @@
+/* Existing Rain G2 source adaptation; source-lock and MIT notice retained. */
+@layer base {
+  .rain-g2-toggle-group { gap: var(--rain-space-8); padding: var(--rain-space-4); border: var(--rain-line-thickness-1) solid var(--rain-color-border-subtle); border-radius: var(--rain-radius-6); background: var(--rain-color-surface-subtle); }
+  .rain-g2-toggle-group[data-orientation="vertical"] { flex-direction: column; align-items: stretch; }
+  .rain-g2-toggle-group[data-spacing="0"] { gap: 0; padding: 0; border-color: var(--rain-color-border-default); border-radius: var(--rain-radius-6); background: var(--rain-color-surface-panel); }
+  .rain-g2-toggle-group[data-spacing="0"] > .rain-g2-toggle { border: 0; border-radius: 0; }
+  .rain-g2-toggle-group[data-spacing="0"][data-orientation="horizontal"] > :first-child { border-start-start-radius: var(--rain-radius-6); border-end-start-radius: var(--rain-radius-6); }
+  .rain-g2-toggle-group[data-spacing="0"][data-orientation="horizontal"] > :last-child { border-start-end-radius: var(--rain-radius-6); border-end-end-radius: var(--rain-radius-6); }
+  .rain-g2-toggle-group[data-spacing="0"][data-orientation="horizontal"] > :not(:first-child) { border-inline-start: var(--rain-line-thickness-1) solid var(--rain-color-border-default); }
+  .rain-g2-toggle-group[data-spacing="0"] > .rain-g2-toggle[aria-pressed="true"] { box-shadow: inset 0 0 0 1px var(--rain-color-focus-control); }
+  .rain-g2-toggle-group[data-spacing="0"][data-orientation="vertical"] > :first-child { border-top-left-radius: var(--rain-radius-6); border-top-right-radius: var(--rain-radius-6); }
+  .rain-g2-toggle-group[data-spacing="0"][data-orientation="vertical"] > :last-child { border-bottom-left-radius: var(--rain-radius-6); border-bottom-right-radius: var(--rain-radius-6); }
+  .rain-g2-toggle-group[data-spacing="0"][data-orientation="vertical"] > :not(:first-child) { border-top: var(--rain-line-thickness-1) solid var(--rain-color-border-default); }
+  .rain-g2-toggle-group > :is([aria-pressed="true"], :focus-visible) { position: relative; z-index: 1; }
+}

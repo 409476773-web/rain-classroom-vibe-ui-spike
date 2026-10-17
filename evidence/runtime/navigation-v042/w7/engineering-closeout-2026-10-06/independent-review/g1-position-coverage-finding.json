@@ -1,0 +1,19 @@
+{
+  "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042.spec.ts",
+  "line": 36,
+  "status": "current-frame-assertions-accept-arbitrary-logoX-logoY-displacement",
+  "positionSamples": [
+    {
+      "logoX": 9999,
+      "logoY": 9999
+    },
+    {
+      "logoX": 9999,
+      "logoY": -9999
+    }
+  ],
+  "sourceAssertions": "const opening=await trace();expect(opening.retained).toBe(true);expect(opening.collapsed).toBe('false');\n  expect(opening.frames.at(-1).width).toBe(208);\n  expect(opening.frames.filter(f=>f.width>64&&f.width<208).length).toBeGreaterThan(2);\n  expect(opening.frames.at(-1)).toMatchObject({opacity:1,display:'block'});\n  const closing=await trace();expect(closing.retained).toBe(true);expect(closing.frames.at(-1).width).toBe(64);\n  expect(closing.frames.filter(f=>f.width>64&&f.width<208).length).toBeGreaterThan(2);\n  // Review11 switches the compact brand to a stacked head, retaining its mounted 23px glyph.\n  expect(closing.frames.at(-1)).toMatchObject({opacity:1,display:'none'});\n  for(const t of [opening,closing])expect(t.frames.every(f=>f.logoWidth===23&&f.logoHeight===23)).toBe(true);\n",
+  "recommendation": "Replace the superseded old jump threshold with exact accepted compact/expanded source-based logo positions; do not widen the old threshold.",
+  "sourceSha256": "9337b6a0c4c8cd46375fafbe0ab8db054bed3e8752dcde7a52bbedf2e8538715",
+  "scope": "Deterministic source assertion coverage review only. No browser execution, product mutation or fabricated runtime pass."
+}

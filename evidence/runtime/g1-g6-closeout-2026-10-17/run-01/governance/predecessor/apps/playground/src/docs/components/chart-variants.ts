@@ -1,0 +1,13 @@
+import reference from "./chart-variants/reference.json";
+import { BAR_VARIANT_IDS, BarVariant } from "./chart-variants/bar";
+import { TREND_VARIANT_IDS, TrendVariant } from "./chart-variants/trend";
+import { RADIAL_VARIANT_IDS, RadialVariant } from "./chart-variants/radial";
+import { COMPARISON_VARIANT_IDS, ComparisonVariant } from "./chart-variants/comparison";
+import { STRUCTURE_VARIANT_IDS, StructureVariant } from "./chart-variants/structure";
+import { SPECIAL_VARIANT_IDS, SpecialVariant } from "./chart-variants/special";
+import type { ChartId } from "./chart-catalog";
+export type ChartVariant = Omit<typeof reference[number], "chartId" | "family"> & { chartId: ChartId; family: ChartId };
+export const CHART_VARIANT_REFERENCE = reference;
+const implemented = new Set<string>([...BAR_VARIANT_IDS, ...TREND_VARIANT_IDS, ...RADIAL_VARIANT_IDS, ...COMPARISON_VARIANT_IDS, ...STRUCTURE_VARIANT_IDS, ...SPECIAL_VARIANT_IDS]);
+export const CHART_VARIANTS: ChartVariant[] = reference.filter(item => implemented.has(item.id)) as ChartVariant[];
+export const variantExamples = { bar: BarVariant, area: TrendVariant, line: TrendVariant, composed: TrendVariant, "profit-loss": TrendVariant, pie: RadialVariant, ring: RadialVariant, radar: RadialVariant, scatter: ComparisonVariant, funnel: ComparisonVariant, gauge: ComparisonVariant, heatmap: StructureVariant, choropleth: StructureVariant, sankey: StructureVariant, sunburst: StructureVariant, candlestick: SpecialVariant, "live-line": SpecialVariant };

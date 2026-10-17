@@ -1,0 +1,123 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-tooltip"
+name: "Tooltip"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "rewrite-from-rain"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/tooltip/tooltip.tsx"
+styleSourcePath: "packages/ui/src/tooltip/tooltip.css"
+sourceVersion: "local-2026-09-20"
+description: "固定深色、纯文字的就近说明，继承 Rain Classic Tooltip 视觉与行为。"
+useWhen:
+  - "解释图标按钮、缩写或补全被省略的短文字。"
+doNotUseWhen:
+  - "长说明、富内容、按钮链接或点击固定：使用 Popover；必读规则保留正文。"
+anatomy:
+  - "trigger"
+  - "positioner"
+  - "content"
+  - "arrow"
+parts:
+  - "content"
+  - "arrow"
+props:
+  - "text: required plain string; whitespace-only prevents opening"
+  - "children: exactly one real focusable element; custom components forward ref and events"
+  - "placement: top/right/bottom/left with optional -start/-end; default bottom; change side only when space is insufficient"
+  - "showArrow=true; open/defaultOpen; disabled=false"
+  - "openDelay=100 / closeDelay=100 milliseconds; focus opens immediately"
+  - "portal=false; portalTarget=HTMLElement or getter when portal=true"
+  - "onOpenChange(open, details): Base UI reason/event/cancel; parent owns controlled state"
+  - "ref: forwards to the real trigger"
+slots:
+  - "children: trigger only"
+variants:
+  - "12 placement values"
+  - "optional arrow"
+states:
+  - "closed"
+  - "open"
+  - "disabled"
+  - "empty"
+  - "focus"
+  - "hover"
+dependencies:
+  - "@base-ui/react@1.8.0"
+  - "PopupProvider"
+  - "existing popup positioner CSS"
+tokens:
+  - "--rain-tooltip-background: fixed #2F3545"
+  - "--rain-tooltip-foreground: existing white inverse text"
+  - "14/20 PingFang SC Regular"
+  - "16px inline / 7px block padding"
+  - "6px radius"
+  - "14x6 arrow"
+  - "250px maximum width"
+layoutConstraints:
+  - "No visible trigger wrapper or extra tab stop; local mount has display:contents"
+  - "Use portal for clipping ancestors; flip/shift and viewport padding remain engine-owned"
+compositionRules:
+  - "Default placement follows top-to-bottom, left-to-right reading flow; below first, collision fallback only as needed"
+  - "Trigger retains its accessible name, existing descriptions and handlers"
+  - "Tooltip text is noninteractive; no second interaction state controller"
+allowedModifications:
+  - "Text, placement, delays, visibility, arrow and mount target through props"
+restrictedModifications:
+  - "Do not insert rich content, steal focus or replace fixed visual Tokens in a consumer"
+accessibility:
+  - "role=tooltip and merged aria-describedby"
+  - "Escape/Blur/Tab dismiss"
+  - "Hovered content remains readable"
+  - "Forced-colors uses system colors"
+examples:
+  - "packages/ui/src/tooltip/README.md"
+  - "apps/prototype/src/scenarios/token-first-g1/next-samples.tsx"
+recipes: []
+antiPatterns:
+  - "Essential instructions available only on hover"
+  - "Buttons or links inside Tooltip"
+relatedComponents:
+  - "ui-popover"
+  - "ui-icon-button"
+  - "ui-button"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "src/components/Tooltip/Tooltip.vue"
+    - "src/components/Tooltip/tooltip.scss"
+    - "docs/reports/2026-08-05-tooltip-popover-gate-2-approved.md"
+  externalReferences:
+    - "@base-ui/react@1.8.0 Tooltip"
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048: original G1 adapter"
+  retainedTraits:
+    - "Fixed dark surface, white text, typography, spacing, radius, triangle arrow and text-only boundary"
+  redesignedTraits:
+    - "React single-trigger composition; existing Base UI engine handles positioning and dismissal"
+  intentionallyNotInherited:
+    - "Vue SCSS/controller implementation"
+    - "Legacy publication state does not transfer"
+figmaMapping:
+  fileKey: "olqwu95QD6n4Y3IAwUdgF4"
+  nodeId: "1749:85201"
+  originalFileKey: "MbWg1ft5zk1JRQiQ6dS30e"
+  originalNodeId: "1:5214"
+migrationNotes: "Replaces the local G1 Tooltip. Existing Tabs truncation helper is outside this migration."
+humanGate: "accepted"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "passed"
+  scope: "Tooltip component, Token contract, G1 replacement and Resizable regression only"
+  independentReview: "passed"
+  evidence: "evidence/runtime/tooltip-classic/verification.md"
+  humanGate: "accepted"
+  contrastAcceptance: "not-granted"
+  humanGateDecision:
+    acceptedAt: "2026-09-20"
+    decisionSource: "explicit-user-tooltip-confirmation"
+    userStatement: "确定。"
+    scope: "tooltip-current-runtime-visual-and-bottom-first-interaction"
+    evidence: "evidence/runtime/tooltip-classic/verification.md"

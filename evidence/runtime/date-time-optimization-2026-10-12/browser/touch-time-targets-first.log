@@ -1,0 +1,42 @@
+
+Running 1 test using 1 worker
+
+(node:99937) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [touch390] › tests/e2e/date-time-optimization.spec.ts:272:1 › D16 responsive panels preserve draft, contain overflow and retain touch hit areas (1.4s)
+
+
+  1) [touch390] › tests/e2e/date-time-optimization.spec.ts:272:1 › D16 responsive panels preserve draft, contain overflow and retain touch hit areas 
+
+    Error: [{"tag":"上个月","width":44,"height":44},{"tag":"下个月","width":44,"height":44},{"tag":"2026年10月1日","width":51.140625,"height":44},{"tag":"2026年10月2日","width":51.140625,"height":44},{"tag":"2026年10月3日","width":51.140625,"height":44},{"tag":"2026年10月4日","width":51.15625,"height":44},{"tag":"2026年10月5日","width":51.140625,"height":44},{"tag":"2026年10月6日","width":51.140625,"height":44},{"tag":"2026年10月7日","width":51.140625,"height":44},{"tag":"2026年10月8日","width":51.140625,"height":44},{"tag":"2026年10月9日","width":51.140625,"height":44},{"tag":"2026年10月10日","width":51.140625,"height":44},{"tag":"2026年10月11日","width":51.15625,"height":44},{"tag":"2026年10月12日，今天","width":51.140625,"height":44},{"tag":"2026年10月13日，已选中","width":51.140625,"height":44},{"tag":"2026年10月14日，已选中","width":51.140625,"height":44},{"tag":"2026年10月15日","width":51.140625,"height":44},{"tag":"2026年10月16日","width":51.140625,"height":44},{"tag":"2026年10月17日","width":51.140625,"height":44},{"tag":"2026年10月18日","width":51.15625,"height":44},{"tag":"2026年10月19日","width":51.140625,"height":44},{"tag":"2026年10月20日","width":51.140625,"height":44},{"tag":"2026年10月21日","width":51.140625,"height":44},{"tag":"2026年10月22日","width":51.140625,"height":44},{"tag":"2026年10月23日","width":51.140625,"height":44},{"tag":"2026年10月24日","width":51.140625,"height":44},{"tag":"2026年10月25日","width":51.15625,"height":44},{"tag":"2026年10月26日","width":51.140625,"height":44},{"tag":"2026年10月27日","width":51.140625,"height":44},{"tag":"2026年10月28日","width":51.140625,"height":44},{"tag":"2026年10月29日","width":51.140625,"height":44},{"tag":"2026年10月30日","width":51.140625,"height":44},{"tag":"2026年10月31日","width":51.140625,"height":44},{"tag":"2026年11月1日","width":51.15625,"height":44},{"tag":"2026年11月2日","width":51.140625,"height":43.99993896484375},{"tag":"2026年11月3日","width":51.140625,"height":43.99993896484375},{"tag":"2026年11月4日","width":51.140625,"height":43.99993896484375},{"tag":"2026年11月5日","width":51.140625,"height":43.99993896484375},{"tag":"2026年11月6日","width":51.140625,"height":43.99993896484375},{"tag":"2026年11月7日","width":51.140625,"height":43.99993896484375},{"tag":"2026年11月8日","width":51.15625,"height":43.99993896484375},{"tag":"清空","width":36,"height":44},{"tag":"取消","width":70,"height":44},{"tag":"确定","width":70,"height":44}]
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      279 |     const targets = await panel(page).locator('.rain-calendar__day-button, .rain-date-picker__actions > button, .rain-calendar__nav > button').evaluateAll(nodes => nodes.map(node => ({ tag: node.getAttribute("aria-label") || node.textContent, width: node.getBoundingClientRect().width, height: node.getBoundingClientRect().height })));
+      280 |     writeFileSync(`${evidence}/touch-targets-${info.project.name}.json`, JSON.stringify(targets, null, 2));
+    > 281 |     expect.soft(targets.every(target => target.width + 0.01 >= 44 && target.height + 0.01 >= 44), JSON.stringify(targets)).toBe(true);
+          |                                                                                                                            ^
+      282 |     await panel(page).getByRole("combobox", { name: "开始常用时间", exact: true }).click();
+      283 |     const options = page.getByRole("option"); await expect(options.first()).toBeVisible();
+      284 |     const timeTargets = await options.evaluateAll(nodes => nodes.map(node => ({ label: node.textContent, width: node.getBoundingClientRect().width, height: node.getBoundingClientRect().height })));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/date-time-optimization.spec.ts:281:124
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/date-time-optimization-2026-10-12/browser/results/date-time-optimization-D16-f869c--and-retain-touch-hit-areas-touch390/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/date-time-optimization-2026-10-12/browser/results/date-time-optimization-D16-f869c--and-retain-touch-hit-areas-touch390/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/date-time-optimization-2026-10-12/browser/results/date-time-optimization-D16-f869c--and-retain-touch-hit-areas-touch390/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/date-time-optimization-2026-10-12/browser/results/date-time-optimization-D16-f869c--and-retain-touch-hit-areas-touch390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [touch390] › tests/e2e/date-time-optimization.spec.ts:272:1 › D16 responsive panels preserve draft, contain overflow and retain touch hit areas 

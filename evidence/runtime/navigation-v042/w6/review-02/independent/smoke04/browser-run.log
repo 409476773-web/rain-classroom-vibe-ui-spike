@@ -1,0 +1,40 @@
+
+Running 1 test using 1 worker
+
+(node:77842) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [firefox] › tests/e2e/navigation-v042-w6-review02.spec.ts:244:1 › R02 E2 800 forced temporary navigation keeps main geometry and native restore focus (2.5s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) [firefox] › tests/e2e/navigation-v042-w6-review02.spec.ts:244:1 › R02 E2 800 forced temporary navigation keeps main geometry and native restore focus 
+
+    Error: Native Tab traversal did not reach 显示课堂活动
+
+      59 |   const context = await page.evaluate(() => ({ hasFocus: document.hasFocus(), userAgent: navigator.userAgent, url: location.href }));
+      60 |   await record('native-keyboard-focus-traversal', { key, visited, context });
+    > 61 |   throw new Error(`Native ${key} traversal did not reach ${await target.getAttribute('aria-label')}`);
+         |         ^
+      62 | }
+      63 | async function surfaceProfile(surface: Locator) {
+      64 |   return surface.evaluate(element => {
+        at tabTo (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6-review02.spec.ts:61:9)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6-review02.spec.ts:250:44
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/review-02/independent/smoke04/artifacts/navigation-v042-w6-review0-01ae1-ry-and-native-restore-focus-firefox/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/review-02/independent/smoke04/artifacts/navigation-v042-w6-review0-01ae1-ry-and-native-restore-focus-firefox/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/review-02/independent/smoke04/artifacts/navigation-v042-w6-review0-01ae1-ry-and-native-restore-focus-firefox/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/review-02/independent/smoke04/artifacts/navigation-v042-w6-review0-01ae1-ry-and-native-restore-focus-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [firefox] › tests/e2e/navigation-v042-w6-review02.spec.ts:244:1 › R02 E2 800 forced temporary navigation keeps main geometry and native restore focus 
+  1 error was not a part of any test, see above for details

@@ -1,0 +1,76 @@
+
+Running 10 tests using 1 worker
+
+(node:8976) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/e2e/g2-g3-remaining-families.spec.ts:7:1 › navigation opens below its trigger without resizing the toolbar and retains current destination (1.3s)
+  ✓   2 tests/e2e/g2-g3-remaining-families.spec.ts:27:1 › context menus have readable disabled states, restrained separators and bounded rows (1.3s)
+  ✓   3 tests/e2e/g2-g3-remaining-families.spec.ts:41:1 › menubar uses neutral open feedback and muted disabled commands (1.3s)
+  ✓   4 tests/e2e/g2-g3-remaining-families.spec.ts:55:1 › hover card has a real content width limit and a usable linked object (2.0s)
+  ✘   5 tests/e2e/g2-g3-remaining-families.spec.ts:68:1 › skeletons remain visible on their surface and stop motion for reduced-motion (1.2s)
+(node:8987) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 tests/e2e/g2-g3-remaining-families.spec.ts:84:1 › toast follows the selected documentation theme and keeps its undo action (1.5s)
+  ✘   7 tests/e2e/g2-g3-remaining-families.spec.ts:94:1 › dark compact popups remain inside a narrow viewport and inherit their trigger theme (6.5s)
+(node:10835) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 tests/e2e/g2-g3-remaining-families.spec.ts:118:1 › resource scrolling and the displayed keyboard shortcut perform their real actions (1.3s)
+  ✓   9 tests/e2e/g2-g3-remaining-families.spec.ts:134:1 › sheet supports all four sides with a scrollable body and a visible footer (1.7s)
+  ✓  10 tests/e2e/g2-g3-remaining-families.spec.ts:153:1 › all remaining pages fit narrow screens and sheet retains draft and focus (1.0s)
+
+
+  1) tests/e2e/g2-g3-remaining-families.spec.ts:68:1 › skeletons remain visible on their surface and stop motion for reduced-motion 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 74
+    Received: 84
+
+      78 |   await page.getByRole("button", { name: "显示课程内容", exact: true }).click();
+      79 |   await expect(page.getByText("教学设计导论", { exact: true })).toBeVisible();
+    > 80 |   expect((await page.locator(".skeleton-doc-record").boundingBox())!.height).toBe(rowHeight);
+         |                                                                              ^
+      81 |   expect((await page.locator(".skeleton-doc-list").boundingBox())!.height).toBe(listHeight);
+      82 | });
+      83 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g2-g3-remaining-families.spec.ts:80:78
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-s-c07c4-p-motion-for-reduced-motion/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-s-c07c4-p-motion-for-reduced-motion/error-context.md
+
+  2) tests/e2e/g2-g3-remaining-families.spec.ts:94:1 › dark compact popups remain inside a narrow viewport and inherit their trigger theme 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-rain-id="ui-hover-card"][data-slot="popup"]')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[data-rain-id="ui-hover-card"][data-slot="popup"]')
+
+
+      103 |     if (id === "navigation-menu") await page.getByRole("button", { name:"教学空间", exact:true }).click();
+      104 |     const popup = id === "navigation-menu" ? page.locator(".rain-navigation-menu-content") : id === "menubar" ? page.locator(".rain-g3-menu-popup") : page.locator(`[data-rain-id="ui-${id}"][data-slot="popup"]`);
+    > 105 |     await expect(popup).toBeVisible();
+          |                         ^
+      106 |     const box = (await popup.boundingBox())!;
+      107 |     expect(box.x, id).toBeGreaterThanOrEqual(0);
+      108 |     expect(box.x + box.width, id).toBeLessThanOrEqual(391);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g2-g3-remaining-families.spec.ts:105:25
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-d-9c97a-inherit-their-trigger-theme/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-d-9c97a-inherit-their-trigger-theme/error-context.md
+
+  2 failed
+    tests/e2e/g2-g3-remaining-families.spec.ts:68:1 › skeletons remain visible on their surface and stop motion for reduced-motion 
+    tests/e2e/g2-g3-remaining-families.spec.ts:94:1 › dark compact popups remain inside a narrow viewport and inherit their trigger theme 
+  8 passed (20.4s)

@@ -1,0 +1,57 @@
+
+Running 8 tests using 1 worker
+
+(node:41533) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/navigation-v042-w6-review02.spec.ts:87:3 › R02-C07-C08-C10-C11 E2 compact hierarchy and filled feedback at 1200x747 (672ms)
+  ✓  2 [chromium] › tests/e2e/navigation-v042-w6-review02.spec.ts:111:3 › R02-C09 E2 complete members 4-5-6 with loaded portraits and stable IDs at 1200x747 (940ms)
+  ✓  3 [chromium] › tests/e2e/navigation-v042-w6-review02.spec.ts:87:3 › R02-C07-C08-C10-C11 E2 compact hierarchy and filled feedback at 1343x747 (640ms)
+  ✓  4 [chromium] › tests/e2e/navigation-v042-w6-review02.spec.ts:111:3 › R02-C09 E2 complete members 4-5-6 with loaded portraits and stable IDs at 1343x747 (926ms)
+  ✓  5 [chromium] › tests/e2e/navigation-v042-w6-review02.spec.ts:87:3 › R02-C07-C08-C10-C11 E2 compact hierarchy and filled feedback at 1600x747 (641ms)
+  ✓  6 [chromium] › tests/e2e/navigation-v042-w6-review02.spec.ts:111:3 › R02-C09 E2 complete members 4-5-6 with loaded portraits and stable IDs at 1600x747 (917ms)
+  ✓  7 [chromium] › tests/e2e/navigation-v042-w6-review02.spec.ts:206:1 › R02 E2 feedback belongs to the stable group across activities and detail tabs (803ms)
+  ✘  8 [chromium] › tests/e2e/navigation-v042-w6-review02.spec.ts:214:1 › R02 E2 996 temporary navigation keeps main geometry, draft and native restore focus (5.7s)
+
+
+  1) [chromium] › tests/e2e/navigation-v042-w6-review02.spec.ts:214:1 › R02 E2 996 temporary navigation keeps main geometry, draft and native restore focus 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-scene="E2"]').locator('.rain-workspace__region[data-region-id="activities"]')
+    Expected: "hidden"
+    Received: "expanded"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for locator('[data-scene="E2"]').locator('.rain-workspace__region[data-region-id="activities"]')
+        14 × locator resolved to <div data-side="start" aria-label="课堂活动" data-forced="false" data-mode="expanded" data-temporary="false" data-region-id="activities" id="_r_k_-workspace-activities" class="rain-workspace__region w6-pane w6-activity-pane">…</div>
+           - unexpected value "expanded"
+
+
+      221 |   await root.getByRole('button', { name: '显示小组列表', exact: true }).click();
+      222 |   await page.setViewportSize({ width: 996, height: 747 });
+    > 223 |   const hidden = region(root, 'activities'); await expect(hidden).toHaveAttribute('data-mode', 'hidden');
+          |                                                                   ^
+      224 |   const restore = root.getByRole('button', { name: '显示课堂活动', exact: true });
+      225 |   await root.getByRole('textbox', { name: '课堂反馈草稿' }).fill('窄屏恢复前的反馈');
+      226 |   const before = await main.boundingBox(); await tabTo(page, restore); await page.keyboard.press('Enter');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6-review02.spec.ts:223:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/review-02/independent/smoke01/artifacts/navigation-v042-w6-review0-ae8f7-ft-and-native-restore-focus-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w6/review-02/independent/smoke01/artifacts/navigation-v042-w6-review0-ae8f7-ft-and-native-restore-focus-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w6/review-02/independent/smoke01/artifacts/navigation-v042-w6-review0-ae8f7-ft-and-native-restore-focus-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w6/review-02/independent/smoke01/artifacts/navigation-v042-w6-review0-ae8f7-ft-and-native-restore-focus-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/navigation-v042-w6-review02.spec.ts:214:1 › R02 E2 996 temporary navigation keeps main geometry, draft and native restore focus 
+  7 passed (11.7s)

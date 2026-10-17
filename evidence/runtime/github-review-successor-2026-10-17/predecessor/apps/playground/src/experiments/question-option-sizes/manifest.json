@@ -1,0 +1,88 @@
+{
+  "id": "local-question-option-size-review",
+  "name": "题号与选项六档尺寸对照",
+  "assetIdentity": "local-experiment",
+  "maturity": "local-experiment",
+  "scope": "question-option-six-size-local-review-only",
+  "sourcePath": "apps/playground/src/experiments/question-option-sizes/main.tsx",
+  "sourceVersion": "2026-09-08",
+  "origins": [
+    "ui-question-number",
+    "ui-option-button"
+  ],
+  "design": "docs/plans/2026-09-08-question-option-size-design.md",
+  "entry": "/question-option-sizes.html",
+  "delivery": "local-vite-dev-preview",
+  "recipes": [],
+  "candidateTokens": [],
+  "tokenSources": [
+    "Space",
+    "Typography",
+    "Radius",
+    "Icon/Size",
+    "Line/Thickness",
+    "Category/Color"
+  ],
+  "cssExceptions": [],
+  "accessibility": "Reuse native buttons, radio groups and checkboxes; retain shared Focus and forced-colors behavior.",
+  "mockData": "All question numbers, option text and charts are review examples.",
+  "designFeedback": {
+    "decisionSource": "explicit-user-size-review-feedback",
+    "smallFeedback": {
+      "decision": "A",
+      "status": "accepted",
+      "userStatement": "选择方案A",
+      "markerSize": 12,
+      "offset": 2
+    },
+    "appliedAdjustments": {
+      "size20": {
+        "fontSize": 11,
+        "lineHeight": 16,
+        "squareRadius": 4
+      },
+      "size40": {
+        "feedbackMarkerSize": 14,
+        "feedbackGlyphSize": 10
+      }
+    }
+  },
+  "openDecisions": [],
+  "humanGate": "accepted",
+  "humanGateDecision": {
+    "acceptedAt": "2026-09-08",
+    "decisionSource": "explicit-user-confirmation-after-size-adjustments",
+    "userStatement": "确定，没问题。",
+    "scope": "question-option-six-size-local-visual-only",
+    "accepted": [
+      "six size recipes",
+      "20px 11/16 typography and 4px square radius",
+      "40px 14px feedback markers and 10px glyphs",
+      "20px feedback A",
+      "shown 1/12/100 examples",
+      "displayed density padding and spacing"
+    ],
+    "evidence": "docs/plans/2026-09-08-question-option-size-design.md",
+    "doesNotAuthorize": [
+      "public-component-size-rollout",
+      "contrast-exceptions",
+      "publication-business-migration-or-git"
+    ]
+  },
+  "publication": "not-authorized",
+  "publicImplementation": {
+    "scope": "question-option-six-public-sizes-default-28-and-density-spacing",
+    "implementation": "completed",
+    "automatedVerification": "passed",
+    "independentReview": "passed",
+    "humanGate": "accepted",
+    "evidence": "docs/plans/2026-09-08-question-option-size-implementation.md",
+    "decisionSource": "explicit-user-continue-after-six-size-visual-acceptance",
+    "userStatement": "继续推进",
+    "sharedSizeSource": "packages/ui/src/recipes/question-option-size.ts",
+    "replacesLocalRecipes": [
+      "question-size-review",
+      "option-size-review"
+    ]
+  }
+}

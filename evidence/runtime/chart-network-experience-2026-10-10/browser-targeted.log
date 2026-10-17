@@ -1,0 +1,84 @@
+
+Running 2 tests using 1 worker
+
+(node:10216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-business-network.spec.ts:81:1 › filtering preserves full routes and fast style reversal reconnects only the latest layout (5.0s)
+(node:10225) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/e2e/chart-business-network.spec.ts:122:1 › offscreen graphs enter when revealed and reduced motion cancels pending reconnection (3.5s)
+
+
+  1) tests/e2e/chart-business-network.spec.ts:81:1 › filtering preserves full routes and fast style reversal reconnects only the latest layout 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 42
+
+    - Array []
+    + Array [
+    +   "algorithms-data/organization",
+    +   "algorithms-data/random-vectors",
+    +   "algorithms-engineering/engineering",
+    +   "algorithms-intelligence/organization",
+    +   "data-algorithms/data-structures",
+    +   "database-engineering/organization",
+    +   "database-engineering/statistics",
+    +   "database-networks/organization",
+    +   "engineering-database/statistics",
+    +   "engineering-database/organization",
+    +   "intelligence-algorithms/organization",
+    +   "intelligence-algorithms/engineering",
+    +   "math-data/data-structures",
+    +   "math-database/mathematics",
+    +   "math-networks/mathematics",
+    +   "math-networks/networks",
+    +   "organization-networks/organization",
+    +   "programming-data/data-structures",
+    +   "statistics-database/networks",
+    +   "vectors-statistics/intelligence",
+    +   "vectors-statistics/organization",
+    +   "vectors-statistics/algorithms",
+    +   "data-algorithms/algorithms",
+    +   "database-engineering/engineering",
+    +   "database-networks/engineering",
+    +   "database-networks/statistics",
+    +   "engineering-database/engineering",
+    +   "math-networks/algorithms",
+    +   "networks-engineering/statistics",
+    +   "organization-networks/engineering",
+    +   "organization-networks/statistics",
+    +   "programming-algorithms/algorithms",
+    +   "statistics-database/algorithms",
+    +   "statistics-database/database",
+    +   "math-networks/statistics",
+    +   "programming-database/database",
+    +   "statistics-database/statistics",
+    +   "vectors-statistics/random-vectors",
+    +   "math-data/mathematics",
+    +   "networks-engineering/engineering",
+    + ]
+
+      115 |   await writeFile(`${evidence}/network-transition-frames.json`,JSON.stringify(facts,null,2));
+      116 |   expect(facts.frames).toBeGreaterThan(15);
+    > 117 |   expect(facts.hits).toEqual([]);
+          |                      ^
+      118 |   expect((await geometryAudit(chart, fixtures.find(fixture=>fixture.id==='courses')!.edges)).hits).toEqual([]);
+      119 |   await chart.screenshot({path:`${evidence}/network-structured-latest.png`});
+      120 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-network.spec.ts:117:22
+
+    Error Context: evidence/runtime/chart-network-experience-2026-10-10/browser-results/chart-business-network-fil-2253b-ects-only-the-latest-layout/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-network-experience-2026-10-10/browser-results/chart-business-network-fil-2253b-ects-only-the-latest-layout/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-network-experience-2026-10-10/browser-results/chart-business-network-fil-2253b-ects-only-the-latest-layout/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-business-network.spec.ts:81:1 › filtering preserves full routes and fast style reversal reconnects only the latest layout 
+  1 passed (9.4s)

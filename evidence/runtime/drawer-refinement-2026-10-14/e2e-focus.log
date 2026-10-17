@@ -1,0 +1,45 @@
+
+Running 3 tests using 1 worker
+
+(node:12632) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/e2e/drawer-refinement.spec.ts:21:1 › aligned surface, fixed actions and single-layer preview preserve the draft (2.6s)
+  ✓  2 [desktop] › tests/e2e/drawer-refinement.spec.ts:88:1 › long reading scrolls while the heading and return control stay visible (1.9s)
+  ✘  3 [desktop] › tests/e2e/drawer-refinement.spec.ts:104:1 › top and bottom snap regions align with and without handles (30.0s)
+
+
+  1) [desktop] › tests/e2e/drawer-refinement.spec.ts:104:1 › top and bottom snap regions align with and without handles 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '顶部带把手', exact: true })
+
+
+      105 |   await page.goto("/drawer-refinement-consumer.html");
+      106 |   for (const label of ["顶部带把手", "顶部无把手", "底部带把手", "底部无把手"]) {
+    > 107 |     await page.getByRole("button", { name: label, exact: true }).click();
+          |                                                                  ^
+      108 |     await settle(page);
+      109 |     const dialog = page.getByRole("dialog", { name: label, exact: true });
+      110 |     for (let index = 0; index < 2; index++) {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/drawer-refinement.spec.ts:107:66
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-top-and--ee40f-gn-with-and-without-handles-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-top-and--ee40f-gn-with-and-without-handles-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-top-and--ee40f-gn-with-and-without-handles-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-top-and--ee40f-gn-with-and-without-handles-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [desktop] › tests/e2e/drawer-refinement.spec.ts:104:1 › top and bottom snap regions align with and without handles 
+  2 passed (35.1s)

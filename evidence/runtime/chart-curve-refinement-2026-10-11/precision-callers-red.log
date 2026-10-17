@@ -1,0 +1,50 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-variants/comparison.test.tsx (7 tests | 1 failed) 2207ms
+   × scatter uses nonnegative dated data, different marker geometry, and readable dual-axis units 34ms
+ ❯ apps/playground/src/docs/components/chart-variants/trend.test.tsx (10 tests | 1 failed) 2766ms
+   × dual-axis variants and mutually exclusive stacks expose their units 21ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/comparison.test.tsx > scatter uses nonnegative dated data, different marker geometry, and readable dual-axis units
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  72.7
+Received:
+  9月8日30473
+ ❯ apps/playground/src/docs/components/chart-variants/comparison.test.tsx:108:58
+    106|   expect(view.container).toHaveTextContent("右轴");
+    107|   expect(within(view.container).getByRole("table", { hidden: true })).…
+    108|   expect(view.container.querySelectorAll("tbody tr")[7]).toHaveTextCon…
+       |                                                          ^
+    109| });
+    110|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/trend.test.tsx > dual-axis variants and mutually exclusive stacks expose their units
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  72.7
+Received:
+  9月8日30473
+ ❯ apps/playground/src/docs/components/chart-variants/trend.test.tsx:176:60
+    174|     expect(view.container).toHaveTextContent("右轴");
+    175|     expect(screen.getByRole("table", { hidden: true })).toHaveTextCont…
+    176|     expect(view.container.querySelectorAll("tbody tr")[7]).toHaveTextC…
+       |                                                            ^
+    177|     view.unmount();
+    178|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 15 passed (17)
+   Start at  13:07:32
+   Duration  3.40s (transform 1.73s, setup 215ms, import 71ms, tests 4.97s, environment 793ms)
+

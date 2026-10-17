@@ -1,0 +1,15 @@
+# Rain 资产检索索引
+
+由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。
+
+只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。
+
+按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。
+
+| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |
+| --- | --- | --- | --- | --- | --- |
+| **仪表图 Gauge** | 图表：单项0—100达成率的原生弧形/线形刻度、渐变与底轨。 | Gauge · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/gauge.tsx) | [合同](../../manifests/ui/chart-gauge.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+| **多目标进度环 RingChart** | 图表：多个独立目标的进度环，每一项保留自己的目标分母。 | RingChart · `@rain-next/ui/charts` · [源码](../../packages/ui/src/charts/vendor/charts/ring-chart.tsx) | [合同](../../manifests/ui/chart-ring.yaml) · [依赖](../../registry/charts.json) | registry-candidate / registry-candidate | scoped-passed / awaiting-user-review / not-granted / unpublished |
+
+状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。
+

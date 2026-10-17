@@ -1,0 +1,37 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-demo-data.test.ts (26 tests | 3 failed | 23 skipped) 6ms
+   × signed demo segments match every actual nonzero reading in scene 0 4ms
+   × signed demo segments match every actual nonzero reading in scene 1 0ms
+   × signed demo segments match every actual nonzero reading in scene 2 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-demo-data.test.ts > signed demo segments match every actual nonzero reading in scene 0
+ FAIL  apps/playground/src/docs/components/chart-demo-data.test.ts > signed demo segments match every actual nonzero reading in scene 1
+ FAIL  apps/playground/src/docs/components/chart-demo-data.test.ts > signed demo segments match every actual nonzero reading in scene 2
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ apps/playground/src/docs/components/chart-demo-data.test.ts:166:116
+    164|   expect(segments.length).toBeGreaterThan(1);
+    165|   for (const segment of segments) {
+    166|     expect(segment.data.every(point => point.value === 0 || ((point.va…
+       |                                                                                                                    ^
+    167|   }
+    168| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 23 skipped (26)
+   Start at  11:27:57
+   Duration  1.96s (transform 957ms, setup 114ms, import 1.34s, tests 6ms, environment 411ms)
+

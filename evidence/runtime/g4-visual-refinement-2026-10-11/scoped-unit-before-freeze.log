@@ -1,0 +1,108 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/g4-components-governance.test.ts (13 tests | 3 failed) 828ms
+     × composes the new shared-style imports without changing the old G2–G3 and Button Group binding records 9ms
+     × audits the bound G4 Registry while preserving failures from the previous phase 478ms
+     × audits bound G4 Tailwind sources without inheriting the previous phase authorization 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/g4-components-governance.test.ts > G4 finite candidate authorization > composes the new shared-style imports without changing the old G2–G3 and Button Group binding records
+AssertionError: expected [Function] to not throw an error but 'Error: G4 visual source successor cha…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: G4 visual source successor changed: tests/e2e/g4-components.spec.ts"
+
+ ❯ scripts/g4-components-governance.test.ts:126:71
+    124|   it("composes the new shared-style imports without changing the old G…
+    125|     const phase = parseYamlSubset(readFileSync(join(root, "status/curr…
+    126|     expect(() => getButtonGroupRepairSourceBindings(root, phase)).not.…
+       |                                                                       ^
+    127|   });
+    128|   it("audits the bound G4 Registry while preserving failures from the …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  scripts/g4-components-governance.test.ts > G4 finite candidate authorization > audits the bound G4 Registry while preserving failures from the previous phase
+AssertionError: expected 'Boundary verification failed:\n- Inva…' not to contain 'registry/g4-assets.json'
+
+- Expected
++ Received
+
+- registry/g4-assets.json
++ Boundary verification failed:
++ - Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged
++ - G4 Registry cannot be audited: registry/g4-assets.json: G4 visual source successor changed: tests/e2e/g4-components.spec.ts
++ - OptionButton evidence outside the exact authorization: evidence/runtime/option-button/compact.png
++ - OptionButton evidence outside the exact authorization: evidence/runtime/option-button/dark.png
++ - OptionButton evidence outside the exact authorization: evidence/runtime/option-button/light.png
++ - OptionButton evidence outside the exact authorization: evidence/runtime/option-button/verification.md
++ - OptionButton content evidence outside the exact authorization: evidence/runtime/option-button-content/compact.png
++ - OptionButton content evidence outside the exact authorization: evidence/runtime/option-button-content/dark.png
++ - OptionButton content evidence outside the exact authorization: evidence/runtime/option-button-content/light.png
++ - OptionButton content evidence outside the exact authorization: evidence/runtime/option-button-content/verification.md
++ - QuestionNumber evidence outside the exact authorization: evidence/runtime/question-number/compact.png
++ - QuestionNumber evidence outside the exact authorization: evidence/runtime/question-number/dark.png
++ - QuestionNumber evidence outside the exact authorization: evidence/runtime/question-number/light.png
++ - QuestionNumber evidence outside the exact authorization: evidence/runtime/question-number/verification.md
++ - Select evidence outside the exact authorization: evidence/runtime/select/color-findings.json
++ - Select evidence outside the exact authorization: evidence/runtime/select/compact.png
++ - Select evidence outside the exact authorization: evidence/runtime/select/dark.png
++ - Select evidence outside the exact authorization: evidence/runtime/select/formal-color-findings.json
++ - Select evidence outside the exact authorization: evidence/runtime/select/formal-compact.png
++ - Select evidence outside the exact authorization: evidence/runtime/select/formal-dark.png
++ - Select evidence outside the exact authorization: evidence/runtime/select/formal-dependencies.md
++ - Select evidence outside the exact authorization: evidence/runtime/select/formal-light.png
++ - Select evidence outside the exact authorization: evidence/runtime/select/independent-review.md
++ - Select evidence outside the exact authorization: evidence/runtime/select/light.png
++ - Select evidence outside the exact authorization: evidence/runtime/select/source-baseline.json
++ - Select evidence outside the exact authorization: evidence/runtime/select/verification.md
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/color-findings.json
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/compact.png
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/dark.png
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/independent-review.md
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/light.png
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/paint-samples.json
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/source-colors.json
++ - Tag evidence outside the exact authorization: evidence/runtime/tag-batch-one/verification.md
++ - Input evidence outside the exact authorization: evidence/runtime/input/color-findings.json
++ - Input evidence outside the exact authorization: evidence/runtime/input/compact.png
++ - Input evidence outside the exact authorization: evidence/runtime/input/dark.png
++ - Input evidence outside the exact authorization: evidence/runtime/input/inline-text-button-colors.json
++ - Input evidence outside the exact authorization: evidence/runtime/input/light.png
++ - Input evidence outside the exact authorization: evidence/runtime/input/verification.md
++ - IconButton evidence outside the exact authorization: evidence/runtime/icon-button/dark.png
++ - IconButton evidence outside the exact authorization: evidence/runtime/icon-button/light.png
++ - IconButton evidence outside the exact authorization: evidence/runtime/icon-button/verification.md
++ - no explicit boundary policy exists for phase token-foundations-v1; add and test a policy before changing phases
++ - shared package reverses the dependency direction in packages/ui/src/charts/choropleth-drilldown.test.tsx
++ - shared package reverses the dependency direction in packages/ui/src/charts/network/network-geometry.test.ts
++
+
+ ❯ scripts/g4-components-governance.test.ts:133:52
+    131|     expect(result.error).toBeUndefined();
+    132|     expect(`${result.stdout}${result.stderr}`).toContain("Invalid Toke…
+    133|     expect(`${result.stdout}${result.stderr}`).not.toContain("registry…
+       |                                                    ^
+    134|   });
+    135|   it("audits bound G4 Tailwind sources without inheriting the previous…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  scripts/g4-components-governance.test.ts > G4 finite candidate authorization > audits bound G4 Tailwind sources without inheriting the previous phase authorization
+AssertionError: expected [ 'registry/g1-assets.json', …(7) ] to include 'registry/g4-assets.json'
+ ❯ scripts/g4-components-governance.test.ts:138:33
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed | 6 passed (7)
+      Tests  3 failed | 68 passed (71)
+   Start at  22:08:48
+   Duration  7.16s (transform 9.20s, setup 1.39s, import 9.03s, tests 6.51s, environment 4.83s)
+

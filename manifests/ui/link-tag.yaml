@@ -54,6 +54,13 @@ verification:
 id: "ui-link-tag"
 name: "LinkTag"
 sourcePath: "packages/ui/src/tag/link-tag.tsx"
+description: "链接标签复用真实 Link 导航，可通过独立的同级按钮发出移除意图，保留链接和移除各自语义。"
+useWhen:
+  - "需要链接标签跳转到分类、课程或资源页面，保留真实 href 和新窗口行为。"
+  - "可导航标签同时需要独立移除入口，由宿主处理移除与焦点恢复。"
+doNotUseWhen:
+  - "需要改变选中值而非导航；使用 CheckableTag。"
+  - "没有导航目标或只是静态分类；使用 Tag。普通业务操作使用 Button。"
 anatomy:
   - "Existing Link owns navigation, new-tab hint and rel; remove action is a sibling."
   - "Disabled content preserves accessible identity with no href, events or tab stop; anchor ref is null."

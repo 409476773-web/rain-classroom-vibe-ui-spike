@@ -1,0 +1,43 @@
+
+Running 1 test using 1 worker
+
+(node:90866) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-x-axis-resize.spec.ts:91:3 › line no-preference: earliest resize frames retain axis identity, hover and data reads (7.4s)
+
+
+  1) tests/e2e/chart-x-axis-resize.spec.ts:91:3 › line no-preference: earliest resize frames retain axis identity, hover and data reads 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-rain-id="chart-line"]').locator('.rain-chart-tooltip')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-line"]').locator('.rain-chart-tooltip')
+
+
+      119 |       const box = (await svg.boundingBox())!;
+      120 |       await page.mouse.move(box.x + 80, box.y + box.height / 2);
+    > 121 |       await expect(host.locator(category ? ".rain-category-tooltip" : ".rain-chart-tooltip")).toBeVisible();
+          |                                                                                               ^
+      122 |       await page.mouse.move(0, 0);
+      123 |       await host.screenshot({ path: `${evidence}/${family}-${reducedMotion}-390.png` });
+      124 |     } finally {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-x-axis-resize.spec.ts:121:95
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/x-axis/after-02/results/chart-x-axis-resize-line-n-5060e-entity-hover-and-data-reads/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/x-axis/after-02/results/chart-x-axis-resize-line-n-5060e-entity-hover-and-data-reads/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/x-axis/after-02/results/chart-x-axis-resize-line-n-5060e-entity-hover-and-data-reads/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-x-axis-resize.spec.ts:91:3 › line no-preference: earliest resize frames retain axis identity, hover and data reads 

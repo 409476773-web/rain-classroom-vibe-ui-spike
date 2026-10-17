@@ -1,0 +1,97 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-status-indicator-group"
+name: "StatusIndicatorGroup"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+migrationLabel: "rewrite-from-rain"
+sourcePath: "packages/ui/src/status-indicator/status-indicator.tsx"
+styleSourcePath: "packages/ui/src/status-indicator/status-indicator.css"
+sourceVersion: "local-2026-09-16"
+publication: "unpublished"
+description: "头像边缘最多两个状态，不增加布局高度。"
+useWhen:
+  - "Two passive states on a standalone Avatar"
+doNotUseWhen:
+  - "Member decorations inside AvatarGroup or AvatarGrid"
+anatomy:
+  - "root"
+  - "indicators"
+parts:
+  - "root"
+  - "indicators"
+props:
+  - "children: up to two StatusIndicator elements; extra children omitted"
+  - "position: bottom-start | bottom-center | bottom-end; default bottom-end"
+slots: []
+variants:
+  - "bottom-start"
+  - "bottom-center"
+  - "bottom-end"
+states:
+  - "visible"
+  - "hidden-during-activity"
+density: "Image and status geometry is explicit and independent of control density; containing controls inherit host density."
+dependencies:
+  - "Avatar"
+  - "StatusIndicator"
+tokens:
+  - "Rain Category colors"
+  - "Space/2,4,6,8,10,12,14,16,20,24,32,40; Line/Thickness/1"
+  - "Radius/4,6,full"
+  - "Current shared Focus"
+layoutConstraints:
+  - "Fixed owned geometry; parent owns outer spacing."
+compositionRules:
+  - "4px host exposure; overlap 4/6/8 for status size 16/20/24; the first status stays above the second."
+  - "Native display has no Tab stop; actions use native button/link and shared focus."
+  - "Host owns members, status, actions and persistent image assignment; no network state engine."
+  - "人物图片＋雨课堂默认图 only. Group empty text is group-level empty state, not a text avatar."
+  - "Use public variants before a documented local recipe; className is for host layout."
+allowedModifications:
+  - "Declared content, variants, native action composition and host layout."
+restrictedModifications:
+  - "No initials/text/icon avatars, status controls, new global Tokens or copied overlay engines."
+accessibility:
+  - "Meaningful labels; empty alt avoids repeated identity announcements."
+  - "Native keyboard behavior; More uses existing Popover Escape and focus restoration."
+  - "Reduced motion is static; forced colors retain meaningful boundaries."
+  - "Current Avatar runtime visual Human Gate accepted on 2026-09-16; contrast and accessibility acceptance remain not granted."
+examples:
+  - "#avatar"
+recipes:
+  - "Member list row; course summary; classroom member status"
+antiPatterns:
+  - "Treating offline as disabled"
+  - "Assigning portraits after filtering"
+  - "Nesting More inside a whole-group button"
+relatedComponents:
+  - "Avatar"
+  - "StatusIndicator"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "evidence/runtime/avatar/source-assets.json"
+    - "docs/plans/2026-09-16-avatar-family-design-and-construction.md"
+  externalReferences:
+    - "https://base-ui.com/react/components/avatar"
+    - "https://ant.design/components/avatar/"
+    - "https://mui.com/material-ui/react-avatar/"
+  retainedTraits:
+    - "Rain people assets, fallback, group count rules, grid arrangements and passive states"
+  redesignedTraits:
+    - "React native image lifecycle; current Rain Token/focus; existing Popover; explicit native composition"
+  intentionallyNotInherited:
+    - "Vue code/SCSS and old focus prohibition"
+    - "Initials, generic icon avatars and account image workflows"
+figmaMapping: "not-established; legacy image lineage retained separately"
+migrationNotes: "Current legacy PNGs copied byte-for-byte; historical Figma export hashes differ and are not claimed as current verification."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  humanGateScope: "avatar-current-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/avatar/refinement-2026-09-16.md"

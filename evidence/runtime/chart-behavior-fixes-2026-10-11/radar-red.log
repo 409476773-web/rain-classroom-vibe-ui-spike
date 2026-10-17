@@ -1,0 +1,65 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/radar-motion.test.tsx (6 tests | 5 failed) 71ms
+   × radar with 'animate=false' paints all series at their final coordinates without waiting 38ms
+   × radar with 'a zero enter budget' paints all series at their final coordinates without waiting 7ms
+   × radar with 'a zero enter transition' paints all series at their final coordinates without waiting 5ms
+   × system reduced motion bypasses the radar's normal area stagger 5ms
+   × disabling radar animation during entry immediately replaces the collapsed geometry 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > radar with 'animate=false' paints all series at their final coordinates without waiting
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > radar with 'a zero enter budget' paints all series at their final coordinates without waiting
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > radar with 'a zero enter transition' paints all series at their final coordinates without waiting
+AssertionError: expected +0 to be close to -100.8, received difference is 100.8, but expected 5e-9
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:42:67
+     40|     });
+     41|     expect(coordinates).toHaveLength(expected.length);
+     42|     coordinates.forEach((coordinate, index) => expect(coordinate).toBe…
+       |                                                                   ^
+     43|     const points = [...group.querySelectorAll("circle")];
+     44|     expect(points).toHaveLength(metrics.length);
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:42:17
+ ❯ expectTargetGeometry packages/ui/src/charts/radar-motion.test.tsx:34:10
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:59:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > system reduced motion bypasses the radar's normal area stagger
+AssertionError: expected +0 to be close to -100.8, received difference is 100.8, but expected 5e-9
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:42:67
+     40|     });
+     41|     expect(coordinates).toHaveLength(expected.length);
+     42|     coordinates.forEach((coordinate, index) => expect(coordinate).toBe…
+       |                                                                   ^
+     43|     const points = [...group.querySelectorAll("circle")];
+     44|     expect(points).toHaveLength(metrics.length);
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:42:17
+ ❯ expectTargetGeometry packages/ui/src/charts/radar-motion.test.tsx:34:10
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:67:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  packages/ui/src/charts/radar-motion.test.tsx > disabling radar animation during entry immediately replaces the collapsed geometry
+AssertionError: expected +0 to be close to -100.8, received difference is 100.8, but expected 5e-9
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:42:67
+     40|     });
+     41|     expect(coordinates).toHaveLength(expected.length);
+     42|     coordinates.forEach((coordinate, index) => expect(coordinate).toBe…
+       |                                                                   ^
+     43|     const points = [...group.querySelectorAll("circle")];
+     44|     expect(points).toHaveLength(metrics.length);
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:42:17
+ ❯ expectTargetGeometry packages/ui/src/charts/radar-motion.test.tsx:34:10
+ ❯ packages/ui/src/charts/radar-motion.test.tsx:75:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 1 passed (6)
+   Start at  12:10:07
+   Duration  845ms (transform 100ms, setup 93ms, import 227ms, tests 71ms, environment 366ms)
+

@@ -1,3 +1,4 @@
+import { getG6SourceBindings } from "./verification-helpers.mjs";
 import { hasM2Authorization, hasBmARn09Authorization, hasBmBRn10Authorization, hasRn13Authorization } from "./verification-helpers.mjs";
 import { verifyAssetIndex } from "./asset-index.mjs";
 import {
@@ -24,6 +25,7 @@ import {
 
 const workspaceRoot = process.cwd();
 const failures = [];
+try { getG6SourceBindings(process.cwd()); } catch (error) { failures.push(`G6 finite evidence: ${error.message}`); }
 
 const expectedEntryStatus = {
   registration: "registered",

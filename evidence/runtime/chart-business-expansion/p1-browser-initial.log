@@ -1,0 +1,67 @@
+
+Running 4 tests using 1 worker
+
+(node:11543) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/chart-business-embedding.spec.ts:4:1 › standard bars and mini charts fit real hosts, preserve their scale and expose equivalent readings (1.7s)
+  ✓  2 tests/e2e/chart-business-embedding.spec.ts:29:1 › 40-row updates preserve SVG IDs and portal tooltip escapes the scrolling table (1.7s)
+  ✘  3 tests/e2e/chart-business-motion.spec.ts:2:1 › normal bar updates and sorting keep the same keyed geometry and continue through intermediate values (4.5s)
+(node:11570) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/e2e/chart-business-motion.spec.ts:11:1 › normal progress updates pass through intermediate arc geometry (4.0s)
+
+
+  1) tests/e2e/chart-business-motion.spec.ts:2:1 › normal bar updates and sorting keep the same keyed geometry and continue through intermediate values 
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > NaN
+    Received:   NaN
+
+       6 |   const start=Number(await bar.getAttribute('width')); await page.getByRole('button',{name:'更新数据',exact:true}).click();
+       7 |   await page.waitForTimeout(160); const middle=Number(await bar.getAttribute('width')); await page.waitForTimeout(1200); const end=Number(await bar.getAttribute('width'));
+    >  8 |   expect(middle).toBeGreaterThan(start); expect(middle).toBeLessThan(end); expect(end/start).toBeCloseTo(28/25,1);
+         |                  ^
+       9 |   await page.getByRole('button',{name:'按数量排序'}).click(); await expect(page.locator('[data-business="horizontal"] [data-test-stable="first"]')).toHaveCount(1);
+      10 | });
+      11 | test('normal progress updates pass through intermediate arc geometry',async({page})=>{
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-motion.spec.ts:8:18
+
+    Error Context: evidence/runtime/chart-business-expansion/browser-results/chart-business-motion-norm-27cc4-through-intermediate-values/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-business-expansion/browser-results/chart-business-motion-norm-27cc4-through-intermediate-values/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-business-expansion/browser-results/chart-business-motion-norm-27cc4-through-intermediate-values/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-business-motion.spec.ts:11:1 › normal progress updates pass through intermediate arc geometry 
+
+    Error: expect(received).not.toBe(expected) // Object.is equality
+
+    Expected: not "M15.646,11.367A2.5,2.5,0,0,1,15.994,15.106A22,22,0,0,1,-2.968,21.799A2.5,2.5,0,0,1,-5.044,18.67L-5.044,18.67A2.5,2.5,0,0,1,-2.294,16.845A17,17,0,0,0,12.359,11.673A2.5,2.5,0,0,1,15.646,11.367Z"
+
+      14 |   const initial=await path.getAttribute('d'); await page.getByRole('button',{name:'更新数据',exact:true}).click();
+      15 |   await page.waitForTimeout(120); const middle=await path.getAttribute('d'); await page.waitForTimeout(900); const end=await path.getAttribute('d');
+    > 16 |   expect(end).not.toBe(initial); expect(middle).not.toBe(initial); expect(middle).not.toBe(end);
+         |                                                                                       ^
+      17 | });
+      18 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-motion.spec.ts:16:87
+
+    Error Context: evidence/runtime/chart-business-expansion/browser-results/chart-business-motion-norm-67a4d-h-intermediate-arc-geometry/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-business-expansion/browser-results/chart-business-motion-norm-67a4d-h-intermediate-arc-geometry/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-business-expansion/browser-results/chart-business-motion-norm-67a4d-h-intermediate-arc-geometry/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/chart-business-motion.spec.ts:2:1 › normal bar updates and sorting keep the same keyed geometry and continue through intermediate values 
+    tests/e2e/chart-business-motion.spec.ts:11:1 › normal progress updates pass through intermediate arc geometry 
+  2 passed (13.1s)

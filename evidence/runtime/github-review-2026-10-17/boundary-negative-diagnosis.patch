@@ -1,0 +1,36 @@
+--- a/scripts/verify-boundaries-navigation.test.ts
++++ b/scripts/verify-boundaries-navigation.test.ts
+@@ -43,8 +43,10 @@
+   const immutable = [
+     "Closeout retained source or original proof changed: " + file,
+     "Closeout authorized successor source changed: " + file,
++    "GitHub review retained source or original proof changed: " + file,
++    "GitHub review authorized successor source changed: " + file,
+   ];
+-  expect(legacy.test(output) || immutable.some(message => output.includes(message))).toBe(true);
++  expect(legacy.test(output) || immutable.some(message => output.includes(message + "\n") || output.endsWith(message))).toBe(true);
+ }
+ 
+ function mutate(file: string, content: string, label: string) {
+@@ -166,7 +168,10 @@
+     try {
+       const result = mutate(manifest, source.replace("examples:\n", `examples:\n  - "${file}"\n`), "manifest-example");
+       expect(result.status).toBe(1);
+-      const immutableManifest = result.output.includes("Closeout retained source or original proof changed: " + manifest);
++      const immutableManifest = [
++        "Closeout retained source or original proof changed: " + manifest,
++        "GitHub review retained source or original proof changed: " + manifest,
++      ].some(message => result.output.includes(message + "\n") || result.output.endsWith(message));
+       if (!immutableManifest) expect(result.output).toContain(file);
+       expectBoundSourceFailure(result.output, manifest, /outside.*allowlist/);
+     } finally {
+@@ -183,7 +188,8 @@
+     expect(result.status).toBe(1);
+     // An invalid parent never receives the historical Day 3 policy, so no new inventory/domain is activated.
+     expect(result.output.includes("Invalid Token Foundations V1 phase contract: recorded phase scope navigationComponentsV042")
+-      || result.output.includes("Closeout authorized successor source changed: status/current-phase.yaml")).toBe(true);
++      || result.output.includes("Closeout authorized successor source changed: status/current-phase.yaml")
++      || /GitHub review authorized successor source changed: status\/current-phase\.yaml(?:\n|$)/.test(result.output)).toBe(true);
+     expect(result.output).toContain("no explicit boundary policy exists for phase token-foundations-v1");
+     expect(result.output).not.toContain("Boundary verification passed");
+   });

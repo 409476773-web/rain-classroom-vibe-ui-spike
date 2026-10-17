@@ -1,0 +1,16 @@
+import assert from "node:assert/strict";
+import {readFileSync,writeFileSync,mkdirSync} from "node:fs";
+import {createHash} from "node:crypto";
+import {spawnSync} from "node:child_process";
+import {createRequire} from "node:module";
+import {resolve} from "node:path";
+const root=process.cwd(),output=resolve(process.argv[2]);mkdirSync(output,{recursive:true});
+const baseline=JSON.parse(readFileSync("evidence/runtime/chart-closeout-2026-10-11/baseline-files.json","utf8"));
+const paths=baseline.map(item=>item.path).filter(path=>/^(packages\/(ui\/src\/charts|foundations\/src)|apps\/playground\/src\/(docs\/components\/chart|styles\.css))/.test(path)&&/\.(tsx?|css|json|geojson)$/.test(path)&&!path.includes(".test."));
+const hash=path=>createHash("sha256").update(readFileSync(resolve(root,path))).digest("hex");
+const hashes=()=>paths.map(path=>({path,sha256:hash(path)}));const before=hashes();writeFileSync(resolve(output,"source-before.json"),JSON.stringify(before,null,2));
+if(process.env.RAIN_EXPECT_STYLE_SHA)assert.equal(hash("packages/ui/src/charts/styles.css"),process.env.RAIN_EXPECT_STYLE_SHA);
+const scripts=["config.ts","themes.spec.ts","run.mjs"].map(file=>({file,sha256:hash(resolve(import.meta.dirname,file))}));writeFileSync(resolve(output,"scripts-before.json"),JSON.stringify(scripts,null,2));
+writeFileSync(resolve(output,"spec-executed.ts"),readFileSync(resolve(import.meta.dirname,"themes.spec.ts")));
+const cli=createRequire(import.meta.url).resolve("@playwright/test/cli");const result=spawnSync(process.execPath,[cli,"test","--config",resolve(import.meta.dirname,"config.ts"),...process.argv.slice(3)],{cwd:root,env:{...process.env,RAIN_THEME_OUTPUT:output},stdio:"inherit"});
+const after=hashes(),changes=after.filter((item,i)=>item.sha256!==before[i].sha256);writeFileSync(resolve(output,"source-after.json"),JSON.stringify(after,null,2));writeFileSync(resolve(output,"run-facts.json"),JSON.stringify({status:result.status===0&&changes.length===0?"passed":"failed",exitCode:result.status,sourceCount:before.length,sourceChanges:changes,scripts,selection:process.argv.slice(3),limits:["Chromium automated keyboard only; not Safari/VoiceOver or physical touch","Nine representative behavior paths at two widths and explicit Rain dark/forced-color themes; no full graph contrast certification","Forced-color rendered fills/strokes recorded; exact readable semantic values are asserted"]},null,2));assert.deepEqual(changes,[]);process.exitCode=result.status??1;

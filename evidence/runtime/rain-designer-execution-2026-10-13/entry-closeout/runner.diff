@@ -1,0 +1,52 @@
+--- round13/run-review.py
++++ entry-closeout/run-implicit.py
+@@ -1,6 +1,6 @@
+-"""Local experiment: one autonomous review after preparation in an ephemeral read-only thread.
+-
+-Usage: python3 -B run-review.py CONTEXT OUT PROMPT IMAGE IMAGE
++"""Local experiment: one ordinary review request in an ephemeral read-only thread.
++
++Usage: python3 -B run-implicit.py CONTEXT OUT PROMPT [IMAGE IMAGE]
+ No model/effort override; no reasoning events or command-output bodies are exported.
+ """
+ import hashlib
+@@ -18,7 +18,7 @@
+ from PIL import Image
+ 
+ CLI = '/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex'
+-DEADLINE_SECONDS = 180
++DEADLINE_SECONDS = 300
+ 
+ def save_json(path, value):
+     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+@@ -53,7 +53,7 @@
+ 
+ 
+ def main():
+-    if len(sys.argv) != 6:
++    if len(sys.argv) not in (4, 6):
+         raise ValueError(__doc__)
+     context, output, prompt_path = (Path(arg).resolve() for arg in sys.argv[1:4])
+     images = [Path(arg).resolve() for arg in sys.argv[4:]]
+@@ -119,7 +119,7 @@
+     def receive():
+         remaining = deadline - time.monotonic()
+         if remaining <= 0:
+-            raise TimeoutError('native observation stage exceeded 180 seconds')
++            raise TimeoutError('native observation stage deadline exceeded')
+         event = incoming.get(timeout=min(remaining, 20))
+         if event is None:
+             raise RuntimeError('app server ended')
+@@ -244,11 +244,7 @@
+         summary.update(threadId=root_id, threadPath=thread['thread'].get('path'), model=thread.get('model'),
+                        reasoningEffort=thread.get('reasoningEffort'), modelProvider=thread.get('modelProvider'),
+                        threadSettings={key: thread.get(key) for key in ['approvalPolicy', 'sandbox', 'reasoningEffort']})
+-        summary['preparation'] = run_stage('prepare', [{'type': 'text', 'text': prompt},
+-            {'type': 'skill', 'name': 'rain-designer', 'path': str(skill)}], 4)
+-        if not all(item['fullTextAcrossCommandOutputs'] for item in summary['readEvidence'].values()):
+-            raise RuntimeError('preparation ended without full-text reading evidence for all three documents')
+-        review_prompt = prompt_path.with_name('review-prompt.txt').read_text()
++        review_prompt = prompt
+         summary['review'] = run_stage('review', [{'type': 'text', 'text': review_prompt},
+             *image_inputs(images)], 5)
+         summary['status'] = 'completed'

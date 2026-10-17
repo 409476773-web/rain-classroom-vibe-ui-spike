@@ -1,0 +1,75 @@
+
+Running 2 tests using 1 worker
+
+(node:30756) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/bklit-catalog.spec.ts:3:1 › [P0] Rain chart catalog is a usable independent entry (5.3s)
+(node:30767) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/bklit-catalog.spec.ts:10:1 › [P4] multiple candlesticks keep independent SVG gradients (30.0s)
+
+
+  1) tests/e2e/bklit-catalog.spec.ts:3:1 › [P0] Rain chart catalog is a usable independent entry ───
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'Rain 图表库', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'Rain 图表库', exact: true })
+
+
+      3 | test("[P0] Rain chart catalog is a usable independent entry", async ({ page }) => {
+      4 |   await page.goto("/bklit-catalog.html");
+    > 5 |   await expect(page.getByRole("heading", { name: "Rain 图表库", exact: true })).toBeVisible({ timeout: 5000 });
+        |                                                                              ^
+      6 |   await expect(page.getByRole("navigation", { name: "图型目录" }).getByRole("link")).toHaveCount(17);
+      7 |   await expect(page.locator('[data-rain-id="chart-area"] svg').first()).toBeVisible();
+      8 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/bklit-catalog.spec.ts:5:78
+
+    Error Context: evidence/runtime/bklit-rain-catalog/p0/first-runtime/bklit-catalog--P0-Rain-cha-27784--a-usable-independent-entry/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/p0/first-runtime/bklit-catalog--P0-Rain-cha-27784--a-usable-independent-entry/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/p0/first-runtime/bklit-catalog--P0-Rain-cha-27784--a-usable-independent-entry/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/bklit-catalog.spec.ts:10:1 › [P4] multiple candlesticks keep independent SVG gradients 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '对照实例' })
+
+
+      10 | test("[P4] multiple candlesticks keep independent SVG gradients", async ({ page }) => {
+      11 |   await page.goto("/bklit-catalog.html#chart-candlestick");
+    > 12 |   await page.getByRole("button", { name: "对照实例" }).click();
+         |                                                    ^
+      13 |   await expect(page.locator('[data-rain-id="chart-candlestick"]')).toHaveCount(2);
+      14 |   await expect(page.locator('[data-rain-id="chart-candlestick"] svg').first()).toBeVisible();
+      15 |   const ids = await page.locator("linearGradient[id]").evaluateAll(nodes => nodes.map(node => node.id));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/bklit-catalog.spec.ts:12:52
+
+    Error Context: evidence/runtime/bklit-rain-catalog/p0/first-runtime/bklit-catalog--P4-multiple-fbc0e-p-independent-SVG-gradients/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/p0/first-runtime/bklit-catalog--P4-multiple-fbc0e-p-independent-SVG-gradients/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/p0/first-runtime/bklit-catalog--P4-multiple-fbc0e-p-independent-SVG-gradients/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/bklit-catalog.spec.ts:3:1 › [P0] Rain chart catalog is a usable independent entry ────
+    tests/e2e/bklit-catalog.spec.ts:10:1 › [P4] multiple candlesticks keep independent SVG gradients 

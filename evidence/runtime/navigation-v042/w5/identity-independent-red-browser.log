@@ -1,0 +1,37 @@
+
+Running 1 test using 1 worker
+
+(node:31994) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-v042-w5.spec.ts:96:1 › S3 and S4 recovery identity follows the actual page, view and grading object (5.9s)
+
+
+  1) tests/e2e/navigation-v042-w5.spec.ts:96:1 › S3 and S4 recovery identity follows the actual page, view and grading object 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-recipe-id="recipe-navigation-r6"]').locator('.nv44-identity small')
+    Expected substring: "状态分组"
+    Received string:    "学习反馈 / 反馈表单"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('[data-recipe-id="recipe-navigation-r6"]').locator('.nv44-identity small')
+        14 × locator resolved to <small>学习反馈 / 反馈表单</small>
+           - unexpected value "学习反馈 / 反馈表单"
+
+
+       97 |   await open(page,'S3');const document=page.locator('[data-recipe-id="recipe-navigation-r6"]');
+       98 |   await document.getByRole('tab',{name:'状态分组',exact:true}).click();
+    >  99 |   await expect(document.locator('.nv44-identity small')).toContainText('状态分组');
+          |                                                          ^
+      100 |   await document.getByRole('link',{name:'课程任务',exact:true}).click();
+      101 |   await expect(document.locator('.nv44-identity small')).toContainText('课程任务 / 表格');
+      102 |   await open(page,'S4');await page.getByRole('combobox',{name:'业务子场景'}).selectOption('grading');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w5.spec.ts:99:58
+
+    Error Context: evidence/runtime/navigation-v042/w5/identity-independent-red-artifacts/navigation-v042-w5-S3-and--bcaba-age-view-and-grading-object/error-context.md
+
+  1 failed
+    tests/e2e/navigation-v042-w5.spec.ts:96:1 › S3 and S4 recovery identity follows the actual page, view and grading object 

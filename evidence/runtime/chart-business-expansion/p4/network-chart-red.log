@@ -1,0 +1,159 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/network/network-chart.test.tsx (6 tests | 6 failed) 78ms
+   × direction, line style and exact readings accompany an operable node list 15ms
+   × pointer and keyboard focus highlight the same neighbours; selection opens the same detail 4ms
+   × filtering clears an absent selection and keeps surviving node identity 52ms
+   × two instances resolve their arrows and gradients inside their own SVG 2ms
+   × empty and single-node graphs keep truthful status and operable readings 4ms
+   × unknown and duplicate category/relation configuration is rejected 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/network/network-chart.test.tsx > direction, line style and exact readings accompany an operable node list
+Error: expect(received).toHaveAttribute()
+
+received value must be an HTMLElement or an SVGElement.
+Received has type:  Null
+Received has value: null
+ ❯ packages/ui/src/charts/network/network-chart.test.tsx:15:47
+     13| test("direction, line style and exact readings accompany an operable n…
+     14|   const view = render(<NetworkChart {...props} />);
+     15|   expect(view.container.querySelector("svg")).toHaveAttribute("aria-hi…
+       |                                               ^
+     16|   expect(view.getByRole("button", { name: "高等数学，课程" })).toBeInTheDocum…
+     17|   const directed = view.container.querySelector('[data-network-edge="a…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  packages/ui/src/charts/network/network-chart.test.tsx > pointer and keyboard focus highlight the same neighbours; selection opens the same detail
+Error: Unable to fire a "mouseenter" event - please provide a DOM element.
+ ❯ createEvent node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/events.js:27:11
+ ❯ createEvent.<computed> [as mouseEnter] node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/events.js:106:38
+ ❯ fireEvent.<computed> [as mouseEnter] node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/events.js:110:68
+ ❯ fireEvent.<computed> node_modules/.pnpm/@testing-library+react@16.3.3_@testing-library+dom@10.4.1_@types+react-dom@19.2.5_@type_c38086125510dbe15bc748c691246c8e/node_modules/@testing-library/react/dist/fire-event.js:15:52
+ ❯ fireEvent.mouseEnter node_modules/.pnpm/@testing-library+react@16.3.3_@testing-library+dom@10.4.1_@types+react-dom@19.2.5_@type_c38086125510dbe15bc748c691246c8e/node_modules/@testing-library/react/dist/fire-event.js:24:3
+ ❯ packages/ui/src/charts/network/network-chart.test.tsx:31:13
+     29|   const view = render(<NetworkChart {...props} onNodeSelect={node => s…
+     30|   const node = view.container.querySelector('[data-network-node="a"]')…
+     31|   fireEvent.mouseEnter(node);
+       |             ^
+     32|   expect(view.container.querySelector('[data-network-edge="ab"]')).toH…
+     33|   expect(view.container.querySelector('[data-network-edge="bc"]')).toH…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  packages/ui/src/charts/network/network-chart.test.tsx > filtering clears an absent selection and keeps surviving node identity
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "高等数学，课程"
+
+Here are the accessible roles:
+
+  heading:
+
+  Name "课程关系":
+  [36m<h3 />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"rain-chart rain-network"[39m
+    [36m>[39m
+      [36m<h3>[39m
+        [0m课程关系[0m
+      [36m</h3>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ packages/ui/src/charts/network/network-chart.test.tsx:51:24
+     49|   const view = render(<NetworkChart {...props} onNodeSelect={onNodeSel…
+     50|   const surviving = view.container.querySelector('[data-network-node="…
+     51|   fireEvent.click(view.getByRole("button", { name: "高等数学，课程" }));
+       |                        ^
+     52|   view.rerender(<NetworkChart {...props} nodes={[props.nodes[2]!]} edg…
+     53|   expect(view.queryByRole("region", { name: "节点详情" })).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  packages/ui/src/charts/network/network-chart.test.tsx > two instances resolve their arrows and gradients inside their own SVG
+AssertionError: expected 0 to be greater than 0
+ ❯ packages/ui/src/charts/network/network-chart.test.tsx:61:30
+     59|   const view = render(<><NetworkChart {...props} /><NetworkChart {...p…
+     60|   const definitions = [...view.container.querySelectorAll("marker, rad…
+     61|   expect(definitions.length).toBeGreaterThan(0);
+       |                              ^
+     62|   expect(new Set(definitions).size).toBe(definitions.length);
+     63|   for (const svg of view.container.querySelectorAll("svg.rain-network_…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  packages/ui/src/charts/network/network-chart.test.tsx > empty and single-node graphs keep truthful status and operable readings
+TestingLibraryElementError: Unable to find an accessible element with the role "status"
+
+Here are the accessible roles:
+
+  heading:
+
+  Name "课程关系":
+  [36m<h3 />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"rain-chart rain-network"[39m
+    [36m>[39m
+      [36m<h3>[39m
+        [0m课程关系[0m
+      [36m</h3>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ packages/ui/src/charts/network/network-chart.test.tsx:73:15
+     71| test("empty and single-node graphs keep truthful status and operable r…
+     72|   const view = render(<NetworkChart {...props} nodes={[]} edges={[]} /…
+     73|   expect(view.getByRole("status")).toHaveTextContent("暂无关系数据");
+       |               ^
+     74|   view.rerender(<NetworkChart {...props} nodes={[props.nodes[0]!]} edg…
+     75|   fireEvent.click(view.getByRole("button", { name: "高等数学，课程" }));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  packages/ui/src/charts/network/network-chart.test.tsx > unknown and duplicate category/relation configuration is rejected
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ packages/ui/src/charts/network/network-chart.test.tsx:81:69
+     79|
+     80| test("unknown and duplicate category/relation configuration is rejecte…
+     81|   expect(() => render(<NetworkChart {...props} categories={[]} />)).to…
+       |                                                                     ^
+     82|   expect(() => render(<NetworkChart {...props} relations={[]} />)).toT…
+     83|   expect(() => render(<NetworkChart {...props} categories={[props.cate…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed (6)
+   Start at  16:01:24
+   Duration  910ms (transform 26ms, setup 154ms, import 19ms, tests 78ms, environment 560ms)
+

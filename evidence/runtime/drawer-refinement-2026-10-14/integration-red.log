@@ -1,0 +1,38 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/drawer-refinement-integration.test.ts (2 tests | 1 failed) 7ms
+   × checks the Drawer successor before reading the original G6 proof 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/drawer-refinement-integration.test.ts > checks the Drawer successor before reading the original G6 proof
+AssertionError: expected [Function] to throw error matching /Drawer refinement is not sealed|ENOEN…/ but got 'G6 original baseline changed\n+ actua…'
+
+- Expected:
+/Drawer refinement is not sealed|ENOENT.*g6-components.*source-bindings\.json/
+
++ Received:
+"G6 original baseline changed
++ actual - expected
+
++ null
+- '81ec04702dbf90420a46c3f0250be1a29133ea35e6657d935dc5603050d1b552'
+"
+
+ ❯ scripts/drawer-refinement-integration.test.ts:12:65
+     10|     const phase = { componentRefinements: { g6Components: {}, drawerRe…
+     11|     mkdirSync(join(root, "status")); writeFileSync(join(root, "status/…
+     12|     expect(() => readG6SourceBindings(root, phase, JSON.parse)).toThro…
+       |                                                                 ^
+     13|   } finally { rmSync(root, { recursive: true, force: true }); }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  18:00:36
+   Duration  762ms (transform 30ms, setup 138ms, import 24ms, tests 7ms, environment 502ms)
+

@@ -1,0 +1,13 @@
+/* shadcn Base UI/Nova popup geometry; Rain surface and lifecycle transitions. */
+.rain-combobox { min-width: 0; }
+.rain-combobox__positioner { width: var(--anchor-width); }
+.rain-combobox__popup { --rain-popup-width: var(--anchor-width); transform-origin: var(--transform-origin); opacity: 1; transform: scale(1); transition: opacity var(--rain-motion-overlay-duration) var(--rain-motion-ease-out), transform var(--rain-motion-overlay-duration) var(--rain-motion-ease-out); }
+.rain-combobox__popup[data-starting-style], .rain-combobox__popup[data-ending-style] { opacity: 0; transform: scale(.98); }
+.rain-combobox__trigger { display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 0; background: transparent; color: var(--rain-category-icon-neutral-3); cursor: pointer; }
+.rain-combobox__trigger > span { display: inline-flex; }
+.rain-combobox__trigger .rain-icon { width: 100%; height: 100%; }
+.rain-combobox__trigger:disabled { color: var(--rain-category-icon-neutral-5); cursor: default; }
+@media (prefers-reduced-motion: reduce) { .rain-combobox__popup { transition: none; } }
+@media (pointer: coarse) { .rain-combobox__popup [data-slot="option"] { min-block-size: var(--rain-select-touch-target-size); } }
+
+.rain-combobox__selected-icon { color: var(--rain-category-icon-brand-1); }

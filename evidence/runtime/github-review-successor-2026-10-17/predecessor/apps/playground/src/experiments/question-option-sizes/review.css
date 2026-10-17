@@ -1,0 +1,53 @@
+/* Local review page: public components own all control geometry.
+   This stylesheet only arranges the examples using existing Rain Tokens. */
+.question-option-review {
+  min-height: 100vh;
+  padding: var(--rain-space-32) var(--rain-space-24);
+  background: var(--rain-category-background-neutral-2);
+  color: var(--rain-category-text-neutral-1);
+  font: var(--rain-font-weight-regular) var(--rain-font-size-15)/var(--rain-line-height-22) var(--rain-font-ui);
+}
+.question-option-review * { box-sizing: border-box; }
+.size-review-shell { max-width: calc(var(--rain-space-40) * 34); margin-inline: auto; }
+.question-option-review h1, .question-option-review h2, .question-option-review h3, .question-option-review p { max-width: none; margin: 0; letter-spacing: var(--rain-letter-spacing-default); }
+.question-option-review h1 { color: inherit; font-size: var(--rain-font-size-28); line-height: var(--rain-line-height-36); font-weight: var(--rain-font-weight-semibold); }
+.question-option-review h2 { font-size: var(--rain-font-size-18); line-height: var(--rain-line-height-26); font-weight: var(--rain-font-weight-semibold); }
+.question-option-review h3 { font-size: var(--rain-font-size-16); line-height: var(--rain-line-height-24); font-weight: var(--rain-font-weight-semibold); }
+.size-review-hero { display: grid; gap: var(--rain-space-12); margin-bottom: var(--rain-space-24); }
+.size-review-links, .size-review-toolbar, .size-review-toolbar > div, .size-review-select { display: flex; flex-wrap: wrap; align-items: center; gap: var(--rain-space-12); }
+.size-review-eyebrow, .size-review-caption, .size-review-section > p, .size-review-section-heading p, .size-review-footer { color: var(--rain-category-text-neutral-3); }
+.size-review-eyebrow, .size-review-caption { font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-18); }
+.size-review-toolbar { margin-bottom: var(--rain-space-24); padding: var(--rain-space-16); background: var(--rain-category-background-neutral-1); border: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-8); }
+.size-review-toolbar label, .size-review-section-heading > label { display: inline-flex; align-items: center; gap: var(--rain-space-6); }
+.question-option-review input[type="checkbox"] { accent-color: var(--rain-category-fill-brand-solid-2); }
+.size-review-select select { min-height: var(--rain-space-32); padding: var(--rain-space-4) var(--rain-space-8); border: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-6); background: var(--rain-category-background-neutral-1); color: inherit; font: inherit; }
+.size-review-section { padding: var(--rain-space-20); margin-bottom: var(--rain-space-24); background: var(--rain-category-background-neutral-1); border: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-8); }
+.size-review-section > p { margin-top: var(--rain-space-8); }
+.size-review-section-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--rain-space-16); }
+.size-review-section-heading p { margin-top: var(--rain-space-8); }
+.size-review-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--rain-space-12); margin-top: var(--rain-space-20); }
+.size-review-column { min-width: 0; padding: var(--rain-space-8); border-radius: var(--rain-radius-6); background: var(--rain-category-background-neutral-2); }
+.size-review-column > h3 { margin-bottom: var(--rain-space-16); }
+.size-review-column h3 > span { margin-left: var(--rain-space-2); font-size: var(--rain-font-size-12); font-weight: var(--rain-font-weight-regular); }
+.size-review-column h3 small { display: block; margin-top: var(--rain-space-2); font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-18); color: var(--rain-category-text-brand-2); font-weight: var(--rain-font-weight-regular); }
+.size-review-column h3 { min-height: calc(var(--rain-line-height-24) + var(--rain-line-height-18) + var(--rain-space-2)); }
+.size-review-column > .size-review-caption { margin-top: var(--rain-space-8); }
+.size-review-column > .rain-option-group { margin-bottom: var(--rain-space-16); }
+.size-review-number-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--rain-space-8); }
+.size-review-feedback-list { display: grid; row-gap: var(--rain-space-8); }
+.size-review-feedback-list > div { display: flex; align-items: flex-start; gap: var(--rain-space-8); }
+.size-review-feedback-list > div > span { flex: 1; align-self: center; font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-18); color: var(--rain-category-text-neutral-3); }
+.size-review-content-examples { display: grid; gap: var(--rain-space-24); margin-top: var(--rain-space-20); }
+.size-review-footer { font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-18); }
+
+/* Only page spacing and optional target outlines remain; component geometry uses public size. */
+.size-review-density[data-density="compact"] :is(.size-review-number-row, .size-review-feedback-list, .size-review-feedback-list > div) { gap: var(--rain-space-4); }
+.question-option-review[data-show-targets="true"] .rain-question-number:not(:focus-visible), .question-option-review[data-show-targets="true"] .rain-option-button:not(:has(input:focus-visible)) { outline: var(--rain-line-thickness-1) dashed var(--rain-category-border-neutral-2); outline-offset: 0; }
+@media (max-width: 1199px) { .size-review-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 599px) {
+  .question-option-review { padding: var(--rain-space-20) var(--rain-space-12); }
+  .size-review-section { padding: var(--rain-space-12); }
+  .size-review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .size-review-feedback-list > div { flex-wrap: wrap; }
+  .size-review-feedback-list > div > span { flex-basis: 100%; }
+}

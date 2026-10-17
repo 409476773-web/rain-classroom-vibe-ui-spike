@@ -1,11 +1,18 @@
+import { verifyGithubReviewGitState } from "./github-review-successor.mjs";
+import { getG6SourceBindings } from "./verification-helpers.mjs";
+import { hasG5ComponentsAuthorization, getG5SourceBindings, g5ComponentFiles, hasDateTimeOptimizationAuthorization, dateTimeOptimizationFiles, hasDatePickerUxRefinementAuthorization, datePickerUxRefinementFiles, hasDatePickerVisualFeedbackAuthorization, datePickerVisualFeedbackFiles } from "./verification-helpers.mjs";
+import { hasButtonGroupRepairAuthorization, buttonGroupRepairFiles, hasG123PlaygroundAssetizationAuthorization, g123PlaygroundFiles, hasG4ComponentsAuthorization, hasG4VisualRefinementAuthorization, getG4SourceBindings, g4ComponentFiles, g4VisualRefinementSourcePaths, hasG4SizingReviewAuthorization, g4SizingReviewSourcePaths } from "./verification-helpers.mjs";
+import { alertFiles as alertSourceFiles, hasAlertAuthorization } from "./verification-helpers.mjs";
+import { tooltipFiles as tooltipSourceFiles, hasTooltipAuthorization } from "./verification-helpers.mjs";
 import { inputNumberFiles, hasInputNumberAuthorization } from "./verification-helpers.mjs";
+import { hasTokenFirstV12Authorization, hasTokenFirstV12G1NextAuthorization, hasTokenFirstV12G2Authorization } from "./verification-helpers.mjs";
 import { avatarFamilyFiles, hasAvatarFamilyAuthorization, isAvatarFamilyImport } from "./verification-helpers.mjs";
 import { hasDialogRefinementAuthorization } from "./verification-helpers.mjs";
 import { hasGenerationQualityAuthorization, m2DeliveryFiles, hasM2Authorization, prepareM2NavigationSource, bmARn09Files, hasBmARn09Authorization, bmBRn10Files, hasBmBRn10Authorization, rn13AssetIndexFiles, hasRn13Authorization, rn14EditabilityFiles, hasRn14Authorization, rn15DeliveryFiles, hasRn15Authorization } from "./verification-helpers.mjs";
 import { emptyRefinementFiles, hasEmptyRefinementAuthorization, insideFieldLabelBrowserFiles, hasInsideFieldLabelsAuthorization, tablePaginationFiles, hasTablePaginationReplacementAuthorization, tableRn08Files, hasTableRn08Authorization } from "./verification-helpers.mjs";
 import { layoutsV1Files, hasLayoutsV1Authorization, dialogV2Files, hasDialogV2Authorization, isDialogV2Import } from "./verification-helpers.mjs";
 import { cardV2Files, hasCardV2Authorization, getTabsRefinementFiles, isTabsImport, validateTabsPreflightInventory } from "./verification-helpers.mjs";
-import { selectionPlaygroundSc04Files, hasSelectionPlaygroundSc04Authorization, selectionPatternsSc03Files, hasSelectionPatternsSc03Authorization, selectionCardsSc02Files, hasSelectionCardsSc02Authorization, radioSc01Files, hasRadioSc01Authorization, checkboxSc01Files, hasCheckboxSc01Authorization } from "./verification-helpers.mjs";
+import { selectionPlaygroundSc04Files, hasSelectionPlaygroundSc04Authorization, selectionPatternsSc03Files, hasSelectionPatternsSc03Authorization, selectionCardsSc02Files, hasSelectionCardsSc02Authorization, radioSc01Files, hasRadioSc01Authorization, switchSc01Files, hasSwitchSc01Authorization, isSwitchImport, checkboxSc01Files, hasCheckboxSc01Authorization } from "./verification-helpers.mjs";
 import {
   existsSync,
   lstatSync,
@@ -15,9 +22,10 @@ import {
 } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { dirname, isAbsolute, join, relative } from "node:path";
+import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 
 import {
+  getRecordedNavigationSourceBindings, getRecordedChartSourceBindings, getLibraryGovernanceCloseoutSourceBindings, getLibraryLocalArtifactIntake, getSliderRefinementSourceBindings, getSelectUnificationSourceBindings, getG23DocumentationSourceBindings, hasG23FamilyVisualRefinementAuthorization, hasG23RemainingVisualRefinementAuthorization, hasToastActionPositionRefinementAuthorization,
   getExpectedDayThreeLifecycle,
   getCurrentB2Status,
   dropdownBatchOneDependencies,
@@ -46,6 +54,9 @@ import {
   iconButtonRefinementFiles,
   tokenFoundationsV1Files,
   validateTokenFoundationsV1Phase,
+  hasRecordedPostB2Refinement,
+  hasTreeAuthorization,
+  collectRecordedPostB2Documents,
   getValidatedDayThreeHistory,
   getIconLibraryRefinementFiles,
   getTextButtonRefinementFiles,
@@ -77,6 +88,9 @@ function collectFiles(directory, { ignoreNamedNodeModules = true } = {}) {
       "test-results",
       "apps/playground/dist",
       "apps/prototype/dist",
+      "apps/prototype/dist-bklit-catalog",
+      "apps/prototype/dist-bklit-validation",
+      "apps/prototype/dist-chart-validation",
       "apps/playground/node_modules",
     ].map((filePath) => join(workspaceRoot, filePath)),
   );
@@ -191,10 +205,36 @@ function loadPhaseStatus() {
 }
 
 const livePhaseStatus = loadPhaseStatus();
+const alertFiles = Object.fromEntries(Object.entries(alertSourceFiles).map(([kind, files]) => [kind, hasAlertAuthorization(livePhaseStatus) ? files : []]));
 const rn13Files = Object.fromEntries(Object.entries(rn13AssetIndexFiles).map(([kind, files]) => [kind, hasRn13Authorization(livePhaseStatus) ? files : []]));
 const rn14Files = Object.fromEntries(Object.entries(rn14EditabilityFiles).map(([kind, files]) => [kind, hasRn14Authorization(livePhaseStatus) ? files : []]));
 const m2Files = Object.fromEntries(Object.entries(m2DeliveryFiles).map(([kind, files]) => [kind, hasM2Authorization(livePhaseStatus) ? files : []]));
 const qualityAuthorized = hasGenerationQualityAuthorization(livePhaseStatus);
+const tokenFirstAuthorized = hasTokenFirstV12Authorization(livePhaseStatus);
+const tooltipAuthorized = hasTooltipAuthorization(livePhaseStatus);
+const tooltipFiles = Object.fromEntries(Object.entries(tooltipSourceFiles).map(([kind, files]) => [kind, tooltipAuthorized ? files : []]));
+const tokenFirstNextAuthorized = hasTokenFirstV12G1NextAuthorization(livePhaseStatus);
+const tokenFirstG2Authorized = hasTokenFirstV12G2Authorization(livePhaseStatus);
+const g123PlaygroundAuthorized = hasG123PlaygroundAssetizationAuthorization(livePhaseStatus);
+const g5Authorized = hasG5ComponentsAuthorization(livePhaseStatus);
+let g6Bindings;
+if (livePhaseStatus?.componentRefinements?.g6Components) {
+  try { g6Bindings = getG6SourceBindings(workspaceRoot, livePhaseStatus); }
+  catch (error) { failures.push(`G6 finite sources cannot be checked: ${error.message}`); }
+}
+const g6Dependencies = { "input-otp":"1.4.2", "embla-carousel-react":"8.5.2", "@shadcn/react":"0.3.1", ...(g6Bindings?.carouselUpgrade ? { "embla-carousel-auto-scroll":"8.5.2" } : {}) };
+const isG6Dependency = (file, group, name, version) => Boolean(g6Bindings) && file === "packages/ui/package.json" && group === "dependencies" && g6Dependencies[name] === version;
+
+const g4Authorized = hasG4ComponentsAuthorization(livePhaseStatus);
+const buttonGroupRepairAuthorized = hasButtonGroupRepairAuthorization(livePhaseStatus);
+const tokenFirstApplication = tokenFirstAuthorized ? ["alert.tsx", "switch.tsx", "accordion.tsx", "collapsible.tsx", "page.tsx", "page.css", "adapters.test.tsx", ...(tokenFirstNextAuthorized ? [...(!tooltipAuthorized ? ["tooltip.tsx"] : []), "resizable.tsx", "next-samples.tsx", "next.css", "README.md"] : [])].map(file => `apps/prototype/src/scenarios/token-first-g1/${file}`) : [];
+const tokenFirstChecks = tokenFirstAuthorized ? ["tests/e2e/token-first-g1.spec.ts", "evidence/runtime/token-first-v12-g1/playwright.config.ts", ...(tokenFirstNextAuthorized ? ["tests/e2e/token-first-g1-next.spec.ts", "evidence/runtime/token-first-v12-g1-next/playwright.config.ts"] : [])] : [];
+const tokenFirstG2Application = tokenFirstG2Authorized ? ["page.tsx", "page.css", "components.css", "button-group.tsx", "toggle.tsx", "toggle-group.tsx", "loading.tsx", "toast.tsx", "adapters.test.tsx"].map(file => `apps/prototype/src/scenarios/token-first-g2/${file}`) : [];
+const tokenFirstG2Checks = tokenFirstG2Authorized ? ["tests/e2e/token-first-g2.spec.ts", "evidence/runtime/token-first-v12-g2/playwright.config.ts"] : [];
+const reportA = livePhaseStatus?.componentRefinements?.tokenFirstV12?.reportRefinement;
+const reportAAuthorized = tokenFirstAuthorized && reportA?.authorization === "authorized" && reportA.scope === "selected-report-a-local-presentation-and-color-evidence";
+const reportAApplication = reportAAuthorized ? ["apps/prototype/src/scenarios/bm-d/report-a.css", "apps/prototype/src/scenarios/bm-d/report-sections.tsx"] : [];
+const reportAChecks = reportAAuthorized ? ["tests/e2e/learning-report-a.spec.ts", "tests/e2e/learning-report.config.ts", "evidence/runtime/learning-report-a/playwright.config.ts"] : [];
 const listPilotAuthorized = qualityAuthorized && Boolean(livePhaseStatus.componentRefinements.generationQuality.listCompositionPilot);
 const listPilotChecks = listPilotAuthorized ? ["evidence/runtime/list-composition/check-browser.mjs", "evidence/runtime/list-composition/verify-source.mjs"] : [];
 const qualityApplication = qualityAuthorized ? ["apps/prototype/src/scenarios/bm-d/trend-chart.tsx", ...(listPilotAuthorized ? ["page.tsx", "list.tsx", "list.css", "list.test.tsx"].map(file => `apps/prototype/src/scenarios/list-composition/${file}`) : [])] : [];
@@ -202,7 +242,7 @@ const rn15Files = Object.fromEntries(Object.entries(rn15DeliveryFiles).map(([kin
 for (const directory of ["apps", "packages"]) for (const path of collectFiles(join(workspaceRoot, directory))) {
   if (!/\.[cm]?[jt]sx?$/.test(path) || path.includes("/node_modules/") || path.includes("/dist/") || /\.test\./.test(path)) continue;
   const file = relative(workspaceRoot, path), source = readFileSync(path, "utf8");
-  for (const match of source.matchAll(/["']((?:recharts|react-is)(?:\/[^"']*)?)["']/g)) if (!qualityAuthorized || file !== "apps/prototype/src/scenarios/bm-d/trend-chart.tsx" || match[1] !== "recharts") failures.push(`Chart import outside generation-quality report: ${file}`);
+  for (const match of source.matchAll(/["']((?:recharts|react-is)(?:\/[^"']*)?)["']/g)) if (match[1] !== "recharts" || !(qualityAuthorized && file === "apps/prototype/src/scenarios/bm-d/trend-chart.tsx" || reportAAuthorized && file === "apps/prototype/src/scenarios/bm-d/report-sections.tsx")) failures.push(`Chart import outside generation-quality report: ${file}`);
   for (const match of source.matchAll(/["'](@tanstack\/[^"']+)["']/g)) if (!hasTableRn08Authorization(livePhaseStatus) || !(file === "apps/prototype/src/data-table-recipe.tsx" || listPilotAuthorized && file === "apps/prototype/src/scenarios/list-composition/list.tsx") || match[1] !== "@tanstack/react-table") failures.push(`TanStack import outside RN-08 recipe: ${file}: ${match[1]}`);
 }
 const tableRn08Authorized = hasTableRn08Authorization(livePhaseStatus);
@@ -244,9 +284,11 @@ let optionButtonAuthorized = false;
 let tagAuthorized = false;
 let optionButtonContentAuthorized = false;
 let questionOptionSizeReviewAuthorized = false;
+let currentPhaseValidated = false;
 if (isTokenFoundationsV1) {
   try {
     validateTokenFoundationsV1Phase(livePhaseStatus);
+    currentPhaseValidated = true;
     inputAuthorized = hasInputRefinementAuthorization(livePhaseStatus);
     selectAuthorized = hasSelectRefinementAuthorization(livePhaseStatus);
     tagAuthorized = hasTagRefinementAuthorization(livePhaseStatus);
@@ -275,6 +317,200 @@ if (isTokenFoundationsV1) {
     }
   }
 }
+// Later local candidates extend the original Day 3 inventory only after its full parent policy validates.
+const scopedFiles = { application: new Set(), ui: new Set(), layouts: new Set(), documents: new Set(), workspace: new Set() };
+const tokenFirstG3Authorized = currentPhaseValidated && hasRecordedPostB2Refinement(livePhaseStatus, "tokenFirstV12G3");
+const navigationAuthorized = currentPhaseValidated
+  && livePhaseStatus.navigationComponentsV042?.authorization === "authorized"
+  && livePhaseStatus.navigationComponentsV042?.humanGate === "accepted"
+  && livePhaseStatus.navigationComponentsV042W6W8?.authorization === "authorized";
+// These accepted record bytes define inventory; arbitrary edited JSON keys cannot grant source authorization.
+const acceptedInventorySha256 = new Map([
+  ["evidence/runtime/navigation-rebuild-v03/final-source-lock.json", "a32383a11c1a680f3f1feb178f3941acc6a0fadb71361e616ab1ff51b8fe0365"],
+  ["evidence/runtime/navigation-v042/w7/final-source.json", "f5f529e45def311a61ce0b6bfb1cfc9e719e8501197b1bcec99c640ba661bb16"],
+  ["evidence/runtime/navigation-v042/w6/review-02/final-source.json", "03dbe4ea246a33c8a31368e060e8a764e55854fbc85f1f25bb016cce8c0504d1"],
+  ["evidence/runtime/navigation-v042/w7/regression-map.json", "1ed8a56c959e8f78c1f9bb29b7d7d3649310c7bfd20aae7be3ffcd162dee9847"],
+]);
+const recordedRegistries = currentPhaseValidated ? collectRecordedPostB2Documents(workspaceRoot, livePhaseStatus, failures).registries : [];
+let chartBindings;
+if (currentPhaseValidated) {
+  try {
+    chartBindings = getRecordedChartSourceBindings(workspaceRoot, livePhaseStatus);
+    for (const record of [chartBindings, getRecordedNavigationSourceBindings(workspaceRoot, livePhaseStatus), getLibraryGovernanceCloseoutSourceBindings(workspaceRoot), getSliderRefinementSourceBindings(workspaceRoot, livePhaseStatus), getSelectUnificationSourceBindings(workspaceRoot, livePhaseStatus), getG23DocumentationSourceBindings(workspaceRoot, livePhaseStatus)]) {
+      for (const [file, binding] of Object.entries(record?.sourceFiles ?? {})) if (binding?.after !== null) addScopedFile(file, { required: true });
+      for (const file of Object.keys(record?.lexicalSourceFiles ?? {})) addScopedFile(file, { required: true });
+    }
+    if (chartBindings) addRegisteredScope("registry/charts.json");
+    for (const file of Object.keys(getLibraryLocalArtifactIntake(workspaceRoot)?.sourceFiles ?? {})) addScopedFile(file, { required: true });
+  } catch (error) { failures.push(`Recorded source scope cannot be checked: ${error.message}`); }
+}
+const isChartDependency = (packageFile, group, name, version) => chartBindings?.dependencies[packageFile]?.[group]?.[name] === version;
+function readAcceptedInventory(file) {
+  const source = readRegularNonSymbolicFile(join(workspaceRoot, file), file);
+  if (createHash("sha256").update(source).digest("hex") !== acceptedInventorySha256.get(file)) throw new Error(`accepted inventory SHA-256 must match its immutable recorded bytes: ${file}`);
+  return JSON.parse(source.toString("utf8"));
+}
+function addScopedFile(file, { required = false } = {}) {
+  if (!isCanonicalRepositoryRelativePath(file)) { failures.push(`Scoped asset has a noncanonical source path: ${String(file)}`); return; }
+  if (!existsSync(join(workspaceRoot, file))) { if (required) failures.push(`Scoped asset source is missing: ${file}`); return; }
+  const kind = file.startsWith("apps/") ? "application" : file.startsWith("packages/ui/") ? "ui"
+    : file.startsWith("packages/layouts/") ? "layouts" : /^(?:manifests|registry|docs\/adr)\//.test(file) ? "documents" : "workspace";
+  scopedFiles[kind].add(file);
+  scopedFiles.workspace.add(file);
+  if (file.endsWith(".tsx")) addScopedFile(file.replace(/\.tsx$/, ".css"));
+  if (file.endsWith(".css")) addScopedFile(`${file}.d.ts`);
+}
+function addRegisteredScope(registryPath) {
+  try {
+    if (!recordedRegistries.includes(registryPath)) throw new Error(`recorded Registry must match its immutable accepted bytes: ${registryPath}`);
+    const registry = JSON.parse(readRegularNonSymbolicFile(join(workspaceRoot, registryPath), registryPath).toString("utf8"));
+    if (registry.kind !== "RainLocalSourceRegistry" || registry.scope !== "current-workspace" || registry.publication !== "not-published") throw new Error("must retain current-workspace unpublished local-source identity");
+    addScopedFile(registryPath, { required: true });
+    const sources = new Set([...(registry.shared?.files ?? []), ...Object.keys(registry.sourceSnapshot?.filesSha256 ?? {})]);
+    for (const item of registry.items ?? []) {
+      for (const file of item.files ?? []) sources.add(file);
+      if (!item.manifest) continue;
+      addScopedFile(item.manifest, { required: true });
+      const manifest = parseYamlSubset(readRegularNonSymbolicFile(join(workspaceRoot, item.manifest), item.manifest).toString("utf8"));
+      if (manifest.publication !== "unpublished") throw new Error(`${item.manifest} must remain unpublished`);
+      // The Registry binds source paths; mutable Manifest examples are descriptive, never an authorization input.
+    }
+    for (const file of sources) {
+      addScopedFile(file, { required: true });
+      // Companion test/declaration names are finite derivations of an explicitly registered source.
+      if (/\.[jt]sx?$/.test(file) && !/\.test\./.test(file)) {
+        addScopedFile(file.replace(/\.[jt]sx?$/, ".test.ts"));
+        addScopedFile(file.replace(/\.[jt]sx?$/, ".test.tsx"));
+      }
+      if (file.endsWith(".css")) addScopedFile(`${file}.d.ts`);
+      if (file.startsWith("packages/")) addScopedFile(`${dirname(file)}/README.md`);
+    }
+  } catch (error) { failures.push(`Scoped Registry cannot be audited: ${registryPath}: ${error.message}`); }
+}
+function addRecordedSourceKeys(file, field) {
+  try {
+    const record = readAcceptedInventory(file);
+    for (const path of Object.keys(record[field] ?? {})) addScopedFile(path, { required: true });
+  } catch (error) { failures.push(`Scoped source inventory cannot be audited: ${file}: ${error.message}`); }
+}
+if (currentPhaseValidated && g123PlaygroundAuthorized) {
+  ["registry/g1-assets.json", "registry/g2-assets.json"].forEach(addRegisteredScope);
+  [...g123PlaygroundFiles.application, ...g123PlaygroundFiles.ui, ...g123PlaygroundFiles.documents, ...g123PlaygroundFiles.workspace].forEach(file => addScopedFile(file, { required: true }));
+  addScopedFile("apps/playground/src/docs/components/component-doc.test.tsx");
+  if (hasG23FamilyVisualRefinementAuthorization(livePhaseStatus)) ["scripts/g23-family-refinement-governance.test.ts", "tests/e2e/g2-g3-family-refinement.spec.ts"].forEach(file => addScopedFile(file, { required: true }));
+  if (hasG23RemainingVisualRefinementAuthorization(livePhaseStatus)) addScopedFile("tests/e2e/g2-g3-remaining-families.spec.ts", { required: true });
+  if (hasToastActionPositionRefinementAuthorization(livePhaseStatus)) addScopedFile("tests/e2e/toast-action-position.spec.ts", { required: true });
+}
+if (g6Bindings) {
+  Object.entries(g6Bindings.sourceFiles).filter(([,binding]) => binding.after !== null).forEach(([file]) => addScopedFile(file, { required: true }));
+  if (g6Bindings.closeoutSuccessor) addScopedFile("scripts/g1-g6-closeout-governance.mjs", { required: true });
+  if (g6Bindings.sourceFiles["registry/g6-assets.json"]?.after) addRegisteredScope("registry/g6-assets.json");
+}
+if (g5Authorized) {
+  try {
+    getG5SourceBindings(workspaceRoot, livePhaseStatus);
+    if (!recordedRegistries.includes("registry/g5-assets.json")) recordedRegistries.push("registry/g5-assets.json");
+    addRegisteredScope("registry/g5-assets.json");
+    Object.values(g5ComponentFiles).flat().forEach(file => addScopedFile(file, { required: true }));
+    if (hasDateTimeOptimizationAuthorization(livePhaseStatus)) Object.values(dateTimeOptimizationFiles).flat().forEach(file => addScopedFile(file, { required: true }));
+    if (hasDatePickerUxRefinementAuthorization(livePhaseStatus)) Object.values(datePickerUxRefinementFiles).flat().forEach(file => addScopedFile(file, { required: true }));
+    if (hasDatePickerVisualFeedbackAuthorization(livePhaseStatus)) Object.values(datePickerVisualFeedbackFiles).flat().forEach(file => addScopedFile(file, { required: true }));
+  } catch (error) { failures.push(`G5 Registry cannot be audited: ${error.message}`); }
+}
+if (g4Authorized) {
+  try {
+    getG4SourceBindings(workspaceRoot, livePhaseStatus);
+    if (!recordedRegistries.includes("registry/g4-assets.json")) recordedRegistries.push("registry/g4-assets.json");
+    addRegisteredScope("registry/g4-assets.json");
+    [...g4ComponentFiles.application, ...g4ComponentFiles.ui, ...g4ComponentFiles.documents, ...g4ComponentFiles.workspace].forEach(file => addScopedFile(file, { required: true }));
+    if (hasG4VisualRefinementAuthorization(livePhaseStatus)) g4VisualRefinementSourcePaths.forEach(file => addScopedFile(file, { required: true }));
+    if (hasG4SizingReviewAuthorization(livePhaseStatus)) g4SizingReviewSourcePaths.forEach(file => addScopedFile(file, { required: true }));
+  } catch (error) { failures.push(`G4 Registry cannot be audited: registry/g4-assets.json: ${error.message}`); }
+}
+if (currentPhaseValidated && buttonGroupRepairAuthorized) {
+  [...buttonGroupRepairFiles.application, ...buttonGroupRepairFiles.ui, ...buttonGroupRepairFiles.documents, ...buttonGroupRepairFiles.workspace].forEach(file => addScopedFile(file, { required: true }));
+}
+if (currentPhaseValidated && hasRecordedPostB2Refinement(livePhaseStatus, "breadcrumbSingleSize")) {
+  addRegisteredScope("registry/breadcrumb.json");
+  ["apps/playground/src/docs/components/breadcrumb-page.tsx", "apps/playground/src/docs/components/breadcrumb-page.test.tsx", "tests/e2e/breadcrumb.spec.ts", "tests/e2e/breadcrumb.config.ts"].forEach(file => addScopedFile(file));
+}
+if (currentPhaseValidated && hasTreeAuthorization(livePhaseStatus)) {
+  addRegisteredScope("registry/tree.json");
+  ["packages/ui/src/tree/tree.renderers.test.tsx", "apps/playground/src/patterns/manage-tree/manage-tree.adapters.test.tsx", "apps/playground/src/patterns/manage-tree/README.md", "apps/playground/src/docs/components/tree-page.tsx", "apps/playground/src/docs/components/tree-page.test.tsx", "apps/playground/src/docs/components/tree-behavior-examples.tsx", "apps/playground/src/docs/components/manage-tree-page.tsx", "apps/playground/src/docs/components/manage-tree-domain-examples.tsx", "docs/adr/0011-tree-and-manage-tree-ownership.md", "scripts/tree-closeout.test.ts", "tests/e2e/tree.spec.ts", "tests/e2e/tree.config.ts"].forEach(file => addScopedFile(file));
+}
+if (tokenFirstG3Authorized) {
+  addRegisteredScope("registry/token-first-g3.json");
+  ["page.tsx", "page.css", "page.test.tsx", "README.md"].forEach(file => addScopedFile(`apps/prototype/src/scenarios/token-first-g3/${file}`));
+  ["playwright.g3.config.ts", "tests/e2e/token-first-g3.spec.ts"].forEach(file => addScopedFile(file));
+}
+if (currentPhaseValidated && hasRecordedPostB2Refinement(livePhaseStatus, "tokenFirstG3NavigationRebuildV03")) {
+  addRecordedSourceKeys("evidence/runtime/navigation-rebuild-v03/final-source-lock.json", "sourceFileSha256");
+  ["README.md", "design-notes.md"].forEach(file => addScopedFile(`apps/prototype/src/scenarios/token-first-g3/rebuild/${file}`));
+  ["M01", "M02", "N01", "N02", "N03", "N04", "S01", "S02", "S04", "S05", "S06", "S08"].forEach(name => addScopedFile(`apps/prototype/src/scenarios/token-first-g3/rebuild/references/${name}.png`));
+  ["navigation-rebuild-reuse.spec.ts", "navigation-rebuild-select.ts", "navigation-rebuild-visual-feedback.spec.ts", "navigation-rebuild-visual-feedback-2.spec.ts"].forEach(file => addScopedFile(`tests/e2e/${file}`));
+}
+if (navigationAuthorized) {
+  ["navigation-v042", "navigation-v042-w3", "navigation-v042-workspaces", "navigation-v042-recipes"].forEach(name => addRegisteredScope(`registry/${name}.json`));
+  addRecordedSourceKeys("evidence/runtime/navigation-v042/w7/final-source.json", "filesSha256");
+  addRecordedSourceKeys("evidence/runtime/navigation-v042/w6/review-02/final-source.json", "filesSha256");
+  try {
+    const map = readAcceptedInventory("evidence/runtime/navigation-v042/w7/regression-map.json");
+    for (const test of map.cases ?? []) for (const file of test.testFiles ?? []) addScopedFile(file);
+  } catch (error) { failures.push(`Navigation test inventory cannot be audited: ${error.message}`); }
+  ["compare", "export", "reference", "review", "w3-compare", "w3-reference", "w4-compare", "w4-r2-regression", "w4-reference", "w5-compare", "w5-reference", "w5-stability", "w7-quality"].forEach(name => addScopedFile(`scripts/navigation-v042-${name}.mjs`));
+  ["scripts/navigation-w7-colors.mjs", "scripts/navigation-w7-colors.test.ts", "scripts/navigation-w7-color-anatomy.mjs"].forEach(file => addScopedFile(file));
+  ["", "-w3", "-w4", "-w5", "-w6", "-w7", "-r4-feedback", "-review07", "-review08", "-review09", "-review09-r1-r3", "-review10", "-w6-review01", "-w6-review02"].forEach(name => ["spec", "config"].forEach(kind => addScopedFile(`tests/e2e/navigation-v042${name}.${kind}.ts`)));
+  ["w6-review01-compat.config", "w6-review02-compat.config", "review11-parent.config", "review11-platform.config", "review11-platform.spec", "review11-r1-r3.spec", "review11-r4-r6.spec", "review11-r4-r6-platform-footer.spec", "review11-r4-r6-platform-reopen.spec", "review11-root.spec"].forEach(name => addScopedFile(`tests/e2e/navigation-v042-${name}.ts`));
+  addScopedFile("scripts/verify-boundaries-navigation.test.ts");
+  ["packages/ui/src/navigation/README-W3.md", "packages/ui/src/navigation/navigation-isolation.browser.mjs", "packages/layouts/src/README-workspace.md", "packages/layouts/src/README-workspace-adapter.md", "apps/playground/src/recipes/navigation-v042/samples.tsx", "apps/playground/src/recipes/navigation-v042/README-W4.md", "apps/playground/src/recipes/navigation-v042/README-W5.md"].forEach(file => addScopedFile(file));
+}
+if (currentPhaseValidated && tokenFirstAuthorized) {
+  // These two finite consumers are named by the original approved G1 workpack and its later workbench record.
+  ["page.tsx", "page.css", "page.test.tsx", "README.md"].forEach(file => addScopedFile(`apps/prototype/src/scenarios/teacher-grading/${file}`));
+  ["page.tsx", "page.css", "page.test.tsx", "state.ts", "state.test.ts", "design-notes.md"].forEach(file => addScopedFile(`apps/prototype/src/scenarios/exam-editor/${file}`));
+  // Existing G1 review captures are data, but the application inventory still checks every concrete file.
+  const examEditorCaptures = {
+    "evidence": ["batch-dialog-1440.png", "batch-selection-1440.png", "browser-facts.json", "dialog-text-contrast.json", "page-1440.png"],
+    "evidence/annotations": ["answer-expanded-1440.png", "batch-dialog-1440.png", "browser-facts.json", "page-1440.png", "question-hover-1440.png", "single-dialog-1440.png"],
+    "evidence/annotations-2": ["browser-facts.json", "expanded-1669.png", "expanded-and-hover-1440.png", "move-dialog-1440.png", "page-1440.png"],
+    "evidence/annotations-3": ["browser-facts.json", "move-dialog-1440.png", "page-1440.png", "page-1795.png"],
+  };
+  for (const [directory, files] of Object.entries(examEditorCaptures)) for (const file of files) addScopedFile(`apps/prototype/src/scenarios/exam-editor/${directory}/${file}`);
+  ["apps/prototype/src/scenarios/token-first-g1/page.test.tsx", "tests/e2e/teacher-grading.spec.ts"].forEach(file => addScopedFile(file));
+}
+if (currentPhaseValidated && tokenFirstG2Authorized) addScopedFile("apps/prototype/src/scenarios/token-first-g2/README.md");
+const tokenFirstG3Imports = new Map([
+  ["command", ["autocomplete"]], ["context-menu", ["context-menu"]], ["hover-card", ["preview-card"]],
+  ["menubar", ["menu", "menubar"]], ["navigation-menu", ["navigation-menu"]], ["scroll-area", ["scroll-area"]], ["sheet", ["drawer"]],
+].map(([name, modules]) => [`packages/ui/src/${name}/${name}.tsx`, modules.map(module => `@base-ui/react/${module}`)]));
+const g123HeadlessImports = new Map([
+  ["accordion", ["accordion"]], ["collapsible", ["collapsible"]], ["button-group", ["merge-props", "use-render"]],
+  ["toggle", ["toggle"]], ["toggle-group", ["toggle", "toggle-group"]], ["toast", ["toast"]],
+].map(([name, modules]) => [`packages/ui/src/${name}/${name}.tsx`, modules.map(module => `@base-ui/react/${module}`)]));
+const g6HeadlessImports = new Map([
+  ["attachment", ["@base-ui/react/merge-props", "@base-ui/react/use-render"]],
+  ["bubble", ["@base-ui/react/merge-props", "@base-ui/react/use-render"]],
+  ["marker", ["@base-ui/react/use-render", "@base-ui/react/merge-props"]],
+  ["drawer", ["@base-ui/react/drawer", "@base-ui/react/direction-provider"]],
+  ["carousel", ["@base-ui/react/direction-provider"]],
+  ["message-scroller", ["@shadcn/react/message-scroller"]],
+  ["questionnaire", ["@shadcn/react/questionnaire", "@base-ui/react/use-render"]],
+].map(([name, modules]) => [`packages/ui/src/${name}/${name}.tsx`, modules]));
+g6HeadlessImports.set("packages/ui/src/direction/direction.ts", ["@base-ui/react/direction-provider"]);
+g6HeadlessImports.set("packages/ui/src/drawer/drawer.test.tsx", ["@base-ui/react/direction-provider"]);
+for (const file of ["questionnaire-choice-adapter.tsx", "questionnaire-input-adapter.tsx", "questionnaire-reuse.test.tsx"]) {
+  if (g6Bindings?.closeoutSuccessor?.sourceFiles[`packages/ui/src/questionnaire/${file}`]?.after) {
+    g6HeadlessImports.set(`packages/ui/src/questionnaire/${file}`, ["@shadcn/react/questionnaire"]);
+  }
+}
+const isScopedHeadlessImport = (file, specifier) => g6Bindings?.sourceFiles[file]?.after && g6HeadlessImports.get(file)?.includes(specifier)
+  || tokenFirstG3Authorized && tokenFirstG3Imports.get(file)?.includes(specifier)
+  || chartBindings?.sourceFiles[file] && ["packages/ui/src/charts/vendor/charts/chart-legend.tsx", "packages/ui/src/charts/vendor/charts/legend/legend-progress.tsx", "apps/prototype/src/scenarios/bklit-validation/vendor/charts/chart-legend.tsx"].includes(file) && specifier === "@base-ui/react/progress"
+  || g123PlaygroundAuthorized && g123HeadlessImports.get(file)?.includes(specifier)
+  || g4Authorized && file === "packages/ui/src/item/item.tsx" && ["@base-ui/react/merge-props", "@base-ui/react/use-render"].includes(specifier)
+  || g4Authorized && file === "packages/ui/src/progress/progress.tsx" && specifier === "@base-ui/react/progress"
+  || g5Authorized && [["combobox", "combobox"], ["slider", "slider"]].some(([name, module]) => file === `packages/ui/src/${name}/${name}.tsx` && specifier === `@base-ui/react/${module}`);
+
 const optionButtonFiles = Object.fromEntries(Object.entries(optionButtonRefinementFiles).map(([kind, files]) => [kind, [...(optionButtonAuthorized ? files : []), ...(optionButtonContentAuthorized ? optionButtonContentRefinementFiles[kind] ?? [] : [])]]));
 const questionNumberFiles = Object.fromEntries(Object.entries(questionNumberRefinementFiles).map(([kind, files]) => [kind, [...(questionNumberAuthorized ? files : []), ...(hasQuestionOptionSizeRefinementAuthorization(livePhaseStatus) ? questionOptionSizeRefinementFiles[kind] ?? [] : [])]]));
 const checkboxFiles = Object.fromEntries(Object.entries(checkboxSc01Files).map(([kind, files]) => [kind, hasCheckboxSc01Authorization(livePhaseStatus) ? files : []]));
@@ -283,6 +519,7 @@ const selectionPlaygroundFiles = Object.fromEntries(Object.entries(selectionPlay
 const selectionPatternFiles = Object.fromEntries(Object.entries(selectionPatternsSc03Files).map(([kind, files]) => [kind, hasSelectionPatternsSc03Authorization(livePhaseStatus) ? files : []]));
 const selectionCardFiles = Object.fromEntries(Object.entries(selectionCardsSc02Files).map(([kind, files]) => [kind, hasSelectionCardsSc02Authorization(livePhaseStatus) ? files : []]));
 const radioFiles = Object.fromEntries(Object.entries(radioSc01Files).map(([kind, files]) => [kind, hasRadioSc01Authorization(livePhaseStatus) ? files : []]));
+const switchFiles = Object.fromEntries(Object.entries(switchSc01Files).map(([kind, files]) => [kind, hasSwitchSc01Authorization(livePhaseStatus) ? files : []]));
 const inputFiles = Object.fromEntries(Object.entries(inputRefinementFiles).map(([kind, files]) => [kind, inputAuthorized ? files : []]));
 const selectFiles = Object.fromEntries(Object.entries(selectRefinementFiles).map(([kind, files]) => [kind, selectAuthorized ? files : []]));
 const tagFiles = Object.fromEntries(Object.entries(tagRefinementFiles).map(([kind, files]) => [kind, [
@@ -291,7 +528,7 @@ const tagFiles = Object.fromEntries(Object.entries(tagRefinementFiles).map(([kin
 ]]));
 const iconButtonFiles = Object.fromEntries(Object.entries(iconButtonRefinementFiles).map(([kind, files]) => [kind, iconButtonAuthorized ? files : []]));
 const sizeReviewFiles = Object.fromEntries(Object.entries(questionOptionSizeReviewFiles).map(([kind, files]) => [kind, questionOptionSizeReviewAuthorized ? files : []]));
-for (const name of [...Object.values(tabsFiles).flat(), ...Object.values(iconButtonFiles).flat(), ...Object.values(inputFiles).flat(), ...Object.values(selectFiles).flat(), ...Object.values(tagFiles).flat(), ...Object.values(dropdownPublicFiles).flat(), ...Object.values(checkboxFiles).flat(), ...Object.values(selectionCardFiles).flat(), ...Object.values(selectionPatternFiles).flat(), ...Object.values(selectionPlaygroundFiles).flat(), ...Object.values(radioFiles).flat()]) {
+for (const name of [...Object.values(tabsFiles).flat(), ...Object.values(iconButtonFiles).flat(), ...Object.values(inputFiles).flat(), ...Object.values(selectFiles).flat(), ...Object.values(tagFiles).flat(), ...Object.values(dropdownPublicFiles).flat(), ...Object.values(checkboxFiles).flat(), ...Object.values(selectionCardFiles).flat(), ...Object.values(selectionPatternFiles).flat(), ...Object.values(selectionPlaygroundFiles).flat(), ...Object.values(radioFiles).flat(), ...Object.values(switchFiles).flat()]) {
   const path = join(workspaceRoot, name);
   if (!existsSync(path)) continue;
   requireRealDirectoryChain(dirname(name), "IconButton artifact parent");
@@ -881,6 +1118,10 @@ if (isDayOne) {
     },
   };
 
+  if (g6Bindings && expectedDependencySets["packages/ui/package.json"]) expectedDependencySets["packages/ui/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["packages/ui/package.json"].dependencies, ...g6Dependencies }).sort());
+  if (g5Authorized && expectedDependencySets["packages/ui/package.json"]) expectedDependencySets["packages/ui/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["packages/ui/package.json"].dependencies, "react-day-picker": "9.13.2" }).sort());
+  if (g123PlaygroundAuthorized && expectedDependencySets["packages/ui/package.json"]) expectedDependencySets["packages/ui/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["packages/ui/package.json"].dependencies, "react-resizable-panels": "4.12.4" }).sort());
+  if (tokenFirstAuthorized) expectedDependencySets["apps/prototype/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["apps/prototype/package.json"].dependencies, "@base-ui/react": "1.8.0", "class-variance-authority": "0.7.1", ...(tokenFirstNextAuthorized ? { "react-resizable-panels": "4.12.4" } : {}) }).sort());
   function normalizedDependencyMap(dependencies) {
     return Object.fromEntries(Object.entries(dependencies ?? {}).sort());
   }
@@ -1079,7 +1320,7 @@ if (isDayOne) {
     );
   }
 
-  const expectedAppFiles = [
+  const expectedAppFiles = [...scopedFiles.application,
     "apps/playground/index.html",
     "apps/playground/package.json",
     "apps/playground/tsconfig.json",
@@ -1162,8 +1403,11 @@ if (isDayOne) {
       "tests/e2e/playground-shell.spec.ts",
     ].map((filePath) => join(workspaceRoot, filePath)),
   );
+  // Under the fully validated accepted navigation parent, these are data domains, not executable workspace inputs.
+  // Their existing exact evidence/source-lock validators remain responsible; old phases retain the original scan.
   const workspaceSources = collectFiles(workspaceRoot).filter((filePath) =>
-    /\.(?:[cm]?[jt]sx?|astro|css|html|mdx|svelte|svg|vue)$/.test(filePath),
+    /\.(?:[cm]?[jt]sx?|astro|css|html|mdx|svelte|svg|vue)$/.test(filePath)
+      && !(navigationAuthorized && /^(?:evidence|artifacts|docs)\//.test(relative(workspaceRoot, filePath))),
   );
   for (const filePath of workspaceSources) {
     if (!allowedDayOneWorkspaceSources.has(filePath)) {
@@ -1413,6 +1657,10 @@ if (isDayTwo) {
       .filter(Boolean),
   );
 
+  if (g6Bindings && expectedDependencySets["packages/ui/package.json"]) expectedDependencySets["packages/ui/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["packages/ui/package.json"].dependencies, ...g6Dependencies }).sort());
+  if (g5Authorized && expectedDependencySets["packages/ui/package.json"]) expectedDependencySets["packages/ui/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["packages/ui/package.json"].dependencies, "react-day-picker": "9.13.2" }).sort());
+  if (g123PlaygroundAuthorized && expectedDependencySets["packages/ui/package.json"]) expectedDependencySets["packages/ui/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["packages/ui/package.json"].dependencies, "react-resizable-panels": "4.12.4" }).sort());
+  if (tokenFirstAuthorized) expectedDependencySets["apps/prototype/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["apps/prototype/package.json"].dependencies, "@base-ui/react": "1.8.0", "class-variance-authority": "0.7.1", ...(tokenFirstNextAuthorized ? { "react-resizable-panels": "4.12.4" } : {}) }).sort());
   function normalizedDependencyMap(dependencies) {
     return Object.fromEntries(Object.entries(dependencies ?? {}).sort());
   }
@@ -1462,6 +1710,8 @@ if (isDayTwo) {
         if (
           !internalPackageNames.has(dependency) &&
           !allowedExternalDependencies.has(dependency)
+          && !(tokenFirstNextAuthorized && packageFile === "apps/prototype/package.json" && dependency === "react-resizable-panels" && version === "4.12.4")
+          && !(g123PlaygroundAuthorized && packageFile === "packages/ui/package.json" && dependency === "react-resizable-panels" && version === "4.12.4")
         ) {
           failures.push(
             `${packageFile} adds dependency ${dependency} outside the Day 1 dependency set`,
@@ -1537,7 +1787,7 @@ if (isDayTwo) {
     }
   }
 
-  const expectedAppFiles = [
+  const expectedAppFiles = [...scopedFiles.application,
     "apps/playground/index.html",
     "apps/playground/package.json",
     "apps/playground/tsconfig.json",
@@ -1564,6 +1814,7 @@ if (isDayTwo) {
   );
 
   const expectedFoundationsFiles = [
+    ...tooltipFiles.workspace.filter(file => file.startsWith("packages/foundations/")),
     "packages/foundations/package.json",
     "packages/foundations/tsconfig.json",
     "packages/foundations/src/density.test.tsx",
@@ -1732,8 +1983,11 @@ if (isDayTwo) {
       "tests/e2e/foundations.spec.ts",
     ].map((filePath) => join(workspaceRoot, filePath)),
   );
+  // Under the fully validated accepted navigation parent, these are data domains, not executable workspace inputs.
+  // Their existing exact evidence/source-lock validators remain responsible; old phases retain the original scan.
   const workspaceSources = collectFiles(workspaceRoot).filter((filePath) =>
-    /\.(?:[cm]?[jt]sx?|astro|css|html|mdx|svelte|svg|vue)$/.test(filePath),
+    /\.(?:[cm]?[jt]sx?|astro|css|html|mdx|svelte|svg|vue)$/.test(filePath)
+      && !(navigationAuthorized && /^(?:evidence|artifacts|docs)\//.test(relative(workspaceRoot, filePath))),
   );
   for (const filePath of workspaceSources) {
     if (!allowedDayTwoWorkspaceSources.has(filePath)) {
@@ -2291,6 +2545,17 @@ if (isDayThree || isTailwindB2) {
   }
   if (tableRn08Authorized) expectedDependencySets["apps/prototype/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["apps/prototype/package.json"].dependencies, "@tanstack/react-table": "8.21.3" }).sort());
   if (qualityAuthorized) expectedDependencySets["apps/prototype/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["apps/prototype/package.json"].dependencies, recharts: "3.10.1", "react-is": "19.2.8" }).sort());
+  for (const [file, groups] of Object.entries(chartBindings?.dependencies ?? {})) for (const [group, dependencies] of Object.entries(groups)) {
+    expectedDependencySets[file][group] = Object.fromEntries(Object.entries({ ...expectedDependencySets[file][group], ...dependencies }).sort());
+  }
+  if (chartBindings) {
+    expectedDependencySets["packages/ui/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["packages/ui/package.json"].dependencies, "react-dom": "19.2.8" }).sort());
+    expectedDependencySets["packages/ui/package.json"].devDependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["packages/ui/package.json"].devDependencies, "@types/react-dom": "19.2.5" }).sort());
+  }
+  if (g6Bindings && expectedDependencySets["packages/ui/package.json"]) expectedDependencySets["packages/ui/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["packages/ui/package.json"].dependencies, ...g6Dependencies }).sort());
+  if (g5Authorized && expectedDependencySets["packages/ui/package.json"]) expectedDependencySets["packages/ui/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["packages/ui/package.json"].dependencies, "react-day-picker": "9.13.2" }).sort());
+  if (g123PlaygroundAuthorized && expectedDependencySets["packages/ui/package.json"]) expectedDependencySets["packages/ui/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["packages/ui/package.json"].dependencies, "react-resizable-panels": "4.12.4" }).sort());
+  if (tokenFirstAuthorized) expectedDependencySets["apps/prototype/package.json"].dependencies = Object.fromEntries(Object.entries({ ...expectedDependencySets["apps/prototype/package.json"].dependencies, "@base-ui/react": "1.8.0", "class-variance-authority": "0.7.1", ...(tokenFirstNextAuthorized ? { "react-resizable-panels": "4.12.4" } : {}) }).sort());
   function normalizedDependencyMap(dependencies) {
     return Object.fromEntries(Object.entries(dependencies ?? {}).sort());
   }
@@ -2367,16 +2632,24 @@ if (isDayThree || isTailwindB2) {
         if (
           !internalPackageNames.has(dependency) &&
           !allowedExternalDependencies.has(dependency)
+          && !(tokenFirstNextAuthorized && packageFile === "apps/prototype/package.json" && dependency === "react-resizable-panels" && version === "4.12.4")
+          && !(g123PlaygroundAuthorized && packageFile === "packages/ui/package.json" && dependency === "react-resizable-panels" && version === "4.12.4")
+          && !(g5Authorized && packageFile === "packages/ui/package.json" && dependency === "react-day-picker" && version === "9.13.2")
+          && !isG6Dependency(packageFile, dependencyGroup, dependency, version)
+          && !isChartDependency(packageFile, dependencyGroup, dependency, version)
         ) {
           failures.push(
             `${packageFile} adds dependency ${dependency} outside the frozen Day 3 dependency set`,
           );
         }
         if (isDayOneForbiddenDependency(dependency)
+          && !(tokenFirstAuthorized && packageFile === "apps/prototype/package.json" && dependency === "@base-ui/react" && version === "1.8.0")
           && !(dropdownBatchOneAuthorized && packageFile === "apps/playground/package.json"
             && dropdownBatchOneDependencies[dependency] === version)
           && !(tagBatchThreeAuthorized && packageFile === "packages/ui/package.json"
-            && tagBatchThreeDependencies[dependency] === version)) {
+            && tagBatchThreeDependencies[dependency] === version)
+          && !isG6Dependency(packageFile, dependencyGroup, dependency, version)
+          && !isChartDependency(packageFile, dependencyGroup, dependency, version)) {
           failures.push(
             `${packageFile} installs a Day 4/5 dependency during Day 3`,
           );
@@ -2430,6 +2703,7 @@ if (isDayThree || isTailwindB2) {
     assertIconSourceExports("Core UI source exports", uiPackage?.exports, {
       ".": "./src/index.ts",
       "./styles.css": "./src/styles.css",
+      ...(chartBindings ? { "./charts": "./src/charts/index.ts", "./charts/styles.css": "./src/charts/styles.css" } : {}),
     }, iconFiles.uiExports, "packages/ui");
   }
 
@@ -2457,10 +2731,11 @@ if (isDayThree || isTailwindB2) {
 
   const allowedDayThreeApplicationSources = new Set(
     [
-      ...qualityApplication, ...m2Files.application, ...numberFiles.application, ...avatarFiles.application, ...formFiles.application, ...tableFiles.application, ...layoutFiles.application, ...dialogFiles.application, ...cardFiles.application,
+      ...scopedFiles.application,
+      ...alertFiles.application, ...reportAApplication, ...tokenFirstApplication, ...tokenFirstG2Application, ...qualityApplication, ...m2Files.application, ...numberFiles.application, ...avatarFiles.application, ...formFiles.application, ...tableFiles.application, ...layoutFiles.application, ...dialogFiles.application, ...cardFiles.application,
       ...dropdownFiles.application,
       ...sizeReviewFiles.application,
-      ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application,
+      ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...switchFiles.application, ...tabsFiles.application, ...tagFiles.application,
       ...buttonMigrationApplicationFiles,
       ...(isTokenFoundationsV1 ? tokenFoundationsV1Files.application : []),
       ...textButtonFiles.application,
@@ -2489,33 +2764,38 @@ if (isDayThree || isTailwindB2) {
     const navigationSource = questionNumberAuthorized && relative(workspaceRoot, filePath) === "apps/playground/src/docs/components/question-number-page.tsx"
       ? source.replace('<nav aria-label={`${title}反馈示例`}>', "").replace('<nav aria-label="第 8 题材料与小题">', "")
       : source;
-    if (/<(?:nav|aside)\b/i.test(prepareM2NavigationSource(relative(workspaceRoot, filePath), navigationSource, livePhaseStatus))) {
+    if (!scopedFiles.application.has(relative(workspaceRoot, filePath)) && !(tokenFirstAuthorized && relative(workspaceRoot, filePath) === "apps/prototype/src/scenarios/token-first-g1/page.tsx") && !(tokenFirstG2Authorized && relative(workspaceRoot, filePath) === "apps/prototype/src/scenarios/token-first-g2/page.tsx") && /<(?:nav|aside)\b/i.test(prepareM2NavigationSource(relative(workspaceRoot, filePath), navigationSource, livePhaseStatus))) {
       failures.push(
         `persistent navigation or platform sidebar found in ${relative(workspaceRoot, filePath)}`,
       );
     }
     const headlessImports = [...source.matchAll(/(?:\bfrom\s*|\bimport\s*(?:\(\s*)?|\brequire\s*\(\s*)["']([^"']+)["']/g)]
       .map((match) => match[1]).filter((specifier) => /^(?:@base-ui\/|@radix-ui\/|radix-ui|shadcn|@shadcn\/)/.test(specifier));
-    if (headlessImports.some((specifier) => !(dropdownBatchOneAuthorized && isDropdownExperimentImport(relative(workspaceRoot, filePath), specifier))
+    if (headlessImports.some((specifier) => !(tokenFirstAuthorized && ["accordion", "collapsible", "switch", ...(tokenFirstNextAuthorized ? ["tooltip"] : [])].some(name => relative(workspaceRoot, filePath) === `apps/prototype/src/scenarios/token-first-g1/${name}.tsx` && specifier === `@base-ui/react/${name}`))
+      && !(tokenFirstG2Authorized && relative(workspaceRoot, filePath).startsWith("apps/prototype/src/scenarios/token-first-g2/") && ["@base-ui/react/toggle", "@base-ui/react/toggle-group", "@base-ui/react/toast", "@base-ui/react/merge-props", "@base-ui/react/use-render"].includes(specifier))
+      && !(dropdownBatchOneAuthorized && isDropdownExperimentImport(relative(workspaceRoot, filePath), specifier))
       && !isAvatarFamilyImport(livePhaseStatus, relative(workspaceRoot, filePath), specifier)
       && !(hasDialogV2Authorization(livePhaseStatus) && isDialogV2Import(relative(workspaceRoot, filePath), specifier))
       && !(hasDialogRefinementAuthorization(livePhaseStatus) && relative(workspaceRoot, filePath) === "packages/ui/src/dialog/dialog.tsx" && specifier === "@base-ui/react/alert-dialog")
       && !(hasDropdownFamilyAuthorization(livePhaseStatus) && isDropdownFamilyImport(relative(workspaceRoot, filePath), specifier))
       && !(hasSelectFormalDependenciesAuthorization(livePhaseStatus) && isSelectFormalImport(relative(workspaceRoot, filePath), specifier))
+      && !(tooltipAuthorized && relative(workspaceRoot, filePath) === "packages/ui/src/tooltip/tooltip.tsx" && specifier === "@base-ui/react/tooltip")
       && !isTabsImport(livePhaseStatus, relative(workspaceRoot, filePath), specifier)
       && !(tagBatchThreeAuthorized && isTagBatchThreeImport(relative(workspaceRoot, filePath), specifier))
-      && !(hasSelectionPatternsSc03Authorization(livePhaseStatus) && relative(workspaceRoot, filePath) === "apps/playground/src/patterns/selection-patterns.tsx" && specifier === "@base-ui/react/dialog"))) {
+      && !(hasSelectionPatternsSc03Authorization(livePhaseStatus) && relative(workspaceRoot, filePath) === "apps/playground/src/patterns/selection-patterns.tsx" && specifier === "@base-ui/react/dialog")
+      && !isSwitchImport(livePhaseStatus, relative(workspaceRoot, filePath), specifier)
+      && !isScopedHeadlessImport(relative(workspaceRoot, filePath), specifier))) {
       failures.push(
         `unapproved external component import found in ${relative(workspaceRoot, filePath)}`,
       );
     }
   }
 
-  const expectedAppFiles = [
-    ...qualityApplication, ...m2Files.application, ...numberFiles.application, ...avatarFiles.application, ...formFiles.application, ...tableFiles.application, ...layoutFiles.application, ...dialogFiles.application, ...cardFiles.application,
+  const expectedAppFiles = [...scopedFiles.application,
+    ...alertFiles.application, ...reportAApplication, ...tokenFirstApplication, ...tokenFirstG2Application, ...qualityApplication, ...m2Files.application, ...numberFiles.application, ...avatarFiles.application, ...formFiles.application, ...tableFiles.application, ...layoutFiles.application, ...dialogFiles.application, ...cardFiles.application,
     ...dropdownFiles.application.filter((file) => existsSync(join(workspaceRoot, file))),
     ...sizeReviewFiles.application,
-    ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application,
+    ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...switchFiles.application, ...tabsFiles.application, ...tagFiles.application,
     ...buttonMigrationApplicationFiles,
     ...(isTokenFoundationsV1 ? tokenFoundationsV1Files.application : []),
     ...textButtonFiles.application,
@@ -2544,7 +2824,7 @@ if (isDayThree || isTailwindB2) {
     .sort();
   if (isCompleted) {
     assertExact("complete Day 3 app file allowlist", actualAppFiles,
-      expectedAppFiles.filter((file) =>
+      [...new Set(expectedAppFiles)].filter((file) =>
         (textButtonFiles.requireComplete || !textButtonFiles.application.includes(file) || actualAppFiles.includes(file))
         && (iconFiles.requireComplete || !iconFiles.application.includes(file) || actualAppFiles.includes(file))),
     );
@@ -2556,9 +2836,9 @@ if (isDayThree || isTailwindB2) {
     }
   }
 
-  const expectedUiFiles = [
-    ...numberFiles.ui, ...avatarFiles.ui, ...formFiles.ui, ...tableFiles.ui, ...dialogFiles.ui, ...cardFiles.ui,
-    ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)),
+  const expectedUiFiles = [...scopedFiles.ui,
+    ...alertFiles.ui, ...tooltipFiles.ui, ...numberFiles.ui, ...avatarFiles.ui, ...formFiles.ui, ...tableFiles.ui, ...dialogFiles.ui, ...cardFiles.ui,
+    ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...switchFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)),
     ...textButtonFiles.ui,
     ...iconFiles.ui,
     "packages/ui/package.json",
@@ -2598,7 +2878,7 @@ if (isDayThree || isTailwindB2) {
     .sort();
   if (isCompleted) {
     assertExact("complete Day 3 Core UI file allowlist", actualUiFiles,
-      expectedUiFiles.filter((file) =>
+      [...new Set(expectedUiFiles)].filter((file) =>
         (textButtonFiles.requireComplete || !textButtonFiles.ui.includes(file) || actualUiFiles.includes(file))
         && (iconFiles.requireComplete || !iconFiles.ui.includes(file) || actualUiFiles.includes(file))),
     );
@@ -2629,9 +2909,10 @@ if (isDayThree || isTailwindB2) {
     const directoryFiles = collectFiles(directoryPath);
     const placeholderPath = join(directoryPath, ".gitkeep");
     const authorizedDocuments = [
-      ...m2Files.documents, ...rn15Files.documents, ...rn14Files.documents, ...rn13Files.documents, ...numberFiles.documents, ...avatarFiles.documents, ...formFiles.documents, ...tableFiles.documents, ...layoutFiles.layouts, ...layoutFiles.documents, ...dialogFiles.documents, ...cardFiles.documents,
+      ...scopedFiles.documents, ...scopedFiles.layouts,
+      ...alertFiles.documents, ...tooltipFiles.documents, ...m2Files.documents, ...rn15Files.documents, ...rn14Files.documents, ...rn13Files.documents, ...numberFiles.documents, ...avatarFiles.documents, ...formFiles.documents, ...tableFiles.documents, ...layoutFiles.layouts, ...layoutFiles.documents, ...dialogFiles.documents, ...cardFiles.documents,
       ...dropdownFiles.documents, ...dropdownFiles.application,
-      ...optionButtonFiles.documents, ...questionNumberFiles.documents, ...iconButtonFiles.documents, ...inputFiles.documents, ...selectFiles.documents, ...dropdownPublicFiles.documents, ...checkboxFiles.documents, ...selectionCardFiles.documents, ...selectionPatternFiles.documents, ...selectionPlaygroundFiles.documents, ...radioFiles.documents, ...tabsFiles.documents, ...tagFiles.documents,
+      ...optionButtonFiles.documents, ...questionNumberFiles.documents, ...iconButtonFiles.documents, ...inputFiles.documents, ...selectFiles.documents, ...dropdownPublicFiles.documents, ...checkboxFiles.documents, ...selectionCardFiles.documents, ...selectionPatternFiles.documents, ...selectionPlaygroundFiles.documents, ...radioFiles.documents, ...switchFiles.documents, ...tabsFiles.documents, ...tagFiles.documents,
       ...(isTokenFoundationsV1 ? tokenFoundationsV1Files.documents : []),
       ...iconFiles.documents,
       ...(isTailwindB2 ? ["docs/adr/0002-tailwind-b2-local-fork.md"] : []),
@@ -2755,13 +3036,16 @@ if (isDayThree || isTailwindB2) {
     const source = readFileSync(filePath, "utf8");
     const headlessImports = [...source.matchAll(/(?:\bfrom\s*|\bimport\s*(?:\(\s*)?|\brequire\s*\(\s*)["']([^"']+)["']/g)]
       .map((match) => match[1]).filter((specifier) => /^(?:@base-ui\/|@radix-ui\/|radix-ui|shadcn|@shadcn\/)/.test(specifier));
-    if (headlessImports.some((specifier) => !isTabsImport(livePhaseStatus, relative(workspaceRoot, filePath), specifier)
+    if (headlessImports.some((specifier) => !(tooltipAuthorized && relative(workspaceRoot, filePath) === "packages/ui/src/tooltip/tooltip.tsx" && specifier === "@base-ui/react/tooltip")
+      && !isTabsImport(livePhaseStatus, relative(workspaceRoot, filePath), specifier)
       && !(tagBatchThreeAuthorized && isTagBatchThreeImport(relative(workspaceRoot, filePath), specifier))
       && !isAvatarFamilyImport(livePhaseStatus, relative(workspaceRoot, filePath), specifier)
       && !(hasDialogV2Authorization(livePhaseStatus) && isDialogV2Import(relative(workspaceRoot, filePath), specifier))
       && !(hasDialogRefinementAuthorization(livePhaseStatus) && relative(workspaceRoot, filePath) === "packages/ui/src/dialog/dialog.tsx" && specifier === "@base-ui/react/alert-dialog")
       && !(hasDropdownFamilyAuthorization(livePhaseStatus) && isDropdownFamilyImport(relative(workspaceRoot, filePath), specifier))
-      && !(hasSelectFormalDependenciesAuthorization(livePhaseStatus) && isSelectFormalImport(relative(workspaceRoot, filePath), specifier)))) {
+      && !(hasSelectFormalDependenciesAuthorization(livePhaseStatus) && isSelectFormalImport(relative(workspaceRoot, filePath), specifier))
+      && !isSwitchImport(livePhaseStatus, relative(workspaceRoot, filePath), specifier)
+      && !isScopedHeadlessImport(relative(workspaceRoot, filePath), specifier))) {
       failures.push(
         `unapproved Headless or shadcn import found in ${relative(workspaceRoot, filePath)}`,
       );
@@ -2778,10 +3062,11 @@ if (isDayThree || isTailwindB2) {
 
   const allowedDayThreeWorkspaceSources = new Set(
     [
-      ...listPilotChecks, ...qualityApplication, ...m2Files.application, ...m2Files.workspace, ...rn15Files.workspace, ...rn14Files.workspace, ...rn13Files.workspace, ...numberFiles.application, ...avatarFiles.application, ...formFiles.application, ...tableFiles.application, ...layoutFiles.application, ...dialogFiles.application, ...cardFiles.application, ...numberFiles.ui, ...avatarFiles.ui, ...formFiles.ui, ...tableFiles.ui, ...dialogFiles.ui, ...cardFiles.ui, ...layoutFiles.layouts, ...numberFiles.workspace, ...avatarFiles.workspace, ...formFiles.workspace, ...tableFiles.workspace, ...layoutFiles.workspace, ...dialogFiles.workspace, ...cardFiles.workspace,
+      ...scopedFiles.workspace,
+      ...alertFiles.workspace, ...alertFiles.application, ...tooltipFiles.workspace, ...reportAChecks, ...reportAApplication, ...tokenFirstChecks, ...tokenFirstG2Checks, ...listPilotChecks, ...tokenFirstApplication, ...tokenFirstG2Application, ...qualityApplication, ...m2Files.application, ...m2Files.workspace, ...rn15Files.workspace, ...rn14Files.workspace, ...rn13Files.workspace, ...numberFiles.application, ...avatarFiles.application, ...formFiles.application, ...tableFiles.application, ...layoutFiles.application, ...dialogFiles.application, ...cardFiles.application, ...alertFiles.ui, ...tooltipFiles.ui, ...numberFiles.ui, ...avatarFiles.ui, ...formFiles.ui, ...tableFiles.ui, ...dialogFiles.ui, ...cardFiles.ui, ...layoutFiles.layouts, ...numberFiles.workspace, ...avatarFiles.workspace, ...formFiles.workspace, ...tableFiles.workspace, ...layoutFiles.workspace, ...dialogFiles.workspace, ...cardFiles.workspace,
       ...dropdownFiles.application, ...dropdownFiles.workspace,
       ...sizeReviewFiles.application, ...sizeReviewFiles.workspace,
-      ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...tabsFiles.application, ...tagFiles.application, ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)), ...optionButtonFiles.foundations, ...questionNumberFiles.foundations, ...iconButtonFiles.foundations, ...inputFiles.foundations, ...selectFiles.foundations, ...checkboxFiles.foundations, ...selectionCardFiles.foundations, ...selectionPatternFiles.foundations, ...selectionPlaygroundFiles.foundations, ...radioFiles.foundations, ...tabsFiles.foundations, ...tagFiles.foundations, ...optionButtonFiles.workspace, ...questionNumberFiles.workspace, ...iconButtonFiles.workspace, ...inputFiles.workspace, ...selectFiles.workspace, ...dropdownPublicFiles.workspace, ...checkboxFiles.workspace, ...selectionCardFiles.workspace, ...selectionPatternFiles.workspace, ...selectionPlaygroundFiles.workspace, ...radioFiles.workspace, ...tabsFiles.workspace, ...tagFiles.workspace,
+      ...optionButtonFiles.application, ...questionNumberFiles.application, ...iconButtonFiles.application, ...inputFiles.application, ...selectFiles.application, ...dropdownPublicFiles.application, ...checkboxFiles.application, ...selectionCardFiles.application, ...selectionPatternFiles.application, ...selectionPlaygroundFiles.application, ...radioFiles.application, ...switchFiles.application, ...tabsFiles.application, ...tagFiles.application, ...selectFiles.ui, ...dropdownPublicFiles.ui, ...checkboxFiles.ui, ...selectionCardFiles.ui, ...selectionPatternFiles.ui, ...selectionPlaygroundFiles.ui, ...radioFiles.ui, ...switchFiles.ui, ...tabsFiles.ui, ...tagFiles.ui, ...optionButtonFiles.ui, ...questionNumberFiles.ui, ...iconButtonFiles.ui, ...inputFiles.ui.filter((file) => !["input.tsx", "input.test.tsx", "input.utils.ts", "input.utils.test.ts"].some((name) => file === `packages/ui/src/input/${name}`)), ...optionButtonFiles.foundations, ...questionNumberFiles.foundations, ...iconButtonFiles.foundations, ...inputFiles.foundations, ...selectFiles.foundations, ...checkboxFiles.foundations, ...selectionCardFiles.foundations, ...selectionPatternFiles.foundations, ...selectionPlaygroundFiles.foundations, ...radioFiles.foundations, ...tabsFiles.foundations, ...tagFiles.foundations, ...optionButtonFiles.workspace, ...questionNumberFiles.workspace, ...iconButtonFiles.workspace, ...inputFiles.workspace, ...selectFiles.workspace, ...dropdownPublicFiles.workspace, ...checkboxFiles.workspace, ...selectionCardFiles.workspace, ...selectionPatternFiles.workspace, ...selectionPlaygroundFiles.workspace, ...radioFiles.workspace, ...switchFiles.workspace, ...tabsFiles.workspace, ...tagFiles.workspace,
       ...buttonMigrationApplicationFiles,
       ...buttonMigrationFoundationFiles,
       ...(isTokenFoundationsV1 ? [...tokenFoundationsV1Files.application, ...tokenFoundationsV1Files.foundations, ...tokenFoundationsV1Files.workspace] : []),
@@ -2875,8 +3160,11 @@ if (isDayThree || isTailwindB2) {
       "tests/e2e/core-ui.spec.ts",
     ].map((filePath) => join(workspaceRoot, filePath)),
   );
+  // Under the fully validated accepted navigation parent, these are data domains, not executable workspace inputs.
+  // Their existing exact evidence/source-lock validators remain responsible; old phases retain the original scan.
   const workspaceSources = collectFiles(workspaceRoot).filter((filePath) =>
-    /\.(?:[cm]?[jt]sx?|astro|css|html|mdx|svelte|svg|vue)$/.test(filePath),
+    /\.(?:[cm]?[jt]sx?|astro|css|html|mdx|svelte|svg|vue)$/.test(filePath)
+      && !(navigationAuthorized && /^(?:evidence|artifacts|docs)\//.test(relative(workspaceRoot, filePath))),
   );
   for (const filePath of workspaceSources) {
     if (!allowedDayThreeWorkspaceSources.has(filePath)) {
@@ -2885,6 +3173,26 @@ if (isDayThree || isTailwindB2) {
       );
     }
   }
+  if (navigationAuthorized) for (const filePath of workspaceSources) {
+    const owner = relative(workspaceRoot, filePath);
+    if (!/^(?:apps|packages)\//.test(owner) || !/\.[cm]?[jt]sx?$/.test(filePath)) continue;
+    const source = readFileSync(filePath, "utf8");
+    for (const match of source.matchAll(/(?:\bfrom\s*|\bimport\s*(?:\(\s*)?|\brequire\s*\(\s*)["']([^"']+)["']/g)) {
+      const specifier = match[1];
+      if (!specifier.startsWith(".")) continue;
+      const target = resolve(dirname(filePath), specifier.split(/[?#]/)[0]);
+      if (/^(?:evidence|artifacts|docs)(?:\/|$)/.test(relative(workspaceRoot, target)) && (!/\.[^/]+$/.test(target) || /\.[cm]?[jt]sx?$/.test(target))) {
+        failures.push(`source import enters a data domain instead of registered live code: ${owner} -> ${relative(workspaceRoot, target)}`);
+        continue;
+      }
+      const candidates = [target, ...[".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".mts", ".cts"].flatMap(extension => [`${target}${extension}`, join(target, `index${extension}`)])];
+      const resolvedSource = candidates.find(path => existsSync(path) && lstatSync(path).isFile());
+      if (resolvedSource && /\.[cm]?[jt]sx?$/.test(resolvedSource) && !allowedDayThreeWorkspaceSources.has(resolvedSource)) {
+        failures.push(`unregistered source import outside live source inventory: ${owner} -> ${relative(workspaceRoot, resolvedSource)}`);
+      }
+    }
+  }
+
 
   try {
     const gitRoot = execFileSync("git", ["rev-parse", "--show-toplevel"], {
@@ -2902,7 +3210,8 @@ if (isDayThree || isTailwindB2) {
     const baseline = livePhaseStatus.componentRefinements.cardV2.sourceControl;
     try {
       const git = (...args) => execFileSync("git", args, { cwd: workspaceRoot, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
-      if (git("rev-parse", "HEAD") !== baseline.baselineCommit) failures.push("Card V2 Git HEAD must retain the authorized pre-existing baseline; new commits are not authorized");
+      if (g6Bindings?.githubReviewSuccessor) verifyGithubReviewGitState(workspaceRoot, g6Bindings.githubReviewSuccessor);
+      else if (git("rev-parse", "HEAD") !== baseline.baselineCommit) failures.push("Card V2 Git HEAD must retain the authorized pre-existing baseline; new commits are not authorized");
       if (git("remote") !== baseline.existingRemote || git("remote", "get-url", "--all", baseline.existingRemote) !== baseline.existingRemoteUrl
         || git("remote", "get-url", "--push", "--all", baseline.existingRemote) !== baseline.existingRemoteUrl) failures.push("Card V2 Git remote must retain the exact pre-existing origin");
       const prior = readRegularNonSymbolicFile(join(workspaceRoot, "status", baseline.priorAuthorization), "prior Git authorization").toString("utf8");
@@ -2967,12 +3276,14 @@ for (const filePath of sharedPackageSources) {
   }
   if (isTailwindB2 && /\.(?:[cm]?[jt]sx?)$/.test(filePath)) {
     const sourcePath = relative(workspaceRoot, filePath);
-    if (/["']clsx["']/.test(source)) {
+    const chartUtility = chartBindings?.sourceFiles[sourcePath] && sourcePath === "packages/ui/src/charts/vendor/lib/utils.ts";
+    if (/["']clsx["']/.test(source) && !chartUtility) {
       failures.push(`Direct clsx imports are forbidden in B2 sources: ${sourcePath}`);
     }
     if (
       /["']tailwind-merge["']/.test(source) &&
       sourcePath !== "packages/ui/src/utils/rain-class-names.ts"
+      && !chartUtility
     ) {
       failures.push(
         `tailwind-merge must remain behind rainCn in packages/ui/src/utils/rain-class-names.ts: ${sourcePath}`,
@@ -2984,6 +3295,9 @@ for (const filePath of sharedPackageSources) {
       !(iconButtonAuthorized && sourcePath === "packages/ui/src/icon-button/icon-button.styles.ts")
       && !(inputAuthorized && sourcePath === "packages/ui/src/input/input.styles.ts")
       && !(selectAuthorized && sourcePath === "packages/ui/src/field/field.styles.ts")
+      && !(g123PlaygroundAuthorized && ["button-group", "toggle", "toggle-group"].some(name => sourcePath === `packages/ui/src/${name}/${name}.tsx`))
+      && !(g4Authorized && sourcePath === "packages/ui/src/item/item.tsx")
+      && !(g6Bindings?.sourceFiles[sourcePath]?.after && ["bubble", "marker"].some(name => sourcePath === `packages/ui/src/${name}/${name}.tsx`))
     ) {
       failures.push(
         `class-variance-authority is restricted to the Button Master recipe during Task 7: ${sourcePath}`,

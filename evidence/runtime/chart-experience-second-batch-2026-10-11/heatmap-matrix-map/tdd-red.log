@@ -1,0 +1,2292 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx (26 tests | 1 failed) 383ms
+   × zoomEnabled=false gives touch control only to interactive maps 6ms
+ ❯ apps/playground/src/docs/components/chart-variants/structure.test.tsx (16 tests | 2 failed) 3339ms
+   × sankey-default uses person-times and retains exact zero links while rendering only positive links 1506ms
+   × sankey-simple uses person-times and retains exact zero links while rendering only positive links 11ms
+ ❯ packages/ui/src/charts/heatmap-interaction.test.tsx (10 tests | 7 failed) 7186ms
+   × one HTML keyboard entry inspects actual rows, weeks and bounded Home/End corners 1044ms
+   × missing remains inspectable, Escape dismisses and blur clears the temporary preview 1013ms
+   × a pointer preview restores keyboard focus on leave, including the chart boundary 1012ms
+   × hover and focus follow the same stable date through value and coordinate updates, then clear when absent 1013ms
+   × Monday navigation uses the painted row order and an explicit domain excludes calendar padding 1021ms
+   × false gradient legend has operable temporary level focus and clears on Escape/click/outside pointer 1018ms
+   × true gradient legend has operable temporary level focus and clears on Escape/click/outside pointer 1021ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > zoomEnabled=false gives touch control only to interactive maps
+Error: expect(element).toHaveStyle()
+
+- Expected
+
+- touchAction: auto;
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:201:47
+    199| test.each([false, true])("zoomEnabled=%s gives touch control only to i…
+    200|   const view = render(plot({}, { zoomEnabled }));
+    201|   expect(view.container.querySelector("svg")).toHaveStyle({ touchActio…
+       |                                               ^
+    202| });
+    203|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  packages/ui/src/charts/heatmap-interaction.test.tsx > one HTML keyboard entry inspects actual rows, weeks and bounded Home/End corners
+TestingLibraryElementError: Unable to find role="region" and name "日历热图"
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"size-full min-h-0 min-w-0"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"relative w-full"[39m
+      [33mdata-rain-id[39m=[32m"ui-chart-heatmap"[39m
+      [33mdata-slot[39m=[32m"chart-root"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative w-full"[39m
+          [33mstyle[39m=[32m"opacity: 1;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mheight[39m=[32m"1302"[39m
+            [33mwidth[39m=[32m"420"[39m
+          [36m>[39m
+            [36m<g[39m
+              [33mtransform[39m=[32m"translate(40,28)"[39m
+            [36m>[39m
+              [36m<g[39m
+                [33mclass[39m=[32m"visx-group visx-heatmap-rects"[39m
+                [33mtransform[39m=[32m"translate(0, 0)"[39m
+              [36m>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"2"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"2"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"184"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"184"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"366"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"366"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-no-data)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"548"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"548"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[...
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"size-full min-h-0 min-w-0"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative w-full"[39m
+          [33mdata-rain-id[39m=[32m"ui-chart-heatmap"[39m
+          [33mdata-slot[39m=[32m"chart-root"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"relative w-full"[39m
+              [33mstyle[39m=[32m"opacity: 1;"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mheight[39m=[32m"1302"[39m
+                [33mwidth[39m=[32m"420"[39m
+              [36m>[39m
+                [36m<g[39m
+                  [33mtransform[39m=[32m"translate(40,28)"[39m
+                [36m>[39m
+                  [36m<g[39m
+                    [33mclass[39m=[32m"visx-group visx-heatmap-rects"[39m
+                    [33mtransform[39m=[32m"translate(0, 0)"[39m
+                  [36m>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"2"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"2"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"184"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"184"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"366"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"366"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-no-data)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"548"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        ...
+ ❯ Proxy.waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ entry packages/ui/src/charts/heatmap-interaction.test.tsx:32:9
+     30| const cell = (container: HTMLElement, index: number) => container.quer…
+     31| async function entry(container: HTMLElement) {
+     32|   await waitFor(() => expect(within(container).getByRole("region", { n…
+       |         ^
+     33|   return within(container).getByRole("region", { name: "日历热图" });
+     34| }
+ ❯ packages/ui/src/charts/heatmap-interaction.test.tsx:38:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  packages/ui/src/charts/heatmap-interaction.test.tsx > missing remains inspectable, Escape dismisses and blur clears the temporary preview
+TestingLibraryElementError: Unable to find role="region" and name "日历热图"
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"size-full min-h-0 min-w-0"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"relative w-full"[39m
+      [33mdata-rain-id[39m=[32m"ui-chart-heatmap"[39m
+      [33mdata-slot[39m=[32m"chart-root"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative w-full"[39m
+          [33mstyle[39m=[32m"opacity: 1;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mheight[39m=[32m"1302"[39m
+            [33mwidth[39m=[32m"420"[39m
+          [36m>[39m
+            [36m<g[39m
+              [33mtransform[39m=[32m"translate(40,28)"[39m
+            [36m>[39m
+              [36m<g[39m
+                [33mclass[39m=[32m"visx-group visx-heatmap-rects"[39m
+                [33mtransform[39m=[32m"translate(0, 0)"[39m
+              [36m>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"2"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"2"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"184"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"184"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"366"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"366"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-no-data)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"548"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"548"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[...
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"size-full min-h-0 min-w-0"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative w-full"[39m
+          [33mdata-rain-id[39m=[32m"ui-chart-heatmap"[39m
+          [33mdata-slot[39m=[32m"chart-root"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"relative w-full"[39m
+              [33mstyle[39m=[32m"opacity: 1;"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mheight[39m=[32m"1302"[39m
+                [33mwidth[39m=[32m"420"[39m
+              [36m>[39m
+                [36m<g[39m
+                  [33mtransform[39m=[32m"translate(40,28)"[39m
+                [36m>[39m
+                  [36m<g[39m
+                    [33mclass[39m=[32m"visx-group visx-heatmap-rects"[39m
+                    [33mtransform[39m=[32m"translate(0, 0)"[39m
+                  [36m>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"2"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"2"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"184"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"184"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"366"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"366"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-no-data)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"548"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        ...
+ ❯ Proxy.waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ entry packages/ui/src/charts/heatmap-interaction.test.tsx:32:9
+     30| const cell = (container: HTMLElement, index: number) => container.quer…
+     31| async function entry(container: HTMLElement) {
+     32|   await waitFor(() => expect(within(container).getByRole("region", { n…
+       |         ^
+     33|   return within(container).getByRole("region", { name: "日历热图" });
+     34| }
+ ❯ packages/ui/src/charts/heatmap-interaction.test.tsx:61:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  packages/ui/src/charts/heatmap-interaction.test.tsx > a pointer preview restores keyboard focus on leave, including the chart boundary
+TestingLibraryElementError: Unable to find role="region" and name "日历热图"
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"size-full min-h-0 min-w-0"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"relative w-full"[39m
+      [33mdata-rain-id[39m=[32m"ui-chart-heatmap"[39m
+      [33mdata-slot[39m=[32m"chart-root"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative w-full"[39m
+          [33mstyle[39m=[32m"opacity: 1;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mheight[39m=[32m"1302"[39m
+            [33mwidth[39m=[32m"420"[39m
+          [36m>[39m
+            [36m<g[39m
+              [33mtransform[39m=[32m"translate(40,28)"[39m
+            [36m>[39m
+              [36m<g[39m
+                [33mclass[39m=[32m"visx-group visx-heatmap-rects"[39m
+                [33mtransform[39m=[32m"translate(0, 0)"[39m
+              [36m>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"2"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"2"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"184"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"184"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"366"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"366"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-no-data)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"548"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"548"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[...
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"size-full min-h-0 min-w-0"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative w-full"[39m
+          [33mdata-rain-id[39m=[32m"ui-chart-heatmap"[39m
+          [33mdata-slot[39m=[32m"chart-root"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"relative w-full"[39m
+              [33mstyle[39m=[32m"opacity: 1;"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mheight[39m=[32m"1302"[39m
+                [33mwidth[39m=[32m"420"[39m
+              [36m>[39m
+                [36m<g[39m
+                  [33mtransform[39m=[32m"translate(40,28)"[39m
+                [36m>[39m
+                  [36m<g[39m
+                    [33mclass[39m=[32m"visx-group visx-heatmap-rects"[39m
+                    [33mtransform[39m=[32m"translate(0, 0)"[39m
+                  [36m>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"2"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"2"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"184"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"184"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"366"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"366"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-no-data)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"548"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        ...
+ ❯ Proxy.waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ entry packages/ui/src/charts/heatmap-interaction.test.tsx:32:9
+     30| const cell = (container: HTMLElement, index: number) => container.quer…
+     31| async function entry(container: HTMLElement) {
+     32|   await waitFor(() => expect(within(container).getByRole("region", { n…
+       |         ^
+     33|   return within(container).getByRole("region", { name: "日历热图" });
+     34| }
+ ❯ packages/ui/src/charts/heatmap-interaction.test.tsx:76:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  packages/ui/src/charts/heatmap-interaction.test.tsx > hover and focus follow the same stable date through value and coordinate updates, then clear when absent
+TestingLibraryElementError: Unable to find role="region" and name "日历热图"
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"size-full min-h-0 min-w-0"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"relative w-full"[39m
+      [33mdata-rain-id[39m=[32m"ui-chart-heatmap"[39m
+      [33mdata-slot[39m=[32m"chart-root"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative w-full"[39m
+          [33mstyle[39m=[32m"opacity: 1;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mheight[39m=[32m"1302"[39m
+            [33mwidth[39m=[32m"420"[39m
+          [36m>[39m
+            [36m<g[39m
+              [33mtransform[39m=[32m"translate(40,28)"[39m
+            [36m>[39m
+              [36m<g[39m
+                [33mclass[39m=[32m"visx-group visx-heatmap-rects"[39m
+                [33mtransform[39m=[32m"translate(0, 0)"[39m
+              [36m>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"2"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"2"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"184"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"184"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"366"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"366"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-no-data)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"548"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"548"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[...
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"size-full min-h-0 min-w-0"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative w-full"[39m
+          [33mdata-rain-id[39m=[32m"ui-chart-heatmap"[39m
+          [33mdata-slot[39m=[32m"chart-root"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"relative w-full"[39m
+              [33mstyle[39m=[32m"opacity: 1;"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mheight[39m=[32m"1302"[39m
+                [33mwidth[39m=[32m"420"[39m
+              [36m>[39m
+                [36m<g[39m
+                  [33mtransform[39m=[32m"translate(40,28)"[39m
+                [36m>[39m
+                  [36m<g[39m
+                    [33mclass[39m=[32m"visx-group visx-heatmap-rects"[39m
+                    [33mtransform[39m=[32m"translate(0, 0)"[39m
+                  [36m>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"2"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"2"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"184"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"184"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"366"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"366"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-no-data)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"548"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        ...
+ ❯ Proxy.waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ entry packages/ui/src/charts/heatmap-interaction.test.tsx:32:9
+     30| const cell = (container: HTMLElement, index: number) => container.quer…
+     31| async function entry(container: HTMLElement) {
+     32|   await waitFor(() => expect(within(container).getByRole("region", { n…
+       |         ^
+     33|   return within(container).getByRole("region", { name: "日历热图" });
+     34| }
+ ❯ packages/ui/src/charts/heatmap-interaction.test.tsx:88:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+ FAIL  packages/ui/src/charts/heatmap-interaction.test.tsx > Monday navigation uses the painted row order and an explicit domain excludes calendar padding
+TestingLibraryElementError: Unable to find role="region" and name "日历热图"
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"size-full min-h-0 min-w-0"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"relative w-full"[39m
+      [33mdata-rain-id[39m=[32m"ui-chart-heatmap"[39m
+      [33mdata-slot[39m=[32m"chart-root"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative w-full"[39m
+          [33mstyle[39m=[32m"opacity: 1;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mheight[39m=[32m"1302"[39m
+            [33mwidth[39m=[32m"420"[39m
+          [36m>[39m
+            [36m<g[39m
+              [33mtransform[39m=[32m"translate(40,28)"[39m
+            [36m>[39m
+              [36m<g[39m
+                [33mclass[39m=[32m"visx-group visx-heatmap-rects"[39m
+                [33mtransform[39m=[32m"translate(0, 0)"[39m
+              [36m>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"2"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"2"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"184"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"184"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-no-data)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"366"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"366"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"548"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"548"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[...
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"size-full min-h-0 min-w-0"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative w-full"[39m
+          [33mdata-rain-id[39m=[32m"ui-chart-heatmap"[39m
+          [33mdata-slot[39m=[32m"chart-root"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"relative w-full"[39m
+              [33mstyle[39m=[32m"opacity: 1;"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mheight[39m=[32m"1302"[39m
+                [33mwidth[39m=[32m"420"[39m
+              [36m>[39m
+                [36m<g[39m
+                  [33mtransform[39m=[32m"translate(40,28)"[39m
+                [36m>[39m
+                  [36m<g[39m
+                    [33mclass[39m=[32m"visx-group visx-heatmap-rects"[39m
+                    [33mtransform[39m=[32m"translate(0, 0)"[39m
+                  [36m>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"2"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"2"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"184"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"184"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-no-data)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"366"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"366"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"548"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        ...
+ ❯ Proxy.waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ entry packages/ui/src/charts/heatmap-interaction.test.tsx:32:9
+     30| const cell = (container: HTMLElement, index: number) => container.quer…
+     31| async function entry(container: HTMLElement) {
+     32|   await waitFor(() => expect(within(container).getByRole("region", { n…
+       |         ^
+     33|   return within(container).getByRole("region", { name: "日历热图" });
+     34| }
+ ❯ packages/ui/src/charts/heatmap-interaction.test.tsx:104:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯
+
+ FAIL  packages/ui/src/charts/heatmap-interaction.test.tsx > false gradient legend has operable temporary level focus and clears on Escape/click/outside pointer
+ FAIL  packages/ui/src/charts/heatmap-interaction.test.tsx > true gradient legend has operable temporary level focus and clears on Escape/click/outside pointer
+TestingLibraryElementError: Unable to find role="region" and name "日历热图"
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"size-full min-h-0 min-w-0"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"relative w-full"[39m
+      [33mdata-rain-id[39m=[32m"ui-chart-heatmap"[39m
+      [33mdata-slot[39m=[32m"chart-root"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative w-full"[39m
+          [33mstyle[39m=[32m"opacity: 1;"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mheight[39m=[32m"1302"[39m
+            [33mwidth[39m=[32m"420"[39m
+          [36m>[39m
+            [36m<g[39m
+              [33mtransform[39m=[32m"translate(40,28)"[39m
+            [36m>[39m
+              [36m<g[39m
+                [33mclass[39m=[32m"visx-group visx-heatmap-rects"[39m
+                [33mtransform[39m=[32m"translate(0, 0)"[39m
+              [36m>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"2"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"2"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"184"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"184"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"366"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"366"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                [36m>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-no-data)"[39m
+                    [33mfill-opacity[39m=[32m"1"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"1"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mstyle[39m=[32m"cursor: pointer;"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"548"[39m
+                  [36m/>[39m
+                  [36m<rect[39m
+                    [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                    [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                    [33mheight[39m=[32m"180"[39m
+                    [33mopacity[39m=[32m"0"[39m
+                    [33mpointer-events[39m=[32m"none"[39m
+                    [33mrx[39m=[32m"2"[39m
+                    [33mry[39m=[32m"2"[39m
+                    [33mwidth[39m=[32m"180"[39m
+                    [33mx[39m=[32m"0"[39m
+                    [33my[39m=[32m"548"[39m
+                  [36m/>[39m
+                [36m</g>[39m
+                [36m<g[39m
+                  [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[...
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"size-full min-h-0 min-w-0"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative w-full"[39m
+          [33mdata-rain-id[39m=[32m"ui-chart-heatmap"[39m
+          [33mdata-slot[39m=[32m"chart-root"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"relative w-full"[39m
+              [33mstyle[39m=[32m"opacity: 1;"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mheight[39m=[32m"1302"[39m
+                [33mwidth[39m=[32m"420"[39m
+              [36m>[39m
+                [36m<g[39m
+                  [33mtransform[39m=[32m"translate(40,28)"[39m
+                [36m>[39m
+                  [36m<g[39m
+                    [33mclass[39m=[32m"visx-group visx-heatmap-rects"[39m
+                    [33mtransform[39m=[32m"translate(0, 0)"[39m
+                  [36m>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"2"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"2"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"184"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"184"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-02)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"366"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"0"[39m
+                        [33mpointer-events[39m=[32m"none"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"366"[39m
+                      [36m/>[39m
+                    [36m</g>[39m
+                    [36m<g[39m
+                      [33mstyle[39m=[32m"transform-origin: 50% 50%; transform: none; transform-box: fill-box;"[39m
+                    [36m>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-no-data)"[39m
+                        [33mfill-opacity[39m=[32m"1"[39m
+                        [33mheight[39m=[32m"180"[39m
+                        [33mopacity[39m=[32m"1"[39m
+                        [33mrx[39m=[32m"2"[39m
+                        [33mry[39m=[32m"2"[39m
+                        [33mstyle[39m=[32m"cursor: pointer;"[39m
+                        [33mwidth[39m=[32m"180"[39m
+                        [33mx[39m=[32m"0"[39m
+                        [33my[39m=[32m"548"[39m
+                      [36m/>[39m
+                      [36m<rect[39m
+                        [33mclass[39m=[32m"visx-heatmap-rect"[39m
+                        [33mfill[39m=[32m"var(--chart-scale-01)"[39m
+                        ...
+ ❯ Proxy.waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ entry packages/ui/src/charts/heatmap-interaction.test.tsx:32:9
+     30| const cell = (container: HTMLElement, index: number) => container.quer…
+     31| async function entry(container: HTMLElement) {
+     32|   await waitFor(() => expect(within(container).getByRole("region", { n…
+       |         ^
+     33|   return within(container).getByRole("region", { name: "日历热图" });
+     34| }
+ ❯ packages/ui/src/charts/heatmap-interaction.test.tsx:114:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/structure.test.tsx > sankey-default uses person-times and retains exact zero links while rendering only positive links
+TestingLibraryElementError: Unable to find an element with the role "columnheader" and name "流量 · 人次"
+
+Here are the available roles:
+
+  caption:
+
+  Name "每一条连接的来源、去向与流量":
+  [36m<caption />[39m
+
+  --------------------------------------------------rowgroup:
+
+  Name "":
+  [36m<thead />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "来源 去向 流量 · 人":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "来源":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "去向":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "流量 · 人":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  --------------------------------------------------rowgroup:
+
+  Name "":
+  [36m<tbody />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "课程入口 观看视频 360":
+  [36m<tr />[39m
+
+  Name "课程入口 阅读资料 180":
+  [36m<tr />[39m
+
+  Name "学习提醒 观看视频 100":
+  [36m<tr />[39m
+
+  Name "学习提醒 阅读资料 140":
+  [36m<tr />[39m
+
+  Name "观看视频 完成学习 320":
+  [36m<tr />[39m
+
+  Name "观看视频 继续学习 140":
+  [36m<tr />[39m
+
+  Name "阅读资料 完成学习 210":
+  [36m<tr />[39m
+
+  Name "阅读资料 继续学习 110":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  rowheader:
+
+  Name "课程入口":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "课程入口":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "学习提醒":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "学习提醒":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "观看视频":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "观看视频":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "阅读资料":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "阅读资料":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  cell:
+
+  Name "观看视频":
+  [36m<td />[39m
+
+  Name "360":
+  [36m<td />[39m
+
+  Name "阅读资料":
+  [36m<td />[39m
+
+  Name "180":
+  [36m<td />[39m
+
+  Name "观看视频":
+  [36m<td />[39m
+
+  Name "100":
+  [36m<td />[39m
+
+  Name "阅读资料":
+  [36m<td />[39m
+
+  Name "140":
+  [36m<td />[39m
+
+  Name "完成学习":
+  [36m<td />[39m
+
+  Name "320":
+  [36m<td />[39m
+
+  Name "继续学习":
+  [36m<td />[39m
+
+  Name "140":
+  [36m<td />[39m
+
+  Name "完成学习":
+  [36m<td />[39m
+
+  Name "210":
+  [36m<td />[39m
+
+  Name "继续学习":
+  [36m<td />[39m
+
+  Name "110":
+  [36m<td />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<table>[39m
+  [36m<caption>[39m
+    [0m每一条连接的来源、去向与流量[0m
+  [36m</caption>[39m
+  [36m<thead>[39m
+    [36m<tr>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"col"[39m
+      [36m>[39m
+        [0m来源[0m
+      [36m</th>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"col"[39m
+      [36m>[39m
+        [0m去向[0m
+      [36m</th>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"col"[39m
+      [36m>[39m
+        [0m流量 · 人[0m
+      [36m</th>[39m
+    [36m</tr>[39m
+  [36m</thead>[39m
+  [36m<tbody>[39m
+    [36m<tr>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"row"[39m
+      [36m>[39m
+        [0m课程入口[0m
+      [36m</th>[39m
+      [36m<td>[39m
+        [0m观看视频[0m
+      [36m</td>[39m
+      [36m<td>[39m
+        [0m360[0m
+      [36m</td>[39m
+    [36m</tr>[39m
+    [36m<tr>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"row"[39m
+      [36m>[39m
+        [0m课程入口[0m
+      [36m</th>[39m
+      [36m<td>[39m
+        [0m阅读资料[0m
+      [36m</td>[39m
+      [36m<td>[39m
+        [0m180[0m
+      [36m</td>[39m
+    [36m</tr>[39m
+    [36m<tr>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"row"[39m
+      [36m>[39m
+        [0m学习提醒[0m
+      [36m</th>[39m
+      [36m<td>[39m
+        [0m观看视频[0m
+      [36m</td>[39m
+      [36m<td>[39m
+        [0m100[0m
+      [36m</td>[39m
+    [36m</tr>[39m
+    [36m<tr>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"row"[39m
+      [36m>[39m
+        [0m学习提醒[0m
+      [36m</th>[39m
+      [36m<td>[39m
+        [0m阅读资料[0m
+      [36m</td>[39m
+      [36m<td>[39m
+        [0m140[0m
+      [36m</td>[39m
+    [36m</tr>[39m
+    [36m<tr>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"row"[39m
+      [36m>[39m
+        [0m观看视频[0m
+      [36m</th>[39m
+      [36m<td>[39m
+        [0m完成学习[0m
+      [36m</td>[39m
+      [36m<td>[39m
+        [0m320[0m
+      [36m</td>[39m
+    [36m</tr>[39m
+    [36m<tr>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"row"[39m
+      [36m>[39m
+        [0m观看视频[0m
+      [36m</th>[39m
+      [36m<td>[39m
+        [0m继续学习[0m
+      [36m</td>[39m
+      [36m<td>[39m
+        [0m140[0m
+      [36m</td>[39m
+    [36m</tr>[39m
+    [36m<tr>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"row"[39m
+      [36m>[39m
+        [0m阅读资料[0m
+      [36m</th>[39m
+      [36m<td>[39m
+        [0m完成学习[0m
+      [36m</td>[39m
+      [36m<td>[39m
+        [0m210[0m
+      [36m</td>[39m
+    [36m</tr>[39m
+    [36m<tr>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"row"[39m
+      [36m>[39m
+        [0m阅读资料[0m
+      [36m</th>[39m
+      [36m<td>[39m
+        [0m继续学习[0m
+      [36m</td>[39m
+      [36m<td>[39m
+        [0m110[0m
+      [36m</td>[39m
+    [36m</tr>[39m
+  [36m</tbody>[39m
+[36m</table>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/chart-variants/structure.test.tsx:30:24
+     28|   const view = render(<StructureVariant variantId={variantId} {...prop…
+     29|   const table = within(view.container).getByRole("table", { hidden: tr…
+     30|   expect(within(table).getByRole("columnheader", { name: "流量 · 人次", hi…
+       |                        ^
+     31|   expect([...table.querySelectorAll("tbody tr")].some(row => row.textC…
+     32|   expect(view.container.textContent).toContain("流量 · 人次");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/structure.test.tsx > sankey-simple uses person-times and retains exact zero links while rendering only positive links
+TestingLibraryElementError: Unable to find an element with the role "columnheader" and name "流量 · 人次"
+
+Here are the available roles:
+
+  caption:
+
+  Name "每一条连接的来源、去向与流量":
+  [36m<caption />[39m
+
+  --------------------------------------------------rowgroup:
+
+  Name "":
+  [36m<thead />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "来源 去向 流量 · 人":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "来源":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "去向":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "流量 · 人":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  --------------------------------------------------rowgroup:
+
+  Name "":
+  [36m<tbody />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "课程入口 完成学习 312":
+  [36m<tr />[39m
+
+  Name "课程入口 继续学习 88":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  rowheader:
+
+  Name "课程入口":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "课程入口":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  cell:
+
+  Name "完成学习":
+  [36m<td />[39m
+
+  Name "312":
+  [36m<td />[39m
+
+  Name "继续学习":
+  [36m<td />[39m
+
+  Name "88":
+  [36m<td />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<table>[39m
+  [36m<caption>[39m
+    [0m每一条连接的来源、去向与流量[0m
+  [36m</caption>[39m
+  [36m<thead>[39m
+    [36m<tr>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"col"[39m
+      [36m>[39m
+        [0m来源[0m
+      [36m</th>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"col"[39m
+      [36m>[39m
+        [0m去向[0m
+      [36m</th>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"col"[39m
+      [36m>[39m
+        [0m流量 · 人[0m
+      [36m</th>[39m
+    [36m</tr>[39m
+  [36m</thead>[39m
+  [36m<tbody>[39m
+    [36m<tr>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"row"[39m
+      [36m>[39m
+        [0m课程入口[0m
+      [36m</th>[39m
+      [36m<td>[39m
+        [0m完成学习[0m
+      [36m</td>[39m
+      [36m<td>[39m
+        [0m312[0m
+      [36m</td>[39m
+    [36m</tr>[39m
+    [36m<tr>[39m
+      [36m<th[39m
+        [33mscope[39m=[32m"row"[39m
+      [36m>[39m
+        [0m课程入口[0m
+      [36m</th>[39m
+      [36m<td>[39m
+        [0m继续学习[0m
+      [36m</td>[39m
+      [36m<td>[39m
+        [0m88[0m
+      [36m</td>[39m
+    [36m</tr>[39m
+  [36m</tbody>[39m
+[36m</table>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ apps/playground/src/docs/components/chart-variants/structure.test.tsx:30:24
+     28|   const view = render(<StructureVariant variantId={variantId} {...prop…
+     29|   const table = within(view.container).getByRole("table", { hidden: tr…
+     30|   expect(within(table).getByRole("columnheader", { name: "流量 · 人次", hi…
+       |                        ^
+     31|   expect([...table.querySelectorAll("tbody tr")].some(row => row.textC…
+     32|   expect(view.container.textContent).toContain("流量 · 人次");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  10 failed | 42 passed (52)
+   Start at  13:51:34
+   Duration  9.18s (transform 1.92s, setup 368ms, import 1.84s, tests 10.91s, environment 1.31s)
+

@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:36696) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/token-first-g1-next.spec.ts:221:1 › Tooltip prefers below and flips only when the lower space is insufficient (5.4s)
+
+
+  1) tests/e2e/token-first-g1-next.spec.ts:221:1 › Tooltip prefers below and flips only when the lower space is insufficient 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByRole('tooltip')
+    Expected: "bottom"
+    Received: "top"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for getByRole('tooltip')
+        11 × locator resolved to <div id="_r_0_" data-open="" tabindex="-1" role="tooltip" data-side="top" data-align="center" data-slot="content" class="rain-tooltip" data-base-ui-focusable="" data-rain-id="ui-tooltip">…</div>
+           - unexpected value "top"
+
+
+      223 |   await trigger.hover();
+      224 |   const tip = page.getByRole('tooltip');
+    > 225 |   await expect(tip).toHaveAttribute('data-side', 'bottom');
+          |                     ^
+      226 |   const anchor = (await trigger.boundingBox())!;
+      227 |   expect((await tip.boundingBox())!.y).toBeGreaterThan(anchor.y + anchor.height);
+      228 |   await page.setViewportSize({ width: 1440, height: Math.ceil(anchor.y + anchor.height + 15) });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/token-first-g1-next.spec.ts:225:21
+
+    Error Context: evidence/runtime/token-first-v12-g1-next/test-results/token-first-g1-next-Toolti-0338f-lower-space-is-insufficient/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/token-first-v12-g1-next/test-results/token-first-g1-next-Toolti-0338f-lower-space-is-insufficient/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/token-first-v12-g1-next/test-results/token-first-g1-next-Toolti-0338f-lower-space-is-insufficient/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/token-first-g1-next.spec.ts:221:1 › Tooltip prefers below and flips only when the lower space is insufficient 

@@ -1,0 +1,158 @@
+{
+  "reviewer": "w6_independent_review",
+  "recordedAt": "2026-10-04T09:22:07.199449+00:00",
+  "scope": "Read-only bounded review of new W6 consumer E1-E6, host state, layout/public ownership, temporary focus/context cleanup, same-label/disabled IDs, source and Token isolation. No browser, dependency, Git, Figma or publication actions.",
+  "result": "passed-scoped-read-only-review-after-fixes",
+  "findings": [
+    {
+      "priority": 2,
+      "title": "Clear the old workspace session when the consumer scene changes",
+      "file": "apps/playground/src/recipes/navigation-w6/consumer.tsx",
+      "start": 19,
+      "end": 23,
+      "body": "All six scenes stay mounted with unchanged Workspace keys under hidden/inert. Opening E4 knowledge temporary and changing the task with keyboard/hash retains the old temporary session and Escape owner. Document Escape then dismisses the hidden workspace and attempts to restore focus to its hidden trigger. Returning to E4 without Escape restores the stale temporary panel. The host must clear temporary/focus state on deactivation while keeping business drafts, without editing accepted public sources.",
+      "requirement": "06-VISIBILITY-AND-STATE.md:7,28,46,50,54; 09-VALIDATION.md:49,60",
+      "verification": {
+        "kind": "temporary-jsdom-harness-imports-actual-consumer",
+        "command": "./node_modules/.bin/vitest run --config /private/tmp/w6-independent-review-20261004/vitest.config.ts",
+        "exitCode": 0,
+        "tests": 1,
+        "passed": 1,
+        "startLocal": "2026-10-04 17:08:42",
+        "durationSeconds": 4.22,
+        "assertions": [
+          "E4 knowledge index data-temporary=true after open",
+          "E4 scene hidden after hashchange to E1",
+          "E4 hidden panel still data-temporary=true",
+          "Escape changes hidden E4 temporary to false",
+          "jsdom activeElement is the E4 restore trigger inside hidden scene"
+        ],
+        "limitation": "jsdom does not implement browser inert focus rejection; root should verify real keyboard scene transition and Escape/focus separately."
+      },
+      "status": "resolved-after-local-consumer-fix",
+      "resolution": "consumer-app.tsx forwards active to all scenes; ActiveSessionGuard closes inactive Workspace temporary/focus sessions with outside intent; CourseResources keys only its ScopeNavigation by activation and retains scope/drafts in the host."
+    },
+    {
+      "priority": 2,
+      "title": "Close the portaled scope selector when E1 is deactivated",
+      "file": "apps/playground/src/recipes/navigation-w6/consumer.tsx",
+      "start": 19,
+      "end": 23,
+      "body": "E1 CourseResources remains mounted when hidden. Its ScopeNavigation More state remains open, and its portaled search popup is outside the hidden/inert scene subtree. E1 More open followed by hash/keyboard switch to E2 leaves the visible Search scope popup above E2. An application-owned activation cleanup must close/remount the selector while retaining CourseResources business scope/drafts. Clearing only WorkspaceLayout temporary state cannot close this public popover.",
+      "requirement": "06-VISIBILITY-AND-STATE.md:28,46,50,54; 09-VALIDATION.md:60",
+      "verification": {
+        "kind": "temporary-jsdom-harness-imports-actual-consumer",
+        "command": "./node_modules/.bin/vitest run --config /private/tmp/w6-independent-review-20261004/vitest.config.ts",
+        "exitCode": 0,
+        "tests": 1,
+        "passed": 1,
+        "startLocal": "2026-10-04 17:12:04",
+        "durationSeconds": 2.94,
+        "assertions": [
+          "E1 More opens Search scope textbox",
+          "E1 scene hidden after hashchange to E2",
+          "Search scope textbox remains visible",
+          "Search scope textbox.closest(data-scene) is null"
+        ],
+        "limitation": "Real browser portal rendering/focus should be verified by root."
+      },
+      "status": "resolved-after-local-consumer-fix",
+      "resolution": "consumer-app.tsx forwards active to all scenes; ActiveSessionGuard closes inactive Workspace temporary/focus sessions with outside intent; CourseResources keys only its ScopeNavigation by activation and retains scope/drafts in the host."
+    }
+  ],
+  "sourceProtection": {
+    "snapshot": "evidence/runtime/navigation-v042/w6/protection-before.json",
+    "reviewedFiles": 2134,
+    "changedImplementationOrTokens": [],
+    "changedDocumentation": [
+      "packages/ui/src/navigation/README-W3.md",
+      "packages/layouts/src/README-workspace.md"
+    ],
+    "finalReviewedFiles": 2134,
+    "finalChangedImplementationOrTokens": [],
+    "finalChangedDocumentation": [
+      "packages/ui/src/navigation/README-W3.md",
+      "packages/layouts/src/README-workspace.md"
+    ]
+  },
+  "otherChecks": {
+    "hostBusinessState": "Resource, activity/group, student/question, playback and per-resource drafts remain application state; public navigation/layout is used for semantic selection, geometry and session state. No implicit business save on layout changes found.",
+    "scopeSameLabelDisabled": "Independent actual-consumer harness confirmed distinct class199/class200 IDs and draft separation, plus disabled class238 cannot change selection. Durable W6 test suite has not yet added those two consumer cases.",
+    "cssScope": "E5 compact selectors scope the A instance; E6 style selectors scope its local workbench and map existing semantic Tokens. Root is independently fixing shared Tailwind/theme style loading in consumer.css.",
+    "notClaimed": [
+      "runtime-browser-fix",
+      "visual-acceptance",
+      "W6-W8-completion",
+      "broad-accessibility",
+      "publication"
+    ]
+  },
+  "initialFiles": {
+    "apps/playground/src/recipes/navigation-w6/consumer.tsx": "d04bb32ad19ff9498584eb3fbc7d694509d393fed56e66d4b655c0da967db2e7",
+    "apps/playground/src/recipes/navigation-w6/scenes.tsx": "336c514efc8a56e6a15882ec0d61313048664f3b8807091ca835b6159123d470",
+    "apps/playground/src/recipes/navigation-w6/review-workbench.tsx": "ac1bf9107deff14467f1c5c8c135926ed26e9b256ec0a33dbdb84a7b4b1fc037",
+    "apps/playground/src/recipes/navigation-w6/consumer.css": "aea64a5040f475a5ecf9a908c20864f8de3dc5030754b655a07ae99936d3478a",
+    "apps/playground/src/recipes/navigation-w6/review-workbench.css": "68d1d07a5a69c0a4ba20d255a9418e352bd24ed4752591b66ff88896db439358",
+    "apps/playground/src/recipes/navigation-w6/scenes.test.tsx": "d031b88ef530bfbf6b9f39034245ed792ad4dc9de72aef16addb155569a16a79",
+    "apps/playground/src/recipes/navigation-w6/review-workbench.test.tsx": "e99fdccb8332c3d8a0c0d41fe930dbdac7633672c04a03ced8f77b4e90a2885b",
+    "tests/e2e/navigation-v042-w6.spec.ts": "55c34bdebd68653c8fcd80079d77f888c4d886ce6b4bf7f9deacae3a02bbc146"
+  },
+  "files": {
+    "apps/playground/src/recipes/navigation-w6/active-session-guard.tsx": "535c71dce6aa0f64af5ed42fb2ca4f66dbdee77b4c7c4f6b826536cefb5325e9",
+    "apps/playground/src/recipes/navigation-w6/consumer-app.tsx": "ffdc714e1e269e71e94c60acf2750664e593a69905d4987f10e739176be4a2fd",
+    "apps/playground/src/recipes/navigation-w6/consumer-lifecycle.test.tsx": "66bf8cca2a8a04a0c1edd2f099aa6f1a15e91fadc49b06bd76efcf366e932672",
+    "apps/playground/src/recipes/navigation-w6/consumer.css": "07bdc672ce19b04a66d0e843353a518d87ebd334188e77d684830901d2f71e3a",
+    "apps/playground/src/recipes/navigation-w6/consumer.css.d.ts": "3423de425b002cb0a5c00f4abd6313d3750f34e9a48e9d19f062459bdb9ec0a7",
+    "apps/playground/src/recipes/navigation-w6/consumer.tsx": "a4309a763ebecdf38d81d6e654bc133f116c7879aa8311d5d6171c2e53c801f7",
+    "apps/playground/src/recipes/navigation-w6/review-workbench.css": "68d1d07a5a69c0a4ba20d255a9418e352bd24ed4752591b66ff88896db439358",
+    "apps/playground/src/recipes/navigation-w6/review-workbench.css.d.ts": "0890ba105f89eb3184d950e5fc60d84613d66628992a7ceedd856013f456f96b",
+    "apps/playground/src/recipes/navigation-w6/review-workbench.test.tsx": "e99fdccb8332c3d8a0c0d41fe930dbdac7633672c04a03ced8f77b4e90a2885b",
+    "apps/playground/src/recipes/navigation-w6/review-workbench.tsx": "6122f88e3aa6eedd84b071a1c73626a25f903444a724d1c68bd7f3b9c9765a35",
+    "apps/playground/src/recipes/navigation-w6/scenes.test.tsx": "d031b88ef530bfbf6b9f39034245ed792ad4dc9de72aef16addb155569a16a79",
+    "apps/playground/src/recipes/navigation-w6/scenes.tsx": "12e4ebea23d1d37f1147419e09a60119fbb2a5885c7ff9923d9b0837f8f2a25e",
+    "tests/e2e/navigation-v042-w6.spec.ts": "76359ba4fe7fb1489b009105c0d59126368a18d30fff7a0f6df36a17f2621154"
+  },
+  "openP0P1P2": 0,
+  "reverification": {
+    "kind": "independent-temporary-jsdom-harness-imports-actual-consumer-entry",
+    "command": "./node_modules/.bin/vitest run --config /private/tmp/w6-independent-review-20261004/vitest-fixed.config.ts",
+    "exitCode": 0,
+    "tests": 1,
+    "passed": 1,
+    "startLocal": "2026-10-04 17:19:21",
+    "durationSeconds": 2.94,
+    "assertions": [
+      "E4 temporary index is cleared immediately after hash scene change to E1",
+      "Escape retains focus on visible E1 navigation link",
+      "E4 replay note and 02:10 playback identity survive switching",
+      "E4 focus session ends on deactivation",
+      "E1 More portal unmounts on switching to E2",
+      "E1 draft remains after returning",
+      "same-label classes199/200 select distinct IDs and distinct drafts",
+      "disabled class238 cannot change current scope"
+    ],
+    "durableRelatedTests": "apps/playground/src/recipes/navigation-w6/consumer-lifecycle.test.tsx",
+    "limits": "Reviewer independently ran actual-consumer jsdom harness. Root real-browser 13-pass evidence is now inspected and attached. No visual Human Gate or broad browser/a11y claim."
+  },
+  "rootBrowserVerification": {
+    "executor": "root",
+    "reviewerAction": "Inspected current browser-final.log, browser-results.json stats and final spec source; no duplicate browser execution.",
+    "config": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w6.config.ts",
+    "stats": {
+      "startTime": "2026-10-04T09:20:08.289Z",
+      "duration": 10884.966,
+      "expected": 13,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "log": "evidence/runtime/navigation-v042/w6/browser-final.log",
+    "result": "13 passed, 0 failed, 0 skipped, 0 flaky; 10.9s; root reported exit0",
+    "specificChecks": [
+      "compiled shared primary Button rgb(21, 97, 248) and 36px height",
+      "E4 temporary/focus sessions clear on hash transition with business draft retained",
+      "E1 More portal removed on hash transition and course draft retained"
+    ],
+    "preservedInitialFailures": "browser-initial.log and browser-initial-results.json retain initial failure. E3 locator-only fix uses visible segmented label plus checked assertion."
+  }
+}

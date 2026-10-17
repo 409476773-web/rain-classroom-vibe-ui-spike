@@ -1,0 +1,70 @@
+
+Running 2 tests using 1 worker
+
+(node:63698) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/bklit-catalog.spec.ts:7:1 › [feedback] stacked bars use the cumulative domain through recipe, series and data changes (9.6s)
+(node:63707) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/bklit-catalog.spec.ts:47:1 › [feedback] compact labels, legend gaps and gauge readings stay readable at 880 and 390px (2.0s)
+
+
+  1) tests/e2e/bklit-catalog.spec.ts:7:1 › [feedback] stacked bars use the cumulative domain through recipe, series and data changes 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  locator('[data-rain-id="chart-bar"]').first().locator('tbody td').first()
+    Expected: "3"
+    Received: "48"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-bar"]').first().locator('tbody td').first()
+        14 × locator resolved to <td>48</td>
+           - unexpected value "48"
+
+
+      37 |     const previous = Number(await host.locator("tbody td").first().innerText());
+      38 |     await page.getByRole("button", { name: "更新数据", exact: true }).click();
+    > 39 |     await expect(host.locator("tbody td").first()).toHaveText(String(previous + 3));
+         |                                                    ^
+      40 |     await expect.poll(() => host.locator('g[class^="bar-series-"] rect').evaluateAll(nodes => Math.min(...nodes.map(x => Number(x.getAttribute("y")))))).toBeGreaterThanOrEqual(0);
+      41 |     await page.getByRole("combobox", { name: "柱形配方", exact: true }).selectOption("grouped");
+      42 |     await expect(host.locator(".legend-container")).toContainText("参与人数");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/bklit-catalog.spec.ts:39:52
+
+    Error Context: evidence/runtime/bklit-rain-catalog/feedback-2026-10-08/verified/test-results/bklit-catalog--feedback-st-90f9b-ipe-series-and-data-changes/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/feedback-2026-10-08/verified/test-results/bklit-catalog--feedback-st-90f9b-ipe-series-and-data-changes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/feedback-2026-10-08/verified/test-results/bklit-catalog--feedback-st-90f9b-ipe-series-and-data-changes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/bklit-catalog.spec.ts:47:1 › [feedback] compact labels, legend gaps and gauge readings stay readable at 880 and 390px 
+
+    Error: locator.evaluate: TypeError: Cannot read properties of null (reading 'getBoundingClientRect')
+        at eval (eval at evaluate (:311:30), <anonymous>:3:34)
+        at UtilityScript.evaluate (<anonymous>:313:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at eval (eval at evaluate (:311:30), <anonymous>:3:34)
+        at UtilityScript.evaluate (<anonymous>:313:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/bklit-catalog.spec.ts:78:78
+
+    Error Context: evidence/runtime/bklit-rain-catalog/feedback-2026-10-08/verified/test-results/bklit-catalog--feedback-co-fc476-y-readable-at-880-and-390px/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/feedback-2026-10-08/verified/test-results/bklit-catalog--feedback-co-fc476-y-readable-at-880-and-390px/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/feedback-2026-10-08/verified/test-results/bklit-catalog--feedback-co-fc476-y-readable-at-880-and-390px/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/bklit-catalog.spec.ts:7:1 › [feedback] stacked bars use the cumulative domain through recipe, series and data changes 
+    tests/e2e/bklit-catalog.spec.ts:47:1 › [feedback] compact labels, legend gaps and gauge readings stay readable at 880 and 390px 

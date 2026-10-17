@@ -1,0 +1,167 @@
+
+Running 5 tests using 1 worker
+
+(node:78917) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-business-matrix-refinement.spec.ts:247:1 › clicking a hovered nonfirst cell preserves its inspected coordinate (6.9s)
+(node:78945) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/chart-business-matrix-refinement.spec.ts:259:1 › keyboard focus reveals the inspected coordinate beyond a sticky row heading after horizontal scrolling (2.0s)
+(node:78951) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/e2e/chart-business-matrix-refinement.spec.ts:280:1 › semester legend shows the eight discrete semesters without fractional intervals (1.5s)
+(node:78958) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/e2e/chart-business-matrix-refinement.spec.ts:292:1 › zero-to-large bubble transition never paints a visible glyph beyond its current circle (5.1s)
+(node:78977) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 tests/e2e/chart-business-matrix-refinement.spec.ts:326:1 › heat readout tone follows the painted light-to-dark and dark-to-light fill without a plate (7.4s)
+
+
+  1) tests/e2e/chart-business-matrix-refinement.spec.ts:247:1 › clicking a hovered nonfirst cell preserves its inspected coordinate 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-matrix-example="course-count"] [data-rain-id="ui-chart-matrix"]').locator('[data-slot="cell"][data-row-id="category-2"][data-column-id="college-3"]')
+    Expected: "true"
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for locator('[data-matrix-example="course-count"] [data-rain-id="ui-chart-matrix"]').locator('[data-slot="cell"][data-row-id="category-2"][data-column-id="college-3"]')
+        14 × locator resolved to <td aria-label="25" data-slot="cell" data-state="value" data-row-id="category-2" data-column-id="college-3" headers="_r_k_-row-1 _r_k_-column-2">…</td>
+           - unexpected value "null"
+
+
+      253 |   const facts = await chart.locator('[data-slot="cell"][data-active="true"]').evaluateAll(nodes => nodes.map(node => ({ row: node.getAttribute("data-row-id"), column: node.getAttribute("data-column-id") })));
+      254 |   await record("pointer-focus", { expected: { row: "category-2", column: "college-3" }, actual: facts });
+    > 255 |   await expect(target).toHaveAttribute("data-active", "true");
+          |                        ^
+      256 |   await expect(page.locator(".rain-matrix__tooltip")).toContainText("25");
+      257 | });
+      258 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-matrix-refinement.spec.ts:255:24
+
+    Error Context: evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-c7afd-es-its-inspected-coordinate/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-c7afd-es-its-inspected-coordinate/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-c7afd-es-its-inspected-coordinate/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-business-matrix-refinement.spec.ts:259:1 › keyboard focus reveals the inspected coordinate beyond a sticky row heading after horizontal scrolling 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 143
+    Received:    -1362
+
+      274 |   });
+      275 |   await record("keyboard-scrolled-focus", facts);
+    > 276 |   expect(facts.left).toBeGreaterThanOrEqual(facts.headingRight - 1);
+          |                      ^
+      277 |   expect(facts.right).toBeLessThanOrEqual(facts.regionRight + 1);
+      278 | });
+      279 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-matrix-refinement.spec.ts:276:22
+
+    Error Context: evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-91acb--after-horizontal-scrolling/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-91acb--after-horizontal-scrolling/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-91acb--after-horizontal-scrolling/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/chart-business-matrix-refinement.spec.ts:280:1 › semester legend shows the eight discrete semesters without fractional intervals 
+
+    Error: expect(received).toHaveLength(expected)
+
+    Expected length: 8
+    Received length: 5
+    Received array:  ["1–2.4", "2.4–3.8", "3.8–5.2", "5.2–6.6", "6.6–8"]
+
+      283 |   const labels = await legend.getByRole("button").evaluateAll(nodes => nodes.map(node => node.getAttribute("aria-label") ?? node.textContent!.trim()));
+      284 |   await record("semester-legend", { labels });
+    > 285 |   expect(labels).toHaveLength(8);
+          |                  ^
+      286 |   labels.forEach((label, index) => {
+      287 |     expect(label).not.toMatch(/\d+\.\d+/);
+      288 |     expect(label.match(/\d+/g)).toEqual([String(index + 1)]);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-matrix-refinement.spec.ts:285:18
+
+    Error Context: evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-57700-ithout-fractional-intervals/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-57700-ithout-fractional-intervals/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-57700-ithout-fractional-intervals/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/chart-business-matrix-refinement.spec.ts:292:1 › zero-to-large bubble transition never paints a visible glyph beyond its current circle 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      321 |   await expect(target).toHaveAttribute("data-test-painted-coordinate", "true");
+      322 |   expect(frames.some(frame => frame.visible)).toBe(true);
+    > 323 |   expect(frames.filter(frame => frame.visible).every(frame => frame.farthestGlyphCorner <= frame.radius + 1)).toBe(true);
+          |                                                                                                               ^
+      324 | });
+      325 |
+      326 | test("heat readout tone follows the painted light-to-dark and dark-to-light fill without a plate", async ({ page }) => {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-matrix-refinement.spec.ts:323:111
+
+    Error Context: evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-5a386-h-beyond-its-current-circle/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-5a386-h-beyond-its-current-circle/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-5a386-h-beyond-its-current-circle/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/e2e/chart-business-matrix-refinement.spec.ts:326:1 › heat readout tone follows the painted light-to-dark and dark-to-light fill without a plate 
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 2
+    Received:   1
+
+      361 |   await record("painted-heat-tone", { results, contrastChoiceTolerance: .1 });
+      362 |   for (const { frames } of results) {
+    > 363 |     expect(new Set(frames.map(frame => frame.background)).size).toBeGreaterThan(2);
+          |                                                                 ^
+      364 |     expect(frames.every(frame => frame.plate === "rgba(0, 0, 0, 0)")).toBe(true);
+      365 |     expect(frames.every(frame => frame.chosenRatio >= frame.bestRatio - .1)).toBe(true);
+      366 |   }
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-matrix-refinement.spec.ts:363:65
+
+    Error Context: evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-87951--light-fill-without-a-plate/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-87951--light-fill-without-a-plate/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-matrix-refinement-2026-10-09/browser/review-baseline-results/chart-business-matrix-refi-87951--light-fill-without-a-plate/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    tests/e2e/chart-business-matrix-refinement.spec.ts:247:1 › clicking a hovered nonfirst cell preserves its inspected coordinate 
+    tests/e2e/chart-business-matrix-refinement.spec.ts:259:1 › keyboard focus reveals the inspected coordinate beyond a sticky row heading after horizontal scrolling 
+    tests/e2e/chart-business-matrix-refinement.spec.ts:280:1 › semester legend shows the eight discrete semesters without fractional intervals 
+    tests/e2e/chart-business-matrix-refinement.spec.ts:292:1 › zero-to-large bubble transition never paints a visible glyph beyond its current circle 
+    tests/e2e/chart-business-matrix-refinement.spec.ts:326:1 › heat readout tone follows the painted light-to-dark and dark-to-light fill without a plate 
+

@@ -1,0 +1,13 @@
+/* @rain-css-exception ui-progress: owned Parts share Density, unknown shape and Base UI width transitions; reduced motion and forced colors preserve meaning. */
+@layer utilities {
+  .rain-progress-track { height: var(--rain-space-8); }
+  .rain-progress[data-density="compact"] { gap: var(--rain-space-6); }
+  .rain-progress[data-density="compact"] > .rain-progress-track { height: var(--rain-space-6); }
+  .rain-progress-indicator { transition: width var(--rain-motion-feedback-duration) var(--rain-motion-ease-out); }
+  .rain-progress-indicator[data-indeterminate] { width: 30%; margin-inline: auto; transition: none; }
+}
+@media (prefers-reduced-motion: reduce) { .rain-progress-indicator { transition: none; } }
+@media (forced-colors: active) {
+  .rain-progress-track { forced-color-adjust: none; background-color: Canvas; outline: var(--rain-line-thickness-1) solid CanvasText; outline-offset: calc(var(--rain-line-thickness-1) * -1); }
+  .rain-progress-indicator { forced-color-adjust: none; background-color: Highlight; }
+}

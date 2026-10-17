@@ -1,0 +1,94 @@
+
+Running 2 tests using 1 worker
+
+(node:54216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [390-dark] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:77:1 › Network node list exposes category and selected detail with keyboard (11.5s)
+(node:54232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [390-forced] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:77:1 › Network node list exposes category and selected detail with keyboard (11.5s)
+
+
+  1) [390-dark] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:77:1 › Network node list exposes category and selected detail with keyboard 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  locator('[data-network-example="elements"]').locator('.rain-network__svg')
+    Expected: visible
+    Received: hidden
+    Timeout:  10000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 10000ms
+      - waiting for locator('[data-network-example="elements"]').locator('.rain-network__svg')
+        24 × locator resolved to <svg aria-hidden="true" viewBox="0 0 960 560" class="rain-network__svg">…</svg>
+           - unexpected value "hidden"
+
+
+      40 | }
+      41 | async function graphic(page:Page,host:Locator) {
+    > 42 |   const largest=await host.locator("svg").evaluateAll(nodes=>nodes.map((node,index)=>({index,area:node.getBoundingClientRect().width*node.getBoundingClientRect().height})).sort((a,b)=>b.area-a.area)[0]!.index);const svg=await host.locator(".rain-network__svg").count() ? host.locator(".rain-network__svg") : host.locator("svg").nth(largest); await expect(svg).toBeVisible();
+         |                                                                                                                                                                                                                                                                                                                                                                         ^
+      43 |   const result=await svg.evaluate(node=>({width:node.getBoundingClientRect().width,height:node.getBoundingClientRect().height,paths:[...node.querySelectorAll("path[d]")].map(path=>({d:path.getAttribute("d"),fill:getComputedStyle(path).fill,stroke:getComputedStyle(path).stroke,display:getComputedStyle(path).display,visibility:getComputedStyle(path).visibility})),labels:[...node.querySelectorAll("text")].map(text=>({text:text.textContent,fill:getComputedStyle(text).fill})),rects:node.querySelectorAll("rect").length}));
+      44 |   records.get(page)!.checks.push({graphic:result});expect(result.width).toBeGreaterThan(30);expect(result.height).toBeGreaterThan(30);
+      45 |   expect(result.paths.every(path=>path.d && !/NaN|Infinity|undefined/.test(path.d))).toBe(true);
+        at graphic (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:42:361)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:78:716
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-03-network/test-results/themes-Network-node-list-e-c2b7f-lected-detail-with-keyboard-390-dark/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-03-network/test-results/themes-Network-node-list-e-c2b7f-lected-detail-with-keyboard-390-dark/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-03-network/test-results/themes-Network-node-list-e-c2b7f-lected-detail-with-keyboard-390-dark/trace.zip
+    Usage:
+
+        npx playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-03-network/test-results/themes-Network-node-list-e-c2b7f-lected-detail-with-keyboard-390-dark/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [390-forced] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:77:1 › Network node list exposes category and selected detail with keyboard 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  locator('[data-network-example="elements"]').locator('.rain-network__svg')
+    Expected: visible
+    Received: hidden
+    Timeout:  10000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 10000ms
+      - waiting for locator('[data-network-example="elements"]').locator('.rain-network__svg')
+        24 × locator resolved to <svg aria-hidden="true" viewBox="0 0 960 560" class="rain-network__svg">…</svg>
+           - unexpected value "hidden"
+
+
+      40 | }
+      41 | async function graphic(page:Page,host:Locator) {
+    > 42 |   const largest=await host.locator("svg").evaluateAll(nodes=>nodes.map((node,index)=>({index,area:node.getBoundingClientRect().width*node.getBoundingClientRect().height})).sort((a,b)=>b.area-a.area)[0]!.index);const svg=await host.locator(".rain-network__svg").count() ? host.locator(".rain-network__svg") : host.locator("svg").nth(largest); await expect(svg).toBeVisible();
+         |                                                                                                                                                                                                                                                                                                                                                                         ^
+      43 |   const result=await svg.evaluate(node=>({width:node.getBoundingClientRect().width,height:node.getBoundingClientRect().height,paths:[...node.querySelectorAll("path[d]")].map(path=>({d:path.getAttribute("d"),fill:getComputedStyle(path).fill,stroke:getComputedStyle(path).stroke,display:getComputedStyle(path).display,visibility:getComputedStyle(path).visibility})),labels:[...node.querySelectorAll("text")].map(text=>({text:text.textContent,fill:getComputedStyle(text).fill})),rects:node.querySelectorAll("rect").length}));
+      44 |   records.get(page)!.checks.push({graphic:result});expect(result.width).toBeGreaterThan(30);expect(result.height).toBeGreaterThan(30);
+      45 |   expect(result.paths.every(path=>path.d && !/NaN|Infinity|undefined/.test(path.d))).toBe(true);
+        at graphic (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:42:361)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:78:716
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-03-network/test-results/themes-Network-node-list-e-c2b7f-lected-detail-with-keyboard-390-forced/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-03-network/test-results/themes-Network-node-list-e-c2b7f-lected-detail-with-keyboard-390-forced/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-03-network/test-results/themes-Network-node-list-e-c2b7f-lected-detail-with-keyboard-390-forced/trace.zip
+    Usage:
+
+        npx playwright show-trace evidence/runtime/chart-closeout-2026-10-11/quality/themes/run-03-network/test-results/themes-Network-node-list-e-c2b7f-lected-detail-with-keyboard-390-forced/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [390-dark] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:77:1 › Network node list exposes category and selected detail with keyboard 
+    [390-forced] › evidence/runtime/chart-closeout-2026-10-11/quality/themes/themes.spec.ts:77:1 › Network node list exposes category and selected detail with keyboard 

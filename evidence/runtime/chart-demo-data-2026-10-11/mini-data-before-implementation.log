@@ -1,0 +1,81 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts (36 tests | 2 failed) 10ms
+   × normal composition and progress show varied readable examples across display states 4ms
+   × curated composition and progress updates remain bounded while totals keep their shared scale 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > normal composition and progress show varied readable examples across display states
+AssertionError: expected [ 13, 8, 4 ] to deeply equal [ 15, 6, 4 ]
+
+- Expected
++ Received
+
+  [
+-   15,
+-   6,
++   13,
++   8,
+    4,
+  ]
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts:32:28
+     30|   for (const state of ["normal", "single", "long"] as const) {
+     31|     const rows = makeMiniRows(0, state);
+     32|     expect(rows[0]!.parts).toEqual([15, 6, 4]);
+       |                            ^
+     33|     expect(getProgressReading(rows[0]!.completed, rows[0]!.goal).perce…
+     34|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > curated composition and progress updates remain bounded while totals keep their shared scale
+AssertionError: expected [ [ 13, 8, 4 ], [ 38, 23, 14 ], …(1) ] to deeply equal [ [ 15, 6, 4 ], [ 33, 27, 15 ], …(1) ]
+
+- Expected
++ Received
+
+  [
+    [
+-     15,
+-     6,
++     13,
++     8,
+      4,
+    ],
+    [
+-     33,
+-     27,
+-     15,
++     38,
++     23,
++     14,
+    ],
+    [
+-     35,
+-     9,
+-     6,
++     25,
++     15,
++     10,
+    ],
+  ]
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts:41:49
+     39| test("curated composition and progress updates remain bounded while to…
+     40|   const snapshots = [0, 1, 2].map(revision => makeMiniRows(revision));
+     41|   expect(snapshots.map(rows => rows[0]!.parts)).toEqual([[15, 6, 4], […
+       |                                                 ^
+     42|   expect(snapshots.map(rows => rows[0]!.completed)).toEqual([68, 82, 6…
+     43|   for (let revision = 0; revision < 12; revision++) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 34 passed (36)
+   Start at  10:43:08
+   Duration  811ms (transform 25ms, setup 157ms, import 18ms, tests 10ms, environment 536ms)
+

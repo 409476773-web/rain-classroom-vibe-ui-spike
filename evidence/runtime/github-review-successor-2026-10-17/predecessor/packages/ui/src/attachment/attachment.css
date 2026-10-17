@@ -1,0 +1,78 @@
+/* @rain-css-exception ui-attachment: fixed Nova geometry and shadcn text/scroll effects; component-local variables are not public Tokens. */
+@layer base {
+  .rain-attachment { position: relative; display: flex; flex-wrap: wrap; flex-shrink: 0; width: fit-content; max-width: 100%; min-width: 0; box-sizing: border-box; border: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-12); background: var(--rain-category-background-neutral-1); color: var(--rain-category-text-neutral-2); font-family: var(--rain-font-ui); font-size: var(--rain-font-size-14); font-weight: var(--rain-font-weight-regular); line-height: var(--rain-line-height-20); gap: var(--rain-space-8); transition: background-color var(--rain-motion-feedback-duration), border-color var(--rain-motion-feedback-duration); }
+  .rain-attachment[data-orientation="horizontal"] { align-items: center; min-width: min(160px, 100%); }
+  .rain-attachment[data-orientation="vertical"] { flex-direction: column; width: 96px; }
+  .rain-attachment[data-orientation="vertical"]:has(> [data-slot="attachment-content"]) { width: 120px; }
+  .rain-attachment:has(> [data-slot="attachment-content"]) { padding: var(--rain-space-8) var(--rain-space-10); }
+  .rain-attachment:has(> [data-slot="attachment-media"]) { padding: var(--rain-space-8); }
+  .rain-attachment[data-size="sm"] { gap: var(--rain-space-10); font-size: var(--rain-font-size-12); }
+  .rain-attachment[data-size="sm"]:has(> [data-slot="attachment-content"]) { padding: var(--rain-space-6) var(--rain-space-8); }
+  .rain-attachment[data-size="sm"]:has(> [data-slot="attachment-media"]) { padding: var(--rain-space-6); }
+  .rain-attachment[data-size="xs"] { gap: var(--rain-space-6); font-size: var(--rain-font-size-12); border-radius: var(--rain-radius-8); }
+  .rain-attachment[data-size="xs"]:has(> [data-slot="attachment-content"]) { padding: var(--rain-space-4) var(--rain-space-6); }
+  .rain-attachment[data-size="xs"]:has(> [data-slot="attachment-media"]) { padding: var(--rain-space-4); }
+  .rain-attachment[data-state="idle"] { border-style: dashed; }
+  .rain-attachment[data-state="error"] { border-color: var(--rain-category-border-red-2); }
+  .rain-attachment:focus-within { box-shadow: 0 0 0 var(--rain-line-thickness-1) var(--rain-focus-control-halo); }
+  .rain-attachment__media { position: relative; display: flex; flex-shrink: 0; align-items: center; justify-content: center; overflow: hidden; aspect-ratio: 1; width: var(--rain-space-40); min-width: 0; border-radius: var(--rain-radius-8); background: var(--rain-category-background-neutral-2); color: var(--rain-category-text-neutral-1); }
+  .rain-attachment[data-size="sm"] > .rain-attachment__media { width: var(--rain-space-32); }
+  .rain-attachment[data-size="xs"] > .rain-attachment__media { width: var(--rain-space-28); border-radius: var(--rain-radius-6); }
+  .rain-attachment__media > :is(svg, .rain-icon) { width: var(--rain-space-16); height: var(--rain-space-16); pointer-events: none; }
+  .rain-attachment[data-size="xs"] > .rain-attachment__media > :is(svg, .rain-icon) { width: var(--rain-space-14); height: var(--rain-space-14); }
+  .rain-attachment[data-orientation="vertical"] > .rain-attachment__media { width: 100%; }
+  .rain-attachment[data-orientation="vertical"] > .rain-attachment__media > :is(svg, .rain-icon, [data-slot="spinner"]) { width: var(--rain-space-24); height: var(--rain-space-24); }
+  .rain-attachment[data-state="error"] > .rain-attachment__media { background: var(--rain-category-fill-red-solid-3); color: var(--rain-category-icon-red-1); }
+  .rain-attachment__media[data-variant="image"] > img { width: 100%; height: 100%; aspect-ratio: 1; object-fit: cover; }
+  .rain-attachment:not([data-state="idle"], [data-state="done"]) > .rain-attachment__media[data-variant="image"] { opacity: .6; }
+  .rain-attachment__content { flex: 1; min-width: 0; max-width: 100%; line-height: 1.25; }
+  .rain-attachment[data-orientation="vertical"] > .rain-attachment__content { padding-inline: var(--rain-space-4); width: 100%; box-sizing: border-box; }
+  .rain-attachment__title, .rain-attachment__description { display: block; min-width: 0; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .rain-attachment__title { font-weight: var(--rain-font-weight-semibold); }
+  .rain-attachment__description { margin-top: var(--rain-space-2); color: var(--rain-category-text-neutral-3); font-size: var(--rain-font-size-12); }
+  .rain-attachment[data-state="error"] .rain-attachment__description { color: var(--rain-category-text-red-1); }
+  .rain-attachment__actions { position: relative; z-index: 20; display: flex; flex-shrink: 0; align-items: center; }
+  .rain-attachment[data-orientation="vertical"] > .rain-attachment__actions { position: absolute; inset-block-start: var(--rain-space-12); inset-inline-end: var(--rain-space-12); gap: var(--rain-space-4); }
+  .rain-attachment__trigger { position: absolute; inset: 0; z-index: 10; border: 0; border-radius: inherit; padding: 0; background: transparent; cursor: pointer; outline: none; }
+  .rain-attachment__trigger:disabled { cursor: not-allowed; }
+  .rain-attachment__trigger:focus-visible { outline: var(--rain-focus-width) solid var(--rain-focus-control); outline-offset: var(--rain-focus-offset); }
+  .rain-attachment__group { display: flex; min-width: 0; gap: var(--rain-space-12); padding-block: var(--rain-space-4); overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--rain-space-4); scrollbar-width: none; --rain-attachment-fade-size: min(12%, var(--rain-space-40)); --rain-attachment-fade-start: 0px; --rain-attachment-fade-end: 0px; mask-image: linear-gradient(to right, transparent, black var(--rain-attachment-fade-start), black calc(100% - var(--rain-attachment-fade-end)), transparent); mask-repeat: no-repeat; }
+  .rain-attachment__group::-webkit-scrollbar { display: none; }
+  .rain-attachment__group > [data-slot="attachment"] { flex: none; scroll-snap-align: start; }
+  .rain-attachment__group:dir(rtl) { mask-image: linear-gradient(to left, transparent, black var(--rain-attachment-fade-start), black calc(100% - var(--rain-attachment-fade-end)), transparent); }
+  .rain-attachment:is([data-state="uploading"], [data-state="processing"]) .rain-attachment__title { --rain-attachment-shimmer-spread: calc(3ch + var(--rain-space-40)); --rain-attachment-shimmer-highlight: color-mix(in oklch, currentColor 20%, transparent); background-image: linear-gradient(110deg, currentColor calc(50% - var(--rain-attachment-shimmer-spread)), color-mix(in oklch, var(--rain-attachment-shimmer-highlight), currentColor 50%) calc(50% - var(--rain-attachment-shimmer-spread) * .5), var(--rain-attachment-shimmer-highlight) 50%, color-mix(in oklch, var(--rain-attachment-shimmer-highlight), currentColor 50%) calc(50% + var(--rain-attachment-shimmer-spread) * .5), currentColor calc(50% + var(--rain-attachment-shimmer-spread))); background-repeat: no-repeat; background-size: calc(200% + var(--rain-attachment-shimmer-spread) * 2) 100%; background-position: 0 0; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rain-attachment-shimmer 2s linear infinite; }
+  .rain-attachment:dir(rtl) .rain-attachment__title { animation-direction: reverse; }
+  [data-rain-theme="dark"] .rain-attachment:is([data-state="uploading"], [data-state="processing"]) .rain-attachment__title { --rain-attachment-shimmer-highlight: color-mix(in oklch, var(--rain-category-oncolor-1) 80%, transparent); }
+}
+@media (hover: hover) {
+  .rain-attachment:has(> .rain-attachment__trigger:not(:disabled)):hover { background: var(--rain-category-background-neutral-2); }
+}
+@property --rain-attachment-fade-start { syntax: "<length-percentage>"; inherits: false; initial-value: 0px; }
+@property --rain-attachment-fade-end { syntax: "<length-percentage>"; inherits: false; initial-value: 0px; }
+@keyframes rain-attachment-shimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+@keyframes rain-attachment-fade-start { from { --rain-attachment-fade-start: 0px; } to { --rain-attachment-fade-start: var(--rain-attachment-fade-size); } }
+@keyframes rain-attachment-fade-end { from { --rain-attachment-fade-end: var(--rain-attachment-fade-size); } to { --rain-attachment-fade-end: 0px; } }
+@supports (animation-timeline: scroll()) {
+  .rain-attachment__group { animation: rain-attachment-fade-start 1ms ease-in-out, rain-attachment-fade-end 1ms ease-in-out; animation-timeline: scroll(self inline), scroll(self inline); animation-range: 0 96px, calc(100% - 96px) 100%; animation-fill-mode: both; }
+}
+/* The source fallback fades both edges; reserve its fade width so endpoint attachments remain readable. */
+@supports not (animation-timeline: scroll()) {
+  .rain-attachment__group { --rain-attachment-fade-start: var(--rain-attachment-fade-size); --rain-attachment-fade-end: var(--rain-attachment-fade-size); padding-inline: var(--rain-attachment-fade-size); scroll-padding-inline: var(--rain-attachment-fade-size); }
+}
+/* Keep the focused attachment and its action outline fully visible through the decorative mask. */
+.rain-attachment__group:focus-within { mask-image: none; }
+.rain-attachment__group:focus-visible { outline: var(--rain-focus-width) solid var(--rain-focus-item); outline-offset: var(--rain-focus-offset); }
+@media (prefers-reduced-motion: reduce) {
+  .rain-attachment { transition: none; }
+  .rain-attachment__group { animation: none; mask-image: none; scroll-behavior: auto; }
+  .rain-attachment:is([data-state="uploading"], [data-state="processing"]) .rain-attachment__title { animation: none; background-image: none; -webkit-text-fill-color: currentColor; }
+}
+@media (forced-colors: active) {
+  .rain-attachment { background: Canvas; color: CanvasText; border-color: CanvasText; }
+  .rain-attachment[data-state="error"] { border-color: CanvasText; }
+  .rain-attachment__media, .rain-attachment[data-state="error"] > .rain-attachment__media { background: Canvas; color: CanvasText; }
+  .rain-attachment__description, .rain-attachment[data-state="error"] .rain-attachment__description { color: CanvasText; }
+  .rain-attachment__group { animation: none; mask-image: none; }
+  .rain-attachment:is([data-state="uploading"], [data-state="processing"]) .rain-attachment__title { animation: none; background-image: none; -webkit-text-fill-color: currentColor; }
+  .rain-attachment__trigger:focus-visible, .rain-attachment__group:focus-visible { outline-color: Highlight; }
+}

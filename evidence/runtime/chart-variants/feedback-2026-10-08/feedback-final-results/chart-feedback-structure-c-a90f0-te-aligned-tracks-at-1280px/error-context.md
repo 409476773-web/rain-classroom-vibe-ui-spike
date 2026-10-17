@@ -1,0 +1,2107 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: chart-feedback-structure.spec.ts >> calendar month, quarter and weekday labels occupy separate aligned tracks at 1280px
+- Location: tests/e2e/chart-feedback-structure.spec.ts:7:39
+
+# Error details
+
+```
+Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+Expected: >= 258.609375
+Received:    252.609375
+```
+
+# Page snapshot
+
+```yaml
+- main [ref=e3]:
+  - generic [ref=e4]:
+    - link "返回组件目录" [ref=e5] [cursor=pointer]:
+      - /url: "#components"
+    - generic [ref=e7]:
+      - heading "日历热图" [level=1] [ref=e8]
+      - generic [ref=e9]: G4 · 共享候选 · 未发布 · 视觉待复核
+    - paragraph [ref=e10]: 每一天的学习强度、顺序色阶与单元格聚焦。
+  - generic [ref=e11]:
+    - heading "图型与可选配方" [level=2] [ref=e12]
+    - paragraph [ref=e13]: Rain 配色、渐变与字体，Bklit 原生几何和交互。示例均为 Mock 数据。
+    - generic [ref=e14]:
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - text: 视觉配方
+          - combobox "视觉配方" [ref=e17]:
+            - option "连续强度色阶" [selected]
+            - option "蓝灰单色"
+        - generic [ref=e18]:
+          - text: 示例状态
+          - combobox "示例状态" [ref=e19]:
+            - option "正常" [selected]
+            - option "无数据"
+            - option "零值"
+            - option "单项／单点"
+            - option "长标签"
+            - option "缺测"
+            - option "无效数据"
+        - button "更新数据" [ref=e20] [cursor=pointer]
+        - button "重播动效" [ref=e22] [cursor=pointer]
+      - generic [ref=e24]:
+        - generic [ref=e27]:
+          - img [ref=e28]:
+            - generic [ref=e30]:
+              - generic [ref=e32] [cursor=pointer]
+              - generic [ref=e34] [cursor=pointer]
+              - generic [ref=e36] [cursor=pointer]
+              - generic [ref=e38] [cursor=pointer]
+              - generic [ref=e40] [cursor=pointer]
+              - generic [ref=e42] [cursor=pointer]
+              - generic [ref=e44] [cursor=pointer]
+              - generic [ref=e46] [cursor=pointer]
+              - generic [ref=e48] [cursor=pointer]
+              - generic [ref=e50] [cursor=pointer]
+              - generic [ref=e52] [cursor=pointer]
+              - generic [ref=e54] [cursor=pointer]
+              - generic [ref=e56] [cursor=pointer]
+              - generic [ref=e58] [cursor=pointer]
+              - generic [ref=e60] [cursor=pointer]
+              - generic [ref=e62] [cursor=pointer]
+              - generic [ref=e64] [cursor=pointer]
+              - generic [ref=e66] [cursor=pointer]
+              - generic [ref=e68] [cursor=pointer]
+              - generic [ref=e70] [cursor=pointer]
+              - generic [ref=e72] [cursor=pointer]
+              - generic [ref=e74] [cursor=pointer]
+              - generic [ref=e76] [cursor=pointer]
+              - generic [ref=e78] [cursor=pointer]
+              - generic [ref=e80] [cursor=pointer]
+              - generic [ref=e82] [cursor=pointer]
+              - generic [ref=e84] [cursor=pointer]
+              - generic [ref=e86] [cursor=pointer]
+              - generic [ref=e88] [cursor=pointer]
+              - generic [ref=e90] [cursor=pointer]
+              - generic [ref=e92] [cursor=pointer]
+              - generic [ref=e94] [cursor=pointer]
+              - generic [ref=e96] [cursor=pointer]
+              - generic [ref=e98] [cursor=pointer]
+              - generic [ref=e100] [cursor=pointer]
+              - generic [ref=e102] [cursor=pointer]
+              - generic [ref=e104] [cursor=pointer]
+              - generic [ref=e106] [cursor=pointer]
+              - generic [ref=e108] [cursor=pointer]
+              - generic [ref=e110] [cursor=pointer]
+              - generic [ref=e112] [cursor=pointer]
+              - generic [ref=e114] [cursor=pointer]
+              - generic [ref=e116] [cursor=pointer]
+              - generic [ref=e118] [cursor=pointer]
+              - generic [ref=e120] [cursor=pointer]
+              - generic [ref=e122] [cursor=pointer]
+              - generic [ref=e124] [cursor=pointer]
+              - generic [ref=e126] [cursor=pointer]
+              - generic [ref=e128] [cursor=pointer]
+              - generic [ref=e130] [cursor=pointer]
+              - generic [ref=e132] [cursor=pointer]
+              - generic [ref=e134] [cursor=pointer]
+              - generic [ref=e136] [cursor=pointer]
+              - generic [ref=e138] [cursor=pointer]
+              - generic [ref=e140] [cursor=pointer]
+              - generic [ref=e142] [cursor=pointer]
+              - generic [ref=e144] [cursor=pointer]
+              - generic [ref=e146] [cursor=pointer]
+              - generic [ref=e148] [cursor=pointer]
+              - generic [ref=e150] [cursor=pointer]
+              - generic [ref=e152] [cursor=pointer]
+              - generic [ref=e154] [cursor=pointer]
+              - generic [ref=e156] [cursor=pointer]
+              - generic [ref=e158] [cursor=pointer]
+              - generic [ref=e160] [cursor=pointer]
+              - generic [ref=e162] [cursor=pointer]
+              - generic [ref=e164] [cursor=pointer]
+              - generic [ref=e166] [cursor=pointer]
+              - generic [ref=e168] [cursor=pointer]
+              - generic [ref=e170] [cursor=pointer]
+              - generic [ref=e172] [cursor=pointer]
+              - generic [ref=e174] [cursor=pointer]
+              - generic [ref=e176] [cursor=pointer]
+              - generic [ref=e178] [cursor=pointer]
+              - generic [ref=e180] [cursor=pointer]
+              - generic [ref=e182] [cursor=pointer]
+              - generic [ref=e184] [cursor=pointer]
+              - generic [ref=e186] [cursor=pointer]
+              - generic [ref=e188] [cursor=pointer]
+              - generic [ref=e190] [cursor=pointer]
+              - generic [ref=e192] [cursor=pointer]
+              - generic [ref=e194] [cursor=pointer]
+              - generic [ref=e196] [cursor=pointer]
+              - generic [ref=e198] [cursor=pointer]
+              - generic [ref=e200] [cursor=pointer]
+              - generic [ref=e202] [cursor=pointer]
+              - generic [ref=e204] [cursor=pointer]
+              - generic [ref=e206] [cursor=pointer]
+              - generic [ref=e208] [cursor=pointer]
+              - generic [ref=e210] [cursor=pointer]
+              - generic [ref=e212] [cursor=pointer]
+              - generic [ref=e214] [cursor=pointer]
+              - generic [ref=e216] [cursor=pointer]
+              - generic [ref=e218] [cursor=pointer]
+              - generic [ref=e220] [cursor=pointer]
+              - generic [ref=e222] [cursor=pointer]
+              - generic [ref=e224] [cursor=pointer]
+              - generic [ref=e226] [cursor=pointer]
+              - generic [ref=e228] [cursor=pointer]
+              - generic [ref=e230] [cursor=pointer]
+              - generic [ref=e232] [cursor=pointer]
+              - generic [ref=e234] [cursor=pointer]
+              - generic [ref=e236] [cursor=pointer]
+              - generic [ref=e238] [cursor=pointer]
+              - generic [ref=e240] [cursor=pointer]
+              - generic [ref=e242] [cursor=pointer]
+              - generic [ref=e244] [cursor=pointer]
+              - generic [ref=e246] [cursor=pointer]
+              - generic [ref=e248] [cursor=pointer]
+              - generic [ref=e250] [cursor=pointer]
+              - generic [ref=e252] [cursor=pointer]
+              - generic [ref=e254] [cursor=pointer]
+              - generic [ref=e256] [cursor=pointer]
+              - generic [ref=e258] [cursor=pointer]
+              - generic [ref=e260] [cursor=pointer]
+              - generic [ref=e262] [cursor=pointer]
+              - generic [ref=e264] [cursor=pointer]
+              - generic [ref=e266] [cursor=pointer]
+              - generic [ref=e268] [cursor=pointer]
+              - generic [ref=e270] [cursor=pointer]
+              - generic [ref=e272] [cursor=pointer]
+              - generic [ref=e274] [cursor=pointer]
+              - generic [ref=e276] [cursor=pointer]
+              - generic [ref=e278] [cursor=pointer]
+              - generic [ref=e280] [cursor=pointer]
+              - generic [ref=e282] [cursor=pointer]
+          - generic: Jun
+          - generic: Jul
+          - generic: Aug
+          - generic: Sep
+          - generic: Oct
+          - generic: M
+          - generic: W
+          - generic: F
+        - group [ref=e283]:
+          - generic "查看精确数据" [ref=e284] [cursor=pointer]
+      - status [ref=e285]: 示例数据 · 已更新 0 次 · 已按系统设置减少动效
+  - generic [ref=e286]:
+    - heading "数据与使用边界" [level=2] [ref=e287]
+    - paragraph [ref=e288]: 每列一个周日开始的星期，7个日期；0为有效读数，-1为缺测。
+    - paragraph [ref=e289]: 原生是日历，不是任意分类矩阵。
+    - paragraph [ref=e290]: 悬停与图例聚焦辅助读取，精确表提供可访问的完整数值。语义配色保持稳定；本页为浅色标准尺寸，迷你尺寸只在趋势图提供。
+  - generic [ref=e291]:
+    - region [ref=e292]:
+      - heading "API 与结构" [level=2] [ref=e293]
+      - table [ref=e295]:
+        - caption [ref=e296]: 日历热图 常用接口
+        - rowgroup [ref=e297]:
+          - row [ref=e298]:
+            - columnheader "名称" [ref=e299]
+            - columnheader "类型" [ref=e300]
+            - columnheader "默认" [ref=e301]
+            - columnheader "说明" [ref=e302]
+        - rowgroup [ref=e303]:
+          - row [ref=e304]:
+            - rowheader [ref=e305]:
+              - code [ref=e306]: data / value
+            - cell [ref=e307]:
+              - code [ref=e308]: 原生图型合同
+            - cell "—" [ref=e309]
+            - cell "每列一个周日开始的星期，7个日期；0为有效读数，-1为缺测。" [ref=e310]
+          - row [ref=e311]:
+            - rowheader [ref=e312]:
+              - code [ref=e313]: children
+            - cell [ref=e314]:
+              - code [ref=e315]: Compound Parts
+            - cell "—" [ref=e316]
+            - cell "通过公共 charts 子入口组合图形、坐标、图例与 Tooltip；每个图型的实际 Parts 见完整源码。" [ref=e317]
+          - row [ref=e318]:
+            - rowheader [ref=e319]:
+              - code [ref=e320]: className / style / margin
+            - cell [ref=e321]:
+              - code [ref=e322]: 原生尺寸接口
+            - cell "—" [ref=e323]
+            - cell "宿主容器需具有明确尺寸；Rain根节点为 rain-chart，配方为 data-recipe。" [ref=e324]
+          - row [ref=e325]:
+            - rowheader [ref=e326]:
+              - code [ref=e327]: enterTransition / animationDuration
+            - cell [ref=e328]:
+              - code [ref=e329]: 原生动效配置
+            - cell "—" [ref=e330]
+            - cell "默认保留 Bklit 强度；减少动效时使用立即显示、关闭脉冲并暂停模拟生产者。" [ref=e331]
+      - paragraph [ref=e332]: Parts / Slots：chart-root、legend、tooltip、精确数据（宿主提供）
+    - region [ref=e333]:
+      - heading "调用示例" [level=2] [ref=e334]
+      - generic [ref=e335]:
+        - generic [ref=e336]:
+          - button "复制代码" [ref=e337] [cursor=pointer]
+          - status
+        - code [ref=e340]: "import { createRoot } from \"react-dom/client\"; import { useState } from \"react\"; import { MotionConfig } from \"motion/react\"; import \"@rain-next/foundations/tokens.css\"; import \"@rain-next/foundations/typography.css\"; import \"@rain-next/foundations/focus.css\"; import { ChartExample } from \"./chart-examples\"; import { useChartReducedMotion } from \"./chart-variants/shared\"; function App() { const [revision, setRevision] = useState(0); const reduced = useChartReducedMotion(); return <MotionConfig reducedMotion=\"user\"> <main style={{ maxWidth: 880, margin: \"auto\", padding: \"var(--rain-space-24)\" }}> <button onClick={() => setRevision(value => value + 1)}>更新数据</button> <div className=\"rain-chart\" data-rain-id=\"chart-heatmap\" data-recipe=\"intensity\"> <ChartExample id=\"heatmap\" recipe=\"intensity\" revision={revision} reduced={reduced} /> </div> </main> </MotionConfig>; } createRoot(document.getElementById(\"root\")!).render(<App />);"
+      - paragraph [ref=e341]:
+        - text: 当前源码：
+        - code [ref=e342]: packages/ui/src/charts/vendor/charts/heatmap/heatmap-chart.tsx
+  - group [ref=e343]:
+    - generic "调用配置、完整源码与示例数据" [ref=e344] [cursor=pointer]
+    - option "main.tsx" [selected]
+    - option "index.html"
+    - option "chart-examples.tsx"
+    - option "chart-variants/profit-loss.tsx"
+    - option "chart-variants/shared.tsx"
+    - option "chart-data.ts"
+    - option "chart-variants/data/README.md"
+    - option "chart-variants/data/world.geojson"
+    - option "chart-catalog.ts"
+    - option "chart-examples.css"
+  - region "全部图表变体" [ref=e345]:
+    - navigation "变体分组" [ref=e346]:
+      - button "基础结构" [ref=e347] [cursor=pointer]
+      - button "图形材质" [ref=e349] [cursor=pointer]
+      - button "坐标与辅助读数" [ref=e351] [cursor=pointer]
+      - button "交互与状态" [ref=e353] [cursor=pointer]
+    - region [ref=e355]:
+      - heading "基础结构" [level=2] [ref=e356]
+      - generic [ref=e357]:
+        - region [ref=e358]:
+          - generic [ref=e359]:
+            - heading "Heatmap Chart" [level=3] [ref=e360]
+            - paragraph [ref=e361]: 半年贡献日历格、坐标与提示
+          - generic [ref=e362]:
+            - generic [ref=e363]:
+              - button "更新数据" [ref=e364] [cursor=pointer]
+              - button "重播动效" [ref=e366] [cursor=pointer]
+            - paragraph [ref=e369]: 滚动到此处查看示例
+            - status [ref=e370]: 示例数据 · 已更新 0 次 · 已减少动效
+            - group [ref=e371]:
+              - generic "查看本卡代码" [ref=e372] [cursor=pointer]
+              - option "main.tsx" [selected]
+              - option "index.html"
+              - option "chart-variants/structure.tsx"
+              - option "chart-variants/shared.tsx"
+              - option "chart-variants/data/README.md"
+              - option "chart-variants/data/world.geojson"
+              - option "chart-data.ts"
+              - option "chart-catalog.ts"
+              - option "chart-examples.css"
+          - link "对应官网示例 （新标签页打开）" [ref=e373] [cursor=pointer]:
+            - /url: https://bklit.com/charts/heatmap-chart
+            - generic [ref=e374]: 对应官网示例
+            - generic [ref=e375]: （新标签页打开）
+        - region [ref=e376]:
+          - generic [ref=e377]:
+            - heading "Heatmap Chart - Monday Start" [level=3] [ref=e378]
+            - paragraph [ref=e379]: 周一起始并弱化周末行
+          - generic [ref=e380]:
+            - generic [ref=e381]:
+              - button "更新数据" [ref=e382] [cursor=pointer]
+              - button "重播动效" [ref=e384] [cursor=pointer]
+            - paragraph [ref=e387]: 滚动到此处查看示例
+            - status [ref=e388]: 示例数据 · 已更新 0 次 · 已减少动效
+            - group [ref=e389]:
+              - generic "查看本卡代码" [ref=e390] [cursor=pointer]
+              - option "main.tsx" [selected]
+              - option "index.html"
+              - option "chart-variants/structure.tsx"
+              - option "chart-variants/shared.tsx"
+              - option "chart-variants/data/README.md"
+              - option "chart-variants/data/world.geojson"
+              - option "chart-data.ts"
+              - option "chart-catalog.ts"
+              - option "chart-examples.css"
+          - link "对应官网示例 （新标签页打开）" [ref=e391] [cursor=pointer]:
+            - /url: https://bklit.com/charts/heatmap-chart
+            - generic [ref=e392]: 对应官网示例
+            - generic [ref=e393]: （新标签页打开）
+    - region [ref=e394]:
+      - heading "图形材质" [level=2] [ref=e395]
+      - region [ref=e397]:
+        - generic [ref=e398]:
+          - heading "Heatmap Chart - Pattern Levels" [level=3] [ref=e399]
+          - paragraph [ref=e400]: 色阶图案同步用于格子与图例
+        - generic [ref=e401]:
+          - generic [ref=e402]:
+            - button "更新数据" [ref=e403] [cursor=pointer]
+            - button "重播动效" [ref=e405] [cursor=pointer]
+          - paragraph [ref=e408]: 滚动到此处查看示例
+          - status [ref=e409]: 示例数据 · 已更新 0 次 · 已减少动效
+          - group [ref=e410]:
+            - generic "查看本卡代码" [ref=e411] [cursor=pointer]
+            - option "main.tsx" [selected]
+            - option "index.html"
+            - option "chart-variants/structure.tsx"
+            - option "chart-variants/shared.tsx"
+            - option "chart-variants/data/README.md"
+            - option "chart-variants/data/world.geojson"
+            - option "chart-data.ts"
+            - option "chart-catalog.ts"
+            - option "chart-examples.css"
+        - link "对应官网示例 （新标签页打开）" [ref=e412] [cursor=pointer]:
+          - /url: https://bklit.com/charts/heatmap-chart
+          - generic [ref=e413]: 对应官网示例
+          - generic [ref=e414]: （新标签页打开）
+    - region [ref=e415]:
+      - heading "坐标与辅助读数" [level=2] [ref=e416]
+      - generic [ref=e417]:
+        - region [ref=e418]:
+          - generic [ref=e419]:
+            - heading "Heatmap Chart - Solid Separators" [level=3] [ref=e420]
+            - paragraph [ref=e421]: 纯色实线季度分隔
+          - generic [ref=e422]:
+            - generic [ref=e423]:
+              - button "更新数据" [ref=e424] [cursor=pointer]
+              - button "重播动效" [ref=e426] [cursor=pointer]
+            - paragraph [ref=e429]: 滚动到此处查看示例
+            - status [ref=e430]: 示例数据 · 已更新 0 次 · 已减少动效
+            - group [ref=e431]:
+              - generic "查看本卡代码" [ref=e432] [cursor=pointer]
+              - option "main.tsx" [selected]
+              - option "index.html"
+              - option "chart-variants/structure.tsx"
+              - option "chart-variants/shared.tsx"
+              - option "chart-variants/data/README.md"
+              - option "chart-variants/data/world.geojson"
+              - option "chart-data.ts"
+              - option "chart-catalog.ts"
+              - option "chart-examples.css"
+          - link "对应官网示例 （新标签页打开）" [ref=e433] [cursor=pointer]:
+            - /url: https://bklit.com/charts/heatmap-chart
+            - generic [ref=e434]: 对应官网示例
+            - generic [ref=e435]: （新标签页打开）
+        - region [ref=e436]:
+          - generic [ref=e437]:
+            - heading "Heatmap Chart - Compact Y Axis & Quarter Separators" [level=3] [ref=e438]
+            - paragraph [ref=e439]: 紧凑星期标签与渐隐季度线
+          - generic [ref=e440]:
+            - generic [ref=e441]:
+              - button "更新数据" [ref=e442] [cursor=pointer]
+              - button "重播动效" [ref=e444] [cursor=pointer]
+            - paragraph [ref=e447]: 滚动到此处查看示例
+            - status [ref=e448]: 示例数据 · 已更新 0 次 · 已减少动效
+            - group [ref=e449]:
+              - generic "查看本卡代码" [ref=e450] [cursor=pointer]
+              - option "main.tsx" [selected]
+              - option "index.html"
+              - option "chart-variants/structure.tsx"
+              - option "chart-variants/shared.tsx"
+              - option "chart-variants/data/README.md"
+              - option "chart-variants/data/world.geojson"
+              - option "chart-data.ts"
+              - option "chart-catalog.ts"
+              - option "chart-examples.css"
+          - link "对应官网示例 （新标签页打开）" [ref=e451] [cursor=pointer]:
+            - /url: https://bklit.com/charts/heatmap-chart
+            - generic [ref=e452]: 对应官网示例
+            - generic [ref=e453]: （新标签页打开）
+        - region [ref=e454]:
+          - generic [ref=e455]:
+            - heading "Heatmap Chart - Dashed Separators" [level=3] [ref=e456]
+            - paragraph [ref=e457]: 隐藏纵轴并显示渐隐虚线季度分隔
+          - generic [ref=e458]:
+            - generic [ref=e459]:
+              - button "更新数据" [ref=e460] [cursor=pointer]
+              - button "重播动效" [ref=e462] [cursor=pointer]
+            - generic [ref=e464]:
+              - generic [ref=e466]:
+                - generic [ref=e471]:
+                  - img [ref=e472]:
+                    - generic [ref=e474]:
+                      - generic [ref=e476] [cursor=pointer]
+                      - generic [ref=e478] [cursor=pointer]
+                      - generic [ref=e480] [cursor=pointer]
+                      - generic [ref=e482] [cursor=pointer]
+                      - generic [ref=e484] [cursor=pointer]
+                      - generic [ref=e486] [cursor=pointer]
+                      - generic [ref=e488] [cursor=pointer]
+                      - generic [ref=e490] [cursor=pointer]
+                      - generic [ref=e492] [cursor=pointer]
+                      - generic [ref=e494] [cursor=pointer]
+                      - generic [ref=e496] [cursor=pointer]
+                      - generic [ref=e498] [cursor=pointer]
+                      - generic [ref=e500] [cursor=pointer]
+                      - generic [ref=e502] [cursor=pointer]
+                      - generic [ref=e504] [cursor=pointer]
+                      - generic [ref=e506] [cursor=pointer]
+                      - generic [ref=e508] [cursor=pointer]
+                      - generic [ref=e510] [cursor=pointer]
+                      - generic [ref=e512] [cursor=pointer]
+                      - generic [ref=e514] [cursor=pointer]
+                      - generic [ref=e516] [cursor=pointer]
+                      - generic [ref=e518] [cursor=pointer]
+                      - generic [ref=e520] [cursor=pointer]
+                      - generic [ref=e522] [cursor=pointer]
+                      - generic [ref=e524] [cursor=pointer]
+                      - generic [ref=e526] [cursor=pointer]
+                      - generic [ref=e528] [cursor=pointer]
+                      - generic [ref=e530] [cursor=pointer]
+                      - generic [ref=e532] [cursor=pointer]
+                      - generic [ref=e534] [cursor=pointer]
+                      - generic [ref=e536] [cursor=pointer]
+                      - generic [ref=e538] [cursor=pointer]
+                      - generic [ref=e540] [cursor=pointer]
+                      - generic [ref=e542] [cursor=pointer]
+                      - generic [ref=e544] [cursor=pointer]
+                      - generic [ref=e546] [cursor=pointer]
+                      - generic [ref=e548] [cursor=pointer]
+                      - generic [ref=e550] [cursor=pointer]
+                      - generic [ref=e552] [cursor=pointer]
+                      - generic [ref=e554] [cursor=pointer]
+                      - generic [ref=e556] [cursor=pointer]
+                      - generic [ref=e558] [cursor=pointer]
+                      - generic [ref=e560] [cursor=pointer]
+                      - generic [ref=e562] [cursor=pointer]
+                      - generic [ref=e564] [cursor=pointer]
+                      - generic [ref=e566] [cursor=pointer]
+                      - generic [ref=e568] [cursor=pointer]
+                      - generic [ref=e570] [cursor=pointer]
+                      - generic [ref=e572] [cursor=pointer]
+                      - generic [ref=e574] [cursor=pointer]
+                      - generic [ref=e576] [cursor=pointer]
+                      - generic [ref=e578] [cursor=pointer]
+                      - generic [ref=e580] [cursor=pointer]
+                      - generic [ref=e582] [cursor=pointer]
+                      - generic [ref=e584] [cursor=pointer]
+                      - generic [ref=e586] [cursor=pointer]
+                      - generic [ref=e588] [cursor=pointer]
+                      - generic [ref=e590] [cursor=pointer]
+                      - generic [ref=e592] [cursor=pointer]
+                      - generic [ref=e594] [cursor=pointer]
+                      - generic [ref=e596] [cursor=pointer]
+                      - generic [ref=e598] [cursor=pointer]
+                      - generic [ref=e600] [cursor=pointer]
+                      - generic [ref=e602] [cursor=pointer]
+                      - generic [ref=e604] [cursor=pointer]
+                      - generic [ref=e606] [cursor=pointer]
+                      - generic [ref=e608] [cursor=pointer]
+                      - generic [ref=e610] [cursor=pointer]
+                      - generic [ref=e612] [cursor=pointer]
+                      - generic [ref=e614] [cursor=pointer]
+                      - generic [ref=e616] [cursor=pointer]
+                      - generic [ref=e618] [cursor=pointer]
+                      - generic [ref=e620] [cursor=pointer]
+                      - generic [ref=e622] [cursor=pointer]
+                      - generic [ref=e624] [cursor=pointer]
+                      - generic [ref=e626] [cursor=pointer]
+                      - generic [ref=e628] [cursor=pointer]
+                      - generic [ref=e630] [cursor=pointer]
+                      - generic [ref=e632] [cursor=pointer]
+                      - generic [ref=e634] [cursor=pointer]
+                      - generic [ref=e636] [cursor=pointer]
+                      - generic [ref=e638] [cursor=pointer]
+                      - generic [ref=e640] [cursor=pointer]
+                      - generic [ref=e642] [cursor=pointer]
+                      - generic [ref=e644] [cursor=pointer]
+                      - generic [ref=e646] [cursor=pointer]
+                      - generic [ref=e648] [cursor=pointer]
+                      - generic [ref=e650] [cursor=pointer]
+                      - generic [ref=e652] [cursor=pointer]
+                      - generic [ref=e654] [cursor=pointer]
+                      - generic [ref=e656] [cursor=pointer]
+                      - generic [ref=e658] [cursor=pointer]
+                      - generic [ref=e660] [cursor=pointer]
+                      - generic [ref=e662] [cursor=pointer]
+                      - generic [ref=e664] [cursor=pointer]
+                      - generic [ref=e666] [cursor=pointer]
+                      - generic [ref=e668] [cursor=pointer]
+                      - generic [ref=e670] [cursor=pointer]
+                      - generic [ref=e672] [cursor=pointer]
+                      - generic [ref=e674] [cursor=pointer]
+                      - generic [ref=e676] [cursor=pointer]
+                      - generic [ref=e678] [cursor=pointer]
+                      - generic [ref=e680] [cursor=pointer]
+                      - generic [ref=e682] [cursor=pointer]
+                      - generic [ref=e684] [cursor=pointer]
+                      - generic [ref=e686] [cursor=pointer]
+                      - generic [ref=e688] [cursor=pointer]
+                      - generic [ref=e690] [cursor=pointer]
+                      - generic [ref=e692] [cursor=pointer]
+                      - generic [ref=e694] [cursor=pointer]
+                      - generic [ref=e696] [cursor=pointer]
+                      - generic [ref=e698] [cursor=pointer]
+                      - generic [ref=e700] [cursor=pointer]
+                      - generic [ref=e702] [cursor=pointer]
+                      - generic [ref=e704] [cursor=pointer]
+                      - generic [ref=e706] [cursor=pointer]
+                      - generic [ref=e708] [cursor=pointer]
+                      - generic [ref=e710] [cursor=pointer]
+                      - generic [ref=e712] [cursor=pointer]
+                      - generic [ref=e714] [cursor=pointer]
+                      - generic [ref=e716] [cursor=pointer]
+                      - generic [ref=e718] [cursor=pointer]
+                      - generic [ref=e720] [cursor=pointer]
+                      - generic [ref=e722] [cursor=pointer]
+                      - generic [ref=e724] [cursor=pointer]
+                      - generic [ref=e726] [cursor=pointer]
+                      - generic [ref=e728] [cursor=pointer]
+                      - generic [ref=e730] [cursor=pointer]
+                      - generic [ref=e732] [cursor=pointer]
+                      - generic [ref=e734] [cursor=pointer]
+                      - generic [ref=e736] [cursor=pointer]
+                      - generic [ref=e738] [cursor=pointer]
+                      - generic [ref=e740] [cursor=pointer]
+                      - generic [ref=e742] [cursor=pointer]
+                      - generic [ref=e744] [cursor=pointer]
+                      - generic [ref=e746] [cursor=pointer]
+                      - generic [ref=e748] [cursor=pointer]
+                      - generic [ref=e750] [cursor=pointer]
+                      - generic [ref=e752] [cursor=pointer]
+                      - generic [ref=e754] [cursor=pointer]
+                      - generic [ref=e756] [cursor=pointer]
+                      - generic [ref=e758] [cursor=pointer]
+                      - generic [ref=e760] [cursor=pointer]
+                      - generic [ref=e762] [cursor=pointer]
+                      - generic [ref=e764] [cursor=pointer]
+                      - generic [ref=e766] [cursor=pointer]
+                      - generic [ref=e768] [cursor=pointer]
+                      - generic [ref=e770] [cursor=pointer]
+                      - generic [ref=e772] [cursor=pointer]
+                      - generic [ref=e774] [cursor=pointer]
+                      - generic [ref=e776] [cursor=pointer]
+                      - generic [ref=e778] [cursor=pointer]
+                      - generic [ref=e780] [cursor=pointer]
+                      - generic [ref=e782] [cursor=pointer]
+                      - generic [ref=e784] [cursor=pointer]
+                      - generic [ref=e786] [cursor=pointer]
+                      - generic [ref=e788] [cursor=pointer]
+                      - generic [ref=e790] [cursor=pointer]
+                      - generic [ref=e792] [cursor=pointer]
+                      - generic [ref=e794] [cursor=pointer]
+                      - generic [ref=e796] [cursor=pointer]
+                      - generic [ref=e798] [cursor=pointer]
+                      - generic [ref=e800] [cursor=pointer]
+                      - generic [ref=e802] [cursor=pointer]
+                      - generic [ref=e804] [cursor=pointer]
+                      - generic [ref=e806] [cursor=pointer]
+                      - generic [ref=e808] [cursor=pointer]
+                      - generic [ref=e810] [cursor=pointer]
+                      - generic [ref=e812] [cursor=pointer]
+                      - generic [ref=e814] [cursor=pointer]
+                      - generic [ref=e816] [cursor=pointer]
+                      - generic [ref=e818] [cursor=pointer]
+                      - generic [ref=e820] [cursor=pointer]
+                      - generic [ref=e822] [cursor=pointer]
+                      - generic [ref=e824] [cursor=pointer]
+                      - generic [ref=e826] [cursor=pointer]
+                      - generic [ref=e828] [cursor=pointer]
+                      - generic [ref=e830] [cursor=pointer]
+                      - generic [ref=e832] [cursor=pointer]
+                      - generic [ref=e834] [cursor=pointer]
+                      - generic [ref=e836] [cursor=pointer]
+                      - generic [ref=e838] [cursor=pointer]
+                  - generic: Q2
+                  - generic: Q3
+                  - generic: Apr
+                  - generic: May
+                  - generic: Jun
+                  - generic: Jul
+                  - generic: Aug
+                  - generic: Sep
+                - generic [ref=e839]:
+                  - generic [ref=e840]: 少
+                  - generic [ref=e841]:
+                    - generic [ref=e842] [cursor=pointer]
+                    - generic [ref=e844] [cursor=pointer]
+                    - generic [ref=e846] [cursor=pointer]
+                    - generic [ref=e848] [cursor=pointer]
+                    - generic [ref=e850] [cursor=pointer]
+                  - generic [ref=e852]: 多
+              - paragraph [ref=e853]: 2026年4月1日—2026年9月26日，截至完整周。0 是有效读数，缺测不计为 0。
+              - group [ref=e854]:
+                - generic "查看精确数据" [ref=e855] [cursor=pointer]
+            - status [ref=e856]: 示例数据 · 已更新 0 次 · 已减少动效
+            - group [ref=e857]:
+              - generic "查看本卡代码" [ref=e858] [cursor=pointer]
+              - option "main.tsx" [selected]
+              - option "index.html"
+              - option "chart-variants/structure.tsx"
+              - option "chart-variants/shared.tsx"
+              - option "chart-variants/data/README.md"
+              - option "chart-variants/data/world.geojson"
+              - option "chart-data.ts"
+              - option "chart-catalog.ts"
+              - option "chart-examples.css"
+          - link "对应官网示例 （新标签页打开）" [ref=e859] [cursor=pointer]:
+            - /url: https://bklit.com/charts/heatmap-chart
+            - generic [ref=e860]: 对应官网示例
+            - generic [ref=e861]: （新标签页打开）
+        - region [ref=e862]:
+          - generic [ref=e863]:
+            - heading "Heatmap Chart - Gradient Legend" [level=3] [ref=e864]
+            - paragraph [ref=e865]: 连续渐变图例与定制两端文案
+          - generic [ref=e866]:
+            - generic [ref=e867]:
+              - button "更新数据" [ref=e868] [cursor=pointer]
+              - button "重播动效" [ref=e870] [cursor=pointer]
+            - paragraph [ref=e872]: 本卡使用独立示例配色，保留材质或色阶差异。
+            - generic [ref=e873]:
+              - generic [ref=e875]:
+                - generic [ref=e880]:
+                  - img [ref=e881]:
+                    - generic [ref=e883]:
+                      - generic [ref=e885] [cursor=pointer]
+                      - generic [ref=e887] [cursor=pointer]
+                      - generic [ref=e889] [cursor=pointer]
+                      - generic [ref=e891] [cursor=pointer]
+                      - generic [ref=e893] [cursor=pointer]
+                      - generic [ref=e895] [cursor=pointer]
+                      - generic [ref=e897] [cursor=pointer]
+                      - generic [ref=e899] [cursor=pointer]
+                      - generic [ref=e901] [cursor=pointer]
+                      - generic [ref=e903] [cursor=pointer]
+                      - generic [ref=e905] [cursor=pointer]
+                      - generic [ref=e907] [cursor=pointer]
+                      - generic [ref=e909] [cursor=pointer]
+                      - generic [ref=e911] [cursor=pointer]
+                      - generic [ref=e913] [cursor=pointer]
+                      - generic [ref=e915] [cursor=pointer]
+                      - generic [ref=e917] [cursor=pointer]
+                      - generic [ref=e919] [cursor=pointer]
+                      - generic [ref=e921] [cursor=pointer]
+                      - generic [ref=e923] [cursor=pointer]
+                      - generic [ref=e925] [cursor=pointer]
+                      - generic [ref=e927] [cursor=pointer]
+                      - generic [ref=e929] [cursor=pointer]
+                      - generic [ref=e931] [cursor=pointer]
+                      - generic [ref=e933] [cursor=pointer]
+                      - generic [ref=e935] [cursor=pointer]
+                      - generic [ref=e937] [cursor=pointer]
+                      - generic [ref=e939] [cursor=pointer]
+                      - generic [ref=e941] [cursor=pointer]
+                      - generic [ref=e943] [cursor=pointer]
+                      - generic [ref=e945] [cursor=pointer]
+                      - generic [ref=e947] [cursor=pointer]
+                      - generic [ref=e949] [cursor=pointer]
+                      - generic [ref=e951] [cursor=pointer]
+                      - generic [ref=e953] [cursor=pointer]
+                      - generic [ref=e955] [cursor=pointer]
+                      - generic [ref=e957] [cursor=pointer]
+                      - generic [ref=e959] [cursor=pointer]
+                      - generic [ref=e961] [cursor=pointer]
+                      - generic [ref=e963] [cursor=pointer]
+                      - generic [ref=e965] [cursor=pointer]
+                      - generic [ref=e967] [cursor=pointer]
+                      - generic [ref=e969] [cursor=pointer]
+                      - generic [ref=e971] [cursor=pointer]
+                      - generic [ref=e973] [cursor=pointer]
+                      - generic [ref=e975] [cursor=pointer]
+                      - generic [ref=e977] [cursor=pointer]
+                      - generic [ref=e979] [cursor=pointer]
+                      - generic [ref=e981] [cursor=pointer]
+                      - generic [ref=e983] [cursor=pointer]
+                      - generic [ref=e985] [cursor=pointer]
+                      - generic [ref=e987] [cursor=pointer]
+                      - generic [ref=e989] [cursor=pointer]
+                      - generic [ref=e991] [cursor=pointer]
+                      - generic [ref=e993] [cursor=pointer]
+                      - generic [ref=e995] [cursor=pointer]
+                      - generic [ref=e997] [cursor=pointer]
+                      - generic [ref=e999] [cursor=pointer]
+                      - generic [ref=e1001] [cursor=pointer]
+                      - generic [ref=e1003] [cursor=pointer]
+                      - generic [ref=e1005] [cursor=pointer]
+                      - generic [ref=e1007] [cursor=pointer]
+                      - generic [ref=e1009] [cursor=pointer]
+                      - generic [ref=e1011] [cursor=pointer]
+                      - generic [ref=e1013] [cursor=pointer]
+                      - generic [ref=e1015] [cursor=pointer]
+                      - generic [ref=e1017] [cursor=pointer]
+                      - generic [ref=e1019] [cursor=pointer]
+                      - generic [ref=e1021] [cursor=pointer]
+                      - generic [ref=e1023] [cursor=pointer]
+                      - generic [ref=e1025] [cursor=pointer]
+                      - generic [ref=e1027] [cursor=pointer]
+                      - generic [ref=e1029] [cursor=pointer]
+                      - generic [ref=e1031] [cursor=pointer]
+                      - generic [ref=e1033] [cursor=pointer]
+                      - generic [ref=e1035] [cursor=pointer]
+                      - generic [ref=e1037] [cursor=pointer]
+                      - generic [ref=e1039] [cursor=pointer]
+                      - generic [ref=e1041] [cursor=pointer]
+                      - generic [ref=e1043] [cursor=pointer]
+                      - generic [ref=e1045] [cursor=pointer]
+                      - generic [ref=e1047] [cursor=pointer]
+                      - generic [ref=e1049] [cursor=pointer]
+                      - generic [ref=e1051] [cursor=pointer]
+                      - generic [ref=e1053] [cursor=pointer]
+                      - generic [ref=e1055] [cursor=pointer]
+                      - generic [ref=e1057] [cursor=pointer]
+                      - generic [ref=e1059] [cursor=pointer]
+                      - generic [ref=e1061] [cursor=pointer]
+                      - generic [ref=e1063] [cursor=pointer]
+                      - generic [ref=e1065] [cursor=pointer]
+                      - generic [ref=e1067] [cursor=pointer]
+                      - generic [ref=e1069] [cursor=pointer]
+                      - generic [ref=e1071] [cursor=pointer]
+                      - generic [ref=e1073] [cursor=pointer]
+                      - generic [ref=e1075] [cursor=pointer]
+                      - generic [ref=e1077] [cursor=pointer]
+                      - generic [ref=e1079] [cursor=pointer]
+                      - generic [ref=e1081] [cursor=pointer]
+                      - generic [ref=e1083] [cursor=pointer]
+                      - generic [ref=e1085] [cursor=pointer]
+                      - generic [ref=e1087] [cursor=pointer]
+                      - generic [ref=e1089] [cursor=pointer]
+                      - generic [ref=e1091] [cursor=pointer]
+                      - generic [ref=e1093] [cursor=pointer]
+                      - generic [ref=e1095] [cursor=pointer]
+                      - generic [ref=e1097] [cursor=pointer]
+                      - generic [ref=e1099] [cursor=pointer]
+                      - generic [ref=e1101] [cursor=pointer]
+                      - generic [ref=e1103] [cursor=pointer]
+                      - generic [ref=e1105] [cursor=pointer]
+                      - generic [ref=e1107] [cursor=pointer]
+                      - generic [ref=e1109] [cursor=pointer]
+                      - generic [ref=e1111] [cursor=pointer]
+                      - generic [ref=e1113] [cursor=pointer]
+                      - generic [ref=e1115] [cursor=pointer]
+                      - generic [ref=e1117] [cursor=pointer]
+                      - generic [ref=e1119] [cursor=pointer]
+                      - generic [ref=e1121] [cursor=pointer]
+                      - generic [ref=e1123] [cursor=pointer]
+                      - generic [ref=e1125] [cursor=pointer]
+                      - generic [ref=e1127] [cursor=pointer]
+                      - generic [ref=e1129] [cursor=pointer]
+                      - generic [ref=e1131] [cursor=pointer]
+                      - generic [ref=e1133] [cursor=pointer]
+                      - generic [ref=e1135] [cursor=pointer]
+                      - generic [ref=e1137] [cursor=pointer]
+                      - generic [ref=e1139] [cursor=pointer]
+                      - generic [ref=e1141] [cursor=pointer]
+                      - generic [ref=e1143] [cursor=pointer]
+                      - generic [ref=e1145] [cursor=pointer]
+                      - generic [ref=e1147] [cursor=pointer]
+                      - generic [ref=e1149] [cursor=pointer]
+                      - generic [ref=e1151] [cursor=pointer]
+                      - generic [ref=e1153] [cursor=pointer]
+                      - generic [ref=e1155] [cursor=pointer]
+                      - generic [ref=e1157] [cursor=pointer]
+                      - generic [ref=e1159] [cursor=pointer]
+                      - generic [ref=e1161] [cursor=pointer]
+                      - generic [ref=e1163] [cursor=pointer]
+                      - generic [ref=e1165] [cursor=pointer]
+                      - generic [ref=e1167] [cursor=pointer]
+                      - generic [ref=e1169] [cursor=pointer]
+                      - generic [ref=e1171] [cursor=pointer]
+                      - generic [ref=e1173] [cursor=pointer]
+                      - generic [ref=e1175] [cursor=pointer]
+                      - generic [ref=e1177] [cursor=pointer]
+                      - generic [ref=e1179] [cursor=pointer]
+                      - generic [ref=e1181] [cursor=pointer]
+                      - generic [ref=e1183] [cursor=pointer]
+                      - generic [ref=e1185] [cursor=pointer]
+                      - generic [ref=e1187] [cursor=pointer]
+                      - generic [ref=e1189] [cursor=pointer]
+                      - generic [ref=e1191] [cursor=pointer]
+                      - generic [ref=e1193] [cursor=pointer]
+                      - generic [ref=e1195] [cursor=pointer]
+                      - generic [ref=e1197] [cursor=pointer]
+                      - generic [ref=e1199] [cursor=pointer]
+                      - generic [ref=e1201] [cursor=pointer]
+                      - generic [ref=e1203] [cursor=pointer]
+                      - generic [ref=e1205] [cursor=pointer]
+                      - generic [ref=e1207] [cursor=pointer]
+                      - generic [ref=e1209] [cursor=pointer]
+                      - generic [ref=e1211] [cursor=pointer]
+                      - generic [ref=e1213] [cursor=pointer]
+                      - generic [ref=e1215] [cursor=pointer]
+                      - generic [ref=e1217] [cursor=pointer]
+                      - generic [ref=e1219] [cursor=pointer]
+                      - generic [ref=e1221] [cursor=pointer]
+                      - generic [ref=e1223] [cursor=pointer]
+                      - generic [ref=e1225] [cursor=pointer]
+                      - generic [ref=e1227] [cursor=pointer]
+                      - generic [ref=e1229] [cursor=pointer]
+                      - generic [ref=e1231] [cursor=pointer]
+                      - generic [ref=e1233] [cursor=pointer]
+                      - generic [ref=e1235] [cursor=pointer]
+                      - generic [ref=e1237] [cursor=pointer]
+                      - generic [ref=e1239] [cursor=pointer]
+                      - generic [ref=e1241] [cursor=pointer]
+                      - generic [ref=e1243] [cursor=pointer]
+                      - generic [ref=e1245] [cursor=pointer]
+                      - generic [ref=e1247] [cursor=pointer]
+                  - generic: Apr
+                  - generic: May
+                  - generic: Jun
+                  - generic: Jul
+                  - generic: Aug
+                  - generic: Sep
+                  - generic: M
+                  - generic: W
+                  - generic: F
+                - generic [ref=e1248]:
+                  - generic [ref=e1249]: 低耗时
+                  - generic [ref=e1250]:
+                    - generic [ref=e1252] [cursor=pointer]
+                    - generic [ref=e1253] [cursor=pointer]
+                    - generic [ref=e1254] [cursor=pointer]
+                    - generic [ref=e1255] [cursor=pointer]
+                    - generic [ref=e1256] [cursor=pointer]
+                  - generic [ref=e1257]: 高耗时
+              - paragraph [ref=e1258]: 2026年4月1日—2026年9月26日，截至完整周。0 是有效读数，缺测不计为 0。颜色由低耗时递增至高耗时。
+              - group [ref=e1259]:
+                - generic "查看精确数据" [ref=e1260] [cursor=pointer]
+            - status [ref=e1261]: 示例数据 · 已更新 0 次 · 已减少动效
+            - group [ref=e1262]:
+              - generic "查看本卡代码" [ref=e1263] [cursor=pointer]
+              - option "main.tsx" [selected]
+              - option "index.html"
+              - option "chart-variants/structure.tsx"
+              - option "chart-variants/shared.tsx"
+              - option "chart-variants/data/README.md"
+              - option "chart-variants/data/world.geojson"
+              - option "chart-data.ts"
+              - option "chart-catalog.ts"
+              - option "chart-examples.css"
+          - link "对应官网示例 （新标签页打开）" [ref=e1264] [cursor=pointer]:
+            - /url: https://bklit.com/charts/heatmap-chart
+            - generic [ref=e1265]: 对应官网示例
+            - generic [ref=e1266]: （新标签页打开）
+    - region [ref=e1267]:
+      - heading "交互与状态" [level=2] [ref=e1268]
+      - generic [ref=e1269]:
+        - region [ref=e1270]:
+          - generic [ref=e1271]:
+            - heading "Heatmap Chart - Contributions" [level=3] [ref=e1272]
+            - paragraph [ref=e1273]: 圆形日历格、季度线与图例联动
+          - generic [ref=e1274]:
+            - generic [ref=e1275]:
+              - button "更新数据" [ref=e1276] [cursor=pointer]
+              - button "重播动效" [ref=e1278] [cursor=pointer]
+            - generic [ref=e1280]:
+              - generic [ref=e1282]:
+                - region "全年活动日历，可横向滚动" [ref=e1283]:
+                  - generic [ref=e1287]:
+                    - img [ref=e1288]:
+                      - generic [ref=e1290]:
+                        - generic [ref=e1292] [cursor=pointer]
+                        - generic [ref=e1294] [cursor=pointer]
+                        - generic [ref=e1296] [cursor=pointer]
+                        - generic [ref=e1298] [cursor=pointer]
+                        - generic [ref=e1300] [cursor=pointer]
+                        - generic [ref=e1302] [cursor=pointer]
+                        - generic [ref=e1304] [cursor=pointer]
+                        - generic [ref=e1306] [cursor=pointer]
+                        - generic [ref=e1308] [cursor=pointer]
+                        - generic [ref=e1310] [cursor=pointer]
+                        - generic [ref=e1312] [cursor=pointer]
+                        - generic [ref=e1314] [cursor=pointer]
+                        - generic [ref=e1316] [cursor=pointer]
+                        - generic [ref=e1318] [cursor=pointer]
+                        - generic [ref=e1320] [cursor=pointer]
+                        - generic [ref=e1322] [cursor=pointer]
+                        - generic [ref=e1324] [cursor=pointer]
+                        - generic [ref=e1326] [cursor=pointer]
+                        - generic [ref=e1328] [cursor=pointer]
+                        - generic [ref=e1330] [cursor=pointer]
+                        - generic [ref=e1332] [cursor=pointer]
+                        - generic [ref=e1334] [cursor=pointer]
+                        - generic [ref=e1336] [cursor=pointer]
+                        - generic [ref=e1338] [cursor=pointer]
+                        - generic [ref=e1340] [cursor=pointer]
+                        - generic [ref=e1342] [cursor=pointer]
+                        - generic [ref=e1344] [cursor=pointer]
+                        - generic [ref=e1346] [cursor=pointer]
+                        - generic [ref=e1348] [cursor=pointer]
+                        - generic [ref=e1350] [cursor=pointer]
+                        - generic [ref=e1352] [cursor=pointer]
+                        - generic [ref=e1354] [cursor=pointer]
+                        - generic [ref=e1356] [cursor=pointer]
+                        - generic [ref=e1358] [cursor=pointer]
+                        - generic [ref=e1360] [cursor=pointer]
+                        - generic [ref=e1362] [cursor=pointer]
+                        - generic [ref=e1364] [cursor=pointer]
+                        - generic [ref=e1366] [cursor=pointer]
+                        - generic [ref=e1368] [cursor=pointer]
+                        - generic [ref=e1370] [cursor=pointer]
+                        - generic [ref=e1372] [cursor=pointer]
+                        - generic [ref=e1374] [cursor=pointer]
+                        - generic [ref=e1376] [cursor=pointer]
+                        - generic [ref=e1378] [cursor=pointer]
+                        - generic [ref=e1380] [cursor=pointer]
+                        - generic [ref=e1382] [cursor=pointer]
+                        - generic [ref=e1384] [cursor=pointer]
+                        - generic [ref=e1386] [cursor=pointer]
+                        - generic [ref=e1388] [cursor=pointer]
+                        - generic [ref=e1390] [cursor=pointer]
+                        - generic [ref=e1392] [cursor=pointer]
+                        - generic [ref=e1394] [cursor=pointer]
+                        - generic [ref=e1396] [cursor=pointer]
+                        - generic [ref=e1398] [cursor=pointer]
+                        - generic [ref=e1400] [cursor=pointer]
+                        - generic [ref=e1402] [cursor=pointer]
+                        - generic [ref=e1404] [cursor=pointer]
+                        - generic [ref=e1406] [cursor=pointer]
+                        - generic [ref=e1408] [cursor=pointer]
+                        - generic [ref=e1410] [cursor=pointer]
+                        - generic [ref=e1412] [cursor=pointer]
+                        - generic [ref=e1414] [cursor=pointer]
+                        - generic [ref=e1416] [cursor=pointer]
+                        - generic [ref=e1418] [cursor=pointer]
+                        - generic [ref=e1420] [cursor=pointer]
+                        - generic [ref=e1422] [cursor=pointer]
+                        - generic [ref=e1424] [cursor=pointer]
+                        - generic [ref=e1426] [cursor=pointer]
+                        - generic [ref=e1428] [cursor=pointer]
+                        - generic [ref=e1430] [cursor=pointer]
+                        - generic [ref=e1432] [cursor=pointer]
+                        - generic [ref=e1434] [cursor=pointer]
+                        - generic [ref=e1436] [cursor=pointer]
+                        - generic [ref=e1438] [cursor=pointer]
+                        - generic [ref=e1440] [cursor=pointer]
+                        - generic [ref=e1442] [cursor=pointer]
+                        - generic [ref=e1444] [cursor=pointer]
+                        - generic [ref=e1446] [cursor=pointer]
+                        - generic [ref=e1448] [cursor=pointer]
+                        - generic [ref=e1450] [cursor=pointer]
+                        - generic [ref=e1452] [cursor=pointer]
+                        - generic [ref=e1454] [cursor=pointer]
+                        - generic [ref=e1456] [cursor=pointer]
+                        - generic [ref=e1458] [cursor=pointer]
+                        - generic [ref=e1460] [cursor=pointer]
+                        - generic [ref=e1462] [cursor=pointer]
+                        - generic [ref=e1464] [cursor=pointer]
+                        - generic [ref=e1466] [cursor=pointer]
+                        - generic [ref=e1468] [cursor=pointer]
+                        - generic [ref=e1470] [cursor=pointer]
+                        - generic [ref=e1472] [cursor=pointer]
+                        - generic [ref=e1474] [cursor=pointer]
+                        - generic [ref=e1476] [cursor=pointer]
+                        - generic [ref=e1478] [cursor=pointer]
+                        - generic [ref=e1480] [cursor=pointer]
+                        - generic [ref=e1482] [cursor=pointer]
+                        - generic [ref=e1484] [cursor=pointer]
+                        - generic [ref=e1486] [cursor=pointer]
+                        - generic [ref=e1488] [cursor=pointer]
+                        - generic [ref=e1490] [cursor=pointer]
+                        - generic [ref=e1492] [cursor=pointer]
+                        - generic [ref=e1494] [cursor=pointer]
+                        - generic [ref=e1496] [cursor=pointer]
+                        - generic [ref=e1498] [cursor=pointer]
+                        - generic [ref=e1500] [cursor=pointer]
+                        - generic [ref=e1502] [cursor=pointer]
+                        - generic [ref=e1504] [cursor=pointer]
+                        - generic [ref=e1506] [cursor=pointer]
+                        - generic [ref=e1508] [cursor=pointer]
+                        - generic [ref=e1510] [cursor=pointer]
+                        - generic [ref=e1512] [cursor=pointer]
+                        - generic [ref=e1514] [cursor=pointer]
+                        - generic [ref=e1516] [cursor=pointer]
+                        - generic [ref=e1518] [cursor=pointer]
+                        - generic [ref=e1520] [cursor=pointer]
+                        - generic [ref=e1522] [cursor=pointer]
+                        - generic [ref=e1524] [cursor=pointer]
+                        - generic [ref=e1526] [cursor=pointer]
+                        - generic [ref=e1528] [cursor=pointer]
+                        - generic [ref=e1530] [cursor=pointer]
+                        - generic [ref=e1532] [cursor=pointer]
+                        - generic [ref=e1534] [cursor=pointer]
+                        - generic [ref=e1536] [cursor=pointer]
+                        - generic [ref=e1538] [cursor=pointer]
+                        - generic [ref=e1540] [cursor=pointer]
+                        - generic [ref=e1542] [cursor=pointer]
+                        - generic [ref=e1544] [cursor=pointer]
+                        - generic [ref=e1546] [cursor=pointer]
+                        - generic [ref=e1548] [cursor=pointer]
+                        - generic [ref=e1550] [cursor=pointer]
+                        - generic [ref=e1552] [cursor=pointer]
+                        - generic [ref=e1554] [cursor=pointer]
+                        - generic [ref=e1556] [cursor=pointer]
+                        - generic [ref=e1558] [cursor=pointer]
+                        - generic [ref=e1560] [cursor=pointer]
+                        - generic [ref=e1562] [cursor=pointer]
+                        - generic [ref=e1564] [cursor=pointer]
+                        - generic [ref=e1566] [cursor=pointer]
+                        - generic [ref=e1568] [cursor=pointer]
+                        - generic [ref=e1570] [cursor=pointer]
+                        - generic [ref=e1572] [cursor=pointer]
+                        - generic [ref=e1574] [cursor=pointer]
+                        - generic [ref=e1576] [cursor=pointer]
+                        - generic [ref=e1578] [cursor=pointer]
+                        - generic [ref=e1580] [cursor=pointer]
+                        - generic [ref=e1582] [cursor=pointer]
+                        - generic [ref=e1584] [cursor=pointer]
+                        - generic [ref=e1586] [cursor=pointer]
+                        - generic [ref=e1588] [cursor=pointer]
+                        - generic [ref=e1590] [cursor=pointer]
+                        - generic [ref=e1592] [cursor=pointer]
+                        - generic [ref=e1594] [cursor=pointer]
+                        - generic [ref=e1596] [cursor=pointer]
+                        - generic [ref=e1598] [cursor=pointer]
+                        - generic [ref=e1600] [cursor=pointer]
+                        - generic [ref=e1602] [cursor=pointer]
+                        - generic [ref=e1604] [cursor=pointer]
+                        - generic [ref=e1606] [cursor=pointer]
+                        - generic [ref=e1608] [cursor=pointer]
+                        - generic [ref=e1610] [cursor=pointer]
+                        - generic [ref=e1612] [cursor=pointer]
+                        - generic [ref=e1614] [cursor=pointer]
+                        - generic [ref=e1616] [cursor=pointer]
+                        - generic [ref=e1618] [cursor=pointer]
+                        - generic [ref=e1620] [cursor=pointer]
+                        - generic [ref=e1622] [cursor=pointer]
+                        - generic [ref=e1624] [cursor=pointer]
+                        - generic [ref=e1626] [cursor=pointer]
+                        - generic [ref=e1628] [cursor=pointer]
+                        - generic [ref=e1630] [cursor=pointer]
+                        - generic [ref=e1632] [cursor=pointer]
+                        - generic [ref=e1634] [cursor=pointer]
+                        - generic [ref=e1636] [cursor=pointer]
+                        - generic [ref=e1638] [cursor=pointer]
+                        - generic [ref=e1640] [cursor=pointer]
+                        - generic [ref=e1642] [cursor=pointer]
+                        - generic [ref=e1644] [cursor=pointer]
+                        - generic [ref=e1646] [cursor=pointer]
+                        - generic [ref=e1648] [cursor=pointer]
+                        - generic [ref=e1650] [cursor=pointer]
+                        - generic [ref=e1652] [cursor=pointer]
+                        - generic [ref=e1654] [cursor=pointer]
+                        - generic [ref=e1656] [cursor=pointer]
+                        - generic [ref=e1658] [cursor=pointer]
+                        - generic [ref=e1660] [cursor=pointer]
+                        - generic [ref=e1662] [cursor=pointer]
+                        - generic [ref=e1664] [cursor=pointer]
+                        - generic [ref=e1666] [cursor=pointer]
+                        - generic [ref=e1668] [cursor=pointer]
+                        - generic [ref=e1670] [cursor=pointer]
+                        - generic [ref=e1672] [cursor=pointer]
+                        - generic [ref=e1674] [cursor=pointer]
+                        - generic [ref=e1676] [cursor=pointer]
+                        - generic [ref=e1678] [cursor=pointer]
+                        - generic [ref=e1680] [cursor=pointer]
+                        - generic [ref=e1682] [cursor=pointer]
+                        - generic [ref=e1684] [cursor=pointer]
+                        - generic [ref=e1686] [cursor=pointer]
+                        - generic [ref=e1688] [cursor=pointer]
+                        - generic [ref=e1690] [cursor=pointer]
+                        - generic [ref=e1692] [cursor=pointer]
+                        - generic [ref=e1694] [cursor=pointer]
+                        - generic [ref=e1696] [cursor=pointer]
+                        - generic [ref=e1698] [cursor=pointer]
+                        - generic [ref=e1700] [cursor=pointer]
+                        - generic [ref=e1702] [cursor=pointer]
+                        - generic [ref=e1704] [cursor=pointer]
+                        - generic [ref=e1706] [cursor=pointer]
+                        - generic [ref=e1708] [cursor=pointer]
+                        - generic [ref=e1710] [cursor=pointer]
+                        - generic [ref=e1712] [cursor=pointer]
+                        - generic [ref=e1714] [cursor=pointer]
+                        - generic [ref=e1716] [cursor=pointer]
+                        - generic [ref=e1718] [cursor=pointer]
+                        - generic [ref=e1720] [cursor=pointer]
+                        - generic [ref=e1722] [cursor=pointer]
+                        - generic [ref=e1724] [cursor=pointer]
+                        - generic [ref=e1726] [cursor=pointer]
+                        - generic [ref=e1728] [cursor=pointer]
+                        - generic [ref=e1730] [cursor=pointer]
+                        - generic [ref=e1732] [cursor=pointer]
+                        - generic [ref=e1734] [cursor=pointer]
+                        - generic [ref=e1736] [cursor=pointer]
+                        - generic [ref=e1738] [cursor=pointer]
+                        - generic [ref=e1740] [cursor=pointer]
+                        - generic [ref=e1742] [cursor=pointer]
+                        - generic [ref=e1744] [cursor=pointer]
+                        - generic [ref=e1746] [cursor=pointer]
+                        - generic [ref=e1748] [cursor=pointer]
+                        - generic [ref=e1750] [cursor=pointer]
+                        - generic [ref=e1752] [cursor=pointer]
+                        - generic [ref=e1754] [cursor=pointer]
+                        - generic [ref=e1756] [cursor=pointer]
+                        - generic [ref=e1758] [cursor=pointer]
+                        - generic [ref=e1760] [cursor=pointer]
+                        - generic [ref=e1762] [cursor=pointer]
+                        - generic [ref=e1764] [cursor=pointer]
+                        - generic [ref=e1766] [cursor=pointer]
+                        - generic [ref=e1768] [cursor=pointer]
+                        - generic [ref=e1770] [cursor=pointer]
+                        - generic [ref=e1772] [cursor=pointer]
+                        - generic [ref=e1774] [cursor=pointer]
+                        - generic [ref=e1776] [cursor=pointer]
+                        - generic [ref=e1778] [cursor=pointer]
+                        - generic [ref=e1780] [cursor=pointer]
+                        - generic [ref=e1782] [cursor=pointer]
+                        - generic [ref=e1784] [cursor=pointer]
+                        - generic [ref=e1786] [cursor=pointer]
+                        - generic [ref=e1788] [cursor=pointer]
+                        - generic [ref=e1790] [cursor=pointer]
+                        - generic [ref=e1792] [cursor=pointer]
+                        - generic [ref=e1794] [cursor=pointer]
+                        - generic [ref=e1796] [cursor=pointer]
+                        - generic [ref=e1798] [cursor=pointer]
+                        - generic [ref=e1800] [cursor=pointer]
+                        - generic [ref=e1802] [cursor=pointer]
+                        - generic [ref=e1804] [cursor=pointer]
+                        - generic [ref=e1806] [cursor=pointer]
+                        - generic [ref=e1808] [cursor=pointer]
+                        - generic [ref=e1810] [cursor=pointer]
+                        - generic [ref=e1812] [cursor=pointer]
+                        - generic [ref=e1814] [cursor=pointer]
+                        - generic [ref=e1816] [cursor=pointer]
+                        - generic [ref=e1818] [cursor=pointer]
+                        - generic [ref=e1820] [cursor=pointer]
+                        - generic [ref=e1822] [cursor=pointer]
+                        - generic [ref=e1824] [cursor=pointer]
+                        - generic [ref=e1826] [cursor=pointer]
+                        - generic [ref=e1828] [cursor=pointer]
+                        - generic [ref=e1830] [cursor=pointer]
+                        - generic [ref=e1832] [cursor=pointer]
+                        - generic [ref=e1834] [cursor=pointer]
+                        - generic [ref=e1836] [cursor=pointer]
+                        - generic [ref=e1838] [cursor=pointer]
+                        - generic [ref=e1840] [cursor=pointer]
+                        - generic [ref=e1842] [cursor=pointer]
+                        - generic [ref=e1844] [cursor=pointer]
+                        - generic [ref=e1846] [cursor=pointer]
+                        - generic [ref=e1848] [cursor=pointer]
+                        - generic [ref=e1850] [cursor=pointer]
+                        - generic [ref=e1852] [cursor=pointer]
+                        - generic [ref=e1854] [cursor=pointer]
+                        - generic [ref=e1856] [cursor=pointer]
+                        - generic [ref=e1858] [cursor=pointer]
+                        - generic [ref=e1860] [cursor=pointer]
+                        - generic [ref=e1862] [cursor=pointer]
+                        - generic [ref=e1864] [cursor=pointer]
+                        - generic [ref=e1866] [cursor=pointer]
+                        - generic [ref=e1868] [cursor=pointer]
+                        - generic [ref=e1870] [cursor=pointer]
+                        - generic [ref=e1872] [cursor=pointer]
+                        - generic [ref=e1874] [cursor=pointer]
+                        - generic [ref=e1876] [cursor=pointer]
+                        - generic [ref=e1878] [cursor=pointer]
+                        - generic [ref=e1880] [cursor=pointer]
+                        - generic [ref=e1882] [cursor=pointer]
+                        - generic [ref=e1884] [cursor=pointer]
+                        - generic [ref=e1886] [cursor=pointer]
+                        - generic [ref=e1888] [cursor=pointer]
+                        - generic [ref=e1890] [cursor=pointer]
+                        - generic [ref=e1892] [cursor=pointer]
+                        - generic [ref=e1894] [cursor=pointer]
+                        - generic [ref=e1896] [cursor=pointer]
+                        - generic [ref=e1898] [cursor=pointer]
+                        - generic [ref=e1900] [cursor=pointer]
+                        - generic [ref=e1902] [cursor=pointer]
+                        - generic [ref=e1904] [cursor=pointer]
+                        - generic [ref=e1906] [cursor=pointer]
+                        - generic [ref=e1908] [cursor=pointer]
+                        - generic [ref=e1910] [cursor=pointer]
+                        - generic [ref=e1912] [cursor=pointer]
+                        - generic [ref=e1914] [cursor=pointer]
+                        - generic [ref=e1916] [cursor=pointer]
+                        - generic [ref=e1918] [cursor=pointer]
+                        - generic [ref=e1920] [cursor=pointer]
+                        - generic [ref=e1922] [cursor=pointer]
+                        - generic [ref=e1924] [cursor=pointer]
+                        - generic [ref=e1926] [cursor=pointer]
+                        - generic [ref=e1928] [cursor=pointer]
+                        - generic [ref=e1930] [cursor=pointer]
+                        - generic [ref=e1932] [cursor=pointer]
+                        - generic [ref=e1934] [cursor=pointer]
+                        - generic [ref=e1936] [cursor=pointer]
+                        - generic [ref=e1938] [cursor=pointer]
+                        - generic [ref=e1940] [cursor=pointer]
+                        - generic [ref=e1942] [cursor=pointer]
+                        - generic [ref=e1944] [cursor=pointer]
+                        - generic [ref=e1946] [cursor=pointer]
+                        - generic [ref=e1948] [cursor=pointer]
+                        - generic [ref=e1950] [cursor=pointer]
+                        - generic [ref=e1952] [cursor=pointer]
+                        - generic [ref=e1954] [cursor=pointer]
+                        - generic [ref=e1956] [cursor=pointer]
+                        - generic [ref=e1958] [cursor=pointer]
+                        - generic [ref=e1960] [cursor=pointer]
+                        - generic [ref=e1962] [cursor=pointer]
+                        - generic [ref=e1964] [cursor=pointer]
+                        - generic [ref=e1966] [cursor=pointer]
+                        - generic [ref=e1968] [cursor=pointer]
+                        - generic [ref=e1970] [cursor=pointer]
+                        - generic [ref=e1972] [cursor=pointer]
+                        - generic [ref=e1974] [cursor=pointer]
+                        - generic [ref=e1976] [cursor=pointer]
+                        - generic [ref=e1978] [cursor=pointer]
+                        - generic [ref=e1980] [cursor=pointer]
+                        - generic [ref=e1982] [cursor=pointer]
+                        - generic [ref=e1984] [cursor=pointer]
+                        - generic [ref=e1986] [cursor=pointer]
+                        - generic [ref=e1988] [cursor=pointer]
+                        - generic [ref=e1990] [cursor=pointer]
+                        - generic [ref=e1992] [cursor=pointer]
+                        - generic [ref=e1994] [cursor=pointer]
+                        - generic [ref=e1996] [cursor=pointer]
+                        - generic [ref=e1998] [cursor=pointer]
+                        - generic [ref=e2000] [cursor=pointer]
+                        - generic [ref=e2002] [cursor=pointer]
+                        - generic [ref=e2004] [cursor=pointer]
+                        - generic [ref=e2006] [cursor=pointer]
+                        - generic [ref=e2008] [cursor=pointer]
+                        - generic [ref=e2010] [cursor=pointer]
+                        - generic [ref=e2012] [cursor=pointer]
+                        - generic [ref=e2014] [cursor=pointer]
+                        - generic [ref=e2016] [cursor=pointer]
+                        - generic [ref=e2018] [cursor=pointer]
+                    - generic: Q4
+                    - generic: Q1
+                    - generic: Q2
+                    - generic: Q3
+                    - generic: Oct
+                    - generic: Nov
+                    - generic: Dec
+                    - generic: Jan
+                    - generic: Feb
+                    - generic: Mar
+                    - generic: Apr
+                    - generic: May
+                    - generic: Jun
+                    - generic: Jul
+                    - generic: Aug
+                    - generic: Sep
+                    - generic: M
+                    - generic: W
+                    - generic: F
+                - generic [ref=e2020]:
+                  - generic [ref=e2021]: 少
+                  - generic [ref=e2022]:
+                    - generic [ref=e2023] [cursor=pointer]
+                    - generic [ref=e2025] [cursor=pointer]
+                    - generic [ref=e2027] [cursor=pointer]
+                    - generic [ref=e2029] [cursor=pointer]
+                    - generic [ref=e2031] [cursor=pointer]
+                  - generic [ref=e2033]: 多
+              - paragraph [ref=e2034]: 2025年10月1日—2026年9月26日，截至完整周。0 是有效读数，缺测不计为 0。
+              - group [ref=e2035]:
+                - generic "查看精确数据" [ref=e2036] [cursor=pointer]
+            - status [ref=e2037]: 示例数据 · 已更新 0 次 · 已减少动效
+            - group [ref=e2038]:
+              - generic "查看本卡代码" [ref=e2039] [cursor=pointer]
+              - option "main.tsx" [selected]
+              - option "index.html"
+              - option "chart-variants/structure.tsx"
+              - option "chart-variants/shared.tsx"
+              - option "chart-variants/data/README.md"
+              - option "chart-variants/data/world.geojson"
+              - option "chart-data.ts"
+              - option "chart-catalog.ts"
+              - option "chart-examples.css"
+          - link "对应官网示例 （新标签页打开）" [ref=e2040] [cursor=pointer]:
+            - /url: https://bklit.com/charts/heatmap-chart
+            - generic [ref=e2041]: 对应官网示例
+            - generic [ref=e2042]: （新标签页打开）
+        - region [ref=e2043]:
+          - generic [ref=e2044]:
+            - heading "Heatmap Chart - Loading" [level=3] [ref=e2045]
+            - paragraph [ref=e2046]: 单元格扫光骨架加载
+          - generic [ref=e2047]:
+            - generic [ref=e2048]:
+              - button "更新数据" [ref=e2049] [cursor=pointer]
+              - button "重播动效" [ref=e2051] [cursor=pointer]
+            - generic [ref=e2053]:
+              - button "显示数据" [ref=e2054] [cursor=pointer]
+              - generic [ref=e2057]:
+                - generic [ref=e2062]:
+                  - generic: Apr
+                  - generic: May
+                  - generic: Jun
+                  - generic: Jul
+                  - generic: Aug
+                  - generic: Sep
+                  - generic: M
+                  - generic: W
+                  - generic: F
+                - status [ref=e2430]: 正在加载活动日历 · 静态占位
+                - generic [ref=e2431]:
+                  - generic [ref=e2432]: 少
+                  - generic [ref=e2433]:
+                    - generic [ref=e2434] [cursor=pointer]
+                    - generic [ref=e2436] [cursor=pointer]
+                    - generic [ref=e2438] [cursor=pointer]
+                    - generic [ref=e2440] [cursor=pointer]
+                    - generic [ref=e2442] [cursor=pointer]
+                  - generic [ref=e2444]: 多
+              - paragraph [ref=e2445]: 2026年4月1日—2026年9月26日，截至完整周。0 是有效读数，缺测不计为 0。
+              - group [ref=e2446]:
+                - generic "查看精确数据" [ref=e2447] [cursor=pointer]
+            - status [ref=e2448]: 示例数据 · 已更新 0 次 · 已减少动效
+            - group [ref=e2449]:
+              - generic "查看本卡代码" [ref=e2450] [cursor=pointer]
+              - option "main.tsx" [selected]
+              - option "index.html"
+              - option "chart-variants/structure.tsx"
+              - option "chart-variants/shared.tsx"
+              - option "chart-variants/data/README.md"
+              - option "chart-variants/data/world.geojson"
+              - option "chart-data.ts"
+              - option "chart-catalog.ts"
+              - option "chart-examples.css"
+          - link "对应官网示例 （新标签页打开）" [ref=e2451] [cursor=pointer]:
+            - /url: https://bklit.com/charts/heatmap-chart
+            - generic [ref=e2452]: 对应官网示例
+            - generic [ref=e2453]: （新标签页打开）
+        - region [ref=e2454]:
+          - generic [ref=e2455]:
+            - heading "Heatmap Chart - Horizontal Scroll" [level=3] [ref=e2456]
+            - paragraph [ref=e2457]: 半年窗口内横向浏览全年
+          - generic [ref=e2458]:
+            - generic [ref=e2459]:
+              - button "更新数据" [ref=e2460] [cursor=pointer]
+              - button "重播动效" [ref=e2462] [cursor=pointer]
+            - generic [ref=e2464]:
+              - generic [ref=e2466]:
+                - region "全年活动日历，可横向滚动" [ref=e2467]:
+                  - generic [ref=e2471]:
+                    - img [ref=e2472]:
+                      - generic [ref=e2474]:
+                        - generic [ref=e2476] [cursor=pointer]
+                        - generic [ref=e2478] [cursor=pointer]
+                        - generic [ref=e2480] [cursor=pointer]
+                        - generic [ref=e2482] [cursor=pointer]
+                        - generic [ref=e2484] [cursor=pointer]
+                        - generic [ref=e2486] [cursor=pointer]
+                        - generic [ref=e2488] [cursor=pointer]
+                        - generic [ref=e2490] [cursor=pointer]
+                        - generic [ref=e2492] [cursor=pointer]
+                        - generic [ref=e2494] [cursor=pointer]
+                        - generic [ref=e2496] [cursor=pointer]
+                        - generic [ref=e2498] [cursor=pointer]
+                        - generic [ref=e2500] [cursor=pointer]
+                        - generic [ref=e2502] [cursor=pointer]
+                        - generic [ref=e2504] [cursor=pointer]
+                        - generic [ref=e2506] [cursor=pointer]
+                        - generic [ref=e2508] [cursor=pointer]
+                        - generic [ref=e2510] [cursor=pointer]
+                        - generic [ref=e2512] [cursor=pointer]
+                        - generic [ref=e2514] [cursor=pointer]
+                        - generic [ref=e2516] [cursor=pointer]
+                        - generic [ref=e2518] [cursor=pointer]
+                        - generic [ref=e2520] [cursor=pointer]
+                        - generic [ref=e2522] [cursor=pointer]
+                        - generic [ref=e2524] [cursor=pointer]
+                        - generic [ref=e2526] [cursor=pointer]
+                        - generic [ref=e2528] [cursor=pointer]
+                        - generic [ref=e2530] [cursor=pointer]
+                        - generic [ref=e2532] [cursor=pointer]
+                        - generic [ref=e2534] [cursor=pointer]
+                        - generic [ref=e2536] [cursor=pointer]
+                        - generic [ref=e2538] [cursor=pointer]
+                        - generic [ref=e2540] [cursor=pointer]
+                        - generic [ref=e2542] [cursor=pointer]
+                        - generic [ref=e2544] [cursor=pointer]
+                        - generic [ref=e2546] [cursor=pointer]
+                        - generic [ref=e2548] [cursor=pointer]
+                        - generic [ref=e2550] [cursor=pointer]
+                        - generic [ref=e2552] [cursor=pointer]
+                        - generic [ref=e2554] [cursor=pointer]
+                        - generic [ref=e2556] [cursor=pointer]
+                        - generic [ref=e2558] [cursor=pointer]
+                        - generic [ref=e2560] [cursor=pointer]
+                        - generic [ref=e2562] [cursor=pointer]
+                        - generic [ref=e2564] [cursor=pointer]
+                        - generic [ref=e2566] [cursor=pointer]
+                        - generic [ref=e2568] [cursor=pointer]
+                        - generic [ref=e2570] [cursor=pointer]
+                        - generic [ref=e2572] [cursor=pointer]
+                        - generic [ref=e2574] [cursor=pointer]
+                        - generic [ref=e2576] [cursor=pointer]
+                        - generic [ref=e2578] [cursor=pointer]
+                        - generic [ref=e2580] [cursor=pointer]
+                        - generic [ref=e2582] [cursor=pointer]
+                        - generic [ref=e2584] [cursor=pointer]
+                        - generic [ref=e2586] [cursor=pointer]
+                        - generic [ref=e2588] [cursor=pointer]
+                        - generic [ref=e2590] [cursor=pointer]
+                        - generic [ref=e2592] [cursor=pointer]
+                        - generic [ref=e2594] [cursor=pointer]
+                        - generic [ref=e2596] [cursor=pointer]
+                        - generic [ref=e2598] [cursor=pointer]
+                        - generic [ref=e2600] [cursor=pointer]
+                        - generic [ref=e2602] [cursor=pointer]
+                        - generic [ref=e2604] [cursor=pointer]
+                        - generic [ref=e2606] [cursor=pointer]
+                        - generic [ref=e2608] [cursor=pointer]
+                        - generic [ref=e2610] [cursor=pointer]
+                        - generic [ref=e2612] [cursor=pointer]
+                        - generic [ref=e2614] [cursor=pointer]
+                        - generic [ref=e2616] [cursor=pointer]
+                        - generic [ref=e2618] [cursor=pointer]
+                        - generic [ref=e2620] [cursor=pointer]
+                        - generic [ref=e2622] [cursor=pointer]
+                        - generic [ref=e2624] [cursor=pointer]
+                        - generic [ref=e2626] [cursor=pointer]
+                        - generic [ref=e2628] [cursor=pointer]
+                        - generic [ref=e2630] [cursor=pointer]
+                        - generic [ref=e2632] [cursor=pointer]
+                        - generic [ref=e2634] [cursor=pointer]
+                        - generic [ref=e2636] [cursor=pointer]
+                        - generic [ref=e2638] [cursor=pointer]
+                        - generic [ref=e2640] [cursor=pointer]
+                        - generic [ref=e2642] [cursor=pointer]
+                        - generic [ref=e2644] [cursor=pointer]
+                        - generic [ref=e2646] [cursor=pointer]
+                        - generic [ref=e2648] [cursor=pointer]
+                        - generic [ref=e2650] [cursor=pointer]
+                        - generic [ref=e2652] [cursor=pointer]
+                        - generic [ref=e2654] [cursor=pointer]
+                        - generic [ref=e2656] [cursor=pointer]
+                        - generic [ref=e2658] [cursor=pointer]
+                        - generic [ref=e2660] [cursor=pointer]
+                        - generic [ref=e2662] [cursor=pointer]
+                        - generic [ref=e2664] [cursor=pointer]
+                        - generic [ref=e2666] [cursor=pointer]
+                        - generic [ref=e2668] [cursor=pointer]
+                        - generic [ref=e2670] [cursor=pointer]
+                        - generic [ref=e2672] [cursor=pointer]
+                        - generic [ref=e2674] [cursor=pointer]
+                        - generic [ref=e2676] [cursor=pointer]
+                        - generic [ref=e2678] [cursor=pointer]
+                        - generic [ref=e2680] [cursor=pointer]
+                        - generic [ref=e2682] [cursor=pointer]
+                        - generic [ref=e2684] [cursor=pointer]
+                        - generic [ref=e2686] [cursor=pointer]
+                        - generic [ref=e2688] [cursor=pointer]
+                        - generic [ref=e2690] [cursor=pointer]
+                        - generic [ref=e2692] [cursor=pointer]
+                        - generic [ref=e2694] [cursor=pointer]
+                        - generic [ref=e2696] [cursor=pointer]
+                        - generic [ref=e2698] [cursor=pointer]
+                        - generic [ref=e2700] [cursor=pointer]
+                        - generic [ref=e2702] [cursor=pointer]
+                        - generic [ref=e2704] [cursor=pointer]
+                        - generic [ref=e2706] [cursor=pointer]
+                        - generic [ref=e2708] [cursor=pointer]
+                        - generic [ref=e2710] [cursor=pointer]
+                        - generic [ref=e2712] [cursor=pointer]
+                        - generic [ref=e2714] [cursor=pointer]
+                        - generic [ref=e2716] [cursor=pointer]
+                        - generic [ref=e2718] [cursor=pointer]
+                        - generic [ref=e2720] [cursor=pointer]
+                        - generic [ref=e2722] [cursor=pointer]
+                        - generic [ref=e2724] [cursor=pointer]
+                        - generic [ref=e2726] [cursor=pointer]
+                        - generic [ref=e2728] [cursor=pointer]
+                        - generic [ref=e2730] [cursor=pointer]
+                        - generic [ref=e2732] [cursor=pointer]
+                        - generic [ref=e2734] [cursor=pointer]
+                        - generic [ref=e2736] [cursor=pointer]
+                        - generic [ref=e2738] [cursor=pointer]
+                        - generic [ref=e2740] [cursor=pointer]
+                        - generic [ref=e2742] [cursor=pointer]
+                        - generic [ref=e2744] [cursor=pointer]
+                        - generic [ref=e2746] [cursor=pointer]
+                        - generic [ref=e2748] [cursor=pointer]
+                        - generic [ref=e2750] [cursor=pointer]
+                        - generic [ref=e2752] [cursor=pointer]
+                        - generic [ref=e2754] [cursor=pointer]
+                        - generic [ref=e2756] [cursor=pointer]
+                        - generic [ref=e2758] [cursor=pointer]
+                        - generic [ref=e2760] [cursor=pointer]
+                        - generic [ref=e2762] [cursor=pointer]
+                        - generic [ref=e2764] [cursor=pointer]
+                        - generic [ref=e2766] [cursor=pointer]
+                        - generic [ref=e2768] [cursor=pointer]
+                        - generic [ref=e2770] [cursor=pointer]
+                        - generic [ref=e2772] [cursor=pointer]
+                        - generic [ref=e2774] [cursor=pointer]
+                        - generic [ref=e2776] [cursor=pointer]
+                        - generic [ref=e2778] [cursor=pointer]
+                        - generic [ref=e2780] [cursor=pointer]
+                        - generic [ref=e2782] [cursor=pointer]
+                        - generic [ref=e2784] [cursor=pointer]
+                        - generic [ref=e2786] [cursor=pointer]
+                        - generic [ref=e2788] [cursor=pointer]
+                        - generic [ref=e2790] [cursor=pointer]
+                        - generic [ref=e2792] [cursor=pointer]
+                        - generic [ref=e2794] [cursor=pointer]
+                        - generic [ref=e2796] [cursor=pointer]
+                        - generic [ref=e2798] [cursor=pointer]
+                        - generic [ref=e2800] [cursor=pointer]
+                        - generic [ref=e2802] [cursor=pointer]
+                        - generic [ref=e2804] [cursor=pointer]
+                        - generic [ref=e2806] [cursor=pointer]
+                        - generic [ref=e2808] [cursor=pointer]
+                        - generic [ref=e2810] [cursor=pointer]
+                        - generic [ref=e2812] [cursor=pointer]
+                        - generic [ref=e2814] [cursor=pointer]
+                        - generic [ref=e2816] [cursor=pointer]
+                        - generic [ref=e2818] [cursor=pointer]
+                        - generic [ref=e2820] [cursor=pointer]
+                        - generic [ref=e2822] [cursor=pointer]
+                        - generic [ref=e2824] [cursor=pointer]
+                        - generic [ref=e2826] [cursor=pointer]
+                        - generic [ref=e2828] [cursor=pointer]
+                        - generic [ref=e2830] [cursor=pointer]
+                        - generic [ref=e2832] [cursor=pointer]
+                        - generic [ref=e2834] [cursor=pointer]
+                        - generic [ref=e2836] [cursor=pointer]
+                        - generic [ref=e2838] [cursor=pointer]
+                        - generic [ref=e2840] [cursor=pointer]
+                        - generic [ref=e2842] [cursor=pointer]
+                        - generic [ref=e2844] [cursor=pointer]
+                        - generic [ref=e2846] [cursor=pointer]
+                        - generic [ref=e2848] [cursor=pointer]
+                        - generic [ref=e2850] [cursor=pointer]
+                        - generic [ref=e2852] [cursor=pointer]
+                        - generic [ref=e2854] [cursor=pointer]
+                        - generic [ref=e2856] [cursor=pointer]
+                        - generic [ref=e2858] [cursor=pointer]
+                        - generic [ref=e2860] [cursor=pointer]
+                        - generic [ref=e2862] [cursor=pointer]
+                        - generic [ref=e2864] [cursor=pointer]
+                        - generic [ref=e2866] [cursor=pointer]
+                        - generic [ref=e2868] [cursor=pointer]
+                        - generic [ref=e2870] [cursor=pointer]
+                        - generic [ref=e2872] [cursor=pointer]
+                        - generic [ref=e2874] [cursor=pointer]
+                        - generic [ref=e2876] [cursor=pointer]
+                        - generic [ref=e2878] [cursor=pointer]
+                        - generic [ref=e2880] [cursor=pointer]
+                        - generic [ref=e2882] [cursor=pointer]
+                        - generic [ref=e2884] [cursor=pointer]
+                        - generic [ref=e2886] [cursor=pointer]
+                        - generic [ref=e2888] [cursor=pointer]
+                        - generic [ref=e2890] [cursor=pointer]
+                        - generic [ref=e2892] [cursor=pointer]
+                        - generic [ref=e2894] [cursor=pointer]
+                        - generic [ref=e2896] [cursor=pointer]
+                        - generic [ref=e2898] [cursor=pointer]
+                        - generic [ref=e2900] [cursor=pointer]
+                        - generic [ref=e2902] [cursor=pointer]
+                        - generic [ref=e2904] [cursor=pointer]
+                        - generic [ref=e2906] [cursor=pointer]
+                        - generic [ref=e2908] [cursor=pointer]
+                        - generic [ref=e2910] [cursor=pointer]
+                        - generic [ref=e2912] [cursor=pointer]
+                        - generic [ref=e2914] [cursor=pointer]
+                        - generic [ref=e2916] [cursor=pointer]
+                        - generic [ref=e2918] [cursor=pointer]
+                        - generic [ref=e2920] [cursor=pointer]
+                        - generic [ref=e2922] [cursor=pointer]
+                        - generic [ref=e2924] [cursor=pointer]
+                        - generic [ref=e2926] [cursor=pointer]
+                        - generic [ref=e2928] [cursor=pointer]
+                        - generic [ref=e2930] [cursor=pointer]
+                        - generic [ref=e2932] [cursor=pointer]
+                        - generic [ref=e2934] [cursor=pointer]
+                        - generic [ref=e2936] [cursor=pointer]
+                        - generic [ref=e2938] [cursor=pointer]
+                        - generic [ref=e2940] [cursor=pointer]
+                        - generic [ref=e2942] [cursor=pointer]
+                        - generic [ref=e2944] [cursor=pointer]
+                        - generic [ref=e2946] [cursor=pointer]
+                        - generic [ref=e2948] [cursor=pointer]
+                        - generic [ref=e2950] [cursor=pointer]
+                        - generic [ref=e2952] [cursor=pointer]
+                        - generic [ref=e2954] [cursor=pointer]
+                        - generic [ref=e2956] [cursor=pointer]
+                        - generic [ref=e2958] [cursor=pointer]
+                        - generic [ref=e2960] [cursor=pointer]
+                        - generic [ref=e2962] [cursor=pointer]
+                        - generic [ref=e2964] [cursor=pointer]
+                        - generic [ref=e2966] [cursor=pointer]
+                        - generic [ref=e2968] [cursor=pointer]
+                        - generic [ref=e2970] [cursor=pointer]
+                        - generic [ref=e2972] [cursor=pointer]
+                        - generic [ref=e2974] [cursor=pointer]
+                        - generic [ref=e2976] [cursor=pointer]
+                        - generic [ref=e2978] [cursor=pointer]
+                        - generic [ref=e2980] [cursor=pointer]
+                        - generic [ref=e2982] [cursor=pointer]
+                        - generic [ref=e2984] [cursor=pointer]
+                        - generic [ref=e2986] [cursor=pointer]
+                        - generic [ref=e2988] [cursor=pointer]
+                        - generic [ref=e2990] [cursor=pointer]
+                        - generic [ref=e2992] [cursor=pointer]
+                        - generic [ref=e2994] [cursor=pointer]
+                        - generic [ref=e2996] [cursor=pointer]
+                        - generic [ref=e2998] [cursor=pointer]
+                        - generic [ref=e3000] [cursor=pointer]
+                        - generic [ref=e3002] [cursor=pointer]
+                        - generic [ref=e3004] [cursor=pointer]
+                        - generic [ref=e3006] [cursor=pointer]
+                        - generic [ref=e3008] [cursor=pointer]
+                        - generic [ref=e3010] [cursor=pointer]
+                        - generic [ref=e3012] [cursor=pointer]
+                        - generic [ref=e3014] [cursor=pointer]
+                        - generic [ref=e3016] [cursor=pointer]
+                        - generic [ref=e3018] [cursor=pointer]
+                        - generic [ref=e3020] [cursor=pointer]
+                        - generic [ref=e3022] [cursor=pointer]
+                        - generic [ref=e3024] [cursor=pointer]
+                        - generic [ref=e3026] [cursor=pointer]
+                        - generic [ref=e3028] [cursor=pointer]
+                        - generic [ref=e3030] [cursor=pointer]
+                        - generic [ref=e3032] [cursor=pointer]
+                        - generic [ref=e3034] [cursor=pointer]
+                        - generic [ref=e3036] [cursor=pointer]
+                        - generic [ref=e3038] [cursor=pointer]
+                        - generic [ref=e3040] [cursor=pointer]
+                        - generic [ref=e3042] [cursor=pointer]
+                        - generic [ref=e3044] [cursor=pointer]
+                        - generic [ref=e3046] [cursor=pointer]
+                        - generic [ref=e3048] [cursor=pointer]
+                        - generic [ref=e3050] [cursor=pointer]
+                        - generic [ref=e3052] [cursor=pointer]
+                        - generic [ref=e3054] [cursor=pointer]
+                        - generic [ref=e3056] [cursor=pointer]
+                        - generic [ref=e3058] [cursor=pointer]
+                        - generic [ref=e3060] [cursor=pointer]
+                        - generic [ref=e3062] [cursor=pointer]
+                        - generic [ref=e3064] [cursor=pointer]
+                        - generic [ref=e3066] [cursor=pointer]
+                        - generic [ref=e3068] [cursor=pointer]
+                        - generic [ref=e3070] [cursor=pointer]
+                        - generic [ref=e3072] [cursor=pointer]
+                        - generic [ref=e3074] [cursor=pointer]
+                        - generic [ref=e3076] [cursor=pointer]
+                        - generic [ref=e3078] [cursor=pointer]
+                        - generic [ref=e3080] [cursor=pointer]
+                        - generic [ref=e3082] [cursor=pointer]
+                        - generic [ref=e3084] [cursor=pointer]
+                        - generic [ref=e3086] [cursor=pointer]
+                        - generic [ref=e3088] [cursor=pointer]
+                        - generic [ref=e3090] [cursor=pointer]
+                        - generic [ref=e3092] [cursor=pointer]
+                        - generic [ref=e3094] [cursor=pointer]
+                        - generic [ref=e3096] [cursor=pointer]
+                        - generic [ref=e3098] [cursor=pointer]
+                        - generic [ref=e3100] [cursor=pointer]
+                        - generic [ref=e3102] [cursor=pointer]
+                        - generic [ref=e3104] [cursor=pointer]
+                        - generic [ref=e3106] [cursor=pointer]
+                        - generic [ref=e3108] [cursor=pointer]
+                        - generic [ref=e3110] [cursor=pointer]
+                        - generic [ref=e3112] [cursor=pointer]
+                        - generic [ref=e3114] [cursor=pointer]
+                        - generic [ref=e3116] [cursor=pointer]
+                        - generic [ref=e3118] [cursor=pointer]
+                        - generic [ref=e3120] [cursor=pointer]
+                        - generic [ref=e3122] [cursor=pointer]
+                        - generic [ref=e3124] [cursor=pointer]
+                        - generic [ref=e3126] [cursor=pointer]
+                        - generic [ref=e3128] [cursor=pointer]
+                        - generic [ref=e3130] [cursor=pointer]
+                        - generic [ref=e3132] [cursor=pointer]
+                        - generic [ref=e3134] [cursor=pointer]
+                        - generic [ref=e3136] [cursor=pointer]
+                        - generic [ref=e3138] [cursor=pointer]
+                        - generic [ref=e3140] [cursor=pointer]
+                        - generic [ref=e3142] [cursor=pointer]
+                        - generic [ref=e3144] [cursor=pointer]
+                        - generic [ref=e3146] [cursor=pointer]
+                        - generic [ref=e3148] [cursor=pointer]
+                        - generic [ref=e3150] [cursor=pointer]
+                        - generic [ref=e3152] [cursor=pointer]
+                        - generic [ref=e3154] [cursor=pointer]
+                        - generic [ref=e3156] [cursor=pointer]
+                        - generic [ref=e3158] [cursor=pointer]
+                        - generic [ref=e3160] [cursor=pointer]
+                        - generic [ref=e3162] [cursor=pointer]
+                        - generic [ref=e3164] [cursor=pointer]
+                        - generic [ref=e3166] [cursor=pointer]
+                        - generic [ref=e3168] [cursor=pointer]
+                        - generic [ref=e3170] [cursor=pointer]
+                        - generic [ref=e3172] [cursor=pointer]
+                        - generic [ref=e3174] [cursor=pointer]
+                        - generic [ref=e3176] [cursor=pointer]
+                        - generic [ref=e3178] [cursor=pointer]
+                        - generic [ref=e3180] [cursor=pointer]
+                        - generic [ref=e3182] [cursor=pointer]
+                        - generic [ref=e3184] [cursor=pointer]
+                        - generic [ref=e3186] [cursor=pointer]
+                        - generic [ref=e3188] [cursor=pointer]
+                        - generic [ref=e3190] [cursor=pointer]
+                        - generic [ref=e3192] [cursor=pointer]
+                        - generic [ref=e3194] [cursor=pointer]
+                        - generic [ref=e3196] [cursor=pointer]
+                        - generic [ref=e3198] [cursor=pointer]
+                        - generic [ref=e3200] [cursor=pointer]
+                        - generic [ref=e3202] [cursor=pointer]
+                    - generic: Oct
+                    - generic: Nov
+                    - generic: Dec
+                    - generic: Jan
+                    - generic: Feb
+                    - generic: Mar
+                    - generic: Apr
+                    - generic: May
+                    - generic: Jun
+                    - generic: Jul
+                    - generic: Aug
+                    - generic: Sep
+                    - generic: Mon
+                    - generic: Wed
+                    - generic: Fri
+                - generic [ref=e3203]:
+                  - generic [ref=e3204]: 少
+                  - generic [ref=e3205]:
+                    - generic [ref=e3206] [cursor=pointer]
+                    - generic [ref=e3208] [cursor=pointer]
+                    - generic [ref=e3210] [cursor=pointer]
+                    - generic [ref=e3212] [cursor=pointer]
+                    - generic [ref=e3214] [cursor=pointer]
+                  - generic [ref=e3216]: 多
+              - paragraph [ref=e3217]: 2025年10月1日—2026年9月26日，截至完整周。全年窗口 · 固定格宽，可横向滚动。
+              - group [ref=e3218]:
+                - generic "查看精确数据" [ref=e3219] [cursor=pointer]
+            - status [ref=e3220]: 示例数据 · 已更新 0 次 · 已减少动效
+            - group [ref=e3221]:
+              - generic "查看本卡代码" [ref=e3222] [cursor=pointer]
+              - option "main.tsx" [selected]
+              - option "index.html"
+              - option "chart-variants/structure.tsx"
+              - option "chart-variants/shared.tsx"
+              - option "chart-variants/data/README.md"
+              - option "chart-variants/data/world.geojson"
+              - option "chart-data.ts"
+              - option "chart-catalog.ts"
+              - option "chart-examples.css"
+          - link "对应官网示例 （新标签页打开）" [ref=e3223] [cursor=pointer]:
+            - /url: https://bklit.com/charts/heatmap-chart
+            - generic [ref=e3224]: 对应官网示例
+            - generic [ref=e3225]: （新标签页打开）
+        - region [ref=e3226]:
+          - generic [ref=e3227]:
+            - heading "Heatmap Chart - Active Scale Hover" [level=3] [ref=e3228]
+            - paragraph [ref=e3229]: 增大悬浮单元格与格间距
+          - generic [ref=e3230]:
+            - generic [ref=e3231]:
+              - button "更新数据" [ref=e3232] [cursor=pointer]
+              - button "重播动效" [ref=e3234] [cursor=pointer]
+            - generic [ref=e3236]:
+              - generic [ref=e3238]:
+                - generic [ref=e3243]:
+                  - img [ref=e3244]:
+                    - generic [ref=e3246]:
+                      - generic [ref=e3248] [cursor=pointer]
+                      - generic [ref=e3250] [cursor=pointer]
+                      - generic [ref=e3252] [cursor=pointer]
+                      - generic [ref=e3254] [cursor=pointer]
+                      - generic [ref=e3256] [cursor=pointer]
+                      - generic [ref=e3258] [cursor=pointer]
+                      - generic [ref=e3260] [cursor=pointer]
+                      - generic [ref=e3262] [cursor=pointer]
+                      - generic [ref=e3264] [cursor=pointer]
+                      - generic [ref=e3266] [cursor=pointer]
+                      - generic [ref=e3268] [cursor=pointer]
+                      - generic [ref=e3270] [cursor=pointer]
+                      - generic [ref=e3272] [cursor=pointer]
+                      - generic [ref=e3274] [cursor=pointer]
+                      - generic [ref=e3276] [cursor=pointer]
+                      - generic [ref=e3278] [cursor=pointer]
+                      - generic [ref=e3280] [cursor=pointer]
+                      - generic [ref=e3282] [cursor=pointer]
+                      - generic [ref=e3284] [cursor=pointer]
+                      - generic [ref=e3286] [cursor=pointer]
+                      - generic [ref=e3288] [cursor=pointer]
+                      - generic [ref=e3290] [cursor=pointer]
+                      - generic [ref=e3292] [cursor=pointer]
+                      - generic [ref=e3294] [cursor=pointer]
+                      - generic [ref=e3296] [cursor=pointer]
+                      - generic [ref=e3298] [cursor=pointer]
+                      - generic [ref=e3300] [cursor=pointer]
+                      - generic [ref=e3302] [cursor=pointer]
+                      - generic [ref=e3304] [cursor=pointer]
+                      - generic [ref=e3306] [cursor=pointer]
+                      - generic [ref=e3308] [cursor=pointer]
+                      - generic [ref=e3310] [cursor=pointer]
+                      - generic [ref=e3312] [cursor=pointer]
+                      - generic [ref=e3314] [cursor=pointer]
+                      - generic [ref=e3316] [cursor=pointer]
+                      - generic [ref=e3318] [cursor=pointer]
+                      - generic [ref=e3320] [cursor=pointer]
+                      - generic [ref=e3322] [cursor=pointer]
+                      - generic [ref=e3324] [cursor=pointer]
+                      - generic [ref=e3326] [cursor=pointer]
+                      - generic [ref=e3328] [cursor=pointer]
+                      - generic [ref=e3330] [cursor=pointer]
+                      - generic [ref=e3332] [cursor=pointer]
+                      - generic [ref=e3334] [cursor=pointer]
+                      - generic [ref=e3336] [cursor=pointer]
+                      - generic [ref=e3338] [cursor=pointer]
+                      - generic [ref=e3340] [cursor=pointer]
+                      - generic [ref=e3342] [cursor=pointer]
+                      - generic [ref=e3344] [cursor=pointer]
+                      - generic [ref=e3346] [cursor=pointer]
+                      - generic [ref=e3348] [cursor=pointer]
+                      - generic [ref=e3350] [cursor=pointer]
+                      - generic [ref=e3352] [cursor=pointer]
+                      - generic [ref=e3354] [cursor=pointer]
+                      - generic [ref=e3356] [cursor=pointer]
+                      - generic [ref=e3358] [cursor=pointer]
+                      - generic [ref=e3360] [cursor=pointer]
+                      - generic [ref=e3362] [cursor=pointer]
+                      - generic [ref=e3364] [cursor=pointer]
+                      - generic [ref=e3366] [cursor=pointer]
+                      - generic [ref=e3368] [cursor=pointer]
+                      - generic [ref=e3370] [cursor=pointer]
+                      - generic [ref=e3372] [cursor=pointer]
+                      - generic [ref=e3374] [cursor=pointer]
+                      - generic [ref=e3376] [cursor=pointer]
+                      - generic [ref=e3378] [cursor=pointer]
+                      - generic [ref=e3380] [cursor=pointer]
+                      - generic [ref=e3382] [cursor=pointer]
+                      - generic [ref=e3384] [cursor=pointer]
+                      - generic [ref=e3386] [cursor=pointer]
+                      - generic [ref=e3388] [cursor=pointer]
+                      - generic [ref=e3390] [cursor=pointer]
+                      - generic [ref=e3392] [cursor=pointer]
+                      - generic [ref=e3394] [cursor=pointer]
+                      - generic [ref=e3396] [cursor=pointer]
+                      - generic [ref=e3398] [cursor=pointer]
+                      - generic [ref=e3400] [cursor=pointer]
+                      - generic [ref=e3402] [cursor=pointer]
+                      - generic [ref=e3404] [cursor=pointer]
+                      - generic [ref=e3406] [cursor=pointer]
+                      - generic [ref=e3408] [cursor=pointer]
+                      - generic [ref=e3410] [cursor=pointer]
+                      - generic [ref=e3412] [cursor=pointer]
+                      - generic [ref=e3414] [cursor=pointer]
+                      - generic [ref=e3416] [cursor=pointer]
+                      - generic [ref=e3418] [cursor=pointer]
+                      - generic [ref=e3420] [cursor=pointer]
+                      - generic [ref=e3422] [cursor=pointer]
+                      - generic [ref=e3424] [cursor=pointer]
+                      - generic [ref=e3426] [cursor=pointer]
+                      - generic [ref=e3428] [cursor=pointer]
+                      - generic [ref=e3430] [cursor=pointer]
+                      - generic [ref=e3432] [cursor=pointer]
+                      - generic [ref=e3434] [cursor=pointer]
+                      - generic [ref=e3436] [cursor=pointer]
+                      - generic [ref=e3438] [cursor=pointer]
+                      - generic [ref=e3440] [cursor=pointer]
+                      - generic [ref=e3442] [cursor=pointer]
+                      - generic [ref=e3444] [cursor=pointer]
+                      - generic [ref=e3446] [cursor=pointer]
+                      - generic [ref=e3448] [cursor=pointer]
+                      - generic [ref=e3450] [cursor=pointer]
+                      - generic [ref=e3452] [cursor=pointer]
+                      - generic [ref=e3454] [cursor=pointer]
+                      - generic [ref=e3456] [cursor=pointer]
+                      - generic [ref=e3458] [cursor=pointer]
+                      - generic [ref=e3460] [cursor=pointer]
+                      - generic [ref=e3462] [cursor=pointer]
+                      - generic [ref=e3464] [cursor=pointer]
+                      - generic [ref=e3466] [cursor=pointer]
+                      - generic [ref=e3468] [cursor=pointer]
+                      - generic [ref=e3470] [cursor=pointer]
+                      - generic [ref=e3472] [cursor=pointer]
+                      - generic [ref=e3474] [cursor=pointer]
+                      - generic [ref=e3476] [cursor=pointer]
+                      - generic [ref=e3478] [cursor=pointer]
+                      - generic [ref=e3480] [cursor=pointer]
+                      - generic [ref=e3482] [cursor=pointer]
+                      - generic [ref=e3484] [cursor=pointer]
+                      - generic [ref=e3486] [cursor=pointer]
+                      - generic [ref=e3488] [cursor=pointer]
+                      - generic [ref=e3490] [cursor=pointer]
+                      - generic [ref=e3492] [cursor=pointer]
+                      - generic [ref=e3494] [cursor=pointer]
+                      - generic [ref=e3496] [cursor=pointer]
+                      - generic [ref=e3498] [cursor=pointer]
+                      - generic [ref=e3500] [cursor=pointer]
+                      - generic [ref=e3502] [cursor=pointer]
+                      - generic [ref=e3504] [cursor=pointer]
+                      - generic [ref=e3506] [cursor=pointer]
+                      - generic [ref=e3508] [cursor=pointer]
+                      - generic [ref=e3510] [cursor=pointer]
+                      - generic [ref=e3512] [cursor=pointer]
+                      - generic [ref=e3514] [cursor=pointer]
+                      - generic [ref=e3516] [cursor=pointer]
+                      - generic [ref=e3518] [cursor=pointer]
+                      - generic [ref=e3520] [cursor=pointer]
+                      - generic [ref=e3522] [cursor=pointer]
+                      - generic [ref=e3524] [cursor=pointer]
+                      - generic [ref=e3526] [cursor=pointer]
+                      - generic [ref=e3528] [cursor=pointer]
+                      - generic [ref=e3530] [cursor=pointer]
+                      - generic [ref=e3532] [cursor=pointer]
+                      - generic [ref=e3534] [cursor=pointer]
+                      - generic [ref=e3536] [cursor=pointer]
+                      - generic [ref=e3538] [cursor=pointer]
+                      - generic [ref=e3540] [cursor=pointer]
+                      - generic [ref=e3542] [cursor=pointer]
+                      - generic [ref=e3544] [cursor=pointer]
+                      - generic [ref=e3546] [cursor=pointer]
+                      - generic [ref=e3548] [cursor=pointer]
+                      - generic [ref=e3550] [cursor=pointer]
+                      - generic [ref=e3552] [cursor=pointer]
+                      - generic [ref=e3554] [cursor=pointer]
+                      - generic [ref=e3556] [cursor=pointer]
+                      - generic [ref=e3558] [cursor=pointer]
+                      - generic [ref=e3560] [cursor=pointer]
+                      - generic [ref=e3562] [cursor=pointer]
+                      - generic [ref=e3564] [cursor=pointer]
+                      - generic [ref=e3566] [cursor=pointer]
+                      - generic [ref=e3568] [cursor=pointer]
+                      - generic [ref=e3570] [cursor=pointer]
+                      - generic [ref=e3572] [cursor=pointer]
+                      - generic [ref=e3574] [cursor=pointer]
+                      - generic [ref=e3576] [cursor=pointer]
+                      - generic [ref=e3578] [cursor=pointer]
+                      - generic [ref=e3580] [cursor=pointer]
+                      - generic [ref=e3582] [cursor=pointer]
+                      - generic [ref=e3584] [cursor=pointer]
+                      - generic [ref=e3586] [cursor=pointer]
+                      - generic [ref=e3588] [cursor=pointer]
+                      - generic [ref=e3590] [cursor=pointer]
+                      - generic [ref=e3592] [cursor=pointer]
+                      - generic [ref=e3594] [cursor=pointer]
+                      - generic [ref=e3596] [cursor=pointer]
+                      - generic [ref=e3598] [cursor=pointer]
+                      - generic [ref=e3600] [cursor=pointer]
+                      - generic [ref=e3602] [cursor=pointer]
+                      - generic [ref=e3604] [cursor=pointer]
+                      - generic [ref=e3606] [cursor=pointer]
+                      - generic [ref=e3608] [cursor=pointer]
+                      - generic [ref=e3610] [cursor=pointer]
+                  - generic: Apr
+                  - generic: May
+                  - generic: Jun
+                  - generic: Jul
+                  - generic: Aug
+                  - generic: Sep
+                  - generic: M
+                  - generic: W
+                  - generic: F
+                - generic [ref=e3611]:
+                  - generic [ref=e3612]: 少
+                  - generic [ref=e3613]:
+                    - generic [ref=e3614] [cursor=pointer]
+                    - generic [ref=e3616] [cursor=pointer]
+                    - generic [ref=e3618] [cursor=pointer]
+                    - generic [ref=e3620] [cursor=pointer]
+                    - generic [ref=e3622] [cursor=pointer]
+                  - generic [ref=e3624]: 多
+              - paragraph [ref=e3625]: 2026年4月1日—2026年9月26日，截至完整周。0 是有效读数，缺测不计为 0。
+              - group [ref=e3626]:
+                - generic "查看精确数据" [ref=e3627] [cursor=pointer]
+            - status [ref=e3628]: 示例数据 · 已更新 0 次 · 已减少动效
+            - group [ref=e3629]:
+              - generic "查看本卡代码" [ref=e3630] [cursor=pointer]
+              - option "main.tsx" [selected]
+              - option "index.html"
+              - option "chart-variants/structure.tsx"
+              - option "chart-variants/shared.tsx"
+              - option "chart-variants/data/README.md"
+              - option "chart-variants/data/world.geojson"
+              - option "chart-data.ts"
+              - option "chart-catalog.ts"
+              - option "chart-examples.css"
+          - link "对应官网示例 （新标签页打开）" [ref=e3631] [cursor=pointer]:
+            - /url: https://bklit.com/charts/heatmap-chart
+            - generic [ref=e3632]: 对应官网示例
+            - generic [ref=e3633]: （新标签页打开）
+  - navigation "相关图型" [ref=e3634]:
+    - link "面积图" [ref=e3635] [cursor=pointer]:
+      - /url: "#chart-area"
+    - link "折线图" [ref=e3637] [cursor=pointer]:
+      - /url: "#chart-line"
+    - link "柱状图" [ref=e3639] [cursor=pointer]:
+      - /url: "#chart-bar"
+    - link "组合图" [ref=e3641] [cursor=pointer]:
+      - /url: "#chart-composed"
+    - link "饼图 / 环饼" [ref=e3643] [cursor=pointer]:
+      - /url: "#chart-pie"
+    - link "多目标进度环" [ref=e3645] [cursor=pointer]:
+      - /url: "#chart-ring"
+    - link "雷达图" [ref=e3647] [cursor=pointer]:
+      - /url: "#chart-radar"
+    - link "时间散点" [ref=e3649] [cursor=pointer]:
+      - /url: "#chart-scatter"
+    - link "漏斗图" [ref=e3651] [cursor=pointer]:
+      - /url: "#chart-funnel"
+    - link "仪表图" [ref=e3653] [cursor=pointer]:
+      - /url: "#chart-gauge"
+    - link "桑基图" [ref=e3655] [cursor=pointer]:
+      - /url: "#chart-sankey"
+    - link "旭日图" [ref=e3657] [cursor=pointer]:
+      - /url: "#chart-sunburst"
+    - link "日历热图" [ref=e3659] [cursor=pointer]:
+      - /url: "#chart-heatmap"
+    - link "分区地图" [ref=e3661] [cursor=pointer]:
+      - /url: "#chart-choropleth"
+    - link "K线图" [ref=e3663] [cursor=pointer]:
+      - /url: "#chart-candlestick"
+    - link "盈亏线" [ref=e3665] [cursor=pointer]:
+      - /url: "#chart-profit-loss"
+    - link "实时折线" [ref=e3667] [cursor=pointer]:
+      - /url: "#chart-live-line"
+```
+
+# Test source
+
+```ts
+  1  | import { expect, test } from "@playwright/test";
+  2  | import { mkdirSync } from "node:fs";
+  3  | const evidence = "evidence/runtime/chart-variants/feedback-2026-10-08/structure";
+  4  | test.beforeAll(() => mkdirSync(evidence, { recursive: true }));
+  5  | test.beforeEach(async ({ page }) => { await page.emulateMedia({ reducedMotion: "reduce" }); });
+  6  | 
+  7  | for (const width of [1280, 880, 390]) test(`calendar month, quarter and weekday labels occupy separate aligned tracks at ${width}px`, async ({ page }) => {
+  8  |   await page.setViewportSize({ width, height: 796 });
+  9  |   await page.goto("/#chart-heatmap");
+  10 |   const card = page.locator('[data-chart-variant="heatmap-contributions"]');
+  11 |   await card.scrollIntoViewIfNeeded();
+  12 |   const root = card.locator('[data-slot="chart-root"]');
+  13 |   const month = root.getByText("Oct", { exact: true });
+  14 |   const quarter = root.getByText("Q4", { exact: true });
+  15 |   await expect(month).toBeVisible(); await expect(quarter).toBeVisible();
+  16 |   const monthBox = (await month.boundingBox())!, quarterBox = (await quarter.boundingBox())!;
+> 17 |   expect(quarterBox.y).toBeGreaterThanOrEqual(monthBox.y + monthBox.height + 2);
+     |                        ^ Error: expect(received).toBeGreaterThanOrEqual(expected)
+  18 |   const labels = await root.locator("span").evaluateAll(nodes => nodes.filter(node => /^(M|W|F)$/.test(node.textContent ?? "")).map(node => { const r = node.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; }).sort((a, b) => a.top - b.top));
+  19 |   expect(labels).toHaveLength(3);
+  20 |   for (let index = 1; index < labels.length; index++) expect(labels[index]!.top).toBeGreaterThanOrEqual(labels[index - 1]!.bottom);
+  21 |   const months = await root.locator("span").evaluateAll(nodes => nodes.filter(node => /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/.test(node.textContent ?? "")).map(node => { const r = node.getBoundingClientRect(); return { left: r.left, right: r.right }; }).sort((a, b) => a.left - b.left));
+  22 |   expect(months).toHaveLength(12);
+  23 |   for (let index = 1; index < months.length; index++) expect(months[index]!.left).toBeGreaterThanOrEqual(months[index - 1]!.right);
+  24 |   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+  25 |   await card.screenshot({ path: `${evidence}/calendar-contributions-${width}.png` });
+  26 |   const example = page.locator("main.component-doc > section.component-doc__example").first();
+  27 |   await example.scrollIntoViewIfNeeded();
+  28 |   await expect(example.locator('[data-rain-id="ui-chart-heatmap"] svg')).toBeVisible();
+  29 |   await example.screenshot({ path: `${evidence}/calendar-default-${width}.png` });
+  30 | });
+  31 | 
+  32 | for (const width of [1280, 880, 390]) test(`the default geographic example renders actual world outlines at ${width}px`, async ({ page }) => {
+  33 |   await page.setViewportSize({ width, height: 796 });
+  34 |   await page.goto("/#chart-choropleth");
+  35 |   const example = page.locator("main.component-doc > section.component-doc__example").first();
+  36 |   await expect(example.locator("svg path")).toHaveCount(177);
+  37 |   await expect(example).toContainText("Natural Earth");
+  38 |   const map = example.locator('[data-rain-id="ui-chart-choropleth"]');
+  39 |   const box = (await map.boundingBox())!;
+  40 |   expect(Math.abs(box.width / box.height - 16 / 9)).toBeLessThan(.02);
+  41 |   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+  42 |   await example.screenshot({ path: `${evidence}/world-default-${width}.png` });
+  43 | });
+  44 | 
+  45 | for (const width of [1280, 880, 390]) test(`sunburst starts with a title and uses the existing Breadcrumb after drill at ${width}px`, async ({ page }) => {
+  46 |   await page.setViewportSize({ width, height: 796 });
+  47 |   await page.goto("/#chart-sunburst");
+  48 |   const card = page.locator('[data-chart-variant="sunburst-legend"]');
+  49 |   await card.scrollIntoViewIfNeeded();
+  50 |   const title = card.getByRole("heading", { name: "学习内容", exact: true });
+  51 |   await expect(title).toBeVisible();
+  52 |   expect(await title.evaluate(node => getComputedStyle(node).fontSize)).toBe("15px");
+  53 |   const legend = card.getByRole("group", { name: "当前层级图例" });
+  54 |   await legend.getByRole("button", { name: /基础课程/ }).click();
+  55 |   const breadcrumb = card.locator('[data-rain-id="ui-breadcrumb"]');
+  56 |   await expect(breadcrumb).toBeVisible();
+  57 |   await expect(card.getByRole("navigation", { name: "学习内容层级" })).toHaveCount(1);
+  58 |   await expect(breadcrumb.locator("nav")).toHaveCount(0);
+  59 |   await expect(breadcrumb.getByText("基础课程", { exact: true })).toHaveAttribute("aria-current", "page");
+  60 |   await card.screenshot({ path: `${evidence}/sunburst-breadcrumb-${width}.png` });
+  61 |   await breadcrumb.getByRole("link", { name: "返回学习内容" }).click();
+  62 |   await expect(title).toBeVisible(); await expect(legend).toContainText("进阶课程");
+  63 |   await card.screenshot({ path: `${evidence}/sunburst-root-title-${width}.png` });
+  64 |   const example = page.locator("main.component-doc > section.component-doc__example").first();
+  65 |   await example.scrollIntoViewIfNeeded();
+  66 |   await expect(example.getByRole("heading", { name: "学习内容", exact: true })).toBeVisible();
+  67 |   await example.screenshot({ path: `${evidence}/sunburst-default-title-${width}.png` });
+  68 | });
+  69 | 
+```

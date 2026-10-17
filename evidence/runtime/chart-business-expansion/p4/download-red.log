@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-chart-business-consumption.test.ts (10 tests | 1 failed | 9 skipped) 16ms
+   × network downloads capture their real fixture and current relation without unrelated geometry 15ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-chart-business-consumption.test.ts > network downloads capture their real fixture and current relation without unrelated geometry
+AssertionError: expected [Function] to not throw an error but 'ReferenceError' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"ReferenceError"
+
+ ❯ scripts/verify-chart-business-consumption.test.ts:120:166
+    118|   expect(() => assertDownloadClosure(missing,"network-courses")).toThr…
+    119|   const captured = await exportedDownloads(resolve(root,"apps/playgrou…
+    120|   expect(() => assertDownloadClosure(captured.files({ id:"network", re…
+       |                                                                                                                                                                      ^
+    121| });
+    122|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 skipped (10)
+   Start at  16:06:28
+   Duration  2.08s (transform 648ms, setup 144ms, import 1.29s, tests 16ms, environment 529ms)
+

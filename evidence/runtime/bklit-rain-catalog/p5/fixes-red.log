@@ -1,0 +1,38 @@
+
+Running 2 tests using 1 worker
+
+(node:54701) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/bklit-catalog.spec.ts:84:1 › [P5] multiple funnels isolate gradient definitions (536ms)
+  ✘  2 tests/e2e/bklit-catalog.spec.ts:94:1 › [P1] composed bars leave visible space to both axes (880ms)
+
+
+  1) tests/e2e/bklit-catalog.spec.ts:94:1 › [P1] composed bars leave visible space to both axes ────
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 8
+    Received:    -32.68511962890625
+
+      107 |       return {left:Math.min(...bars.map(x=>x.left))-Math.max(...left.map(x=>x.right)),right:Math.min(...right.map(x=>x.left))-Math.max(...bars.map(x=>x.right))};
+      108 |     });
+    > 109 |     expect(facts.left).toBeGreaterThanOrEqual(8);expect(facts.right).toBeGreaterThanOrEqual(8);
+          |                        ^
+      110 |   }
+      111 | });
+      112 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/bklit-catalog.spec.ts:109:24
+
+    Error Context: evidence/runtime/bklit-rain-catalog/p5/fixes-red/bklit-catalog--P1-composed-955c7--visible-space-to-both-axes/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/p5/fixes-red/bklit-catalog--P1-composed-955c7--visible-space-to-both-axes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/p5/fixes-red/bklit-catalog--P1-composed-955c7--visible-space-to-both-axes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/bklit-catalog.spec.ts:94:1 › [P1] composed bars leave visible space to both axes ─────
+  1 passed (1.9s)

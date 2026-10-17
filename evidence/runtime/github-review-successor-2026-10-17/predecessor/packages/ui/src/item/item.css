@@ -1,0 +1,42 @@
+/* @rain-css-exception ui-item: owned Parts sizing and native-link feedback; no new visual Token. */
+.rain-item__content { flex-basis: min(100%, 20ch); }
+.rain-item__content + .rain-item__content { flex: none; }
+.rain-item__media svg { pointer-events: none; }
+.rain-item__media[data-variant="icon"] > svg {
+  width: var(--rain-space-20);
+  height: var(--rain-space-20);
+}
+.rain-item__media[data-variant="image"] > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rain-item__description > a {
+  color: var(--rain-category-text-brand-1);
+  text-decoration: underline;
+  text-underline-offset: var(--rain-space-4);
+}
+.rain-item:focus-visible, .rain-item__description > a:focus-visible {
+  outline: var(--rain-focus-width) solid var(--rain-focus-item);
+  outline-offset: var(--rain-focus-offset);
+}
+@media (hover: hover) {
+  .rain-item:is(a[href], button:not(:disabled)):hover {
+    background-color: var(--rain-category-fill-neutral-alpha-4);
+  }
+}
+.rain-item:is(a[href], button:not(:disabled)):active {
+  background-color: var(--rain-category-fill-neutral-alpha-3);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rain-item { transition: none; }
+}
+/* @rain-css-exception ui-item: preserve native controls and readable boundaries in forced colors. */
+@media (forced-colors: active) {
+  .rain-item { color: CanvasText; }
+  .rain-item[data-variant="outline"], .rain-item__media[data-variant="icon"] { border-color: CanvasText; }
+  .rain-item__title, .rain-item__description, .rain-item__footer, .rain-item__media { color: CanvasText; }
+  .rain-item:is(a[href]), .rain-item__description > a { color: LinkText; }
+  .rain-item:is(a[href]) :is(.rain-item__title, .rain-item__description, .rain-item__footer, .rain-item__media) { color: inherit; }
+  .rain-item:focus-visible, .rain-item__description > a:focus-visible { outline-color: Highlight; }
+}

@@ -1,0 +1,33 @@
+
+Running 5 tests using 1 worker
+
+(node:17656) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/navigation-v042-r4-feedback.spec.ts:65:3 › R4 feedback contracts › existing AvatarGroup portraits remain visible and do not nest actions inside group selectors (684ms)
+  ✓  2 tests/e2e/navigation-v042-r4-feedback.spec.ts:77:3 › R4 feedback contracts › compact activity cards reserve more room for details across every supported canvas width (2.6s)
+  ✓  3 tests/e2e/navigation-v042-r4-feedback.spec.ts:99:3 › R4 feedback contracts › group filter, search and activity selection preserve identity and grey ungraded scores (843ms)
+  ✓  4 tests/e2e/navigation-v042-r4-feedback.spec.ts:116:3 › R4 feedback contracts › context boundary moves closer while keyboard, pointer resizing and temporary restoration retain the selected object (877ms)
+  ✘  5 tests/e2e/navigation-v042-r4-feedback.spec.ts:129:3 › R4 feedback contracts › platform brand and footer keep sensible alignment in compact and expanded modes (746ms)
+
+
+  1) tests/e2e/navigation-v042-r4-feedback.spec.ts:129:3 › R4 feedback contracts › platform brand and footer keep sensible alignment in compact and expanded modes 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "rgb(235, 239, 255)"
+    Received: "rgb(255, 255, 255)"
+
+      137 |       else await expect(global).toHaveAttribute('data-mode', 'expanded');
+      138 |       expect(await root.locator('.nv5-platform .rain-navigation-family__item[data-active="true"] .rain-navigation-family__row').evaluate(el => getComputedStyle(el).backgroundColor)).toBe(await tokenColor(root, '--rain-category-fill-brand-solid-3'));
+    > 139 |       expect(await global.evaluate(el => getComputedStyle(el).backgroundColor)).toBe(await tokenColor(root, '--rain-category-background-neutral-4'));
+          |                                                                                 ^
+      140 |       const expanded = await footer.locator(':scope>*').evaluateAll(els => els.map(e => { const r = e.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; }));
+      141 |       const brand = await shape(root.locator('.nv5-brand')), platform = await shape(global);
+      142 |       expect(Math.max(...expanded.map(r => r.y)) - Math.min(...expanded.map(r => r.y))).toBeLessThanOrEqual(1);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-r4-feedback.spec.ts:139:81
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-06-r4-feedback/green-03-final-test-artifacts/navigation-v042-r4-feedbac-72517--compact-and-expanded-modes/error-context.md
+
+  1 failed
+    tests/e2e/navigation-v042-r4-feedback.spec.ts:129:3 › R4 feedback contracts › platform brand and footer keep sensible alignment in compact and expanded modes 
+  4 passed (6.2s)

@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "kind": "RainLocalSourceRegistry",
+  "publication": "not-published",
+  "scope": "current-workspace",
+  "humanGate": "awaiting_human",
+  "contrastAcceptance": "not-granted",
+  "sourceLock": "evidence/runtime/table-rn08/source-lock.json",
+  "dependencies": {},
+  "shared": {
+    "files": [
+      "packages/ui/src/utils/rain-class-names.ts",
+      "packages/ui/src/input/input.tsx",
+      "packages/ui/src/popover/popover.tsx",
+      "packages/ui/src/button/button.tsx",
+      "packages/ui/src/icon-button/icon-button.tsx",
+      "packages/ui/src/recipes/local-recipe.ts"
+    ],
+    "peerDependencies": [
+      "react",
+      "@rain-next/foundations",
+      "tailwind-merge",
+      "class-variance-authority"
+    ],
+    "styleDependencies": [
+      "@rain-next/foundations/tokens.css",
+      "@rain-next/foundations/typography.css",
+      "@rain-next/foundations/focus.css",
+      "@rain-next/foundations/tailwind-theme.css",
+      "@rain-next/ui/styles.css"
+    ],
+    "componentDependencies": [
+      "manifests/ui/input.yaml",
+      "manifests/ui/popover.yaml",
+      "manifests/ui/button.yaml",
+      "manifests/ui/icon-button.yaml"
+    ]
+  },
+  "items": [
+    {
+      "name": "table",
+      "exportName": "Table",
+      "exportNames": ["Table", "TableScrollArea", "TableHeader", "TableBody", "TableFooter", "TableRow", "TableHead", "TableCell", "TableCaption"],
+      "importPath": "@rain-next/ui",
+      "manifest": "manifests/ui/table.yaml",
+      "files": [
+        "packages/ui/src/table/table.tsx",
+        "packages/ui/src/table/table.styles.ts",
+        "packages/ui/src/table/table.css",
+        "packages/ui/src/table/table.css.d.ts"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "pagination",
+      "exportName": "Pagination",
+      "importPath": "@rain-next/ui",
+      "manifest": "manifests/ui/pagination.yaml",
+      "files": [
+        "packages/ui/src/pagination/pagination.tsx",
+        "packages/ui/src/pagination/pagination.utils.ts",
+        "packages/ui/src/pagination/pagination.styles.ts",
+        "packages/ui/src/pagination/pagination.css",
+        "packages/ui/src/pagination/pagination.css.d.ts"
+      ],
+      "registryDependencies": [
+        "registry/core-ui.json#button",
+        "registry/core-ui.json#input",
+        "registry/core-ui.json#form-item",
+        "registry/icon-button.json#icon-button",
+        "registry/dropdown-family.json#popover",
+        "registry/icons.json#arrow-left",
+        "registry/icons.json#arrow-right",
+        "registry/icons.json#more-horizontal",
+        "registry/icons.json#more-vertical",
+        "registry/icons.json#arrow-down"
+      ],
+      "sourceLock": "evidence/runtime/table-pagination-replacement/source-lock.json"
+    },
+    {
+      "name": "empty",
+      "exportName": "Empty",
+      "exportNames": ["Empty", "EmptyMedia", "EmptyTitle", "EmptyDescription", "EmptyActions"],
+      "importPath": "@rain-next/ui",
+      "manifest": "manifests/ui/empty.yaml",
+      "files": [
+        "packages/ui/src/empty/empty.tsx",
+        "packages/ui/src/empty/empty-illustrations.ts",
+        "packages/ui/src/empty/empty.css",
+        "packages/ui/src/empty/empty.css.d.ts",
+        "packages/ui/src/empty/assets/empty-box-light.svg",
+        "packages/ui/src/empty/assets/empty-box-dark.svg",
+        "packages/ui/src/empty/assets/empty-search-light.svg",
+        "packages/ui/src/empty/assets/empty-search-dark.svg",
+        "packages/ui/src/empty/assets/empty-paper-light.svg",
+        "packages/ui/src/empty/assets/empty-paper-dark.svg",
+        "packages/ui/src/empty/assets/no-one-light.svg",
+        "packages/ui/src/empty/assets/no-one-dark.svg",
+        "packages/ui/src/empty/assets/outer-space-light.svg",
+        "packages/ui/src/empty/assets/outer-space-dark.svg",
+        "packages/ui/src/empty/assets/empty-sofa-light.svg",
+        "packages/ui/src/empty/assets/empty-sofa-dark.svg",
+        "packages/ui/src/empty/assets/simple-light.svg",
+        "packages/ui/src/empty/assets/simple-dark.svg"
+      ],
+      "registryDependencies": [],
+      "sourceLock": "evidence/runtime/empty-refinement/source-lock.json",
+      "verificationEvidence": "evidence/runtime/empty-refinement/verification.md"
+    }
+  ],
+  "localRecipe": {
+    "id": "course-materials-client-data-table",
+    "assetIdentity": "local-experiment",
+    "searchable": false,
+    "source": "apps/prototype/src/data-table-recipe.tsx",
+    "dependencies": {
+      "@tanstack/react-table": "8.21.3"
+    },
+    "stateOwner": "host",
+    "processingMode": "client"
+  },
+  "verificationEvidence": "evidence/runtime/table-rn08/verification.md"
+}

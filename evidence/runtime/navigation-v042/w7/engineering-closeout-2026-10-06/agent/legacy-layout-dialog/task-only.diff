@@ -1,0 +1,186 @@
+--- before/scripts/layouts-v1.test.ts
++++ scripts/layouts-v1.test.ts
+@@ -1,9 +1,10 @@
+-import { hasInputNumberAuthorization } from "./verification-helpers.mjs";
+ import { hasTokenFirstV12Authorization, hasTokenFirstV12G1NextAuthorization } from "./verification-helpers.mjs";
+-import { hasAvatarFamilyAuthorization } from "./verification-helpers.mjs";
+-import { hasGenerationQualityAuthorization, hasM2Authorization, hasBmBRn10Authorization, hasBmARn09Authorization, hasRn13Authorization, hasRn14Authorization, hasRn15Authorization, hasDialogRefinementAuthorization, matchesRn15ProtectedSource } from "./verification-helpers.mjs";
++import { hasGenerationQualityAuthorization, matchesRn15ProtectedSource, validateTokenFoundationsV1Phase } from "./verification-helpers.mjs";
+ import { createHash } from "node:crypto";
+-import { readFileSync } from "node:fs";
++import { spawnSync } from "node:child_process";
++import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
+ import { fileURLToPath } from "node:url";
+ import { expect, it } from "vitest";
+ import { hasTableRn08Authorization, hasLayoutsV1Authorization, layoutsV1Files, parseYamlSubset } from "./verification-helpers.mjs";
+@@ -15,25 +16,21 @@
+ 
+ it("limits RN-06 to its exact candidate authorization and preserves every earlier phase record", () => {
+   const status = phase();
++  expect(() => validateTokenFoundationsV1Phase(status)).not.toThrow();
+   expect(hasLayoutsV1Authorization(status)).toBe(true);
+   for (const patch of [{ humanGate: "accepted" }, { contrastAcceptance: "accepted" }, { scope: "all-layouts" }, { unexpected: true }]) {
+     expect(hasLayoutsV1Authorization({ ...status, componentRefinements: { ...status.componentRefinements, layoutsV1: { ...status.componentRefinements.layoutsV1, ...patch } } })).toBe(false);
+   }
+-  const { layoutsV1, ...earlier } = status.componentRefinements;
+-  if (hasTokenFirstV12Authorization(status)) delete earlier.tokenFirstV12;
+-  if (hasAvatarFamilyAuthorization(status)) delete earlier.avatarFamily;
+-  if (hasInputNumberAuthorization(status)) delete earlier.inputNumber;
+-  if (hasGenerationQualityAuthorization(status)) delete earlier.generationQuality;
+-  if (hasM2Authorization(status)) delete earlier.m2Delivery;
+-  if (hasRn15Authorization(status)) delete earlier.rn15Delivery;
+-  if (hasDialogRefinementAuthorization(status)) delete earlier.dialogRefinement;
+-  if (hasRn14Authorization(status)) delete earlier.rn14Editability;
+-  if (hasRn13Authorization(status)) delete earlier.rn13AssetIndex;
+-  if (hasBmBRn10Authorization(status)) delete earlier.bmBRn10;
+-  if (hasBmARn09Authorization(status)) delete earlier.bmARn09;
+-  if (hasTableRn08Authorization(status)) delete earlier.tableRn08;
+-  const before: any = parseYamlSubset(read("evidence/runtime/layouts-v1/before/status/current-phase.yaml.txt"));
+-  expect({ ...status, componentRefinements: earlier }).toEqual(before);
++  const beforeSource = read("evidence/runtime/layouts-v1/before/status/current-phase.yaml.txt");
++  const checkpointSource = read("evidence/runtime/spacing-hierarchy/before/status/current-phase.yaml.txt");
++  expect(createHash("sha256").update(beforeSource).digest("hex")).toBe("f4710b10c685873975b094b3943412ff2e288a59c5e37606231ffd622dd67fb2");
++  expect(createHash("sha256").update(checkpointSource).digest("hex")).toBe("a1c904b8452adc67df92ca441c26d2a594a07460647e5f1696dcf5a3a0e46141");
++  const before: any = parseYamlSubset(beforeSource), checkpoint: any = parseYamlSubset(checkpointSource);
++  const { layoutsV1: recordedLayout, ...earlier } = checkpoint.componentRefinements;
++  expect({ ...checkpoint, componentRefinements: earlier }).toEqual(before);
++  expect(() => validateTokenFoundationsV1Phase(before)).not.toThrow();
++  expect(() => validateTokenFoundationsV1Phase(checkpoint)).not.toThrow();
++  const layoutsV1 = status.componentRefinements.layoutsV1;
+   expect(layoutsV1.scope).toBe("rn-06-stack-inline-grid-split-and-local-consumers");
+   expect(layoutsV1Files.layouts).toHaveLength(7);
+   for (const patch of [{ humanGateDecision: undefined }, { scope: "all-components" }, { implementation: "published" }, { automatedVerification: "failed" }, { independentReview: "not-run" }, { contrastAcceptance: "accepted" }, { unexpected: true }]) {
+@@ -58,8 +55,20 @@
+     const manifest: any = parseYamlSubset(read(`manifests/layouts/${name}.yaml`));
+     expect(manifest.verification.spacingHierarchy).toEqual(expected); expect(manifest.verification.humanGate).toBe("awaiting_human");
+   }
+-  const beforeSpacing: any = parseYamlSubset(read("evidence/runtime/spacing-hierarchy/before/status/current-phase.yaml.txt"));
+-  expect(original).toEqual(beforeSpacing.componentRefinements.layoutsV1);
++  expect(original).toEqual(recordedLayout);
++});
++
++it("rejects unknown live successors and mutations to the frozen parent history", () => {
++  const status = phase();
++  for (const field of ["unapprovedSuccessor", "componentRefinements"]) {
++    const changed = structuredClone(status);
++    if (field === "componentRefinements") changed.componentRefinements.unapprovedSuccessor = { authorization: "authorized" };
++    else changed[field] = { authorization: "authorized" };
++    expect(() => validateTokenFoundationsV1Phase(changed)).toThrow();
++  }
++  const changed = structuredClone(status);
++  changed.phaseHistory.tailwindB2.blockedActions.push("unrecorded permission");
++  expect(() => validateTokenFoundationsV1Phase(changed)).toThrow();
+ });
+ 
+ it("keeps Layout variables local to finite geometry and reuses the existing Space classes", () => {
+@@ -82,7 +91,8 @@
+   expect(validateRegisteredRecipeColors({ filePath: examplePath, source: example + ".outside { color: red; }" }).length).toBeGreaterThan(0);
+ });
+ 
+-it("adds only workspace Layout links and leaves upstream resolutions, UI and Foundations unchanged", () => {
++it("adds only workspace Layout links and preserves protected UI and Foundations at the frozen RN15 checkpoint", () => {
++  const status = phase();
+   for (const app of ["playground", "prototype"]) {
+     const file = `apps/${app}/package.json`;
+     const before = JSON.parse(read(`evidence/runtime/layouts-v1/before/${file}.txt`));
+@@ -116,8 +126,30 @@
+   }
+   expect(resolutions).toBe(beforeLock.split("\npackages:\n")[1]);
+   const baseline = JSON.parse(read("evidence/runtime/layouts-v1/baseline.json"));
++  expect(createHash("sha256").update(read("evidence/runtime/layouts-v1/baseline.json")).digest("hex")).toBe("f1deb188e49ec1aa56d9004bd8a98bd3ecac930ecce2302753697195c40c2f03");
+   const transitions = JSON.parse(read("evidence/runtime/rn15-delivery/source-transitions.json"));
+-  for (const [file, checksum] of Object.entries(baseline.protectedSha256)) {
+-    expect(matchesRn15ProtectedSource(file, readFileSync(path(file)), checksum, phase(), transitions), file).toBe(true);
++  const archive = "evidence/runtime/rn14-editability/starter-final.tar.gz";
++  expect(createHash("sha256").update(readFileSync(path(archive))).digest("hex")).toBe("81ed247e9e3c57bf9edd94ace9bea30487557ab5404c26570aa8ea055c7f900e");
++  expect(createHash("sha256").update(read("evidence/runtime/rn15-delivery/source-transitions.json")).digest("hex")).toBe("dbc947f3c4e19dfb0570d4ff69325d9968ad68c41631c81ce02a631d91e0b7eb");
++  const historicalRoot = mkdtempSync(join(tmpdir(), "rain-layouts-rn15-frozen-"));
++  // These earlier consumers were intentionally outside the BM-A/B starter; their original checksums still apply live.
++  const outsideStarter = new Set(["apps/prototype/src/course-dialog.tsx", "apps/prototype/src/course-dialog.css", "apps/prototype/src/card-recipes.tsx", "apps/prototype/src/card-recipes.css"]);
++  try {
++    const extracted = spawnSync("tar", ["-xzf", path(archive), "-C", historicalRoot], { encoding: "utf8" });
++    expect(extracted.error).toBeUndefined(); expect(extracted.status).toBe(0);
++    expect(Object.keys(baseline.protectedSha256)).toHaveLength(1925);
++    for (const [file, checksum] of Object.entries(baseline.protectedSha256)) {
++      const frozenFile = join(historicalRoot, file);
++      expect(existsSync(frozenFile) || outsideStarter.has(file), file).toBe(true);
++      const source = readFileSync(outsideStarter.has(file) ? path(file) : frozenFile);
++      expect(matchesRn15ProtectedSource(file, source, checksum, status, transitions), file).toBe(true);
++    }
++    for (const entry of transitions.filter((entry: any) => ["packages/foundations/src/tokens.css", "packages/ui/src/index.ts", "packages/ui/src/styles.css"].includes(entry.file))) {
++      const source = readFileSync(join(historicalRoot, entry.file));
++      expect(matchesRn15ProtectedSource(entry.file, Buffer.concat([source, Buffer.from("\n/* unrecorded change */")]), entry.beforeSha256, status, transitions), entry.file).toBe(false);
++      expect(matchesRn15ProtectedSource(entry.file, source, entry.beforeSha256, status, []), entry.file).toBe(false);
++    }
++  } finally {
++    rmSync(historicalRoot, { recursive: true, force: true });
+   }
+ });
+--- before/scripts/dialog-v2.test.ts
++++ scripts/dialog-v2.test.ts
+@@ -1,14 +1,19 @@
+-import { matchesRn15ProtectedSource } from "./verification-helpers.mjs";
+-import { readFileSync, existsSync } from "node:fs";
++import { matchesRn15ProtectedSource, validateTokenFoundationsV1Phase } from "./verification-helpers.mjs";
++import { readFileSync, existsSync, mkdtempSync, rmSync } from "node:fs";
++import { spawnSync } from "node:child_process";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
+ import { fileURLToPath } from "node:url";
+ import { createHash } from "node:crypto";
+ import { expect, it } from "vitest";
+ import { parseYamlSubset, hasDialogV2Authorization, hasDialogRefinementAuthorization, isDialogV2Import } from "./verification-helpers.mjs";
+ import { prepareDialogLayoutSource, validateRegisteredRecipeColors } from "./verify-token-foundations.mjs";
+ 
+-const read = (file: string) => readFileSync(fileURLToPath(new URL("../" + file, import.meta.url)), "utf8");
++const path = (file: string) => fileURLToPath(new URL("../" + file, import.meta.url));
++const read = (file: string) => readFileSync(path(file), "utf8");
+ it("limits RN-05 authorization, headless imports and candidate metadata", () => {
+   const status: any = parseYamlSubset(read("status/current-phase.yaml"));
++  expect(() => validateTokenFoundationsV1Phase(status)).not.toThrow();
+   expect(hasDialogV2Authorization(status)).toBe(true);
+   for (const patch of [{ humanGate: "accepted" }, { scope: "all-components" }, { contrastAcceptance: "accepted" }, { unexpected: true }]) {
+     expect(hasDialogV2Authorization({ ...status, componentRefinements: { ...status.componentRefinements, dialogV2: { ...status.componentRefinements.dialogV2, ...patch } } })).toBe(false);
+@@ -47,13 +52,36 @@
+   expect(validateRegisteredRecipeColors({ filePath, source: css + ".outside { color: red; }" }).length).toBeGreaterThan(0);
+ });
+ 
+-it("retains independently obtained upstream contents and the protected pre-batch UI", () => {
++it("retains upstream contents and the protected pre-batch UI at the frozen RN15 checkpoint", () => {
+   const source = JSON.parse(read("evidence/runtime/dialog-v2/source-lock.json"));
+   for (const item of source.files) expect(createHash("sha256").update(read(item.localPath)).digest("hex")).toBe(item.sha256);
+   const baseline = JSON.parse(read("evidence/runtime/dialog-v2/baseline.json"));
+-  const status = parseYamlSubset(read("status/current-phase.yaml"));
++  expect(createHash("sha256").update(read("evidence/runtime/dialog-v2/baseline.json")).digest("hex")).toBe("2e779c585c5638be1604a8d100c0e5f1e7be0b401752a6a8737bc8ea2de91aa1");
++  const status = parseYamlSubset(read("status/current-phase.yaml")) as any;
+   const transitions = JSON.parse(read("evidence/runtime/rn15-delivery/source-transitions.json"));
+-  for (const [path, checksum] of Object.entries(baseline.protectedSha256)) {
+-    expect(matchesRn15ProtectedSource(path, readFileSync(fileURLToPath(new URL("../" + path, import.meta.url))), checksum, status, transitions), path).toBe(true);
++  const archive = path("evidence/runtime/rn14-editability/starter-final.tar.gz");
++  expect(createHash("sha256").update(readFileSync(archive)).digest("hex")).toBe("81ed247e9e3c57bf9edd94ace9bea30487557ab5404c26570aa8ea055c7f900e");
++  expect(createHash("sha256").update(read("evidence/runtime/rn15-delivery/source-transitions.json")).digest("hex")).toBe("dbc947f3c4e19dfb0570d4ff69325d9968ad68c41631c81ce02a631d91e0b7eb");
++  const historicalRoot = mkdtempSync(join(tmpdir(), "rain-dialog-rn15-frozen-"));
++  // Card recipe pages were intentionally outside the BM-A/B starter; their original checksums still apply live.
++  const outsideStarter = new Set(["apps/prototype/src/card-recipes.tsx", "apps/prototype/src/card-recipes.css"]);
++  try {
++    const extracted = spawnSync("tar", ["-xzf", archive, "-C", historicalRoot], { encoding: "utf8" });
++    expect(extracted.error).toBeUndefined(); expect(extracted.status).toBe(0);
++    expect(Object.keys(baseline.protectedSha256)).toHaveLength(1915);
++    for (const [file, checksum] of Object.entries(baseline.protectedSha256)) {
++      const frozenFile = join(historicalRoot, file);
++      expect(existsSync(frozenFile) || outsideStarter.has(file), file).toBe(true);
++      const source = readFileSync(outsideStarter.has(file) ? fileURLToPath(new URL("../" + file, import.meta.url)) : frozenFile);
++      expect(matchesRn15ProtectedSource(file, source, checksum, status, transitions), file).toBe(true);
++    }
++    for (const entry of transitions.filter((entry: any) => ["packages/foundations/src/tokens.css", "packages/ui/src/styles.css"].includes(entry.file))) {
++      const source = readFileSync(join(historicalRoot, entry.file));
++      expect(matchesRn15ProtectedSource(entry.file, Buffer.concat([source, Buffer.from("\n/* unrecorded change */")]), entry.beforeSha256, status, transitions), entry.file).toBe(false);
++      expect(matchesRn15ProtectedSource(entry.file, source, entry.beforeSha256, status, []), entry.file).toBe(false);
++      expect(matchesRn15ProtectedSource(entry.file, source, entry.beforeSha256, { ...status, componentRefinements: { ...status.componentRefinements, rn15Delivery: undefined } }, transitions), entry.file).toBe(false);
++    }
++  } finally {
++    rmSync(historicalRoot, { recursive: true, force: true });
+   }
+ });

@@ -1,0 +1,139 @@
+--- round4/run-observation.py
++++ round6/run-observation.py
+@@ -1,12 +1,13 @@
+-"""Local experiment: three public observation turns in one ephemeral read-only thread.
+-
+-Usage: python3 -B run-observation.py CONTEXT OUT PROMPT ARM(whole|local) IMAGE IMAGE IMAGE IMAGE
++"""Local experiment: inventory, coordinates, observation, final in one read-only thread.
++
++Usage: python3 -B run-observation.py CONTEXT OUT PROMPT ARM(whole|local) IMAGE
+ No model/effort override; no reasoning events or command-output bodies are exported.
+ """
+ import hashlib
+ import json
+ import mimetypes
+ import queue
++import re
+ import subprocess
+ import sys
+ import threading
+@@ -19,19 +20,68 @@
+ CLI = '/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex'
+ HERE = Path(__file__).resolve().parent
+ DEADLINE_SECONDS = 480
+-OBSERVATION_PROMPT = '''现在进入第二阶段。以下材料与第一阶段自主选择的区域一一对应，顺序和编号见各图前的标签。
+-只复核你已选择的这些可见对象关系，记录实际观察及相对第一阶段新增、撤销或仍不确定的发现。
++COORDINATE_PROMPT = '''现在进入第二阶段，只生成截图坐标。第一阶段关系清单已经冻结，以下附上完整清单和原始单页截图。
++把每个关系分配到一个能同时完整显示比较双方和参照的区域；多个关系可以共享一个区域。每个关系恰好出现一次，不准增、删、改关系 ID、objects 或 dimension。
++最多 8 个区域只是本次实验材料预算，不是设计规则。全部区域只可来自原图 1，坐标为原图像素，整数 x、y、width、height，宽高至少 80，不能超出原图。
++仅输出有效 JSON，不加代码围栏或说明，顶层恰好是 regions 和 initialFindings。regions 每项恰好是 image、x、y、width、height、relation。
++relation 按行列出该区域承担的关系，每行严格为 id｜objects｜dimension，逐字沿用冻结清单字段，以全角竖线分隔，不添加空格、标题或结论。initialFindings 只写简短的初步发现或尚未判断。
++只分配坐标，不自行截图，不修改、生成或编辑图像，不访问页面源码、外部服务或以前评审，不输出内部思考。
++冻结关系清单：\n'''
++OBSERVATION_PROMPT = '''现在进入第三阶段。以下材料与第二阶段自主选择的区域一一对应，图序号就是标签中的“关系 n”。
++逐项检查冻结清单中的每个 ID：实际比较该 ID 对应对象和那一个维度，不得只因区域中含有对象就声明已检查。
++每个 ID 恰好输出一行公开观察回执，其他位置不再重复 ID，不用代码围栏、表格或项目符号。
++格式必须为：R01｜已检查｜正常/异常/无法判断｜具体可见事实及图序号；其中正常/异常/无法判断只选一个。
++尚未实际比较则写：R01｜未检查｜原因；确认不适用则写：R01｜不适用｜原因。不为填满回执而虚构检查，不把无法判断写成正常。
+ 坐标仅用于定位，不是偏移量答案；不要推测精确偏移。材料未完整显示参照和比较双方时，不得硬判关系有问题，明确标为未验证。
+ 维持第一阶段相同的任务范围、设计依据和只读约束，不新增选区、不访问页面源码、外部服务或以前评审，不修改、生成或编辑图像。
+ 用简洁中文公开评议，不输出内部思考。'''
+-FINAL_PROMPT = '''现在进入第三阶段。重新提供最初的四张原始整图，请回到正常显示尺寸和页面整体上下文复查，完成四图最终简洁评审。
+-逐图给出有依据的结论，说明相对初步发现及第二阶段观察新增、保留或撤销的发现；没有变化就如实说明。
++FINAL_PROMPT = '''现在进入第四阶段。重新提供最初的单页原始整图，请回到正常显示尺寸和页面整体上下文复查，仅完成该页主表格的最终简洁评审，不扩大范围。
++给出有依据的结论，说明相对初步发现及第三阶段观察新增、保留或撤销的发现；没有变化就如实说明。
+ 不要把局部聚焦后的印象直接当作整体问题，不推测精确偏移；未完整显示关系双方或证据不足时，不得硬判。
+ 维持相同的设计依据与只读范围，不访问页面源码、外部服务或以前评审，不修改或生成图像。说明静态评审范围及尚未验证项，不输出内部思考。'''
+ 
+ 
+ def save_json(path, value):
+     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
++
++
++def validate_inventory(value):
++    if not isinstance(value, dict) or set(value) != {'relations', 'scope'}:
++        raise ValueError('inventory must contain exactly relations and scope')
++    if not isinstance(value['scope'], str) or not value['scope'].strip():
++        raise ValueError('inventory scope must be nonempty text')
++    relations = value['relations']
++    if not isinstance(relations, list) or not relations:
++        raise ValueError('inventory relations must be a nonempty list')
++    seen = set()
++    for relation in relations:
++        if not isinstance(relation, dict) or set(relation) != {'id', 'objects', 'dimension'}:
++            raise ValueError('inventory relation fields must be exactly id, objects, dimension')
++        rid = relation['id']
++        if not isinstance(rid, str) or not re.fullmatch(r'R\d+', rid) or rid in seen:
++            raise ValueError('inventory relation IDs must match R\\d+ and be unique')
++        if any(not isinstance(relation[key], str) or not relation[key].strip()
++               for key in ('objects', 'dimension')):
++            raise ValueError('inventory objects and dimension must be nonempty text')
++        seen.add(rid)
++    return value
++
++
++def validate_mapping(selection, inventory):
++    expected = {item['id']: [item['id'], item['objects'], item['dimension']]
++                for item in validate_inventory(inventory)['relations']}
++    seen = set()
++    for region in selection['regions']:
++        for line in region['relation'].splitlines():
++            parts = line.split('｜')
++            if len(parts) != 3 or parts[0] not in expected or parts != expected[parts[0]]:
++                raise ValueError('region relation must exactly match a frozen inventory entry')
++            if parts[0] in seen:
++                raise ValueError('inventory relation mapped more than once')
++            seen.add(parts[0])
++    if seen != expected.keys():
++        raise ValueError('selection does not map every frozen inventory relation')
++    return selection
+ 
+ 
+ def validate_selection(value, sizes):
+@@ -98,7 +148,7 @@
+ 
+ 
+ def main():
+-    if len(sys.argv) != 9:
++    if len(sys.argv) != 6:
+         raise ValueError(__doc__)
+     context, output, prompt_path = (Path(arg).resolve() for arg in sys.argv[1:4])
+     arm = sys.argv[4]
+@@ -276,9 +326,16 @@
+         summary.update(threadId=root_id, threadPath=thread['thread'].get('path'), model=thread.get('model'),
+                        reasoningEffort=thread.get('reasoningEffort'), modelProvider=thread.get('modelProvider'),
+                        threadSettings={key: thread.get(key) for key in ['approvalPolicy', 'sandbox', 'reasoningEffort']})
+-        initial = run_stage('initial', [{'type': 'text', 'text': prompt},
++        inventory_review = run_stage('inventory', [{'type': 'text', 'text': prompt},
+             {'type': 'skill', 'name': 'rain-designer', 'path': str(skill)}, *image_inputs(images)], 4)
++        inventory = validate_inventory(json.loads(inventory_review))
++        save_json(output / 'inventory.json', inventory)
++        summary.update(inventoryCount=len(inventory['relations']),
++                       inventorySha256=hashlib.sha256((output / 'inventory.json').read_bytes()).hexdigest())
++        initial = run_stage('initial', [{'type': 'text', 'text': COORDINATE_PROMPT + json.dumps(inventory, ensure_ascii=False)},
++                                       *image_inputs(images)], 5)
+         selection = validate_selection(json.loads(initial), [(item['width'], item['height']) for item in metadata])
++        validate_mapping(selection, inventory)
+         save_json(output / 'selection.json', selection)
+         summary.update(initialFindings=selection['initialFindings'], regionCount=len(selection['regions']),
+                        localInspectionPerformed=False)
+@@ -287,7 +344,7 @@
+         if arm == 'local' and regions:
+             manifest = output / 'render-input.json'
+             save_json(manifest, {'images': metadata, 'regions': regions})
+-            subprocess.run(['node', str(HERE / 'render-regions.mjs'), str(manifest), str(output / 'regions')],
++            subprocess.run(['node', str(HERE.parent / 'round4/render-regions.mjs'), str(manifest), str(output / 'regions')],
+                            check=True, timeout=120, capture_output=True, text=True)
+             rendered = json.loads((output / 'regions/rendered.json').read_text())
+             summary['pixelChecks'] = verify_region_pixels(images, regions, rendered)
+@@ -299,8 +356,8 @@
+         for index, (region, path) in enumerate(zip(regions, observation_images), 1):
+             observation_input.extend([{'type': 'text', 'text': f'关系 {index}（原图坐标，仅用于定位）：' + json.dumps(region, ensure_ascii=False)},
+                                       {'type': 'localImage', 'path': str(path)}])
+-        summary['observationFindings'] = run_stage('observation', observation_input, 5)
+-        summary['finalFindings'] = run_stage('final', [{'type': 'text', 'text': FINAL_PROMPT}, *image_inputs(images)], 6)
++        summary['observationFindings'] = run_stage('observation', observation_input, 6)
++        summary['finalFindings'] = run_stage('final', [{'type': 'text', 'text': FINAL_PROMPT}, *image_inputs(images)], 7)
+         summary['status'] = 'completed'
+         send('thread/unsubscribe', {'threadId': root_id}, 99)
+     except (Exception, KeyboardInterrupt) as error:

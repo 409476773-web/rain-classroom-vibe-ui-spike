@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/legend-interaction.test.tsx (11 tests | 1 failed) 198ms
+   × a host that already follows label identity is not remapped twice after a reorder 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > a host that already follows label identity is not remapped twice after a reorder
+AssertionError: expected '甲系列' to be '乙系列' // Object.is equality
+
+Expected: "乙系列"
+Received: "甲系列"
+
+ ❯ packages/ui/src/charts/legend-interaction.test.tsx:74:34
+     72|   act(() => screen.getByRole("button", { name: /^乙系列/ }).focus());
+     73|   view.rerender(<KeyReading items={[initial[1]!, initial[0]!]} />);
+     74|   expect(selected().textContent).toBe("乙系列");
+       |                                  ^
+     75| });
+     76|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 passed (11)
+   Start at  13:54:43
+   Duration  1.93s (transform 813ms, setup 99ms, import 1.16s, tests 198ms, environment 382ms)
+

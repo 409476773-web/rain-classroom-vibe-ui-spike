@@ -1,0 +1,92 @@
+
+Running 1 test using 1 worker
+
+(node:92825) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [narrow] › tests/e2e/drawer-refinement.spec.ts:111:1 › 320px-high failure actions remain reachable and continuous text wraps (30.1s)
+
+
+  1) [narrow] › tests/e2e/drawer-refinement.spec.ts:111:1 › 320px-high failure actions remain reachable and continuous text wraps 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('radio', { name: '首次保存失败', exact: true })
+        - locator resolved to <input type="radio" class="sr-only" value="failure" data-slot="input" data-focus="control" name="drawerSaveScenario" aria-labelledby="_r_3_-label"/>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+      - retrying click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <html lang="zh-CN" data-rain-theme="light">…</html> intercepts pointer events
+      - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        14 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <html lang="zh-CN" data-rain-theme="light">…</html> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span data-slot="canvas" aria-hidden="true" class="flex h-rain-24 w-rain-24 flex-none items-center justify-center">…</span> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      111 | test("320px-high failure actions remain reachable and continuous text wraps", async ({ page }) => {
+      112 |   await page.setViewportSize({ width: 390, height: 320 });
+    > 113 |   await page.goto("/#drawer"); await page.getByRole("radio", { name: "首次保存失败", exact: true }).check();
+          |                                                                                               ^
+      114 |   await page.getByRole("button", { name: "编辑课前任务", exact: true }).click();
+      115 |   await page.getByRole("textbox", { name: "任务标题", exact: true }).fill("短屏失败");
+      116 |   await page.getByRole("button", { name: "保存草稿", exact: true }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/drawer-refinement.spec.ts:113:95
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-320px-hi-bf298-e-and-continuous-text-wraps-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-320px-hi-bf298-e-and-continuous-text-wraps-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-320px-hi-bf298-e-and-continuous-text-wraps-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-320px-hi-bf298-e-and-continuous-text-wraps-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [narrow] › tests/e2e/drawer-refinement.spec.ts:111:1 › 320px-high failure actions remain reachable and continuous text wraps 

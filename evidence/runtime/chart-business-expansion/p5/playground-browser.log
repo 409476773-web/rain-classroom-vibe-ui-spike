@@ -1,0 +1,42 @@
+
+Running 6 tests using 1 worker
+
+(node:14435) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/charts-playground.spec.ts:7:1 › [T09] catalog navigation restores focus after the lazy chart page loads (1.2s)
+  ✓  2 tests/e2e/charts-playground.spec.ts:18:1 › [T09] all 17 native documentation entries render, read and expose their actual source (10.0s)
+  ✓  3 tests/e2e/charts-playground.spec.ts:42:1 › [T09] recipe source stays current and the narrow chart doc does not overflow (1.4s)
+  ✓  4 tests/e2e/charts-playground.spec.ts:53:1 › [T09] chart styles leave a normal Rain switch unchanged (1.5s)
+  ✓  5 tests/e2e/charts-playground.spec.ts:69:1 › blue-gray monochrome repaints actual bars, areas and stage gradients and restores the previous recipe (3.2s)
+  ✘  6 tests/e2e/charts-playground.spec.ts:105:1 › blue-gray monochrome is available in 15 native catalog entries with ordered intensity, readable sunburst labels and narrow previews (98ms)
+
+
+  1) tests/e2e/charts-playground.spec.ts:105:1 › blue-gray monochrome is available in 15 native catalog entries with ordered intensity, readable sunburst labels and narrow previews 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5387/bklit-catalog.html#chart-area
+    Call log:
+      - navigating to "http://127.0.0.1:5387/bklit-catalog.html#chart-area", waiting until "load"
+
+
+      111 |   const facts = [];
+      112 |   for (const entry of entries) {
+    > 113 |     await page.goto(`http://127.0.0.1:5387/bklit-catalog.html#chart-${entry.id}`);
+          |                ^
+      114 |     const host = page.locator(`[data-rain-id="chart-${entry.id}"]`).first();
+      115 |     await page.getByRole("combobox", { name: "视觉配方", exact: true }).selectOption({ label: "蓝灰单色" });
+      116 |     await expect(host.locator("svg").first()).toBeVisible();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/charts-playground.spec.ts:113:16
+
+    Error Context: evidence/runtime/bklit-rain-catalog/playground/test-results/charts-playground-blue-gra-93170--labels-and-narrow-previews/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/playground/test-results/charts-playground-blue-gra-93170--labels-and-narrow-previews/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/playground/test-results/charts-playground-blue-gra-93170--labels-and-narrow-previews/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/charts-playground.spec.ts:105:1 › blue-gray monochrome is available in 15 native catalog entries with ordered intensity, readable sunburst labels and narrow previews 
+  5 passed (17.9s)

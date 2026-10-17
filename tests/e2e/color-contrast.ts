@@ -6,10 +6,11 @@ function parseColor(color: string): Rgba {
     throw new Error(`Unsupported browser color: ${color}`);
   }
 
+  const scale = color.startsWith("color(srgb ") ? 255 : 1;
   return [
-    channels[0] ?? 0,
-    channels[1] ?? 0,
-    channels[2] ?? 0,
+    (channels[0] ?? 0) * scale,
+    (channels[1] ?? 0) * scale,
+    (channels[2] ?? 0) * scale,
     channels[3] ?? 1,
   ];
 }

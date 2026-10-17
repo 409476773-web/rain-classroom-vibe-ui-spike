@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verification-helpers.test.ts (241 tests | 1 failed | 240 skipped) 12ms
+   × registers report A local colors without accepting unknown or weaker paints 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verification-helpers.test.ts > registers report A local colors without accepting unknown or weaker paints
+AssertionError: expected [] to have a length of 8 but got +0
+
+- Expected
++ Received
+
+- 8
++ 0
+
+ ❯ scripts/verification-helpers.test.ts:33:21
+     31|   const source = readFileSync(join(workspaceRoot, filePath), "utf8");
+     32|   const consumers = getM2ColorConsumers(workspaceRoot).filter((entry: …
+     33|   expect(consumers).toHaveLength(8);
+       |                     ^
+     34|   const outputs = getTokenFoundationOutputs();
+     35|   outputs.colorCssConsumers.push(...consumers);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 240 skipped (241)
+   Start at  22:27:29
+   Duration  957ms (transform 305ms, setup 92ms, import 409ms, tests 12ms, environment 358ms)
+

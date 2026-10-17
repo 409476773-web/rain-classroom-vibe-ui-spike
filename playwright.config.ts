@@ -1,6 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
 
-process.env.RAIN_TABLE_PROTOTYPE_URL ??= "http://127.0.0.1:4174";
+// These scenarios belong to the prototype server started by this configuration.
+for (const name of ["RAIN_TABLE_PROTOTYPE_URL", "RAIN_V12_URL", "RAIN_V12_NEXT_URL", "RAIN_V12_G2_URL", "RAIN_V12_G3_URL", "RAIN_TEACHER_URL"]) {
+  process.env[name] ??= "http://127.0.0.1:4174";
+}
+const prototypeSpecs = ["**/bm-a.spec.ts", "**/m2.spec.ts", "**/navigation-rebuild*.spec.ts", "**/learning-report-a.spec.ts", "**/token-first-g*.spec.ts", "**/teacher-grading.spec.ts"];
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -28,12 +32,12 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      testIgnore: ["**/bm-a.spec.ts", "**/m2.spec.ts"],
+      testIgnore: prototypeSpecs,
       use: { ...devices["Desktop Chrome"] },
     },
     {
       name: "chromium-prototype",
-      testMatch: ["**/bm-a.spec.ts", "**/m2.spec.ts"],
+      testMatch: prototypeSpecs,
       use: { ...devices["Desktop Chrome"], baseURL: "http://127.0.0.1:4174" },
     },
   ],

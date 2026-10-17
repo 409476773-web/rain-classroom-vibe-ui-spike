@@ -1,0 +1,89 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-item"
+name: "Item"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/item/item.tsx"
+styleSourcePath: "packages/ui/src/item/item.css"
+sourceVersion: "shadcn-ui/ui@3ba91b1; rain-adaptation-2026-10-11"
+description: "组织资料、通知、成员等普通内容条目的媒体、主副信息与独立操作。"
+useWhen:
+  - "普通对象内容需要稳定排列、长文字和可选操作。"
+doNotUseWhen:
+  - "表单字段、导航选择或对象遍历，已有专用组件。"
+  - "将含交互控件的条目再包成整行链接或按钮。"
+anatomy:
+  - "group → item → media / content / actions / header / footer"
+parts:
+  - "group、root、media、content、title、description、actions、header、footer"
+  - "ItemSeparator 复用 ui-separator / root 和 rain-item__separator 类。"
+props:
+  - "Item: variant default / outline / muted; size default / sm / xs; render; className; native props/ref"
+  - "ItemMedia: variant default / icon / image; children 与 native div props"
+slots:
+  - "十个开放 Parts；内容、媒体和操作由宿主提供。"
+variants:
+  - "default 透明内容、outline 轻边界、muted 浅底"
+  - "省略 size 时随父级 Density default→default、compact→sm；显式 xs 保留。"
+states:
+  - "静态内容；原生链接 hover / focus / active；独立按钮继承已有状态。"
+dependencies:
+  - "React、Base UI 1.8.0 use-render / merge-props"
+  - "class-variance-authority 0.7.1、rainCn、既有 Separator 和 Foundations Density"
+tokens:
+  - "现有 neutral 前景／表面／边界／图标、brand link、Focus/Item"
+  - "Typography 14/22、12/20、Spacing 16/12/8/4、Radius 8/6、反馈 Motion"
+layoutConstraints:
+  - "标题和说明完整换行；min-width:0，动作可换行。"
+  - "Item 自身不创建 fixed height、页面滚动或业务选择模型。"
+compositionRules:
+  - "静态 Item 不加伪点击和 tabIndex；有独立操作时根为内容容器。"
+  - "整行链接 render 为原生 a，内部只有非交互内容，保留浏览器链接行为。"
+  - "ItemGroup role=list，成员用独立 listitem／原生列表结构，不覆盖链接角色。"
+allowedModifications:
+  - "Props、Parts、内容、原生 render 和宿主布局／Local Recipe。"
+restrictedModifications:
+  - "不得改变全局字体／Token、移除焦点或将业务选择／请求置于共享 Item。"
+accessibility:
+  - "原生链接可通过 Tab／Enter 使用；独立操作使用已有 Button／Link。"
+  - "列表成员关系、长内容和必要信息不默认裁切。"
+  - "reduced-motion、forced-colors 与 item focus 保留。"
+examples:
+  - "apps/playground/src/docs/components/g4-component-pages.tsx#ItemPage"
+recipes:
+  - "资料条目、分组长内容与原生整行链接的本地示例。"
+antiPatterns:
+  - "嵌套交互、将所有内容条目当作导航、依赖 hover 才能获取重要操作。"
+relatedComponents:
+  - "ui-button"
+  - "ui-separator"
+  - "foundation-typography"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "已确认 Rain 冷色文字、轻表面、密度与焦点；当前导航对象条目的内容／动作关系。"
+  externalReferences:
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048 Base UI Item; MIT"
+  retainedTraits:
+    - "十个 Parts、useRender／mergeProps、三种表面、开放内容与原生语义。"
+  redesignedTraits:
+    - "Rain Token、父级 Density、trace、长内容完整换行和列表语义说明。"
+  intentionallyNotInherited:
+    - "上游品牌主题、默认行数裁切和未使用的业务状态。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/g4-components-2026-10-11/source-lock.json"
+migrationNotes: "2026-10-11 用户授权新增共享候选与独立展示，视觉验收与发布状态分别记录。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  evidence: "evidence/runtime/g4-components-2026-10-11/verification.md"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"

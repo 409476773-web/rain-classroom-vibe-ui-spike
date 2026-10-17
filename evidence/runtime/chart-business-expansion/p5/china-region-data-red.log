@@ -1,0 +1,105 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/china-region-data.test.ts (21 tests | 7 failed) 141ms
+   × 399 fixed regions have all real source geometry, hashes and correct available map parents 4ms
+   × municipal and special branches do not invent a prefecture or administrative absence 0ms
+   × all 399 RFC geometries become finite local d3 areas without mutating sources or dropping six holes 38ms
+   × exact statistics preserve zero/null/absent, report unmatched IDs and leave input intact 13ms
+   × same-layer mocks stay identified on update; zero and missing are distinct 0ms
+   × a failed actual geometry request can retry and is not cached as a permanent failure 12ms
+   × all province city layers can traverse the fixed dataset; loader refuses missing geometry and unknown parent 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-data.test.ts > 399 fixed regions have all real source geometry, hashes and correct available map parents
+AssertionError: expected [Function] to not throw an error but 'Error: Not implemented' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: Not implemented"
+
+ ❯ apps/playground/src/docs/components/chart-business/china-region-data.test.ts:15:56
+     13|
+     14| test("399 fixed regions have all real source geometry, hashes and corr…
+     15|   expect(() => validateChinaRegions(chinaRegions)).not.toThrow();
+       |                                                        ^
+     16|   expect(chinaRegions).toHaveLength(399);
+     17|   expect(chinaRegions.filter(r => r.level === "province")).toHaveLengt…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-data.test.ts > municipal and special branches do not invent a prefecture or administrative absence
+Error: Not implemented
+ ❯ getChinaRegion apps/playground/src/docs/components/chart-business/china-region-data.ts:11:66
+      9| export const chinaRegions = rawRegions as readonly ChinaRegion[];
+     10| export function validateChinaRegions(_regions: readonly ChinaRegion[])…
+     11| export function getChinaRegion(_id: string): ChinaRegion { throw new E…
+       |                                                                  ^
+     12| export function getChinaLayerRegions(_parentId: string | null): readon…
+     13| export function validateChinaGeometry(_collection: ChinaCollection, _e…
+ ❯ apps/playground/src/docs/components/chart-business/china-region-data.test.ts:32:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-data.test.ts > all 399 RFC geometries become finite local d3 areas without mutating sources or dropping six holes
+Error: Not implemented
+ ❯ toChoroplethCollection apps/playground/src/docs/components/chart-business/china-region-data.ts:14:95
+     12| export function getChinaLayerRegions(_parentId: string | null): readon…
+     13| export function validateChinaGeometry(_collection: ChinaCollection, _e…
+     14| export function toChoroplethCollection(_collection: ChinaCollection): …
+       |                                                                                               ^
+     15| export async function loadChinaLayer(_parentId: string | null): Promis…
+     16| export function makeChinaStatistics(_parentId: string | null, _state: …
+ ❯ apps/playground/src/docs/components/chart-business/china-region-data.test.ts:64:49
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-data.test.ts > exact statistics preserve zero/null/absent, report unmatched IDs and leave input intact
+Error: Not implemented
+ ❯ applyChinaStatistics apps/playground/src/docs/components/chart-business/china-region-data.ts:17:172
+
+ ❯ apps/playground/src/docs/components/chart-business/china-region-data.test.ts:75:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-data.test.ts > same-layer mocks stay identified on update; zero and missing are distinct
+Error: Not implemented
+ ❯ makeChinaStatistics apps/playground/src/docs/components/chart-business/china-region-data.ts:16:128
+
+ ❯ apps/playground/src/docs/components/chart-business/china-region-data.test.ts:90:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-data.test.ts > a failed actual geometry request can retry and is not cached as a permanent failure
+AssertionError: promise rejected "Error: Not implemented" instead of resolving
+ ❯ apps/playground/src/docs/components/chart-business/china-region-data.test.ts:104:37
+    102|   const { loadChinaLayer } = await import("./china-region-data");
+    103|   await expect(loadChinaLayer(null)).rejects.toThrow();
+    104|   await expect(loadChinaLayer(null)).resolves.toHaveProperty("features…
+       |                                     ^
+    105|   expect(fetcher).toHaveBeenCalledTimes(2);
+    106| });
+
+Caused by: Error: Not implemented
+ ❯ loadChinaLayer apps/playground/src/docs/components/chart-business/china-region-data.ts:15:98
+ ❯ apps/playground/src/docs/components/chart-business/china-region-data.test.ts:104:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-data.test.ts > all province city layers can traverse the fixed dataset; loader refuses missing geometry and unknown parent
+Error: Not implemented
+ ❯ loadChinaLayer apps/playground/src/docs/components/chart-business/china-region-data.ts:15:98
+
+ ❯ apps/playground/src/docs/components/chart-business/china-region-data.test.ts:112:79
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed | 14 passed (21)
+   Start at  00:37:14
+   Duration  764ms (transform 39ms, setup 96ms, import 86ms, tests 141ms, environment 354ms)
+

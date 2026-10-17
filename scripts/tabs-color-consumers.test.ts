@@ -1,9 +1,14 @@
-import { readFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
 import * as outputs from "./token-foundation-outputs.mjs";
 import { validateRegisteredRecipeColors, validateTabsPaintRouting } from "./verify-token-foundations.mjs";
 import { validateColorUse } from "../packages/foundations/src/color-registry";
 import { tabsPaints } from "../packages/ui/src/tabs/tabs.styles";
+import { parseYamlSubset, validateTokenFoundationsV1Phase } from "./verification-helpers.mjs";
 
 const filePath = "packages/ui/src/tabs/tabs.styles.ts";
 const source = () => readFileSync(filePath, "utf8");
@@ -24,6 +29,51 @@ it('binds approved paint roles to actual Tab/More and inert measurement consumer
     expect(candidate).not.toBe(actual); expect(validateTabsPaintRouting(candidate)).not.toEqual([]);
   }
   expect(validateTabsPaintRouting(actual.replace('const nonLabelWidth =', 'const measuredNonLabelWidth =').replace('const minimum = nonLabelWidth', 'const minimum = measuredNonLabelWidth'))).toEqual([]);
+});
+
+it('keeps the original routing contract and rejects unrecorded navigation wrapper successors', () => {
+  const archive = 'evidence/runtime/rn14-editability/starter-final.tar.gz';
+  expect(createHash('sha256').update(readFileSync(archive)).digest('hex')).toBe('81ed247e9e3c57bf9edd94ace9bea30487557ab5404c26570aa8ea055c7f900e');
+  const extraction = spawnSync('tar', ['-xOf', archive, 'packages/ui/src/tabs/tabs.tsx'], { encoding: 'utf8' });
+  expect(extraction.status, extraction.stderr).toBe(0);
+  expect(createHash('sha256').update(extraction.stdout).digest('hex')).toBe('f48ff92834dc2d9e753c3ba88c8fb973e96a1c74d02b2278496818d8c5f8fb2b');
+  expect(validateTabsPaintRouting(extraction.stdout)).toEqual([]);
+  const actual = readFileSync('packages/ui/src/tabs/tabs.tsx', 'utf8');
+  const labelDeclaration = actual.split('\n').find(line => line.startsWith('  const label = <span ref={props.visualPreset'))!;
+  expect(labelDeclaration).toBeTruthy();
+  for (const candidate of [
+    actual.replace('descriptionId={descriptionId} />', '/>'),
+    actual.replace(labelDeclaration, labelDeclaration + '\n' + labelDeclaration),
+    actual.replace('props.visualPreset === "navigation-browser" && item.description ?', 'props.visualPreset === "unknown" && item.description ?'),
+    actual.replace('>{props.visualPreset ? item.count : count.display}</span>', '>{item.count}</span>'),
+    actual.replace('paints.label, part("label")', 'paints.count, part("label")'),
+    actual.replace('<TabParts item={item} selected={selected} measure />', '<TabParts item={item} selected={selected} measure={false} />'),
+    actual.replace('className={rainCn("rain-navigation__description", part("description"))}', 'className={rainCn("rain-navigation__description", paints.label)}'),
+  ]) { expect(candidate).not.toBe(actual); expect(validateTabsPaintRouting(candidate)).not.toEqual([]); }
+});
+
+it('requires the exact navigation acceptance and complete phase from the requested root for successor projection', () => {
+  const actual = readFileSync('packages/ui/src/tabs/tabs.tsx', 'utf8');
+  const phaseSource = readFileSync('status/current-phase.yaml', 'utf8');
+  const status = parseYamlSubset(phaseSource) as any;
+  expect(() => validateTokenFoundationsV1Phase(status)).not.toThrow();
+  const root = mkdtempSync(join(tmpdir(), 'rain-tabs-routing-authorization-'));
+  try {
+    mkdirSync(join(root, 'status'));
+    writeFileSync(join(root, 'status/current-phase.yaml'), phaseSource);
+    expect(validateTabsPaintRouting(actual, root)).toEqual([]);
+    for (const candidate of [
+      phaseSource.replace('navigationComponentsV042W6W8:', 'unapprovedNavigationBatch:'),
+      phaseSource + '\nunapprovedPermission:\n  authorization: authorized\n',
+      phaseSource.replace(`scope: ${JSON.stringify(status.navigationComponentsV042.scope)}`, 'scope: "all-components"'),
+    ]) {
+      expect(candidate).not.toBe(phaseSource);
+      writeFileSync(join(root, 'status/current-phase.yaml'), candidate);
+      expect(validateTabsPaintRouting(actual, root)).not.toEqual([]);
+    }
+    rmSync(join(root, 'status/current-phase.yaml'));
+    expect(validateTabsPaintRouting(actual, root)).not.toEqual([]);
+  } finally { rmSync(root, { recursive: true, force: true }); }
 });
 
 it("validates the real Tabs source and records only four Soft text eligibility decisions per theme", () => {

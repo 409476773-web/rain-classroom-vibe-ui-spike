@@ -1,0 +1,62 @@
+/* @rain-css-exception ui-marker: owned status/separator Parts and fixed-source shimmer recipe. */
+@layer components {
+  .rain-marker {
+    gap: var(--rain-space-8);
+    min-height: var(--rain-space-16);
+    font-family: var(--rain-font-ui);
+    font-size: var(--rain-font-size-14);
+    line-height: var(--rain-line-height-22);
+    color: var(--rain-category-text-neutral-3);
+    text-align: start;
+  }
+  .rain-marker[data-density="compact"] { font-size: var(--rain-font-size-13); line-height: var(--rain-line-height-18); }
+  .rain-marker--separator::before, .rain-marker--separator::after {
+    content: "";
+    flex: 1;
+    min-width: 0;
+    height: var(--rain-line-thickness-1);
+    background-color: var(--rain-category-border-neutral-4);
+  }
+  .rain-marker--separator::before { margin-inline-end: var(--rain-space-4); }
+  .rain-marker--separator::after { margin-inline-start: var(--rain-space-4); }
+  .rain-marker--separator > .rain-marker__content { flex: none; max-width: 100%; text-align: center; }
+  .rain-marker--border { border-bottom: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); padding-bottom: var(--rain-space-8); }
+  .rain-marker__icon, .rain-marker__icon > svg { width: var(--rain-space-16); height: var(--rain-space-16); }
+  .rain-marker:is(a[href]), .rain-marker__content a {
+    color: var(--rain-category-text-brand-1);
+    text-decoration: underline;
+    text-underline-offset: var(--rain-space-4);
+  }
+  .rain-marker:is(button) { border: 0; background: transparent; cursor: pointer; }
+  .rain-marker--border:is(button) { border-bottom: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+  .rain-marker:is(button:disabled) { cursor: not-allowed; }
+  .rain-marker:is(button, a):focus-visible, .rain-marker__content a:focus-visible { outline: var(--rain-focus-width) solid var(--rain-focus-control); outline-offset: var(--rain-focus-offset); box-shadow: 0 0 0 3px var(--rain-focus-control-halo); }
+  @media (hover: hover) { .rain-marker:is(a[href]):hover, .rain-marker__content a:hover { color: var(--rain-category-text-brand-2); } }
+
+  .rain-marker__content--shimmer {
+    --rain-local-marker-shimmer-spread: calc(3ch + var(--rain-space-40));
+    --rain-local-marker-shimmer-highlight: oklch(from currentColor l c h / calc(alpha * .2));
+    background-image: linear-gradient(110deg, currentColor calc(50% - var(--rain-local-marker-shimmer-spread)), color-mix(in oklch, var(--rain-local-marker-shimmer-highlight), currentColor 50%) calc(50% - var(--rain-local-marker-shimmer-spread) * .5), var(--rain-local-marker-shimmer-highlight) 50%, color-mix(in oklch, var(--rain-local-marker-shimmer-highlight), currentColor 50%) calc(50% + var(--rain-local-marker-shimmer-spread) * .5), currentColor calc(50% + var(--rain-local-marker-shimmer-spread)));
+    background-repeat: no-repeat;
+    background-size: calc(200% + var(--rain-local-marker-shimmer-spread) * 2) 100%;
+    background-position: 0 0;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rain-marker-shimmer 2s linear infinite;
+  }
+  [data-rain-theme="dark"] .rain-marker__content--shimmer { --rain-local-marker-shimmer-highlight: oklch(from currentColor max(.8, calc(l + .4)) c h / calc(alpha + .4)); }
+  [dir="rtl"] .rain-marker__content--shimmer, .rain-marker__content--shimmer[dir="rtl"] { animation-direction: reverse; }
+  @keyframes rain-marker-shimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .rain-marker__content--shimmer { animation: none; background-image: none; -webkit-text-fill-color: currentColor; }
+  }
+  @media (forced-colors: active) {
+    .rain-marker { color: CanvasText; }
+    .rain-marker--separator::before, .rain-marker--separator::after { background: CanvasText; }
+    .rain-marker--border { border-color: CanvasText; }
+    .rain-marker:is(a[href]), .rain-marker__content a { color: LinkText; }
+    .rain-marker__content--shimmer { animation: none; background-image: none; -webkit-text-fill-color: currentColor; }
+    .rain-marker:is(button, a):focus-visible, .rain-marker__content a:focus-visible { outline: 2px solid Highlight; box-shadow: none; }
+  }
+}

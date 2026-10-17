@@ -19,6 +19,12 @@ protectedPaths:
     - "packages/ui/src/button/button.tsx"
     - "packages/ui/src/input/input.tsx"
   optional:
+    - "packages/ui/src/item/item.tsx"
+    - "packages/ui/src/item/item.css"
+    - "packages/ui/src/progress/progress.tsx"
+    - "packages/ui/src/progress/progress.css"
+    - "apps/playground/src/docs/components/g4-component-pages.tsx"
+    - "apps/playground/src/docs/components/g4-component-pages.css"
     - "packages/ui/src/input-number/input-number.tsx"
     - "packages/ui/src/input-number/input-number.utils.ts"
     - "packages/ui/src/input-number/input-number.css"
@@ -122,6 +128,11 @@ protectedPaths:
     - "apps/playground/src/docs/components/input-page.tsx"
     - "packages/ui/src/utils/rain-class-names.ts"
     - "packages/ui/src/recipes/local-recipe.ts"
+    - "packages/ui/src/selection-control/selection-control.tsx"
+    - "packages/ui/src/selection-card/selection-card.parts.tsx"
+    - "packages/ui/src/questionnaire/questionnaire-choice-adapter.tsx"
+    - "packages/ui/src/questionnaire/questionnaire-input-adapter.tsx"
+    - "packages/ui/src/questionnaire/questionnaire-render.tsx"
   prefixes:
     - "apps/playground/src/experiments/tailwind-b2/"
 
@@ -277,6 +288,23 @@ cssExceptions:
     - "tests"
     - "status"
   entries:
+    - id: "g4-components-owned-parts"
+      component: "g4-components"
+      selector: ".rain-item owned Parts; .rain-progress owned Parts; .g4-* documentation layout"
+      reason: "Owned Parts keep image fitting, focus, state feedback, density, indeterminate shape, reduced motion and forced colors; documentation uses a scoped responsive layout."
+      tokens:
+        - "--rain-space-4"
+        - "--rain-space-6"
+        - "--rain-space-8"
+        - "--rain-space-20"
+        - "--rain-focus-item"
+        - "--rain-motion-feedback-duration"
+      tests:
+        - "packages/ui/src/item/item.test.tsx"
+        - "packages/ui/src/progress/progress.test.tsx"
+        - "apps/playground/src/docs/components/g4-component-pages.test.tsx"
+        - "scripts/g4-components-governance.test.ts"
+      status: "implemented-g4-candidates-awaiting-human"
     - id: "input-number-parts"
       component: "ui-input-number"
       selector: ".rain-input-number and owned parts"

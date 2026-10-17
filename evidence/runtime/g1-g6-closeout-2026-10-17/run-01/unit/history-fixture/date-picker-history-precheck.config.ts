@@ -1,0 +1,2 @@
+import { defineConfig } from "vitest/config";
+export default defineConfig({ root: "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2", test: { environment: "jsdom", maxWorkers: 1, testTimeout: 60_000, include: ["/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/g1-g6-closeout-2026-10-17/run-01/unit/history-fixture/date-picker-history-precheck.spec.ts"], setupFiles: ["/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/setup.ts"] } });

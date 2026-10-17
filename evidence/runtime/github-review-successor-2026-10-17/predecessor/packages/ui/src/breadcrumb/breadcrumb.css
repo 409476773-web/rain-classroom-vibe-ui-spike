@@ -1,0 +1,59 @@
+/* ui-breadcrumb: CSS owns intrinsic truncation, split hit targets and overlay state; visual values use existing Rain Tokens. */
+.rain-breadcrumb { isolation: isolate; }
+.rain-breadcrumb-list, .rain-breadcrumb-measure { gap: calc(var(--rain-space-6) / 2); }
+.rain-breadcrumb-item { flex: 0 1 auto; }
+.rain-breadcrumb-item[data-priority="ancestor"] { flex-shrink: 2; }
+.rain-breadcrumb-item > .rain-breadcrumb-separator { margin-inline: 0 calc(var(--rain-space-6) / 2); }
+.rain-breadcrumb-separator { flex: none; color: var(--rain-category-icon-neutral-4); }
+.rain-breadcrumb-control {
+  box-sizing: border-box; isolation: isolate; display: block; flex: 0 1 auto;
+  height: var(--rain-space-24); max-inline-size: 24ch;
+  padding-block: calc(var(--rain-space-6) / 2); border: 0; background: transparent;
+  font-size: inherit; line-height: var(--rain-line-height-18); color: inherit;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.rain-breadcrumb-item[data-priority="tail"] > .rain-breadcrumb-control { max-inline-size: 32ch; }
+.rain-breadcrumb [aria-current="page"] { color: var(--rain-category-text-neutral-1); font-weight: var(--rain-font-weight-regular); }
+.rain-breadcrumb-link, .rain-breadcrumb-trigger { cursor: pointer; }
+/* 24px hit target with the Figma 22px visual surface, without overlapping adjacent targets. */
+.rain-breadcrumb-control::before {
+  content: ""; position: absolute; inset-inline: 0; inset-block: var(--rain-line-thickness-1);
+  border-radius: inherit; z-index: -1; pointer-events: none;
+}
+@media (hover: hover) {
+  .rain-breadcrumb-link:not([aria-disabled="true"]):hover::before,
+  .rain-breadcrumb-trigger:not(:disabled):hover::before { background: var(--rain-category-fill-neutral-alpha-4); }
+}
+.rain-breadcrumb-trigger[aria-expanded="true"]::before { background: var(--rain-category-fill-neutral-alpha-4); }
+.rain-breadcrumb-link:not([aria-disabled="true"]):active::before,
+.rain-breadcrumb-trigger:not(:disabled):active::before { background: var(--rain-category-fill-neutral-alpha-3); }
+.rain-breadcrumb-control:focus-visible {
+  outline: var(--rain-focus-width) solid var(--rain-focus-item); outline-offset: var(--rain-focus-offset);
+}
+.rain-breadcrumb-control[aria-disabled="true"], .rain-breadcrumb-control:disabled {
+  color: var(--rain-category-text-neutral-6); cursor: not-allowed;
+}
+.rain-breadcrumb-trigger {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  inline-size: var(--rain-space-24); color: var(--rain-category-icon-neutral-3);
+}
+.rain-breadcrumb-measure {
+  position: absolute; display: flex; inline-size: max-content; block-size: 0;
+  visibility: hidden; overflow: hidden; pointer-events: none; inset-block-start: 0; inset-inline-start: 0;
+}
+.rain-breadcrumb-measure .rain-breadcrumb-item { display: inline-flex; }
+.rain-breadcrumb-measure .rain-breadcrumb-control { flex: none; }
+.rain-breadcrumb-menu { min-inline-size: 12ch; max-inline-size: min(40ch, calc(100vw - var(--rain-space-16))); }
+.rain-breadcrumb-menu [data-slot="label"] { white-space: normal; overflow-wrap: anywhere; }
+@media (forced-colors: active) {
+  .rain-breadcrumb-link { color: LinkText; }
+  .rain-breadcrumb [aria-current="page"], .rain-breadcrumb-trigger { color: CanvasText; }
+  .rain-breadcrumb-control[aria-disabled="true"], .rain-breadcrumb-control:disabled { color: GrayText; }
+  .rain-breadcrumb-control:focus-visible { outline-color: Highlight; }
+  .rain-breadcrumb-trigger[aria-expanded="true"] { outline: var(--rain-line-thickness-1) solid Highlight; }
+}
+
+/* The complete label and chevron form one menu trigger, as confirmed in the hover reference. */
+.rain-breadcrumb-menu-control { flex: 0 1 auto; inline-size: auto; gap: var(--rain-space-4); color: inherit; }
+.rain-breadcrumb-menu-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rain-breadcrumb-chevron { flex: none; width: var(--rain-space-10); height: var(--rain-space-10); color: var(--rain-category-icon-neutral-3); }

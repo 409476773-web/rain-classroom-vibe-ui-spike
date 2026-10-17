@@ -1,0 +1,119 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-progress"
+name: "Progress"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/progress/progress.tsx"
+styleSourcePath: "packages/ui/src/progress/progress.css"
+sourceVersion: "shadcn-ui/ui@3ba91b1; rain-adaptation-2026-10-11"
+description: "使用实际完成量表示确定进度，未知比例保持明确无数值状态。"
+useWhen:
+  - "同步、上传或批处理有完成量与总量。"
+  - "持续任务需要标签、读数及相邻的状态说明。"
+doNotUseWhen:
+  - "通过计时或装饰动画猜测真实进度。"
+  - "需要构成、比较或多个独立目标图形。"
+anatomy:
+  - "root → label / value / track → indicator"
+parts:
+  - "root、progress-label、progress-value、progress-track、progress-indicator"
+props:
+  - "Progress: Base UI Root Props; value number|null; min=0; max=100"
+  - "min/max 必须有限且 min < max；无效范围抛 RangeError。"
+  - "finite value 由 Base UI clamp；null/NaN/Infinity 沿引擎未知语义。"
+  - "对应 Label/Value/Track/Indicator Props，保留 render、ref、handler、style 与 className state callback。"
+slots:
+  - "children 放标签和读数；默认 Progress 自动追加 Track／Indicator。"
+variants:
+  - "单一默认外观，轨道高度随父级 Density default/compact。"
+states:
+  - "progressing、complete、indeterminate；保留 Base UI 实际状态。"
+  - "暂停／失败／重试属于宿主任务状态，不改变共享数值语义。"
+dependencies:
+  - "React、@base-ui/react 1.8.0 progress、rainCn、Foundations Density"
+tokens:
+  - "现有 neutral 前景／轨道、品牌指示、Radius/full、Spacing8/6、反馈 Motion"
+layoutConstraints:
+  - "轨道占满当前容器；标签可自然换行，读数保持可辨。"
+compositionRules:
+  - "提供 ProgressLabel 或 aria-label 任务名称；读数由 Base UI 按 min/max 归一化。"
+  - "未知比例不带 aria-valuenow，不显示虚构百分比；相邻文字说明正在做什么。"
+  - "默认 Progress 内不再添加第二条 Track；任务数据、操作和生命周期留宿主。"
+allowedModifications:
+  - "真实 value/min/max、标签、读数、原生 Props 与宿主布局。"
+restrictedModifications:
+  - "不得移除 ARIA 数值与名称关系、复制进度引擎或内置假自动增长。"
+accessibility:
+  - "Base UI label 关联、role=progressbar、有限数值语义和未知无数值语义。"
+  - "不让条形颜色独自传达失败／暂停；外部文字和操作说明。"
+  - "reduced-motion 关闭过渡；forced-colors 保留轨道与指示。"
+examples:
+  - "apps/playground/src/docs/components/g4-component-pages.tsx#ProgressPage"
+recipes:
+  - "受控批处理、未知解析和 6/24 的非100总量本地示例。"
+antiPatterns:
+  - "重复轨道、未知任务显示假百分比、因失败清空已完成量。"
+relatedComponents:
+  - "ui-spinner"
+  - "ui-button"
+  - "foundation-typography"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "已确认 Rain 品牌主蓝、冷色前景、密度和动效；既有导航内部进度保持独立。"
+  externalReferences:
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048 Base UI Progress; MIT"
+    - "已安装 @base-ui/react 1.8.0 progress"
+  retainedTraits:
+    - "Label／Value／Track／Indicator Parts、自动轨道和 Base UI 数值／ARIA 行为。"
+  redesignedTraits:
+    - "Rain Token、trace、Density、无效范围校验与未知比例的静态指示。"
+  intentionallyNotInherited:
+    - "上游默认主题与自动演示计时。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/g4-components-2026-10-11/source-lock.json"
+migrationNotes: "本轮补通用任务进度；不替代既有 Chart 进度环或改变其他资产。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  evidence: "evidence/runtime/g4-components-2026-10-11/verification.md"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  visualRefinement:
+    scope: "playground-documentation-visual-only"
+    evidence: "evidence/runtime/g4-visual-refinement-2026-10-11/verification.md"
+    automated: "scoped-passed"
+    independentReview: "passed-scoped"
+    humanGate: "awaiting_human"
+    contrastAcceptance: "not-granted"
+  sizingReview:
+    scope: "title-16-exceptions-17-18-data-max-28-and-item-icons"
+    evidence: "evidence/runtime/g4-review-sizing-2026-10-11/verification.md"
+    automated: "scoped-passed"
+    independentReview: "passed-scoped"
+    humanGate: "awaiting_human"
+    contrastAcceptance: "not-granted"
+  pageAcceptance:
+    acceptedAt: "2026-10-12"
+    decisionSource: "explicit-user-three-g4-pages-acceptance"
+    userStatement: "确定。完成这3个页面的验收。"
+    pages:
+      - "typography"
+      - "item"
+      - "progress"
+    scope: "typography-item-progress-current-playground-pages-visual-only"
+    humanGate: "accepted"
+    evidence: "evidence/runtime/g4-pages-acceptance-2026-10-12/acceptance.json"
+    contrastAcceptance: "not-granted"
+    publication: "unpublished"
+    figmaWrite: "not-authorized"
+    businessMigration: "not-authorized"
+    gitOperations: "no-operations-authorized"

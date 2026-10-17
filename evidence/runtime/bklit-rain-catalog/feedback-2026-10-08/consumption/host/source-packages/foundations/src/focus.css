@@ -1,0 +1,46 @@
+:root {
+  --rain-focus-control: var(--rain-color-focus-control);
+  --rain-focus-item: var(--rain-color-focus-item);
+  --rain-focus-danger: var(--rain-color-focus-danger);
+  --rain-focus-control-halo: var(--rain-category-fill-brand-alpha-3);
+  --rain-focus-width: 1px;
+  --rain-focus-offset: 0px;
+}
+
+/* Rebind inherited colors inside Dark scopes and nested Light islands. */
+[data-rain-theme] {
+  --rain-focus-control: var(--rain-color-focus-control);
+  --rain-focus-item: var(--rain-color-focus-item);
+  --rain-focus-danger: var(--rain-color-focus-danger);
+  --rain-focus-control-halo: var(--rain-category-fill-brand-alpha-3);
+}
+
+/* Components can retain their established halo geometry through utilities. */
+@layer base {
+  [data-focus]:focus-visible {
+    box-shadow: 0 0 0 3px var(--rain-focus-control-halo);
+  }
+}
+
+[data-focus="control"]:focus-visible {
+  outline: var(--rain-focus-width) solid var(--rain-focus-control);
+  outline-offset: var(--rain-focus-offset);
+}
+
+[data-focus="item"]:focus-visible {
+  outline: var(--rain-focus-width) solid var(--rain-focus-item);
+  outline-offset: var(--rain-focus-offset);
+}
+
+[data-focus="danger"]:focus-visible {
+  outline: var(--rain-focus-width) solid var(--rain-focus-danger);
+  outline-offset: var(--rain-focus-offset);
+}
+
+@media (forced-colors: active) {
+  [data-focus]:focus-visible {
+    outline: 2px solid CanvasText;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+}

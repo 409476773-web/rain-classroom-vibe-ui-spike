@@ -1,0 +1,36 @@
+/* Local adaptation of the pinned Nova styles; behavior belongs to the upstream primitives. */
+@layer base {
+  .rain-g1-tooltip { position: relative; width: fit-content; max-width: min(20rem, calc(100vw - 16px)); padding: var(--rain-space-8) var(--rain-space-12); border: var(--rain-line-thickness-1) solid; border-color: var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-6); background: var(--rain-category-background-neutral-1); color: var(--rain-category-text-neutral-1); font-family: var(--rain-font-ui); font-size: var(--rain-font-size-13); line-height: var(--rain-line-height-20); overflow-wrap: anywhere; }
+  .rain-g1-tooltip-arrow { width: var(--rain-space-8); height: var(--rain-space-8); background: inherit; transform: rotate(45deg); }
+  .rain-g1-tooltip-arrow[data-side="top"] { bottom: calc(var(--rain-space-4) * -1); border-right: inherit; border-bottom: inherit; }
+  .rain-g1-tooltip-arrow[data-side="bottom"] { top: calc(var(--rain-space-4) * -1); border-left: inherit; border-top: inherit; }
+  .rain-g1-tooltip-arrow[data-side="left"] { right: calc(var(--rain-space-4) * -1); border-right: inherit; border-top: inherit; }
+  .rain-g1-tooltip-arrow[data-side="right"] { left: calc(var(--rain-space-4) * -1); border-left: inherit; border-bottom: inherit; }
+  .rain-g1-resizable { min-width: 0; min-height: 0; }
+  .rain-g1-resizable-handle { width: var(--rain-line-thickness-2); align-self: stretch; background: var(--rain-category-background-neutral-2); }
+  .rain-g1-resizable-handle[aria-orientation="horizontal"] { width: 100%; height: var(--rain-line-thickness-2); }
+  .rain-g1-resizable-grip { width: var(--rain-line-thickness-2); height: var(--rain-space-24); border-radius: var(--rain-radius-full); background: currentColor; color: var(--rain-category-icon-neutral-3); }
+  .rain-g1-resizable-handle[aria-orientation="horizontal"] .rain-g1-resizable-grip { width: var(--rain-space-24); height: var(--rain-line-thickness-2); }
+  .rain-g1-resizable-handle:is(:hover, :focus-visible, [data-separator="active"]) { background: var(--rain-category-background-neutral-4); }
+  .rain-g1-resizable-handle:is(:hover, :focus-visible, [data-separator="active"]) .rain-g1-resizable-grip { color: var(--rain-category-icon-brand-1); }
+}
+@layer utilities { .g1-next-long-tooltip { max-width: min(26rem, calc(100vw - 16px)); } }
+.g1-next-tips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--rain-space-16); }
+.g1-next-tip, .g1-next-split { background: var(--rain-category-background-neutral-1); border-radius: var(--rain-radius-8); min-width: 0; }
+.g1-next-tip { padding: var(--rain-space-20); display: grid; gap: var(--rain-space-12); }
+.g1-next-tip > div, .g1-next-dialog-help { display: flex; align-items: center; gap: var(--rain-space-4); }
+.g1-next-tip > p { color: var(--rain-category-text-neutral-2); }
+.g1-next-split { padding: var(--rain-space-20); }
+.g1-next-split > header, .g1-next-pane-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--rain-space-8); }
+.g1-next-split > header { margin-bottom: var(--rain-space-12); }
+.g1-next-horizontal { height: 184px; }
+.g1-next-vertical { height: 320px; }
+.g1-next-pane { height: 100%; overflow: auto; overflow-wrap: anywhere; padding: var(--rain-space-16); box-sizing: border-box; }
+.g1-next-pane h3 { margin-bottom: var(--rain-space-12); }
+.g1-next-pane p { margin: 0 0 var(--rain-space-12); line-height: var(--rain-line-height-24); }
+@media (max-width: 700px) { .g1-next-tips { grid-template-columns: 1fr; } .g1-next-split { padding: var(--rain-space-12); } .g1-next-pane { padding: var(--rain-space-8); } .g1-next-horizontal { height: 280px; } }
+@media (forced-colors: active) {
+  .rain-g1-tooltip { background: Canvas; color: CanvasText; border-color: CanvasText; }
+  .rain-g1-resizable-grip { background: ButtonText; forced-color-adjust: none; }
+  .g1 .rain-g1-resizable-handle:focus-visible { outline: 2px solid Highlight; outline-offset: -2px; }
+}

@@ -1,0 +1,256 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx (20 tests | 13 failed) 345ms
+   × static base paths activate the stable region ID 39ms
+   × static faded paths activate the stable region ID 9ms
+   × static highlighted paths activate the stable region ID 6ms
+   × enter paths activate the stable region ID 4ms
+   × a valid ID 0 is preserved without numeric or index coercion 5ms
+   × a valid ID "001" is preserved without numeric or index coercion 5ms
+   × a valid ID 35 is preserved without numeric or index coercion 4ms
+   × a top-level GeoJSON ID is used when properties.id is absent 5ms
+   × selected state follows ID after geometry sorting and survives hover leave 5ms
+   × hidden SVG and equivalent host buttons activate the same ID by Enter and Space 64ms
+   × fitToData uses the actual Mercator and refits when current geometry changes 3ms
+   × non-positive inner dimensions {"left":250,"right":250} do not create an invalid fitted viewport 6ms
+   × non-positive inner dimensions {"top":100,"bottom":100} do not create an invalid fitted viewport 5ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 13 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > static base paths activate the stable region ID
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > static highlighted paths activate the stable region ID
+AssertionError: expected "vi.fn()" to be called once with arguments: [ 'a', { type: 'Feature', …(2) } ]
+
+Number of calls: 0
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:44:20
+     42|   fireEvent.click(target);
+     43|   const index = branch === "static faded" ? 1 : 0;
+     44|   expect(activate).toHaveBeenCalledExactlyOnceWith(regions.features[in…
+       |                    ^
+     45| });
+     46|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/13]⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > static faded paths activate the stable region ID
+AssertionError: expected "vi.fn()" to be called once with arguments: [ 'b', { type: 'Feature', …(2) } ]
+
+Number of calls: 0
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:44:20
+     42|   fireEvent.click(target);
+     43|   const index = branch === "static faded" ? 1 : 0;
+     44|   expect(activate).toHaveBeenCalledExactlyOnceWith(regions.features[in…
+       |                    ^
+     45| });
+     46|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/13]⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > enter paths activate the stable region ID
+AssertionError: expected "vi.fn()" to be called once with arguments: [ 'a', { type: 'Feature', …(2) } ]
+
+Number of calls: 0
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:44:20
+     42|   fireEvent.click(target);
+     43|   const index = branch === "static faded" ? 1 : 0;
+     44|   expect(activate).toHaveBeenCalledExactlyOnceWith(regions.features[in…
+       |                    ^
+     45| });
+     46|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/13]⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > a valid ID 0 is preserved without numeric or index coercion
+AssertionError: expected "vi.fn()" to be called once with arguments: [ +0, { type: 'Feature', …(3) } ]
+
+Number of calls: 0
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:54:20
+     52|   await settle(view.container);
+     53|   fireEvent.click(paths(view.container)[0]!);
+     54|   expect(activate).toHaveBeenCalledExactlyOnceWith(id,region);
+       |                    ^
+     55| });
+     56|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/13]⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > a valid ID "001" is preserved without numeric or index coercion
+AssertionError: expected "vi.fn()" to be called once with arguments: [ '001', { type: 'Feature', …(3) } ]
+
+Number of calls: 0
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:54:20
+     52|   await settle(view.container);
+     53|   fireEvent.click(paths(view.container)[0]!);
+     54|   expect(activate).toHaveBeenCalledExactlyOnceWith(id,region);
+       |                    ^
+     55| });
+     56|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/13]⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > a valid ID 35 is preserved without numeric or index coercion
+AssertionError: expected "vi.fn()" to be called once with arguments: [ 35, { type: 'Feature', …(3) } ]
+
+Number of calls: 0
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:54:20
+     52|   await settle(view.container);
+     53|   fireEvent.click(paths(view.container)[0]!);
+     54|   expect(activate).toHaveBeenCalledExactlyOnceWith(id,region);
+       |                    ^
+     55| });
+     56|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/13]⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > a top-level GeoJSON ID is used when properties.id is absent
+AssertionError: expected "vi.fn()" to be called once with arguments: [ 'top-level-id', …(1) ]
+
+Number of calls: 0
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:65:20
+     63|   await settle(view.container);
+     64|   fireEvent.click(paths(view.container)[0]!);
+     65|   expect(activate).toHaveBeenCalledExactlyOnceWith("top-level-id",regi…
+       |                    ^
+     66| });
+     67|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/13]⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > selected state follows ID after geometry sorting and survives hover leave
+AssertionError: expected null not to be null
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:83:26
+     81|   await settle(view.container);
+     82|   const selected = () => view.container.querySelector<SVGPathElement>(…
+     83|   expect(selected()).not.toBeNull();
+       |                          ^
+     84|   expect(selected()).toHaveAttribute("d",reading(view.container).find(…
+     85|   expect(Number(selected()!.getAttribute("stroke-width"))).toBeGreater…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/13]⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > hidden SVG and equivalent host buttons activate the same ID by Enter and Space
+AssertionError: expected "vi.fn()" to be called 3 times, but got 2 times
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:108:20
+    106|   await user.keyboard(" ");
+    107|   fireEvent.click(paths(view.container)[0]!);
+    108|   expect(activate).toHaveBeenCalledTimes(3);
+       |                    ^
+    109|   expect(activate.mock.calls.every(([id,regionValue])=>id === "a" && r…
+    110| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/13]⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > fitToData uses the actual Mercator and refits when current geometry changes
+AssertionError: expected 0.06925909730136243 to be close to 1, received difference is 0.9307409026986375, but expected 0.005
+ ❯ expectFitted packages/ui/src/charts/choropleth-drilldown.test.tsx:120:151
+    118|   expect(Math.min(...ys)).toBeGreaterThanOrEqual(margin.top-.01);
+    119|   expect(Math.max(...ys)).toBeLessThanOrEqual(200-margin.bottom+.01);
+    120|   expect(Math.max((Math.max(...xs)-Math.min(...xs))/(400-margin.left-m…
+       |                                                                                                                                                       ^
+    121|   expect(paths(container).every(path=>!/NaN|Infinity/.test(path.getAtt…
+    122| }
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:126:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/13]⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > non-positive inner dimensions {"left":250,"right":250} do not create an invalid fitted viewport
+AssertionError: expected SVGSVGElement{ …(2), …(2) } to be null
+
+- Expected:
+null
+
++ Received:
+<svg
+  aria-hidden="true"
+  height="200"
+  style="contain: layout style paint; cursor: grab; touch-action: none;"
+  width="400"
+>
+  <g
+    style="transition: transform 0.18s ease-out;"
+  >
+    <g
+      class="choropleth-features"
+    >
+      <g
+        opacity="0"
+      />
+    </g>
+  </g>
+</svg>
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:141:47
+    139| test.each([{ left:250,right:250 },{ top:100,bottom:100 }])("non-positi…
+    140|   const view = render(plot({}, { fitToData:true, margin:{ ...margin,..…
+    141|   expect(view.container.querySelector("svg")).toBeNull();
+       |                                               ^
+    142| });
+    143|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/13]⎯
+
+ FAIL  packages/ui/src/charts/choropleth-drilldown.test.tsx > non-positive inner dimensions {"top":100,"bottom":100} do not create an invalid fitted viewport
+AssertionError: expected SVGSVGElement{ …(2), …(2) } to be null
+
+- Expected:
+null
+
++ Received:
+<svg
+  aria-hidden="true"
+  height="200"
+  style="contain: layout style paint; cursor: grab; touch-action: none;"
+  width="400"
+>
+  <g
+    style="transition: transform 0.18s ease-out;"
+  >
+    <g
+      class="choropleth-features"
+    >
+      <g
+        opacity="0"
+      >
+        <path
+          class="cursor-pointer"
+          d="M303.517,150L303.517,139.221L313.268,139.221L313.268,150Z"
+          fill="var(--chart-scale-01)"
+          stroke="var(--background)"
+          stroke-width="0.5"
+        />
+        <path
+          class="cursor-pointer"
+          d="M318.144,150L318.144,139.221L327.896,139.221L327.896,150Z"
+          fill="var(--chart-scale-02)"
+          stroke="var(--background)"
+          stroke-width="0.5"
+        />
+      </g>
+    </g>
+  </g>
+</svg>
+
+ ❯ packages/ui/src/charts/choropleth-drilldown.test.tsx:141:47
+    139| test.each([{ left:250,right:250 },{ top:100,bottom:100 }])("non-positi…
+    140|   const view = render(plot({}, { fitToData:true, margin:{ ...margin,..…
+    141|   expect(view.container.querySelector("svg")).toBeNull();
+       |                                               ^
+    142| });
+    143|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/13]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  13 failed | 7 passed (20)
+   Start at  00:25:58
+   Duration  1.40s (transform 158ms, setup 130ms, import 346ms, tests 345ms, environment 496ms)
+

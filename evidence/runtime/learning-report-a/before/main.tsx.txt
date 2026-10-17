@@ -1,0 +1,65 @@
+import { StrictMode, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { DensityProvider } from "@rain-next/foundations";
+import { Inline } from "@rain-next/layouts";
+import { Button, Checkbox } from "@rain-next/ui";
+import { CardGallery } from "./card-recipes";
+import { LayoutRecipes } from "./layout-recipes";
+import { CourseDialogExample } from "./course-dialog";
+import { DataTableRecipe } from "./data-table-recipe";
+import { MaterialManagementScenario } from "./scenarios/bm-a/page";
+import { TextbookFormScenario } from "./scenarios/bm-b/page";
+// m2-entry:start
+import { useEffect } from "react";
+import { GradingWorkbenchScenario } from "./scenarios/bm-c/page";
+import { LearningReportScenario } from "./scenarios/bm-d/page";
+// m2-entry:end
+import { ListCompositionPreview } from "./scenarios/list-composition/page";
+import "@rain-next/foundations/tokens.css";
+import "@rain-next/foundations/typography.css";
+import "@rain-next/foundations/motion.css";
+import "@rain-next/foundations/focus.css";
+import "@rain-next/ui/styles.css";
+import "@rain-next/layouts/styles.css";
+import "./styles.css";
+import { TeacherGradingPage } from "./scenarios/teacher-grading/page";
+import { ExamEditorPage } from "./scenarios/exam-editor/page";
+import { TokenFirstG1Page } from "./scenarios/token-first-g1/page";
+
+function Prototype() {
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [compact, setCompact] = useState(true);
+  // m2-routes:start
+  const [route, setRoute] = useState(window.location.hash);
+  useEffect(() => { const change = () => setRoute(window.location.hash); window.addEventListener("hashchange", change); return () => window.removeEventListener("hashchange", change); }, []);
+  if (route === "#exam-editor") return <DensityProvider density="default"><ExamEditorPage /></DensityProvider>;
+  if (route === "#token-first-g1" || route === "#token-first-workbench" || route === "#token-first-report") return <DensityProvider density="default"><TokenFirstG1Page view={route === "#token-first-workbench" ? "workbench" : route === "#token-first-report" ? "report" : "samples"} /></DensityProvider>;
+  if (route === "#teacher-grading") return <DensityProvider density="default"><TeacherGradingPage /></DensityProvider>;
+  if (route === "#bm-c") return <DensityProvider density="default"><GradingWorkbenchScenario /></DensityProvider>;
+  if (route === "#bm-d") return <DensityProvider density="default"><LearningReportScenario /></DensityProvider>;
+  // m2-routes:end
+  if (route === "#list-composition") return <DensityProvider density="default"><ListCompositionPreview /></DensityProvider>;
+  if (window.location.hash === "#bm-b") return <DensityProvider density="default"><main className="rain-prototype" data-rain-theme={theme} data-rain-id="prototype-bm-b">
+    <header className="rain-prototype-heading"><div><h1>教材资料</h1><p>组织教材信息，为课程准备阅读材料。</p></div><Button variant="secondary" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>{theme === "light" ? "切换深色" : "切换浅色"}</Button></header>
+    <TextbookFormScenario />
+  </main></DensityProvider>;
+  const isBmA = window.location.hash === "#bm-a";
+  if (isBmA || window.location.hash === "#materials") return <DensityProvider density={compact ? "compact" : "default"}><main className="rain-prototype" data-rain-theme={theme} data-rain-id={isBmA ? "prototype-bm-a" : "prototype-materials-consumer"}>
+    <header className="rain-prototype-heading"><h1>课程资料</h1><Inline gap={16} align="center" aria-label="预览设置"><Checkbox label="紧凑密度" checked={compact} onCheckedChange={setCompact} /><Button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>{theme === "light" ? "切换深色" : "切换浅色"}</Button></Inline></header>
+    {isBmA ? <MaterialManagementScenario /> : <div className="data-table-consumer"><DataTableRecipe /></div>}
+  </main></DensityProvider>;
+  return <DensityProvider density="default">
+    <main className="rain-prototype" data-rain-theme={theme} data-rain-id="prototype-card-consumer">
+      <header className="rain-prototype-heading">
+        <div><p>雨课堂 · 教学示例</p><h1>课程空间</h1><p>查看课程、学习进展与课堂提醒。</p></div>
+        <Button variant="secondary" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>{theme === "light" ? "切换深色" : "切换浅色"}</Button>
+      </header>
+      <CardGallery />
+      <CourseDialogExample />
+      <LayoutRecipes />
+      <p className="rain-prototype-note">本页使用虚构数据，所有操作仅保留在当前页面。</p>
+    </main>
+  </DensityProvider>;
+}
+
+createRoot(document.getElementById("root")!).render(<StrictMode><Prototype /></StrictMode>);

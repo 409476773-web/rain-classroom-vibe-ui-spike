@@ -132,7 +132,22 @@ test("the Day 3 Core UI page exposes truthful families and real interaction", as
     "data-maturity",
     "prototype-ready",
   );
-  await expect(page.locator('[data-slot="component-family"]')).toHaveCount(6);
+  const expectedFamilies = [
+    "core-ui-button",
+    "core-ui-input",
+    "core-ui-input-number",
+    "core-ui-alert",
+    "core-ui-breadcrumb",
+    "core-ui-tabs",
+    "core-ui-select",
+    "core-ui-tag-badge",
+    "core-ui-surface-card",
+  ];
+  const families = page.locator('[data-slot="component-family"]');
+  await expect(families).toHaveCount(expectedFamilies.length);
+  for (const [index, identity] of expectedFamilies.entries()) {
+    await expect(families.nth(index)).toHaveAttribute("data-rain-id", identity);
+  }
   await expect(page.getByRole('link', { name: '查看 Tabs 全部用法' })).toHaveAttribute('href', '#tabs');
   await expect(page.getByText("prototype-ready")).toHaveCount(4);
   await expect(page.getByText("分批验收")).toBeVisible();

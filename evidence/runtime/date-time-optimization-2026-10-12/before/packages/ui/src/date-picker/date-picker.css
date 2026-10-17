@@ -1,0 +1,24 @@
+/* @rain-css-exception date-picker-parts: field trigger, responsive date/time groups and local popup transitions. */
+.rain-date-picker { min-width: 0; }
+.rain-date-picker > [data-slot="frame"] { width: 100%; }
+.rain-date-picker__trigger { display: flex; width: 100%; height: 100%; align-items: center; gap: var(--rain-space-8); min-width: 0; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.rain-date-picker__trigger [data-slot="value"] { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
+.rain-date-picker__trigger [data-placeholder="true"] { color: var(--rain-category-text-neutral-4); }
+.rain-date-picker__trigger:is(:disabled, [aria-disabled="true"]) { cursor: default; }
+.rain-date-picker[data-state="disabled"] .rain-date-picker__trigger { cursor: not-allowed; }
+.rain-date-picker__popup { gap: var(--rain-space-12); transform-origin: var(--transform-origin); opacity: 1; transform: scale(1); transition: opacity var(--rain-motion-overlay-duration) var(--rain-motion-ease-out), transform var(--rain-motion-overlay-duration) var(--rain-motion-ease-out); }
+.rain-date-picker__popup:is([data-starting-style], [data-ending-style]) { opacity: 0; transform: scale(.98); }
+.rain-date-picker__popup .rain-calendar { width: 100%; }
+.rain-date-picker__popup .rain-calendar__month { flex: 1; }
+.rain-date-picker__times { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--rain-space-12); border-top: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); padding-top: var(--rain-space-12); }
+.rain-date-picker__times[data-range="true"][data-narrow="false"] { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--rain-space-24); }
+.rain-date-picker__time { min-width: 0; margin: 0; padding: 0; border: 0; }
+.rain-date-picker__time legend { margin-bottom: var(--rain-space-8); color: var(--rain-category-text-neutral-3); }
+.rain-date-picker__time-fields { display: flex; gap: var(--rain-space-8); align-items: center; }
+.rain-date-picker__time-fields > [data-rain-id="ui-input-number"] { flex: 1; min-width: 0; }
+.rain-date-picker__summary { color: var(--rain-category-text-neutral-1); overflow-wrap: anywhere; }
+.rain-date-picker__hint { color: var(--rain-category-text-neutral-4); }
+.rain-date-picker__hint[data-invalid="true"] { color: var(--rain-category-text-red-1); }
+.rain-date-picker__actions { display: flex; align-items: center; gap: var(--rain-space-8); padding-top: var(--rain-space-12); border-top: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+.rain-date-picker__action-spacer { flex: 1; }
+@media (prefers-reduced-motion: reduce) { .rain-date-picker__popup { transition: none; } }

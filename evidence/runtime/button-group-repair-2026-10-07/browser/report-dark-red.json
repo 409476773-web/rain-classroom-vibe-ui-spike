@@ -1,0 +1,158 @@
+{
+  "config": {
+    "argv": [
+      "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "tests/e2e/button-group-repair.config.ts",
+      "--grep",
+      "dark examples"
+    ],
+    "configFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.config.ts",
+    "rootDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/button-group-repair-2026-10-07/browser/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "button-group-repair.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/button-group-repair-2026-10-07/browser//report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "button-group-repair.spec.ts",
+      "file": "button-group-repair.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "dark examples use a dark reading surface instead of retaining the light panel",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 696,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"rgb(\u001b[7m30, 36, 59\u001b[27m)\"\u001b[39m\nReceived: \u001b[31m\"rgb(\u001b[7m255, 255, 255\u001b[27m)\"\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"rgb(\u001b[7m30, 36, 59\u001b[27m)\"\u001b[39m\nReceived: \u001b[31m\"rgb(\u001b[7m255, 255, 255\u001b[27m)\"\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts:116:76",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts",
+                      "column": 76,
+                      "line": 116
+                    },
+                    "snippet": "  114 |   await page.getByRole(\"button\", {name:\"深色\",exact:true}).click();\n  115 |   const surface=page.locator(\".component-doc__preview\").first();\n> 116 |   expect(await surface.evaluate(el=>getComputedStyle(el).backgroundColor)).toBe(\"rgb(30, 36, 59)\");\n      |                                                                            ^\n  117 |   const documentColors=await page.locator('[data-rain-id=\"doc-button-group\"]').evaluate(el=>({background:getComputedStyle(el).backgroundColor,color:getComputedStyle(el).color}));\n  118 |   expect(documentColors.background).not.toBe(\"rgba(0, 0, 0, 0)\");\n  119 |   expect(documentColors.color).not.toBe(\"rgb(20, 35, 60)\");"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts",
+                        "column": 76,
+                        "line": 116
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"rgb(\u001b[7m30, 36, 59\u001b[27m)\"\u001b[39m\nReceived: \u001b[31m\"rgb(\u001b[7m255, 255, 255\u001b[27m)\"\u001b[39m\n\n  114 |   await page.getByRole(\"button\", {name:\"深色\",exact:true}).click();\n  115 |   const surface=page.locator(\".component-doc__preview\").first();\n> 116 |   expect(await surface.evaluate(el=>getComputedStyle(el).backgroundColor)).toBe(\"rgb(30, 36, 59)\");\n      |                                                                            ^\n  117 |   const documentColors=await page.locator('[data-rain-id=\"doc-button-group\"]').evaluate(el=>({background:getComputedStyle(el).backgroundColor,color:getComputedStyle(el).color}));\n  118 |   expect(documentColors.background).not.toBe(\"rgba(0, 0, 0, 0)\");\n  119 |   expect(documentColors.color).not.toBe(\"rgb(20, 35, 60)\");\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts:116:76"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-07T06:39:39.578Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-dark-e-2b39e-f-retaining-the-light-panel-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-dark-e-2b39e-f-retaining-the-light-panel-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts",
+                    "column": 76,
+                    "line": 116
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "4350f84ef1656a345fca-cb740806b97071142ce3",
+          "file": "button-group-repair.spec.ts",
+          "line": 113,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-07T06:39:39.268Z",
+    "duration": 1257.841,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

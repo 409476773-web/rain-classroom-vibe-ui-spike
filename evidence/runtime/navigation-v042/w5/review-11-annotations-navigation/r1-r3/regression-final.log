@@ -1,0 +1,139 @@
+
+Running 12 tests using 1 worker
+
+(node:55450) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/e2e/navigation-v042-review11-r1-r3.spec.ts:6:2 › Review11 R1 1200 white context and restrained stat hierarchy preserve scene selection (1.2s)
+  ✓   2 tests/e2e/navigation-v042-review11-r1-r3.spec.ts:16:2 › Review11 R3 1200 heading16 file16 name15 resource color and list-grid selection (1.3s)
+  ✓   3 tests/e2e/navigation-v042-review11-r1-r3.spec.ts:24:2 › Review11 White 1200 gradient no top line, title/type hierarchy and count track state (1.0s)
+  ✘   4 tests/e2e/navigation-v042-review11-r1-r3.spec.ts:34:2 › Review11 Connections 1200 pale directional chevron preserves dialog search Escape and selection (7.0s)
+(node:55477) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 tests/e2e/navigation-v042-review11-r1-r3.spec.ts:6:2 › Review11 R1 1440 white context and restrained stat hierarchy preserve scene selection (1.1s)
+  ✓   6 tests/e2e/navigation-v042-review11-r1-r3.spec.ts:16:2 › Review11 R3 1440 heading16 file16 name15 resource color and list-grid selection (1.3s)
+  ✓   7 tests/e2e/navigation-v042-review11-r1-r3.spec.ts:24:2 › Review11 White 1440 gradient no top line, title/type hierarchy and count track state (987ms)
+  ✘   8 tests/e2e/navigation-v042-review11-r1-r3.spec.ts:34:2 › Review11 Connections 1440 pale directional chevron preserves dialog search Escape and selection (7.0s)
+(node:55494) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 tests/e2e/navigation-v042-review11-r1-r3.spec.ts:6:2 › Review11 R1 1600 white context and restrained stat hierarchy preserve scene selection (1.1s)
+  ✓  10 tests/e2e/navigation-v042-review11-r1-r3.spec.ts:16:2 › Review11 R3 1600 heading16 file16 name15 resource color and list-grid selection (1.3s)
+  ✓  11 tests/e2e/navigation-v042-review11-r1-r3.spec.ts:24:2 › Review11 White 1600 gradient no top line, title/type hierarchy and count track state (1.0s)
+  ✘  12 tests/e2e/navigation-v042-review11-r1-r3.spec.ts:34:2 › Review11 Connections 1600 pale directional chevron preserves dialog search Escape and selection (7.0s)
+
+
+  1) tests/e2e/navigation-v042-review11-r1-r3.spec.ts:34:2 › Review11 Connections 1200 pale directional chevron preserves dialog search Escape and selection 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByTestId('candidate-Connections').getByRole('button', { name: '全部', exact: true })
+    Expected: "true"
+    Timeout: 6000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 6000ms
+      - waiting for getByTestId('candidate-Connections').getByRole('button', { name: '全部', exact: true })
+
+
+      34 |  test(`Review11 Connections ${width} pale directional chevron preserves dialog search Escape and selection`,async({page})=>{
+      35 |   await open(page,'Connections',width);const c=page.getByTestId('candidate-Connections'),all=c.getByRole('button',{name:'全部',exact:true}),icon=all.locator('[data-rain-id=icon]');
+    > 36 |   await expect(all).toHaveAttribute('aria-expanded','false');expect(await style(icon,'color')).toBe('rgb(184, 194, 216)');await expect(icon).toHaveAttribute('data-icon','icon/arrow-down');await all.click();await expect(all).toHaveAttribute('aria-expanded','true');await expect(icon).toHaveAttribute('data-icon','icon/arrow-up');
+         |                                                                                                                                                                                                                                 ^
+      37 |   const dialog=page.getByRole('dialog',{name:'选择课程内容范围'});await expect(dialog).toBeVisible();await dialog.getByRole('textbox',{name:'搜索范围'}).fill('不存在');await expect(dialog.getByRole('status')).toHaveText('无匹配范围');await page.keyboard.press('Escape');await expect(dialog).not.toBeVisible();await expect(all).toHaveAttribute('aria-expanded','false');
+      38 |   await all.click();await dialog.getByRole('textbox',{name:'搜索范围'}).fill('创新');await dialog.getByRole('button',{name:/创新实验班/}).click();await expect(dialog).not.toBeVisible();await expect(c.getByRole('tab',{name:/创新实验班/})).toHaveAttribute('aria-selected','true');
+      39 |  });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review11-r1-r3.spec.ts:36:225
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r1-r3/test-artifacts-final/navigation-v042-review11-r-daf02-search-Escape-and-selection/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r1-r3/test-artifacts-final/navigation-v042-review11-r-daf02-search-Escape-and-selection/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r1-r3/test-artifacts-final/navigation-v042-review11-r-daf02-search-Escape-and-selection/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r1-r3/test-artifacts-final/navigation-v042-review11-r-daf02-search-Escape-and-selection/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/navigation-v042-review11-r1-r3.spec.ts:34:2 › Review11 Connections 1440 pale directional chevron preserves dialog search Escape and selection 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByTestId('candidate-Connections').getByRole('button', { name: '全部', exact: true })
+    Expected: "true"
+    Timeout: 6000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 6000ms
+      - waiting for getByTestId('candidate-Connections').getByRole('button', { name: '全部', exact: true })
+
+
+      34 |  test(`Review11 Connections ${width} pale directional chevron preserves dialog search Escape and selection`,async({page})=>{
+      35 |   await open(page,'Connections',width);const c=page.getByTestId('candidate-Connections'),all=c.getByRole('button',{name:'全部',exact:true}),icon=all.locator('[data-rain-id=icon]');
+    > 36 |   await expect(all).toHaveAttribute('aria-expanded','false');expect(await style(icon,'color')).toBe('rgb(184, 194, 216)');await expect(icon).toHaveAttribute('data-icon','icon/arrow-down');await all.click();await expect(all).toHaveAttribute('aria-expanded','true');await expect(icon).toHaveAttribute('data-icon','icon/arrow-up');
+         |                                                                                                                                                                                                                                 ^
+      37 |   const dialog=page.getByRole('dialog',{name:'选择课程内容范围'});await expect(dialog).toBeVisible();await dialog.getByRole('textbox',{name:'搜索范围'}).fill('不存在');await expect(dialog.getByRole('status')).toHaveText('无匹配范围');await page.keyboard.press('Escape');await expect(dialog).not.toBeVisible();await expect(all).toHaveAttribute('aria-expanded','false');
+      38 |   await all.click();await dialog.getByRole('textbox',{name:'搜索范围'}).fill('创新');await dialog.getByRole('button',{name:/创新实验班/}).click();await expect(dialog).not.toBeVisible();await expect(c.getByRole('tab',{name:/创新实验班/})).toHaveAttribute('aria-selected','true');
+      39 |  });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review11-r1-r3.spec.ts:36:225
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r1-r3/test-artifacts-final/navigation-v042-review11-r-ec72d-search-Escape-and-selection/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r1-r3/test-artifacts-final/navigation-v042-review11-r-ec72d-search-Escape-and-selection/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r1-r3/test-artifacts-final/navigation-v042-review11-r-ec72d-search-Escape-and-selection/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r1-r3/test-artifacts-final/navigation-v042-review11-r-ec72d-search-Escape-and-selection/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/navigation-v042-review11-r1-r3.spec.ts:34:2 › Review11 Connections 1600 pale directional chevron preserves dialog search Escape and selection 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByTestId('candidate-Connections').getByRole('button', { name: '全部', exact: true })
+    Expected: "true"
+    Timeout: 6000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 6000ms
+      - waiting for getByTestId('candidate-Connections').getByRole('button', { name: '全部', exact: true })
+
+
+      34 |  test(`Review11 Connections ${width} pale directional chevron preserves dialog search Escape and selection`,async({page})=>{
+      35 |   await open(page,'Connections',width);const c=page.getByTestId('candidate-Connections'),all=c.getByRole('button',{name:'全部',exact:true}),icon=all.locator('[data-rain-id=icon]');
+    > 36 |   await expect(all).toHaveAttribute('aria-expanded','false');expect(await style(icon,'color')).toBe('rgb(184, 194, 216)');await expect(icon).toHaveAttribute('data-icon','icon/arrow-down');await all.click();await expect(all).toHaveAttribute('aria-expanded','true');await expect(icon).toHaveAttribute('data-icon','icon/arrow-up');
+         |                                                                                                                                                                                                                                 ^
+      37 |   const dialog=page.getByRole('dialog',{name:'选择课程内容范围'});await expect(dialog).toBeVisible();await dialog.getByRole('textbox',{name:'搜索范围'}).fill('不存在');await expect(dialog.getByRole('status')).toHaveText('无匹配范围');await page.keyboard.press('Escape');await expect(dialog).not.toBeVisible();await expect(all).toHaveAttribute('aria-expanded','false');
+      38 |   await all.click();await dialog.getByRole('textbox',{name:'搜索范围'}).fill('创新');await dialog.getByRole('button',{name:/创新实验班/}).click();await expect(dialog).not.toBeVisible();await expect(c.getByRole('tab',{name:/创新实验班/})).toHaveAttribute('aria-selected','true');
+      39 |  });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review11-r1-r3.spec.ts:36:225
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r1-r3/test-artifacts-final/navigation-v042-review11-r-9b897-search-Escape-and-selection/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r1-r3/test-artifacts-final/navigation-v042-review11-r-9b897-search-Escape-and-selection/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r1-r3/test-artifacts-final/navigation-v042-review11-r-9b897-search-Escape-and-selection/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/navigation-v042/w5/review-11-annotations-navigation/r1-r3/test-artifacts-final/navigation-v042-review11-r-9b897-search-Escape-and-selection/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    tests/e2e/navigation-v042-review11-r1-r3.spec.ts:34:2 › Review11 Connections 1200 pale directional chevron preserves dialog search Escape and selection 
+    tests/e2e/navigation-v042-review11-r1-r3.spec.ts:34:2 › Review11 Connections 1440 pale directional chevron preserves dialog search Escape and selection 
+    tests/e2e/navigation-v042-review11-r1-r3.spec.ts:34:2 › Review11 Connections 1600 pale directional chevron preserves dialog search Escape and selection 
+  9 passed (32.6s)

@@ -1,0 +1,172 @@
+
+Running 15 tests using 1 worker
+
+(node:17017) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 1440px no-preference: actual default calendar reads missing, zero and current update values through pointer and keyboard (9.4s)
+  ✘   2 tests/e2e/chart-second-batch-heatmap-map.spec.ts:125:3 › 1440px no-preference: all eleven native variants have bounded real dates and one cell entry (33.9s)
+(node:18470) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 tests/e2e/chart-second-batch-heatmap-map.spec.ts:171:3 › 1440px no-preference: five official flow variants expose exact thin/zero samples and preserve normal data (22.8s)
+  ✓   4 tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 1440px reduce: actual default calendar reads missing, zero and current update values through pointer and keyboard (4.0s)
+  ✘   5 tests/e2e/chart-second-batch-heatmap-map.spec.ts:125:3 › 1440px reduce: all eleven native variants have bounded real dates and one cell entry (15.4s)
+(node:20020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 tests/e2e/chart-second-batch-heatmap-map.spec.ts:171:3 › 1440px reduce: five official flow variants expose exact thin/zero samples and preserve normal data (3.1s)
+  ✓   7 tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 390px no-preference: actual default calendar reads missing, zero and current update values through pointer and keyboard (8.5s)
+  ✘   8 tests/e2e/chart-second-batch-heatmap-map.spec.ts:125:3 › 390px no-preference: all eleven native variants have bounded real dates and one cell entry (28.9s)
+(node:20469) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 tests/e2e/chart-second-batch-heatmap-map.spec.ts:171:3 › 390px no-preference: five official flow variants expose exact thin/zero samples and preserve normal data (22.6s)
+  ✓  10 tests/e2e/chart-second-batch-heatmap-map.spec.ts:41:3 › 390px reduce: actual default calendar reads missing, zero and current update values through pointer and keyboard (3.2s)
+  ✘  11 tests/e2e/chart-second-batch-heatmap-map.spec.ts:125:3 › 390px reduce: all eleven native variants have bounded real dates and one cell entry (12.4s)
+(node:20871) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 tests/e2e/chart-second-batch-heatmap-map.spec.ts:171:3 › 390px reduce: five official flow variants expose exact thin/zero samples and preserve normal data (3.0s)
+  ✓  13 tests/e2e/chart-second-batch-heatmap-map.spec.ts:215:60 › 390px no-preference: end-date keyboard inspection scrolls only the native calendar wrapper (3.9s)
+  ✓  14 tests/e2e/chart-second-batch-heatmap-map.spec.ts:215:60 › 390px reduce: end-date keyboard inspection scrolls only the native calendar wrapper (2.5s)
+  ✓  15 tests/e2e/chart-second-batch-heatmap-map.spec.ts:239:1 › 390px emulated touch: an unzoomed world map permits actual page scrolling, while the zoom variant retains touch control (2.5s)
+
+
+  1) tests/e2e/chart-second-batch-heatmap-map.spec.ts:125:3 › 1440px no-preference: all eleven native variants have bounded real dates and one cell entry 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 13.4
+    Received: 13.390625
+
+    Expected precision:    2
+    Expected difference: < 0.005
+    Received difference:   0.009375000000000355
+
+      142 |         for (const swatch of legend) {
+      143 |           expect(swatch.height).toBeCloseTo(11, 2);
+    > 144 |           expect(swatch.width).toBeCloseTo(variantId === "heatmap-gradient-legend" ? 13.4 : 11, 2);
+          |                                ^
+      145 |           expect(swatch.padding).toBe("0px"); expect(swatch.border).toBe("0px"); expect(swatch.background).toBe("rgba(0, 0, 0, 0)");
+      146 |         }
+      147 |         const expected = await page.evaluate(async variantId => {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-second-batch-heatmap-map.spec.ts:144:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-bf45f-al-dates-and-one-cell-entry/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-bf45f-al-dates-and-one-cell-entry/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-bf45f-al-dates-and-one-cell-entry/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-bf45f-al-dates-and-one-cell-entry/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-second-batch-heatmap-map.spec.ts:125:3 › 1440px reduce: all eleven native variants have bounded real dates and one cell entry 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 13.4
+    Received: 13.390625
+
+    Expected precision:    2
+    Expected difference: < 0.005
+    Received difference:   0.009375000000000355
+
+      142 |         for (const swatch of legend) {
+      143 |           expect(swatch.height).toBeCloseTo(11, 2);
+    > 144 |           expect(swatch.width).toBeCloseTo(variantId === "heatmap-gradient-legend" ? 13.4 : 11, 2);
+          |                                ^
+      145 |           expect(swatch.padding).toBe("0px"); expect(swatch.border).toBe("0px"); expect(swatch.background).toBe("rgba(0, 0, 0, 0)");
+      146 |         }
+      147 |         const expected = await page.evaluate(async variantId => {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-second-batch-heatmap-map.spec.ts:144:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-dedce-al-dates-and-one-cell-entry/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-dedce-al-dates-and-one-cell-entry/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-dedce-al-dates-and-one-cell-entry/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-dedce-al-dates-and-one-cell-entry/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/chart-second-batch-heatmap-map.spec.ts:125:3 › 390px no-preference: all eleven native variants have bounded real dates and one cell entry 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 13.4
+    Received: 13.390625
+
+    Expected precision:    2
+    Expected difference: < 0.005
+    Received difference:   0.009375000000000355
+
+      142 |         const legend = await host.getByRole("button", { name: /^等级 / }).evaluateAll(nodes => nodes.map(node => ({ width: node.getBoundingClientRect().width, height: node.getBoundingClientRect().height, padding: getComputedStyle(node).padding, border: getComputedStyle(node).borderWidth, background: getComputedStyle(node).backgroundColor })));
+      143 |         for (const swatch of legend) {
+    > 144 |           expect(swatch.height).toBeCloseTo(11, 2);
+          |                                ^
+      145 |           // Chromium layout quantizes the existing 67px gradient / 5 segments to 1/64px.
+      146 |           expect(Math.abs(swatch.width - (variantId === "heatmap-gradient-legend" ? 13.4 : 11))).toBeLessThanOrEqual(1 / 64);
+      147 |           expect(swatch.padding).toBe("0px"); expect(swatch.border).toBe("0px"); expect(swatch.background).toBe("rgba(0, 0, 0, 0)");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-second-batch-heatmap-map.spec.ts:144:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-9e62c-al-dates-and-one-cell-entry/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-9e62c-al-dates-and-one-cell-entry/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-9e62c-al-dates-and-one-cell-entry/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-9e62c-al-dates-and-one-cell-entry/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/chart-second-batch-heatmap-map.spec.ts:125:3 › 390px reduce: all eleven native variants have bounded real dates and one cell entry 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 13.4
+    Received: 13.390625
+
+    Expected precision:    2
+    Expected difference: < 0.005
+    Received difference:   0.009375000000000355
+
+      142 |         const legend = await host.getByRole("button", { name: /^等级 / }).evaluateAll(nodes => nodes.map(node => ({ width: node.getBoundingClientRect().width, height: node.getBoundingClientRect().height, padding: getComputedStyle(node).padding, border: getComputedStyle(node).borderWidth, background: getComputedStyle(node).backgroundColor })));
+      143 |         for (const swatch of legend) {
+    > 144 |           expect(swatch.height).toBeCloseTo(11, 2);
+          |                                ^
+      145 |           // Chromium layout quantizes the existing 67px gradient / 5 segments to 1/64px.
+      146 |           expect(Math.abs(swatch.width - (variantId === "heatmap-gradient-legend" ? 13.4 : 11))).toBeLessThanOrEqual(1 / 64);
+      147 |           expect(swatch.padding).toBe("0px"); expect(swatch.border).toBe("0px"); expect(swatch.background).toBe("rgba(0, 0, 0, 0)");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-second-batch-heatmap-map.spec.ts:144:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-c06a2-al-dates-and-one-cell-entry/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-c06a2-al-dates-and-one-cell-entry/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-c06a2-al-dates-and-one-cell-entry/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/heatmap-browser/after-05/test-results/chart-second-batch-heatmap-c06a2-al-dates-and-one-cell-entry/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    tests/e2e/chart-second-batch-heatmap-map.spec.ts:125:3 › 1440px no-preference: all eleven native variants have bounded real dates and one cell entry 
+    tests/e2e/chart-second-batch-heatmap-map.spec.ts:125:3 › 1440px reduce: all eleven native variants have bounded real dates and one cell entry 
+    tests/e2e/chart-second-batch-heatmap-map.spec.ts:125:3 › 390px no-preference: all eleven native variants have bounded real dates and one cell entry 
+    tests/e2e/chart-second-batch-heatmap-map.spec.ts:125:3 › 390px reduce: all eleven native variants have bounded real dates and one cell entry 
+  11 passed (3.0m)

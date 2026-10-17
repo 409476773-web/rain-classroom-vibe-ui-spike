@@ -1,0 +1,141 @@
+id: "recipe-radio-preview-card"
+name: "RadioPreviewCard"
+kind: "RainRecipeManifest"
+category: "recipe"
+modificationMode: "forkable"
+sourcePath: "packages/ui/src/recipes/selection-card-recipes.tsx"
+description: "Summary, original 7:3 artwork and metadata; 18px bottom padding."
+schemaVersion: "1.0"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+styleSourcePath: "packages/ui/src/styles.css"
+sourceVersion: "local-2026-09-10"
+publication: "unpublished"
+migrationLabel: "rewrite-from-rain"
+useWhen:
+  - "Choose a complete card recipe when an option needs content beyond a plain label and description."
+  - "Compose through the existing group renderOption slot when the group owns the selected value."
+doNotUseWhen:
+  - "Use standard Checkbox / RadioGroup for short text options."
+  - "Preview presentation, conditional fields and page-selection behavior belong to separately authorized SC-03 patterns."
+anatomy:
+  - "Non-interactive surface; one native selection label/input; 24px control canvas; content, summary and supplementary parts."
+  - "Independent actions are siblings of the selection label. Identity visuals are decorative."
+props:
+  - "Required visible non-empty string label; optional description and native input props/ref."
+  - "Non-interactive phrasing content in children, leadingVisual, trailingVisual and labelEnd; interactive content only in actions."
+  - "className controls layout; localRecipe names the declared card parts. Selection widths/heights are not public variants."
+  - "Recipe data: imageSrc, layoutLabel, audienceLabel."
+slots:
+  - "selection uses .rain-selection-card__selection; native input/control keep their existing data-slot names."
+  - "content, summary, label, description, supplementary and actions have stable data-slot markers."
+variants:
+  - "The four V0.3 composition recipes only; checked/unchecked is input state, not a separate card mode."
+states:
+  - "unchecked"
+  - "checked"
+  - "hover-control"
+  - "pressed-control"
+  - "focus-visible-control"
+  - "disabled-selection"
+  - "mixed-checkbox-only"
+dependencies:
+  - "react"
+  - "@rain-next/foundations"
+  - "tailwind-merge"
+  - "Existing Checkbox / Radio implementation and shared default-reset utility."
+  - "Recipe actions use existing Button; recommendation uses existing Tag with a scoped metric recipe."
+tokens:
+  - "Space/16 shell, 24 canvas, 8 outer gap, 40 identity; Radius/8 and Line/Thickness/1."
+  - "Space/18 preview bottom; 6 summary, 12 media/actions, 16 comparison, 10 attribute rows."
+  - "Background/Neutral/1 normal; Fill/Brand/Alpha/4 selected; Border/Neutral/3 normal and user-selected Border/Brand/1 current theme."
+  - "Text/Neutral/3 label/secondary, Text/Neutral/1 details, Text/Brand/1 accent and identity; identity uses Fill/Brand/Alpha/4."
+  - "PingFang SC title 15/24/600, description/value 13/22/400, metadata 12/22, keys/status/recommendation 11/22."
+  - "Native accepted Checkbox / Radio paint and shared Focus remain; no global Token changes."
+layoutConstraints:
+  - "Control x/y16; content x48. CardWithPreview inner text x100 and actions x48."
+  - "296/612 are source reference widths; 320 is a stress container, not a global breakpoint."
+  - "Height follows content; title, description, metadata and attributes wrap naturally. Artwork keeps 7:3."
+compositionRules:
+  - "Exactly one native input per card. No shell click, pointerdown selection, hand-written radio key handler or second state engine."
+  - "Group value owns grouped selection. Spread renderOption native/selection/accessibility props intact; the standard localRecipe remains with the standard renderer."
+  - "The accessible name comes from the visible title only; description is separate and decoration/action text is excluded."
+  - "Actions are outside the native label; preview uses type=button and does not change selection or submit."
+  - "Disabled selection does not disable sibling actions. A disabled fieldset still follows native fieldset behavior."
+  - "Recommended is content metadata, independent from whether the option is selected."
+allowedModifications:
+  - "Replace labels, metadata, descriptive artwork and identity content."
+  - "Choose existing group controlled/default ownership and available width."
+  - "Use named Local Recipe parts for scoped changes; use complete recipes by default."
+restrictedModifications:
+  - "No interactive descendants inside selection content; no nested labels/buttons."
+  - "No fixed card-height API, universal mode=checkbox/radio component, repeated state engine or new Foundation."
+  - "Do not infer visual approval, contrast waiver or publication from implementation."
+accessibility:
+  - "Native input, input ref, concise accessible name and description association."
+  - "Native Checkbox Space and Radio arrow/Space navigation remain in their original controls."
+  - "Independent buttons stay in normal Tab order; the group does not intercept their keys."
+  - "Keep the shared Focus finding explicit: existing Dark Focus is not accepted as a 3:1 pass."
+  - "Check actual layered text at 4.5:1 and meaningful selection cues at 3:1; disabled states are not contrast passes."
+examples:
+  - "apps/playground/src/docs/components/selection-cards-page.tsx"
+recipes:
+  - "radio-preview-card"
+  - "checkbox-object-card"
+  - "radio-comparison-card"
+  - "radio-card-with-preview"
+antiPatterns:
+  - "Selection derived from preview target."
+  - "Putting preview buttons or input fields inside one giant selection label."
+  - "Treating a recommendation badge as the selected state."
+relatedComponents:
+  - "ui-checkbox"
+  - "ui-checkbox-group"
+  - "ui-radio"
+  - "ui-radio-group"
+  - "ui-tag"
+  - "ui-button"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Figma olqwu95QD6n4Y3IAwUdgF4 / V0.3 board 2346:1938 and its four component sets."
+    - "docs/audits/2026-09-09-selection-sc00-preflight.md"
+  externalReferences:
+    - "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label"
+    - "https://www.w3.org/WAI/ARIA/apg/patterns/radio/"
+  retainedTraits:
+    - "24px control rail, x48 content and source content ordering; artwork, comparison rows and independent preview action."
+  redesignedTraits:
+    - "Use established PingFang 400/600 typography and theme-aware Tokens, approved standard native control geometry."
+    - "Stronger Text/Brand/1 with Alpha/4 after composited contrast check; reuse existing Tag and mini Button."
+  intentionallyNotInherited:
+    - "Raw Figma colors, Noto 500, fixed reference widths/heights and stale TrailingVisual name for a leading visual."
+sourceEvidence:
+  - "docs/plans/2026-09-10-selection-cards-sc02-implementation.md"
+  - "evidence/runtime/selection-cards/figma-reference.json"
+migrationNotes:
+  - "Standalone React candidates derived from Rain visual lineage; no Rain Classic edits or business migration."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  humanGateScope: "selection-cards-sc02-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/selection-cards/verification.md"
+figmaMapping:
+  status: "reference-only"
+  evidence: "evidence/runtime/selection-cards/figma-reference.json"
+  codeConnect: "not-established"
+  componentSetId: "2346:1683"
+  variantNodeIds:
+    - "2346:1684"
+    - "2346:1693"
+parts:
+  - "root"
+  - "selection"
+  - "content"
+  - "summary"
+  - "label"
+  - "description"
+  - "supplementary"
+  - "actions"

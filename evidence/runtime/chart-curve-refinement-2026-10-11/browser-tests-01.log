@@ -1,0 +1,525 @@
+
+Running 14 tests using 1 worker
+
+(node:89405) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/e2e/chart-curve-refinement.spec.ts:73:3 › 1440px no-preference › default line, area and composed retain reads, geometry and state behavior (3.1s)
+(node:89412) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 tests/e2e/chart-curve-refinement.spec.ts:98:3 › 1440px no-preference › representative official area, dual-axis line and markers keep their actual native path and interactions (9.7s)
+(node:89795) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 tests/e2e/chart-curve-refinement.spec.ts:114:3 › 1440px no-preference › mini line and area retain both native sizes, shared readings, states and replay (2.8s)
+(node:89801) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 tests/e2e/chart-curve-refinement.spec.ts:73:3 › 1440px reduce › default line, area and composed retain reads, geometry and state behavior (13.8s)
+  ✘   5 tests/e2e/chart-curve-refinement.spec.ts:98:3 › 1440px reduce › representative official area, dual-axis line and markers keep their actual native path and interactions (7.4s)
+(node:90938) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 tests/e2e/chart-curve-refinement.spec.ts:114:3 › 1440px reduce › mini line and area retain both native sizes, shared readings, states and replay (11.0s)
+  ✘   7 tests/e2e/chart-curve-refinement.spec.ts:73:3 › 390px no-preference › default line, area and composed retain reads, geometry and state behavior (3.2s)
+(node:91694) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 tests/e2e/chart-curve-refinement.spec.ts:98:3 › 390px no-preference › representative official area, dual-axis line and markers keep their actual native path and interactions (9.2s)
+(node:92445) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 tests/e2e/chart-curve-refinement.spec.ts:114:3 › 390px no-preference › mini line and area retain both native sizes, shared readings, states and replay (2.7s)
+(node:92820) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 tests/e2e/chart-curve-refinement.spec.ts:73:3 › 390px reduce › default line, area and composed retain reads, geometry and state behavior (14.4s)
+  ✘  11 tests/e2e/chart-curve-refinement.spec.ts:98:3 › 390px reduce › representative official area, dual-axis line and markers keep their actual native path and interactions (7.4s)
+(node:93576) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 tests/e2e/chart-curve-refinement.spec.ts:114:3 › 390px reduce › mini line and area retain both native sizes, shared readings, states and replay (10.8s)
+  ✘  13 tests/e2e/chart-curve-refinement.spec.ts:137:30 › 1440px reduce: category area curves retain all original points, exact tables and missing boundaries (3.9s)
+(node:94335) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  14 tests/e2e/chart-curve-refinement.spec.ts:137:30 › 390px reduce: category area curves retain all original points, exact tables and missing boundaries (4.0s)
+
+
+  1) tests/e2e/chart-curve-refinement.spec.ts:73:3 › 1440px no-preference › default line, area and composed retain reads, geometry and state behavior 
+
+    Error: default-line-1440-reduce-category-near: colors, widths, fill, typography, legends, dates and viewport
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 17
+    + Received  +  1
+
+    @@ -3,27 +3,11 @@
+          "Sep 1",
+          "Sep 9",
+          "Sep 17",
+          "Sep 24",
+        ],
+    -   "fills": Array [
+    -     Array [
+    -       "rgba(0, 0, 0, 0)",
+    -       "1",
+    -       "1",
+    -     ],
+    -     Array [
+    -       "rgba(0, 0, 0, 0)",
+    -       "1",
+    -       "1",
+    -     ],
+    -     Array [
+    -       "rgba(0, 0, 0, 0)",
+    -       "1",
+    -       "1",
+    -     ],
+    -   ],
+    +   "fills": Array [],
+        "legends": Array [
+          "参与人数 · 人",
+          "完成人数 · 人",
+          "复习人数 · 人",
+        ],
+
+      57 |  await page.mouse.move(0,0);return{text,date:Number(date![1]),valueTexts};
+      58 | }
+    > 59 | async function compareBaseline(id:string,facts:any){const before=JSON.parse(await readFile(`${beforeFolder}/${id}.json`,'utf8'));expect(presentation(facts),`${id}: colors, widths, fill, typography, legends, dates and viewport`).toEqual(presentation(before));}
+         |                                                                                                                                                                                                                                     ^
+      60 | async function save(name:string,value:any){await mkdir(folder,{recursive:true});await writeFile(`${folder}/${name}.json`,JSON.stringify(value,null,2));}
+      61 | async function markersAndTail(host:Locator){
+      62 |  const facts=await host.evaluate(node=>{
+        at compareBaseline (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:59:229)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:79:163
+
+    Error Context: evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-dd61c-geometry-and-state-behavior/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-dd61c-geometry-and-state-behavior/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-dd61c-geometry-and-state-behavior/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-curve-refinement.spec.ts:98:3 › 1440px no-preference › representative official area, dual-axis line and markers keep their actual native path and interactions 
+
+    Error: official-line-dual-y-axis-1440-reduce-monochrome-blue: colors, widths, fill, typography, legends, dates and viewport
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 12
+    + Received  +  1
+
+    @@ -3,22 +3,11 @@
+          "Sep 1",
+          "Sep 9",
+          "Sep 17",
+          "Sep 24",
+        ],
+    -   "fills": Array [
+    -     Array [
+    -       "rgba(0, 0, 0, 0)",
+    -       "1",
+    -       "1",
+    -     ],
+    -     Array [
+    -       "rgba(0, 0, 0, 0)",
+    -       "1",
+    -       "1",
+    -     ],
+    -   ],
+    +   "fills": Array [],
+        "legends": Array [
+          "参与人数 · 人",
+          "完成率 · %",
+        ],
+        "paths": Array [
+
+      57 |  await page.mouse.move(0,0);return{text,date:Number(date![1]),valueTexts};
+      58 | }
+    > 59 | async function compareBaseline(id:string,facts:any){const before=JSON.parse(await readFile(`${beforeFolder}/${id}.json`,'utf8'));expect(presentation(facts),`${id}: colors, widths, fill, typography, legends, dates and viewport`).toEqual(presentation(before));}
+         |                                                                                                                                                                                                                                     ^
+      60 | async function save(name:string,value:any){await mkdir(folder,{recursive:true});await writeFile(`${folder}/${name}.json`,JSON.stringify(value,null,2));}
+      61 | async function markersAndTail(host:Locator){
+      62 |  const facts=await host.evaluate(node=>{
+        at compareBaseline (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:59:229)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:103:296
+
+    Error Context: evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-b2b69-ative-path-and-interactions/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-b2b69-ative-path-and-interactions/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-b2b69-ative-path-and-interactions/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/chart-curve-refinement.spec.ts:114:3 › 1440px no-preference › mini line and area retain both native sizes, shared readings, states and replay 
+
+    Error: mini-line-compact-1440-reduce-monochrome-blue: colors, widths, fill, typography, legends, dates and viewport
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 7
+    + Received  + 1
+
+    @@ -1,14 +1,8 @@
+      Object {
+        "dateLabels": Array [],
+    -   "fills": Array [
+    -     Array [
+    -       "rgba(0, 0, 0, 0)",
+    -       "1",
+    -       "1",
+    -     ],
+    -   ],
+    +   "fills": Array [],
+        "legends": Array [],
+        "paths": Array [
+          Array [
+            "rgb(98, 136, 199)",
+            "1.5px",
+
+      57 |  await page.mouse.move(0,0);return{text,date:Number(date![1]),valueTexts};
+      58 | }
+    > 59 | async function compareBaseline(id:string,facts:any){const before=JSON.parse(await readFile(`${beforeFolder}/${id}.json`,'utf8'));expect(presentation(facts),`${id}: colors, widths, fill, typography, legends, dates and viewport`).toEqual(presentation(before));}
+         |                                                                                                                                                                                                                                     ^
+      60 | async function save(name:string,value:any){await mkdir(folder,{recursive:true});await writeFile(`${folder}/${name}.json`,JSON.stringify(value,null,2));}
+      61 | async function markersAndTail(host:Locator){
+      62 |  const facts=await host.evaluate(node=>{
+        at compareBaseline (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:59:229)
+        at take (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:124:106)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:127:18
+
+    Error Context: evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-f5eb4--readings-states-and-replay/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-f5eb4--readings-states-and-replay/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-f5eb4--readings-states-and-replay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/chart-curve-refinement.spec.ts:98:3 › 1440px reduce › representative official area, dual-axis line and markers keep their actual native path and interactions 
+
+    Error: expect(received).toHaveLength(expected)
+
+    Expected length: 7
+    Received length: 1
+    Received array:  [0]
+
+      64 |   const tails=[...node.querySelectorAll('svg path[stroke-dasharray]')].filter(path=>path.getAttribute('stroke-dasharray')==='6,4').map(path=>{const id=(path.getAttribute('clip-path')??'').match(/#([^)]*)/)?.[1];const clip=id?document.getElementById(id)?.querySelector('rect'):null;return{strokeWidth:Number(path.getAttribute('stroke-width')),clipStart:Number(clip?.getAttribute('x'))};});return{circles:circles.length,xs,tails};
+      65 |  });
+    > 66 |  expect(facts.circles).toBe(28);expect(facts.xs).toHaveLength(7);expect(facts.tails).toHaveLength(2);for(const tail of facts.tails)expect(tail.clipStart).toBeCloseTo(facts.xs[4]!-tail.strokeWidth,4);return facts;
+         |                                                  ^
+      67 | }
+      68 |
+      69 | for(const width of[1440,390])for(const mode of['no-preference','reduce'] as const){
+        at markersAndTail (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:66:50)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:104:39
+
+    Error Context: evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-7aab2-ative-path-and-interactions/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-7aab2-ative-path-and-interactions/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-7aab2-ative-path-and-interactions/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/e2e/chart-curve-refinement.spec.ts:73:3 › 390px no-preference › default line, area and composed retain reads, geometry and state behavior 
+
+    Error: default-line-390-reduce-category-near: colors, widths, fill, typography, legends, dates and viewport
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 17
+    + Received  +  1
+
+    @@ -3,27 +3,11 @@
+          "Sep 1",
+          "Sep 9",
+          "Sep 17",
+          "Sep 24",
+        ],
+    -   "fills": Array [
+    -     Array [
+    -       "rgba(0, 0, 0, 0)",
+    -       "1",
+    -       "1",
+    -     ],
+    -     Array [
+    -       "rgba(0, 0, 0, 0)",
+    -       "1",
+    -       "1",
+    -     ],
+    -     Array [
+    -       "rgba(0, 0, 0, 0)",
+    -       "1",
+    -       "1",
+    -     ],
+    -   ],
+    +   "fills": Array [],
+        "legends": Array [
+          "参与人数 · 人",
+          "完成人数 · 人",
+          "复习人数 · 人",
+        ],
+
+      57 |  await page.mouse.move(0,0);return{text,date:Number(date![1]),valueTexts};
+      58 | }
+    > 59 | async function compareBaseline(id:string,facts:any){const before=JSON.parse(await readFile(`${beforeFolder}/${id}.json`,'utf8'));expect(presentation(facts),`${id}: colors, widths, fill, typography, legends, dates and viewport`).toEqual(presentation(before));}
+         |                                                                                                                                                                                                                                     ^
+      60 | async function save(name:string,value:any){await mkdir(folder,{recursive:true});await writeFile(`${folder}/${name}.json`,JSON.stringify(value,null,2));}
+      61 | async function markersAndTail(host:Locator){
+      62 |  const facts=await host.evaluate(node=>{
+        at compareBaseline (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:59:229)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:79:163
+
+    Error Context: evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-abd16-geometry-and-state-behavior/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-abd16-geometry-and-state-behavior/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-abd16-geometry-and-state-behavior/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) tests/e2e/chart-curve-refinement.spec.ts:98:3 › 390px no-preference › representative official area, dual-axis line and markers keep their actual native path and interactions 
+
+    Error: official-line-dual-y-axis-390-reduce-monochrome-blue: colors, widths, fill, typography, legends, dates and viewport
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 12
+    + Received  +  1
+
+    @@ -3,22 +3,11 @@
+          "Sep 1",
+          "Sep 9",
+          "Sep 17",
+          "Sep 24",
+        ],
+    -   "fills": Array [
+    -     Array [
+    -       "rgba(0, 0, 0, 0)",
+    -       "1",
+    -       "1",
+    -     ],
+    -     Array [
+    -       "rgba(0, 0, 0, 0)",
+    -       "1",
+    -       "1",
+    -     ],
+    -   ],
+    +   "fills": Array [],
+        "legends": Array [
+          "参与人数 · 人",
+          "完成率 · %",
+        ],
+        "paths": Array [
+
+      57 |  await page.mouse.move(0,0);return{text,date:Number(date![1]),valueTexts};
+      58 | }
+    > 59 | async function compareBaseline(id:string,facts:any){const before=JSON.parse(await readFile(`${beforeFolder}/${id}.json`,'utf8'));expect(presentation(facts),`${id}: colors, widths, fill, typography, legends, dates and viewport`).toEqual(presentation(before));}
+         |                                                                                                                                                                                                                                     ^
+      60 | async function save(name:string,value:any){await mkdir(folder,{recursive:true});await writeFile(`${folder}/${name}.json`,JSON.stringify(value,null,2));}
+      61 | async function markersAndTail(host:Locator){
+      62 |  const facts=await host.evaluate(node=>{
+        at compareBaseline (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:59:229)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:103:296
+
+    Error Context: evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-55be7-ative-path-and-interactions/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-55be7-ative-path-and-interactions/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-55be7-ative-path-and-interactions/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) tests/e2e/chart-curve-refinement.spec.ts:114:3 › 390px no-preference › mini line and area retain both native sizes, shared readings, states and replay 
+
+    Error: mini-line-compact-390-reduce-monochrome-blue: colors, widths, fill, typography, legends, dates and viewport
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 7
+    + Received  + 1
+
+    @@ -1,14 +1,8 @@
+      Object {
+        "dateLabels": Array [],
+    -   "fills": Array [
+    -     Array [
+    -       "rgba(0, 0, 0, 0)",
+    -       "1",
+    -       "1",
+    -     ],
+    -   ],
+    +   "fills": Array [],
+        "legends": Array [],
+        "paths": Array [
+          Array [
+            "rgb(98, 136, 199)",
+            "1.5px",
+
+      57 |  await page.mouse.move(0,0);return{text,date:Number(date![1]),valueTexts};
+      58 | }
+    > 59 | async function compareBaseline(id:string,facts:any){const before=JSON.parse(await readFile(`${beforeFolder}/${id}.json`,'utf8'));expect(presentation(facts),`${id}: colors, widths, fill, typography, legends, dates and viewport`).toEqual(presentation(before));}
+         |                                                                                                                                                                                                                                     ^
+      60 | async function save(name:string,value:any){await mkdir(folder,{recursive:true});await writeFile(`${folder}/${name}.json`,JSON.stringify(value,null,2));}
+      61 | async function markersAndTail(host:Locator){
+      62 |  const facts=await host.evaluate(node=>{
+        at compareBaseline (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:59:229)
+        at take (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:124:106)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:127:18
+
+    Error Context: evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-c7dda--readings-states-and-replay/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-c7dda--readings-states-and-replay/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-c7dda--readings-states-and-replay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) tests/e2e/chart-curve-refinement.spec.ts:98:3 › 390px reduce › representative official area, dual-axis line and markers keep their actual native path and interactions 
+
+    Error: expect(received).toHaveLength(expected)
+
+    Expected length: 7
+    Received length: 1
+    Received array:  [0]
+
+      64 |   const tails=[...node.querySelectorAll('svg path[stroke-dasharray]')].filter(path=>path.getAttribute('stroke-dasharray')==='6,4').map(path=>{const id=(path.getAttribute('clip-path')??'').match(/#([^)]*)/)?.[1];const clip=id?document.getElementById(id)?.querySelector('rect'):null;return{strokeWidth:Number(path.getAttribute('stroke-width')),clipStart:Number(clip?.getAttribute('x'))};});return{circles:circles.length,xs,tails};
+      65 |  });
+    > 66 |  expect(facts.circles).toBe(28);expect(facts.xs).toHaveLength(7);expect(facts.tails).toHaveLength(2);for(const tail of facts.tails)expect(tail.clipStart).toBeCloseTo(facts.xs[4]!-tail.strokeWidth,4);return facts;
+         |                                                  ^
+      67 | }
+      68 |
+      69 | for(const width of[1440,390])for(const mode of['no-preference','reduce'] as const){
+        at markersAndTail (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:66:50)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:104:39
+
+    Error Context: evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-f13ed-ative-path-and-interactions/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-f13ed-ative-path-and-interactions/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-f13ed-ative-path-and-interactions/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) tests/e2e/chart-curve-refinement.spec.ts:137:30 › 1440px reduce: category area curves retain all original points, exact tables and missing boundaries 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 14
+    + Received  +  0
+
+    @@ -112,21 +112,7 @@
+            "12px",
+            "400",
+            "rgb(73, 93, 135)",
+            "rgb(0, 0, 0)",
+          ],
+    -     Array [
+    -       "\"PingFang SC\", \"Microsoft YaHei\", ui-sans-serif, sans-serif",
+    -       "12px",
+    -       "400",
+    -       "rgb(73, 93, 135)",
+    -       "rgb(0, 0, 0)",
+    -     ],
+    -     Array [
+    -       "\"PingFang SC\", \"Microsoft YaHei\", ui-sans-serif, sans-serif",
+    -       "12px",
+    -       "400",
+    -       "rgb(73, 93, 135)",
+    -       "rgb(0, 0, 0)",
+    -     ],
+        ],
+      }
+
+      158 |   if(id==='period'){expect(tooltipText).toContain(point.currentDate??'无观测日期');expect(tooltipText).toContain(point.previousDate??'无观测日期');}
+      159 |   await host.screenshot({path:`${folder}/category/category-${id}-${width}-tooltip.png`,animations:'disabled'});facts.push({id,state:'tooltip',tooltipText});await page.mouse.move(0,0);
+    > 160 |   await controls.getByRole('button',{name:'更新数据',exact:true}).click();const updated=await take(1,'normal');expect(updated.current.paths.map((p:any)=>p.d)).not.toEqual(normal.current.paths.map((p:any)=>p.d));expect(presentation(updated.current)).toEqual(presentation(normal.current));
+          |                                                                                                                                                                                                                                                      ^
+      161 |   await controls.getByRole('button',{name:'重播动效',exact:true}).click();const replay=await take(1,'normal');expect(replay.current.paths.map((p:any)=>p.d)).toEqual(updated.current.paths.map((p:any)=>p.d));
+      162 |   for(const state of['zero','missing']){await controls.getByRole('combobox',{name:'分类数据状态',exact:true}).selectOption(state);await take(1,state);}
+      163 |   if(width===390){const scroll=await viewport.evaluate(node=>({width:node.clientWidth,total:node.scrollWidth,overflow:getComputedStyle(node).overflowX}));expect(scroll.total).toBeGreaterThan(scroll.width);expect(scroll.overflow).toBe('auto');}
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:160:246
+
+    Error Context: evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-6e4be-bles-and-missing-boundaries/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-6e4be-bles-and-missing-boundaries/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-144-6e4be-bles-and-missing-boundaries/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) tests/e2e/chart-curve-refinement.spec.ts:137:30 › 390px reduce: category area curves retain all original points, exact tables and missing boundaries 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 14
+    + Received  +  0
+
+    @@ -112,21 +112,7 @@
+            "12px",
+            "400",
+            "rgb(73, 93, 135)",
+            "rgb(0, 0, 0)",
+          ],
+    -     Array [
+    -       "\"PingFang SC\", \"Microsoft YaHei\", ui-sans-serif, sans-serif",
+    -       "12px",
+    -       "400",
+    -       "rgb(73, 93, 135)",
+    -       "rgb(0, 0, 0)",
+    -     ],
+    -     Array [
+    -       "\"PingFang SC\", \"Microsoft YaHei\", ui-sans-serif, sans-serif",
+    -       "12px",
+    -       "400",
+    -       "rgb(73, 93, 135)",
+    -       "rgb(0, 0, 0)",
+    -     ],
+        ],
+      }
+
+      158 |   if(id==='period'){expect(tooltipText).toContain(point.currentDate??'无观测日期');expect(tooltipText).toContain(point.previousDate??'无观测日期');}
+      159 |   await host.screenshot({path:`${folder}/category/category-${id}-${width}-tooltip.png`,animations:'disabled'});facts.push({id,state:'tooltip',tooltipText});await page.mouse.move(0,0);
+    > 160 |   await controls.getByRole('button',{name:'更新数据',exact:true}).click();const updated=await take(1,'normal');expect(updated.current.paths.map((p:any)=>p.d)).not.toEqual(normal.current.paths.map((p:any)=>p.d));expect(presentation(updated.current)).toEqual(presentation(normal.current));
+          |                                                                                                                                                                                                                                                      ^
+      161 |   await controls.getByRole('button',{name:'重播动效',exact:true}).click();const replay=await take(1,'normal');expect(replay.current.paths.map((p:any)=>p.d)).toEqual(updated.current.paths.map((p:any)=>p.d));
+      162 |   for(const state of['zero','missing']){await controls.getByRole('combobox',{name:'分类数据状态',exact:true}).selectOption(state);await take(1,state);}
+      163 |   if(width===390){const scroll=await viewport.evaluate(node=>({width:node.clientWidth,total:node.scrollWidth,overflow:getComputedStyle(node).overflowX}));expect(scroll.total).toBeGreaterThan(scroll.width);expect(scroll.overflow).toBe('auto');}
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-curve-refinement.spec.ts:160:246
+
+    Error Context: evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-031c8-bles-and-missing-boundaries/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-031c8-bles-and-missing-boundaries/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-curve-refinement-2026-10-11/browser-tests/after-tests-01/results/chart-curve-refinement-390-031c8-bles-and-missing-boundaries/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10 failed
+    tests/e2e/chart-curve-refinement.spec.ts:73:3 › 1440px no-preference › default line, area and composed retain reads, geometry and state behavior 
+    tests/e2e/chart-curve-refinement.spec.ts:98:3 › 1440px no-preference › representative official area, dual-axis line and markers keep their actual native path and interactions 
+    tests/e2e/chart-curve-refinement.spec.ts:114:3 › 1440px no-preference › mini line and area retain both native sizes, shared readings, states and replay 
+    tests/e2e/chart-curve-refinement.spec.ts:98:3 › 1440px reduce › representative official area, dual-axis line and markers keep their actual native path and interactions 
+    tests/e2e/chart-curve-refinement.spec.ts:73:3 › 390px no-preference › default line, area and composed retain reads, geometry and state behavior 
+    tests/e2e/chart-curve-refinement.spec.ts:98:3 › 390px no-preference › representative official area, dual-axis line and markers keep their actual native path and interactions 
+    tests/e2e/chart-curve-refinement.spec.ts:114:3 › 390px no-preference › mini line and area retain both native sizes, shared readings, states and replay 
+    tests/e2e/chart-curve-refinement.spec.ts:98:3 › 390px reduce › representative official area, dual-axis line and markers keep their actual native path and interactions 
+    tests/e2e/chart-curve-refinement.spec.ts:137:30 › 1440px reduce: category area curves retain all original points, exact tables and missing boundaries 
+    tests/e2e/chart-curve-refinement.spec.ts:137:30 › 390px reduce: category area curves retain all original points, exact tables and missing boundaries 
+  4 passed (1.8m)

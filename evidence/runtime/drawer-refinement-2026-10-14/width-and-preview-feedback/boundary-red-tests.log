@@ -1,0 +1,224 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/g6-task-details-drawer.test.tsx (9 tests | 2 failed) 720ms
+   × uses the effective minimum at the desktop breakpoint and can return to that normal width 29ms
+   × returns focused resize controls to the popup before narrow mode removes them 42ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/g6-task-details-drawer.test.tsx > uses the effective minimum at the desktop breakpoint and can return to that normal width
+AssertionError: expected '333.32px' to be '360px' // Object.is equality
+
+Expected: "360px"
+Received: "333.32px"
+
+ ❯ apps/playground/src/docs/components/g6-task-details-drawer.test.tsx:166:66
+    164|   await user.click(screen.getByRole("button", { name: "查看任务：比较两种解释" })…
+    165|   const popup = await screen.findByRole("dialog");
+    166|   expect(popup.style.getPropertyValue("--drawer-content-width")).toBe(…
+       |                                                                  ^
+    167|   await user.click(within(popup).getByRole("button", { name: "展开宽度" })…
+    168|   await user.click(within(popup).getByRole("button", { name: "收起宽度" })…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/playground/src/docs/components/g6-task-details-drawer.test.tsx > returns focused resize controls to the popup before narrow mode removes them
+Error: expect(element).toHaveFocus()
+
+Expected element with focus:
+  <button
+  aria-label="关闭任务详情"
+  class="rain-icon-button box-border relative inline-flex flex-none items-center justify-center p-rain-0 border-none overflow-visible align-middle appearance-none select-none isolate transition-colors duration-rain-icon-button ease-rain-icon-button focus-visible:outline-solid motion-reduce:transition-none text-rain-category-icon-neutral-2 bg-rain-action-ghost cursor-pointer hover:bg-rain-category-fill-neutral-alpha-3 active:bg-rain-category-fill-neutral-alpha-2 size-rain-icon-button-control-36 rounded-rain-8"
+  data-density="default"
+  data-feedback="interactive"
+  data-focus="control"
+  data-highlight="none"
+  data-rain-id="ui-icon-button"
+  data-rain-state="default"
+  data-size="36/20"
+  data-slot="root"
+  data-state="default"
+  data-tone="default"
+  data-variant="fill"
+  tabindex="0"
+  type="button"
+>
+  <span
+    aria-hidden="true"
+    class="inline-flex flex-none items-center justify-center [&>.rain-icon]:size-full size-rain-icon-20"
+    data-slot="icon"
+  >
+    <span
+      aria-hidden="true"
+      class="rain-icon"
+      data-icon="icon/close"
+      data-icon-color-mode="host"
+      data-icon-rendering="svg-mask"
+      data-rain-id="icon"
+      style="mask-image: url("data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_8_2'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='4'%20y='4'%20width='16'%20height='16'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M19.7071%204.29289C20.0976%204.68342%2020.0976%205.31658%2019.7071%205.70711L5.70711%2019.7071C5.31658%2020.0977%204.68342%2020.0977%204.29289%2019.7071C3.90237%2019.3166%203.90237%2018.6834%204.29289%2018.2929L18.2929%204.29289C18.6834%203.90237%2019.3166%203.90237%2019.7071%204.29289Z'%20fill='%231D2129'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M4.29289%204.29289C3.90237%204.68342%203.90237%205.31658%204.29289%205.70711L18.2929%2019.7071C18.6834%2020.0977%2019.3166%2020.0977%2019.7071%2019.7071C20.0976%2019.3166%2020.0976%2018.6834%2019.7071%2018.2929L5.70711%204.29289C5.31658%203.90237%204.68342%203.90237%204.29289%204.29289Z'%20fill='%231D2129'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_8_2)'%3e%3crect%20width='24'%20height='24'%20fill='%231D2129'/%3e%3c/g%3e%3c/svg%3e"); -webkit-mask-image: url("data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_8_2'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='4'%20y='4'%20width='16'%20height='16'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M19.7071%204.29289C20.0976%204.68342%2020.0976%205.31658%2019.7071%205.70711L5.70711%2019.7071C5.31658%2020.0977%204.68342%2020.0977%204.29289%2019.7071C3.90237%2019.3166%203.90237%2018.6834%204.29289%2018.2929L18.2929%204.29289C18.6834%203.90237%2019.3166%203.90237%2019.7071%204.29289Z'%20fill='%231D2129'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M4.29289%204.29289C3.90237%204.68342%203.90237%205.31658%204.29289%205.70711L18.2929%2019.7071C18.6834%2020.0977%2019.3166%2020.0977%2019.7071%2019.7071C20.0976%2019.3166%2020.0976%2018.6834%2019.7071%2018.2929L5.70711%204.29289C5.31658%203.90237%204.68342%203.90237%204.29289%204.29289Z'%20fill='%231D2129'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_8_2)'%3e%3crect%20width='24'%20height='24'%20fill='%231D2129'/%3e%3c/g%3e%3c/svg%3e");"
+    />
+  </span>
+</button>
+Received element with focus:
+  <body>
+  <div
+    data-base-ui-inert=""
+  >
+    <section
+      aria-label="课前任务列表"
+      class="g6-task-details-example"
+      data-asset-identity="local-experiment"
+      data-open="true"
+      data-rain-id="prototype-task-details-drawer"
+      id="_r_31_-list"
+      style="--rain-local-task-details-width: 480px; --rain-local-task-details-reserve: 0px;"
+    >
+      <div
+        class="g6-task-details-list-heading"
+      >
+        <h3>
+          课前任务
+        </h3>
+        <span>
+          3
+          项
+        </span>
+      </div>
+      <p
+        class="g6-task-details-note"
+      >
+        第2项包含多列小组完成明细。任务和完成数据均为示例。
+      </p>
+      <ul
+        class="g6-task-details-list"
+      >
+        <li
+          class="g6-task-details-row"
+          data-current="false"
+        >
+          <span … />
+          <button … />
+          <p … />
+          <div … />
+        </li>
+        <li
+          class="g6-task-details-row"
+          data-current="true"
+        >
+          <span … />
+          <button … />
+          <p … />
+          <div … />
+        </li>
+        <li
+          class="g6-task-details-row"
+          data-current="false"
+        >
+          <span … />
+          <button … />
+          <p … />
+          <div … />
+        </li>
+      </ul>
+      <span
+        aria-hidden="true"
+        data-base-ui-focus-guard=""
+        data-type="outside"
+        style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"
+        tabindex="0"
+      />
+      <span
+        aria-owns="_r_34_"
+        style="clip-path: inset(50%); position: fixed; top: 0px; left: 0px;"
+      />
+      <span
+        aria-hidden="true"
+        data-base-ui-focus-guard=""
+        data-type="outside"
+        style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"
+        tabindex="0"
+      />
+    </section>
+  </div>
+  <div
+    data-base-ui-portal=""
+    data-slot="drawer-portal"
+    id="_r_34_"
+  >
+    <div
+      class="rain-drawer__viewport"
+      data-modal="false"
+      data-open=""
+      data-slot="drawer-viewport"
+      data-starting-style=""
+      dir="ltr"
+      role="presentation"
+    >
+      <span
+        aria-hidden="true"
+        data-base-ui-focus-guard=""
+        data-base-ui-inert=""
+        data-type="inside"
+        style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"
+        tabindex="0"
+      />
+      <div
+        aria-describedby="base-ui-_r_37_"
+        aria-labelledby="base-ui-_r_36_"
+        class="rain-drawer__popup g6-task-details-panel"
+        data-base-ui-focusable=""
+        data-density="default"
+        data-open=""
+        data-rain-id="ui-drawer"
+        data-rain-theme="light"
+        data-slot="drawer-popup"
+        data-starting-style=""
+        data-swipe-axis="x"
+        data-swipe-direction="right"
+        dir="ltr"
+        id="_r_31_-details"
+        role="dialog"
+        style="--drawer-swipe-movement-x: 0px; --drawer-swipe-movement-y: 0px; --drawer-swipe-progress: 0; --nested-drawers: 0; --drawer-snap-point-offset: 0px; --drawer-swipe-strength: 1; --rain-density-control-height: 36px; --rain-density-control-padding-inline: 14px; --rain-density-item-gap: 10px; --drawer-content-width: 100vw;"
+        tabindex="-1"
+      >
+        <div
+          aria-hidden="true"
+          class="rain-drawer__swipe-handle"
+          data-slot="drawer-swipe-handle"
+        />
+        <div
+          class="rain-drawer__content"
+          data-drawer-content=""
+          data-slot="drawer-content"
+        >
+          <div … />
+        </div>
+      </div>
+      <span
+        aria-hidden="true"
+        data-base-ui-focus-guard=""
+        data-base-ui-inert=""
+        data-type="inside"
+        style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"
+        tabindex="0"
+      />
+    </div>
+  </div>
+</body>
+ ❯ apps/playground/src/docs/components/g6-task-details-drawer.test.tsx:181:65
+    179|   await act(async () => { setViewportWidth(390); });
+    180|   expect(screen.queryByRole("separator")).toBeNull();
+    181|   expect(within(popup).getByRole("button", { name: "关闭任务详情" })).toHave…
+       |                                                                 ^
+    182|   expect(within(popup).queryByRole("button", { name: "展开宽度" })).toBeNu…
+    183| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 7 passed (9)
+   Start at  00:12:59
+   Duration  4.05s (transform 558ms, setup 89ms, import 2.81s, tests 720ms, environment 350ms)
+

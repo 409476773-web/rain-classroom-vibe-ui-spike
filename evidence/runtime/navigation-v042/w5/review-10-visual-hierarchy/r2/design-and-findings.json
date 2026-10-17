@@ -1,0 +1,59 @@
+{
+  "scope": "Review10 R2 local recipe visual hierarchy; existing G1 lineage and Review09 behavior retained, pending human G2",
+  "workMode": "System Mode for tracked local Recipe, no shared source edits",
+  "methods": [
+    {
+      "id": "V04",
+      "use": "Separate primary content/action from auxiliary icons and incidental corner notes."
+    },
+    {
+      "id": "V05",
+      "use": "Use existing Button tertiary/text variants and Icon/Neutral Tokens while keeping native actions/focus/disabled semantics."
+    },
+    {
+      "id": "D05",
+      "use": "Measure1200/1440/1600 actual artboard and verify layout/content geometry."
+    }
+  ],
+  "confirmed": [
+    {
+      "id": "R2-neutral-action",
+      "before": "Focus action declares secondary but host root and leaf colors/border/background force private neutral paint; preview similarly masquerades as secondary with0 border.",
+      "after": "Focus uses existing tertiary; preview uses existing text variant; removes local paint/hover overrides so actual root/label/icon state comes from component. Existing32px target/10px padding/12px label preserved."
+    },
+    {
+      "id": "R2-auxiliary-icon-radius",
+      "before": "Pin/close control28px with14px icon has4px local radius overriding approved IconButton28/14 radius6; default private muted rgb98/109/125.",
+      "after": "Existing radius6 and IconNeutral4 default, IconNeutral2 hover/focus, untouched28/14 hit/icon geometry. Scope/layout chevrons/help likewise use quiet auxiliary icon Token."
+    },
+    {
+      "id": "R2-incidental-footer",
+      "before": "Both scope footer and mock-corner note share dark brown rgb140/101/52; side-navigation counts use private muted rgb98/109/125.",
+      "after": "Necessary scope note uses TextNeutral4; pure mock corner/account role/counts use TextNeutral6. Existing TextNeutral6 page explanation, TextNeutral5 editing hint and Tree metadata/current remain."
+    }
+  ],
+  "checkedNoChange": [
+    "R2 renders no table or th; Tree titles are already regular400 and selected600, connectors use existing neutral3. No table-style rule added.",
+    "Button own6px radius and ManageTree Button36px/6px radius already match existing contract.",
+    "ManageTree Add root is a meaningful secondary creation action and Save a primary action; both retain existing brand state, target and variant.",
+    "Tree current state, semantic Tags, danger/delete, errors/conflicts/Toasts and Dialog controls unchanged.",
+    "Review09 SegmentedControl native radio and compact Tooltip behavior retained."
+  ],
+  "sourceFilesChanged": [
+    "apps/playground/src/recipes/navigation-v042/r2.tsx",
+    "apps/playground/src/recipes/navigation-v042/r2.css"
+  ],
+  "sourceFilesReadOnly": [
+    "apps/playground/src/recipes/navigation-v042/course-resources.tsx"
+  ],
+  "newSharedDependencies": [],
+  "newPublicTokens": [],
+  "newBreakpoints": [],
+  "notVerified": [
+    "Human visual acceptance/G2",
+    "Fullcontrast/assistive technology/multiple browsers"
+  ],
+  "attemptNotes": [
+    "First before capture reached all six screenshots, then failed because source SHA collection resolved one parent too far. Corrected before-verified is authoritative; original attempt retained."
+  ]
+}

@@ -1,0 +1,153 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-live-lifecycle.test.tsx (4 tests | 1 failed) 773ms
+   × default live page invalidates old points across notice states and revision updates while preserving pause 235ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-live-lifecycle.test.tsx > default live page invalidates old points across notice states and revision updates while preserving pause
+AssertionError: expected [ 81, 79, 78, 77, 76, 75, 74, …(53) ] to deeply equal [ +0, +0, +0, +0, +0, +0, +0, …(53) ]
+
+- Expected
++ Received
+
+  [
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
++   81,
++   79,
++   78,
++   77,
++   76,
++   75,
++   74,
++   73,
++   73,
++   72,
++   72,
++   72,
++   71,
++   71,
++   71,
++   72,
++   72,
++   72,
++   73,
++   74,
++   74,
++   75,
++   76,
++   77,
++   78,
++   79,
++   81,
++   82,
++   83,
++   85,
++   86,
++   87,
++   89,
++   90,
++   92,
++   93,
++   94,
++   96,
++   97,
++   98,
++   100,
++   101,
++   102,
++   103,
++   104,
++   105,
++   105,
++   106,
++   107,
++   107,
++   107,
++   108,
++   108,
++   108,
++   107,
++   107,
++   107,
++   106,
++   106,
++   105,
+  ]
+
+ ❯ apps/playground/src/docs/components/chart-live-lifecycle.test.tsx:146:22
+    144|     fireEvent.change(state, { target: { value: next } });
+    145|     await mountLive();
+    146|     expect(values()).toEqual(makeLivePoints(undefined, 0, next).map(po…
+       |                      ^
+    147|     expect(snapshot().state).toBe(next);
+    148|     expect(snapshot().liveSettings.points.map((point: { value: number …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  15:36:49
+   Duration  3.53s (transform 1.27s, setup 115ms, import 2.12s, tests 773ms, environment 431ms)
+

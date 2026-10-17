@@ -1,0 +1,24 @@
+{
+  "globalCommand": [
+    "pnpm",
+    "exec",
+    "tsc",
+    "--noEmit",
+    "--project",
+    "tsconfig.tests.json"
+  ],
+  "globalExit": 1,
+  "globalDiagnostic": "scripts/g6-governance.test.ts(5,10): TS2305 node:url has no exported member pathToFileURL",
+  "rootCause": "The concurrently added G6 governance test imports pathToFileURL; local tests/node-runtime.d.ts declares node:url but provides no pathToFileURL export. RN14 imports the existing declared fileURLToPath.",
+  "affectedFiles": {
+    "scripts/g6-governance.test.ts": "4d42449692ad69ccd8ff9fd16108f8ea5065e09c984e0c5f246d0dde5a9719c9",
+    "tests/node-runtime.d.ts": "24f53aa8613483a4263c05d469c79adbfab814b47265adb8c86ae85180230d78",
+    "scripts/verification-helpers.mjs": "edb5043e0bfdaea6fe5b4421f18984922b4c115385389c06ad3d7e8542b66ce8",
+    "status/current-phase.yaml": "59ab55d37bf57b70fdc93232a1665df7a4de568df3810e7f77449ecafba9deca"
+  },
+  "thisTaskOnlyTypecheckConfig": "tsconfig.rn14-closeout.json",
+  "thisTaskTypecheckExit": 0,
+  "unrelatedFilesEditedByThisTask": false,
+  "fullRN14LatestTests": "6 passed (6), exit0; earlier5/6 B2 failure kept with original log, no historic backfill",
+  "fullScopeGreenNotClaimed": true
+}

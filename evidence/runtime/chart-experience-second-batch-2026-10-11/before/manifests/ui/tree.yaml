@@ -1,0 +1,126 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-tree"
+name: "Tree"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "rewrite-from-rain"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/tree/tree.tsx"
+styleSourcePath: "packages/ui/src/tree/tree.css"
+sourceVersion: "local-2026-09-29"
+description: "基础与富内容树：层级、展开、独立行选中和勾选、搜索、异步加载、关系线与移动提案。"
+useWhen:
+  - "需要展示和操作课程、目录等嵌套层级。"
+doNotUseWhen:
+  - "需要草稿增删改和原子保存时使用 ManageTree Pattern。"
+anatomy:
+  - "tree"
+  - "treeitem"
+  - "row"
+  - "connector"
+  - "expander"
+  - "drag-handle"
+  - "checkbox"
+  - "content"
+  - "meta"
+  - "actions"
+parts:
+  - "root"
+  - "node"
+  - "row"
+  - "connector"
+  - "expander"
+  - "content"
+props:
+  - "data 可由 accessors 适配；key 为唯一 string 或 number，数据只读。"
+  - "expandedKeys、selectedKeys、checkState、focusedKey 可分别受控，受控时须有回调。"
+  - "showLine=false；lineStyle=solid|dotted；Basic/Rich、密度和整行/内收选中。"
+  - "search=filter|locate；loadChildren/onChildrenLoaded 成对；dragAndDrop 提交提案；virtual 仅固定高度 Basic。"
+  - "ref.refresh 刷新分支，ref.reveal 定位当前索引；virtual 拒绝异步及可变高度内容。"
+  - "ref.getScrollAnchor / restoreScrollAnchor 按稳定 key 与相对偏移恢复树内滚动；onScrollAnchorChange 只报告位置。"
+slots:
+  - "renderTitle、renderDescription、renderLeading、renderMeta、renderActions 接收 node 与只读 TreeRenderContext。"
+  - "上下文提供状态、限制原因及按当前权限执行的展开／选中／勾选／聚焦动作；保留受控所有权。"
+  - "renderEmpty 区分 empty 与 no-results，可组合既有 Empty 和操作按钮。"
+variants:
+  - "basic"
+  - "rich"
+states:
+  - "expanded"
+  - "selected"
+  - "checked"
+  - "half-checked"
+  - "loading"
+  - "error"
+  - "drag-target"
+dependencies:
+  - "React"
+  - "Rain Checkbox、正式图标、Foundations"
+tokens:
+  - "Rain 现有 Category 色与 Focus；Tree 消费者在 token-foundation-outputs.mjs 登记。"
+layoutConstraints:
+  - "每级缩进 24px；关系线横臂 12px，到完整控件 4px；叶子无展开位。"
+  - "Basic 固定 36/44px；Rich 自然增高并对齐标题第一行。"
+  - "所有祖先竖线贯穿各自可见子树；到该子树末节点的首行锚点收尾，独立根不相连。"
+  - "拖入目标只在当前行显示极浅品牌填充与 1px 浅蓝描边，位于内容和关系线下方。"
+  - "常态保留浅色；悬停、焦点所在行和有效拖拽目标增强说明／辅助文字及操作图标，离开后恢复。"
+compositionRules:
+  - "宿主拥有权威数据和异步结果回写；Tree 仅提出移动及状态变更。"
+  - "勾选背景与行选中独立；不参与勾选隐藏复选框，受限时显示禁用态。"
+allowedModifications:
+  - "业务字段适配、节点渲染、状态受控与既有视觉变体。"
+restrictedModifications:
+  - "不改全局 Token 或将业务草稿事务放进 Tree。"
+accessibility:
+  - "具名 tree/treeitem，层级、位置、展开、选中与勾选分别表达。"
+  - "方向键/Home/End、Enter、Space、F6 与拖动手柄键盘路径可用；正式读屏验收仍待执行。"
+examples:
+  - "apps/playground/src/docs/components/tree-page.tsx"
+  - "apps/playground/src/docs/components/tree-behavior-examples.tsx"
+recipes: []
+antiPatterns:
+  - "用行选中表示已勾选。"
+  - "Rich 使用固定高度虚拟化。"
+relatedComponents:
+  - "ui-checkbox"
+  - "ui-icon-button"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "docs/plans/2026-09-25-tree-implementation-rules.md#2-必须继承替换及修复的内容"
+  externalReferences: []
+  retainedTraits:
+    - "嵌套数据、勾选意图、异步分支与管理树组合边界。"
+  redesignedTraits:
+    - "审核通过的 A 排列、浅关系线、24px 缩进、标题原位编辑入口。"
+  intentionallyNotInherited:
+    - "Vue API、叶子展开位和自动提交标题。"
+figmaMapping:
+  status: "accepted-local-visual-reference-only"
+migrationNotes:
+  - "本地共享候选；未替换旧 Vue Tree 或接入业务。"
+verification:
+  automated: "scoped-passed"
+  independentReview: "scoped-passed-2026-09-27-renderer-and-retained-edit-actions"
+  humanGate: "accepted-web-prototype-foundation-runtime-visual-2026-09-29"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/tree/verification.md"
+  supplementalVisualDecision:
+    acceptedAt: "2026-09-29"
+    userStatement: "两个示例都通过"
+    scope: "example-06-node-state-and-empty-demonstration"
+    evidence: "evidence/runtime/tree/closeout/verification.md"
+  interactionReadabilityDecision:
+    acceptedAt: "2026-09-29"
+    userStatement: "确定。继续建设tree组件"
+    scope: "interaction-only-candidate-design-applied; idle-pale-colors-retained"
+    evidence: "evidence/runtime/tree/interaction-readability-facts.json"
+  prototypeCompletion:
+    status: "completed"
+    acceptedAt: "2026-09-29"
+    userStatement: "如果是这样的话，现在这个Tree视觉我已经人工检验通过，可以算作tree组件基础建设已完成。"
+    scope: "tree-web-high-fidelity-prototype-foundation"
+    evidence: "evidence/runtime/tree/closeout/verification.md"

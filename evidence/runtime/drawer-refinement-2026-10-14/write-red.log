@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/drawer-refinement-integration.test.ts (4 tests | 1 failed) 8ms
+   × writes Drawer verification only to its own regular output and rejects links 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/drawer-refinement-integration.test.ts > writes Drawer verification only to its own regular output and rejects links
+AssertionError: expected { …(2), [Symbol(Symbol.toStringTag)]: '…' } to have property "writeG6ScopedVerification"
+ ❯ scripts/drawer-refinement-integration.test.ts:33:20
+     31|
+     32| it("writes Drawer verification only to its own regular output and reje…
+     33|   expect(verifier).toHaveProperty("writeG6ScopedVerification");
+       |                    ^
+     34|   const write = (verifier as typeof verifier & { writeG6ScopedVerifica…
+     35|   const root = mkdtempSync(join(tmpdir(), "rain-drawer-write-"));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  18:15:04
+   Duration  941ms (transform 146ms, setup 130ms, import 224ms, tests 8ms, environment 493ms)
+

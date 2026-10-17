@@ -1,0 +1,65 @@
+{
+  "reviewer": "review07_r1_r3",
+  "reviewMode": "read-only source and existing contract review; no implementation changes",
+  "scope": "R4/S4 interaction context and queue headers, classroom section caption, group selected row",
+  "sourceHashesAtReview": {
+    "packages/ui/src/icon-button/icon-button.styles.ts": "d38c5d3e28d7b6b4191408a3fd5facb4c5b605d2bde5c3abfc944c8eaa6a8e24",
+    "packages/ui/src/icon-button/icon-button.tsx": "90e8cbe1cc0f4630e8b4d7b14bd90aa4aea4304351836f5b1f84300bc1cbe1e4",
+    "manifests/ui/icon-button.yaml": "4fe6c3b0f580857309598dc9dd356ed99da373e53c827d17d88a5162db683a68",
+    "packages/foundations/src/tokens.css": "aaac07083c6ea0b3861437a2778ff6322e0f1a9e4bfbac80baf00da36425d640",
+    "packages/foundations/src/typography.css": "6812638dd5a3688a4da4c876b577a9e293fa4a23cb80119bcc727d1e50bc32e2",
+    "packages/ui/src/navigation/navigation-families.css": "16a0f032e48195ff62aab11d127c98de170eb982209d594bb4ac4aeb084ae64e",
+    "apps/playground/src/recipes/navigation-v042/r4-r6.tsx": "bf1e222726808a390927e44790cbb9bbcba182f00e737c38a7e81c689fc299e3",
+    "apps/playground/src/recipes/navigation-v042/r4-r6.css": "74f4cf2e3e2daf91c03bfd2a60959eff087a0916e2cce76cdaff6d6cdfb5439a",
+    "apps/playground/src/recipes/navigation-v042/workspace-states.tsx": "0a08744db6699ee0a12becb6091e24dcb95e5d7ef04dcda4c6e8a61446f6f35f"
+  },
+  "recommendations": [
+    {
+      "target": "RegionHead in ClassInteraction only",
+      "existingVariant": "IconButton size=32/14",
+      "controlPx": 32,
+      "iconPx": 14,
+      "radiusPx": 6,
+      "rationale": "Real approved complete size recipe; explicit size wins over density. Default RegionHead remains 32/18 for grading, R5 and R6.",
+      "source": "packages/ui/src/icon-button/icon-button.styles.ts:20"
+    },
+    {
+      "target": ".nv5-r4[data-scene=\"interaction\"] .nv5-class-context>h4",
+      "weightToken": "--rain-font-weight-regular",
+      "weight": 400,
+      "colorToken": "--rain-category-text-neutral-6",
+      "lightColor": "rgb(160 172 197)",
+      "darkColor": "rgb(111 122 158)",
+      "rationale": "Replace actual weight 500 and scoped TextNeutral3 caption without changing caption geometry."
+    },
+    {
+      "target": ".nv5-r4[data-scene=\"interaction\"] .nv5-group-objects.rain-object-navigator",
+      "localVariables": [
+        "--rain-local-navigation-family-queue-current",
+        "--rain-local-navigation-family-queue-hover"
+      ],
+      "existingToken": "--rain-category-fill-brand-alpha-3",
+      "lightColor": "rgb(61 123 255 / 20%)",
+      "darkColor": "rgb(56 96 255 / 30%)",
+      "rationale": "Selected + selected-hover remain theme brand translucent; unselected hover still uses existing NeutralAlpha4. Preserve selection rail, current label weight and aria state."
+    }
+  ],
+  "scopeFacts": [
+    "RegionHead is shared by ClassInteraction context/queue, ClassGrading queue/review, R5 events/knowledge and R6 fields/context/directory.",
+    "S4 directly renders R4Recipe scene=variant, and RecipeWorkspace preserves data-scene=interaction.",
+    "The inverse option currently scopes dark theme to platform/recovery regions. Main content remains inherited light; do not force dark theme on group rows.",
+    "No new Foundation Token, component variant, public default or dependency is needed."
+  ],
+  "risks": [
+    "Changing the shared RegionHead default would unintentionally shrink unrelated recipe icons.",
+    "Changing only queue-current leaves selected hover gray because navigation-families.css has a higher-specificity selected:hover rule using queue-hover.",
+    "Changing all interaction family queue variables rather than the nv5-group-objects root broadens the semantic scope beyond the requested small-group list.",
+    "Applying opacity to the row affects text/avatar, unlike an alpha background Token."
+  ],
+  "notVerifiedInThisAudit": [
+    "Root implementation before/after runtime measurements and screenshots",
+    "Human visual acceptance",
+    "Contrast/accessibility audit"
+  ],
+  "implementationOwner": "root"
+}

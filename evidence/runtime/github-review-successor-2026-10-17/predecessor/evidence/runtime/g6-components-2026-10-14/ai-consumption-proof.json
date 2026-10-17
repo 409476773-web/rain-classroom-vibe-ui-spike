@@ -1,0 +1,1695 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-14T05:04:20.176044+00:00",
+  "scope": "G6 twelve-capability independent file-tarball consumer",
+  "workspace": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2",
+  "consumerRoot": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/g6-components-2026-10-14/consumer",
+  "acceptance": {
+    "humanGate": "awaiting_human",
+    "contrastAcceptance": "not-granted",
+    "publication": "unpublished"
+  },
+  "tasks": [
+    {
+      "capability": "data-table",
+      "task": "将课堂资料组织为可搜索、分页和稳定选择的表格/卡片。",
+      "selectedContract": {
+        "method": "executed actual readAssets(), matched exact Manifest and validated Registry/public exports",
+        "assetId": "recipe-data-table",
+        "manifest": "manifests/recipes/data-table.yaml",
+        "manifestSHA256": "a52628d6c05730acfb5e7ac0032d5bfc389bd5ba9237dcc9b56c39e26166a561",
+        "registry": "registry/g6-assets.json",
+        "registrySHA256": "a115d65014f7611fc4afd277a431f396d46f025c28509dea9d2525b75581c403",
+        "useWhen": [
+          "课程资料等结构化对象需要客户端筛选、排序、稳定ID选择、分页和列显隐。",
+          "复制已有13条虚构资料配方，按业务修改Material、ColumnDef和动作。"
+        ],
+        "props": [
+          "DataTableRecipe({ loadRecords? })；loadRecords(current: readonly Material[], signal: AbortSignal): Promise<Material[]>。",
+          "Material为导出的本地资料类型：id/name/kind/status(ready|draft)/updated/locked；模型和列定义在复制的文件内修改。",
+          "没有data、columns、selection或onSort公共Props；query/sort/page/column visibility/selection均为配方内的客户端状态。"
+        ],
+        "modificationMode": "forkable",
+        "declaredExports": [
+          "DataTableRecipe"
+        ],
+        "automatedStatusAtRead": "scoped-passed",
+        "finalIndexQueryConfirmed": true
+      },
+      "actualConsumer": {
+        "source": {
+          "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/main.tsx",
+          "sha256": "4a44a5af68fbd7007c4bc42eca9b1f28106c9ffdabceafe3f0123d9c2c6c3662"
+        },
+        "line": 38,
+        "entry": "preserved copied ./data-table-recipe plus minimally forked ./data-table-recipe-local",
+        "usedAPIs": [
+          "DataTableRecipe",
+          "LocalDataTableRecipe"
+        ],
+        "actualComposition": "three instances of preserved copied recipe / minimally forked local recipe, TanStack8.21.3 plus shared Table/Pagination/SearchInput/Checkbox/Card/Layout Parts",
+        "runtimeFiles": {},
+        "defaultLocalSibling": {
+          "threeModes": true,
+          "differenceKind": "source-fork-root-className",
+          "difference": "Three instances: default/sibling render preserved DataTableRecipe; local renders LocalDataTableRecipe. Fork only changes export name and one Card root class; original TSX/CSS copies stay byte-identical.",
+          "observedIsolation": {
+            "property": "padding-inline-start",
+            "values": [
+              "0px",
+              "24px",
+              "0px"
+            ]
+          },
+          "scopedWidths": [
+            1440,
+            390
+          ]
+        },
+        "localSourceFork": {
+          "sourceCopy": {
+            "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/data-table-recipe.tsx",
+            "sha256": "deee3f8ae1807af026e4c56f3a705138816f380f23504b54dcef491b522773f6"
+          },
+          "localFork": {
+            "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/data-table-recipe-local.tsx",
+            "sha256": "740c27e2702bd113572f7ce5aca8dea392ed026dadf67617a2117985caed4a57"
+          },
+          "sameAfterOnlyExportNameAndOneRootClassNormalization": true,
+          "changes": [
+            {
+              "kind": "export-name",
+              "from": "DataTableRecipe",
+              "to": "LocalDataTableRecipe"
+            },
+            {
+              "kind": "native-Card-root-className",
+              "from": "data-table-recipe",
+              "to": "data-table-recipe consumer-local",
+              "css": "consumer-local { padding-inline: var(--rain-space-24); }"
+            }
+          ],
+          "sharedCSS": {
+            "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/data-table-recipe.css",
+            "sha256": "0d563bbc468d24fe8fccc9873214202b882959c40efa227f7ecc8ea240e848a0"
+          },
+          "originalWorkspaceTSXAndCSSStillSameBytes": true,
+          "baseRecipeNamesPreserved": [
+            "table-header-sort",
+            "material-view-start",
+            "material-view-end",
+            "material-card-selection"
+          ]
+        }
+      },
+      "verification": {
+        "strictTSAndBuild": "passed in latest actual consumer/build.log after local seam additions",
+        "isolatedBrowserScope": "Copied default search field visible; three Card root padding values compared in both widths. No isolated behavioral regression claim for all table actions."
+      }
+    },
+    {
+      "capability": "aspect-ratio",
+      "task": "维持课程封面16:9比例。",
+      "selectedContract": {
+        "method": "executed actual readAssets(), matched exact Manifest and validated Registry/public exports",
+        "assetId": "ui-aspect-ratio",
+        "manifest": "manifests/ui/aspect-ratio.yaml",
+        "manifestSHA256": "e99f32300e59ecd41e07aa03ad4199e0b6ff4f2aa096840f0d6f70b2308a0f10",
+        "registry": "registry/g6-assets.json",
+        "registrySHA256": "a115d65014f7611fc4afd277a431f396d46f025c28509dea9d2525b75581c403",
+        "useWhen": [
+          "图片、视频封面或课件需要在加载前预留稳定比例。",
+          "同一媒体放入不同宽度、侧栏或flex卡片。"
+        ],
+        "props": [
+          "ratio: number必填，有限且>0；支持16/9、1、4/3及其他有效数值。",
+          "原生div children/ref/className/style/属性保留；不提供render、variant或size。"
+        ],
+        "modificationMode": "managed",
+        "declaredExports": [
+          "AspectRatio"
+        ],
+        "automatedStatusAtRead": "scoped-passed",
+        "finalIndexQueryConfirmed": true
+      },
+      "actualConsumer": {
+        "source": {
+          "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/main.tsx",
+          "sha256": "4a44a5af68fbd7007c4bc42eca9b1f28106c9ffdabceafe3f0123d9c2c6c3662"
+        },
+        "line": 27,
+        "entry": "@rain-next/ui installed tarball",
+        "usedAPIs": [
+          "AspectRatio"
+        ],
+        "actualComposition": "ratio16/9 + child + native className",
+        "runtimeFiles": {
+          "packages/ui/src/aspect-ratio/aspect-ratio.tsx": {
+            "sha256": "9cd787af615c6737b88e1566c851d0fbe2e06eb5a99d7b579f7ee73b82fedd61",
+            "currentSHA256": "9cd787af615c6737b88e1566c851d0fbe2e06eb5a99d7b579f7ee73b82fedd61",
+            "sameBytes": true
+          },
+          "packages/ui/src/aspect-ratio/README.md": {
+            "sha256": "c73630eefe88f942184f84b032df0829500412a26f842a970c587f3ecdf9986c",
+            "currentSHA256": "c73630eefe88f942184f84b032df0829500412a26f842a970c587f3ecdf9986c",
+            "sameBytes": true
+          }
+        },
+        "defaultLocalSibling": {
+          "threeModes": true,
+          "differenceKind": "native-root-className",
+          "difference": "Only local AspectRatio receives consumer-local root class, padding-inline var(--rain-space-24); default/sibling omit it.",
+          "observedIsolation": {
+            "property": "padding-inline-start",
+            "values": [
+              "0px",
+              "24px",
+              "0px"
+            ]
+          },
+          "scopedWidths": [
+            1440,
+            390
+          ]
+        }
+      },
+      "verification": {
+        "strictTSAndBuild": "passed in latest actual consumer/build.log after local seam additions",
+        "isolatedBrowserScope": "Root padding0px/24px/0px compared in both widths; ratio16/9 composition verified."
+      }
+    },
+    {
+      "capability": "attachment",
+      "task": "呈现有名称、说明和动作的附件。",
+      "selectedContract": {
+        "method": "executed actual readAssets(), matched exact Manifest and validated Registry/public exports",
+        "assetId": "ui-attachment",
+        "manifest": "manifests/ui/attachment.yaml",
+        "manifestSHA256": "43fe786205b973bace7f6fecbe17ae842f973a4a976df0df4a9bb02cb916895d",
+        "registry": "registry/g6-assets.json",
+        "registrySHA256": "a115d65014f7611fc4afd277a431f396d46f025c28509dea9d2525b75581c403",
+        "useWhen": [
+          "表单、消息或资料区需要展示单文件名称、类型与处理状态。",
+          "同文件需要整卡预览和独立移除/下载/重试动作。"
+        ],
+        "props": [
+          "Root: state=done，可idle/uploading/processing/error/done；size=default，可default/sm/xs；orientation=horizontal，可horizontal/vertical。",
+          "Media: variant=icon，可icon/image；其余展示Parts为原生div/span属性/ref/className/style。",
+          "Action为完整Rain Button Props；省略variant/size/block时text/regular，显式text省略size仍regular；其他合法显式方案沿house。",
+          "Trigger为Base UI useRender.ComponentProps<button>，支持元素/函数render、ref/合并事件；默认type=button。"
+        ],
+        "modificationMode": "managed",
+        "declaredExports": [
+          "Attachment",
+          "AttachmentMedia",
+          "AttachmentContent",
+          "AttachmentTitle",
+          "AttachmentDescription",
+          "AttachmentActions",
+          "AttachmentAction",
+          "AttachmentTrigger",
+          "AttachmentGroup"
+        ],
+        "automatedStatusAtRead": "scoped-passed",
+        "finalIndexQueryConfirmed": true
+      },
+      "actualConsumer": {
+        "source": {
+          "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/main.tsx",
+          "sha256": "4a44a5af68fbd7007c4bc42eca9b1f28106c9ffdabceafe3f0123d9c2c6c3662"
+        },
+        "line": 28,
+        "entry": "@rain-next/ui installed tarball",
+        "usedAPIs": [
+          "Attachment",
+          "AttachmentMedia",
+          "AttachmentContent",
+          "AttachmentTitle",
+          "AttachmentDescription",
+          "AttachmentActions",
+          "AttachmentAction"
+        ],
+        "actualComposition": "Media/Content/Title/Description/Actions/Action + actual host onClick feedback + local root style",
+        "runtimeFiles": {
+          "packages/ui/src/attachment/attachment.tsx": {
+            "sha256": "abc2d923b1b0810c74b3ed654b7fbe9f0dfeb64013ce86d66618b2d572ff342e",
+            "currentSHA256": "abc2d923b1b0810c74b3ed654b7fbe9f0dfeb64013ce86d66618b2d572ff342e",
+            "sameBytes": true
+          },
+          "packages/ui/src/attachment/attachment.css": {
+            "sha256": "46cfed12eafebc8e0a2d043e92b5372830ab62ba461f5d0aa6e2da4248c8cd96",
+            "currentSHA256": "46cfed12eafebc8e0a2d043e92b5372830ab62ba461f5d0aa6e2da4248c8cd96",
+            "sameBytes": true
+          },
+          "packages/ui/src/attachment/attachment.css.d.ts": {
+            "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "currentSHA256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "sameBytes": true
+          },
+          "packages/ui/src/attachment/README.md": {
+            "sha256": "4eedf6390f6ddf4cf6b19ddc83175896eb607df7347b2105123f756d0e29adce",
+            "currentSHA256": "4eedf6390f6ddf4cf6b19ddc83175896eb607df7347b2105123f756d0e29adce",
+            "sameBytes": true
+          }
+        },
+        "defaultLocalSibling": {
+          "threeModes": true,
+          "differenceKind": "native-root-style",
+          "difference": "Only local Attachment receives style.paddingInline=var(--rain-space-24); existing native div Props forwarding carries this root style. No named LocalRecipe used.",
+          "observedIsolation": {
+            "property": "padding-inline-start",
+            "values": [
+              "8px",
+              "24px",
+              "8px"
+            ]
+          },
+          "scopedWidths": [
+            1440,
+            390
+          ]
+        }
+      },
+      "verification": {
+        "strictTSAndBuild": "passed in latest actual consumer/build.log after local seam additions",
+        "isolatedBrowserScope": "Root padding8px/24px/8px compared in both widths; Action composition compiled/mounted; no isolated preview-click assertion."
+      }
+    },
+    {
+      "capability": "drawer",
+      "task": "打开并关闭可访问的任务抽屉。",
+      "selectedContract": {
+        "method": "executed actual readAssets(), matched exact Manifest and validated Registry/public exports",
+        "assetId": "ui-drawer",
+        "manifest": "manifests/ui/drawer.yaml",
+        "manifestSHA256": "d0bfea5460c513d4508cbc6d2af6afcf56781402ed97ec0b826b0e3f97159849",
+        "registry": "registry/g6-assets.json",
+        "registrySHA256": "a115d65014f7611fc4afd277a431f396d46f025c28509dea9d2525b75581c403",
+        "useWhen": [
+          "临时任务面板需要真实滑动、吸附高度或嵌套叠层。",
+          "底部课程资源/填写任务，也需同实现支持上/左/右。"
+        ],
+        "props": [
+          "DrawerRootProps=BaseDrawer.Root.Props + showSwipeHandle?:boolean(默认false)；modal默认true，swipeDirection默认down。",
+          "保留open/defaultOpen/onOpenChange/onOpenChangeComplete、disablePointerDismissal、actionsRef、handle/triggerId/defaultTriggerId及snapPoints/snapPoint/defaultSnapPoint/onSnapPointChange/snapToSequentialPoints。",
+          "Content为BaseDrawer.Popup.Props，含ref/render/initialFocus/finalFocus及className/style状态函数。",
+          "Portal保留container/keepMounted；Overlay为Backdrop Props；Trigger/Close保留原生按钮/render/ref/事件，Title/Description由原引擎关联。",
+          "Header/Footer/SwipeHandle为原生div属性；SwipeHandle装饰aria-hidden。"
+        ],
+        "modificationMode": "managed",
+        "declaredExports": [
+          "Drawer",
+          "DrawerPortal",
+          "DrawerOverlay",
+          "DrawerSwipeHandle",
+          "DrawerTrigger",
+          "DrawerClose",
+          "DrawerContent",
+          "DrawerHeader",
+          "DrawerFooter",
+          "DrawerTitle",
+          "DrawerDescription"
+        ],
+        "automatedStatusAtRead": "scoped-passed",
+        "finalIndexQueryConfirmed": true
+      },
+      "actualConsumer": {
+        "source": {
+          "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/main.tsx",
+          "sha256": "4a44a5af68fbd7007c4bc42eca9b1f28106c9ffdabceafe3f0123d9c2c6c3662"
+        },
+        "line": 30,
+        "entry": "@rain-next/ui installed tarball",
+        "usedAPIs": [
+          "Drawer",
+          "DrawerTrigger",
+          "DrawerContent",
+          "DrawerHeader",
+          "DrawerTitle",
+          "DrawerDescription",
+          "DrawerFooter",
+          "DrawerClose"
+        ],
+        "actualComposition": "showSwipeHandle + render actual Button",
+        "runtimeFiles": {
+          "packages/ui/src/drawer/drawer.tsx": {
+            "sha256": "a2c88b8d17239f7872a5d02d02cecf83b9f371df6c9cf392e157a0c9d2eb1380",
+            "currentSHA256": "a2c88b8d17239f7872a5d02d02cecf83b9f371df6c9cf392e157a0c9d2eb1380",
+            "sameBytes": true
+          },
+          "packages/ui/src/drawer/drawer.css": {
+            "sha256": "acfe2f59d7e2ff77c04984c42e480def5cc30b1b51020e3446cd6531bac3ca7d",
+            "currentSHA256": "acfe2f59d7e2ff77c04984c42e480def5cc30b1b51020e3446cd6531bac3ca7d",
+            "sameBytes": true
+          },
+          "packages/ui/src/drawer/drawer.css.d.ts": {
+            "sha256": "3423de425b002cb0a5c00f4abd6313d3750f34e9a48e9d19f062459bdb9ec0a7",
+            "currentSHA256": "3423de425b002cb0a5c00f4abd6313d3750f34e9a48e9d19f062459bdb9ec0a7",
+            "sameBytes": true
+          },
+          "packages/ui/src/drawer/README.md": {
+            "sha256": "b0c0a3421b65a28063f485ca918f84e3a31d7494ab791d74d84d7caf32b95f98",
+            "currentSHA256": "b0c0a3421b65a28063f485ca918f84e3a31d7494ab791d74d84d7caf32b95f98",
+            "sameBytes": true
+          },
+          "packages/ui/src/_internal/popup.tsx": {
+            "sha256": "550e98f6fbd050bc34f1d537f9a4e71bb70a43cb2f40f79aba912365c1f4ed34",
+            "currentSHA256": "550e98f6fbd050bc34f1d537f9a4e71bb70a43cb2f40f79aba912365c1f4ed34",
+            "sameBytes": true
+          }
+        },
+        "defaultLocalSibling": {
+          "threeModes": true,
+          "differenceKind": "native-content-className",
+          "difference": "Only local DrawerContent receives consumer-local. All three dialogs open/close and return focus to their own trigger; default/local/sibling padding0px/24px/0px.",
+          "observedIsolation": {
+            "property": "padding-inline-start",
+            "values": [
+              "0px",
+              "24px",
+              "0px"
+            ]
+          },
+          "scopedWidths": [
+            1440,
+            390
+          ]
+        }
+      },
+      "verification": {
+        "strictTSAndBuild": "passed in latest actual consumer/build.log after local seam additions",
+        "isolatedBrowserScope": "Three dialogs each opened/closed with returned focus; root padding0px/24px/0px compared in both widths."
+      }
+    },
+    {
+      "capability": "input-otp",
+      "task": "消费四位原生验证码输入与视觉分槽。",
+      "selectedContract": {
+        "method": "executed actual readAssets(), matched exact Manifest and validated Registry/public exports",
+        "assetId": "ui-input-otp",
+        "manifest": "manifests/ui/input-otp.yaml",
+        "manifestSHA256": "143d72c9d997c6a5c23893ca74d59138c89fb4bff4f896759a2fd88982fd6f9c",
+        "registry": "registry/g6-assets.json",
+        "registrySHA256": "a115d65014f7611fc4afd277a431f396d46f025c28509dea9d2525b75581c403",
+        "useWhen": [
+          "验证码/加入代码需要一个真实input与分组可视槽位。",
+          "需整段粘贴、选区、自动填充及原生FormData。"
+        ],
+        "props": [
+          "InputOTPProps=OTPInput1.4.2 Props + status=default|warning|error；maxLength必须正安全整数。",
+          "保留value/defaultValue/onChange(string)/onComplete、pattern/pasteTransformer、name/form、ref、inputMode/autoComplete、textAlign、pushPasswordManagerStrategy和noScriptCSSFallback。",
+          "render与children保留引擎互斥类型；className作用真实input，containerClassName作用可视容器；native size仍HTML含义。",
+          "Slot index为非负安全整数且必须在Root有效范围；显示char/placeholderChar/isActive/hasFakeCaret。",
+          "Group/Slot/Separator保持原生div属性/ref/className/style；不增加公共size枚举。"
+        ],
+        "modificationMode": "managed",
+        "declaredExports": [
+          "InputOTP",
+          "InputOTPGroup",
+          "InputOTPSlot",
+          "InputOTPSeparator"
+        ],
+        "automatedStatusAtRead": "scoped-passed",
+        "finalIndexQueryConfirmed": true
+      },
+      "actualConsumer": {
+        "source": {
+          "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/main.tsx",
+          "sha256": "4a44a5af68fbd7007c4bc42eca9b1f28106c9ffdabceafe3f0123d9c2c6c3662"
+        },
+        "line": 31,
+        "entry": "@rain-next/ui installed tarball",
+        "usedAPIs": [
+          "InputOTP",
+          "InputOTPGroup",
+          "InputOTPSlot"
+        ],
+        "actualComposition": "FormItem label + maxLength4 + per-mode name + four indexed slots + local Group style.gap",
+        "runtimeFiles": {
+          "packages/ui/src/input-otp/input-otp.tsx": {
+            "sha256": "89a756865e168a5d747a24df5c579c463f67cb929be0b5dfe1ebfb884d8da6c5",
+            "currentSHA256": "89a756865e168a5d747a24df5c579c463f67cb929be0b5dfe1ebfb884d8da6c5",
+            "sameBytes": true
+          },
+          "packages/ui/src/input-otp/input-otp.css": {
+            "sha256": "e2f461b7335b291ba75fe1c72e94570b6019dd5a1de63e81be4616bcca1aa391",
+            "currentSHA256": "e2f461b7335b291ba75fe1c72e94570b6019dd5a1de63e81be4616bcca1aa391",
+            "sameBytes": true
+          },
+          "packages/ui/src/input-otp/input-otp.css.d.ts": {
+            "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "currentSHA256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "sameBytes": true
+          },
+          "packages/ui/src/input-otp/README.md": {
+            "sha256": "9d307d8b21aa17784067e16b0f405808c82e0ed28dac2a7a31d6f50d8771e77e",
+            "currentSHA256": "9d307d8b21aa17784067e16b0f405808c82e0ed28dac2a7a31d6f50d8771e77e",
+            "sameBytes": true
+          },
+          "packages/ui/src/input/form-item.tsx": {
+            "sha256": "384e95d4804d3e75514df87646c90bf7cfd9f31e8a3aa9861803eef94432fe8a",
+            "currentSHA256": "384e95d4804d3e75514df87646c90bf7cfd9f31e8a3aa9861803eef94432fe8a",
+            "sameBytes": true
+          },
+          "packages/ui/src/input/input.tsx": {
+            "sha256": "65fc26da7d607c0b6f473658f97d4d6793962950799c82a5500d3e77138ee862",
+            "currentSHA256": "65fc26da7d607c0b6f473658f97d4d6793962950799c82a5500d3e77138ee862",
+            "sameBytes": true
+          }
+        },
+        "defaultLocalSibling": {
+          "threeModes": true,
+          "differenceKind": "native-Group-style",
+          "difference": "Only local InputOTPGroup receives style.gap=var(--rain-space-8), via existing div Props. Four engine slots and native answer unchanged; no named LocalRecipe used.",
+          "observedIsolation": {
+            "property": "gap",
+            "values": [
+              "normal",
+              "8px",
+              "normal"
+            ]
+          },
+          "scopedWidths": [
+            1440,
+            390
+          ]
+        }
+      },
+      "verification": {
+        "strictTSAndBuild": "passed in latest actual consumer/build.log after local seam additions",
+        "isolatedBrowserScope": "Group gap normal/8px/normal compared in both widths; default native textbox filled1234 and value asserted."
+      }
+    },
+    {
+      "capability": "carousel",
+      "task": "以三张课程资料组成轮播。",
+      "selectedContract": {
+        "method": "executed actual readAssets(), matched exact Manifest and validated Registry/public exports",
+        "assetId": "ui-carousel",
+        "manifest": "manifests/ui/carousel.yaml",
+        "manifestSHA256": "2669fbd982d376520d5e9b61f080b470030a2b6058b5a9e05d3cda1465dfb961",
+        "registry": "registry/g6-assets.json",
+        "registrySHA256": "a115d65014f7611fc4afd277a431f396d46f025c28509dea9d2525b75581c403",
+        "useWhen": [
+          "课程素材需要手动单图/多卡轨道、拖动与前后导航。",
+          "需要横向或纵向布局、方向上下文和Embla已有Options/API。"
+        ],
+        "props": [
+          "Carousel原生div Props/ref + opts/plugins/setApi/orientation(horizontal默认|vertical)，公开CarouselApi/Options/Plugin及useCarousel。",
+          "方向优先opts.direction→明确dir→Base UI context；orientation优先于opts.axis。",
+          "Content className/style/ref作用inner flex容器；viewport ref由内部Embla拥有。",
+          "Previous/Next采用合法Rain Button Props和ref，children可选；默认真实IconButton32/16，显式variant/size/children等转house Button。"
+        ],
+        "modificationMode": "managed",
+        "declaredExports": [
+          "Carousel",
+          "CarouselContent",
+          "CarouselItem",
+          "CarouselPrevious",
+          "CarouselNext",
+          "useCarousel"
+        ],
+        "automatedStatusAtRead": "scoped-passed",
+        "finalIndexQueryConfirmed": true
+      },
+      "actualConsumer": {
+        "source": {
+          "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/main.tsx",
+          "sha256": "4a44a5af68fbd7007c4bc42eca9b1f28106c9ffdabceafe3f0123d9c2c6c3662"
+        },
+        "line": 32,
+        "entry": "@rain-next/ui installed tarball",
+        "usedAPIs": [
+          "Carousel",
+          "CarouselContent",
+          "CarouselItem",
+          "CarouselPrevious",
+          "CarouselNext"
+        ],
+        "actualComposition": "named region + tabIndex0 + three items + Previous/Next + local root inline padding",
+        "runtimeFiles": {
+          "packages/ui/src/carousel/carousel.tsx": {
+            "sha256": "14437529be72622490bf9f19158d8fc6bed259de33d3433aa397c2c4b8d1b1a0",
+            "currentSHA256": "14437529be72622490bf9f19158d8fc6bed259de33d3433aa397c2c4b8d1b1a0",
+            "sameBytes": true
+          },
+          "packages/ui/src/carousel/carousel.css": {
+            "sha256": "f21faf3e22367b419d61f629b38c929c076b728ebdaf86c164ee0156b7db2a80",
+            "currentSHA256": "f21faf3e22367b419d61f629b38c929c076b728ebdaf86c164ee0156b7db2a80",
+            "sameBytes": true
+          },
+          "packages/ui/src/carousel/carousel.css.d.ts": {
+            "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "currentSHA256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "sameBytes": true
+          },
+          "packages/ui/src/carousel/README.md": {
+            "sha256": "030582d704671ee288baebbc69d751f5c46b60d32e447f342f1678560310be7a",
+            "currentSHA256": "030582d704671ee288baebbc69d751f5c46b60d32e447f342f1678560310be7a",
+            "sameBytes": true
+          },
+          "packages/ui/src/recipes/local-recipe.ts": {
+            "sha256": "fd04141a0c6637379b8fb265cde5a4dd95f82d3c6081ee2b4420e2bc50f4729b",
+            "currentSHA256": "fd04141a0c6637379b8fb265cde5a4dd95f82d3c6081ee2b4420e2bc50f4729b",
+            "sameBytes": true
+          }
+        },
+        "defaultLocalSibling": {
+          "threeModes": true,
+          "differenceKind": "native-root-style",
+          "difference": "Only local Carousel receives style.paddingInline=var(--rain-space-24), via existing root div Props; axis/items/controls preserved; no named LocalRecipe used.",
+          "observedIsolation": {
+            "property": "padding-inline-start",
+            "values": [
+              "0px",
+              "24px",
+              "0px"
+            ]
+          },
+          "scopedWidths": [
+            1440,
+            390
+          ]
+        }
+      },
+      "verification": {
+        "strictTSAndBuild": "passed in latest actual consumer/build.log after local seam additions",
+        "isolatedBrowserScope": "Root padding0px/24px/0px compared in both widths; actual Parts compiled/mounted; no isolated drag/keyboard assertion."
+      }
+    },
+    {
+      "capability": "direction",
+      "task": "让同页的方向上下文互相独立。",
+      "selectedContract": {
+        "method": "executed actual readAssets(), matched exact Manifest and validated Registry/public exports",
+        "assetId": "ui-direction",
+        "manifest": "manifests/ui/direction.yaml",
+        "manifestSHA256": "e3b0926cc8c4a417f2c2cc123e0ef1f94eecaf3e72bcc9cd80e248cbf326229f",
+        "registry": "registry/g6-assets.json",
+        "registrySHA256": "a115d65014f7611fc4afd277a431f396d46f025c28509dea9d2525b75581c403",
+        "useWhen": [
+          "同界面需要局部ltr/rtl并匹配控件行为与DOM文字方向。",
+          "为新的Portal容器或Carousel明确带出行为方向。"
+        ],
+        "props": [
+          "直接重导出Base UI1.8.0 DirectionProvider/useDirection/DirectionProviderProps。",
+          "Provider direction?: ltr|rtl，默认ltr，children；无DOM、className、size或variants。"
+        ],
+        "modificationMode": "managed",
+        "declaredExports": [
+          "DirectionProvider",
+          "useDirection"
+        ],
+        "automatedStatusAtRead": "scoped-passed",
+        "finalIndexQueryConfirmed": true
+      },
+      "actualConsumer": {
+        "source": {
+          "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/main.tsx",
+          "sha256": "4a44a5af68fbd7007c4bc42eca9b1f28106c9ffdabceafe3f0123d9c2c6c3662"
+        },
+        "line": 29,
+        "entry": "@rain-next/ui installed tarball",
+        "usedAPIs": [
+          "DirectionProvider",
+          "useDirection"
+        ],
+        "actualComposition": "provider direction plus actual native dir; useDirection read at line23",
+        "runtimeFiles": {
+          "packages/ui/src/direction/direction.ts": {
+            "sha256": "cbd43760d78079f4b0f03bbbff306c63d6f5d7251d9ffceb494696f49d0f45f4",
+            "currentSHA256": "cbd43760d78079f4b0f03bbbff306c63d6f5d7251d9ffceb494696f49d0f45f4",
+            "sameBytes": true
+          },
+          "packages/ui/src/direction/README.md": {
+            "sha256": "eac74790fb0aa3476ef299eb36e065fcbcc03477e0e380fb1e2272685ec121cc",
+            "currentSHA256": "eac74790fb0aa3476ef299eb36e065fcbcc03477e0e380fb1e2272685ec121cc",
+            "sameBytes": true
+          }
+        },
+        "defaultLocalSibling": {
+          "threeModes": true,
+          "differenceKind": "behavior-context-and-native-dir",
+          "difference": "Only local DirectionProvider and matching DOM dir are rtl; default/sibling ltr. useDirection displays context. Behavior configuration rather than a paint LocalRecipe.",
+          "observedIsolation": {
+            "sourceConfiguredValues": [
+              "ltr",
+              "rtl",
+              "ltr"
+            ],
+            "browserAssertion": "local has exactly one dir=rtl element; sibling has zero dir=rtl elements; no computed direction values serialized."
+          },
+          "scopedWidths": [
+            1440,
+            390
+          ]
+        }
+      },
+      "verification": {
+        "strictTSAndBuild": "passed in latest actual consumer/build.log after local seam additions",
+        "isolatedBrowserScope": "Local exactly one dir=rtl and sibling zero dir=rtl in both widths; source config default/sibling ltr and hook use verified."
+      }
+    },
+    {
+      "capability": "bubble",
+      "task": "通过具名局改检验气泡与未改兄弟隔离。",
+      "selectedContract": {
+        "method": "executed actual readAssets(), matched exact Manifest and validated Registry/public exports",
+        "assetId": "ui-bubble",
+        "manifest": "manifests/ui/bubble.yaml",
+        "manifestSHA256": "80b75441c7b5f022c47c904b4a00b71f882c0f08516883265dfdfbd1d8de2707",
+        "registry": "registry/g6-assets.json",
+        "registrySHA256": "a115d65014f7611fc4afd277a431f396d46f025c28509dea9d2525b75581c403",
+        "useWhen": [
+          "会话回复需要明确内容表面和可组合反应。",
+          "需普通文本、富内容、真正button/link或折叠长回复。"
+        ],
+        "props": [
+          "Root原生div + variant(default默认|secondary|muted|tinted|outline|ghost|destructive)、align(start默认|end)、localRecipe。",
+          "Content为Base UI useRender.ComponentProps<div>，保留元素/函数render、ref/事件；Group为原生div。",
+          "Reactions为原生div + side(bottom默认|top)、align(end默认|start)；子Part可显式localRecipe。"
+        ],
+        "modificationMode": "managed",
+        "declaredExports": [
+          "Bubble",
+          "BubbleGroup",
+          "BubbleContent",
+          "BubbleReactions"
+        ],
+        "automatedStatusAtRead": "scoped-passed",
+        "finalIndexQueryConfirmed": true
+      },
+      "actualConsumer": {
+        "source": {
+          "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/main.tsx",
+          "sha256": "4a44a5af68fbd7007c4bc42eca9b1f28106c9ffdabceafe3f0123d9c2c6c3662"
+        },
+        "line": 33,
+        "entry": "@rain-next/ui installed tarball",
+        "usedAPIs": [
+          "Bubble",
+          "BubbleContent"
+        ],
+        "actualComposition": "variant tinted + content LocalRecipe",
+        "runtimeFiles": {
+          "packages/ui/src/bubble/bubble.tsx": {
+            "sha256": "0be2e43107750bbbef7ae60c18b358e08128a6b7beb165f859383cab706e2411",
+            "currentSHA256": "0be2e43107750bbbef7ae60c18b358e08128a6b7beb165f859383cab706e2411",
+            "sameBytes": true
+          },
+          "packages/ui/src/bubble/bubble.css": {
+            "sha256": "130686d0fd32953c23a3ce39184d9f2c73e63389735255df2f46906482ecfd62",
+            "currentSHA256": "130686d0fd32953c23a3ce39184d9f2c73e63389735255df2f46906482ecfd62",
+            "sameBytes": true
+          },
+          "packages/ui/src/bubble/bubble.css.d.ts": {
+            "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "currentSHA256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "sameBytes": true
+          },
+          "packages/ui/src/bubble/README.md": {
+            "sha256": "51178fd9350dc86fe5a2a5a09ba21234002134e0d4be43af732f1e8e6518c73d",
+            "currentSHA256": "51178fd9350dc86fe5a2a5a09ba21234002134e0d4be43af732f1e8e6518c73d",
+            "sameBytes": true
+          },
+          "packages/ui/src/recipes/local-recipe.ts": {
+            "sha256": "fd04141a0c6637379b8fb265cde5a4dd95f82d3c6081ee2b4420e2bc50f4729b",
+            "currentSHA256": "fd04141a0c6637379b8fb265cde5a4dd95f82d3c6081ee2b4420e2bc50f4729b",
+            "sameBytes": true
+          }
+        },
+        "defaultLocalSibling": {
+          "threeModes": true,
+          "differenceKind": "named-LocalRecipe-content-class",
+          "difference": "Only local Bubble receives consumer-course-note, origin ui-bubble, content class consumer-local, modifiedParts=[content]; default/sibling omit recipe. Computed-padding equality/difference asserted in both widths.",
+          "observedIsolation": {
+            "property": "padding-inline-start",
+            "serializedValues": false,
+            "assertion": "First BubbleContent local differs; default equals sibling, in both completed isolated cases."
+          },
+          "scopedWidths": [
+            1440,
+            390
+          ]
+        }
+      },
+      "verification": {
+        "strictTSAndBuild": "passed in latest actual consumer/build.log after local seam additions",
+        "isolatedBrowserScope": "First BubbleContent local computed-padding differs; default equals sibling in both widths. Values asserted, not serialized."
+      }
+    },
+    {
+      "capability": "marker",
+      "task": "以来源separator呈现课堂开始行。",
+      "selectedContract": {
+        "method": "executed actual readAssets(), matched exact Manifest and validated Registry/public exports",
+        "assetId": "ui-marker",
+        "manifest": "manifests/ui/marker.yaml",
+        "manifestSHA256": "8870347c604bd83762e4e96b9dc40d8bcf3981ebad42df5586371b61f6a94329",
+        "registry": "registry/g6-assets.json",
+        "registrySHA256": "a115d65014f7611fc4afd277a431f396d46f025c28509dea9d2525b75581c403",
+        "useWhen": [
+          "会话需要系统备注、日期/章节分组行或异步处理说明。",
+          "需带文本的separator/border布局，或真正链接/按钮标记。"
+        ],
+        "props": [
+          "Root为Base UI useRender.ComponentProps<div> + variant(default默认|border|separator) + localRecipe；markerVariants适配对应公开。",
+          "Icon/Content为原生span属性；Icon默认aria-hidden；Content允许换行和内联链接，子Part可localRecipe。"
+        ],
+        "modificationMode": "managed",
+        "declaredExports": [
+          "Marker",
+          "MarkerIcon",
+          "MarkerContent",
+          "markerVariants"
+        ],
+        "automatedStatusAtRead": "scoped-passed",
+        "finalIndexQueryConfirmed": true
+      },
+      "actualConsumer": {
+        "source": {
+          "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/main.tsx",
+          "sha256": "4a44a5af68fbd7007c4bc42eca9b1f28106c9ffdabceafe3f0123d9c2c6c3662"
+        },
+        "line": 33,
+        "entry": "@rain-next/ui installed tarball",
+        "usedAPIs": [
+          "Marker",
+          "MarkerContent"
+        ],
+        "actualComposition": "separator variant + Content + actual useRender root style seam",
+        "runtimeFiles": {
+          "packages/ui/src/marker/marker.tsx": {
+            "sha256": "1aff170098fcf38c8b82e28240a5be720c293be4b0ad09434c540fdc4837a0a6",
+            "currentSHA256": "1aff170098fcf38c8b82e28240a5be720c293be4b0ad09434c540fdc4837a0a6",
+            "sameBytes": true
+          },
+          "packages/ui/src/marker/marker.css": {
+            "sha256": "a105d5a6069a2ab8b64124331b605924e12e8185efe0f05bd15d2384012b6c4d",
+            "currentSHA256": "a105d5a6069a2ab8b64124331b605924e12e8185efe0f05bd15d2384012b6c4d",
+            "sameBytes": true
+          },
+          "packages/ui/src/marker/marker.css.d.ts": {
+            "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "currentSHA256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "sameBytes": true
+          },
+          "packages/ui/src/marker/README.md": {
+            "sha256": "d8dbe54b8db15776ce9f06a2731d8bfa84e808d5530222a2086755ef61521b69",
+            "currentSHA256": "d8dbe54b8db15776ce9f06a2731d8bfa84e808d5530222a2086755ef61521b69",
+            "sameBytes": true
+          },
+          "packages/ui/src/recipes/local-recipe.ts": {
+            "sha256": "fd04141a0c6637379b8fb265cde5a4dd95f82d3c6081ee2b4420e2bc50f4729b",
+            "currentSHA256": "fd04141a0c6637379b8fb265cde5a4dd95f82d3c6081ee2b4420e2bc50f4729b",
+            "sameBytes": true
+          }
+        },
+        "defaultLocalSibling": {
+          "threeModes": true,
+          "differenceKind": "native-root-style-via-useRender",
+          "difference": "Only local Marker receives style.paddingInline=var(--rain-space-24); existing root useRender carries native Props. Same separator variant/content, no named LocalRecipe used.",
+          "observedIsolation": {
+            "property": "padding-inline-start",
+            "values": [
+              "0px",
+              "24px",
+              "0px"
+            ]
+          },
+          "scopedWidths": [
+            1440,
+            390
+          ]
+        }
+      },
+      "verification": {
+        "strictTSAndBuild": "passed in latest actual consumer/build.log after local seam additions",
+        "isolatedBrowserScope": "Root padding0px/24px/0px compared in both widths; same separator composition verified."
+      }
+    },
+    {
+      "capability": "message",
+      "task": "组合身份与ghost正文为消息行。",
+      "selectedContract": {
+        "method": "executed actual readAssets(), matched exact Manifest and validated Registry/public exports",
+        "assetId": "ui-message",
+        "manifest": "manifests/ui/message.yaml",
+        "manifestSHA256": "b0f634b1978dd4b52e239203b430a040bd48d5a7e9e3ff52148ae4cf55cc0ba6",
+        "registry": "registry/g6-assets.json",
+        "registrySHA256": "a115d65014f7611fc4afd277a431f396d46f025c28509dea9d2525b75581c403",
+        "useWhen": [
+          "消息行需要身份/时间、正文、附件和具体消息动作的组织。",
+          "需start/end发送方向与连续同发送者的占位头像。"
+        ],
+        "props": [
+          "Root原生div + align(start默认|end) + MessageRecipe。",
+          "Group/Avatar/Content/Header/Footer为原生div属性/ref/className/style，子Part可显式localRecipe。",
+          "没有sender、role、messages、时间格式化、onSend公共Props。"
+        ],
+        "modificationMode": "managed",
+        "declaredExports": [
+          "Message",
+          "MessageGroup",
+          "MessageAvatar",
+          "MessageContent",
+          "MessageHeader",
+          "MessageFooter"
+        ],
+        "automatedStatusAtRead": "scoped-passed",
+        "finalIndexQueryConfirmed": true
+      },
+      "actualConsumer": {
+        "source": {
+          "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/main.tsx",
+          "sha256": "4a44a5af68fbd7007c4bc42eca9b1f28106c9ffdabceafe3f0123d9c2c6c3662"
+        },
+        "line": 33,
+        "entry": "@rain-next/ui installed tarball",
+        "usedAPIs": [
+          "Message",
+          "MessageContent",
+          "MessageHeader",
+          "Bubble",
+          "BubbleContent"
+        ],
+        "actualComposition": "native Message root plus composed ghost Bubble",
+        "runtimeFiles": {
+          "packages/ui/src/message/message.tsx": {
+            "sha256": "7574bc7c48db4b7610af994a5bb2ed79b655d5ce556547c0d80bad03fc33ab86",
+            "currentSHA256": "7574bc7c48db4b7610af994a5bb2ed79b655d5ce556547c0d80bad03fc33ab86",
+            "sameBytes": true
+          },
+          "packages/ui/src/message/message.css": {
+            "sha256": "9cea38bdfc31517f32f5b1d5986581625f37ae419848a8567fde0de614c2210d",
+            "currentSHA256": "9cea38bdfc31517f32f5b1d5986581625f37ae419848a8567fde0de614c2210d",
+            "sameBytes": true
+          },
+          "packages/ui/src/message/message.css.d.ts": {
+            "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "currentSHA256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "sameBytes": true
+          },
+          "packages/ui/src/message/README.md": {
+            "sha256": "ab535b8842b056d8820908946b1ce36ef96337198ec1bfbee3612df95f4326d0",
+            "currentSHA256": "ab535b8842b056d8820908946b1ce36ef96337198ec1bfbee3612df95f4326d0",
+            "sameBytes": true
+          },
+          "packages/ui/src/recipes/local-recipe.ts": {
+            "sha256": "fd04141a0c6637379b8fb265cde5a4dd95f82d3c6081ee2b4420e2bc50f4729b",
+            "currentSHA256": "fd04141a0c6637379b8fb265cde5a4dd95f82d3c6081ee2b4420e2bc50f4729b",
+            "sameBytes": true
+          }
+        },
+        "defaultLocalSibling": {
+          "threeModes": true,
+          "differenceKind": "native-root-className",
+          "difference": "Only local Message root receives consumer-local; Content/Header/ghost Bubble unchanged. No sender/role/business API invented.",
+          "observedIsolation": {
+            "property": "padding-inline-start",
+            "values": [
+              "0px",
+              "24px",
+              "0px"
+            ]
+          },
+          "scopedWidths": [
+            1440,
+            390
+          ]
+        }
+      },
+      "verification": {
+        "strictTSAndBuild": "passed in latest actual consumer/build.log after local seam additions",
+        "isolatedBrowserScope": "Root padding0px/24px/0px compared in both widths; Header/Content/ghost Bubble composition verified."
+      }
+    },
+    {
+      "capability": "message-scroller",
+      "task": "消费日志滚动框与五个稳定消息ID。",
+      "selectedContract": {
+        "method": "executed actual readAssets(), matched exact Manifest and validated Registry/public exports",
+        "assetId": "ui-message-scroller",
+        "manifest": "manifests/ui/message-scroller.yaml",
+        "manifestSHA256": "1ed4aa85631277b8ad604b30f4fc0fcdc3f15f8371059df0a98d3a3ae4e33963",
+        "registry": "registry/g6-assets.json",
+        "registrySHA256": "a115d65014f7611fc4afd277a431f396d46f025c28509dea9d2525b75581c403",
+        "useWhen": [
+          "会话流式增长需要保留自由阅读、turn锚点和回到最新入口。",
+          "需要前插历史保位、稳定ID跳转与可见性订阅。"
+        ],
+        "props": [
+          "Provider完整0.3.1 Props：autoScroll=false；defaultScrollPosition=end(start/end/last-anchor)；scrollEdgeThreshold=8、scrollPreviousItemPeek=64、scrollMargin=0。",
+          "Root/Viewport/Content/Item保留原生div Props/ref；只有Button支持render。Viewport preserveScrollOnPrepend=true，Content另有spacerClassName。Item messageId在类型中可选，但未给时不注册ID，scrollAnchor=false；需要跳转/visibility/历史保位时显式给稳定messageId。",
+          "Button direction=end(start/end)、behavior=smooth，size/variant为house外观类型，render/localRecipe/ref/onClick可组合。",
+          "公开useMessageScroller/useMessageScrollerScrollable/useMessageScrollerVisibility；命令scrollToStart/End/Message返回boolean。",
+          "scrollToMessage支持align/scrollMargin/behavior；Start/End0.3.1只消费behavior；挂载后缺失ID返回false。"
+        ],
+        "modificationMode": "managed",
+        "declaredExports": [
+          "MessageScrollerProvider",
+          "MessageScroller",
+          "MessageScrollerViewport",
+          "MessageScrollerContent",
+          "MessageScrollerItem",
+          "MessageScrollerButton",
+          "useMessageScroller",
+          "useMessageScrollerScrollable",
+          "useMessageScrollerVisibility"
+        ],
+        "automatedStatusAtRead": "scoped-passed",
+        "finalIndexQueryConfirmed": true
+      },
+      "actualConsumer": {
+        "source": {
+          "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/main.tsx",
+          "sha256": "4a44a5af68fbd7007c4bc42eca9b1f28106c9ffdabceafe3f0123d9c2c6c3662"
+        },
+        "line": 34,
+        "entry": "@rain-next/ui installed tarball",
+        "usedAPIs": [
+          "MessageScrollerProvider",
+          "MessageScroller",
+          "MessageScrollerViewport",
+          "MessageScrollerContent",
+          "MessageScrollerItem",
+          "MessageScrollerButton"
+        ],
+        "actualComposition": "Provider default autoScroll=false + named viewport + stable per-mode IDs + Content/Item/Button; default/sibling200px and local240px Root",
+        "runtimeFiles": {
+          "packages/ui/src/message-scroller/message-scroller.tsx": {
+            "sha256": "e5a439e359f30b58671fc9927c9c157d635a094833a791093daa46985a9070d3",
+            "currentSHA256": "e5a439e359f30b58671fc9927c9c157d635a094833a791093daa46985a9070d3",
+            "sameBytes": true
+          },
+          "packages/ui/src/message-scroller/message-scroller.css": {
+            "sha256": "775a6f3229a37906219cb4146e290169bc8ba0329c2f5f92502c4a6499a6d8b3",
+            "currentSHA256": "775a6f3229a37906219cb4146e290169bc8ba0329c2f5f92502c4a6499a6d8b3",
+            "sameBytes": true
+          },
+          "packages/ui/src/message-scroller/message-scroller.css.d.ts": {
+            "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "currentSHA256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "sameBytes": true
+          },
+          "packages/ui/src/message-scroller/README.md": {
+            "sha256": "5db4fdc8eef42f09e03469d7881ddb00dad3627bab918a9244bf55452df27ca6",
+            "currentSHA256": "5db4fdc8eef42f09e03469d7881ddb00dad3627bab918a9244bf55452df27ca6",
+            "sameBytes": true
+          },
+          "packages/ui/src/recipes/local-recipe.ts": {
+            "sha256": "fd04141a0c6637379b8fb265cde5a4dd95f82d3c6081ee2b4420e2bc50f4729b",
+            "currentSHA256": "fd04141a0c6637379b8fb265cde5a4dd95f82d3c6081ee2b4420e2bc50f4729b",
+            "sameBytes": true
+          }
+        },
+        "defaultLocalSibling": {
+          "threeModes": true,
+          "differenceKind": "native-Root-style",
+          "difference": "Only local MessageScroller receives style.height=240, overriding shared consumer-scroll height200px on that instance. Default/sibling200px; omitted autoScroll preserves false; stable IDs host-owned.",
+          "observedIsolation": {
+            "property": "height",
+            "values": [
+              "200px",
+              "240px",
+              "200px"
+            ]
+          },
+          "scopedWidths": [
+            1440,
+            390
+          ]
+        }
+      },
+      "verification": {
+        "strictTSAndBuild": "passed in latest actual consumer/build.log after local seam additions",
+        "isolatedBrowserScope": "Actual Root height200px/240px/200px compared in both widths; assembled Parts mounted; no isolated autoscroll/command assertion."
+      }
+    },
+    {
+      "capability": "questionnaire",
+      "task": "从原生问答表单读取学习目标并呈现提交结果。",
+      "selectedContract": {
+        "method": "executed actual readAssets(), matched exact Manifest and validated Registry/public exports",
+        "assetId": "ui-questionnaire",
+        "manifest": "manifests/ui/questionnaire.yaml",
+        "manifestSHA256": "be308427e538d4b992753d4d06861ec6e7bf647d6784bb60c96be79407ddecd6",
+        "registry": "registry/g6-assets.json",
+        "registrySHA256": "a115d65014f7611fc4afd277a431f396d46f025c28509dea9d2525b75581c403",
+        "useWhen": [
+          "课前需求/课程反馈按题聚焦，单选、多选或自由输入。",
+          "需要required校验、主动skip、返回修改、原生FormData与受控题目。"
+        ],
+        "props": [
+          "Root完整Primitive.Root Props：items/item/defaultItem/onItemChange/shortcuts、noValidate/action/onSubmit/onReset及原生form/ref。",
+          "Item name/required/multiple/disabled/invalid/onStatusChange；Choice value/checked/defaultChecked/onChange/disabled。",
+          "Input保留原生类型/约束/value/defaultValue/onChange/ref/render；单选Choice与freeform按引擎互斥，多选按引擎组合。",
+          "Progress children/ARIA/render(state current,total,first,last)/ref保留，默认中文可见与aria-valuetext。",
+          "保留15styled Parts；Progress/Title/Description/Choices/Choice/Input/Error/四动作支持source render，Root/Item为原生form/fieldset，Actions/ChoiceDescription为原生div/span。四动作variant/size是house Button外观类型，业务loading可由render的真实Button表达。",
+          "QuestionnaireRecipe root及子Part局改；没有问卷SDK/评分/持久化/自动前进新API。"
+        ],
+        "modificationMode": "managed",
+        "declaredExports": [
+          "Questionnaire",
+          "QuestionnaireProgress",
+          "QuestionnaireItem",
+          "QuestionnaireTitle",
+          "QuestionnaireDescription",
+          "QuestionnaireChoices",
+          "QuestionnaireChoice",
+          "QuestionnaireChoiceDescription",
+          "QuestionnaireInput",
+          "QuestionnaireError",
+          "QuestionnaireActions",
+          "QuestionnairePrevious",
+          "QuestionnaireSkip",
+          "QuestionnaireNext",
+          "QuestionnaireSubmit"
+        ],
+        "automatedStatusAtRead": "scoped-passed",
+        "finalIndexQueryConfirmed": true
+      },
+      "actualConsumer": {
+        "source": {
+          "path": "evidence/runtime/g6-components-2026-10-14/consumer/src/main.tsx",
+          "sha256": "4a44a5af68fbd7007c4bc42eca9b1f28106c9ffdabceafe3f0123d9c2c6c3662"
+        },
+        "line": 35,
+        "entry": "@rain-next/ui installed tarball",
+        "usedAPIs": [
+          "Questionnaire",
+          "QuestionnaireProgress",
+          "QuestionnaireItem",
+          "QuestionnaireTitle",
+          "QuestionnaireChoice",
+          "QuestionnaireError",
+          "QuestionnaireActions",
+          "QuestionnaireSubmit"
+        ],
+        "actualComposition": "matching items/name=goal + required + review Choice + native FormData.get(goal), independent feedback state and local form root inline padding",
+        "runtimeFiles": {
+          "packages/ui/src/questionnaire/questionnaire.tsx": {
+            "sha256": "e724ce6f6cf9ec7eee313c93e8ddbf161bc679683f6e8fce465c7987e023de79",
+            "currentSHA256": "e724ce6f6cf9ec7eee313c93e8ddbf161bc679683f6e8fce465c7987e023de79",
+            "sameBytes": true
+          },
+          "packages/ui/src/questionnaire/questionnaire.css": {
+            "sha256": "f6e785bfc035019a7b78445b5a62fe9d1ad10d26ffc5cef7d9dc802974d6b54e",
+            "currentSHA256": "f6e785bfc035019a7b78445b5a62fe9d1ad10d26ffc5cef7d9dc802974d6b54e",
+            "sameBytes": true
+          },
+          "packages/ui/src/questionnaire/questionnaire.css.d.ts": {
+            "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "currentSHA256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+            "sameBytes": true
+          },
+          "packages/ui/src/questionnaire/README.md": {
+            "sha256": "29864d4b20973f2d96ad2678024662e1cff4d28e28b33093ac2d0ceee0dddf48",
+            "currentSHA256": "29864d4b20973f2d96ad2678024662e1cff4d28e28b33093ac2d0ceee0dddf48",
+            "sameBytes": true
+          },
+          "packages/ui/src/radio/radio.tsx": {
+            "sha256": "31e1ef7c133bdcd0ba38f3ae8504e37370a54d39b835d3f79a3964ebef322833",
+            "currentSHA256": "31e1ef7c133bdcd0ba38f3ae8504e37370a54d39b835d3f79a3964ebef322833",
+            "sameBytes": true
+          },
+          "packages/ui/src/checkbox/checkbox.tsx": {
+            "sha256": "50dea6ffc7663c6b08c50e0d95b64ef466ea3ca8c37e7ee4faea0d8aa0bcf01a",
+            "currentSHA256": "50dea6ffc7663c6b08c50e0d95b64ef466ea3ca8c37e7ee4faea0d8aa0bcf01a",
+            "sameBytes": true
+          },
+          "packages/ui/src/recipes/local-recipe.ts": {
+            "sha256": "fd04141a0c6637379b8fb265cde5a4dd95f82d3c6081ee2b4420e2bc50f4729b",
+            "currentSHA256": "fd04141a0c6637379b8fb265cde5a4dd95f82d3c6081ee2b4420e2bc50f4729b",
+            "sameBytes": true
+          }
+        },
+        "defaultLocalSibling": {
+          "threeModes": true,
+          "differenceKind": "native-form-root-style",
+          "difference": "Only local Questionnaire receives style.paddingInline=var(--rain-space-24). Three independent native forms retain matching items/name/required/Choice and actual FormData submission; no named LocalRecipe or new answer store used.",
+          "observedIsolation": {
+            "property": "padding-inline-start",
+            "values": [
+              "0px",
+              "24px",
+              "0px"
+            ]
+          },
+          "scopedWidths": [
+            1440,
+            390
+          ]
+        }
+      },
+      "verification": {
+        "strictTSAndBuild": "passed in latest actual consumer/build.log after local seam additions",
+        "isolatedBrowserScope": "Form root padding0px/24px/0px compared in both widths; default review Choice submitted and actual FormData feedback asserted."
+      }
+    }
+  ],
+  "limits": [
+    "This is agent-assisted audit of real code, not model benchmark or 12 blind prompt trials.",
+    "Independent browser evidence here is scoped to two isolated Chromium cases (1440x1000 / 390x844), light/default density only.",
+    "Only the named assertions were exercised, not all interactions of all twelve assets.",
+    "UI tarball includes two older test fixture bytes; runtime src/paint/helpers match current workspace.",
+    "Network install also reused pnpm cache; not cacheless or all-downloaded.",
+    "Typecheck strict=true with skipLibCheck=true; not complete third-party declaration audit.",
+    "No human/contrast/publication/production acceptance inferred.",
+    "Final Chromium24-pass aggregate is confirmed separately; it does not broaden the isolated consumer assertions or imply Safari/VoiceOver/touch/human acceptance."
+  ],
+  "kind": "G6AgentAssistedConsumptionProof",
+  "status": "actual-twelve-contract-find-entry-map-and-scoped-consumption-verified",
+  "methodology": {
+    "modelBenchmark": false,
+    "blindPromptTrials": false,
+    "modelScores": null,
+    "protocol": "本轮代理12任务合同解析→真实调用→独立TS/build/browser消费的可检查证据；没有虚构模型benchmark。",
+    "chronology": "This artifact independently executed readAssets after consumer authoring and audits the resulting correspondence. It does not claim twelve before-authoring find invocations.",
+    "taskOrigin": "已授权G6十二capability及实际合同useWhen，任务文本重建明确消费用途。"
+  },
+  "actualAssetSelection": {
+    "script": {
+      "path": "scripts/asset-index.mjs",
+      "sha256": "830a9400656aa073b0c7f16bd67eb46513e6c402d37f9ad37dbb1337ad459f82"
+    },
+    "api": "readAssets(root)",
+    "actualAssetCount": 138,
+    "selectedCount": 12,
+    "result": "Reference/public export validation completed without exception"
+  },
+  "consumptionProof": "evidence/runtime/g6-components-2026-10-14/consumer-proof.json",
+  "apiQuery": {
+    "status": "passed-12-actual-find-queries",
+    "index": {
+      "path": "docs/ai/asset-index.md",
+      "sha256": "e388d7de8e1c512f825a53bf4952a9e829a5bc281ece961c9f75566cfdcbfdd8"
+    },
+    "queries": [
+      {
+        "capability": "data-table",
+        "query": "DataTableRecipe",
+        "command": [
+          "node",
+          "scripts/asset-index.mjs",
+          "--find",
+          "DataTableRecipe"
+        ],
+        "expectedAssetId": "recipe-data-table",
+        "expectedName": "Data Table",
+        "matchedNames": [
+          "Data Table"
+        ],
+        "expectedMatched": true,
+        "outputSHA256": "204c93b7c9e3f0052f738b56bc5f46250297a66b846ef8dbe4934bcd51811a65",
+        "actualFind": "# Rain 资产检索索引\n\n由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。\n\n只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。\n\n按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。\n\n| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |\n| --- | --- | --- | --- | --- | --- |\n| **Data Table** | 资料数据表配方：排序、筛选、稳定ID选择、列显隐、分页和异步状态。 | DataTableRecipe · 复制源码 · [源码](../../apps/prototype/src/data-table-recipe.tsx) | [合同](../../manifests/recipes/data-table.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n\n状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。\n\n",
+        "findTimestamp": "2026-10-14T05:18:36.921550+00:00"
+      },
+      {
+        "capability": "aspect-ratio",
+        "query": "AspectRatio",
+        "command": [
+          "node",
+          "scripts/asset-index.mjs",
+          "--find",
+          "AspectRatio"
+        ],
+        "expectedAssetId": "ui-aspect-ratio",
+        "expectedName": "Aspect Ratio",
+        "matchedNames": [
+          "Aspect Ratio"
+        ],
+        "expectedMatched": true,
+        "outputSHA256": "e5c634b48f868fc01ce07cfa1ed25b4a2a62bd041eaef70004a8da894ec7054a",
+        "actualFind": "# Rain 资产检索索引\n\n由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。\n\n只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。\n\n按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。\n\n| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |\n| --- | --- | --- | --- | --- | --- |\n| **Aspect Ratio** | 用原生CSS预留媒体比例，媒体内容与加载状态由宿主提供。 | AspectRatio · `@rain-next/ui` · [源码](../../packages/ui/src/aspect-ratio/aspect-ratio.tsx) | [合同](../../manifests/ui/aspect-ratio.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n\n状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。\n\n",
+        "findTimestamp": "2026-10-14T05:18:38.231165+00:00"
+      },
+      {
+        "capability": "attachment",
+        "query": "Attachment",
+        "command": [
+          "node",
+          "scripts/asset-index.mjs",
+          "--find",
+          "Attachment"
+        ],
+        "expectedAssetId": "ui-attachment",
+        "expectedName": "Attachment",
+        "matchedNames": [
+          "Attachment"
+        ],
+        "expectedMatched": true,
+        "outputSHA256": "a5e80bd7f94ef7660cec5b041690bbd9af0a3da58f140145d29602d7d9f144b4",
+        "actualFind": "# Rain 资产检索索引\n\n由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。\n\n只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。\n\n按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。\n\n| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |\n| --- | --- | --- | --- | --- | --- |\n| **Attachment** | 文件、媒体、状态、全卡预览与独立操作的组合。 | Attachment, AttachmentMedia, AttachmentContent, AttachmentTitle, AttachmentDescription, AttachmentActions, AttachmentAction, AttachmentTrigger, AttachmentGroup · `@rain-next/ui` · [源码](../../packages/ui/src/attachment/attachment.tsx) | [合同](../../manifests/ui/attachment.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n\n状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。\n\n",
+        "findTimestamp": "2026-10-14T05:18:39.556877+00:00"
+      },
+      {
+        "capability": "bubble",
+        "query": "Bubble",
+        "command": [
+          "node",
+          "scripts/asset-index.mjs",
+          "--find",
+          "Bubble"
+        ],
+        "expectedAssetId": "ui-bubble",
+        "expectedName": "Bubble",
+        "matchedNames": [
+          "Bubble"
+        ],
+        "expectedMatched": true,
+        "outputSHA256": "db8c3ee912f21d4cfbc3ac45303984539b77fd562a9eab0ec11ccbc45fee5dbe",
+        "actualFind": "# Rain 资产检索索引\n\n由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。\n\n只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。\n\n按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。\n\n| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |\n| --- | --- | --- | --- | --- | --- |\n| **Bubble** | 会话内容表面、连续气泡与独立反应位置。 | Bubble, BubbleGroup, BubbleContent, BubbleReactions · `@rain-next/ui` · [源码](../../packages/ui/src/bubble/bubble.tsx) | [合同](../../manifests/ui/bubble.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n\n状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。\n\n",
+        "findTimestamp": "2026-10-14T05:18:40.898085+00:00"
+      },
+      {
+        "capability": "carousel",
+        "query": "Carousel",
+        "command": [
+          "node",
+          "scripts/asset-index.mjs",
+          "--find",
+          "Carousel"
+        ],
+        "expectedAssetId": "ui-carousel",
+        "expectedName": "Carousel",
+        "matchedNames": [
+          "Carousel",
+          "Direction"
+        ],
+        "expectedMatched": true,
+        "outputSHA256": "a5d17248e0149502bc89df2abfb24d5ef176266522d8cdb2929234ed21f0f59e",
+        "actualFind": "# Rain 资产检索索引\n\n由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。\n\n只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。\n\n按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。\n\n| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |\n| --- | --- | --- | --- | --- | --- |\n| **Carousel** | 由Embla维护拖动和当前位置的手动轮播。 | Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, useCarousel · `@rain-next/ui` · [源码](../../packages/ui/src/carousel/carousel.tsx) | [合同](../../manifests/ui/carousel.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n| **Direction** | 配对Base UI行为方向与宿主DOM dir，允许局部嵌套覆盖。 | DirectionProvider, useDirection · `@rain-next/ui` · [源码](../../packages/ui/src/direction/direction.ts) | [合同](../../manifests/ui/direction.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n\n状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。\n\n",
+        "findTimestamp": "2026-10-14T05:18:42.207732+00:00"
+      },
+      {
+        "capability": "direction",
+        "query": "DirectionProvider",
+        "command": [
+          "node",
+          "scripts/asset-index.mjs",
+          "--find",
+          "DirectionProvider"
+        ],
+        "expectedAssetId": "ui-direction",
+        "expectedName": "Direction",
+        "matchedNames": [
+          "Direction"
+        ],
+        "expectedMatched": true,
+        "outputSHA256": "23f36a87eabfa757b1def4dec8fb27db2ab08f1980c98d9757a87a215506bb5e",
+        "actualFind": "# Rain 资产检索索引\n\n由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。\n\n只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。\n\n按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。\n\n| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |\n| --- | --- | --- | --- | --- | --- |\n| **Direction** | 配对Base UI行为方向与宿主DOM dir，允许局部嵌套覆盖。 | DirectionProvider, useDirection · `@rain-next/ui` · [源码](../../packages/ui/src/direction/direction.ts) | [合同](../../manifests/ui/direction.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n\n状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。\n\n",
+        "findTimestamp": "2026-10-14T05:18:43.516742+00:00"
+      },
+      {
+        "capability": "drawer",
+        "query": "Drawer",
+        "command": [
+          "node",
+          "scripts/asset-index.mjs",
+          "--find",
+          "Drawer"
+        ],
+        "expectedAssetId": "ui-drawer",
+        "expectedName": "Drawer",
+        "matchedNames": [
+          "Drawer"
+        ],
+        "expectedMatched": true,
+        "outputSHA256": "867e650389f10758a3136cdd1eddec4104ea2110c989489aaba4ad5a0811fe2d",
+        "actualFind": "# Rain 资产检索索引\n\n由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。\n\n只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。\n\n按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。\n\n| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |\n| --- | --- | --- | --- | --- | --- |\n| **Drawer** | 可拖动、吸附与嵌套的四方向临时任务面板。 | Drawer, DrawerPortal, DrawerOverlay, DrawerSwipeHandle, DrawerTrigger, DrawerClose, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription · `@rain-next/ui` · [源码](../../packages/ui/src/drawer/drawer.tsx) | [合同](../../manifests/ui/drawer.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n\n状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。\n\n",
+        "findTimestamp": "2026-10-14T05:18:44.902270+00:00"
+      },
+      {
+        "capability": "input-otp",
+        "query": "InputOTP",
+        "command": [
+          "node",
+          "scripts/asset-index.mjs",
+          "--find",
+          "InputOTP"
+        ],
+        "expectedAssetId": "ui-input-otp",
+        "expectedName": "Input OTP",
+        "matchedNames": [
+          "Input OTP"
+        ],
+        "expectedMatched": true,
+        "outputSHA256": "e12fad17d4859e17b45a08cf885eadba5c358658c63269c80bf05d1e3887c950",
+        "actualFind": "# Rain 资产检索索引\n\n由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。\n\n只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。\n\n按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。\n\n| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |\n| --- | --- | --- | --- | --- | --- |\n| **Input OTP** | 单原生输入与可视槽位组成的验证码输入。 | InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator · `@rain-next/ui` · [源码](../../packages/ui/src/input-otp/input-otp.tsx) | [合同](../../manifests/ui/input-otp.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n\n状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。\n\n",
+        "findTimestamp": "2026-10-14T05:18:46.233152+00:00"
+      },
+      {
+        "capability": "marker",
+        "query": "Marker",
+        "command": [
+          "node",
+          "scripts/asset-index.mjs",
+          "--find",
+          "Marker"
+        ],
+        "expectedAssetId": "ui-marker",
+        "expectedName": "Marker",
+        "matchedNames": [
+          "Marker"
+        ],
+        "expectedMatched": true,
+        "outputSHA256": "4bdc6c91df019ef3df69f64e4f1d874c2d91e5b2bf601ea0de8b33c6f87b00fd",
+        "actualFind": "# Rain 资产检索索引\n\n由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。\n\n只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。\n\n按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。\n\n| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |\n| --- | --- | --- | --- | --- | --- |\n| **Marker** | 会话中的状态备注、分隔信息与轻量操作标记。 | Marker, MarkerIcon, MarkerContent, markerVariants · `@rain-next/ui` · [源码](../../packages/ui/src/marker/marker.tsx) | [合同](../../manifests/ui/marker.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n\n状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。\n\n",
+        "findTimestamp": "2026-10-14T05:18:47.566364+00:00"
+      },
+      {
+        "capability": "message-scroller",
+        "query": "MessageScrollerProvider",
+        "command": [
+          "node",
+          "scripts/asset-index.mjs",
+          "--find",
+          "MessageScrollerProvider"
+        ],
+        "expectedAssetId": "ui-message-scroller",
+        "expectedName": "Message Scroller",
+        "matchedNames": [
+          "Message Scroller"
+        ],
+        "expectedMatched": true,
+        "outputSHA256": "c9adf774210b26173e96afe2df40906c764cdb4946859e880f8019e622c3bfc3",
+        "actualFind": "# Rain 资产检索索引\n\n由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。\n\n只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。\n\n按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。\n\n| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |\n| --- | --- | --- | --- | --- | --- |\n| **Message Scroller** | 保留锚点和阅读位置的会话滚动容器。 | MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem, MessageScrollerButton, useMessageScroller, useMessageScrollerScrollable, useMessageScrollerVisibility · `@rain-next/ui` · [源码](../../packages/ui/src/message-scroller/message-scroller.tsx) | [合同](../../manifests/ui/message-scroller.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n\n状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。\n\n",
+        "findTimestamp": "2026-10-14T05:18:48.877449+00:00"
+      },
+      {
+        "capability": "message",
+        "query": "Message",
+        "command": [
+          "node",
+          "scripts/asset-index.mjs",
+          "--find",
+          "Message"
+        ],
+        "expectedAssetId": "ui-message",
+        "expectedName": "Message",
+        "matchedNames": [
+          "Message Scroller",
+          "Message"
+        ],
+        "expectedMatched": true,
+        "outputSHA256": "0a82bdf1b7a2671f8ea73830de6a55cb53413b4779a9e072b9b9fa809706c3e6",
+        "actualFind": "# Rain 资产检索索引\n\n由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。\n\n只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。\n\n按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。\n\n| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |\n| --- | --- | --- | --- | --- | --- |\n| **Message Scroller** | 保留锚点和阅读位置的会话滚动容器。 | MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem, MessageScrollerButton, useMessageScroller, useMessageScrollerScrollable, useMessageScrollerVisibility · `@rain-next/ui` · [源码](../../packages/ui/src/message-scroller/message-scroller.tsx) | [合同](../../manifests/ui/message-scroller.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n| **Message** | 发送者、内容、元信息和消息动作的开放布局。 | Message, MessageGroup, MessageAvatar, MessageContent, MessageHeader, MessageFooter · `@rain-next/ui` · [源码](../../packages/ui/src/message/message.tsx) | [合同](../../manifests/ui/message.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n\n状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。\n\n",
+        "findTimestamp": "2026-10-14T05:18:50.190525+00:00"
+      },
+      {
+        "capability": "questionnaire",
+        "query": "Questionnaire",
+        "command": [
+          "node",
+          "scripts/asset-index.mjs",
+          "--find",
+          "Questionnaire"
+        ],
+        "expectedAssetId": "ui-questionnaire",
+        "expectedName": "Questionnaire",
+        "matchedNames": [
+          "Questionnaire"
+        ],
+        "expectedMatched": true,
+        "outputSHA256": "ba52fee6af744a10aed6b7bdbe88a080d52889229bf1a5cd76cee8e4e608f4f5",
+        "actualFind": "# Rain 资产检索索引\n\n由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。\n\n只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。\n\n按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。\n\n| 资产 | 用途 | 导出与入口 | 精确登记 | 身份 / 成熟度 | 自动验证 / Human Gate / 对比度接受 / 发布 |\n| --- | --- | --- | --- | --- | --- |\n| **Questionnaire** | 以原生表单和固定引擎组织逐题问答。 | Questionnaire, QuestionnaireProgress, QuestionnaireItem, QuestionnaireTitle, QuestionnaireDescription, QuestionnaireChoices, QuestionnaireChoice, QuestionnaireChoiceDescription, QuestionnaireInput, QuestionnaireError, QuestionnaireActions, QuestionnairePrevious, QuestionnaireSkip, QuestionnaireNext, QuestionnaireSubmit · `@rain-next/ui` · [源码](../../packages/ui/src/questionnaire/questionnaire.tsx) | [合同](../../manifests/ui/questionnaire.yaml) · [依赖](../../registry/g6-assets.json) | registry-candidate / registry-candidate | scoped-passed / awaiting_human / not-granted / unpublished |\n\n状态分别取自 Manifest，不把整体 Gate 与局部视觉接受合并。颜色不足、真实 IME/读屏/触屏和独立消费限制见 [已知限制](README.md#已知限制)。\n\n",
+        "findTimestamp": "2026-10-14T05:18:51.516593+00:00"
+      }
+    ],
+    "matchingRule": "Actual --find is substring lookup; extra matches are recorded, and the expected real Manifest asset must be present. No ranking or model-score inference."
+  },
+  "browserAggregate": {
+    "status": "passed-scoped-Chromium24; isolated consumption scope remains2cases with completed12-capability three-instance local seams",
+    "report": {
+      "path": "evidence/runtime/g6-components-2026-10-14/browser/report.json",
+      "sha256": "908fdb1a7b3dc4611340d86a2f90e9376aaaade2acec8d156154533ca4be842e"
+    },
+    "log": {
+      "path": "evidence/runtime/g6-components-2026-10-14/browser-final-green.log",
+      "sha256": "5b10b48c70dc5e175550b6c3e15247e113699443c6c5cda9b54aad9f8928ea9c"
+    },
+    "reportSHA256": "908fdb1a7b3dc4611340d86a2f90e9376aaaade2acec8d156154533ca4be842e",
+    "logSHA256": "5b10b48c70dc5e175550b6c3e15247e113699443c6c5cda9b54aad9f8928ea9c",
+    "reportStats": {
+      "startTime": "2026-10-14T05:11:59.989Z",
+      "duration": 79942.048,
+      "expected": 24,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "cases": 24,
+    "isolatedConsumerCases": 2
+  },
+  "updatedAt": "2026-10-14T05:18:34.177535+00:00",
+  "threeInstanceConsumption": {
+    "uiAssets": 11,
+    "copiedRecipeAssets": 1,
+    "totalCapabilities": 12,
+    "hostModes": [
+      "default",
+      "local",
+      "sibling"
+    ],
+    "namedLocalRecipeAppliedTo": [
+      "bubble"
+    ],
+    "nativePaintSeamAppliedTo": [
+      "aspect-ratio",
+      "attachment",
+      "drawer",
+      "input-otp",
+      "carousel",
+      "marker",
+      "message",
+      "message-scroller",
+      "questionnaire"
+    ],
+    "minimalSourceForkAppliedTo": [
+      "data-table"
+    ],
+    "behaviorContextAppliedTo": [
+      "direction"
+    ],
+    "contractScope": "All12 have actual three instances; managed assets consume existing APIs/styles, Table is explicit copy/fork. Native style overrides are not labeled named LocalRecipes.",
+    "capabilityModeInstanceCount": 36,
+    "countedUnit": "12 capability examples × 3 host modes; composing Parts and nested ghost Bubble are not counted separately."
+  },
+  "localIsolation": {
+    "status": "passed-scoped-in-both-isolated-Chromium-cases",
+    "artifacts": [
+      {
+        "viewportWidth": 1440,
+        "evidence": {
+          "path": "evidence/runtime/g6-components-2026-10-14/browser/consumer-local-isolation-1440.json",
+          "sha256": "936e5da74403510d27029c1d1ee55ff8e545f0df7883bcf084d70547accb7e52"
+        },
+        "observations": {
+          "localFacts": [
+            {
+              "id": "aspect-ratio",
+              "property": "padding-inline-start",
+              "values": [
+                "0px",
+                "24px",
+                "0px"
+              ]
+            },
+            {
+              "id": "attachment",
+              "property": "padding-inline-start",
+              "values": [
+                "8px",
+                "24px",
+                "8px"
+              ]
+            },
+            {
+              "id": "input-otp",
+              "property": "gap",
+              "values": [
+                "normal",
+                "8px",
+                "normal"
+              ]
+            },
+            {
+              "id": "carousel",
+              "property": "padding-inline-start",
+              "values": [
+                "0px",
+                "24px",
+                "0px"
+              ]
+            },
+            {
+              "id": "marker",
+              "property": "padding-inline-start",
+              "values": [
+                "0px",
+                "24px",
+                "0px"
+              ]
+            },
+            {
+              "id": "message",
+              "property": "padding-inline-start",
+              "values": [
+                "0px",
+                "24px",
+                "0px"
+              ]
+            },
+            {
+              "id": "message-scroller",
+              "property": "height",
+              "values": [
+                "200px",
+                "240px",
+                "200px"
+              ]
+            },
+            {
+              "id": "questionnaire",
+              "property": "padding-inline-start",
+              "values": [
+                "0px",
+                "24px",
+                "0px"
+              ]
+            }
+          ],
+          "drawerPadding": [
+            "0px",
+            "24px",
+            "0px"
+          ],
+          "tableFork": "source-copy-export-and-one-root-class-only",
+          "tablePadding": [
+            "0px",
+            "24px",
+            "0px"
+          ],
+          "direction": "local RTL; sibling LTR"
+        },
+        "computedPaintFacts": 10,
+        "allComputedDefaultEqualsSiblingAndLocalDiffers": true
+      },
+      {
+        "viewportWidth": 390,
+        "evidence": {
+          "path": "evidence/runtime/g6-components-2026-10-14/browser/consumer-local-isolation-390.json",
+          "sha256": "936e5da74403510d27029c1d1ee55ff8e545f0df7883bcf084d70547accb7e52"
+        },
+        "observations": {
+          "localFacts": [
+            {
+              "id": "aspect-ratio",
+              "property": "padding-inline-start",
+              "values": [
+                "0px",
+                "24px",
+                "0px"
+              ]
+            },
+            {
+              "id": "attachment",
+              "property": "padding-inline-start",
+              "values": [
+                "8px",
+                "24px",
+                "8px"
+              ]
+            },
+            {
+              "id": "input-otp",
+              "property": "gap",
+              "values": [
+                "normal",
+                "8px",
+                "normal"
+              ]
+            },
+            {
+              "id": "carousel",
+              "property": "padding-inline-start",
+              "values": [
+                "0px",
+                "24px",
+                "0px"
+              ]
+            },
+            {
+              "id": "marker",
+              "property": "padding-inline-start",
+              "values": [
+                "0px",
+                "24px",
+                "0px"
+              ]
+            },
+            {
+              "id": "message",
+              "property": "padding-inline-start",
+              "values": [
+                "0px",
+                "24px",
+                "0px"
+              ]
+            },
+            {
+              "id": "message-scroller",
+              "property": "height",
+              "values": [
+                "200px",
+                "240px",
+                "200px"
+              ]
+            },
+            {
+              "id": "questionnaire",
+              "property": "padding-inline-start",
+              "values": [
+                "0px",
+                "24px",
+                "0px"
+              ]
+            }
+          ],
+          "drawerPadding": [
+            "0px",
+            "24px",
+            "0px"
+          ],
+          "tableFork": "source-copy-export-and-one-root-class-only",
+          "tablePadding": [
+            "0px",
+            "24px",
+            "0px"
+          ],
+          "direction": "local RTL; sibling LTR"
+        },
+        "computedPaintFacts": 10,
+        "allComputedDefaultEqualsSiblingAndLocalDiffers": true
+      }
+    ],
+    "bubbleAdditionalAssertion": {
+      "property": "padding-inline-start",
+      "serializedValues": false,
+      "assertion": "First BubbleContent local differs; default equals sibling, in both completed isolated cases."
+    },
+    "directionAdditionalAssertion": {
+      "sourceConfiguredValues": [
+        "ltr",
+        "rtl",
+        "ltr"
+      ],
+      "browserAssertion": "local has exactly one dir=rtl element; sibling has zero dir=rtl elements; no computed direction values serialized."
+    },
+    "paintCapabilitiesCompared": 11,
+    "serializedComputedPaintCapabilities": 10,
+    "behaviorCapabilitiesCompared": 1,
+    "siblingGuarantee": "Observed computed properties of default and sibling remain equal while local differs. No global token/UI source or shared CSS alteration. These properties/Dir and named interactions are covered, not every visual property or every behavior."
+  }
+}

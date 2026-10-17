@@ -1,0 +1,38 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/charts.test.ts (4 tests | 1 failed) 105ms
+   × compiled utilities stay inside chart hosts and no global token is declared 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/charts.test.ts > compiled utilities stay inside chart hosts and no global token is declared
+AssertionError: expected '.text-base)' to match /^(?:\.rain-chart|:where\(\.rain-chart…/
+
+- Expected:
+/^(?:\.rain-chart|:where\(\.rain-chart\)|&)/
+
++ Received:
+".text-base)"
+
+ ❯ <input css ciYJ-X>:84:1
+ ❯ scripts/charts.test.ts:55:80
+     53|     css.walkRules((rule: { selector:string; parent?: {type:string; nam…
+     54|       if (rule.parent?.type === "atrule" && /keyframes$/.test(rule.par…
+     55|       for (const selector of rule.selector.split(",")) expect(selector…
+       |                                                                                ^
+     56|     });
+     57|     expect(read(path)).not.toMatch(/:root|:host|@property/);
+ ❯ node_modules/.pnpm/postcss@8.5.26/node_modules/postcss/lib/container.js:432:18
+ ❯ Root.walk node_modules/.pnpm/postcss@8.5.26/node_modules/postcss/lib/container.js:352:18
+ ❯ Root.walkRules node_modules/.pnpm/postcss@8.5.26/node_modules/postcss/lib/container.js:430:19
+ ❯ scripts/charts.test.ts:53:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 6 passed (7)
+   Start at  01:57:37
+   Duration  2.80s (transform 1.18s, setup 433ms, import 1.87s, tests 590ms, environment 1.54s)
+

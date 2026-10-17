@@ -1,0 +1,2520 @@
+{
+  "config": {
+    "argv": [
+      "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/.pnpm/@playwright+test@1.62.1/node_modules/@playwright/test/cli.js",
+      "test",
+      "-c",
+      "playwright.navigation-rebuild.config.ts"
+    ],
+    "configFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/playwright.navigation-rebuild.config.ts",
+    "rootDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild/playwright",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/navigation-rebuild*.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "./evidence/runtime/navigation-rebuild/playwright-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": {
+      "command": "pnpm --filter @rain-next/prototype exec vite --host 127.0.0.1 --port 4174 --strictPort",
+      "url": "http://127.0.0.1:4174",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "navigation-rebuild-a11y.spec.ts",
+      "file": "navigation-rebuild-a11y.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "scoped rendered token values, required text contrast and target sizes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1021,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:41:45.022Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a13ece219b2d86f0f153-9141cef2ea7d9fe0bf3d",
+          "file": "navigation-rebuild-a11y.spec.ts",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "N03 N04 dark popup keyboard focus has 3:1 contrast against its adjacent surface",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 30122,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-rebuild-a11y.spec.ts",
+                        "column": 17,
+                        "line": 29
+                      },
+                      "message": "Error: locator.focus: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('navigation', { name: '实例 A 导航', exact: true }).getByRole('button', { name: '展开资源中心入口' })\u001b[22m\n\n\n  27 |   await page.getByRole('combobox',{name:'实例 A 面层'}).selectOption('dark');\n  28 |   const trigger=page.getByRole('navigation',{name:'实例 A 导航',exact:true}).getByRole('button',{name:'展开资源中心入口'});\n> 29 |   await trigger.focus();await page.keyboard.press('Enter');\n     |                 ^\n  30 |   const link=page.locator('.nr-topnav-popup').getByRole('link',{name:'课程提纲',exact:true});\n  31 |   await expect(link).toBeFocused();\n  32 |   const colors=await link.evaluate(el=>({outline:getComputedStyle(el).outlineColor,background:getComputedStyle(el.closest('.nr-topnav-popup')!).backgroundColor,width:getComputedStyle(el).outlineWidth,visible:el.matches(':focus-visible')}));\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-rebuild-a11y.spec.ts:29:17"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:41:46.149Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-a11y-N0-7b1d2-gainst-its-adjacent-surface/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-a11y-N0-7b1d2-gainst-its-adjacent-surface/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-a11y-N0-7b1d2-gainst-its-adjacent-surface/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "a13ece219b2d86f0f153-954654998f2b4d42bb1a",
+          "file": "navigation-rebuild-a11y.spec.ts",
+          "line": 23,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "navigation-rebuild-acceptance.spec.ts",
+      "file": "navigation-rebuild-acceptance.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "V-S01-01..04 V-S02-01..04 E01 dark: current hover focus text targets and scroll owners",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 849,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:16.579Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-ec871649abdace792cc6",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 5,
+          "column": 40
+        },
+        {
+          "title": "V-S01-01..04 V-S02-01..04 E01 light: current hover focus text targets and scroll owners",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 835,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:17.530Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-dcc809d156ec1b06c758",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 5,
+          "column": 40
+        },
+        {
+          "title": "V-S04-01..04 E11: icon submenu by keyboard, hidden recovery and short rail from same entries",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 829,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:18.370Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-b26c4fefcb75bbee46d9",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 17,
+          "column": 1
+        },
+        {
+          "title": "V-S05-01..04 V-S08-01..04 E02: scopes, independent parents, long course identity and width release",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 940,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:19.203Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-c827077cb22a918a357a",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "V-S06-01..04 E07: same data across edge inset and floating with real width",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 879,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:20.147Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-widths",
+                      "contentType": "application/json",
+                      "body": "W3sicmVsYXRpb24iOiJlZGdlIiwid2lkdGgiOjk0NCwieCI6MjU2fSx7InJlbGF0aW9uIjoiaW5zZXQiLCJ3aWR0aCI6ODk2LCJ4IjoyODh9LHsicmVsYXRpb24iOiJmbG9hdGluZyIsIndpZHRoIjo4OTYsIngiOjI4OH1d"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-85387a29a8606f3e20d0",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 32,
+          "column": 1
+        },
+        {
+          "title": "E09 E10: query errors keep selection, scroll and directory restore per scope; inherited direct URLs read only",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1066,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:21.031Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-0fb871e64939b7bfe4eb",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 38,
+          "column": 1
+        },
+        {
+          "title": "E03 E07 layout matrix 1200x800",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 919,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:22.102Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-b09c889656c3beb522a8",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 44,
+          "column": 123
+        },
+        {
+          "title": "E03 E07 layout matrix 1440x900",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1000,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:23.026Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-d8b94c515c7a023b0fd8",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 44,
+          "column": 123
+        },
+        {
+          "title": "E03 E07 layout matrix 1920x1080",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1037,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:24.030Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-c5e6e7b93fc5cd0f8c0b",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 44,
+          "column": 123
+        },
+        {
+          "title": "E03 E07 layout matrix 1200x650",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 911,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:25.072Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-5bc1db1896c29edf9bd8",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 44,
+          "column": 123
+        },
+        {
+          "title": "fallback, enlarged text and reduced motion keep content and focus available",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 960,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:25.988Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-1c72ec78a2747c19051b",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 47,
+          "column": 1
+        },
+        {
+          "title": "T01 original state matrix: long labels plus badges, parent current and collapsed descendant current",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 887,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:26.952Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-fcfce5927b8f3f35dc3f",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 51,
+          "column": 1
+        },
+        {
+          "title": "E09 E10: workspace search and selection isolated between resource package and class; loading does not select",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 989,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:27.843Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcad8d25e8d7c68cc422-114072bc847cce5a327f",
+          "file": "navigation-rebuild-acceptance.spec.ts",
+          "line": 56,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "navigation-rebuild-closure.spec.ts",
+      "file": "navigation-rebuild-closure.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "closure S04: keyboard and pointer follow the icon child destination",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 923,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:28.843Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9f1b3619889e8a2369a5-a04af150bb62a13a3e06",
+          "file": "navigation-rebuild-closure.spec.ts",
+          "line": 6,
+          "column": 1
+        },
+        {
+          "title": "closure S06: inset clips rounded corners, scrolls independently and survives collapse",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 788,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:29.770Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "inset-measurements",
+                      "contentType": "application/json",
+                      "body": "eyJjbGlwIjp7InJhZGl1cyI6MTIsIm92ZXJmbG93IjoiaGlkZGVuIiwidG9wQ29ybmVyQ2xpcHMiOnRydWUsImJvdHRvbUNvcm5lckNsaXBzIjp0cnVlfSwiYmVmb3JlIjp7IngiOjI4OCwieSI6MTE2LCJ3aWR0aCI6ODk2LCJoZWlnaHQiOjUxOH0sImNvbGxhcHNlZCI6eyJ4Ijo5NiwieSI6MTE2LCJ3aWR0aCI6MTA4OCwiaGVpZ2h0Ijo1MTh9LCJzY3JvbGxCb3giOnsieCI6Mjg5LCJ5IjoxNzMsIndpZHRoIjo4OTQsImhlaWdodCI6NDYwfX0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9f1b3619889e8a2369a5-ee889f0a331e244c75a8",
+          "file": "navigation-rebuild-closure.spec.ts",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "closure E10: direct editor uses explicit fallback and directory expansion stays per scope",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1044,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:30.563Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9f1b3619889e8a2369a5-fa69030a209544da09a0",
+          "file": "navigation-rebuild-closure.spec.ts",
+          "line": 58,
+          "column": 1
+        },
+        {
+          "title": "closure S02: long-label stress fixture and trailing disclosure keep separate hit areas",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 845,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:31.611Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9f1b3619889e8a2369a5-2dcfa3c428654476a113",
+          "file": "navigation-rebuild-closure.spec.ts",
+          "line": 86,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "navigation-rebuild-commands.spec.ts",
+      "file": "navigation-rebuild-commands.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "M01: real commands, disabled action and visible undo/redo",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 985,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:32.466Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "041ca92b269e60897300-614910bc2a8d0b9df474",
+          "file": "navigation-rebuild-commands.spec.ts",
+          "line": 10,
+          "column": 38
+        },
+        {
+          "title": "M02: real commands, disabled action and visible undo/redo",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1063,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:33.460Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "041ca92b269e60897300-2ee7586dc15deb3cc718",
+          "file": "navigation-rebuild-commands.spec.ts",
+          "line": 10,
+          "column": 38
+        },
+        {
+          "title": "M01/M02 menu focus coordinates across categories and Escape closes one layer at a time",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 812,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:34.528Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "041ca92b269e60897300-0d6e33df6076573f9c24",
+          "file": "navigation-rebuild-commands.spec.ts",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "A checkbox, radio, submenu action and Portal changes leave B unchanged",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1079,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:35.344Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "041ca92b269e60897300-b19bd20b3eca3f08f3d9",
+          "file": "navigation-rebuild-commands.spec.ts",
+          "line": 57,
+          "column": 1
+        },
+        {
+          "title": "four command columns do not overlap at 1200x800",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 752,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:36.428Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "041ca92b269e60897300-83abc411eed101b59d61",
+          "file": "navigation-rebuild-commands.spec.ts",
+          "line": 90,
+          "column": 147
+        },
+        {
+          "title": "four command columns do not overlap at 1200x650",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 834,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:37.185Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "041ca92b269e60897300-6927f367c152bc559ed9",
+          "file": "navigation-rebuild-commands.spec.ts",
+          "line": 90,
+          "column": 147
+        },
+        {
+          "title": "four command columns do not overlap at 1440x900",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 828,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:38.023Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "041ca92b269e60897300-ee4ed598816666c09b71",
+          "file": "navigation-rebuild-commands.spec.ts",
+          "line": 90,
+          "column": 147
+        },
+        {
+          "title": "four command columns do not overlap at 1920x1080",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 844,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:38.855Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "041ca92b269e60897300-117b67e923d8262eaee7",
+          "file": "navigation-rebuild-commands.spec.ts",
+          "line": 90,
+          "column": 147
+        }
+      ]
+    },
+    {
+      "title": "navigation-rebuild-course.spec.ts",
+      "file": "navigation-rebuild-course.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "S05: source and class units preserve original shell and return context",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1120,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:39.709Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4ce56c8b3fcc048dd685-a19a765297a61627b3b0",
+          "file": "navigation-rebuild-course.spec.ts",
+          "line": 3,
+          "column": 36
+        },
+        {
+          "title": "C01: source and class units preserve original shell and return context",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1033,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:40.833Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4ce56c8b3fcc048dd685-70ad716e3d9cd7ab6702",
+          "file": "navigation-rebuild-course.spec.ts",
+          "line": 3,
+          "column": 36
+        },
+        {
+          "title": "classes 0: paged search never changes scope before selection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 734,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:41.871Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4ce56c8b3fcc048dd685-bb28a4e3ffc0554f7324",
+          "file": "navigation-rebuild-course.spec.ts",
+          "line": 25,
+          "column": 36
+        },
+        {
+          "title": "classes 1: paged search never changes scope before selection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 800,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:42.609Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4ce56c8b3fcc048dd685-5c428bae4e07ec5564da",
+          "file": "navigation-rebuild-course.spec.ts",
+          "line": 25,
+          "column": 36
+        },
+        {
+          "title": "classes 4: paged search never changes scope before selection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 740,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:43.414Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4ce56c8b3fcc048dd685-2582bf6246e44287b492",
+          "file": "navigation-rebuild-course.spec.ts",
+          "line": 25,
+          "column": 36
+        },
+        {
+          "title": "classes 12: paged search never changes scope before selection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 744,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:44.158Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4ce56c8b3fcc048dd685-05388899a736ddb15b30",
+          "file": "navigation-rebuild-course.spec.ts",
+          "line": 25,
+          "column": 36
+        },
+        {
+          "title": "classes 200: paged search never changes scope before selection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 876,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:44.906Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4ce56c8b3fcc048dd685-f4d2844da3d60a035a77",
+          "file": "navigation-rebuild-course.spec.ts",
+          "line": 25,
+          "column": 36
+        }
+      ]
+    },
+    {
+      "title": "navigation-rebuild-isolation.spec.ts",
+      "file": "navigation-rebuild-isolation.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "E08 E12: unfamiliar lab composition, actual booking and A/B styles/portal isolated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1148,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:45.791Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dc272c5eeaf8b2736bc2-52b7089c7efe6c9b6b0e",
+          "file": "navigation-rebuild-isolation.spec.ts",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "E12 lab 1200x800",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 718,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:46.944Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dc272c5eeaf8b2736bc2-266761095085100ba115",
+          "file": "navigation-rebuild-isolation.spec.ts",
+          "line": 16,
+          "column": 118
+        },
+        {
+          "title": "E12 lab 1440x900",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 640,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:47.666Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dc272c5eeaf8b2736bc2-a3658ee9db2c8a8dc139",
+          "file": "navigation-rebuild-isolation.spec.ts",
+          "line": 16,
+          "column": 118
+        },
+        {
+          "title": "E12 lab 1920x1080",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 653,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:48.311Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dc272c5eeaf8b2736bc2-c07e86102a0517abd3cf",
+          "file": "navigation-rebuild-isolation.spec.ts",
+          "line": 16,
+          "column": 118
+        },
+        {
+          "title": "E12 lab 1200x650",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 698,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:48.968Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dc272c5eeaf8b2736bc2-a126bfde97786928c5cd",
+          "file": "navigation-rebuild-isolation.spec.ts",
+          "line": 16,
+          "column": 118
+        },
+        {
+          "title": "catalog exposes twelve full-size candidates, source and research provenance",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 825,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:49.671Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dc272c5eeaf8b2736bc2-fa7d6bf3638d4b21afcc",
+          "file": "navigation-rebuild-isolation.spec.ts",
+          "line": 19,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "navigation-rebuild-topnav.spec.ts",
+      "file": "navigation-rebuild-topnav.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "N01: eight links retain real destinations, current and keyboard access",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1526,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:50.506Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "current-hover-focus-computed",
+                      "contentType": "application/json",
+                      "body": "eyJvdXRsaW5lIjoic29saWQiLCJ3aWR0aCI6IjFweCIsImNvbG9yIjoicmdiKDE1LCA4NSwgMjIzKSIsInN1cmZhY2UiOiJyZ2JhKDAsIDAsIDAsIDApIiwiaW5kaWNhdG9yIjoicmdiKDE1LCA4NSwgMjIzKSJ9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7fb94c82b1b5f76c7729-8eb1bed00f03aea41983",
+          "file": "navigation-rebuild-topnav.spec.ts",
+          "line": 17,
+          "column": 3
+        },
+        {
+          "title": "N02: eight links retain real destinations, current and keyboard access",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1487,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:52.036Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "current-hover-focus-computed",
+                      "contentType": "application/json",
+                      "body": "eyJvdXRsaW5lIjoic29saWQiLCJ3aWR0aCI6IjFweCIsImNvbG9yIjoicmdiKDE1LCA4NSwgMjIzKSIsInN1cmZhY2UiOiJyZ2JhKDYxLCAxMjMsIDI1NSwgMC4xKSIsImluZGljYXRvciI6InJnYmEoMCwgMCwgMCwgMCkifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7fb94c82b1b5f76c7729-527217c97c1e9bbb72ad",
+          "file": "navigation-rebuild-topnav.spec.ts",
+          "line": 17,
+          "column": 3
+        },
+        {
+          "title": "N03: current A / open B, pointer continuity, Escape and independent parent destination",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 823,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:53.528Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7fb94c82b1b5f76c7729-71d62690c36f3421ed80",
+          "file": "navigation-rebuild-topnav.spec.ts",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "N04: four rich links follow reading order and blank/title areas reach the same tool",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 869,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:54.355Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7fb94c82b1b5f76c7729-29afcb49d817eafdfeaa",
+          "file": "navigation-rebuild-topnav.spec.ts",
+          "line": 94,
+          "column": 1
+        },
+        {
+          "title": "N03/N04: A surface and density leave B and both portal scopes independent",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 844,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:55.229Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7fb94c82b1b5f76c7729-dce94d59ef5776840bf8",
+          "file": "navigation-rebuild-topnav.spec.ts",
+          "line": 127,
+          "column": 1
+        },
+        {
+          "title": "N04: portal hover is delayed and remains usable while moving into its panel",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1009,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:56.077Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7fb94c82b1b5f76c7729-a91828eca4a21a304387",
+          "file": "navigation-rebuild-topnav.spec.ts",
+          "line": 151,
+          "column": 1
+        },
+        {
+          "title": "N03: keyboard can leave the panel and an outside click dismisses it",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 777,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:57.092Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7fb94c82b1b5f76c7729-3fffa5d475ccfc37f97f",
+          "file": "navigation-rebuild-topnav.spec.ts",
+          "line": 165,
+          "column": 1
+        },
+        {
+          "title": "N04: long descriptions and edge collision at 1200x650",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 774,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:57.875Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7fb94c82b1b5f76c7729-830cd16b9026cff9f6c9",
+          "file": "navigation-rebuild-topnav.spec.ts",
+          "line": 182,
+          "column": 3
+        },
+        {
+          "title": "N04: long descriptions and edge collision at 1440x900",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 736,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:58.653Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7fb94c82b1b5f76c7729-1bb96b6c84a50c8fd748",
+          "file": "navigation-rebuild-topnav.spec.ts",
+          "line": 182,
+          "column": 3
+        },
+        {
+          "title": "N04: long descriptions and edge collision at 1920x1080",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 761,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:42:59.394Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7fb94c82b1b5f76c7729-5c3fec48cdef108096e4",
+          "file": "navigation-rebuild-topnav.spec.ts",
+          "line": 182,
+          "column": 3
+        },
+        {
+          "title": "N04: long descriptions and edge collision at 390x844",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 694,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:00.159Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7fb94c82b1b5f76c7729-d6865b61ed719f3649db",
+          "file": "navigation-rebuild-topnav.spec.ts",
+          "line": 182,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "navigation-rebuild.spec.ts",
+      "file": "navigation-rebuild.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "T01/T02: current follows navigation and survives refresh and browser history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1221,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:00.863Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-bec1a9f11237af237669",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 20,
+          "column": 1
+        },
+        {
+          "title": "T01/T02: S01 and S02 share destinations, current and independent parent disclosure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 772,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:02.088Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-9f686c8bf1f8bc653d67",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 37,
+          "column": 1
+        },
+        {
+          "title": "T02: S04 keeps all destinations named and restores hidden navigation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 875,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:02.864Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-e53ffcdf23d05209ceac",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 60,
+          "column": 1
+        },
+        {
+          "title": "T02: S01 fits 1200x800",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 685,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:03.744Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-measurement",
+                      "contentType": "application/json",
+                      "body": "ewogICJ2aWV3cG9ydCI6IHsKICAgICJ3aWR0aCI6IDEyMDAsCiAgICAiaGVpZ2h0IjogODAwCiAgfSwKICAiZG9jdW1lbnRXaWR0aCI6IDEyMDAsCiAgIm5hdmlnYXRpb24iOiB7CiAgICAieCI6IDAsCiAgICAieSI6IDEwMCwKICAgICJ3aWR0aCI6IDI1NiwKICAgICJoZWlnaHQiOiA3MDAsCiAgICAicmlnaHQiOiAyNTYsCiAgICAiYm90dG9tIjogODAwCiAgfSwKICAic2Nyb2xsT3duZXJzIjogWwogICAgewogICAgICAic2xvdCI6ICJjb250ZW50IiwKICAgICAgImhlaWdodCI6IDUwNywKICAgICAgInNjcm9sbEhlaWdodCI6IDUzOAogICAgfQogIF0KfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-a19bea1501386b6324be",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 82,
+          "column": 5
+        },
+        {
+          "title": "T02: S01 fits 1440x900",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 749,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:04.434Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-measurement",
+                      "contentType": "application/json",
+                      "body": "ewogICJ2aWV3cG9ydCI6IHsKICAgICJ3aWR0aCI6IDE0NDAsCiAgICAiaGVpZ2h0IjogOTAwCiAgfSwKICAiZG9jdW1lbnRXaWR0aCI6IDE0NDAsCiAgIm5hdmlnYXRpb24iOiB7CiAgICAieCI6IDAsCiAgICAieSI6IDEwMCwKICAgICJ3aWR0aCI6IDI1NiwKICAgICJoZWlnaHQiOiA4MDAsCiAgICAicmlnaHQiOiAyNTYsCiAgICAiYm90dG9tIjogOTAwCiAgfSwKICAic2Nyb2xsT3duZXJzIjogW10KfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-5e0b238a182c14e124d4",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 82,
+          "column": 5
+        },
+        {
+          "title": "T02: S01 fits 1920x1080",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 723,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:05.189Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-measurement",
+                      "contentType": "application/json",
+                      "body": "ewogICJ2aWV3cG9ydCI6IHsKICAgICJ3aWR0aCI6IDE5MjAsCiAgICAiaGVpZ2h0IjogMTA4MAogIH0sCiAgImRvY3VtZW50V2lkdGgiOiAxOTIwLAogICJuYXZpZ2F0aW9uIjogewogICAgIngiOiAwLAogICAgInkiOiAxMDAsCiAgICAid2lkdGgiOiAyNTYsCiAgICAiaGVpZ2h0IjogOTgwLAogICAgInJpZ2h0IjogMjU2LAogICAgImJvdHRvbSI6IDEwODAKICB9LAogICJzY3JvbGxPd25lcnMiOiBbXQp9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-6f7ae757faa401c58b8e",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 82,
+          "column": 5
+        },
+        {
+          "title": "T02: S01 fits 1200x650",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 675,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:05.917Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-measurement",
+                      "contentType": "application/json",
+                      "body": "ewogICJ2aWV3cG9ydCI6IHsKICAgICJ3aWR0aCI6IDEyMDAsCiAgICAiaGVpZ2h0IjogNjUwCiAgfSwKICAiZG9jdW1lbnRXaWR0aCI6IDEyMDAsCiAgIm5hdmlnYXRpb24iOiB7CiAgICAieCI6IDAsCiAgICAieSI6IDEwMCwKICAgICJ3aWR0aCI6IDI1NiwKICAgICJoZWlnaHQiOiA1NTAsCiAgICAicmlnaHQiOiAyNTYsCiAgICAiYm90dG9tIjogNjUwCiAgfSwKICAic2Nyb2xsT3duZXJzIjogWwogICAgewogICAgICAic2xvdCI6ICJjb250ZW50IiwKICAgICAgImhlaWdodCI6IDM1NywKICAgICAgInNjcm9sbEhlaWdodCI6IDUzOAogICAgfQogIF0KfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-92faf53ee4d733b7f1a1",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 82,
+          "column": 5
+        },
+        {
+          "title": "T02: S02 fits 1200x800",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 682,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:06.596Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-measurement",
+                      "contentType": "application/json",
+                      "body": "ewogICJ2aWV3cG9ydCI6IHsKICAgICJ3aWR0aCI6IDEyMDAsCiAgICAiaGVpZ2h0IjogODAwCiAgfSwKICAiZG9jdW1lbnRXaWR0aCI6IDEyMDAsCiAgIm5hdmlnYXRpb24iOiB7CiAgICAieCI6IDAsCiAgICAieSI6IDEwMCwKICAgICJ3aWR0aCI6IDI1NiwKICAgICJoZWlnaHQiOiA3MDAsCiAgICAicmlnaHQiOiAyNTYsCiAgICAiYm90dG9tIjogODAwCiAgfSwKICAic2Nyb2xsT3duZXJzIjogWwogICAgewogICAgICAic2xvdCI6ICJjb250ZW50IiwKICAgICAgImhlaWdodCI6IDUwNywKICAgICAgInNjcm9sbEhlaWdodCI6IDUzOAogICAgfQogIF0KfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-1b17e73e1ab036e977bb",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 82,
+          "column": 5
+        },
+        {
+          "title": "T02: S02 fits 1440x900",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 684,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:07.283Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-measurement",
+                      "contentType": "application/json",
+                      "body": "ewogICJ2aWV3cG9ydCI6IHsKICAgICJ3aWR0aCI6IDE0NDAsCiAgICAiaGVpZ2h0IjogOTAwCiAgfSwKICAiZG9jdW1lbnRXaWR0aCI6IDE0NDAsCiAgIm5hdmlnYXRpb24iOiB7CiAgICAieCI6IDAsCiAgICAieSI6IDEwMCwKICAgICJ3aWR0aCI6IDI1NiwKICAgICJoZWlnaHQiOiA4MDAsCiAgICAicmlnaHQiOiAyNTYsCiAgICAiYm90dG9tIjogOTAwCiAgfSwKICAic2Nyb2xsT3duZXJzIjogW10KfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-f6e6a59925acf9f82b42",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 82,
+          "column": 5
+        },
+        {
+          "title": "T02: S02 fits 1920x1080",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 783,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:07.972Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-measurement",
+                      "contentType": "application/json",
+                      "body": "ewogICJ2aWV3cG9ydCI6IHsKICAgICJ3aWR0aCI6IDE5MjAsCiAgICAiaGVpZ2h0IjogMTA4MAogIH0sCiAgImRvY3VtZW50V2lkdGgiOiAxOTIwLAogICJuYXZpZ2F0aW9uIjogewogICAgIngiOiAwLAogICAgInkiOiAxMDAsCiAgICAid2lkdGgiOiAyNTYsCiAgICAiaGVpZ2h0IjogOTgwLAogICAgInJpZ2h0IjogMjU2LAogICAgImJvdHRvbSI6IDEwODAKICB9LAogICJzY3JvbGxPd25lcnMiOiBbXQp9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-a4ce7c50601b5c93aac1",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 82,
+          "column": 5
+        },
+        {
+          "title": "T02: S02 fits 1200x650",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 674,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:08.759Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-measurement",
+                      "contentType": "application/json",
+                      "body": "ewogICJ2aWV3cG9ydCI6IHsKICAgICJ3aWR0aCI6IDEyMDAsCiAgICAiaGVpZ2h0IjogNjUwCiAgfSwKICAiZG9jdW1lbnRXaWR0aCI6IDEyMDAsCiAgIm5hdmlnYXRpb24iOiB7CiAgICAieCI6IDAsCiAgICAieSI6IDEwMCwKICAgICJ3aWR0aCI6IDI1NiwKICAgICJoZWlnaHQiOiA1NTAsCiAgICAicmlnaHQiOiAyNTYsCiAgICAiYm90dG9tIjogNjUwCiAgfSwKICAic2Nyb2xsT3duZXJzIjogWwogICAgewogICAgICAic2xvdCI6ICJjb250ZW50IiwKICAgICAgImhlaWdodCI6IDM1NywKICAgICAgInNjcm9sbEhlaWdodCI6IDUzOAogICAgfQogIF0KfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-7508c87e465c3b9f6f93",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 82,
+          "column": 5
+        },
+        {
+          "title": "T02: S04 fits 1200x800",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 688,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:09.437Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-measurement",
+                      "contentType": "application/json",
+                      "body": "ewogICJ2aWV3cG9ydCI6IHsKICAgICJ3aWR0aCI6IDEyMDAsCiAgICAiaGVpZ2h0IjogODAwCiAgfSwKICAiZG9jdW1lbnRXaWR0aCI6IDEyMDAsCiAgIm5hdmlnYXRpb24iOiB7CiAgICAieCI6IDAsCiAgICAieSI6IDEwMCwKICAgICJ3aWR0aCI6IDY0LAogICAgImhlaWdodCI6IDcwMCwKICAgICJyaWdodCI6IDY0LAogICAgImJvdHRvbSI6IDgwMAogIH0sCiAgInNjcm9sbE93bmVycyI6IFtdCn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-5b6b9ec4ae318fb0580a",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 82,
+          "column": 5
+        },
+        {
+          "title": "T02: S04 fits 1440x900",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 701,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:10.130Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-measurement",
+                      "contentType": "application/json",
+                      "body": "ewogICJ2aWV3cG9ydCI6IHsKICAgICJ3aWR0aCI6IDE0NDAsCiAgICAiaGVpZ2h0IjogOTAwCiAgfSwKICAiZG9jdW1lbnRXaWR0aCI6IDE0NDAsCiAgIm5hdmlnYXRpb24iOiB7CiAgICAieCI6IDAsCiAgICAieSI6IDEwMCwKICAgICJ3aWR0aCI6IDY0LAogICAgImhlaWdodCI6IDgwMCwKICAgICJyaWdodCI6IDY0LAogICAgImJvdHRvbSI6IDkwMAogIH0sCiAgInNjcm9sbE93bmVycyI6IFtdCn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-620c6274b71955990c17",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 82,
+          "column": 5
+        },
+        {
+          "title": "T02: S04 fits 1920x1080",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 732,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:10.836Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-measurement",
+                      "contentType": "application/json",
+                      "body": "ewogICJ2aWV3cG9ydCI6IHsKICAgICJ3aWR0aCI6IDE5MjAsCiAgICAiaGVpZ2h0IjogMTA4MAogIH0sCiAgImRvY3VtZW50V2lkdGgiOiAxOTIwLAogICJuYXZpZ2F0aW9uIjogewogICAgIngiOiAwLAogICAgInkiOiAxMDAsCiAgICAid2lkdGgiOiA2NCwKICAgICJoZWlnaHQiOiA5ODAsCiAgICAicmlnaHQiOiA2NCwKICAgICJib3R0b20iOiAxMDgwCiAgfSwKICAic2Nyb2xsT3duZXJzIjogW10KfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-f4b2371d79be0c03a057",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 82,
+          "column": 5
+        },
+        {
+          "title": "T02: S04 fits 1200x650",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 676,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T06:43:11.572Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "layout-measurement",
+                      "contentType": "application/json",
+                      "body": "ewogICJ2aWV3cG9ydCI6IHsKICAgICJ3aWR0aCI6IDEyMDAsCiAgICAiaGVpZ2h0IjogNjUwCiAgfSwKICAiZG9jdW1lbnRXaWR0aCI6IDEyMDAsCiAgIm5hdmlnYXRpb24iOiB7CiAgICAieCI6IDAsCiAgICAieSI6IDEwMCwKICAgICJ3aWR0aCI6IDY0LAogICAgImhlaWdodCI6IDU1MCwKICAgICJyaWdodCI6IDY0LAogICAgImJvdHRvbSI6IDY1MAogIH0sCiAgInNjcm9sbE93bmVycyI6IFsKICAgIHsKICAgICAgInNsb3QiOiAiY29udGVudCIsCiAgICAgICJoZWlnaHQiOiAzODEsCiAgICAgICJzY3JvbGxIZWlnaHQiOiA0MjQKICAgIH0KICBdCn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a16e9edf823088d8942-1a71529d5e8d34f7a149",
+          "file": "navigation-rebuild.spec.ts",
+          "line": 82,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-23T06:41:44.753Z",
+    "duration": 87612.484,
+    "expected": 65,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

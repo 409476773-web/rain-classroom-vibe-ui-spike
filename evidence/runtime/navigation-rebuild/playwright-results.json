@@ -1,0 +1,227 @@
+{
+  "config": {
+    "argv": [
+      "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/.pnpm/@playwright+test@1.62.1/node_modules/@playwright/test/cli.js",
+      "test",
+      "-c",
+      "playwright.navigation-rebuild.config.ts",
+      "tests/e2e/navigation-rebuild-visual-feedback-2.spec.ts",
+      "--grep",
+      "N04 platform annotation|N04 course platform toolbar"
+    ],
+    "configFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/playwright.navigation-rebuild.config.ts",
+    "rootDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild/playwright",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/navigation-rebuild*.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "./evidence/runtime/navigation-rebuild/playwright-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": {
+      "command": "pnpm --filter @rain-next/prototype exec vite --host 127.0.0.1 --port 4174 --strictPort",
+      "url": "http://127.0.0.1:4174",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "navigation-rebuild-visual-feedback-2.spec.ts",
+      "file": "navigation-rebuild-visual-feedback-2.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "N04 platform annotation keeps table metadata in columns and details as the only row action",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 30063,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-rebuild-visual-feedback-2.spec.ts",
+                        "column": 60,
+                        "line": 12
+                      },
+                      "message": "Error: locator.evaluate: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('navigation', { name: '全局导航' }).getByRole('link', { name: '雨课堂教学工作台' })\u001b[22m\n\n\n  10 |   await page.goto(`${base}&scene=platform&page=resources&recipe=N04`);\n  11 |   const nav = page.getByRole('navigation', { name: '全局导航' });\n> 12 |   expect(await nav.getByRole('link', { name: '雨课堂教学工作台' }).evaluate(el => getComputedStyle(el).fontSize)).toBe('15px');\n     |                                                            ^\n  13 |   expect(await nav.getByRole('button', { name: '收起全局导航' }).evaluate(el => getComputedStyle(el).justifyContent)).toBe('flex-end');\n  14 |   await expect(nav.locator('.nr-profile [data-icon=\"icon/teacher-student-profile\"]')).toBeVisible();\n  15 |   const main = page.locator('.nr-page-content');\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-rebuild-visual-feedback-2.spec.ts:12:60"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-24T13:10:08.377Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-visual--00d26-ails-as-the-only-row-action/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-visual--00d26-ails-as-the-only-row-action/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-visual--00d26-ails-as-the-only-row-action/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8f1a694cfb71e112efe7-06428dea933c8ba0a1f9",
+          "file": "navigation-rebuild-visual-feedback-2.spec.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "N04 course platform toolbar, centered table columns, and rail toggle alignment",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 30046,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-rebuild-visual-feedback-2.spec.ts",
+                        "column": 23,
+                        "line": 42
+                      },
+                      "message": "Error: locator.evaluate: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('navigation', { name: '全局导航' }).getByRole('button', { name: '收起全局导航' })\u001b[22m\n\n\n  40 |   const nav = page.getByRole('navigation', { name: '全局导航' });\n  41 |   const toggle = nav.getByRole('button', { name: '收起全局导航' });\n> 42 |   expect(await toggle.evaluate(el => getComputedStyle(el).justifyContent)).toBe('flex-end');\n     |                       ^\n  43 |   const heading = page.locator('.nr-page-heading');\n  44 |   const toolbar = page.locator('.nr-list-tools');\n  45 |   const table = page.getByRole('table');\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-rebuild-visual-feedback-2.spec.ts:42:23"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-24T13:10:38.987Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-visual--9986e-s-and-rail-toggle-alignment/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-visual--9986e-s-and-rail-toggle-alignment/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-rebuild/playwright/navigation-rebuild-visual--9986e-s-and-rail-toggle-alignment/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8f1a694cfb71e112efe7-1aa3adb300d91f241976",
+          "file": "navigation-rebuild-visual-feedback-2.spec.ts",
+          "line": 37,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-24T13:10:08.067Z",
+    "duration": 61129.892,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

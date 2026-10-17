@@ -1,0 +1,100 @@
+
+Running 6 tests using 1 worker
+
+(node:8264) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/charts-playground.spec.ts:14:1 › [E01] standard missing readings keep dates, real zero and tooltip meanings (2.7s)
+  ✘  2 tests/e2e/charts-playground.spec.ts:51:1 › [E01] interrupted normal-motion updates preserve missing gaps and reduced motion reaches the terminal reading (3.5s)
+(node:8275) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 tests/e2e/charts-playground.spec.ts:100:1 › [E01] both mini trend sizes keep their slots and missing latest readings across state changes (4.5s)
+  ✓  4 tests/e2e/charts-playground.spec.ts:142:1 › [E02] standard and both mini bars retain real zeros and explain their reference-only scale (2.4s)
+  ✓  5 tests/e2e/charts-playground.spec.ts:172:60 › [E03] sunburst keyboard drill, multilevel return and external focus survive no-preference (1.7s)
+  ✓  6 tests/e2e/charts-playground.spec.ts:172:60 › [E03] sunburst keyboard drill, multilevel return and external focus survive reduce (1.4s)
+
+
+  1) tests/e2e/charts-playground.spec.ts:51:1 › [E01] interrupted normal-motion updates preserve missing gaps and reduced motion reaches the terminal reading 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 48
+    + Received  +  0
+
+    @@ -21,54 +21,6 @@
+        "缺测",
+        "缺测",
+        "缺测",
+        "缺测",
+        "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+    -   "缺测",
+      ]
+
+      69 |     await expect(host.locator("svg")).toHaveCount(0);
+      70 |     await expect(host.locator("tbody tr")).toHaveCount(24);
+    > 71 |     expect(await host.locator("tbody td").allTextContents()).toEqual(Array(24 * 3).fill("缺测"));
+         |                                                              ^
+      72 |     expect(await host.locator("tbody th").allTextContents()).toEqual(dates);
+      73 |     await controls.getByRole("button", { name: "更新数据", exact: true }).click();
+      74 |     await expect(host.locator(".rain-chart-plot svg").first()).toBeVisible();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/charts-playground.spec.ts:71:62
+
+    Error Context: evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-corrected-results/charts-playground--E01-int-0f997-eaches-the-terminal-reading/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-corrected-results/charts-playground--E01-int-0f997-eaches-the-terminal-reading/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-corrected-results/charts-playground--E01-int-0f997-eaches-the-terminal-reading/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/charts-playground.spec.ts:51:1 › [E01] interrupted normal-motion updates preserve missing gaps and reduced motion reaches the terminal reading 
+  5 passed (17.6s)

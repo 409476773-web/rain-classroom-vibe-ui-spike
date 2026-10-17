@@ -1,0 +1,96 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-date-picker"
+name: "DatePicker"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/date-picker/date-picker.tsx"
+styleSourcePath: "packages/ui/src/date-picker/date-picker.css"
+sourceVersion: "local-2026-10-12"
+description: "单日或日期区间，可带时分；点击确定后提交。"
+useWhen:
+  - "截止时间、开放区间等需要审阅草稿再确认。"
+doNotUseWhen:
+  - "自由文本解析、秒、复杂时区或排班。"
+anatomy:
+  - "field frame / display trigger"
+  - "Popover / Calendar / time InputNumber / summary / hint / clear / cancel / confirm"
+parts:
+  - "field frame / display trigger"
+  - "Popover / Calendar / time InputNumber / summary / hint / clear / cancel / confirm"
+props:
+  - "mode=single:Date|null；mode=range:DateRange{from:Date,to:Date}|null；showTime。"
+  - "value / defaultValue / onValueChange；open / defaultOpen / onOpenChange；defaultMonth；minDate / maxDate / disabledDates。"
+  - "size / appearance / status / disabled / readOnly / required；trigger ref。"
+slots: []
+variants:
+  - "Rain local recipe"
+states:
+  - "default"
+  - "disabled"
+  - "focus-visible"
+dependencies:
+  - "react"
+  - "react-day-picker@9.13.2"
+  - "Calendar / Popover / InputNumber / FormItem / fieldFrameRecipe"
+tokens:
+  - "shared field / popup / Calendar paints"
+  - "Text/Neutral/1/4"
+  - "Text/Red/1"
+  - "Border/Neutral/3"
+  - "Motion/Overlay/180ms"
+layoutConstraints:
+  - "宽度由宿主提供；保留区域密度与窄屏布局。"
+compositionRules:
+  - "取消使用三级按钮；正常草稿不显示常驻确认提示，校验信息按需显示并关联面板。"
+  - "所有模式确认提交；关闭丢弃草稿，未变不重复提交。"
+  - "宿主通过onValueChange持有已确认值并负责表单保存；首版不提供name/form或原生隐藏提交字段。"
+  - "带时分按本地分钟比较；不带时间按本地日比较；新时间00:00。"
+  - "区间宽屏双月/窄屏单月并保留草稿；同日允许，逆序归正。"
+allowedModifications:
+  - "宿主内容、className、既有variant；数据与保存由宿主拥有。"
+restrictedModifications:
+  - "不硬编码颜色或构建第二字段状态/浮层引擎。"
+accessibility:
+  - "内部时分独立标签与id；取消/确定/Escape恢复入口焦点；外点保留外部焦点。"
+  - "不完整/无效/越界/跨禁用日期阻止确定；嵌套年月Escape先关闭子层。"
+examples:
+  - "#date-picker"
+recipes:
+  - "G5可操作表单与筛选样例"
+antiPatterns:
+  - "自由文本解析、秒、复杂时区或排班。"
+relatedComponents:
+  - "FormItem"
+  - "Input"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Rain字段、菜单、图标与Token体系"
+  externalReferences:
+    - "shadcn Base UI / Nova at locked commit"
+  retainedTraits:
+    - "成熟来源部件与引擎语义/生命周期"
+  redesignedTraits:
+    - "Rain现有Token绑定与局部动效"
+  intentionallyNotInherited:
+    - "上游默认palette与cn"
+figmaMapping:
+  status: "reference-only"
+source:
+  repository: "https://github.com/shadcn-ui/ui"
+  commit: "3ba91b1cc83e1bbe4ab35a422ff2a694849c5048"
+  license: "MIT"
+  evidence: "evidence/runtime/g5-components-2026-10-12/source-lock.json"
+migrationNotes:
+  - "固定来源适配；未发布候选，人工视觉与对比度验收单独记录。"
+verification:
+  automated: "scoped-passed"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/g5-components-2026-10-12/verification.md"

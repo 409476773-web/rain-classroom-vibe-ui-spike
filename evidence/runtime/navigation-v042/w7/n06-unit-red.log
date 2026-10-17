@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/layouts/src/workspace.test.tsx (17 tests | 1 failed | 16 skipped) 97ms
+   × N06 allows one hover reentry after Escape and leaving the now hidden panel 96ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/layouts/src/workspace.test.tsx > N06 allows one hover reentry after Escape and leaving the now hidden panel
+Error: expect(element).toHaveAttribute("data-temporary", "true") // element.getAttribute("data-temporary") === "true"
+
+Expected the element to have attribute:
+  data-temporary="true"
+Received:
+  data-temporary="false"
+ ❯ packages/layouts/src/workspace.test.tsx:127:55
+    125|   fireEvent.pointerEnter(trigger); act(() => vi.advanceTimersByTime(23…
+    126|   expect(panel).toHaveAttribute('data-temporary', 'false');
+    127|   act(() => vi.advanceTimersByTime(1)); expect(panel).toHaveAttribute(…
+       |                                                       ^
+    128|   view.unmount(); expect(vi.getTimerCount()).toBe(0);
+    129| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 16 skipped (17)
+   Start at  17:38:53
+   Duration  875ms (transform 104ms, setup 98ms, import 213ms, tests 97ms, environment 378ms)
+

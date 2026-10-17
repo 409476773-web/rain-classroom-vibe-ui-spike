@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { DensityProvider } from "@rain-next/foundations";
-import { Button, FormItem, Input, Link, Select, type SelectAppearance, type SelectOption, type SelectValue } from "@rain-next/ui";
+import { Button, FormItem, Input, Link, Select, type SelectAppearance, type SelectHandle, type SelectOption, type SelectValue } from "@rain-next/ui";
 import "./select-page.css";
 
 const options: readonly SelectOption[] = [
@@ -12,6 +12,23 @@ const options: readonly SelectOption[] = [
 ];
 const appearances: readonly SelectAppearance[] = ["outlined", "filled", "underlined"];
 const appearanceNames = { outlined: "描边", filled: "填充", underlined: "底线" };
+
+function TaskTypeForm() {
+  const control = useRef<SelectHandle>(null);
+  const [submitted, setSubmitted] = useState(""), [invalid, setInvalid] = useState(false);
+  return <form className="select-page__stack" aria-label="任务类型表单"
+    onInvalidCapture={event => { event.preventDefault(); setInvalid(true); control.current?.focus(); }}
+    onSubmit={event => { event.preventDefault(); setSubmitted(String(new FormData(event.currentTarget).get("kind"))); }}>
+    <FormItem label="任务类型" required status={invalid ? "error" : "default"} message={invalid ? "请选择任务类型。" : undefined}>
+      <Select ref={control} size={36} name="kind" defaultValue="report" placeholder="请选择任务类型"
+        onValueChange={() => { setInvalid(false); setSubmitted(""); }}
+        options={[{ value: "report", label: "案例报告", group: "课内任务" }, { value: "practice", label: "课堂练习", group: "课内任务" }, { value: "archived", label: "已归档任务", disabled: true }]} />
+    </FormItem>
+    <div className="select-page__row"><Button type="submit" variant="primary">提交任务类型</Button>
+      <p role="status" aria-label="任务类型提交结果">{submitted ? `提交值：${submitted}` : "选择任务类型后提交。"}</p>
+    </div>
+  </form>;
+}
 
 function RemoteExample() {
   const latest = useRef(0);
@@ -70,6 +87,14 @@ export function SelectPage() {
           <Button variant="secondary" aria-pressed={parent === "3"} onClick={() => setParent(parent === "1" ? "3" : "1")}>切换父背景</Button>
         </div>
       </header>
+      <section className="select-page__surface select-page__stack" data-parent={parent} aria-labelledby="select-form-title">
+        <h2 id="select-form-title" className="rain-type-heading-section">选择与表单提交</h2>
+        <p>展开面板统一使用 Rain 样式，支持分组、禁用和必填校验。字段值通过 FormData 读取。</p>
+        <TaskTypeForm />
+        <pre>{`<FormItem label="任务类型" required>
+  <Select name="kind" options={options} defaultValue="report" />
+</FormItem>`}</pre>
+      </section>
       <section className="select-page__surface select-page__stack" data-parent={parent} aria-labelledby="select-capabilities">
         <h2 id="select-capabilities" className="rain-type-heading-section">四种选择方式</h2>
         <div className="select-page__grid">

@@ -1,0 +1,48 @@
+
+Running 1 test using 1 worker
+
+(node:33638) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [css-zoom-stress390] › tests/e2e/date-time-optimization.spec.ts:340:1 › D16 additional CSS zoom stress at 390px keeps all content reachable (5.9s)
+
+
+  1) [css-zoom-stress390] › tests/e2e/date-time-optimization.spec.ts:340:1 › D16 additional CSS zoom stress at 390px keeps all content reachable 
+
+    Error: the complete panel stays within the viewport after layout settles
+
+    the complete panel stays within the viewport after layout settles
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    978
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      39 |     const bounds = await popup.boundingBox(), viewport = page.viewportSize()!;
+      40 |     return Math.max(-bounds!.x, -bounds!.y, bounds!.x + bounds!.width - viewport.width, bounds!.y + bounds!.height - viewport.height);
+    > 41 |   }, { message: "the complete panel stays within the viewport after layout settles" }).toBeLessThanOrEqual(1);
+         |                                                                                        ^
+      42 |   const sheet = await popup.evaluate(node => node.classList.contains("rain-date-picker__sheet"));
+      43 |   const content = popup.locator(sheet ? ".rain-sheet-body" : ".rain-date-picker__body");
+      44 |   const actions = popup.locator('[data-slot="actions"]');
+        at assertPanelGeometry (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/date-time-optimization.spec.ts:41:88)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/date-time-optimization.spec.ts:348:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/date-time-optimization-2026-10-12/browser/css-zoom-stress/results/date-time-optimization-D16-17f8a-keeps-all-content-reachable-css-zoom-stress390/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/date-time-optimization-2026-10-12/browser/css-zoom-stress/results/date-time-optimization-D16-17f8a-keeps-all-content-reachable-css-zoom-stress390/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/date-time-optimization-2026-10-12/browser/css-zoom-stress/results/date-time-optimization-D16-17f8a-keeps-all-content-reachable-css-zoom-stress390/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/date-time-optimization-2026-10-12/browser/css-zoom-stress/results/date-time-optimization-D16-17f8a-keeps-all-content-reachable-css-zoom-stress390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [css-zoom-stress390] › tests/e2e/date-time-optimization.spec.ts:340:1 › D16 additional CSS zoom stress at 390px keeps all content reachable 

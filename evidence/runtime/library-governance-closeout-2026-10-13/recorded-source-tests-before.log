@@ -1,0 +1,47 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/library-governance-closeout.test.ts (6 tests | 2 failed | 4 skipped) 4ms
+   × uses the recorded navigation successor without expanding its accepted scope 3ms
+   × uses only recorded chart files and package-specific dependency versions 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/library-governance-closeout.test.ts > uses the recorded navigation successor without expanding its accepted scope
+AssertionError: expected undefined to be type of 'function'
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ scripts/library-governance-closeout.test.ts:15:16
+     13| it("uses the recorded navigation successor without expanding its accep…
+     14|   const read = (helpers as any).getRecordedNavigationSourceBindings;
+     15|   expect(read).toBeTypeOf("function");
+       |                ^
+     16|   const record = read(process.cwd(), phase());
+     17|   expect(record.sourceFiles["apps/playground/src/docs/components/navig…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/library-governance-closeout.test.ts > uses only recorded chart files and package-specific dependency versions
+AssertionError: expected undefined to be type of 'function'
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ scripts/library-governance-closeout.test.ts:24:16
+     22| it("uses only recorded chart files and package-specific dependency ver…
+     23|   const read = (helpers as any).getRecordedChartSourceBindings;
+     24|   expect(read).toBeTypeOf("function");
+       |                ^
+     25|   const record = read(process.cwd(), phase());
+     26|   expect(record.sourceFiles["packages/ui/src/charts/vendor/lib/utils.t…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 4 skipped (6)
+   Start at  21:45:21
+   Duration  929ms (transform 104ms, setup 144ms, import 112ms, tests 4ms, environment 561ms)
+

@@ -1,0 +1,32 @@
+{
+  "extends": "../../../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "types": [
+      "vite/client"
+    ],
+    "noEmit": true,
+    "paths": {
+      "react": [
+        "../../../../apps/playground/node_modules/@types/react/index.d.ts"
+      ],
+      "react/*": [
+        "../../../../apps/playground/node_modules/@types/react/*"
+      ],
+      "@rain-next/ui": [
+        "../../../../packages/ui/src/index.ts"
+      ],
+      "@rain-next/ui/icons/*": [
+        "../../../../packages/ui/src/icons/*.tsx"
+      ]
+    }
+  },
+  "include": [
+    "*.tsx"
+  ]
+}

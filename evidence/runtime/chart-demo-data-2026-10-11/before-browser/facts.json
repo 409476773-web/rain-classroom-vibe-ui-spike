@@ -1,0 +1,342 @@
+{
+  "phase": "before",
+  "baseURL": "http://127.0.0.1:5173",
+  "previewCwd": "apps/playground in card-v2",
+  "requestedRecipe": "monochrome-blue",
+  "state": "normal",
+  "revision": 0,
+  "reducedMotion": "reduce",
+  "timezone": "Asia/Shanghai",
+  "sources": [
+    {
+      "path": "apps/playground/src/docs/components/chart-data.ts",
+      "sha256": "8b672bcb65a1ce3715dc7b99f051842d2279876397c18452174c32f5c1cfd001"
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-variants/trend.tsx",
+      "sha256": "b15f6116ecdd4a0fc5db38fc73c30497be789e44f2804eb01bd1b72ce5f64d34"
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-variants/bar.tsx",
+      "sha256": "4a9bfc46e0db2311f3b3cfae2170b01ad414d89440697388d0d3b109f3cf6a6f"
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-business/mini-data.ts",
+      "sha256": "d6b348c595a2a515b409dc0cf1ce80b6374035a5e1835c1854128cb62e0b2c25"
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-business/mini-examples.tsx",
+      "sha256": "169e672dd7c9fc79cb8a39ac4f498f39dfd1ddeba70d3ce017e1f13762b25891"
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-business/embedding-examples.tsx",
+      "sha256": "5ca885f4d119757a9f87d139c38fe5985cef14bd54652ae17e62ac11e21f3215"
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-business/chart-business.css",
+      "sha256": "17ab2980ab7f496797b022a70e06c3fbe7953a5ccbee2f139da9a742aed58929"
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-examples.tsx",
+      "sha256": "27cc309011f2b8c04f953dd758db29529467f412fda16bd51b4e00b232f684e7"
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-examples.css",
+      "sha256": "672453575553817c8f814eebc32da20a182cac1418b6fd0b1471a70c5c8f6991"
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-page.tsx",
+      "sha256": "4e96060424474cd64b9422aa122a7fe4e04f9a716f5da564244e6aaa1905f261"
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-variant-gallery.tsx",
+      "sha256": "4f557eb8087483dd8def5f80765a8eda8861d57481337a9014aeba1828e55814"
+    },
+    {
+      "path": "apps/playground/src/docs/components/chart-example-source.tsx",
+      "sha256": "168d75055e01ebd01af86c0f74f9a3bcaf60cb6da59c1a46171e82f70f06d5d6"
+    }
+  ],
+  "captures": [
+    {
+      "id": "line-trio-brush",
+      "width": 1440,
+      "image": "line-trio-brush-1440.png",
+      "recipe": "monochrome-blue",
+      "dimensions": {
+        "x": 212,
+        "y": 228,
+        "width": 1016,
+        "height": 772
+      },
+      "text": "Line Chart - Trio with Brush三条曲线、顶部图例、点阵与范围缩放桌面访问 · 次移动访问 · 次平板访问 · 次Sep 1Sep 11Sep 21Sep 30开始 结束 重置范围9月1日—9月30日查看精确数据当前查看范围的精确数据日期桌面访问 · 次移动访问 · 次平板访问 · 次9月1日1801751909月2日2061782029月3日2301782119月4日2531742009月5日2421672069月6日2591362109月7日2721271939月8日2511171949月9日2561091949月10日2581031749月11日256761729月12日221761509月13日215791489月14日207861469月15日169741269月16日162881269月17日1571051279月18日1541231109月19日1231421159月20日1271391029月21日1351571109月22日1161731209月23日1311861129月24日1501741259月25日1721801409月26日1651831369月27日1911821529月28日2161771699月29日2101481669月30日234139182拖动下方窗口缩放时间范围；键盘可用两个范围滑块，重置后显示全量。更新数据重播动效示例数据 · 已更新 0 次 · 已减少动效查看本卡代码按下列路径保存文件，在 React / Vite 宿主使用本地候选 @rain-next/ui/charts。源码使用公共入口，依赖为 Rain Foundations、React、Motion 和 GeoJSON 类型。下载 main.tsx下载 index.html下载 chart-variants/trend.tsx下载 chart-variants/shared.tsx下载 chart-variants/profit-loss.tsx下载 chart-variants/data/README.md下载 chart-variants/data/world.geojson下载 chart-data.ts下载 chart-catalog.ts下载 chart-examples.css查看文件 main.tsxindex.htmlchart-variants/trend.tsxchart-variants/shared.tsxchart-variants/profit-loss.tsxchart-variants/data/README.mdchart-variants/data/world.geojsonchart-data.tschart-catalog.tschart-examples.css复制代码import { useEffect, useState } from \"react\";\nimport { createRoot } from \"react-dom/client\";\nimport { MotionConfig } from \"motion/react\";\nimport \"@rain-next/foundations/tokens.css\";\nimport \"@rain-next/foundations/typography.css\";\nimport \"@rain-next/foundations/focus.css\";\nimport \"@rain-next/ui/charts/styles.css\";\nimport \"./chart-examples.css\";\nimport { TrendVariant } from \"./chart-variants/trend\";\nimport { useChartReducedMotion, type VariantSettings } from \"./chart-variants/shared\";\n\nfunction App() {\n  const [settings, setSettings] = useState<VariantSettings>({});\n  const [curveName, setCurveName] = useState<string | undefined>(undefined);\n  const userReduced = useChartReducedMotion();\n  const [active, setActive] = useState(!document.hidden);\n  useEffect(() => {\n    const change = () => setActive(!document.hidden);\n    document.addEventListener(\"visibilitychange\", change);\n    return () => document.removeEventListener(\"visibilitychange\", change);\n  }, []);\n  return <MotionConfig reducedMotion=\"user\">\n    <main className=\"rain-chart\" data-recipe=\"monochrome-blue\" style={{ maxWidth: 880, margin: \"auto\", padding: \"var(--rain-space-24)\" }}>\n      <TrendVariant variantId=\"line-trio-brush\" recipe=\"monochrome-blue\" revision={0} replay={0} reduced={true || userReduced} active={active} settings={settings} onSettingsChange={patch => setSettings(previous => ({ ...previous, ...patch }))} curveName={curveName} onCurveChange={setCurveName} />\n    </main>\n  </MotionConfig>;\n}\ncreateRoot(document.getElementById(\"root\")!).render(<App />);对应官网示例（新标签页打开）",
+      "exactRows": [
+        "9月1日180175190",
+        "9月2日206178202",
+        "9月3日230178211",
+        "9月4日253174200",
+        "9月5日242167206",
+        "9月6日259136210",
+        "9月7日272127193",
+        "9月8日251117194",
+        "9月9日256109194",
+        "9月10日258103174",
+        "9月11日25676172",
+        "9月12日22176150",
+        "9月13日21579148",
+        "9月14日20786146",
+        "9月15日16974126",
+        "9月16日16288126",
+        "9月17日157105127",
+        "9月18日154123110",
+        "9月19日123142115",
+        "9月20日127139102",
+        "9月21日135157110",
+        "9月22日116173120",
+        "9月23日131186112",
+        "9月24日150174125",
+        "9月25日172180140",
+        "9月26日165183136",
+        "9月27日191182152",
+        "9月28日216177169",
+        "9月29日210148166",
+        "9月30日234139182"
+      ]
+    },
+    {
+      "id": "bar-grouped",
+      "width": 1440,
+      "image": "bar-grouped-1440.png",
+      "recipe": "monochrome-blue",
+      "dimensions": {
+        "x": 212,
+        "y": 182,
+        "width": 1016,
+        "height": 672
+      },
+      "text": "图型与可选配方Rain 配色、渐变与字体，Bklit 原生几何和交互。示例均为 Mock 数据。柱形 分组柱互斥等级堆叠0100200300课程一课程二课程三课程四课程五课程六参与人数 · 人完成人数 · 人复习人数 · 人查看精确数据示例精确数据课程参与人数 · 人完成人数 · 人复习人数 · 人课程一16010464课程二18812678课程三21614892课程四244170106课程五272192120课程六300214134视觉配方 蓝紫近邻多色类别协调实色蓝灰单色同色渐变柱圆头渐隐柱示例状态 正常无数据零值单项／单点长标签缺测无效数据系列数 35尺寸配方 标准迷你 / 嵌入更新数据重播动效示例数据 · 已更新 0 次 · 已按系统设置减少动效",
+      "exactRows": [
+        "课程一16010464",
+        "课程二18812678",
+        "课程三21614892",
+        "课程四244170106",
+        "课程五272192120",
+        "课程六300214134"
+      ]
+    },
+    {
+      "id": "bar-default",
+      "width": 1440,
+      "image": "bar-default-1440.png",
+      "recipe": "monochrome-blue",
+      "dimensions": {
+        "x": 212,
+        "y": 195,
+        "width": 496,
+        "height": 610
+      },
+      "text": "Bar Chart默认圆头纵向柱020406080一班二班三班四班五班六班人数 · 按日期或班级比较查看精确数据示例精确数据label完成进行中一班3218二班3920三班4622四班5324五班6026六班6728更新数据重播动效示例数据 · 已更新 0 次 · 已减少动效查看本卡代码按下列路径保存文件，在 React / Vite 宿主使用本地候选 @rain-next/ui/charts。源码使用公共入口，依赖为 Rain Foundations、React、Motion 和 GeoJSON 类型。下载 main.tsx下载 index.html下载 chart-variants/bar.tsx下载 chart-variants/shared.tsx下载 chart-variants/data/README.md下载 chart-variants/data/world.geojson下载 chart-data.ts下载 chart-catalog.ts下载 chart-examples.css查看文件 main.tsxindex.htmlchart-variants/bar.tsxchart-variants/shared.tsxchart-variants/data/README.mdchart-variants/data/world.geojsonchart-data.tschart-catalog.tschart-examples.css复制代码import { useEffect, useState } from \"react\";\nimport { createRoot } from \"react-dom/client\";\nimport { MotionConfig } from \"motion/react\";\nimport \"@rain-next/foundations/tokens.css\";\nimport \"@rain-next/foundations/typography.css\";\nimport \"@rain-next/foundations/focus.css\";\nimport \"@rain-next/ui/charts/styles.css\";\nimport \"./chart-examples.css\";\nimport { BarVariant } from \"./chart-variants/bar\";\nimport { useChartReducedMotion, type VariantSettings } from \"./chart-variants/shared\";\n\nfunction App() {\n  const [settings, setSettings] = useState<VariantSettings>({});\n  const [curveName, setCurveName] = useState<string | undefined>(undefined);\n  const userReduced = useChartReducedMotion();\n  const [active, setActive] = useState(!document.hidden);\n  useEffect(() => {\n    const change = () => setActive(!document.hidden);\n    document.addEventListener(\"visibilitychange\", change);\n    return () => document.removeEventListener(\"visibilitychange\", change);\n  }, []);\n  return <MotionConfig reducedMotion=\"user\">\n    <main className=\"rain-chart\" data-recipe=\"monochrome-blue\" style={{ maxWidth: 880, margin: \"auto\", padding: \"var(--rain-space-24)\" }}>\n      <BarVariant variantId=\"bar-default\" recipe=\"monochrome-blue\" revision={0} replay={0} reduced={true || userReduced} active={active} settings={settings} onSettingsChange={patch => setSettings(previous => ({ ...previous, ...patch }))} curveName={curveName} onCurveChange={setCurveName} />\n    </main>\n  </MotionConfig>;\n}\ncreateRoot(document.getElementById(\"root\")!).render(<App />);对应官网示例（新标签页打开）",
+      "exactRows": [
+        "一班3218",
+        "二班3920",
+        "三班4622",
+        "四班5324",
+        "五班6026",
+        "六班6728"
+      ]
+    },
+    {
+      "id": "business-gallery",
+      "width": 1440,
+      "image": "business-gallery-1440.png",
+      "recipe": "monochrome-blue",
+      "dimensions": {
+        "x": 212,
+        "y": 213,
+        "width": 1016,
+        "height": 573
+      },
+      "text": "数量条紧凑舒展本期人数 · 25 人构成分段紧凑舒展已完成 13 人进行中 8 人待开始 4 人每日柱图紧凑舒展近8天每日人数 · 共同上限 88 人小饼紧凑舒展已完成 13 人进行中 8 人待开始 4 人环饼紧凑舒展已完成 13 人进行中 8 人待开始 4 人完成环紧凑 · 20%20%完成率舒展完成 20 人 · 目标 100 人完成弧紧凑 · 20%20%完成率舒展完成 20 人 · 目标 100 人折线走势紧凑舒展近8天每日人数 · 观察变化面积走势紧凑舒展近8天每日人数 · 观察变化",
+      "exactRows": []
+    },
+    {
+      "id": "business-cards",
+      "width": 1440,
+      "image": "business-cards-1440.png",
+      "recipe": "monochrome-blue",
+      "dimensions": {
+        "x": 212,
+        "y": 830,
+        "width": 1016,
+        "height": 170
+      },
+      "text": "本期参与人数25 人近8天每日人数 · 趋势按自身范围展开课程构成25 门已完成 13进行中 8待开始 4目标完成20%已完成 20 / 100 项",
+      "exactRows": []
+    },
+    {
+      "id": "line-trio-brush",
+      "width": 390,
+      "image": "line-trio-brush-390.png",
+      "recipe": "monochrome-blue",
+      "dimensions": {
+        "x": 16,
+        "y": 163,
+        "width": 358,
+        "height": 837
+      },
+      "text": "Line Chart - Trio with Brush三条曲线、顶部图例、点阵与范围缩放桌面访问 · 次移动访问 · 次平板访问 · 次Sep 1Sep 11Sep 21Sep 30开始 结束 重置范围9月1日—9月30日查看精确数据当前查看范围的精确数据日期桌面访问 · 次移动访问 · 次平板访问 · 次9月1日1801751909月2日2061782029月3日2301782119月4日2531742009月5日2421672069月6日2591362109月7日2721271939月8日2511171949月9日2561091949月10日2581031749月11日256761729月12日221761509月13日215791489月14日207861469月15日169741269月16日162881269月17日1571051279月18日1541231109月19日1231421159月20日1271391029月21日1351571109月22日1161731209月23日1311861129月24日1501741259月25日1721801409月26日1651831369月27日1911821529月28日2161771699月29日2101481669月30日234139182拖动下方窗口缩放时间范围；键盘可用两个范围滑块，重置后显示全量。更新数据重播动效示例数据 · 已更新 0 次 · 已减少动效查看本卡代码按下列路径保存文件，在 React / Vite 宿主使用本地候选 @rain-next/ui/charts。源码使用公共入口，依赖为 Rain Foundations、React、Motion 和 GeoJSON 类型。下载 main.tsx下载 index.html下载 chart-variants/trend.tsx下载 chart-variants/shared.tsx下载 chart-variants/profit-loss.tsx下载 chart-variants/data/README.md下载 chart-variants/data/world.geojson下载 chart-data.ts下载 chart-catalog.ts下载 chart-examples.css查看文件 main.tsxindex.htmlchart-variants/trend.tsxchart-variants/shared.tsxchart-variants/profit-loss.tsxchart-variants/data/README.mdchart-variants/data/world.geojsonchart-data.tschart-catalog.tschart-examples.css复制代码import { useEffect, useState } from \"react\";\nimport { createRoot } from \"react-dom/client\";\nimport { MotionConfig } from \"motion/react\";\nimport \"@rain-next/foundations/tokens.css\";\nimport \"@rain-next/foundations/typography.css\";\nimport \"@rain-next/foundations/focus.css\";\nimport \"@rain-next/ui/charts/styles.css\";\nimport \"./chart-examples.css\";\nimport { TrendVariant } from \"./chart-variants/trend\";\nimport { useChartReducedMotion, type VariantSettings } from \"./chart-variants/shared\";\n\nfunction App() {\n  const [settings, setSettings] = useState<VariantSettings>({});\n  const [curveName, setCurveName] = useState<string | undefined>(undefined);\n  const userReduced = useChartReducedMotion();\n  const [active, setActive] = useState(!document.hidden);\n  useEffect(() => {\n    const change = () => setActive(!document.hidden);\n    document.addEventListener(\"visibilitychange\", change);\n    return () => document.removeEventListener(\"visibilitychange\", change);\n  }, []);\n  return <MotionConfig reducedMotion=\"user\">\n    <main className=\"rain-chart\" data-recipe=\"monochrome-blue\" style={{ maxWidth: 880, margin: \"auto\", padding: \"var(--rain-space-24)\" }}>\n      <TrendVariant variantId=\"line-trio-brush\" recipe=\"monochrome-blue\" revision={0} replay={0} reduced={true || userReduced} active={active} settings={settings} onSettingsChange={patch => setSettings(previous => ({ ...previous, ...patch }))} curveName={curveName} onCurveChange={setCurveName} />\n    </main>\n  </MotionConfig>;\n}\ncreateRoot(document.getElementById(\"root\")!).render(<App />);对应官网示例（新标签页打开）",
+      "exactRows": [
+        "9月1日180175190",
+        "9月2日206178202",
+        "9月3日230178211",
+        "9月4日253174200",
+        "9月5日242167206",
+        "9月6日259136210",
+        "9月7日272127193",
+        "9月8日251117194",
+        "9月9日256109194",
+        "9月10日258103174",
+        "9月11日25676172",
+        "9月12日22176150",
+        "9月13日21579148",
+        "9月14日20786146",
+        "9月15日16974126",
+        "9月16日16288126",
+        "9月17日157105127",
+        "9月18日154123110",
+        "9月19日123142115",
+        "9月20日127139102",
+        "9月21日135157110",
+        "9月22日116173120",
+        "9月23日131186112",
+        "9月24日150174125",
+        "9月25日172180140",
+        "9月26日165183136",
+        "9月27日191182152",
+        "9月28日216177169",
+        "9月29日210148166",
+        "9月30日234139182"
+      ]
+    },
+    {
+      "id": "bar-grouped",
+      "width": 390,
+      "image": "bar-grouped-390.png",
+      "recipe": "monochrome-blue",
+      "dimensions": {
+        "x": 16,
+        "y": 162,
+        "width": 358,
+        "height": 759
+      },
+      "text": "图型与可选配方Rain 配色、渐变与字体，Bklit 原生几何和交互。示例均为 Mock 数据。柱形 分组柱互斥等级堆叠0100200300课程一课程二课程三课程四课程五课程六参与人数 · 人完成人数 · 人复习人数 · 人查看精确数据示例精确数据课程参与人数 · 人完成人数 · 人复习人数 · 人课程一16010464课程二18812678课程三21614892课程四244170106课程五272192120课程六300214134视觉配方 蓝紫近邻多色类别协调实色蓝灰单色同色渐变柱圆头渐隐柱示例状态 正常无数据零值单项／单点长标签缺测无效数据系列数 35尺寸配方 标准迷你 / 嵌入更新数据重播动效示例数据 · 已更新 0 次 · 已按系统设置减少动效",
+      "exactRows": [
+        "课程一16010464",
+        "课程二18812678",
+        "课程三21614892",
+        "课程四244170106",
+        "课程五272192120",
+        "课程六300214134"
+      ]
+    },
+    {
+      "id": "bar-default",
+      "width": 390,
+      "image": "bar-default-390.png",
+      "recipe": "monochrome-blue",
+      "dimensions": {
+        "x": 16,
+        "y": 208,
+        "width": 358,
+        "height": 584
+      },
+      "text": "Bar Chart默认圆头纵向柱020406080一班二班三班四班五班六班人数 · 按日期或班级比较查看精确数据示例精确数据label完成进行中一班3218二班3920三班4622四班5324五班6026六班6728更新数据重播动效示例数据 · 已更新 0 次 · 已减少动效查看本卡代码按下列路径保存文件，在 React / Vite 宿主使用本地候选 @rain-next/ui/charts。源码使用公共入口，依赖为 Rain Foundations、React、Motion 和 GeoJSON 类型。下载 main.tsx下载 index.html下载 chart-variants/bar.tsx下载 chart-variants/shared.tsx下载 chart-variants/data/README.md下载 chart-variants/data/world.geojson下载 chart-data.ts下载 chart-catalog.ts下载 chart-examples.css查看文件 main.tsxindex.htmlchart-variants/bar.tsxchart-variants/shared.tsxchart-variants/data/README.mdchart-variants/data/world.geojsonchart-data.tschart-catalog.tschart-examples.css复制代码import { useEffect, useState } from \"react\";\nimport { createRoot } from \"react-dom/client\";\nimport { MotionConfig } from \"motion/react\";\nimport \"@rain-next/foundations/tokens.css\";\nimport \"@rain-next/foundations/typography.css\";\nimport \"@rain-next/foundations/focus.css\";\nimport \"@rain-next/ui/charts/styles.css\";\nimport \"./chart-examples.css\";\nimport { BarVariant } from \"./chart-variants/bar\";\nimport { useChartReducedMotion, type VariantSettings } from \"./chart-variants/shared\";\n\nfunction App() {\n  const [settings, setSettings] = useState<VariantSettings>({});\n  const [curveName, setCurveName] = useState<string | undefined>(undefined);\n  const userReduced = useChartReducedMotion();\n  const [active, setActive] = useState(!document.hidden);\n  useEffect(() => {\n    const change = () => setActive(!document.hidden);\n    document.addEventListener(\"visibilitychange\", change);\n    return () => document.removeEventListener(\"visibilitychange\", change);\n  }, []);\n  return <MotionConfig reducedMotion=\"user\">\n    <main className=\"rain-chart\" data-recipe=\"monochrome-blue\" style={{ maxWidth: 880, margin: \"auto\", padding: \"var(--rain-space-24)\" }}>\n      <BarVariant variantId=\"bar-default\" recipe=\"monochrome-blue\" revision={0} replay={0} reduced={true || userReduced} active={active} settings={settings} onSettingsChange={patch => setSettings(previous => ({ ...previous, ...patch }))} curveName={curveName} onCurveChange={setCurveName} />\n    </main>\n  </MotionConfig>;\n}\ncreateRoot(document.getElementById(\"root\")!).render(<App />);对应官网示例（新标签页打开）",
+      "exactRows": [
+        "一班3218",
+        "二班3920",
+        "三班4622",
+        "四班5324",
+        "五班6026",
+        "六班6728"
+      ]
+    },
+    {
+      "id": "business-gallery",
+      "width": 390,
+      "image": "business-gallery-390.png",
+      "recipe": "monochrome-blue",
+      "dimensions": {
+        "x": 16,
+        "y": -324,
+        "width": 358,
+        "height": 1647
+      },
+      "text": "数量条紧凑舒展本期人数 · 25 人构成分段紧凑舒展已完成 13 人进行中 8 人待开始 4 人每日柱图紧凑舒展近8天每日人数 · 共同上限 88 人小饼紧凑舒展已完成 13 人进行中 8 人待开始 4 人环饼紧凑舒展已完成 13 人进行中 8 人待开始 4 人完成环紧凑 · 20%20%完成率舒展完成 20 人 · 目标 100 人完成弧紧凑 · 20%20%完成率舒展完成 20 人 · 目标 100 人折线走势紧凑舒展近8天每日人数 · 观察变化面积走势紧凑舒展近8天每日人数 · 观察变化",
+      "exactRows": []
+    },
+    {
+      "id": "business-cards",
+      "width": 390,
+      "image": "business-cards-390.png",
+      "recipe": "monochrome-blue",
+      "dimensions": {
+        "x": 16,
+        "y": 229,
+        "width": 358,
+        "height": 542
+      },
+      "text": "本期参与人数25 人近8天每日人数 · 趋势按自身范围展开课程构成25 门已完成 13进行中 8待开始 4目标完成20%已完成 20 / 100 项",
+      "exactRows": []
+    },
+    {
+      "id": "bar-multiple-series",
+      "width": 1440,
+      "image": "bar-multiple-series-1440.png",
+      "recipe": "monochrome-blue",
+      "dimensions": {
+        "x": 212,
+        "y": 214,
+        "width": 496,
+        "height": 610
+      },
+      "text": "Bar Chart - Multiple Series按类别比较多系列分组柱020406080一班二班三班四班五班六班人数 · 按日期或班级比较查看精确数据示例精确数据label完成进行中一班3218二班3920三班4622四班5324五班6026六班6728更新数据重播动效示例数据 · 已更新 0 次 · 已减少动效查看本卡代码按下列路径保存文件，在 React / Vite 宿主使用本地候选 @rain-next/ui/charts。源码使用公共入口，依赖为 Rain Foundations、React、Motion 和 GeoJSON 类型。下载 main.tsx下载 index.html下载 chart-variants/bar.tsx下载 chart-variants/shared.tsx下载 chart-variants/data/README.md下载 chart-variants/data/world.geojson下载 chart-data.ts下载 chart-catalog.ts下载 chart-examples.css查看文件 main.tsxindex.htmlchart-variants/bar.tsxchart-variants/shared.tsxchart-variants/data/README.mdchart-variants/data/world.geojsonchart-data.tschart-catalog.tschart-examples.css复制代码import { useEffect, useState } from \"react\";\nimport { createRoot } from \"react-dom/client\";\nimport { MotionConfig } from \"motion/react\";\nimport \"@rain-next/foundations/tokens.css\";\nimport \"@rain-next/foundations/typography.css\";\nimport \"@rain-next/foundations/focus.css\";\nimport \"@rain-next/ui/charts/styles.css\";\nimport \"./chart-examples.css\";\nimport { BarVariant } from \"./chart-variants/bar\";\nimport { useChartReducedMotion, type VariantSettings } from \"./chart-variants/shared\";\n\nfunction App() {\n  const [settings, setSettings] = useState<VariantSettings>({});\n  const [curveName, setCurveName] = useState<string | undefined>(undefined);\n  const userReduced = useChartReducedMotion();\n  const [active, setActive] = useState(!document.hidden);\n  useEffect(() => {\n    const change = () => setActive(!document.hidden);\n    document.addEventListener(\"visibilitychange\", change);\n    return () => document.removeEventListener(\"visibilitychange\", change);\n  }, []);\n  return <MotionConfig reducedMotion=\"user\">\n    <main className=\"rain-chart\" data-recipe=\"monochrome-blue\" style={{ maxWidth: 880, margin: \"auto\", padding: \"var(--rain-space-24)\" }}>\n      <BarVariant variantId=\"bar-multiple-series\" recipe=\"monochrome-blue\" revision={0} replay={0} reduced={true || userReduced} active={active} settings={settings} onSettingsChange={patch => setSettings(previous => ({ ...previous, ...patch }))} curveName={curveName} onCurveChange={setCurveName} />\n    </main>\n  </MotionConfig>;\n}\ncreateRoot(document.getElementById(\"root\")!).render(<App />);对应官网示例（新标签页打开）",
+      "exactRows": [
+        "一班3218",
+        "二班3920",
+        "三班4622",
+        "四班5324",
+        "五班6026",
+        "六班6728"
+      ],
+      "verifiedBarSourceHash": "4a9bfc46e0db2311f3b3cfae2170b01ad414d89440697388d0d3b109f3cf6a6f"
+    },
+    {
+      "id": "bar-multiple-series",
+      "width": 390,
+      "image": "bar-multiple-series-390.png",
+      "recipe": "monochrome-blue",
+      "dimensions": {
+        "x": 16,
+        "y": 208,
+        "width": 358,
+        "height": 584
+      },
+      "text": "Bar Chart - Multiple Series按类别比较多系列分组柱020406080一班二班三班四班五班六班人数 · 按日期或班级比较查看精确数据示例精确数据label完成进行中一班3218二班3920三班4622四班5324五班6026六班6728更新数据重播动效示例数据 · 已更新 0 次 · 已减少动效查看本卡代码按下列路径保存文件，在 React / Vite 宿主使用本地候选 @rain-next/ui/charts。源码使用公共入口，依赖为 Rain Foundations、React、Motion 和 GeoJSON 类型。下载 main.tsx下载 index.html下载 chart-variants/bar.tsx下载 chart-variants/shared.tsx下载 chart-variants/data/README.md下载 chart-variants/data/world.geojson下载 chart-data.ts下载 chart-catalog.ts下载 chart-examples.css查看文件 main.tsxindex.htmlchart-variants/bar.tsxchart-variants/shared.tsxchart-variants/data/README.mdchart-variants/data/world.geojsonchart-data.tschart-catalog.tschart-examples.css复制代码import { useEffect, useState } from \"react\";\nimport { createRoot } from \"react-dom/client\";\nimport { MotionConfig } from \"motion/react\";\nimport \"@rain-next/foundations/tokens.css\";\nimport \"@rain-next/foundations/typography.css\";\nimport \"@rain-next/foundations/focus.css\";\nimport \"@rain-next/ui/charts/styles.css\";\nimport \"./chart-examples.css\";\nimport { BarVariant } from \"./chart-variants/bar\";\nimport { useChartReducedMotion, type VariantSettings } from \"./chart-variants/shared\";\n\nfunction App() {\n  const [settings, setSettings] = useState<VariantSettings>({});\n  const [curveName, setCurveName] = useState<string | undefined>(undefined);\n  const userReduced = useChartReducedMotion();\n  const [active, setActive] = useState(!document.hidden);\n  useEffect(() => {\n    const change = () => setActive(!document.hidden);\n    document.addEventListener(\"visibilitychange\", change);\n    return () => document.removeEventListener(\"visibilitychange\", change);\n  }, []);\n  return <MotionConfig reducedMotion=\"user\">\n    <main className=\"rain-chart\" data-recipe=\"monochrome-blue\" style={{ maxWidth: 880, margin: \"auto\", padding: \"var(--rain-space-24)\" }}>\n      <BarVariant variantId=\"bar-multiple-series\" recipe=\"monochrome-blue\" revision={0} replay={0} reduced={true || userReduced} active={active} settings={settings} onSettingsChange={patch => setSettings(previous => ({ ...previous, ...patch }))} curveName={curveName} onCurveChange={setCurveName} />\n    </main>\n  </MotionConfig>;\n}\ncreateRoot(document.getElementById(\"root\")!).render(<App />);对应官网示例（新标签页打开）",
+      "exactRows": [
+        "一班3218",
+        "二班3920",
+        "三班4622",
+        "四班5324",
+        "五班6026",
+        "六班6728"
+      ],
+      "verifiedBarSourceHash": "4a9bfc46e0db2311f3b3cfae2170b01ad414d89440697388d0d3b109f3cf6a6f"
+    }
+  ],
+  "errors": [],
+  "baselineSupplement": {
+    "id": "bar-multiple-series",
+    "reason": "Actual official grouped variant; original bar-default images retained as a separate unmodified control",
+    "barSourceHash": "4a9bfc46e0db2311f3b3cfae2170b01ad414d89440697388d0d3b109f3cf6a6f"
+  }
+}

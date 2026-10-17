@@ -1,0 +1,117 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-toast"
+name: "Toast"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/toast/toast.tsx"
+styleSourcePath: "packages/ui/src/toast/toast.css"
+sourceVersion: "local-2026-10-07"
+description: "可关闭的轻量结果反馈，沿用 Base UI 通知队列和计时暂停。"
+useWhen:
+  - "保存、撤回、失败等操作结果需要暂时反馈，并有持续结果入口。"
+doNotUseWhen:
+  - "必须回应的确认用Dialog；持续未解决问题用Alert；不能只靠自动消失通知说明错误。"
+anatomy:
+  - "toast-portal"
+  - "toast-viewport"
+  - "toast"
+  - "toast-content"
+  - "toast-icon"
+  - "toast-title"
+  - "toast-description"
+  - "toast-action"
+  - "toast-close"
+parts:
+  - "toast-portal"
+  - "toast-viewport"
+  - "toast"
+  - "toast-content"
+  - "toast-icon"
+  - "toast-title"
+  - "toast-description"
+  - "toast-action"
+  - "toast-close"
+props:
+  - "Toaster: toastManager / timeout / limit 等 Base UI Provider Props; theme: light(default) / dark"
+  - "createToastManager: 创建独立通知队列；add/update/close/promise 沿用 Base UI"
+  - "add: title / description / type / timeout / actionProps；timeout=0 时持续展示"
+  - "Toast / ToastContent / ToastTitle / ToastDescription / ToastAction / ToastClose / ToastViewport / ToastPortal / ToastProvider: Base UI Parts Props"
+  - "useToastManager: Provider 内获取队列；Toaster 内置ToastList"
+slots:
+  - "children 与业务操作由宿主提供；Toast内容从manager事件传入。"
+variants:
+  - "沿用已审阅G2默认视觉；方向、尺寸与variant只按当前源码选择。"
+states:
+  - "队列、开始/结束、前台/叠放、展开、限流、关闭、计时暂停。"
+dependencies:
+  - "React"
+  - "@rain-next/foundations"
+  - "@base-ui/react@1.8.0"
+  - "rainCn"
+tokens:
+  - "现有Rain语义颜色、尺寸、圆角、间距、Focus与Motion；没有新增Token。"
+layoutConstraints:
+  - "Toast位于Viewport，队列尺寸来自Base UI测量；宿主拥有业务结果与持续入口。"
+compositionRules:
+  - "只处理通用状态和行为，宿主拥有业务数据、持久化、权限、路由和请求。"
+  - "主题/密度经Toaster Portal传递；使用独立manager隔离兄弟实例。"
+allowedModifications:
+  - "内容、可访问名称、受控状态、源码已提供的Props及宿主className局部Recipe。"
+restrictedModifications:
+  - "不得改变共享Token、Base UI键盘/计时/队列规则或引入业务接口。"
+accessibility:
+  - "Base UI公告通知、F6进入/离开Viewport；暂停hover/focus计时，关闭及action有明确名称。"
+  - "reduced-motion与forced-colors沿用既有G2合同；对比度接受独立记录。"
+examples:
+  - "apps/playground/src/docs/components/toast-page.tsx"
+  - "apps/prototype/src/scenarios/token-first-g2/page.tsx"
+recipes:
+  - "已审阅G2页面局部规格保持在prototype，不扩展共享视觉矩阵。"
+antiPatterns:
+  - "把场景视觉确认推导为系统批准、对比度接受、发布或业务迁移。"
+relatedComponents:
+  - "ui-spinner"
+  - "ui-skeleton"
+  - "ui-alert"
+  - "ui-icon-button"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "已确认Rain Button几何、品牌状态与官方图标；G2 Figma Global Message反馈家族。"
+  externalReferences:
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; MIT"
+    - "Base UI 1.8.0"
+  retainedTraits:
+    - "保留G2当前视觉及Base UI状态/键盘/队列，源码进入共享候选。"
+  redesignedTraits: []
+  intentionallyNotInherited:
+    - "shadcn默认品牌视觉或未使用的完整API。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/token-first-v12-g2/source-lock.json"
+  - "evidence/runtime/token-first-v12-g2/verification.md"
+sourceHumanGate: "accepted-g2-current-runtime-visual-only-2026-09-22"
+migrationNotes: "2026-10-07用户授权已有成果沉淀；原五入口re-export共享源码。旧场景视觉Gate保留，本轮独立页Gate待审。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-unit-typecheck-build-and-30-route-browser-passed"
+  evidence: "evidence/runtime/g123-playground-2026-10-07/verification.md"
+  independentReview: "passed-scoped-source-contract-review"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+
+visualRefinement:
+  id: "g23-remaining-families-2026-10-08"
+  directionApproval: "continue-user-confirmed-family-direction"
+  scope: "current-shared-candidate-and-existing-playground-sample"
+  visualTarget: "evidence/runtime/g2-g3-family-refinement-2026-10-08/approved-visual-target.png"
+  implementation: "completed"
+  evidence: "evidence/runtime/g2-g3-remaining-families-2026-10-08/verification.md"
+  runtimeHumanGate: "awaiting-user-review"
+  publication: "unpublished"

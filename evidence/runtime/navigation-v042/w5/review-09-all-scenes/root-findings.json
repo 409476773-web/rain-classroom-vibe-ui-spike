@@ -1,0 +1,51 @@
+{
+  "recordedAt": "2026-10-03T07:32:21.038227+00:00",
+  "scope": "Shared platform Recipe and compact NavigationList behavior",
+  "findings": [
+    {
+      "id": "N09-01",
+      "symptom": "R1/R3 compact icon sits at top of40px target; S1/S2 reuse affected",
+      "rootCause": "Host hides content and removes padding but retains column flex normal justification",
+      "before": {
+        "targetHeight": 40,
+        "iconHeight": 18,
+        "offsetY": 0,
+        "centerDelta": 11
+      },
+      "after": {
+        "targetHeight": 40,
+        "iconHeight": 18,
+        "offsetY": 11,
+        "centerDelta": 0
+      },
+      "fix": "Feature platform icons entry justify-content:center; shared defaults and size values unchanged",
+      "verification": "root-before-check.log then root-after-check.log,2 tests passed"
+    },
+    {
+      "id": "N09-02",
+      "symptom": "Compact NavigationList uses native title only, inconsistent presentation and no keyboard-visible hint",
+      "rootCause": "Item label is hidden by platform host; native title is pointer-only browser rendering",
+      "fix": "Reuse existing Tooltip right/portal only for icons appearance; disabled semantics, native href/modifier activation and description preserved; inset title retained",
+      "verification": "root-after-check.log pointer/focus/Escape/placement plus14 root unit checks in root-unit.log"
+    }
+  ],
+  "source": [
+    {
+      "path": "packages/ui/src/navigation/navigation-families.tsx",
+      "beforeSha256": "d4f37feb15552b975412042a4f0b979c66c99d88b660b4944c99cf89d2b0ef21",
+      "afterSha256": "74ea3796b3062d546279dc6912b2e67c0ccb148cfcff042fd6c13721bd94c62d"
+    },
+    {
+      "path": "apps/playground/src/recipes/navigation-v042/platform-navigation.css",
+      "beforeSha256": "8160073503c157398ea53377278bab0b14294690d9a1de962eacd7c07ec898f9",
+      "afterSha256": "fbf4401f3aca13ed35f4a25307103bda07cc90c52e51b2d9167540bfbb50c3a4"
+    }
+  ],
+  "componentReuse": "registry/tooltip.json#tooltip remains accepted/unmodified; candidate navigation use remains pendingG2",
+  "notVerified": [
+    "Fullcontrast",
+    "VoiceOver",
+    "Safari/Firefox",
+    "HumanG2"
+  ]
+}

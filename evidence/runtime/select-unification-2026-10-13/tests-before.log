@@ -1,0 +1,315 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/select/select-form.test.tsx (7 tests | 6 failed) 141ms
+   × submits a named choice and validates empty values (searchable=false) 81ms
+   × submits a named choice and validates empty values (searchable=true) 17ms
+   × associates an external form and excludes disabled controls (searchable=false) 8ms
+   × associates an external form and excludes disabled controls (searchable=true) 7ms
+   × serializes multiple values without duplicating the field (searchable=false) 9ms
+   × serializes multiple values without duplicating the field (searchable=true) 8ms
+ ❯ apps/playground/src/docs/components/g5-component-pages.test.tsx (10 tests | 2 failed) 3207ms
+   × opens the existing Select for legacy native links and removes the duplicate catalogue entry 1012ms
+   × validates and saves the host form while preserving the edited fields 65ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/select/select-form.test.tsx > submits a named choice and validates empty values (searchable=false)
+ FAIL  packages/ui/src/select/select-form.test.tsx > submits a named choice and validates empty values (searchable=true)
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ packages/ui/src/select/select-form.test.tsx:20:32
+     18|   </form>);
+     19|   const form = screen.getByRole("form", { name: "任务表单" }) as HTMLFormE…
+     20|   expect(form.checkValidity()).toBe(false);
+       |                                ^
+     21|   await user.click(screen.getByRole("button", { name: "提交", exact: tru…
+     22|   expect(submitted).not.toHaveBeenCalled();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  packages/ui/src/select/select-form.test.tsx > associates an external form and excludes disabled controls (searchable=false)
+ FAIL  packages/ui/src/select/select-form.test.tsx > associates an external form and excludes disabled controls (searchable=true)
+AssertionError: expected null to be 'report' // Object.is equality
+
+- Expected:
+"report"
+
++ Received:
+null
+
+ ❯ packages/ui/src/select/select-form.test.tsx:43:42
+     41|   const { rerender } = render(show(false));
+     42|   const form = screen.getByRole("form", { name: "外部表单" }) as HTMLFormE…
+     43|   expect(new FormData(form).get("kind")).toBe("report");
+       |                                          ^
+     44|   rerender(show(true));
+     45|   expect(new FormData(form).has("kind")).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  packages/ui/src/select/select-form.test.tsx > serializes multiple values without duplicating the field (searchable=false)
+ FAIL  packages/ui/src/select/select-form.test.tsx > serializes multiple values without duplicating the field (searchable=true)
+AssertionError: expected [] to deeply equal [ 'report', 'practice' ]
+
+- Expected
++ Received
+
+- [
+-   "report",
+-   "practice",
+- ]
++ []
+
+ ❯ packages/ui/src/select/select-form.test.tsx:52:45
+     50|     aria-label="任务类型" options={options} defaultValue={["report", "prac…
+     51|   const form = screen.getByRole("form", { name: "多选表单" }) as HTMLFormE…
+     52|   expect(new FormData(form).getAll("kind")).toEqual(["report", "practi…
+       |                                             ^
+     53|   expect(form.checkValidity()).toBe(true);
+     54| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  apps/playground/src/docs/components/g5-component-pages.test.tsx > opens the existing Select for legacy native links and removes the duplicate catalogue entry
+TestingLibraryElementError: Unable to find role="heading" and name "Select 选择器"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mdata-density[39m=[32m"default"[39m
+      [33mdata-rain-id[39m=[32m"foundation-density-context"[39m
+      [33mdata-slot[39m=[32m"density-context"[39m
+      [33mstyle[39m=[32m"--rain-density-control-height: 36px; --rain-density-control-padding-inline: 14px; --rain-density-item-gap: 10px;"[39m
+    [36m>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"component-doc core-ui-shell"[39m
+        [33mdata-asset-identity[39m=[32m"local-experiment"[39m
+        [33mdata-rain-id[39m=[32m"doc-native-select"[39m
+        [33mdata-rain-theme[39m=[32m"light"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"component-doc__header"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"rain-link"[39m
+            [33mdata-density[39m=[32m"default"[39m
+            [33mdata-focus[39m=[32m"item"[39m
+            [33mdata-rain-id[39m=[32m"ui-link"[39m
+            [33mdata-slot[39m=[32m"root"[39m
+            [33mdata-state[39m=[32m"default"[39m
+            [33mdata-variant[39m=[32m"standalone"[39m
+            [33mhref[39m=[32m"#components"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mdata-slot[39m=[32m"label"[39m
+            [36m>[39m
+              [0m返回组件目录[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"component-doc__title"[39m
+          [36m>[39m
+            [36m<h1[39m
+              [33mid[39m=[32m"native-select-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0mNative Select 原生选择[0m
+            [36m</h1>[39m
+            [36m<span>[39m
+              [0mG5 · 表单与日期[0m
+              [0m · [0m
+              [0m共享候选 · 视觉与体验待审阅[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m原生选择、键盘和表单能力配合 Rain 字段外观，适合简单、明确的选项。[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33maria-label[39m=[32m"预览设置"[39m
+            [33mclass[39m=[32m"component-doc__settings"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"true"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-brand bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"brand"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-brand"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m浅色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"default"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-default"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m深色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-...
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mdata-density[39m=[32m"default"[39m
+      [33mdata-rain-id[39m=[32m"foundation-density-context"[39m
+      [33mdata-slot[39m=[32m"density-context"[39m
+      [33mstyle[39m=[32m"--rain-density-control-height: 36px; --rain-density-control-padding-inline: 14px; --rain-density-item-gap: 10px;"[39m
+    [36m>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"component-doc core-ui-shell"[39m
+        [33mdata-asset-identity[39m=[32m"local-experiment"[39m
+        [33mdata-rain-id[39m=[32m"doc-native-select"[39m
+        [33mdata-rain-theme[39m=[32m"light"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"component-doc__header"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"rain-link"[39m
+            [33mdata-density[39m=[32m"default"[39m
+            [33mdata-focus[39m=[32m"item"[39m
+            [33mdata-rain-id[39m=[32m"ui-link"[39m
+            [33mdata-slot[39m=[32m"root"[39m
+            [33mdata-state[39m=[32m"default"[39m
+            [33mdata-variant[39m=[32m"standalone"[39m
+            [33mhref[39m=[32m"#components"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mdata-slot[39m=[32m"label"[39m
+            [36m>[39m
+              [0m返回组件目录[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"component-doc__title"[39m
+          [36m>[39m
+            [36m<h1[39m
+              [33mid[39m=[32m"native-select-title"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [0mNative Select 原生选择[0m
+            [36m</h1>[39m
+            [36m<span>[39m
+              [0mG5 · 表单与日期[0m
+              [0m · [0m
+              [0m共享候选 · 视觉与体验待审阅[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<p>[39m
+            [0m原生选择、键盘和表单能力配合 Rain 字段外观，适合简单、明确的选项。[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33maria-label[39m=[32m"预览设置"[39m
+            [33mclass[39m=[32m"component-doc__settings"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"true"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-brand bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"brand"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-brand"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m浅色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-rain-button-text-focus focus-visible:shadow-rain-button-text-focus h-rain-button-text-small-height text-rain-button-text-small text-rain-button-text-default bg-rain-action-ghost hover:bg-rain-button-text-hover active:bg-rain-button-text-pressed"[39m
+              [33mdata-density[39m=[32m"default"[39m
+              [33mdata-focus[39m=[32m"control"[39m
+              [33mdata-rain-id[39m=[32m"ui-button"[39m
+              [33mdata-size[39m=[32m"small"[39m
+              [33mdata-slot[39m=[32m"root"[39m
+              [33mdata-state[39m=[32m"default"[39m
+              [33mdata-tone[39m=[32m"default"[39m
+              [33mdata-variant[39m=[32m"text"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"min-w-0 flex-none overflow-visible text-clip whitespace-nowrap text-rain-button-text-default"[39m
+                [33mdata-slot[39m=[32m"label"[39m
+              [36m>[39m
+                [0m深色[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"rain-button box-border relative inline-flex flex-none items-center justify-center overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-action-ghost no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-visible:outline-solid cursor-pointer min-w-rain-button-text-min-width px-rain-button-text-padding-inline py-rain-button-text-padding-block gap-rain-button-text-gap rounded-rain-button-text border-rain-button-text font-rain-button-text opacity-rain-button-text-loading focus-rain-button-text focus-visible:outline-rain-button-text-focus focus-visible:outline-rain-button-text-focus-outline focus-visible:outline-offset-...
+ ❯ waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ apps/playground/src/docs/components/g5-component-pages.test.tsx:25:16
+     23|   window.location.hash = "#native-select";
+     24|   const { unmount } = render(<App />);
+     25|   await screen.findByRole("heading", { name: "Select 选择器", level: 1 });
+       |                ^
+     26|   expect(screen.getByRole("combobox", { name: "任务类型" }).tagName).toBe(…
+     27|   expect(document.querySelector("select")).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  apps/playground/src/docs/components/g5-component-pages.test.tsx > validates and saves the host form while preserving the edited fields
+AssertionError: expected 'SELECT' to be 'BUTTON' // Object.is equality
+
+Expected: "BUTTON"
+Received: "SELECT"
+
+ ❯ apps/playground/src/docs/components/g5-component-pages.test.tsx:37:72
+     35|   render(<App />);
+     36|   const form = await screen.findByRole("form", { name: "作业发布设置" });
+     37|   expect(within(form).getByRole("combobox", { name: "作业类型" }).tagName)…
+       |                                                                        ^
+     38|   const title = within(form).getByRole("textbox", { name: "作业名称" });
+     39|   fireEvent.change(title, { target: { value: "" } });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  8 failed | 9 passed (17)
+   Start at  11:43:38
+   Duration  7.66s (transform 2.10s, setup 286ms, import 4.22s, tests 3.35s, environment 851ms)
+

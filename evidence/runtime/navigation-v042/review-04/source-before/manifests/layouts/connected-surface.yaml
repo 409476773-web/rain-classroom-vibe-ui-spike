@@ -1,0 +1,131 @@
+schemaVersion: "1.0"
+kind: "RainLayoutManifest"
+category: "layout"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "react-only"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/layouts/src/connected-surface.tsx"
+styleSourcePath: "packages/layouts/src/connected-surface.css"
+sourceVersion: "local-2026-09-28-navigation-v042-w2"
+visualBaseline:
+  id: "navigation-approved-v0.4.2"
+  version: "0.4.2-style.1"
+  source: "../../rain-classroom-vibe-ui-spike/docs/rain-navigation-codex-workpack/reference/approved-v0.4.2.html"
+  sha256: "d2574eaae899bb48b7a3201914861d27b23e0bc58a05bf1a75898eba697dd03c"
+  runtimeEvidence: "evidence/runtime/navigation-v042/reference/2026-09-27T19-36-55-642Z/"
+visualLineage:
+  rainClassicReferences:
+    - "User-approved Rain navigation/workspace HTML; upstream visual lineage retained in its workpack. Classic source and Figma remain unchanged."
+  externalReferences:
+    - "Existing Base UI behavior already installed in this repository; no external default appearance copied."
+  retainedTraits:
+    - "Approved A1 label anchor, A4 browser shoulder, cold blue-grey palette and exact local typography."
+  redesignedTraits:
+    - "React component ownership and scoped measurement replace prototype global DOM patch chains."
+  intentionallyNotInherited:
+    - "Standalone review harness, business synchronization, HTML global event listeners and external default styling."
+figmaMapping:
+  status: "not-established"
+  codeConnect: "not-established"
+  write: "not-authorized"
+examples:
+  - "#navigation-v042"
+  - "apps/playground/src/recipes/navigation-v042/samples.tsx"
+  - "apps/playground/src/recipes/navigation-v042/r2.tsx"
+recipes:
+  - "recipe-navigation-r2"
+relatedBlocks: []
+allowedModifications:
+  - "Replace labels, counts and existing Rain icon slots; use documented controlled values and local composition."
+restrictedModifications:
+  - "Do not change global Tokens, old Tabs defaults, selection semantics or boundary owners to repair one instance."
+  - "New bottom/vertical connected variants, workspace coordinators and publication require separate authorization."
+migrationNotes:
+  - "New opt-in W0-W2 candidate; existing accepted Tabs/Sidebar/Layout records remain intact."
+humanGate: "pending-G1"
+verification:
+  automated: "passed"
+  scope: "W2 unit contracts and existing Tabs/Layout regression only; 34 tests on 2026-09-28."
+  independentReview: "in-progress"
+  humanGate: "pending-G1"
+  contrastAcceptance: "not-granted"
+  evidence: "docs/ai/navigation-v042.md"
+aiUsageGuide: "docs/ai/navigation-v042.md"
+id: "layout-connected-surface"
+name: "ConnectedSurface"
+description: "唯一 SVG 联合轮廓连接当前页签与工作面；纯几何、实例测量与局部裁切。"
+useWhen:
+  - "当前语义页签与面板需要批准 browser 肩部、inset 安全内衬或 merged 贴边连接。"
+doNotUseWhen:
+  - "只需要 A1 下划线或独立筛选组。"
+  - "需要让布局管理学生、文件、班级或编辑草稿。"
+anatomy:
+  - "frame"
+  - "row/semantic track slot"
+  - "decorative shape layer"
+  - "panel slot"
+parts:
+  - "frame"
+  - "row"
+  - "layer"
+  - "union"
+  - "panel"
+props:
+  - "instanceId: string 必填；activeKey?: string | number | null，用于受控选择后的重测。"
+  - "connection?: inset | merged，默认 inset；surfaceMode?: tonal | plain | outlined，默认 tonal。"
+  - "geometry?: { panelRadius?: 0|6|8|10|12; tabRadius?: 0|4|6|8|10|12; shoulder?: 4|6|8; trackInset?: 0|8|16|20|24|28|32 }。"
+  - "track: ReactNode; children: ReactNode；其他原生 div 属性/className/style。没有 contour 选择和业务状态 API。"
+slots:
+  - "track accepts Tabs.Nav; native controls may declare data-connected-viewport and data-connected-active=true."
+  - "children is the content/layout slot; callers own semantic panels and internal scrolling."
+variants:
+  - "inset / merged"
+  - "tonal / plain / outlined; browser contour only."
+states:
+  - "active-visible"
+  - "active-clipped"
+  - "zero-size-fallback"
+  - "restored"
+  - "resized"
+  - "scrolled"
+dependencies:
+  - "React"
+  - "@rain-next/foundations existing CompositionSpaceTokenName"
+  - "Native SVG, ResizeObserver, MutationObserver and requestAnimationFrame"
+tokens:
+  - "Existing Rain geometry keys; local guard=2 CSS px is a construction constraint, not a global spacing Token."
+  - "--rain-local-cs-panel-radius/tab-radius/shoulder/safe-inset; local navigation surface/track/outline with existing semantic fallbacks."
+layoutConstraints:
+  - "inset minimumInset = panelRadius + shoulder + 2; resolvedInset=max(requested,minimum). merged resolves inset to 0."
+  - "Frame-local CSS px measurement accounts for parent scaling; shape path remains one closed union."
+  - "A fully clipped/current partially outside viewport paints only the panel, matching the reference."
+  - "Host determines overall height; panel/content scrollports must have finite remaining height."
+compositionRules:
+  - "Each instance owns its refs/observer lifecycle and has a distinct instanceId."
+  - "Interactive controls stay in semantic HTML; SVG is aria-hidden, pointer-events:none."
+  - "Do not add a second panel top outline, CSS shoulder or trigger fill competing with the union."
+accessibility:
+  - "Creates no extra focus stop or tab semantics."
+  - "Focus remains on the HTML trigger; outlined mode top marker belongs to the navigation trigger."
+antiPatterns:
+  - "Global document queries for active tabs."
+  - "Resetting all panel corners or setting global overflow:visible."
+  - "Passing business models into the geometry engine."
+relatedComponents:
+  - "ui-navigation-tabs"
+  - "ui-scope-navigation"
+  - "layout-split"
+stateOwner: "Caller owns active identity/content; component owns derived geometry only."
+restoreOwner: "Caller selection layer; geometry does not move business focus."
+boundaryOwner: "ConnectedSurface owns union contour/seam; inset preserves panel outer corners; merged delegates frame edge closure."
+sourceSha256: "0c38707d8c23d8e0363e8642f09dc77377e72da4d76c94fe9db6cbfb264d8b95"
+styleSourceSha256: "8aa37c0df0377f1de8db9528b726cdeb6875e38735c3749c1fdc4bfb1f6e088c"
+sourceSnapshotRecordedAt: "2026-09-27T20:03:52.041Z"
+nativeCssExceptions:
+  sourcePath: "packages/layouts/src/connected-surface.css"
+  scope: "navigation-v042-only; pending-G1; not global Token approval"
+  registeredLocalVariables: []
+  registeredRawColors: []
+  registeredLiteralPixels: []

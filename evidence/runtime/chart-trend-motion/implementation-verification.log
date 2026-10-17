@@ -1,0 +1,31 @@
+Implementation verification records (copied from completed terminal output).
+
+Command: pnpm --filter @rain-next/prototype typecheck
+Result: exit 0
+
+Command: pnpm exec playwright test --config tests/e2e/chart-trend-motion.config.ts
+Result: exit 0
+Running 9 tests using 1 worker
+  ✓  1 tests/e2e/chart-library-validation.spec.ts:15:1 › renders actual charts and keeps exact readings available (1.4s)
+  ✓  2 tests/e2e/chart-library-validation.spec.ts:43:1 › updates appearance and data without losing selected readings (1.3s)
+  ✓  3 tests/e2e/chart-library-validation.spec.ts:65:1 › preserves zero and missing and remains usable on a narrow screen (1.2s)
+  ✓  4 tests/e2e/chart-library-validation.spec.ts:82:1 › keeps chart range, axis readings and relation selection coherent across updates (6.3s)
+  ✓  5 tests/e2e/chart-trend-motion.spec.ts:62:1 › trend motion: hover keeps guide, markers, date and exact readings on the same week (8.1s)
+  ✓  6 tests/e2e/chart-trend-motion.spec.ts:91:1 › trend motion: a pinned week survives pointer moves and data updates until released (6.1s)
+  ✓  7 tests/e2e/chart-trend-motion.spec.ts:122:1 › trend motion: keyboard reading and pinning are equivalent to pointer selection (5.6s)
+  ✓  8 tests/e2e/chart-trend-motion.spec.ts:147:1 › trend motion: legend visibility updates pinned readings and keeps one series visible (4.9s)
+  ✓  9 tests/e2e/chart-trend-motion.spec.ts:175:1 › trend motion: reduced motion keeps zero, missing values and edge panels usable at 390px (1.6s)
+  9 passed (37.3s)
+
+After tightening markers to hide while their spring X crosses an uncovered native-path gap:
+Command: pnpm exec playwright test --config tests/e2e/chart-trend-motion.config.ts --grep 'trend motion'
+Result: exit 0
+Running 5 tests using 1 worker
+  ✓  1 tests/e2e/chart-trend-motion.spec.ts:62:1 › trend motion: hover keeps guide, markers, date and exact readings on the same week (8.1s)
+  ✓  2 tests/e2e/chart-trend-motion.spec.ts:91:1 › trend motion: a pinned week survives pointer moves and data updates until released (5.9s)
+  ✓  3 tests/e2e/chart-trend-motion.spec.ts:122:1 › trend motion: keyboard reading and pinning are equivalent to pointer selection (5.8s)
+  ✓  4 tests/e2e/chart-trend-motion.spec.ts:147:1 › trend motion: legend visibility updates pinned readings and keeps one series visible (4.9s)
+  ✓  5 tests/e2e/chart-trend-motion.spec.ts:175:1 › trend motion: reduced motion keeps zero, missing values and edge panels usable at 390px (1.6s)
+  5 passed (26.7s)
+
+Last change after those runs: tooltip shadow switched to existing var(--rain-shadow-overlay). No further source changes by implementation agent.

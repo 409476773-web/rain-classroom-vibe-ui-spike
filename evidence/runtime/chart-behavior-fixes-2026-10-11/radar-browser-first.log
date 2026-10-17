@@ -1,0 +1,129 @@
+
+Running 6 tests using 1 worker
+
+(node:90444) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/chart-radar-motion.spec.ts:116:3 › reduced radar paints its first valid geometry and preserves six variants at 1440 (3.0s)
+  ✘  2 tests/e2e/chart-radar-motion.spec.ts:147:3 › ordinary radar retains stagger, intermediate geometry and six variant styles at 1440 (8.6s)
+(node:90849) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/e2e/chart-radar-motion.spec.ts:178:3 › enabling system reduce during entry reveals radar without the old delay at 1440 (1.4s)
+(node:90870) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 tests/e2e/chart-radar-motion.spec.ts:116:3 › reduced radar paints its first valid geometry and preserves six variants at 390 (3.7s)
+  ✘  5 tests/e2e/chart-radar-motion.spec.ts:147:3 › ordinary radar retains stagger, intermediate geometry and six variant styles at 390 (5.0s)
+(node:90895) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  6 tests/e2e/chart-radar-motion.spec.ts:178:3 › enabling system reduce during entry reveals radar without the old delay at 390 (1.4s)
+
+
+  1) tests/e2e/chart-radar-motion.spec.ts:147:3 › ordinary radar retains stagger, intermediate geometry and six variant styles at 1440 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      155 |       const early = await first(page, id);
+      156 |       expect(early?.reduced).toBe(false);
+    > 157 |       expect(early?.facts.allAtTarget).toBe(false);
+          |                                        ^
+      158 |       const frames = await sampleEntry(host);
+      159 |       const terminal = frames.at(-1)!;
+      160 |       expect(terminal.allAtTarget).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-radar-motion.spec.ts:157:40
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-ordinar-42d68--six-variant-styles-at-1440/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-ordinar-42d68--six-variant-styles-at-1440/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-ordinar-42d68--six-variant-styles-at-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-radar-motion.spec.ts:178:3 › enabling system reduce during entry reveals radar without the old delay at 1440 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      186 |     const immediate = await geometry(host);
+      187 |     await record(`dynamic-reduce-${width}`, { before, immediate, reduce: await page.evaluate(() => matchMedia("(prefers-reduced-motion: reduce)").matches) });
+    > 188 |     expect(immediate.allAtTarget).toBe(true);
+          |                                   ^
+      189 |     await host.screenshot({ path: `${evidence}/dynamic-reduce-${width}.png`, animations: "disabled" });
+      190 |     await actionsFor(page, "default").getByRole("button", { name: "重播动效", exact: true }).click();
+      191 |     await settleFrame(page);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-radar-motion.spec.ts:188:35
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-enablin-898da-thout-the-old-delay-at-1440/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-enablin-898da-thout-the-old-delay-at-1440/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-enablin-898da-thout-the-old-delay-at-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/chart-radar-motion.spec.ts:147:3 › ordinary radar retains stagger, intermediate geometry and six variant styles at 390 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      155 |       const early = await first(page, id);
+      156 |       expect(early?.reduced).toBe(false);
+    > 157 |       expect(early?.facts.allAtTarget).toBe(false);
+          |                                        ^
+      158 |       const frames = await sampleEntry(host);
+      159 |       const terminal = frames.at(-1)!;
+      160 |       expect(terminal.allAtTarget).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-radar-motion.spec.ts:157:40
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-ordinar-1e3df-d-six-variant-styles-at-390/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-ordinar-1e3df-d-six-variant-styles-at-390/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-ordinar-1e3df-d-six-variant-styles-at-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/chart-radar-motion.spec.ts:178:3 › enabling system reduce during entry reveals radar without the old delay at 390 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      186 |     const immediate = await geometry(host);
+      187 |     await record(`dynamic-reduce-${width}`, { before, immediate, reduce: await page.evaluate(() => matchMedia("(prefers-reduced-motion: reduce)").matches) });
+    > 188 |     expect(immediate.allAtTarget).toBe(true);
+          |                                   ^
+      189 |     await host.screenshot({ path: `${evidence}/dynamic-reduce-${width}.png`, animations: "disabled" });
+      190 |     await actionsFor(page, "default").getByRole("button", { name: "重播动效", exact: true }).click();
+      191 |     await settleFrame(page);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-radar-motion.spec.ts:188:35
+
+    Error Context: evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-enablin-c6008-ithout-the-old-delay-at-390/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-enablin-c6008-ithout-the-old-delay-at-390/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar/test-results/chart-radar-motion-enablin-c6008-ithout-the-old-delay-at-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    tests/e2e/chart-radar-motion.spec.ts:147:3 › ordinary radar retains stagger, intermediate geometry and six variant styles at 1440 
+    tests/e2e/chart-radar-motion.spec.ts:178:3 › enabling system reduce during entry reveals radar without the old delay at 1440 
+    tests/e2e/chart-radar-motion.spec.ts:147:3 › ordinary radar retains stagger, intermediate geometry and six variant styles at 390 
+    tests/e2e/chart-radar-motion.spec.ts:178:3 › enabling system reduce during entry reveals radar without the old delay at 390 
+  2 passed (25.1s)

@@ -1,0 +1,28 @@
+
+Running 1 test using 1 worker
+
+(node:25888) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-v042-review07.spec.ts:4:119 › R3 1200 platform states consume category Tokens and preserve icon geometry (905ms)
+
+
+  1) tests/e2e/navigation-v042-review07.spec.ts:4:119 › R3 1200 platform states consume category Tokens and preserve icon geometry 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    11
+
+      20 |  const before=await sizes();expect(before).toHaveLength(4);
+      21 |  const alignment=await icons.evaluateAll(els=>els.map(el=>{const entry=el.closest('.rain-navigation-family__entry,.nv42-rail [data-slot="item"]')!,a=entry.getBoundingClientRect(),b=el.getBoundingClientRect();const compact=entry.closest('.rain-navigation-list')?.getAttribute('data-appearance')==='icons'||entry.closest('.rain-workspace__region')?.getAttribute('data-mode')==='compact';return {x:compact?Math.abs(b.x+b.width/2-a.x-a.width/2):0,y:Math.abs(b.y+b.height/2-a.y-a.height/2)};}));
+    > 22 |  for(const icon of alignment){expect(icon.x).toBeLessThanOrEqual(1);expect(icon.y).toBeLessThanOrEqual(1);}
+         |                                                                                    ^
+      23 |  await platform.screenshot({path:`${evidence}/${sample}-${width}-initial.png`});
+      24 |  if(width===1600){
+      25 |  const expand=page.getByRole('button',{name:'展开平台导航',exact:true});
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review07.spec.ts:22:84
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-09-all-scenes/root-before-artifacts/navigation-v042-review07-R-0904b--and-preserve-icon-geometry/error-context.md
+
+  1 failed
+    tests/e2e/navigation-v042-review07.spec.ts:4:119 › R3 1200 platform states consume category Tokens and preserve icon geometry 

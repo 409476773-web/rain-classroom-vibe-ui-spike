@@ -1,0 +1,86 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-hover-card"
+name: "Hover Card"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/hover-card/hover-card.tsx"
+styleSourcePath: "packages/ui/src/styles.css"
+sourceVersion: "local-2026-09-23"
+description: "非阻断预览卡，支持指针及焦点入口。"
+useWhen:
+  - "非阻断预览卡，支持指针及焦点入口。"
+doNotUseWhen:
+  - "只有页面私有、不可复用的装饰性内容不进入共享组件。"
+anatomy:
+  - "root"
+  - "trigger"
+  - "portal"
+  - "positioner"
+  - "popup"
+  - "arrow"
+parts:
+  - "root"
+  - "trigger"
+  - "portal"
+  - "positioner"
+  - "popup"
+  - "arrow"
+props:
+  - "组件复合 API 与本地 Base UI / React 类型以 sourcePath 为准。"
+slots:
+  - "children: 由宿主提供内容与业务操作。"
+variants:
+  - "Rain 默认视觉；方向、密度与组合由宿主局部 Recipe 控制。"
+states:
+  - "默认、焦点、禁用与交互状态按组件源码处理。"
+dependencies:
+  - "React"
+  - "Base UI 1.8.0"
+tokens:
+  - "优先复用 Rain 现有语义 Token；临时视觉值集中于 G3 局部 CSS，待 Foundation Gate 审计。"
+layoutConstraints:
+  - "预览不可成为唯一完成任务的入口；宿主决定内容和链接。"
+compositionRules:
+  - "共享组件只处理通用交互与语义；路径、数据及执行结果由宿主负责。"
+allowedModifications:
+  - "宿主内容、受控状态、局部尺寸与密度 Recipe。"
+restrictedModifications:
+  - "不修改基础 Token，不引入成熟库默认视觉，不直接访问业务接口。"
+accessibility:
+  - "Base UI Preview Card 提供鼠标与键盘等价入口。"
+examples:
+  - "apps/prototype/src/scenarios/token-first-g3/page.tsx"
+recipes:
+  - "G3 层级型工作台与密度型指挥台，视觉待用户确认。"
+antiPatterns:
+  - "用静态视觉假冒可执行操作或真实导航。"
+relatedComponents: []
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences: []
+  externalReferences:
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; MIT"
+    - "Base UI 1.8.0"
+  retainedTraits:
+    - "Rain 语义颜色、Focus 和基础密度。"
+  redesignedTraits:
+    - "G3 两套工作台方向的层级、边界和交互状态。"
+  intentionallyNotInherited:
+    - "外部组件库的默认品牌视觉与全量 API。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/token-first-v12-g3/source-lock.json"
+migrationNotes: "G3 新共享候选；不触及 G1/G2 和 BM-C。"
+humanGate: "pending-visual-review"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  independentReview: "not-run"
+  evidence: "evidence/runtime/token-first-v12-g3/verification.md"
+  humanGate: "pending-visual-review"
+  contrastAcceptance: "not-granted"

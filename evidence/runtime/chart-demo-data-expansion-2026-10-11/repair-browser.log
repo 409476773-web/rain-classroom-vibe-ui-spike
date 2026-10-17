@@ -1,0 +1,63 @@
+
+Running 18 tests using 1 worker
+
+(node:58232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-category.spec.ts:8:3 › reduce: category business examples keep identity, units and original period dates (1.5s)
+  ✓   2 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-category.spec.ts:8:3 › no-preference: category business examples keep identity, units and original period dates (3.3s)
+  ✓   3 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-category.spec.ts:70:1 › missing categories keep discontinuous paths during updates and period tooltip shows both dates (6.9s)
+  ✓   4 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-category.spec.ts:131:1 › long categories fit a narrow page through deliberate horizontal scrolling (1.1s)
+  ✓   5 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-map.spec.ts:59:3 › no-preference: compact tools, stable scale/readings, keyboard drill and saved national view (5.3s)
+  ✓   6 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-map.spec.ts:121:3 › no-preference: 390px long names, direct counties, zero/missing, rejection and retry keep canvas stable (9.4s)
+  ✓   7 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-map.spec.ts:59:3 › reduce: compact tools, stable scale/readings, keyboard drill and saved national view (4.5s)
+  ✓   8 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-map.spec.ts:121:3 › reduce: 390px long names, direct counties, zero/missing, rejection and retry keep canvas stable (7.7s)
+  ✓   9 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-map.spec.ts:170:1 › ordinary wheel scrolls the page; drag and pinch do not activate; rapid click and tap do (5.4s)
+  ✓  10 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-map.spec.ts:219:1 › failed drill retains national map, retry enters requested layer, late request respects latest intent (5.9s)
+  ✓  11 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-map.spec.ts:243:1 › motion has intermediate drill and zoom frames; reduced motion reaches final state directly (3.7s)
+  ✓  12 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-map.spec.ts:269:1 › all five original world-map variants retain 177 real regions and native zoom/reset (3.3s)
+  ✓  13 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/chart-business-map.spec.ts:300:1 › unified region selector searches, switches provinces, restores focus and retains detail on Escape (4.9s)
+  ✓  14 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/post-review.spec.ts:6:3 › profit/loss final samples retain correct sign colors at 1440px reduce (1.2s)
+  ✓  15 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/post-review.spec.ts:6:3 › profit/loss final samples retain correct sign colors at 1440px no-preference (4.9s)
+  ✓  16 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/post-review.spec.ts:6:3 › profit/loss final samples retain correct sign colors at 390px reduce (1.2s)
+  ✓  17 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/post-review.spec.ts:6:3 › profit/loss final samples retain correct sign colors at 390px no-preference (4.9s)
+  ✘  18 evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/post-review.spec.ts:39:1 › narrow hourly matrix reaches daytime peaks through existing keyboard scrolling (6.5s)
+
+
+  1) evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/post-review.spec.ts:39:1 › narrow hourly matrix reaches daytime peaks through existing keyboard scrolling 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  locator('[data-matrix-example="weekday-hour"] [data-rain-id="ui-chart-matrix"]').locator('[data-slot="cell"][data-row-id="weekday-1"][data-column-id="hour-15"]')
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for locator('[data-matrix-example="weekday-hour"] [data-rain-id="ui-chart-matrix"]').locator('[data-slot="cell"][data-row-id="weekday-1"][data-column-id="hour-15"]')
+        14 × locator resolved to <td aria-label="13" data-slot="cell" data-state="value" data-row-id="weekday-1" data-column-id="hour-15" headers="_r_2_-row-0 _r_2_-column-14">…</td>
+           - unexpected value "inactive"
+
+
+      46 |   for (let index = 0; index < 14; index++) await page.keyboard.press("ArrowRight");
+      47 |   const daytime = matrix.locator('[data-slot="cell"][data-row-id="weekday-1"][data-column-id="hour-15"]');
+    > 48 |   await expect(daytime).toBeFocused();
+         |                         ^
+      49 |   expect(Number(await daytime.getAttribute("aria-label"))).toBeGreaterThan(0);
+      50 |   const scroll = matrix.locator('[data-slot="scroll-container"]');
+      51 |   expect(await scroll.evaluate(node => node.scrollLeft)).toBeGreaterThan(0);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/post-review.spec.ts:48:25
+
+    Error Context: evidence/runtime/chart-demo-data-expansion-2026-10-11/repair-test-results/post-review-narrow-hourly--4484a-existing-keyboard-scrolling/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-demo-data-expansion-2026-10-11/repair-test-results/post-review-narrow-hourly--4484a-existing-keyboard-scrolling/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-demo-data-expansion-2026-10-11/repair-test-results/post-review-narrow-hourly--4484a-existing-keyboard-scrolling/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    evidence/runtime/chart-demo-data-expansion-2026-10-11/browser-specs/post-review.spec.ts:39:1 › narrow hourly matrix reaches daytime peaks through existing keyboard scrolling 
+  17 passed (1.4m)

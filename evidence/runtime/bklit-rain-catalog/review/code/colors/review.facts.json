@@ -1,0 +1,107 @@
+{
+  "reviewedAt": "2026-10-07T19:45:08.529Z",
+  "verdict": "no-blocking-governance-findings",
+  "reviewedSourceHashes": {
+    "scripts/token-foundation-outputs.mjs": "2ff41806e27098477b17d9722755f32122bc7b275acabbcde2f2d9884596451c",
+    "scripts/verify-token-foundations.mjs": "f839d8f11e6e479b8f84d9e3ce64184e330892be803308051b4059ba30e6020f",
+    "scripts/chart-color-consumers.test.ts": "7b2d62b00a92d7d06598b324aa817fc763bd7abd78f099aa8f3f2540df5fbf3c",
+    "manifests/contracts/token-foundations-v1.json": "5dffe90dedfd3ddc960fc5be99464afdd6386a85e67ed03f61d9fabd746e7735"
+  },
+  "chartLedgerRows": 131,
+  "contrastCount": 27,
+  "weakCount": 16,
+  "allPendingUnacceptedAndLight": true,
+  "contractDelta": {
+    "fields": [
+      "colorCssConsumers",
+      "consumerPaths"
+    ],
+    "colorConsumerRows": 131,
+    "consumerPaths": [
+      "packages/ui/src/charts/styles.css",
+      "apps/playground/src/docs/components/chart-examples.css",
+      "apps/playground/src/docs/components/chart-page.css",
+      "apps/prototype/src/scenarios/bklit-validation/catalog.css"
+    ],
+    "restoredBaselineSha256": "39efd352a108c86f6920cfe0f63581a59e92ed26f11ddbc4709ecf11b66a7168",
+    "exactRestoration": true
+  },
+  "foundationHashes": [
+    {
+      "file": "packages/foundations/src/tokens.css",
+      "sha256": "aaac07083c6ea0b3861437a2778ff6322e0f1a9e4bfbac80baf00da36425d640",
+      "unchangedSinceP0": true
+    },
+    {
+      "file": "packages/foundations/src/color-registry.ts",
+      "sha256": "ec8c8cc3ded78124da9d7a2890323026bc4a092cd87531eee99008c2be7d6a0e",
+      "unchangedSinceP0": true
+    },
+    {
+      "file": "packages/foundations/src/token-contract.ts",
+      "sha256": "f2de1f3aeda7f87c8721ab1d20aabd98a2a6e019593c1e4306f8e35e5f6b40bb",
+      "unchangedSinceP0": true
+    },
+    {
+      "file": "packages/foundations/src/typography.css",
+      "sha256": "6812638dd5a3688a4da4c876b577a9e293fa4a23cb80119bcc727d1e50bc32e2",
+      "unchangedSinceP0": true
+    },
+    {
+      "file": "packages/foundations/src/tailwind-theme.css",
+      "sha256": "39e9fd48714b7a524b3e6ff50d6c40ee12e5e3f577d8729328627c09a680efc9",
+      "unchangedSinceP0": true
+    }
+  ],
+  "probes": [
+    {
+      "name": "unregistered-existing-data-alias-as-text",
+      "rejected": true,
+      "failures": [
+        "Unregistered visual color declaration in packages/ui/src/charts/styles.css: color: var(--chart-1)"
+      ]
+    },
+    {
+      "name": "unregistered-native-paint-outside-scope",
+      "rejected": true,
+      "failures": [
+        "Unregistered visual color declaration in packages/ui/src/charts/styles.css: color: var(--chart-1)"
+      ]
+    },
+    {
+      "name": "duplicate-registered-native-alias",
+      "rejected": true,
+      "failures": [
+        "Unregistered chart native binding: packages/ui/src/charts/styles.css .rain-chart --chart-1",
+        "Unregistered Category CSS paint packages/ui/src/charts/styles.css: .rain-chart --chart-1",
+        "Category/local colors require registered Token consumer metadata: packages/ui/src/charts/styles.css",
+        "Raw/private or unregistered Category/display color in packages/ui/src/charts/styles.css"
+      ]
+    },
+    {
+      "name": "new-alias-to-native-token",
+      "rejected": true,
+      "failures": [
+        "Unregistered chart native binding: packages/ui/src/charts/styles.css .rain-chart --new-color",
+        "Unregistered visual color declaration in packages/ui/src/charts/styles.css: --new-color: var(--foreground)"
+      ]
+    },
+    {
+      "name": "weakening-critical-tooltip-readout",
+      "rejected": true,
+      "failures": [
+        "Chart colors require the exact declaration ledger, native aliases, reading roles and parent surfaces"
+      ]
+    }
+  ],
+  "tests": {
+    "passed": 4,
+    "failed": 0,
+    "log": "four-tests.log"
+  },
+  "limitations": [
+    "Registration is not readability acceptance",
+    "Full-opacity measurements do not certify overlapping gradients or faded states",
+    "Dark chart acceptance remains not granted"
+  ]
+}

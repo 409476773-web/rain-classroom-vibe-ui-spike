@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { hasDropdownFamilyAuthorization, hasDropdownSelectionVisualReuseAuthorization, isDropdownFamilyImport, getValidatedTailwindB2History, parseYamlSubset } from "./verification-helpers.mjs";
+import { hasDropdownFamilyAuthorization, hasDropdownSelectionVisualReuseAuthorization, isDropdownFamilyImport, getValidatedTailwindB2History, getG6PreviousSource, parseYamlSubset } from "./verification-helpers.mjs";
 import { getTokenFoundationOutputs, getDropdownFamilyColorConsumers } from "./token-foundation-outputs.mjs";
 import { validateRegisteredRecipeColors } from "./verify-token-foundations.mjs";
 import { validateDropdownFamilyManifest, validateDropdownFamilyRegistry, validateCheckboxCssExceptions, validateRadioCssExceptions } from "./verify-tailwind-b2.mjs";
@@ -58,7 +58,8 @@ describe("Dropdown family candidate governance", () => {
       expect(validateDropdownFamilyManifest(args)).toEqual([]);
       expect(validateDropdownFamilyManifest({ ...args, manifest: { ...manifest, maturity: "system-approved" } })).not.toEqual([]);
     }
-    const registry = JSON.parse(readFileSync("registry/dropdown-family.json", "utf8"));
+    // Verify the current successor before testing this original fixed Registry contract.
+    const registry = JSON.parse(getG6PreviousSource(process.cwd(), "registry/dropdown-family.json") ?? readFileSync("registry/dropdown-family.json", "utf8"));
     expect(validateDropdownFamilyRegistry(registry, { humanGate: "accepted" })).toEqual([]);
     expect(validateDropdownFamilyRegistry({ ...registry, publication: "published" }, { humanGate: "accepted" })).not.toEqual([]);
     registry.shared.files.push("packages/ui/src/select/select.tsx");

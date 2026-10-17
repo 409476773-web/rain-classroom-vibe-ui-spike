@@ -1,0 +1,46 @@
+[WebServer] (node:46556) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:46557) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:46559) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:46567) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/attachment-workflow.spec.ts:85:1 › Playground image, verified PDF bytes, unsupported and independent permissions (7.5s)
+
+
+  1) [desktop] › tests/e2e/attachment-workflow.spec.ts:85:1 › Playground image, verified PDF bytes, unsupported and independent permissions 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 1
+    Received:   52
+
+      111 |     return box!.x;
+      112 |   }));
+    > 113 |   expect(Math.max(...morePositions) - Math.min(...morePositions)).toBeLessThan(1);
+          |                                                                   ^
+      114 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+      115 |   await page.screenshot({ path: testInfo.outputPath("playground.png"), fullPage: true });
+      116 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/attachment-workflow.spec.ts:113:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/attachment-visual-2026-10-16/browser/results/attachment-workflow-Playgr-48fdc-and-independent-permissions-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/attachment-visual-2026-10-16/browser/results/attachment-workflow-Playgr-48fdc-and-independent-permissions-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/attachment-visual-2026-10-16/browser/results/attachment-workflow-Playgr-48fdc-and-independent-permissions-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/attachment-visual-2026-10-16/browser/results/attachment-workflow-Playgr-48fdc-and-independent-permissions-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [desktop] › tests/e2e/attachment-workflow.spec.ts:85:1 › Playground image, verified PDF bytes, unsupported and independent permissions 

@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+(node:33826) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/alert.spec.ts:5:1 › Alert themes, density, wrapping and explicit recipe remain distinct (1.0s)
+
+
+  1) tests/e2e/alert.spec.ts:5:1 › Alert themes, density, wrapping and explicit recipe remain distinct 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 57
+    Received:    45
+
+      48 |   expect(await actionLabel.evaluate(node => node.scrollWidth <= node.clientWidth + 1)).toBe(true);
+      49 |   const labelBox = (await actionLabel.boundingBox())!;
+    > 50 |   expect(labelBox.x).toBeGreaterThanOrEqual(actions!.x);
+         |                      ^
+      51 |   expect(labelBox.x + labelBox.width).toBeLessThanOrEqual(actions!.x + actions!.width);
+      52 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      53 |   const overflow = await page.locator('[data-rain-id="ui-alert"]').evaluateAll(nodes => nodes.filter(node => node.scrollWidth > node.clientWidth + 1).length);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/alert.spec.ts:50:22
+
+    Error Context: evidence/runtime/alert/test-results/alert-Alert-themes-density-9819d-icit-recipe-remain-distinct/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/alert/test-results/alert-Alert-themes-density-9819d-icit-recipe-remain-distinct/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/alert/test-results/alert-Alert-themes-density-9819d-icit-recipe-remain-distinct/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/alert.spec.ts:5:1 › Alert themes, density, wrapping and explicit recipe remain distinct 

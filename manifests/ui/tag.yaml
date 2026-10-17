@@ -53,6 +53,13 @@ verification:
 id: "ui-tag"
 name: "Tag"
 sourcePath: "packages/ui/src/tag/tag.tsx"
+description: "静态分类或属性标签，可显示图标；可移除标签通过独立按钮向宿主发出移除意图。"
+useWhen:
+  - "展示资料分类、课程属性或其他非交互标签。"
+  - "需要可移除标签，由宿主移除数据、恢复焦点并处理失败。"
+doNotUseWhen:
+  - "需要通过标签改变选中值；使用 CheckableTag。"
+  - "需要点击导航；使用 LinkTag。固定业务状态优先使用对应领域标签。"
 anatomy:
   - "Static span; removal is a separate native button."
   - "Only the owner removes data and restores focus; complex children require removeLabel."

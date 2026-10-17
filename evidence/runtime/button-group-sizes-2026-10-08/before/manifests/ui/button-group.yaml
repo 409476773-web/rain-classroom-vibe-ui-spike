@@ -1,0 +1,114 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-button-group"
+name: "Button Group"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/button-group/button-group.tsx"
+styleSourcePath: "packages/ui/src/button-group/button-group.css"
+sourceVersion: "local-2026-10-08-button-group-style"
+description: "相关命令在视觉上相连，每个按钮仍独立执行操作。"
+useWhen:
+  - "相关的保存、撤回等命令需要聚合。"
+doNotUseWhen:
+  - "互斥或多选状态用 ToggleGroup；即时设置用 Switch。"
+anatomy:
+  - "button-group"
+  - "button-group-text"
+  - "button-group-separator"
+parts:
+  - "button-group"
+  - "button-group-text"
+  - "button-group-separator"
+props:
+  - "orientation: horizontal(default) / vertical"
+  - "className 与原生 div 属性；为 role=group 提供 aria-label"
+  - "ButtonGroupText: useRender 原生渲染与组合属性"
+  - "ButtonGroupSeparator: Separator 属性；默认 decorative、vertical；className 作用于保留的 wrapper，其余 Separator 属性传给内部线。"
+slots:
+  - "children 与业务操作由宿主提供。"
+variants:
+  - "保留 Rain Button 配方；组合层修复连接圆角与单一边线，不新增组级尺寸、variant 或状态 API。"
+states:
+  - "默认、焦点、禁用（由子Button处理）；组内普通禁用 Button 的结构线保持完整，仅 label/icon 等内容 Parts 沿原有透明度弱化。独立 Button 默认保持。"
+dependencies:
+  - "React"
+  - "@rain-next/foundations"
+  - "@base-ui/react@1.8.0"
+  - "rainCn"
+tokens:
+  - "现有Rain语义颜色、尺寸、圆角、间距、Focus与Motion；没有新增Token。"
+layoutConstraints:
+  - "组合与方向由宿主决定；不要截断可点击目标或名称。"
+  - "连接规则作用于组的直接 slot 子项；额外宿主包裹层不会自动成为受支持的连接结构。"
+compositionRules:
+  - "只处理通用状态和行为，宿主拥有业务数据、持久化、权限、路由和请求。"
+  - "按钮组子Button独立进入Tab顺序；不能改成选择组件。"
+  - "同组 Button 使用相同尺寸与视觉配方；ButtonGroupText 匹配现有 medium 字号、行高与圆角，组不会自动统一混合尺寸。"
+  - "普通接缝由前项末边唯一绘制；显式 Separator 接缝移除相邻两侧边框，仅由分隔线绘制。"
+  - "横组使用贯穿高度的 vertical 线；竖组使用满宽 horizontal 线。两种方向均只占现有 1px 线厚，复用既有 tertiary 边框颜色；同组采用相同 Button 配方。"
+allowedModifications:
+  - "内容、可访问名称、受控状态、源码已提供的Props及宿主className局部Recipe。"
+restrictedModifications:
+  - "不得改变共享Token、Base UI键盘/计时/队列规则或引入业务接口。"
+accessibility:
+  - "Button保留独立键盘焦点、disabled与默认type=button。"
+  - "reduced-motion与forced-colors沿用既有G2合同；对比度接受独立记录。"
+examples:
+  - "apps/playground/src/docs/components/button-group-page.tsx"
+  - "apps/prototype/src/scenarios/token-first-g2/page.tsx"
+recipes:
+  - "已审阅G2页面局部规格保持在prototype，不扩展共享视觉矩阵。"
+  - "独立展示页的深色根局部桥接现有public Neutral正文与背景；共享Button、其他页面与Token值不变。"
+  - "2026-10-08 本页集中展示正常/首中尾禁用/全部禁用；反馈采用现有 13px/20px 与 8px 间距，每例调用代码通过原生 details 展开。"
+antiPatterns:
+  - "把场景视觉确认推导为系统批准、对比度接受、发布或业务迁移。"
+relatedComponents:
+  - "ui-button"
+  - "ui-separator"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "已确认Rain Button几何、品牌状态与官方图标；G2 Figma Global Message反馈家族。"
+  externalReferences:
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; MIT"
+    - "Base UI 1.8.0"
+  retainedTraits:
+    - "保留 Rain Button Token、品牌颜色、独立焦点与键盘执行及既有 Separator wrapper/API。"
+  redesignedTraits:
+    - "2026-10-07授权修复：utilities 组合规则覆盖单Button内角；消除负边距叠线并明确接缝唯一绘制者。"
+    - "分隔线wrapper按实际线方向决定inset；附加文字使用已有Button medium字体、行高与外圆角。"
+  intentionallyNotInherited:
+    - "shadcn默认品牌视觉或未使用的完整API。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/token-first-v12-g2/source-lock.json"
+  - "evidence/runtime/token-first-v12-g2/verification.md"
+  - "evidence/runtime/button-group-repair-2026-10-07/source-bindings.json"
+  - "evidence/runtime/button-group-repair-2026-10-07/verification.md"
+  - "evidence/runtime/button-group-repair-2026-10-07/doc-color-consumers.json"
+  - "evidence/runtime/button-group-repair-2026-10-07/doc-color-result.json"
+  - "evidence/runtime/button-group-style-2026-10-08/source-bindings.json"
+  - "evidence/runtime/button-group-style-2026-10-08/verification.md"
+sourceHumanGate: "accepted-g2-current-runtime-visual-only-2026-09-22"
+migrationNotes: "2026-10-07已有成果沉淀后，用户另授权「继续修复」Button Group已分析问题；新修复验收独立记录，旧场景视觉Gate和G123完成记录保留。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-111-behavior-10-browser-ui-and-test-typecheck-build-6-governance-passed"
+  evidence: "evidence/runtime/button-group-style-2026-10-08/verification.md"
+  independentReview: "passed-scoped-2026-10-08-no-P1-P2-P3"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+buttonGroupRepair:
+  authorization: "componentRefinements.buttonGroupRepair"
+  sourceBindings: "evidence/runtime/button-group-repair-2026-10-07/source-bindings.json"
+  retainedG123Contract: "evidence/runtime/button-group-repair-2026-10-07/before/manifests/ui/button-group.yaml"
+  styleRefinement: "componentRefinements.buttonGroupRepair.styleRefinement"
+  apiChanged: false
+  tokenValuesChanged: false
+  sourceHumanGateTransferred: false

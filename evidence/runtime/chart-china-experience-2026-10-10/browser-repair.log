@@ -1,0 +1,40 @@
+
+Running 4 tests using 1 worker
+
+(node:45148) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/chart-business-map.spec.ts:56:3 › no-preference: compact tools, stable scale/readings, keyboard drill and saved national view (5.1s)
+  ✓  2 tests/e2e/chart-business-map.spec.ts:56:3 › reduce: compact tools, stable scale/readings, keyboard drill and saved national view (4.4s)
+  ✓  3 tests/e2e/chart-business-map.spec.ts:166:1 › ordinary wheel scrolls the page; drag and pinch do not activate; rapid click and tap do (5.3s)
+  ✘  4 tests/e2e/chart-business-map.spec.ts:239:1 › motion has intermediate drill and zoom frames; reduced motion reaches final state directly (4.4s)
+
+
+  1) tests/e2e/chart-business-map.spec.ts:239:1 › motion has intermediate drill and zoom frames; reduced motion reaches final state directly 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "0s"
+    Received: "0.24s"
+
+      259 |   await layer(page).getByRole("link", { name: "返回全国" }).click();
+      260 |   await settle(page, 34);
+    > 261 |   expect(await transform(page).evaluate(node => getComputedStyle(node).transitionDuration)).toBe("0s");
+          |                                                                                             ^
+      262 |   await mkdir(evidence, { recursive: true });
+      263 |   await writeFile(`${evidence}/motion-frames.json`, JSON.stringify({ frames, scope: "Actual requestAnimationFrame styles, not a frame-rate benchmark" }, null, 2));
+      264 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:261:93
+
+    Error Context: evidence/runtime/chart-china-experience-2026-10-10/browser-repair-results/chart-business-map-motion--cd8d1-eaches-final-state-directly/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-china-experience-2026-10-10/browser-repair-results/chart-business-map-motion--cd8d1-eaches-final-state-directly/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-china-experience-2026-10-10/browser-repair-results/chart-business-map-motion--cd8d1-eaches-final-state-directly/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-business-map.spec.ts:239:1 › motion has intermediate drill and zoom frames; reduced motion reaches final state directly 
+  3 passed (20.1s)

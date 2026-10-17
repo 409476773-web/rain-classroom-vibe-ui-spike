@@ -1,6 +1,6 @@
 # Token 选择与消费（Foundations V1 第 0/1 批）
 
-状态：新增基础为 registry-candidate。2026-09-06 已按用户确认将 42 项 Semantic 中的 14 项接入 Category 色源；其余保留原定义。映射实施、组件可读性与主题验收、Human Gate、发布各自记录；当前能力不授权后续批次。
+状态：新增基础为 registry-candidate。2026-09-19 核对当前源码：42 项 Semantic 中的 17 项接入 Category 色源；其余保留原定义。2026-09-06 首批 14 项的记录保留为历史。映射实施、组件可读性与主题验收、Human Gate、发布各自记录；当前能力不授权后续批次。
 
 ## Foundations 总入口与兼容定义
 
@@ -80,7 +80,7 @@ const assessment = assessColorUse(use);
 
 公开身份为 `Text/Neutral/1` 等稳定 ID，key 与 order 分开。Light / Dark 各有 269 项，共用稳定 ID；原 105 项保留，Tag 第一批追加 164 项分类、业务专用及动作角色来源。`Background/Dark` 是 Family 身份，两种主题分别解析各自色值，不是主题开关。Light 原值与决定见[颜色补充规范](../plans/2026-09-06-color-family-supplement-design.md)，Dark 来源与待检查范围见[Dark 接入说明](../plans/2026-09-06-color-dark-theme.md)。
 
-- 默认主题为 Light；在消费容器上显式设置 `data-rain-theme="dark"`，需要还原时设置 `data-rain-theme="light"`。消费元数据的 `theme` 必须与最近的实际主题边界及承载背景一致；未知或动态主题不能冒充已验证的静态消费者。已确认的 14 项引用随主题读取对应 Category，未迁移项保留旧值；这种混合状态不代表完整组件的 Dark 配方已经合格。
+- 默认主题为 Light；在消费容器上显式设置 `data-rain-theme="dark"`，需要还原时设置 `data-rain-theme="light"`。消费元数据的 `theme` 必须与最近的实际主题边界及承载背景一致；未知或动态主题不能冒充已验证的静态消费者。当前映射的 17 项引用随主题读取对应 Category，未迁移项保留旧值；这种混合状态不代表完整组件的 Dark 配方已经合格。
 - `Text` / `Icon` → `color`；`Background` / `Fill` → `background-color`；`Border` → 边界，填充线可用 `background-color`。`OnColor` 需要具名表面方案与实际可读性。
 - `validateColorUse` 验证角色、属性、主题、内容、父表面、品牌意图、弱色与条件色资格，以及实际合成对比度。使用方仍需核对真实 DOM、节点结构、状态与证据文件；声明不替代浏览器验证。
 - 条件色需要具名 Recipe 与对应消费者证据。弱 Neutral 的有意义内容需要明确为非交互、非关键信息，并通过实际对比度。
@@ -107,9 +107,9 @@ const assessment = assessColorUse(use);
 
 默认选 10 个完整预设之一（`rain-type-ui-default` 等）。局部变更通过 `resolveTypographyPreset` 检查后，使用登记的 `text-rain-size-*`、`leading-rain-*`；用 `rainCn` 合并类名。
 
-字号 19 档，固定行高 14 档，Equal 为无单位 `1`。行高须满足 `字号 ≤ 实际行高 ≤ 2 × 字号`，不限制浏览器缩放或用户阅读样式。默认字距 `0em`；组件特例保留组件范围。
+字号 19 档，固定行高 15 档，Equal 为无单位 `1`。行高须满足 `字号 ≤ 实际行高 ≤ 2 × 字号`，不限制浏览器缩放或用户阅读样式。默认字距 `0em`；组件特例保留组件范围。
 
-关键数据也可以使用其他已登记字号；36 / 42 / 700 只是默认组合。例如 24 / 32 / 700 可沿用 Data 字体与数字规则，调整后仍检查行高和容器，不必新增全局预设。
+标题两种预设默认 16 / 24；显式字号只允许 16/17/18px，17/18px 仅用于极少数同级标题密集的情况。关键数据默认 28 / 36 / 700，任何 Data 用途字号不得超过 28px。例如 24 / 32 / 700 可沿用 Data 字体与数字规则，调整后仍检查行高和容器，不必新增全局预设。19 档原子字号身份保留，原子身份不自动授权其作为 Heading 或 Data 的合法用途。此次合同修订见[独立反馈记录](../../evidence/runtime/g4-review-sizing-2026-10-11/verification.md)，不继承旧视觉 Gate。
 
 界面/阅读字体字重为 400/600；Tag Solid 标签有用户确认的 UI 700 专项组合，仅允许 Tag / LinkTag / CheckableTag、label、solid、12/14 或 13/18，不扩展普通 UI/Reading 范围。关键 Data Value 用 LINE Seed 700、等宽齐线数字。Value 与 Unit / Label 分开；中文单位和说明不套 Data 字体。字体文件没有随包分发，验收需核对目标环境实际字体和字形。
 

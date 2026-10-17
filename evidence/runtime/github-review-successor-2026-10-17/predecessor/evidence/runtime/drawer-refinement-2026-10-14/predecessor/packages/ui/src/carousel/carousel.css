@@ -1,0 +1,79 @@
+/* @rain-css-exception ui-carousel: approved v0.4 compound geometry and scoped derived-neutral recipes; Embla owns all track motion. */
+.rain-carousel {
+  --rain-local-carousel-control-ink: rgb(from var(--rain-category-icon-neutral-3) g g g);
+  --rain-local-carousel-control-strong: rgb(from var(--rain-category-icon-neutral-2) g g g);
+  --rain-local-carousel-control-disabled: rgb(from var(--rain-category-icon-neutral-5) g g g);
+  --rain-local-carousel-control-white: rgb(from var(--rain-category-background-neutral-1) g g g);
+  --rain-carousel-progress: 0;
+  --rain-local-carousel-control-surface: color-mix(in srgb, var(--rain-local-carousel-control-strong) 7%, var(--rain-local-carousel-control-white));
+  --rain-local-carousel-control-hover: color-mix(in srgb, var(--rain-local-carousel-control-strong) 11%, var(--rain-local-carousel-control-white));
+  --rain-local-carousel-control-pressed: color-mix(in srgb, var(--rain-local-carousel-control-strong) 17%, var(--rain-local-carousel-control-white));
+  --rain-local-carousel-indicator-rest: color-mix(in srgb, var(--rain-local-carousel-control-strong) 22%, transparent);
+  position: relative; min-width: 0;
+}
+@layer base {
+  .rain-carousel__viewport { overflow: hidden; }
+  .rain-carousel__content { display: flex; margin-inline-start: calc(var(--rain-space-16) * -1); touch-action: pan-y pinch-zoom; }
+  .rain-carousel__content[data-orientation="vertical"] { flex-direction: column; margin-inline-start: 0; margin-block-start: calc(var(--rain-space-16) * -1); touch-action: pan-x pinch-zoom; }
+  .rain-carousel__item { min-width: 0; flex: 0 0 100%; padding-inline-start: var(--rain-space-16); }
+  .rain-carousel__item[data-orientation="vertical"] { padding-inline-start: 0; padding-block-start: var(--rain-space-16); }
+}
+.rain-carousel__navigation { position: absolute; touch-action: manipulation; }
+.rain-carousel__previous[data-orientation="horizontal"] { inset-block: 0; inset-inline-start: var(--rain-space-16); margin-block: auto; }
+.rain-carousel__next[data-orientation="horizontal"] { inset-block: 0; inset-inline-end: var(--rain-space-16); margin-block: auto; }
+.rain-carousel__previous[data-orientation="vertical"] { inset-block-start: var(--rain-space-16); inset-inline-start: 50%; transform: translateX(-50%); }
+.rain-carousel__next[data-orientation="vertical"] { inset-block-end: var(--rain-space-16); inset-inline-start: 50%; transform: translateX(-50%); }
+.rain-carousel:dir(rtl) .rain-carousel__navigation[data-orientation="vertical"] { transform: translateX(50%); }
+.rain-carousel .rain-carousel__arrow, .rain-carousel .rain-carousel__playback { color: var(--rain-local-carousel-control-ink); background: var(--rain-local-carousel-control-surface); border: var(--rain-line-thickness-1) solid transparent; box-shadow: none; transition: background 160ms,color 160ms; }
+.rain-carousel :is(.rain-carousel__arrow,.rain-carousel__playback):hover:not([aria-disabled="true"]) { color: var(--rain-local-carousel-control-strong); background: var(--rain-local-carousel-control-hover); }
+.rain-carousel :is(.rain-carousel__arrow,.rain-carousel__playback):active:not([aria-disabled="true"]) { background: var(--rain-local-carousel-control-pressed); }
+.rain-carousel :is(.rain-carousel__arrow,.rain-carousel__playback)[aria-disabled="true"] { color: var(--rain-local-carousel-control-disabled); opacity: 1; cursor: default; }
+.rain-carousel:focus-visible, .rain-carousel :is(.rain-carousel__arrow,.rain-carousel__playback,.rain-carousel__indicators button):focus-visible { outline: var(--rain-focus-width) solid var(--rain-local-carousel-control-strong); outline-offset: var(--rain-focus-offset); box-shadow: 0 0 0 var(--rain-line-thickness-2) var(--rain-local-carousel-control-white); }
+.rain-carousel__controls { display: grid; align-items: center; gap: var(--rain-space-12); min-width: 0; }
+.rain-carousel__controls[data-layout="inline"] { position: relative; grid-template-columns: auto minmax(0,1fr) auto; grid-template-areas: "previous indicators next"; margin-block-start: var(--rain-space-12); }
+.rain-carousel__controls[data-layout="inline"] .rain-carousel__navigation { position: static; inset: auto; margin: 0; transform: none; }
+.rain-carousel__controls[data-layout="inline"] .rain-carousel__previous { grid-area: previous; }
+.rain-carousel__controls[data-layout="inline"] .rain-carousel__next { grid-area: next; }
+.rain-carousel__controls[data-layout="inline"][data-indicator-placement="top"] { grid-template-areas: "indicators indicators indicators" "previous . next"; }
+.rain-carousel__controls[data-layout="inline"][data-indicator-placement="bottom"] { grid-template-areas: "previous . next" "indicators indicators indicators"; }
+.rain-carousel__controls[data-layout="inline"][data-indicator-placement="start"] { grid-template-columns: auto 1fr auto; grid-template-areas: "indicators previous next"; }
+.rain-carousel__controls[data-layout="inline"][data-indicator-placement="end"] { grid-template-columns: auto 1fr auto; grid-template-areas: "previous next indicators"; }
+.rain-carousel__controls[data-layout="overlay"] { position: absolute; inset: 0; display: block; z-index: 2; pointer-events: none; }
+.rain-carousel__controls[data-layout="overlay"] > :is(.rain-carousel__navigation,.rain-carousel__indicators,.rain-carousel__playback) { pointer-events: auto; }
+.rain-carousel__controls[data-layout="overlay"] .rain-carousel__navigation[data-orientation="horizontal"] { inset-block: 50% auto; margin: 0; transform: translateY(-50%); }
+.rain-carousel__controls[data-layout="overlay"] .rain-carousel__navigation[data-orientation="vertical"] { inset-inline: auto var(--rain-space-16); transform: none; }
+.rain-carousel__controls[data-layout="overlay"] .rain-carousel__arrow { background: color-mix(in srgb, var(--rain-local-carousel-control-white) 83%, transparent); border-color: color-mix(in srgb, var(--rain-local-carousel-control-strong) 7%, transparent); backdrop-filter: blur(12px); }
+.rain-carousel__controls[data-layout="overlay"] .rain-carousel__arrow[aria-disabled="true"] { background: color-mix(in srgb, var(--rain-local-carousel-control-white) 68%, transparent); }
+.rain-carousel__indicators { grid-area: indicators; display: flex; align-items: center; justify-content: center; width: max-content; max-width: 100%; margin-inline: auto; }
+.rain-carousel__indicators button { display: grid; place-items: center; flex-shrink: 0; width: 24px; height: 32px; padding: 0; border: 0; border-radius: var(--rain-radius-full); background: transparent; cursor: pointer; }
+.rain-carousel__indicators button span { display: block; width: 18px; height: 4px; border-radius: var(--rain-radius-full); background: var(--rain-local-carousel-indicator-rest); transition: width 180ms,height 180ms,background 180ms; }
+.rain-carousel__indicators button[aria-current] { width: 34px; }
+.rain-carousel__indicators button[aria-current] span { width: 28px; background: var(--rain-local-carousel-control-ink); }
+.rain-carousel__indicators button:hover span { background: var(--rain-local-carousel-control-ink); }
+.rain-carousel__indicators button:active span { background: var(--rain-local-carousel-control-strong); }
+.rain-carousel__controls:is([data-indicator-placement="start"],[data-indicator-placement="end"]) .rain-carousel__indicators { flex-direction: column; }
+.rain-carousel__controls:is([data-indicator-placement="start"],[data-indicator-placement="end"]) .rain-carousel__indicators button { width: 32px; height: 24px; }
+.rain-carousel__controls:is([data-indicator-placement="start"],[data-indicator-placement="end"]) .rain-carousel__indicators button span { width: 4px; height: 18px; }
+.rain-carousel__controls:is([data-indicator-placement="start"],[data-indicator-placement="end"]) .rain-carousel__indicators button[aria-current] { height: 34px; }
+.rain-carousel__controls:is([data-indicator-placement="start"],[data-indicator-placement="end"]) .rain-carousel__indicators button[aria-current] span { height: 28px; }
+.rain-carousel__controls[data-layout="overlay"] .rain-carousel__indicators { position: absolute; padding-inline: 12px; border-radius: var(--rain-radius-full); background: color-mix(in srgb, var(--rain-local-carousel-control-white) 72%, transparent); backdrop-filter: blur(12px); }
+.rain-carousel__controls[data-layout="overlay"][data-indicator-placement="top"] .rain-carousel__indicators { inset-block-start: 12px; inset-inline-start: 50%; transform: translateX(-50%); }
+.rain-carousel__controls[data-layout="overlay"][data-indicator-placement="bottom"] .rain-carousel__indicators { inset-block-end: 12px; inset-inline-start: 50%; transform: translateX(-50%); }
+.rain-carousel:dir(rtl) .rain-carousel__controls[data-layout="overlay"]:is([data-indicator-placement="top"],[data-indicator-placement="bottom"]) .rain-carousel__indicators { transform: translateX(50%); }
+.rain-carousel__controls[data-layout="overlay"]:is([data-indicator-placement="start"],[data-indicator-placement="end"]) .rain-carousel__indicators { inset-block-start: 50%; transform: translateY(-50%); padding: 12px 0; }
+.rain-carousel__controls[data-layout="overlay"][data-indicator-placement="start"] .rain-carousel__indicators { inset-inline-start: 18px; }
+.rain-carousel__controls[data-layout="overlay"][data-indicator-placement="end"] .rain-carousel__indicators { inset-inline-end: 18px; }
+.rain-carousel__controls[data-layout="overlay"][data-orientation="horizontal"]:is([data-indicator-placement="start"],[data-indicator-placement="end"]) .rain-carousel__navigation { inset-block: auto 16px; transform: none; }
+.rain-carousel__controls[data-layout="overlay"][data-orientation="horizontal"][data-indicator-placement="start"] .rain-carousel__previous { inset-inline-start: auto; inset-inline-end: 58px; }
+.rain-carousel__controls[data-layout="overlay"][data-orientation="horizontal"][data-indicator-placement="end"] .rain-carousel__next { inset-inline-end: auto; inset-inline-start: 58px; }
+.rain-carousel__indicators[data-mode="autoplay"] button[aria-current] span { position: relative; overflow: hidden; background: var(--rain-local-carousel-indicator-rest); }
+.rain-carousel__indicators[data-mode="autoplay"] button[aria-current] span::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--rain-local-carousel-control-ink); transform: scaleX(var(--rain-carousel-progress,0)); transform-origin: left; }
+.rain-carousel__controls:is([data-indicator-placement="start"],[data-indicator-placement="end"]) .rain-carousel__indicators[data-mode="autoplay"] button[aria-current] span::after { transform: scaleY(var(--rain-carousel-progress,0)); transform-origin: top; }
+@media (prefers-reduced-motion: reduce) { .rain-carousel__indicators button span, .rain-carousel__arrow, .rain-carousel__playback { transition: none; } }
+@media (forced-colors: active) {
+  .rain-carousel:focus-visible, .rain-carousel :is(.rain-carousel__arrow,.rain-carousel__playback,.rain-carousel__indicators button):focus-visible { outline-color: Highlight; box-shadow: none; }
+  .rain-carousel .rain-carousel__arrow, .rain-carousel .rain-carousel__playback { color: ButtonText; background: ButtonFace; border-color: ButtonText; }
+  .rain-carousel .rain-carousel__arrow[aria-disabled="true"], .rain-carousel .rain-carousel__playback[aria-disabled="true"] { color: GrayText; border-color: GrayText; }
+  .rain-carousel__indicators button span { background: GrayText; forced-color-adjust: none; }
+  .rain-carousel__indicators button[aria-current] span, .rain-carousel__indicators[data-mode="autoplay"] button[aria-current] span::after { background: Highlight; }
+}

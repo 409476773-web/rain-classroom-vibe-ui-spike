@@ -1,0 +1,36 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+stderr | apps/playground/src/docs/components/chart-live-lifecycle.test.tsx > default live pause and replay preserve the same chart, points and frozen window
+You are trying to animate opacity from "undefined" to "1". "undefined" is not an animatable value.. For more information and steps for solving, visit https://motion.dev/troubleshooting/value-not-animatable
+
+ ❯ apps/playground/src/docs/components/chart-live-lifecycle.test.tsx (3 tests | 1 failed) 510ms
+   × default live pause and replay preserve the same chart, points and frozen window 257ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-live-lifecycle.test.tsx > default live pause and replay preserve the same chart, points and frozen window
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ apps/playground/src/docs/components/chart-live-lifecycle.test.tsx:62:30
+     60|   expect(rows(view.container)).toBe(priorRows);
+     61|   expect(path(view.container)).toBe(priorPath);
+     62|   expect(vi.getTimerCount()).toBe(0);
+       |                              ^
+     63|   expect(clockFrames()).toBe(0);
+     64|   fireEvent.click(within(view.container).getByRole("button", { name: "…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 15 passed (16)
+   Start at  15:01:24
+   Duration  4.39s (transform 1.75s, setup 418ms, import 2.10s, tests 4.34s, environment 1.34s)
+

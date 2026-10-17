@@ -1,0 +1,440 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: select.spec.ts >> formal popups escape clipping, inherit themes and retain keyboard focus within viewport bounds
+- Location: tests/e2e/select.spec.ts:119:1
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- main [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - link "返回组件总览" [ref=e6] [cursor=pointer]:
+        - /url: "#components"
+      - heading "Select 选择器" [level=1] [ref=e8]
+      - paragraph [ref=e9]: 单选、多选和搜索共用一套字段。默认带清空、键盘操作与完整选中信息。
+      - group "预览主题" [ref=e10]:
+        - button "浅色" [ref=e11] [cursor=pointer]
+        - button "深色" [pressed] [ref=e13] [cursor=pointer]
+        - button "切换父背景" [ref=e15] [cursor=pointer]
+    - region [ref=e17]:
+      - heading "四种选择方式" [level=2] [ref=e18]
+      - generic [ref=e19]:
+        - generic [ref=e20]:
+          - generic [ref=e21]: 普通单选
+          - combobox "普通单选" [ref=e24] [cursor=pointer]:
+            - generic [ref=e25]: 请选择
+          - textbox [ref=e31]
+        - generic [ref=e32]:
+          - generic [ref=e33]: 普通多选
+          - generic [ref=e34]:
+            - generic [ref=e35]:
+              - combobox "普通多选" [ref=e36] [cursor=pointer]:
+                - generic "视传 2401、数媒 2401" [ref=e38]
+              - button "清除普通多选" [ref=e41] [cursor=pointer]
+            - generic [ref=e47]: 已选：视传 2401、数媒 2401
+          - textbox [ref=e48]
+        - generic [ref=e49]:
+          - generic [ref=e50]: 搜索单选
+          - combobox "搜索单选" [ref=e53] [cursor=pointer]:
+            - generic [ref=e54]: 请选择
+          - textbox [ref=e60]
+        - generic [ref=e61]:
+          - generic [ref=e62]: 搜索多选
+          - generic [ref=e63]:
+            - generic [ref=e64]:
+              - combobox "搜索多选" [active] [ref=e65] [cursor=pointer]:
+                - generic "视传 2401" [ref=e67]
+              - button "清除搜索多选" [ref=e70] [cursor=pointer]
+            - generic [ref=e76]: 已选：视传 2401
+          - textbox [ref=e77]
+    - region [ref=e78]:
+      - heading "框内固定标题" [level=2] [ref=e79]
+      - paragraph [ref=e80]: 筛选栏把标题和选中内容放在同一行。多选使用单行摘要或数量，超出宽度时保留选中数量；搜索仍在展开面板中进行。
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - generic "教学班" [ref=e85]
+              - combobox "教学班" [ref=e87] [cursor=pointer]:
+                - generic "视传 2401" [ref=e89]
+              - button "清除教学班" [ref=e91] [cursor=pointer]
+            - generic [ref=e97]: 已选：视传 2401
+          - textbox [ref=e98]: a
+        - generic [ref=e99]:
+          - generic [ref=e100]:
+            - generic [ref=e101]:
+              - generic "授课范围" [ref=e102]
+              - combobox "授课范围" [ref=e104] [cursor=pointer]:
+                - generic "视传 2401、数媒 2401、工业设计 2401" [ref=e106]:
+                  - generic [ref=e107]: 视传 2401、数媒 2401
+                  - generic [ref=e108]: "+1"
+              - button "清除授课范围" [ref=e110] [cursor=pointer]
+            - generic [ref=e116]: 已选：视传 2401、数媒 2401、工业设计 2401
+          - textbox [ref=e117]
+      - generic [ref=e118]: "<FormItem label=\"教学班\" labelPosition=\"inside\"> <Select size={32} options={options} /> </FormItem>"
+    - region [ref=e119]:
+      - heading "Input 与 Select 外观对照" [level=2] [ref=e120]
+      - paragraph [ref=e121]: 下方 Input 用于并排比较描边、填充与底线；单位、内部按钮和搜索等完整用法统一在 Input 详情页。
+      - link "查看 Input 全部用法" [ref=e122] [cursor=pointer]:
+        - /url: "#input"
+      - generic [ref=e124]:
+        - generic [ref=e125]:
+          - heading "描边" [level=3] [ref=e126]
+          - generic [ref=e127]:
+            - generic [ref=e128]: 描边输入
+            - textbox "描边输入" [ref=e130]: 人工智能导论
+          - generic [ref=e132]:
+            - generic [ref=e133]: 描边选择
+            - generic [ref=e134]:
+              - generic [ref=e135]:
+                - combobox "描边选择" [ref=e136] [cursor=pointer]:
+                  - generic "视传 2401" [ref=e138]
+                - button "清除描边选择" [ref=e140] [cursor=pointer]
+              - generic [ref=e146]: 已选：视传 2401
+            - textbox [ref=e147]: a
+          - generic [ref=e148]:
+            - generic [ref=e149]: 描边空值
+            - combobox "描边空值" [ref=e152] [cursor=pointer]:
+              - generic [ref=e153]: 请选择
+            - textbox [ref=e159]
+          - generic [ref=e160]:
+            - generic [ref=e161]: 描边警告
+            - generic [ref=e162]:
+              - generic [ref=e163]:
+                - combobox "描边警告" [ref=e164] [cursor=pointer]:
+                  - generic "视传 2401" [ref=e166]
+                - button "清除描边警告" [ref=e168] [cursor=pointer]
+              - generic [ref=e174]: 已选：视传 2401
+            - textbox [ref=e175]: a
+            - generic [ref=e176]: 请核对授课范围
+          - generic [ref=e177]:
+            - generic [ref=e178]:
+              - text: 描边错误
+              - generic [ref=e179]: "*"
+            - combobox "描边错误" [invalid] [ref=e182] [cursor=pointer]:
+              - generic [ref=e183]: 请选择
+            - textbox [ref=e189]
+            - generic [ref=e190]: 请选择有效教学班
+          - generic [ref=e191]:
+            - generic [ref=e192]: 描边只读
+            - generic [ref=e193]:
+              - combobox "描边只读" [disabled] [ref=e195]:
+                - generic "视传 2401" [ref=e197]
+              - generic [ref=e201]: 已选：视传 2401
+            - textbox [ref=e202]: a
+          - generic [ref=e203]:
+            - generic [ref=e204]: 描边禁用
+            - generic [ref=e205]:
+              - combobox "描边禁用" [disabled] [ref=e207]:
+                - generic "视传 2401" [ref=e209]
+              - generic [ref=e213]: 已选：视传 2401
+            - textbox [disabled] [ref=e214]: a
+        - generic [ref=e215]:
+          - heading "填充" [level=3] [ref=e216]
+          - generic [ref=e217]:
+            - generic [ref=e218]: 填充输入
+            - textbox "填充输入" [ref=e220]: 人工智能导论
+          - generic [ref=e222]:
+            - generic [ref=e223]: 填充选择
+            - generic [ref=e224]:
+              - generic [ref=e225]:
+                - combobox "填充选择" [ref=e226] [cursor=pointer]:
+                  - generic "视传 2401" [ref=e228]
+                - button "清除填充选择" [ref=e230] [cursor=pointer]
+              - generic [ref=e236]: 已选：视传 2401
+            - textbox [ref=e237]: a
+          - generic [ref=e238]:
+            - generic [ref=e239]: 填充空值
+            - combobox "填充空值" [ref=e242] [cursor=pointer]:
+              - generic [ref=e243]: 请选择
+            - textbox [ref=e249]
+          - generic [ref=e250]:
+            - generic [ref=e251]: 填充警告
+            - generic [ref=e252]:
+              - generic [ref=e253]:
+                - combobox "填充警告" [ref=e254] [cursor=pointer]:
+                  - generic "视传 2401" [ref=e256]
+                - button "清除填充警告" [ref=e258] [cursor=pointer]
+              - generic [ref=e264]: 已选：视传 2401
+            - textbox [ref=e265]: a
+            - generic [ref=e266]: 请核对授课范围
+          - generic [ref=e267]:
+            - generic [ref=e268]:
+              - text: 填充错误
+              - generic [ref=e269]: "*"
+            - combobox "填充错误" [invalid] [ref=e272] [cursor=pointer]:
+              - generic [ref=e273]: 请选择
+            - textbox [ref=e279]
+            - generic [ref=e280]: 请选择有效教学班
+          - generic [ref=e281]:
+            - generic [ref=e282]: 填充只读
+            - generic [ref=e283]:
+              - combobox "填充只读" [disabled] [ref=e285]:
+                - generic "视传 2401" [ref=e287]
+              - generic [ref=e291]: 已选：视传 2401
+            - textbox [ref=e292]: a
+          - generic [ref=e293]:
+            - generic [ref=e294]: 填充禁用
+            - generic [ref=e295]:
+              - combobox "填充禁用" [disabled] [ref=e297]:
+                - generic "视传 2401" [ref=e299]
+              - generic [ref=e303]: 已选：视传 2401
+            - textbox [disabled] [ref=e304]: a
+        - generic [ref=e305]:
+          - heading "底线" [level=3] [ref=e306]
+          - generic [ref=e307]:
+            - generic [ref=e308]: 底线输入
+            - textbox "底线输入" [ref=e310]: 人工智能导论
+          - generic [ref=e312]:
+            - generic [ref=e313]: 底线选择
+            - generic [ref=e314]:
+              - generic [ref=e315]:
+                - combobox "底线选择" [ref=e316] [cursor=pointer]:
+                  - generic "视传 2401" [ref=e318]
+                - button "清除底线选择" [ref=e320] [cursor=pointer]
+              - generic [ref=e326]: 已选：视传 2401
+            - textbox [ref=e327]: a
+          - generic [ref=e328]:
+            - generic [ref=e329]: 底线空值
+            - combobox "底线空值" [ref=e332] [cursor=pointer]:
+              - generic [ref=e333]: 请选择
+            - textbox [ref=e339]
+          - generic [ref=e340]:
+            - generic [ref=e341]: 底线警告
+            - generic [ref=e342]:
+              - generic [ref=e343]:
+                - combobox "底线警告" [ref=e344] [cursor=pointer]:
+                  - generic "视传 2401" [ref=e346]
+                - button "清除底线警告" [ref=e348] [cursor=pointer]
+              - generic [ref=e354]: 已选：视传 2401
+            - textbox [ref=e355]: a
+            - generic [ref=e356]: 请核对授课范围
+          - generic [ref=e357]:
+            - generic [ref=e358]:
+              - text: 底线错误
+              - generic [ref=e359]: "*"
+            - combobox "底线错误" [invalid] [ref=e362] [cursor=pointer]:
+              - generic [ref=e363]: 请选择
+            - textbox [ref=e369]
+            - generic [ref=e370]: 请选择有效教学班
+          - generic [ref=e371]:
+            - generic [ref=e372]: 底线只读
+            - generic [ref=e373]:
+              - combobox "底线只读" [disabled] [ref=e375]:
+                - generic "视传 2401" [ref=e377]
+              - generic [ref=e381]: 已选：视传 2401
+            - textbox [ref=e382]: a
+          - generic [ref=e383]:
+            - generic [ref=e384]: 底线禁用
+            - generic [ref=e385]:
+              - combobox "底线禁用" [disabled] [ref=e387]:
+                - generic "视传 2401" [ref=e389]
+              - generic [ref=e393]: 已选：视传 2401
+            - textbox [disabled] [ref=e394]: a
+    - region [ref=e395]:
+      - heading "尺寸、摘要与标签" [level=2] [ref=e396]
+      - generic [ref=e397]:
+        - generic [ref=e398]:
+          - generic [ref=e399]: 24px 摘要
+          - generic [ref=e400]:
+            - generic [ref=e401]:
+              - combobox "24px 摘要" [ref=e402] [cursor=pointer]:
+                - generic "视传 2401、数媒 2401、工业设计 2401" [ref=e404]:
+                  - generic [ref=e405]: 视传 2401、数媒 2401
+                  - generic [ref=e406]: "+1"
+              - button "清除24px 摘要" [ref=e408] [cursor=pointer]
+            - generic [ref=e414]: 已选：视传 2401、数媒 2401、工业设计 2401
+          - textbox [ref=e415]
+        - generic [ref=e416]:
+          - generic [ref=e417]: 28px 摘要
+          - generic [ref=e418]:
+            - generic [ref=e419]:
+              - combobox "28px 摘要" [ref=e420] [cursor=pointer]:
+                - generic "视传 2401、数媒 2401、工业设计 2401" [ref=e422]:
+                  - generic [ref=e423]: 视传 2401、数媒 2401
+                  - generic [ref=e424]: "+1"
+              - button "清除28px 摘要" [ref=e426] [cursor=pointer]
+            - generic [ref=e432]: 已选：视传 2401、数媒 2401、工业设计 2401
+          - textbox [ref=e433]
+        - generic [ref=e434]:
+          - generic [ref=e435]: 32px 摘要
+          - generic [ref=e436]:
+            - generic [ref=e437]:
+              - combobox "32px 摘要" [ref=e438] [cursor=pointer]:
+                - generic "视传 2401、数媒 2401、工业设计 2401" [ref=e440]:
+                  - generic [ref=e441]: 视传 2401、数媒 2401
+                  - generic [ref=e442]: "+1"
+              - button "清除32px 摘要" [ref=e444] [cursor=pointer]
+            - generic [ref=e450]: 已选：视传 2401、数媒 2401、工业设计 2401
+          - textbox [ref=e451]
+        - generic [ref=e452]:
+          - generic [ref=e453]: 36px 摘要
+          - generic [ref=e454]:
+            - generic [ref=e455]:
+              - combobox "36px 摘要" [ref=e456] [cursor=pointer]:
+                - generic "视传 2401、数媒 2401、工业设计 2401" [ref=e458]:
+                  - generic [ref=e459]: 视传 2401、数媒 2401
+                  - generic [ref=e460]: "+1"
+              - button "清除36px 摘要" [ref=e462] [cursor=pointer]
+            - generic [ref=e468]: 已选：视传 2401、数媒 2401、工业设计 2401
+          - textbox [ref=e469]
+        - generic [ref=e470]:
+          - generic [ref=e471]: 32px 标签
+          - generic [ref=e472]:
+            - generic [ref=e473]:
+              - generic [ref=e474]:
+                - generic "视传 2401" [ref=e476]:
+                  - button "移除 视传 2401" [ref=e479] [cursor=pointer]
+                - generic "数媒 2401" [ref=e483]:
+                  - button "移除 数媒 2401" [ref=e486] [cursor=pointer]
+              - combobox "32px 标签" [ref=e489] [cursor=pointer]
+              - button "清除32px 标签" [ref=e494] [cursor=pointer]
+            - generic [ref=e497]: 已选：视传 2401、数媒 2401
+          - textbox [ref=e498]
+        - generic [ref=e499]:
+          - generic [ref=e500]: 36px 标签
+          - generic [ref=e501]:
+            - generic [ref=e502]:
+              - generic [ref=e503]:
+                - generic "视传 2401" [ref=e505]:
+                  - button "移除 视传 2401" [ref=e508] [cursor=pointer]
+                - generic "数媒 2401" [ref=e512]:
+                  - button "移除 数媒 2401" [ref=e515] [cursor=pointer]
+              - combobox "36px 标签" [ref=e518] [cursor=pointer]
+              - button "清除36px 标签" [ref=e523] [cursor=pointer]
+            - generic [ref=e526]: 已选：视传 2401、数媒 2401
+          - textbox [ref=e527]
+        - generic [ref=e528]:
+          - generic [ref=e529]: 长名称摘要
+          - generic [ref=e530]:
+            - generic [ref=e531]:
+              - combobox "长名称摘要" [ref=e532] [cursor=pointer]:
+                - generic "跨学院人工智能与数字媒体设计联合实验教学班、数媒 2401、工业设计 2401" [ref=e534]:
+                  - generic [ref=e535]: 跨学院人工智能与数字媒体设计联合实验教学班、数媒 2401
+                  - generic [ref=e536]: "+1"
+              - button "清除长名称摘要" [ref=e538] [cursor=pointer]
+            - generic [ref=e544]: 已选：跨学院人工智能与数字媒体设计联合实验教学班、数媒 2401、工业设计 2401
+          - textbox [ref=e545]
+        - generic [ref=e546]:
+          - generic [ref=e547]: 长名称标签
+          - generic [ref=e548]:
+            - generic [ref=e549]:
+              - generic [ref=e550]:
+                - generic "跨学院人工智能与数字媒体设计联合实验教学班" [ref=e552]:
+                  - button "移除 跨学院人工智能与数字媒体设计联合实验教学班" [ref=e555] [cursor=pointer]
+                - generic "数媒 2401" [ref=e559]:
+                  - button "移除 数媒 2401" [ref=e562] [cursor=pointer]
+                - generic "工业设计 2401" [ref=e566]:
+                  - button "移除 工业设计 2401" [ref=e569] [cursor=pointer]
+              - combobox "长名称标签" [ref=e572] [cursor=pointer]
+              - button "清除长名称标签" [ref=e577] [cursor=pointer]
+            - generic [ref=e580]: 已选：跨学院人工智能与数字媒体设计联合实验教学班、数媒 2401、工业设计 2401
+          - textbox [ref=e581]
+        - generic [ref=e582]:
+          - generic [ref=e583]: 仅显示数量
+          - generic [ref=e584]:
+            - generic [ref=e585]:
+              - combobox "仅显示数量" [ref=e586] [cursor=pointer]:
+                - generic "视传 2401、数媒 2401、工业设计 2401" [ref=e588]: 已选 3 项
+              - button "清除仅显示数量" [ref=e591] [cursor=pointer]
+            - generic [ref=e597]: 已选：视传 2401、数媒 2401、工业设计 2401
+          - textbox [ref=e598]
+        - generic [ref=e599]:
+          - generic [ref=e600]: 最多选择两项
+          - generic [ref=e601]:
+            - generic [ref=e602]:
+              - combobox "最多选择两项" [ref=e603] [cursor=pointer]:
+                - generic "视传 2401、数媒 2401" [ref=e605]
+              - button "清除最多选择两项" [ref=e608] [cursor=pointer]
+            - generic [ref=e614]: 已选：视传 2401、数媒 2401
+          - textbox [ref=e615]
+        - generic [ref=e617]:
+          - generic [ref=e618]: 紧凑区域默认
+          - generic [ref=e619]:
+            - generic [ref=e620]:
+              - combobox "紧凑区域默认" [ref=e621] [cursor=pointer]:
+                - generic "视传 2401" [ref=e623]
+              - button "清除紧凑区域默认" [ref=e625] [cursor=pointer]
+            - generic [ref=e631]: 已选：视传 2401
+          - textbox [ref=e632]: a
+        - generic [ref=e633]:
+          - generic [ref=e634]: 资料尚未返回
+          - generic [ref=e635]:
+            - generic [ref=e636]:
+              - combobox "资料尚未返回" [ref=e637] [cursor=pointer]:
+                - generic "waiting-id" [ref=e639]
+              - button "清除资料尚未返回" [ref=e642] [cursor=pointer]
+            - generic [ref=e648]: 已选：waiting-id
+          - textbox [ref=e649]
+    - region [ref=e650]:
+      - heading "候选数据与表单草稿" [level=2] [ref=e651]
+      - generic [ref=e652]:
+        - generic [ref=e654]:
+          - generic [ref=e655]: 远程教学班
+          - generic [ref=e656]:
+            - generic [ref=e657]:
+              - combobox "远程教学班" [ref=e658] [cursor=pointer]:
+                - generic "视传 2401" [ref=e660]
+              - button "清除远程教学班" [ref=e663] [cursor=pointer]
+            - generic [ref=e669]: 已选：视传 2401
+          - textbox [ref=e670]
+          - generic [ref=e671]: 模拟数据：A 较慢，B 较快；搜索“失败”可体验重试。
+        - generic [ref=e672]:
+          - generic [ref=e673]:
+            - generic [ref=e674]: 课程教学班
+            - generic [ref=e675]:
+              - generic [ref=e676]:
+                - combobox "课程教学班" [ref=e677] [cursor=pointer]:
+                  - generic "视传 2401" [ref=e679]
+                - button "清除课程教学班" [ref=e682] [cursor=pointer]
+              - generic [ref=e688]: 已选：视传 2401
+            - textbox [ref=e689]
+            - generic [ref=e690]: 选择先进入当前表单草稿，保存后更新记录。
+          - generic [ref=e691]:
+            - button "保存修改" [ref=e692] [cursor=pointer]
+            - button "取消修改" [ref=e694] [cursor=pointer]
+          - paragraph [ref=e696]: 已保存：视传 2401
+        - generic [ref=e697]:
+          - generic [ref=e698]: 暂无选项
+          - combobox "暂无选项" [ref=e701] [cursor=pointer]:
+            - generic [ref=e702]: 请选择
+          - textbox [ref=e708]
+        - generic [ref=e709]:
+          - generic [ref=e710]: 正在加载
+          - generic [ref=e711]:
+            - generic [ref=e712]:
+              - combobox "正在加载" [ref=e713] [cursor=pointer]:
+                - generic "视传 2401" [ref=e715]
+              - button "清除正在加载" [ref=e717] [cursor=pointer]
+            - generic [ref=e723]: 已选：视传 2401
+          - textbox [ref=e724]: a
+    - region [ref=e725]:
+      - heading "独立浅色区域" [level=2] [ref=e726]
+      - generic [ref=e727]:
+        - generic [ref=e728]: 嵌套浅色
+        - generic [ref=e729]:
+          - generic [ref=e730]:
+            - generic [ref=e731]:
+              - generic "视传 2401" [ref=e733]:
+                - button "移除 视传 2401" [ref=e736] [cursor=pointer]
+              - generic "数媒 2401" [ref=e740]:
+                - button "移除 数媒 2401" [ref=e743] [cursor=pointer]
+            - combobox "嵌套浅色" [ref=e746] [cursor=pointer]
+            - button "清除嵌套浅色" [ref=e751] [cursor=pointer]
+          - generic [ref=e754]: 已选：视传 2401、数媒 2401
+        - textbox [ref=e755]
+    - paragraph [ref=e756]: 当前为组件检查版，选项区已接入正式浮层、菜单内容与 Tag。当前真实组件视觉已完成人工验收；颜色与真实设备核验单独保留。
+```

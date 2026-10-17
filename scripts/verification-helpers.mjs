@@ -1,4 +1,9 @@
 import { createHash } from "node:crypto";
+import { existsSync, lstatSync, readFileSync, realpathSync } from "node:fs";
+import { join, resolve } from "node:path";
+import { readG6SourceBindings, g6Evidence } from "./g6-governance.mjs";
+import { readG1G6CloseoutBindings, restoreG1G6CloseoutPhase } from "./g1-g6-closeout-governance.mjs";
+import { readGithubReviewBindings } from "./github-review-successor.mjs";
 
 // Preserve RN-06/RN-08 historical hashes while accepting only the exact upstream
 // width implementation approved on 2026-09-14. See the table-card-parity plan.
@@ -584,6 +589,87 @@ function exactRecord(actual, expected) {
   return actual && typeof actual === "object" && !Array.isArray(actual)
     && Object.keys(actual).length === Object.keys(expected).length
     && Object.entries(expected).every(([key, value]) => JSON.stringify(actual[key]) === JSON.stringify(value));
+}
+
+// A synchronous read-only verification command owns one traversal. Imported APIs
+// still start fresh on every call, including after a mutated or failed fixture.
+const sourceBindingCommand = ["verify-workspace.mjs", "verify-evidence.mjs", "verify-boundaries.mjs", "verify-tailwind-b2.mjs", "verify-token-foundations.mjs"]
+  .some(file => process.argv[1] && existsSync(process.argv[1]) && existsSync(join(process.cwd(), "scripts", file))
+    && realpathSync(process.argv[1]) === realpathSync(join(process.cwd(), "scripts", file)));
+let sourceBindingTraversal = sourceBindingCommand ? new Map() : null;
+function verifySourceBindingTraversal(name, root, status, verify, cloneResult = true) {
+  const owner = sourceBindingTraversal === null;
+  if (owner) sourceBindingTraversal = new Map();
+  try {
+    const key = JSON.stringify([name, resolve(root), status]);
+    if (!sourceBindingTraversal.has(key)) sourceBindingTraversal.set(key, verify());
+    const record = sourceBindingTraversal.get(key);
+    return cloneResult ? structuredClone(record) : record;
+  } finally {
+    // A later call must re-read every source, including after a failed or mutated fixture.
+    if (owner) sourceBindingTraversal = null;
+  }
+}
+
+/**
+ * @template T
+ * @param {string} root
+ * @param {() => T} verify
+ * @returns {T}
+ */
+export function withSourceBindingTraversal(root, verify) {
+  const owner = sourceBindingTraversal === null;
+  if (owner) sourceBindingTraversal = new Map();
+  try {
+    // Operations always run; only the individual source readers memoize records.
+    return verify();
+  } finally {
+    if (owner) sourceBindingTraversal = null;
+  }
+}
+
+export function getQuestionnaireCloseoutRoot(root) {
+  return getG6SourceBindings(root)?.closeoutSuccessor ? join(root, "evidence/runtime/g1-g6-closeout-2026-10-17/run-01/governance/questionnaire-predecessor") : root;
+}
+
+// Only scalar/source-byte getters may borrow this verified record inside a
+// read-only traversal. Public record readers always return an isolated clone.
+function getG6SourceBindingView(root, status) {
+  return verifySourceBindingTraversal("getG6SourceBindings", root, status, () => readGithubReviewBindings(root, status, parseYamlSubset, (view, previousStatus, parsePhase) => readG1G6CloseoutBindings(view, previousStatus, parsePhase, readG6SourceBindings)) ?? readG1G6CloseoutBindings(root, status, parseYamlSubset, readG6SourceBindings) ?? readG6SourceBindings(root, status, parseYamlSubset), false);
+}
+
+export function getG6SourceBindings(root, status) {
+  return structuredClone(getG6SourceBindingView(root, status));
+}
+
+export function hasG6ComponentsAuthorization(status) {
+  try {
+    const record = getG6SourceBindings(process.cwd());
+    return Boolean(record && exactRecord(status?.componentRefinements?.g6Components, record.phase));
+  }
+  catch { return false; }
+}
+
+export function hasDrawerRefinementAuthorization(status) {
+  try {
+    const record = getG6SourceBindings(process.cwd());
+    return Boolean(record?.drawerRefinement && exactRecord(status?.componentRefinements?.drawerRefinement, record.drawerRefinement.phase));
+  } catch { return false; }
+}
+
+export function hasCarouselUpgradeAuthorization(status) {
+  try {
+    const record = getG6SourceBindings(process.cwd());
+    return Boolean(record?.carouselUpgrade && exactRecord(status?.componentRefinements?.carouselUpgrade, record.carouselUpgrade.phase));
+  } catch { return false; }
+}
+
+export function getG6PreviousSource(root, file) {
+  const record = getG6SourceBindingView(root);
+  if (record?.sourceFiles[file]?.beforeSnapshot && record.sourceFiles[file].before) return readFileSync(join(root, record.sourceFiles[file].beforeSnapshot), "utf8");
+  if (record?.sourceFiles[file]?.before) return readFileSync(join(root, g6Evidence + "before/" + file), "utf8");
+  const observed = record?.concurrentSourceObservations[file] ?? record?.concurrentDocumentObservations[file];
+  return observed ? readFileSync(join(root, observed.beforeSnapshot), "utf8") : null;
 }
 
 export const tokenFoundationsV1AllowedActions = [
@@ -1484,6 +1570,44 @@ export function hasRadioSc01Authorization(status) {
     });
 }
 
+export const switchSc01Files = {
+  foundations: [],
+  ui: ["packages/ui/src/switch/switch.tsx", "packages/ui/src/switch/switch.test.tsx", "packages/ui/src/switch/switch.styles.test.ts"],
+  application: ["switch-page.tsx"].map((name) => `apps/playground/src/docs/components/${name}`),
+  workspace: [],
+  documents: ["docs/plans/2026-09-20-switch-implementation.md", "docs/adr/0009-native-switch.md", "manifests/ui/switch.yaml", "registry/switch.json"],
+  evidence: ["verification.md"].map((name) => `evidence/runtime/switch/${name}`),
+};
+
+export function hasSwitchSc01Authorization(status) {
+  const entry = status?.componentRefinements?.switchSc01;
+  const accepted = entry?.humanGate === "accepted";
+  return Boolean(entry) && status?.currentPhase?.id === "token-foundations-v1"
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "failed", "passed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed")
+    && ["awaiting_human", "accepted"].includes(entry.humanGate)
+    && (!accepted || (entry.implementation === "completed" && Boolean(exactRecord(entry.humanGateDecision, {
+      acceptedAt: "2026-09-20", decisionSource: "explicit-user-confirmation", userStatement: "确定，继续",
+      scope: "switch-runtime-visual-only", evidence: "../evidence/runtime/switch/verification.md",
+    }))))
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-20", decisionSource: "explicit-user-start-switch-construction",
+      userStatement: "开始建设", scope: "switch-three-size-native-form-and-loading-control",
+      plan: "../docs/plans/2026-09-20-switch-implementation.md", implementation: entry.implementation,
+      automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: entry.humanGate, ...(accepted ? { humanGateDecision: entry.humanGateDecision } : {}), contrastAcceptance: "not-granted",
+      doesNotAuthorize: ["global-token-value-changes-or-new-dependencies", "figma-publication-business-migration-or-git"],
+    });
+}
+
+export function isSwitchImport(status, filePath, specifier) {
+  return hasSwitchSc01Authorization(status)
+    && filePath === "packages/ui/src/switch/switch.tsx"
+    && specifier === "@base-ui/react/switch";
+}
+
 export const checkboxSc01Files = {
   foundations: [],
   ui: ["checkbox.tsx", "checkbox.test.tsx"].map((name) => `packages/ui/src/checkbox/${name}`),
@@ -2009,6 +2133,16 @@ export function hasRn15Authorization(status) {
 
 // Compare current bytes with a named, authorized successor without rewriting the old checksum.
 export function matchesRn15ProtectedSource(file, source, expected, status, transitions) {
+  if (hasTooltipAuthorization(status)) {
+    const additions = {
+      "packages/ui/src/index.ts": '\nexport { Tooltip, type TooltipProps, type TooltipPlacement } from "./tooltip/tooltip";\n',
+      "packages/foundations/src/index.ts": '\nexport * from "./tooltip-token-contract";\n',
+      "packages/foundations/src/tokens.css": "  --rain-tooltip-background: #2F3545;\n  --rain-tooltip-foreground: var(--rain-color-text-inverse);\n  --rain-tooltip-padding-block: 7px;\n  --rain-tooltip-arrow-width: 14px;\n  --rain-tooltip-arrow-height: 6px;\n  --rain-tooltip-max-width: 250px;\n",
+    };
+    const addition = additions[file];
+    if (addition && source.toString().split(addition).length === 2) source = source.toString().replace(addition, "");
+  }
+
   if (file === "packages/ui/src/input/form-item.tsx" && hasInputNumberAuthorization(status)
     && createHash("sha256").update(source).digest("hex") === "384e95d4804d3e75514df87646c90bf7cfd9f31e8a3aa9861803eef94432fe8a") {
     source = source.toString()
@@ -2039,6 +2173,14 @@ export function matchesRn15ProtectedSource(file, source, expected, status, trans
   }
   if (file === "packages/ui/src/styles.css" && hasSelectRegressionRepairAuthorization(status)) {
     source = source.toString().replace('.rain-select__popup { --rain-popup-width: var(--anchor-width); width: 100%; }', '.rain-select__popup { width: 100%; }');
+  }
+  if (file === "packages/ui/src/dropdown-menu/dropdown-menu.css" && hasTokenFirstV12Authorization(status)) {
+    const layeredPaint = "/* Default paint belongs below caller utilities; portal geometry stays shared. */\n@layer base {\n  .rain-popup {\n    background-color: var(--rain-category-background-neutral-1);\n    border-color: var(--rain-category-border-neutral-3);\n    color: var(--rain-category-text-neutral-3);\n  }\n}\n";
+    const geometry = ".rain-popup {\n  width: var(--rain-popup-width);\n  max-width: min(var(--available-width), calc(100vw - var(--rain-space-8) * 2));\n  max-height: var(--available-height);\n}";
+    const current = source.toString();
+    if (current.split(layeredPaint).length === 2 && current.split(geometry).length === 2) {
+      source = current.replace(layeredPaint, "").replace(geometry, geometry.slice(0, -1) + "  background-color: var(--rain-category-background-neutral-1);\n  border-color: var(--rain-category-border-neutral-3);\n  color: var(--rain-category-text-neutral-3);\n}");
+    }
   }
   source = restoreM2PrototypeEntry(file, source, status);
   const checksum = createHash("sha256").update(source).digest("hex");
@@ -2154,7 +2296,1848 @@ export function hasBmARn09Authorization(status) {
     });
 }
 
+export function hasTokenFirstV12Authorization(status) {
+  const entry = status?.componentRefinements?.tokenFirstV12;
+  if (entry?.humanGate === "accepted") return createHash("sha256").update(JSON.stringify(entry)).digest("hex") === "5cfb5cadc6ca85fa063071c90d4c79e37533b6213f217bcd2ea33ef37925e313";
+  return entry?.authorization === "authorized"
+    && entry.decisionSource === "explicit-user-continue-v1.2-token-first-workpack"
+    && entry.scope === "g0-g1-token-preflight-and-real-compositions"
+    && entry.humanGate === "awaiting_human"
+    && entry.contrastAcceptance === "not-granted"
+    && entry.publication === "unpublished"
+    && entry.git === "no-operations-authorized";
+}
+
+export function hasTokenFirstV12G1NextAuthorization(status) {
+  const entry = status?.componentRefinements?.tokenFirstV12?.g1Next;
+  if (entry?.humanGate === "accepted") return hasTokenFirstV12Authorization(status)
+    && createHash("sha256").update(JSON.stringify(entry)).digest("hex") === "136ec873f3fc629468559d1141984c3109574c6ddd2d10f490d4cea9ab8023f6";
+  return hasTokenFirstV12Authorization(status) && entry?.authorization === "authorized"
+    && entry.decisionSource === "explicit-user-confirm-continue-new-workpack"
+    && entry.scope === "local-tooltip-resizable-only" && entry.dependency === "react-resizable-panels@4.12.4"
+    && entry.humanGate === "awaiting_human" && entry.contrastAcceptance === "not-granted" && entry.publication === "unpublished";
+}
+
+export function hasTokenFirstV12G2Authorization(status) {
+  const entry = status?.componentRefinements?.tokenFirstV12G2;
+  if (entry?.humanGate === "accepted") return createHash("sha256").update(JSON.stringify(entry)).digest("hex") === "1219761f062f944d0bb293130ef2a47eae36b50478b930f6b31f69056046ceb1";
+  return entry?.authorization === "authorized"
+    && entry.authorizedAt === "2026-09-21"
+    && entry.decisionSource === "explicit-user-continue-after-g1-with-shadcn-source-adaptation"
+    && entry.scope === "g2-six-local-source-adapters-and-composition-preview"
+    && entry.plan === "docs/plans/2026-09-21-token-first-g2.md"
+    && entry.evidence === "evidence/runtime/token-first-v12-g2/verification.md"
+    && entry.humanGate === "awaiting_human" && entry.contrastAcceptance === "not-granted"
+    && entry.publication === "unpublished" && entry.git === "no-operations-authorized";
+}
+
+
+// This authorization permits only the current candidate extraction and finite documentation set.
+export const g123PlaygroundRegistrySnapshots = {"g1": "72745982bec8a2f1572ba2426cef2a77a93a5e1eb14b634c95986602978815b3", "g2": "333c776986568f83f5695dddb9e5e5b8e8eb2775d4f610b7fe151098ef4c7019"};
+export const g4ComponentFiles = {
+  application: ["g4-component-pages.tsx", "g4-component-pages.css", "g4-component-pages.test.tsx"].map(file => `apps/playground/src/docs/components/${file}`),
+  ui: ["item", "progress"].flatMap(name => ["tsx", "css", "css.d.ts", "test.tsx"].map(extension => `packages/ui/src/${name}/${name}.${extension}`).concat(`packages/ui/src/${name}/README.md`)),
+  documents: ["typography", "item", "progress"].map(name => `manifests/ui/${name}.yaml`).concat("registry/g4-assets.json"),
+  workspace: ["scripts/g4-components-governance.test.ts", "tests/e2e/g4-components.config.ts", "tests/e2e/g4-components.spec.ts"],
+};
+
+export const g5ComponentFiles = {
+  application: ["g5-component-pages.tsx", "g5-component-pages.css", "g5-component-pages.test.tsx"].map(file => `apps/playground/src/docs/components/${file}`),
+  ui: ["native-select", "combobox", "slider", "calendar", "date-picker", "textarea"].flatMap(name => ["tsx", "css", "css.d.ts", "test.tsx"].map(extension => `packages/ui/src/${name}/${name}.${extension}`)),
+  documents: ["native-select", "combobox", "slider", "calendar", "date-picker", "textarea"].map(name => `manifests/ui/${name}.yaml`).concat("manifests/recipes/input-group.yaml", "registry/g5-assets.json", "registry/textarea.json", "docs/ai/g5-components.md", "docs/plans/2026-10-12-token-first-g5.md"),
+  workspace: ["scripts/verify-g5-components.mjs", "scripts/g5-components-governance.test.ts", "scripts/g5-color-consumers.mjs", "scripts/g5-color-consumers.test.ts", "scripts/verify-g5-consumption.mjs", ...["components", "dates"].flatMap(name => [`tests/e2e/g5-${name}.spec.ts`, `tests/e2e/g5-${name}.config.ts`])],
+};
+
+export function hasG5ComponentsAuthorization(status) {
+  const entry = status?.componentRefinements?.g5Components;
+  return status?.currentPhase?.id === "token-foundations-v1"
+    && ["in-progress", "completed"].includes(entry?.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry?.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry?.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-12", decisionSource: "explicit-user-start-approved-g5-plan", userStatement: "开始执行此计划",
+      scope: "label-field-input-group-reuse-native-select-combobox-slider-calendar-date-picker", workMode: "system-mode", assetIdentity: "registry-candidate",
+      plan: "docs/plans/2026-10-12-token-first-g5.md", evidence: "evidence/runtime/g5-components-2026-10-12/verification.md",
+      sourceLock: "evidence/runtime/g5-components-2026-10-12/source-lock.json", sourceBindings: "evidence/runtime/g5-components-2026-10-12/source-bindings.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "unpublished", figmaWrite: "not-authorized", businessMigration: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+export const g5SourceBindingPaths = [...Object.values(g5ComponentFiles).flat(),
+  "packages/ui/src/index.ts", "packages/ui/package.json", "pnpm-lock.yaml", "apps/playground/src/styles.css",
+  "apps/playground/src/docs/components/component-catalog.tsx", "apps/playground/src/docs/components/component-asset-page.tsx",
+  "docs/ai/README.md", "docs/ai/asset-index.md", "status/current-phase.yaml",
+  "scripts/verification-helpers.mjs", "scripts/verify-boundaries.mjs", "scripts/verify-workspace.mjs", "scripts/verify-token-foundations.mjs",
+  "scripts/g4-page-acceptance.test.ts", "evidence/runtime/g5-components-2026-10-12/before/scripts/g4-page-acceptance.test.ts",
+  "scripts/g4-components-governance.test.ts", "evidence/runtime/g5-components-2026-10-12/before/scripts/g4-components-governance.test.ts",
+  "evidence/runtime/g5-components-2026-10-12/before/apps/playground/src/styles.css", "evidence/runtime/g5-components-2026-10-12/before/docs/ai/asset-index.md",
+];
+
+export const dateTimeOptimizationEvidence = "evidence/runtime/date-time-optimization-2026-10-12/";
+const dateTimeOptimizationBaselineHash = "456882d4f3330b89dad936a55fea06e210413c11516e681f7d32d9add6d899c4";
+export const dateTimeOptimizationFiles = {
+  ui: ["calendar", "date-picker"].flatMap(name => ["tsx", "css", "test.tsx"].map(extension => `packages/ui/src/${name}/${name}.${extension}`)).concat(
+    "packages/ui/src/date-picker/date-picker-time-field.tsx", "packages/ui/src/date-picker/date-picker-time-field.test.tsx",
+    "packages/ui/src/date-picker/date-picker.utils.ts", "packages/ui/src/date-picker/date-picker.utils.test.ts"),
+  application: ["g5-component-pages.tsx", "g5-component-pages.css", "g5-component-pages.test.tsx", "date-time-examples.tsx", "date-time-examples.test.tsx"].map(file => `apps/playground/src/docs/components/${file}`),
+  documents: ["manifests/ui/calendar.yaml", "manifests/ui/date-picker.yaml", "registry/g5-assets.json", "docs/ai/g5-components.md", "docs/ai/asset-index.md",
+    "docs/plans/2026-10-12-date-time-optimization-design.md", "docs/plans/2026-10-12-date-time-optimization-implementation.md"],
+  workspace: ["packages/ui/src/index.ts", "apps/playground/src/styles.css", "status/current-phase.yaml",
+    ...["verification-helpers.mjs", "verify-token-foundations.mjs", "verify-workspace.mjs", "verify-boundaries.mjs",
+      "g5-evidence-paths.mjs", "g5-evidence-paths.test.ts", "g5-date-time-governance.test.ts", "g5-components-governance.test.ts", "g4-page-acceptance.test.ts", "g5-color-consumers.mjs", "g5-color-consumers.test.ts", "verify-g5-components.mjs", "verify-g5-consumption.mjs"].map(file => `scripts/${file}`),
+    ...["g5-dates", "g5-components", "date-time-optimization"].flatMap(name => [`tests/e2e/${name}.spec.ts`, `tests/e2e/${name}.config.ts`])],
+};
+export const dateTimeOptimizationSourcePaths = Object.values(dateTimeOptimizationFiles).flat().concat(dateTimeOptimizationEvidence + "color-consumers.json");
+
+export const datePickerUxRefinementEvidence = "evidence/runtime/date-picker-ux-refinement-2026-10-12/";
+const datePickerUxRefinementBaselineHash = "220ca41441ef67ba9de602d92f5e7c28266145ed729a665d8d2ac5dfe5383e56";
+export const datePickerUxRefinementFiles = {
+  ui: ["date-picker.tsx", "date-picker.css", "date-picker.test.tsx", "date-picker-refinement.test.tsx", "date-picker-time-field.tsx", "date-picker-time-field.test.tsx"].map(file => `packages/ui/src/date-picker/${file}`),
+  application: ["date-time-examples.tsx", "date-time-examples.test.tsx", "g5-component-pages.tsx"].map(file => `apps/playground/src/docs/components/${file}`),
+  documents: ["manifests/ui/date-picker.yaml", "registry/g5-assets.json", "docs/ai/g5-components.md", "docs/ai/asset-index.md", "docs/plans/2026-10-12-date-picker-ux-refinement.md"],
+  workspace: ["status/current-phase.yaml",
+    ...["verification-helpers.mjs", "g5-date-picker-refinement-governance.test.ts", "g5-components-governance.test.ts", "g5-color-consumers.mjs", "g5-color-consumers.test.ts", "verify-g5-components.mjs", "verify-g5-consumption.mjs", "verify-workspace.mjs", "verify-boundaries.mjs", "verify-token-foundations.mjs"].map(file => `scripts/${file}`),
+    ...["g5-dates", "date-time-optimization", "date-picker-refinement"].flatMap(name => [`tests/e2e/${name}.spec.ts`, `tests/e2e/${name}.config.ts`])],
+};
+export const datePickerUxRefinementSourcePaths = Object.values(datePickerUxRefinementFiles).flat().concat(datePickerUxRefinementEvidence + "color-consumers.json");
+
+export const sliderCloseoutEvidence = "evidence/runtime/slider-closeout-2026-10-13/";
+const sliderCloseoutBaselineHash = "1eede733132115b135479c1fa2e0706015552fd8b0a7835e8103c6c48652b69c";
+const sliderCloseoutSupplementHash = "4aa95238a90acafb3e6269c507e01dcc07f29be64961b8316477d271661be57d";
+const sliderCloseoutRetainedObservationHash = "8a4b632da36429d33c6fcd60bb8d57a16cb15ea75775883ecf4cdaff09d78623";
+const sliderCloseoutColorVerifierHash = "30c831e7153cc88c7d2da80becc3eed45ce8a6c5389979c2b8378d3d89e72b0c";
+export const sliderCloseoutSourcePaths = [
+  ...["verification-helpers.mjs", "select-unification-test-fixture.ts", "slider-closeout.test.ts", "slider-refinement-governance.test.ts",
+    "g5-components-governance.test.ts", "date-picker-visual-feedback-governance.test.ts", "select-unification-governance.test.ts",
+    "date-picker-closeout.test.ts", "g4-page-acceptance.test.ts"].map(file => "scripts/" + file),
+  "manifests/ui/slider.yaml", "docs/ai/g5-components.md", "status/current-phase.yaml", "docs/plans/2026-10-13-slider-closeout.md", "scripts/g5-color-consumers.mjs", "docs/ai/asset-index.md", "scripts/g5-color-consumers.test.ts",
+];
+
+export const libraryGovernanceCloseoutEvidence = "evidence/runtime/library-governance-closeout-2026-10-13/";
+const libraryGovernanceCloseoutBaselineHash = "7b5edd664334b92bef85a01af4cc885aa8a869e08be16f719229c5684a09f585";
+const libraryGovernanceCloseoutSupplementHash = "0ec98e0165c46f4634380d23c871c49843bc1ec383fcfbca4281a4448daa2180";
+const libraryGovernanceAdditionalIntakeHash = "121f4cda0e85659fe70505d79da57677320557513413a2881df52b66d4a416c6";
+const libraryGovernanceRegressionIntakeHash = "c49ceb1e96d6ed21ca5af6876a47d122d98efe6804e55e823a695f254c486812";
+const libraryGovernanceFixtureIntakeHash = "a514e25e9fbbe22738049e189fa097d416bfae19ba552cb2c31d7c052160081b";
+const libraryGovernanceHistoricalFixtureIntakeHash = "1ddeab552e35325c54e7269a1583c1f566f71ee57cbf85513f5fc7533a11cd22";
+const libraryGovernanceDocumentationObservationHash = "13a8d827ccf6d3fad0efde2d89b51754c1f2a335c1cb02793910b5d6b64ef452";
+const libraryGovernanceDocumentationSuccessorHash = "13a5f13dfc55af8ea2453dd9a34701087b1251cf5e8fa3ccfab353321da92bf7";
+const libraryGovernanceCloseoutAfterHash = "710eeb9df35e1110c03c2d8f8a6f16fef88cb6884ab4dd1fa4043ef0eed7f734";
+const libraryGovernanceCloseoutHelperHash = "58232be0a2a67dfcb87c399de6882ae5a7c00bccdc932efff898f74e9d0e9c1c";
+export const libraryGovernanceCloseoutSourcePaths = [
+  ...["verification-helpers.mjs", "select-unification-test-fixture.ts", "verify-workspace.mjs", "verify-evidence.mjs", "verify-boundaries.mjs", "verify-tailwind-b2.mjs", "verify-token-foundations.mjs", "token-foundation-outputs.mjs", "library-governance-closeout.test.ts"].map(file => "scripts/" + file),
+  "manifests/contracts/token-foundations-v1.json", "manifests/contracts/tailwind-b2.yaml", "packages/ui/src/tree/tree.css", "apps/playground/src/docs/components/g4-component-pages.css", "docs/plans/2026-10-13-library-governance-closeout.md",
+  "packages/ui/src/charts/choropleth-drilldown.test.tsx", "packages/ui/src/charts/network/network-geometry.test.ts",
+  "apps/playground/src/docs/components/chart-choropleth-drilldown.test.tsx", "apps/playground/src/docs/components/chart-network-geometry.test.ts",
+  ...["slider-closeout.test.ts", "date-picker-closeout.test.ts", "g4-page-acceptance.test.ts", "g5-components-governance.test.ts"].map(file => "scripts/" + file),
+  "tests/node-runtime.d.ts", "apps/prototype/src/scenarios/bm-d/report-a.css",
+  "scripts/generate-icons.mjs",
+  ...["verification-helpers.test.ts", "verify-tailwind-b2.test.ts", "verify-boundaries-navigation.test.ts", "g123-playground-governance.test.ts", "g4-components-governance.test.ts", "date-picker-visual-feedback-governance.test.ts", "layouts-v1.test.ts", "select-color-consumers.test.ts", "navigation-w7-colors.test.ts", "g23-family-refinement-governance.test.ts"].map(file => "scripts/" + file),
+  "scripts/g5-date-time-governance.test.ts", "scripts/g5-date-picker-refinement-governance.test.ts",
+];
+
+export function getLibraryGovernanceCloseoutSourceBindings(root) {
+  return verifySourceBindingTraversal("getLibraryGovernanceCloseoutSourceBindings", root, undefined, () => {
+  const path = libraryGovernanceCloseoutEvidence + "source-bindings.json";
+  if (!existsSync(join(root, path))) return null;
+  let g6;
+  const hash = file => {
+    if (g6?.sourceFiles[file]?.before != null) return g6.sourceFiles[file].before;
+    if (g6?.concurrentSourceObservations[file]) return g6.concurrentSourceObservations[file].before;
+    if (g6?.concurrentDocumentObservations[file]) return g6.concurrentDocumentObservations[file].before;
+    if (!existsSync(join(root, file))) return null;
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error("Library governance source must be a regular file: " + file);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  const baselinePath = libraryGovernanceCloseoutEvidence + "baseline.json";
+  if (hash(baselinePath) !== libraryGovernanceCloseoutBaselineHash) throw new Error("Library governance original baseline changed");
+  const supplementPath = libraryGovernanceCloseoutEvidence + "supplemental-intake.json";
+  if (hash(supplementPath) !== libraryGovernanceCloseoutSupplementHash) throw new Error("Library governance supplemental intake changed");
+  const supplement = JSON.parse(readFileSync(join(root, supplementPath), "utf8"));
+  const additionalPath = libraryGovernanceCloseoutEvidence + "additional-source-intake.json";
+  if (hash(additionalPath) !== libraryGovernanceAdditionalIntakeHash) throw new Error("Library governance additional intake changed");
+  const additional = JSON.parse(readFileSync(join(root, additionalPath), "utf8"));
+  const regressionPath = libraryGovernanceCloseoutEvidence + "regression-source-intake.json";
+  if (hash(regressionPath) !== libraryGovernanceRegressionIntakeHash) throw new Error("Library governance regression intake changed");
+  const regression = JSON.parse(readFileSync(join(root, regressionPath), "utf8"));
+  const fixturePath = libraryGovernanceCloseoutEvidence + "fixture-source-intake.json";
+  if (hash(fixturePath) !== libraryGovernanceFixtureIntakeHash) throw new Error("Library governance fixture intake changed");
+  const fixture = JSON.parse(readFileSync(join(root, fixturePath), "utf8"));
+  const historicalFixturePath = libraryGovernanceCloseoutEvidence + "historical-fixture-source-intake.json";
+  if (hash(historicalFixturePath) !== libraryGovernanceHistoricalFixtureIntakeHash) throw new Error("Library governance historical fixture intake changed");
+  const historicalFixture = JSON.parse(readFileSync(join(root, historicalFixturePath), "utf8"));
+  const baseline = JSON.parse(readFileSync(join(root, baselinePath), "utf8")), record = JSON.parse(readFileSync(join(root, path), "utf8"));
+  if (record.kind !== "LibraryGovernanceCloseoutSourceBindings" || record.authorizedAt !== "2026-10-13" || record.scope !== "library-governance-closeout-preserving-accepted-select"
+    || record.userStatement !== baseline.userStatement || !exactRecord(record.baseline, { path: baselinePath, sha256: libraryGovernanceCloseoutBaselineHash,
+      supplementalIntake: { path: supplementPath, sha256: libraryGovernanceCloseoutSupplementHash }, additionalIntake: { path: additionalPath, sha256: libraryGovernanceAdditionalIntakeHash }, regressionIntake: { path: regressionPath, sha256: libraryGovernanceRegressionIntakeHash }, fixtureIntake: { path: fixturePath, sha256: libraryGovernanceFixtureIntakeHash }, historicalFixtureIntake: { path: historicalFixturePath, sha256: libraryGovernanceHistoricalFixtureIntakeHash } })
+    || JSON.stringify(Object.keys(record).sort()) !== JSON.stringify(["kind", "authorizedAt", "scope", "userStatement", "baseline", "sourceFiles"].sort())
+    || JSON.stringify(Object.keys(record.sourceFiles ?? {}).sort()) !== JSON.stringify([...libraryGovernanceCloseoutSourcePaths].sort())) throw new Error("Library governance requires its exact finite authorization and source paths");
+  const helper = "scripts/verification-helpers.mjs";
+  const sealedSources = { ...record.sourceFiles, [helper]: { ...record.sourceFiles[helper], after: "self" } };
+  if (createHash("sha256").update(JSON.stringify(sealedSources)).digest("hex") !== libraryGovernanceCloseoutAfterHash) throw new Error("Library governance may use only its verified final source hashes");
+  g6 = getG6SourceBindings(root);
+  const helperSource = (getG6PreviousSource(root, helper) ?? readFileSync(join(root, helper), "utf8")).replace(/const libraryGovernanceCloseoutHelperHash = "[a-f0-9]{64}";/, 'const libraryGovernanceCloseoutHelperHash = "' + "0".repeat(64) + '";');
+  if (createHash("sha256").update(helperSource).digest("hex") !== libraryGovernanceCloseoutHelperHash) throw new Error("Library governance current source changed: " + helper);
+  for (const [file, before] of Object.entries({ ...baseline.files, ...supplement.files, ...additional.files, ...regression.files, ...fixture.files, ...historicalFixture.files })) {
+    if (before !== null && hash(libraryGovernanceCloseoutEvidence + "before/" + file) !== before) throw new Error("Library governance before source changed: " + file);
+    if (!exactRecord(record.sourceFiles[file], { before, after: hash(file) })) throw new Error("Library governance current source changed: " + file);
+  }
+  for (const [file, expected] of Object.entries(baseline.protectedSources)) {
+    if (hash(file) !== expected || hash(libraryGovernanceCloseoutEvidence + "before/" + file) !== expected) throw new Error("Library governance current source changed: " + file);
+  }
+  for (const [file, expected] of Object.entries(baseline.retainedProofs)) {
+    if (hash(file) !== expected || hash(libraryGovernanceCloseoutEvidence + "before/" + file) !== expected) throw new Error("Slider closeout original proof changed: " + file);
+  }
+  if (hash(baseline.phase.path) !== baseline.phase.sha256 || hash(libraryGovernanceCloseoutEvidence + "before/" + baseline.phase.path) !== baseline.phase.sha256) throw new Error("Library governance must preserve every previous phase record and Gate");
+  const observationPath = libraryGovernanceCloseoutEvidence + "concurrent-document-observation.json";
+  if (hash(observationPath) !== libraryGovernanceDocumentationObservationHash) throw new Error("Library governance observed documentation record changed");
+  const observation = JSON.parse(readFileSync(join(root, observationPath), "utf8"));
+  const documentationSuccessorPath = libraryGovernanceCloseoutEvidence + "concurrent-document-observation-02.json";
+  if (hash(documentationSuccessorPath) !== libraryGovernanceDocumentationSuccessorHash) throw new Error("Library governance observed documentation successor record changed");
+  const documentationSuccessor = JSON.parse(readFileSync(join(root, documentationSuccessorPath), "utf8"));
+  if (JSON.stringify(Object.keys(documentationSuccessor.sourceFiles).sort()) !== JSON.stringify(Object.keys(observation.sourceFiles).sort())) throw new Error("Library governance observed documentation must retain its same finite paths");
+  for (const [file, expected] of Object.entries(documentationSuccessor.ownerRecords)) if (hash(file) !== expected) throw new Error("Library governance observed documentation successor owner changed: " + file);
+  for (const [file, binding] of Object.entries(documentationSuccessor.sourceFiles)) {
+    if (hash(file) !== binding.after || hash(binding.beforeSnapshot) !== binding.before || binding.before !== observation.sourceFiles[file].after) throw new Error("Library governance observed documentation successor source changed: " + file);
+  }
+  for (const [file, expected] of Object.entries(observation.ownerRecords)) if (hash(file) !== expected) throw new Error("Library governance observed documentation owner changed: " + file);
+  for (const [file, binding] of Object.entries(observation.sourceFiles)) {
+    if (documentationSuccessor.sourceFiles[file].before !== binding.after || hash(binding.beforeSnapshot) !== binding.before) throw new Error("Library governance observed documentation source changed: " + file);
+  }
+  const sourceFiles = { ...record.sourceFiles };
+  if (g6) for (const [file, binding] of Object.entries(g6.sourceFiles)) {
+    if (binding.before !== null) sourceFiles[file] = { before: sourceFiles[file]?.before ?? binding.before, after: binding.after };
+  }
+  return { ...record, sourceFiles, retainedSourceObservations: observation.sourceFiles, ...(g6 ? { g6Successor: g6.phase, carouselSuccessor: g6.carouselUpgrade?.phase, drawerSuccessor: g6.drawerRefinement?.phase, closeoutSuccessor: g6.closeoutSuccessor } : {}) };
+
+  });
+}
+
+export function hasSliderCloseoutAuthorization(status) {
+  const entry = status?.componentRefinements?.sliderCloseout;
+  return Boolean(entry) && hasSliderRefinementAuthorization(status)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-13", decisionSource: "explicit-user-slider-governance-closeout-preserve-accepted-visuals",
+      userStatement: "保持已经确认的视觉样式，继续解决 Slider 的治理校验问题，完成本轮组件收口。",
+      scope: "slider-governance-source-chain-fixtures-and-scoped-closeout-preserving-accepted-visuals", workMode: "system-mode", assetIdentity: "registry-candidate",
+      plan: "docs/plans/2026-10-13-slider-closeout.md", evidence: sliderCloseoutEvidence + "verification.md", sourceBindings: sliderCloseoutEvidence + "source-bindings.json",
+      previousVisualAcceptance: "evidence/runtime/slider-experience-2026-10-13/acceptance.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "unpublished", figmaWrite: "not-authorized",
+      businessMigration: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+export function getSliderCloseoutSourceBindings(root, status) {
+  return verifySourceBindingTraversal("getSliderCloseoutSourceBindings", root, status, () => {
+  const entry = status?.componentRefinements?.sliderCloseout;
+  if (entry === undefined) return null;
+  if (!hasSliderCloseoutAuthorization(status)) throw new Error("Slider closeout requires its exact finite authorization");
+  // Reject immutable predecessor proof drift before traversing newer source owners.
+  // These checks only reject; every successful read still requires the complete successor chain below.
+  const rawProofHash = file => {
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error("Slider closeout proof must be a regular file: " + file);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  const originalBaselinePath = sliderCloseoutEvidence + "baseline.json";
+  if (rawProofHash(originalBaselinePath) !== sliderCloseoutBaselineHash) throw new Error("Slider closeout original baseline changed");
+  const originalBaseline = JSON.parse(readFileSync(join(root, originalBaselinePath), "utf8"));
+  const originalRecord = JSON.parse(readFileSync(join(root, entry.sourceBindings), "utf8"));
+  if (originalRecord.sourceFiles?.["scripts/g5-color-consumers.mjs"]?.after !== sliderCloseoutColorVerifierHash) throw new Error("Slider closeout must keep its exact scoped color verifier");
+  for (const [file, expected] of Object.entries(originalBaseline.retainedEvidence)) {
+    if (file.startsWith("evidence/runtime/") && rawProofHash(file) !== expected) throw new Error("Slider closeout original proof changed: " + file);
+  }
+  const successor = getLibraryGovernanceCloseoutSourceBindings(root);
+  const hash = file => {
+    if (successor?.sourceFiles[file]?.before != null) return successor.sourceFiles[file].before;
+    if (successor?.retainedSourceObservations[file]) return successor.retainedSourceObservations[file].before;
+    const g6Previous = getG6PreviousSource(root, file);
+    if (g6Previous !== null) return createHash("sha256").update(g6Previous).digest("hex");
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error("Slider closeout source must be a regular file: " + file);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  const read = file => JSON.parse(readFileSync(join(root, file), "utf8"));
+  const baselinePath = sliderCloseoutEvidence + "baseline.json";
+  if (hash(baselinePath) !== sliderCloseoutBaselineHash) throw new Error("Slider closeout original baseline changed");
+  const supplementPath = sliderCloseoutEvidence + "supplemental-intake.json";
+  if (hash(supplementPath) !== sliderCloseoutSupplementHash) throw new Error("Slider closeout supplemental intake changed");
+  const baseline = read(baselinePath), supplement = read(supplementPath), record = read(entry.sourceBindings);
+  if (record.kind !== "SliderCloseoutSourceBindings" || record.authorizedAt !== "2026-10-13" || record.scope !== entry.scope
+    || !exactRecord(record.baseline, { path: baselinePath, sha256: sliderCloseoutBaselineHash,
+      supplementalIntake: { path: supplementPath, sha256: sliderCloseoutSupplementHash } })
+    || JSON.stringify(Object.keys(record).sort()) !== JSON.stringify(["kind", "authorizedAt", "scope", "baseline", "sourceFiles", "reconciliation"].sort())
+    || JSON.stringify(Object.keys(record.sourceFiles ?? {}).sort()) !== JSON.stringify([...sliderCloseoutSourcePaths].sort())) throw new Error("Slider closeout must bind only its finite source paths");
+  const colorTestFile = "scripts/g5-color-consumers.test.ts";
+  const colorTestBefore = read(sliderCloseoutEvidence + "predecessor/evidence/runtime/date-picker-closeout-2026-10-13/source-bindings.json").sourceFiles[colorTestFile].after;
+  for (const [file, before] of Object.entries({ ...baseline.files, ...supplement.files, [colorTestFile]: colorTestBefore })) {
+    if (before !== null && hash(sliderCloseoutEvidence + "before/" + file) !== before) throw new Error("Slider closeout before source changed: " + file);
+    if (!exactRecord(record.sourceFiles[file], { before, after: hash(file) })) throw new Error("Slider closeout current source changed: " + file);
+  }
+  if (record.sourceFiles["scripts/g5-color-consumers.mjs"].after !== sliderCloseoutColorVerifierHash) throw new Error("Slider closeout must keep its exact scoped color verifier");
+  for (const [file, expected] of Object.entries({ ...baseline.retainedEvidence, ...supplement.retainedEvidence })) {
+    if (hash(file) !== expected || hash(sliderCloseoutEvidence + "predecessor/" + file) !== expected) throw new Error("Slider closeout original proof changed: " + file);
+  }
+  const accepted = read(entry.previousVisualAcceptance);
+  if (accepted.kind !== "SliderScopedVisualAcceptance" || accepted.decision?.humanGate !== "accepted"
+    || accepted.decision.scope !== "current-slider-playground-runtime-visual-only" || accepted.decision.contrastAcceptance !== "not-granted"
+    || !exactRecord(baseline.protectedRuntime, accepted.acceptedSourceSha256)) throw new Error("Slider closeout must retain the original scoped visual acceptance");
+  for (const [file, expected] of Object.entries(baseline.protectedRuntime)) {
+    if (hash(file) !== expected || hash(sliderCloseoutEvidence + "before/" + file) !== expected) throw new Error("Slider closeout accepted visual source changed: " + file);
+  }
+  const before = parseYamlSubset(readFileSync(join(root, sliderCloseoutEvidence + "before/status/current-phase.yaml"), "utf8"));
+  const current = structuredClone(status); delete current.componentRefinements.sliderCloseout;
+  restoreG1G6CloseoutPhase(successor?.closeoutSuccessor, current);
+  if (successor?.g6Successor && exactRecord(current.componentRefinements.g6Components, successor.g6Successor)) delete current.componentRefinements.g6Components;
+  if (successor?.carouselSuccessor && exactRecord(current.componentRefinements.carouselUpgrade, successor.carouselSuccessor)) delete current.componentRefinements.carouselUpgrade;
+  if (successor?.drawerSuccessor && exactRecord(current.componentRefinements.drawerRefinement, successor.drawerSuccessor)) delete current.componentRefinements.drawerRefinement;
+  const originalSlider = before.componentRefinements.sliderRefinement;
+  const expectedSlider = entry.implementation === "completed" ? { ...originalSlider,
+    implementation: "completed", automatedVerification: "passed-scoped", independentReview: "passed-scoped" } : originalSlider;
+  if (!exactRecord(current.componentRefinements.sliderRefinement, expectedSlider)) throw new Error("Slider closeout may update only the verified three-field Slider completion");
+  current.componentRefinements.sliderRefinement = originalSlider;
+  if (!exactRecord(current, before)) throw new Error("Slider closeout must preserve every previous phase record and Gate");
+  const manifestPath = "manifests/ui/slider.yaml";
+  const manifestBefore = parseYamlSubset(readFileSync(join(root, sliderCloseoutEvidence + "before/" + manifestPath), "utf8"));
+  const manifest = parseYamlSubset(readFileSync(join(root, manifestPath), "utf8"));
+  if (!exactRecord(manifest, { ...manifestBefore, verification: { ...manifestBefore.verification,
+    automated: entry.automatedVerification === "passed-scoped" ? "scoped-passed" : "not-run", independentReview: entry.independentReview,
+    evidence: entry.evidence, previousVisualAcceptance: entry.previousVisualAcceptance,
+  } })) throw new Error("Slider closeout cannot promote the candidate or alter its contract");
+  const prior = name => read(sliderCloseoutEvidence + "predecessor/evidence/runtime/" + name + "/source-bindings.json");
+  const select = prior("select-unification-2026-10-13"), visual = prior("date-picker-visual-feedback-2026-10-13"), slider = prior("slider-refinement-2026-10-13");
+  const indexObservation = read("evidence/runtime/select-unification-2026-10-13/confirmation-index-source.json");
+  const indexFile = "docs/ai/asset-index.md", indexSource = indexObservation.sourceFiles[indexFile];
+  if (indexObservation.kind !== "SelectConfirmationIndexSourceObservation" || indexObservation.verification.result !== "passed"
+    || indexSource.before !== select.sourceFiles[indexFile].after || indexSource.after !== supplement.files[indexFile]
+    || hash(indexObservation.beforeSnapshot) !== indexSource.before) throw new Error("Slider closeout may reconcile only the proven Select index confirmation");
+  const transitions = [
+    { priorOwner: "selectUnification", file: "docs/ai/g5-components.md", expectedAfter: select.sourceFiles["docs/ai/g5-components.md"].after, finalOwner: "sliderExperience", finalBefore: baseline.files["docs/ai/g5-components.md"] },
+    { priorOwner: "selectUnification", file: "status/current-phase.yaml", expectedAfter: select.sourceFiles["status/current-phase.yaml"].after, finalOwner: "datePickerCloseout-and-rainDesignerStarter", finalBefore: baseline.files["status/current-phase.yaml"] },
+    { priorOwner: "datePickerVisualFeedback", file: "status/current-phase.yaml", expectedAfter: visual.sourceFiles["status/current-phase.yaml"].after, finalOwner: "datePickerCloseout-and-rainDesignerStarter", finalBefore: baseline.files["status/current-phase.yaml"] },
+    { priorOwner: "sliderRefinement", file: "scripts/g5-color-consumers.mjs", expectedAfter: slider.sourceFiles["scripts/g5-color-consumers.mjs"].after, finalOwner: "datePickerCloseout", finalBefore: baseline.files["scripts/g5-color-consumers.mjs"] },
+    { priorOwner: "selectUnification", file: indexFile, expectedAfter: indexSource.before, finalOwner: "selectConfirmationIndex", finalBefore: indexSource.after },
+  ];
+  const s3 = before.localExperiments.rainDesignerStarter;
+  const exports = read("evidence/runtime/rain-designer-starter-2026-10-13/exports.json");
+  if (s3.authorization !== "authorized" || s3.humanGate !== "awaiting_human" || s3.publication !== "not-authorized"
+    || s3.m1Snapshot !== exports.M1.snapshotId || s3.m2Snapshot !== exports.M2.snapshotId
+    || [exports.M1, exports.M2].some(item => item.export_exit !== 0 || item.check_exit !== 0)) throw new Error("Slider closeout may reconcile only the proven S3 technical observation");
+  const observationPath = sliderCloseoutEvidence + "retained-source-observation.json";
+  if (hash(observationPath) !== sliderCloseoutRetainedObservationHash) throw new Error("Slider closeout retained-source observation changed");
+  const observation = read(observationPath);
+  for (const [file, expected] of Object.entries(observation.retainedEvidence)) {
+    if (hash(file) !== expected || hash(sliderCloseoutEvidence + "predecessor/" + file) !== expected) throw new Error("Slider closeout retained-source proof changed: " + file);
+  }
+  if (hash(observation.file) !== observation.after || hash(observation.currentSnapshot) !== observation.after
+    || hash(observation.beforeSnapshot) !== observation.before
+    || read("evidence/runtime/g4-review-sizing-2026-10-11/baseline.json").files[observation.file] !== observation.before
+    || !read("evidence/runtime/rain-designer-starter-2026-10-13/changes.json").modifiedExisting.includes(observation.file)) throw new Error("Slider closeout may observe only the proven unchanged S3 prototype guide");
+  const standalone = read("evidence/runtime/rain-designer-starter-2026-10-13/standalone-checks.json");
+  for (const [name, proof] of Object.entries(observation.sourceLocks)) {
+    if (hash(proof.path) !== proof.sha256 || standalone[name].sourceLockSHA256 !== proof.sha256) throw new Error("Slider closeout retained-source lock changed: " + name);
+    const lock = read(proof.path);
+    if (lock.snapshotId !== exports[name].snapshotId || lock.sourceFiles[observation.file] !== observation.after) throw new Error("Slider closeout retained-source lock does not prove its observed source: " + name);
+  }
+  const expectedReconciliation = { kind: "exact-proven-predecessor-transitions", sourceTransitions: transitions,
+    phaseObservation: { owner: "rainDesignerStarter", value: s3, adoption: "technical-observation-only" },
+    retainedSourceObservation: { owner: observation.owner, file: observation.file, before: observation.before, after: observation.after,
+      evidence: { path: observationPath, sha256: sliderCloseoutRetainedObservationHash } } };
+  if (!exactRecord(record.reconciliation, expectedReconciliation)) throw new Error("Slider closeout reconciliation cannot change owners, hashes or observed fields");
+  return successor?.g6Successor ? { ...record, g6Successor: successor.g6Successor, carouselSuccessor: successor.carouselSuccessor, drawerSuccessor: successor.drawerSuccessor, closeoutSuccessor: successor.closeoutSuccessor } : record;
+
+  });
+}
+
+function sliderCloseoutPreviousHash(record, owner, file, expected) {
+  if (!record || !expected) return undefined;
+  if (record.sourceFiles[file]?.before === expected) return expected;
+  return record.reconciliation.sourceTransitions.find(item => item.priorOwner === owner && item.file === file && item.expectedAfter === expected)?.expectedAfter;
+}
+
+export function restoreSliderCloseoutPhase(record, current, before) {
+  if (!record) return;
+  restoreG1G6CloseoutPhase(record.closeoutSuccessor, current);
+  if (before.componentRefinements?.drawerRefinement === undefined && record.drawerSuccessor
+    && exactRecord(current.componentRefinements.drawerRefinement, record.drawerSuccessor)) delete current.componentRefinements.drawerRefinement;
+  if (before.componentRefinements?.carouselUpgrade === undefined && record.carouselSuccessor
+    && exactRecord(current.componentRefinements.carouselUpgrade, record.carouselSuccessor)) delete current.componentRefinements.carouselUpgrade;
+  if (before.componentRefinements?.g6Components === undefined && record.g6Successor
+    && exactRecord(current.componentRefinements.g6Components, record.g6Successor)) delete current.componentRefinements.g6Components;
+  delete current.componentRefinements.sliderCloseout;
+  if (current.componentRefinements.sliderRefinement && before.componentRefinements?.sliderRefinement) {
+    for (const key of ["implementation", "automatedVerification", "independentReview"]) current.componentRefinements.sliderRefinement[key] = before.componentRefinements.sliderRefinement[key];
+  }
+  if (before.localExperiments?.rainDesignerStarter === undefined
+    && exactRecord(current.localExperiments?.rainDesignerStarter, record.reconciliation.phaseObservation.value)) {
+    current.localExperiments = { ...current.localExperiments };
+    delete current.localExperiments.rainDesignerStarter;
+  }
+}
+
+export const datePickerCloseoutEvidence = "evidence/runtime/date-picker-closeout-2026-10-13/";
+const datePickerCloseoutBaselineHash = "cef2c8ec5a60d3bacff2ef503132478b8bd7fe2e5a783ea20c1a95e663458666";
+export const datePickerCloseoutSourcePaths = [
+  ...["date-picker.tsx", "date-picker.css", "date-picker-time-field.tsx", "date-picker.utils.ts"].map(file => "packages/ui/src/date-picker/" + file),
+  ...["g5-component-pages.css", "date-time-examples.tsx"].map(file => "apps/playground/src/docs/components/" + file),
+  "manifests/ui/date-picker.yaml", "status/current-phase.yaml", "docs/plans/2026-10-13-date-picker-closeout.md",
+  ...["verification-helpers.mjs", "g5-color-consumers.mjs", "g5-color-consumers.test.ts", "date-picker-closeout.test.ts", "select-unification-test-fixture.ts"].map(file => "scripts/" + file),
+  datePickerCloseoutEvidence + "color-consumers.json",
+];
+
+export function hasDatePickerCloseoutAuthorization(status) {
+  const entry = status?.componentRefinements?.datePickerCloseout;
+  return Boolean(entry) && hasDatePickerVisualFeedbackAuthorization(status)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-13", decisionSource: "explicit-user-date-picker-remaining-checks-and-helper-contrast-closeout",
+      userStatement: "接下来把 DatePicker 的剩余检查收口，先说明共享检查为什么还没关闭，以及哪些需要我手动验证。将说明文字调至达标，保留当前布局和按钮外观。",
+      scope: "date-picker-helper-text-contrast-and-finite-shared-source-closeout", workMode: "system-mode", assetIdentity: "registry-candidate",
+      plan: "docs/plans/2026-10-13-date-picker-closeout.md", evidence: datePickerCloseoutEvidence + "verification.md",
+      sourceBindings: datePickerCloseoutEvidence + "source-bindings.json", previousVisualAcceptance: "evidence/runtime/date-picker-visual-feedback-2026-10-13/acceptance.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "unpublished", figmaWrite: "not-authorized",
+      businessMigration: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+export function getDatePickerCloseoutSourceBindings(root, status) {
+  return verifySourceBindingTraversal("getDatePickerCloseoutSourceBindings", root, status, () => {
+  const entry = status?.componentRefinements?.datePickerCloseout;
+  if (entry === undefined) return null;
+  if (!hasDatePickerCloseoutAuthorization(status)) throw new Error("DatePicker closeout requires its exact finite authorization");
+  const sliderCloseout = getSliderCloseoutSourceBindings(root, status);
+  const directory = datePickerCloseoutEvidence;
+  const hash = (file, expected) => {
+    const previous = sliderCloseoutPreviousHash(sliderCloseout, "datePickerCloseout", file, expected);
+    if (previous !== undefined) return previous;
+    const g6Previous = getG6PreviousSource(root, file);
+    if (g6Previous !== null) return createHash("sha256").update(g6Previous).digest("hex");
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error("DatePicker closeout source must be a regular file: " + file);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  const read = file => JSON.parse(readFileSync(join(root, file), "utf8"));
+  const baselinePath = directory + "closure-baseline.json";
+  if (hash(baselinePath) !== datePickerCloseoutBaselineHash) throw new Error("DatePicker closeout original baseline changed");
+  const baseline = read(baselinePath), record = read(entry.sourceBindings);
+  if (hash(baseline.intake.path) !== "045a8fb42a8a714f1430b1a0ab73e9dc41957e81f06a9aa52db4ed16ed1ad8e7") throw new Error("DatePicker closeout original intake changed");
+  const intake = read(baseline.intake.path);
+  for (const [file, expected] of Object.entries(intake.files)) if (expected !== null && hash(directory + "before/" + file) !== expected) throw new Error("DatePicker closeout original before source changed: " + file);
+  if (record.kind !== "DatePickerCloseoutSourceBindings" || record.authorizedAt !== "2026-10-13" || record.scope !== entry.scope
+    || !exactRecord(record.baseline, { path: baselinePath, sha256: datePickerCloseoutBaselineHash })
+    || JSON.stringify(Object.keys(record).sort()) !== JSON.stringify(["kind", "authorizedAt", "scope", "baseline", "sourceFiles", "reconciliation"].sort())
+    || JSON.stringify(Object.keys(record.sourceFiles ?? {}).sort()) !== JSON.stringify([...datePickerCloseoutSourcePaths].sort())) throw new Error("DatePicker closeout must bind only its finite source inventory");
+  for (const [file, beforeHash] of Object.entries(baseline.files)) {
+    const beforePath = directory + (file === "status/current-phase.yaml" ? "effective-before/" : "before/") + file;
+    if (beforeHash !== null && hash(beforePath) !== beforeHash) throw new Error("DatePicker closeout before source changed: " + file);
+    if (!exactRecord(record.sourceFiles[file], { before: beforeHash, after: hash(file, record.sourceFiles[file]?.after) })) throw new Error("DatePicker closeout current source changed: " + file);
+  }
+  for (const [file, expected] of Object.entries(baseline.retainedEvidence)) {
+    // Slider is still in progress; retain its observation without adopting later mutable signatures.
+    if ((file !== sliderRefinementEvidence + "source-bindings.json" && hash(file) !== expected) || hash(directory + "predecessor/" + file) !== expected) throw new Error("DatePicker closeout original proof changed: " + file);
+  }
+  const current = structuredClone(status); delete current.componentRefinements.datePickerCloseout;
+  const beforePhase = parseYamlSubset(readFileSync(join(root, directory + "effective-before/status/current-phase.yaml"), "utf8"));
+  restoreSliderCloseoutPhase(sliderCloseout, current, beforePhase);
+  if (!exactRecord(current, beforePhase)) throw new Error("DatePicker closeout must preserve every previous phase record and Gate");
+  for (const file of ["packages/ui/src/date-picker/date-picker.tsx", "packages/ui/src/date-picker/date-picker-time-field.tsx", "packages/ui/src/date-picker/date-picker.utils.ts", "apps/playground/src/docs/components/date-time-examples.tsx"]) {
+    if (record.sourceFiles[file].after !== baseline.files[file]) throw new Error("DatePicker closeout cannot change date behavior: " + file);
+  }
+  const cssPaths = ["packages/ui/src/date-picker/date-picker.css", "apps/playground/src/docs/components/g5-component-pages.css"];
+  for (const file of cssPaths) {
+    const before = readFileSync(join(root, directory + "before/" + file), "utf8");
+    if (before.split("--rain-category-text-neutral-6").length !== 2 || readFileSync(join(root, file), "utf8") !== before.replace("--rain-category-text-neutral-6", "--rain-category-text-neutral-4")) throw new Error("DatePicker closeout may change only the two helper text colors: " + file);
+  }
+  const manifestPath = "manifests/ui/date-picker.yaml";
+  const manifestBefore = parseYamlSubset(readFileSync(join(root, directory + "before/" + manifestPath), "utf8"));
+  const manifest = parseYamlSubset(readFileSync(join(root, manifestPath), "utf8"));
+  if (!exactRecord(manifest, { ...manifestBefore, sourceVersion: "local-date-picker-closeout-2026-10-13",
+    tokens: manifestBefore.tokens.map(token => token === "Text/Neutral/6 / Fill/Brand/Alpha/4：本轮局部辅助提示与时长摘要" ? "Text/Neutral/4 / Fill/Brand/Alpha/4：本轮局部辅助提示与时长摘要" : token),
+    compositionRules: manifestBefore.compositionRules.map(rule => rule === "用户2026-10-13明确要求低优先级提示非常淡；本组件辅助原因用Text/Neutral/6，关键日期、动作、校验错误保留原层级。该局部偏好不代表普通文字对比度已验收。"
+      ? "用户2026-10-13随后要求说明文字达到普通文字对比度；本组件辅助原因改用Text/Neutral/4，布局、按钮、关键日期、动作和校验错误保留原样。此前Text/Neutral/6的局部视觉验收保留在旧版本，不能作为对比度通过证据。" : rule), verification: {
+    ...manifestBefore.verification, automated: entry.automatedVerification === "passed-scoped" ? "scoped-passed" : "not-run",
+    independentReview: entry.independentReview, evidence: entry.evidence, previousVisualAcceptance: entry.previousVisualAcceptance,
+  } })) throw new Error("DatePicker closeout cannot promote the shared candidate or alter its contract");
+  const visual = read("evidence/runtime/date-picker-visual-feedback-2026-10-13/source-bindings.json");
+  const select = read("evidence/runtime/select-unification-2026-10-13/source-bindings.json");
+  const sliderObservation = directory + "parallel-observations/slider-source-bindings.json";
+  if (hash(sliderObservation) !== "09c64d95566271bcbd3ed61edc7cca7b1fc9d5f660ab041aa4b9c7e75295cd30") throw new Error("DatePicker closeout frozen Slider observation changed");
+  const slider = read(sliderObservation);
+  const visualTest = "scripts/date-picker-visual-feedback-governance.test.ts", sliderTest = "scripts/slider-refinement-governance.test.ts";
+  const expectedReconciliation = {
+    kind: "interleaved-technical-observations", phaseOwner: "datePickerVisualFeedback",
+    phaseFields: { implementation: { before: "in-progress", after: "completed" }, automatedVerification: { before: "not-run", after: "passed-scoped" }, independentReview: { before: "not-run", after: "passed-scoped" } },
+    sourceTransitions: [
+      { priorOwner: "selectUnification", file: visualTest, expectedAfter: select.sourceFiles[visualTest].after, finalOwner: "datePickerVisualFeedback", finalAfter: visual.sourceFiles[visualTest].after },
+      { priorOwner: "selectUnification", file: sliderTest, expectedAfter: select.sourceFiles[sliderTest].after, finalOwner: "sliderRefinement", finalAfter: slider.sourceFiles[sliderTest].after },
+      { priorOwner: "datePickerVisualFeedback", file: sliderTest, expectedAfter: visual.sourceFiles[sliderTest].after, finalOwner: "sliderRefinement", finalAfter: slider.sourceFiles[sliderTest].after },
+    ],
+  };
+  if (!exactRecord(record.reconciliation, expectedReconciliation)) throw new Error("DatePicker closeout reconciliation may bind only the exact interleaved observations");
+  for (const transition of expectedReconciliation.sourceTransitions) if (hash(transition.file, transition.finalAfter) !== transition.finalAfter) throw new Error("DatePicker closeout final owner source changed: " + transition.file);
+  const selectBefore = parseYamlSubset(readFileSync(join(root, "evidence/runtime/select-unification-2026-10-13/before/status/current-phase.yaml"), "utf8"));
+  for (const [key, transition] of Object.entries(expectedReconciliation.phaseFields)) {
+    if (selectBefore.componentRefinements.datePickerVisualFeedback[key] !== transition.before || beforePhase.componentRefinements.datePickerVisualFeedback[key] !== transition.after) throw new Error("DatePicker closeout technical phase transition changed");
+  }
+  const originalLedgerPath = "evidence/runtime/date-picker-visual-feedback-2026-10-13/color-consumers.json";
+  if (hash(originalLedgerPath) !== visual.sourceFiles[originalLedgerPath].after) throw new Error("DatePicker closeout original color proof changed");
+  const originalLedger = read(originalLedgerPath);
+  const expectedLedger = { ...originalLedger, kind: "DatePickerCloseoutFiniteColorConsumers", scope: entry.scope,
+    sourceFiles: Object.fromEntries(cssPaths.map(file => [file, hash(file)])),
+    colorCssConsumers: originalLedger.colorCssConsumers.map(row => ({ ...row,
+      value: row.value.replace("--rain-category-text-neutral-6", "--rain-category-text-neutral-4"),
+      use: { ...row.use, tokenId: row.use.tokenId === "Text/Neutral/6" ? "Text/Neutral/4" : row.use.tokenId, evidenceRef: entry.plan },
+    })),
+  };
+  if (!exactRecord(read(directory + "color-consumers.json"), expectedLedger)) throw new Error("DatePicker closeout colors may replace only its two CSS ledgers without transferring acceptance");
+  return record;
+
+  });
+}
+
+function datePickerCloseoutPreviousHash(record, owner, file, expected) {
+  if (!record || !expected) return undefined;
+  if (record.sourceFiles[file]?.before === expected) return expected;
+  return record.reconciliation.sourceTransitions.find(item => item.priorOwner === owner && item.file === file && item.expectedAfter === expected)?.expectedAfter;
+}
+
+export const selectUnificationEvidence = "evidence/runtime/select-unification-2026-10-13/";
+const selectUnificationBaselineHash = "6c8816bbe7526634c88f0910fe650ddee8708472e7f7a6c334121c474749fe79";
+
+export function hasSelectUnificationAuthorization(status) {
+  const entry = status?.componentRefinements?.selectUnification;
+  return Boolean(entry) && hasG5ComponentsAuthorization(status)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-13", decisionSource: "explicit-user-rain-select-unification",
+      userStatement: "所有目标浏览器里，展开后都要保持同样的雨课堂视觉；直接落实最小范围的修改。",
+      scope: "rain-select-native-entry-form-unification", workMode: "system-mode", assetIdentity: "registry-candidate",
+      plan: "docs/plans/2026-10-13-select-unification.md", evidence: selectUnificationEvidence + "verification.md",
+      sourceBindings: selectUnificationEvidence + "source-bindings.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "unpublished",
+      figmaWrite: "not-authorized", businessMigration: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+export function getSelectUnificationSourceBindings(root, status) {
+  return verifySourceBindingTraversal("getSelectUnificationSourceBindings", root, status, () => {
+  const entry = status?.componentRefinements?.selectUnification;
+  if (entry === undefined) return null;
+  if (!hasSelectUnificationAuthorization(status)) throw new Error("Select unification requires its exact finite authorization");
+  const sliderCloseout = getSliderCloseoutSourceBindings(root, status);
+  const closeout = getDatePickerCloseoutSourceBindings(root, status);
+  const library = getLibraryGovernanceCloseoutSourceBindings(root);
+  const hash = (file, expectedHash) => {
+    const sliderPrevious = sliderCloseoutPreviousHash(sliderCloseout, "selectUnification", file, expectedHash);
+    if (sliderPrevious !== undefined) return sliderPrevious;
+    const previous = datePickerCloseoutPreviousHash(closeout, "selectUnification", file, expectedHash);
+    if (previous !== undefined) return previous;
+    if (expectedHash && library?.sourceFiles[file]?.before === expectedHash) return expectedHash;
+    const g6Previous = getG6PreviousSource(root, file);
+    if (g6Previous !== null) return createHash("sha256").update(g6Previous).digest("hex");
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error("Select source must be a regular file: " + file);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  const baselinePath = selectUnificationEvidence + "closure-baseline.json";
+  if (hash(baselinePath) !== selectUnificationBaselineHash) throw new Error("Select unification finite baseline changed");
+  const baseline = JSON.parse(readFileSync(join(root, baselinePath), "utf8"));
+  if (hash(baseline.intake.path) !== baseline.intake.sha256) throw new Error("Select original intake changed");
+  const current = structuredClone(status); delete current.componentRefinements.selectUnification;
+  if (closeout) {
+    delete current.componentRefinements.datePickerCloseout;
+    for (const [key, transition] of Object.entries(closeout.reconciliation.phaseFields)) current.componentRefinements.datePickerVisualFeedback[key] = transition.before;
+  }
+  const before = parseYamlSubset(readFileSync(join(root, selectUnificationEvidence + "before/status/current-phase.yaml"), "utf8"));
+  delete before.componentRefinements.selectUnification;
+  restoreSliderCloseoutPhase(sliderCloseout, current, before);
+  if (!exactRecord(current, before)) throw new Error("Select unification must preserve every previous phase record and Gate");
+  const record = JSON.parse(readFileSync(join(root, entry.sourceBindings), "utf8"));
+  if (record.kind !== "SelectUnificationSourceBindings" || record.authorizedAt !== "2026-10-13" || record.scope !== entry.scope
+    || !exactRecord(record.baseline, { path: baselinePath, sha256: selectUnificationBaselineHash })
+    || JSON.stringify(Object.keys(record).sort()) !== JSON.stringify(["kind", "authorizedAt", "scope", "baseline", "sourceFiles"].sort())
+    || JSON.stringify(Object.keys(record.sourceFiles ?? {}).sort()) !== JSON.stringify(Object.keys(baseline.files).sort())) throw new Error("Select unification must bind only its exact finite source paths");
+  for (const [file, beforeHash] of Object.entries(baseline.files)) {
+    if (beforeHash !== null && hash(selectUnificationEvidence + "before/" + file) !== beforeHash) throw new Error("Select before source changed: " + file);
+    if (!exactRecord(record.sourceFiles[file], { before: beforeHash, after: hash(file, record.sourceFiles[file]?.after) })) throw new Error("Select current source changed: " + file);
+  }
+  return record;
+
+  });
+}
+
+export const datePickerVisualFeedbackEvidence = "evidence/runtime/date-picker-visual-feedback-2026-10-13/";
+const datePickerVisualFeedbackBaselineHash = "89f0a3434025211f0262c4d8194775181b70d5bba555a35eb7ba89e7b81b4d2b";
+export const datePickerVisualFeedbackFiles = {
+  ui: ["date-picker.tsx", "date-picker.css"].map(file => "packages/ui/src/date-picker/" + file),
+  application: ["apps/playground/src/docs/components/g5-component-pages.css"],
+  documents: ["manifests/ui/date-picker.yaml", "docs/plans/2026-10-13-date-picker-visual-feedback.md"],
+  workspace: ["status/current-phase.yaml", ...["verification-helpers.mjs", "g5-color-consumers.mjs", "g5-color-consumers.test.ts",
+    "date-picker-visual-feedback-governance.test.ts", "slider-refinement-governance.test.ts", "g5-components-governance.test.ts", "g4-page-acceptance.test.ts",
+    "verify-g5-components.mjs", "verify-token-foundations.mjs", "verify-workspace.mjs", "verify-boundaries.mjs"].map(file => "scripts/" + file)],
+};
+export const datePickerVisualFeedbackSourcePaths = Object.values(datePickerVisualFeedbackFiles).flat().concat(datePickerVisualFeedbackEvidence + "color-consumers.json");
+
+export function hasDatePickerVisualFeedbackAuthorization(status) {
+  const entry = status?.componentRefinements?.datePickerVisualFeedback;
+  return Boolean(entry) && hasG5ComponentsAuthorization(status) && hasDatePickerUxRefinementAuthorization(status)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-13", decisionSource: "explicit-user-date-picker-hints-duration-and-dividers-feedback",
+      userStatement: "小提示文字颜色很淡；四个分钟按钮中性浅底、无描边且更小；按时长设置结束图标右置且更小；时间长短文字突出；尽量减少不必要分割线。",
+      scope: "date-picker-helper-priority-duration-controls-summary-dividers", workMode: "system-mode", assetIdentity: "registry-candidate",
+      plan: "docs/plans/2026-10-13-date-picker-visual-feedback.md", evidence: datePickerVisualFeedbackEvidence + "verification.md",
+      sourceBindings: datePickerVisualFeedbackEvidence + "source-bindings.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "unpublished",
+      figmaWrite: "not-authorized", businessMigration: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+export function getDatePickerVisualFeedbackSourceBindings(root, status) {
+  return verifySourceBindingTraversal("getDatePickerVisualFeedbackSourceBindings", root, status, () => {
+  if (!hasDatePickerVisualFeedbackAuthorization(status)) throw new Error("DatePicker visual feedback requires its exact finite authorization");
+  const sliderCloseout = getSliderCloseoutSourceBindings(root, status);
+  const closeout = getDatePickerCloseoutSourceBindings(root, status);
+  const select = getSelectUnificationSourceBindings(root, status);
+  const successor = getLibraryGovernanceCloseoutSourceBindings(root);
+  const hash = (file, expectedHash) => {
+    if (expectedHash && successor?.sourceFiles[file]?.before === expectedHash) return expectedHash;
+    const sliderPrevious = sliderCloseoutPreviousHash(sliderCloseout, "datePickerVisualFeedback", file, expectedHash);
+    if (sliderPrevious !== undefined) return sliderPrevious;
+    const previous = datePickerCloseoutPreviousHash(closeout, "datePickerVisualFeedback", file, expectedHash);
+    if (previous !== undefined) return previous;
+    if (expectedHash && select?.sourceFiles[file]?.before === expectedHash) return expectedHash;
+    const g6Previous = getG6PreviousSource(root, file);
+    if (g6Previous !== null) return createHash("sha256").update(g6Previous).digest("hex");
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error("DatePicker visual source must be a regular file: " + file);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  const directory = datePickerVisualFeedbackEvidence, baselinePath = directory + "closure-baseline.json";
+  if (hash(baselinePath) !== datePickerVisualFeedbackBaselineHash) throw new Error("DatePicker visual must preserve its finite closure baseline");
+  const baseline = JSON.parse(readFileSync(join(root, baselinePath), "utf8"));
+  if (hash(baseline.intake.path) !== baseline.intake.sha256) throw new Error("DatePicker visual original intake changed");
+  const intake = JSON.parse(readFileSync(join(root, baseline.intake.path), "utf8"));
+  for (const [file, expectedHash] of Object.entries(intake.files)) {
+    if (baseline.files[file] !== expectedHash || hash(directory + "before/" + file) !== expectedHash) throw new Error("DatePicker visual intake before source changed: " + file);
+  }
+  const current = structuredClone(status); delete current.componentRefinements.datePickerVisualFeedback;
+  if (closeout) delete current.componentRefinements.datePickerCloseout;
+  if (select) delete current.componentRefinements.selectUnification;
+  const before = parseYamlSubset(readFileSync(join(root, directory + "before/status/current-phase.yaml"), "utf8"));
+  restoreSliderCloseoutPhase(sliderCloseout, current, before);
+  if (!exactRecord(current, before)) throw new Error("DatePicker visual must preserve every previous phase record and Gate");
+  const entry = status.componentRefinements.datePickerVisualFeedback;
+  const record = JSON.parse(readFileSync(join(root, entry.sourceBindings), "utf8"));
+  if (record.kind !== "DatePickerVisualFeedbackSourceBindings" || record.authorizedAt !== "2026-10-13" || record.scope !== entry.scope
+    || !exactRecord(record.baseline, { path: baselinePath, sha256: datePickerVisualFeedbackBaselineHash })
+    || JSON.stringify(Object.keys(record).sort()) !== JSON.stringify(["kind", "authorizedAt", "scope", "baseline", "sourceFiles"].sort())
+    || JSON.stringify(Object.keys(record.sourceFiles ?? {}).sort()) !== JSON.stringify([...datePickerVisualFeedbackSourcePaths].sort())
+    || JSON.stringify(Object.keys(baseline.files).sort()) !== JSON.stringify([...datePickerVisualFeedbackSourcePaths].sort())) throw new Error("DatePicker visual must bind only its exact finite source paths");
+  for (const [file, beforeHash] of Object.entries(baseline.files)) {
+    if (beforeHash !== null && hash(directory + "before/" + file) !== beforeHash) throw new Error("DatePicker visual before source changed: " + file);
+    if (!exactRecord(record.sourceFiles[file], { before: beforeHash, after: hash(file, record.sourceFiles[file]?.after) })) throw new Error("DatePicker visual current source changed: " + file);
+  }
+  for (const [file, expectedHash] of Object.entries(baseline.retainedEvidence)) if (hash(file) !== expectedHash) throw new Error("DatePicker visual predecessor evidence changed: " + file);
+  // Freeze the intake copy; Slider's original proof remains owned by its separately authorized successor.
+  const slider = JSON.parse(readFileSync(join(root, directory + "predecessor/" + sliderRefinementEvidence + "source-bindings.json"), "utf8"));
+  if (JSON.stringify(Object.keys(slider.sourceFiles).sort()) !== JSON.stringify([...sliderRefinementSourcePaths].sort())) throw new Error("DatePicker visual Slider intake must retain its finite source inventory");
+  for (const [file, binding] of Object.entries(slider.sourceFiles)) {
+    // The copied record was captured after this slot was added; genuine phase intake is checked above.
+    if (file !== "status/current-phase.yaml" && baseline.files[file] != null && baseline.files[file] !== binding.after) throw new Error("DatePicker visual must follow the actual Slider intake source: " + file);
+  }
+  return record;
+
+  });
+}
+
+export const sliderRefinementEvidence = "evidence/runtime/slider-refinement-2026-10-13/";
+const sliderRefinementBaselineHash = "81e5590f4ee1b67e42142f73dec5b4f0f66f3be3a8258ac7a0d12826ec40d5ac";
+export const sliderRefinementFiles = {
+  ui: ["slider.tsx", "slider.css", "slider.test.tsx"].map(file => "packages/ui/src/slider/" + file),
+  application: ["slider-examples.tsx", "slider-examples.css", "slider-examples.test.tsx", "g5-component-pages.tsx"].map(file => "apps/playground/src/docs/components/" + file),
+  documents: ["manifests/ui/slider.yaml", "registry/g5-assets.json", "docs/ai/g5-components.md", "docs/plans/2026-10-13-slider-refinement.md"],
+  workspace: ["packages/ui/src/index.ts", "status/current-phase.yaml",
+    ...["verification-helpers.mjs", "slider-refinement-governance.test.ts", "g5-color-consumers.mjs", "g5-color-consumers.test.ts",
+      "g5-components-governance.test.ts", "g5-date-time-governance.test.ts", "g5-date-picker-refinement-governance.test.ts", "g4-page-acceptance.test.ts",
+      "verify-g5-components.mjs", "verify-g5-consumption.mjs", "verify-token-foundations.mjs"].map(file => "scripts/" + file),
+    ...["slider-refinement.config.ts", "slider-refinement.spec.ts", "g5-components.spec.ts"].map(file => "tests/e2e/" + file)],
+};
+export const sliderRefinementSourcePaths = Object.values(sliderRefinementFiles).flat().concat(sliderRefinementEvidence + "color-consumers.json");
+
+export function hasSliderRefinementAuthorization(status) {
+  const entry = status?.componentRefinements?.sliderRefinement;
+  return Boolean(entry) && hasG5ComponentsAuthorization(status)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-13", decisionSource: "explicit-user-start-discussed-slider-refinement",
+      userStatement: "确定。开始按照我们讨论的计划开始改造", scope: "slider-visual-density-value-tips-marks-range-and-four-compositions",
+      workMode: "system-mode", assetIdentity: "registry-candidate", plan: "docs/plans/2026-10-13-slider-refinement.md",
+      evidence: sliderRefinementEvidence + "verification.md", sourceBindings: sliderRefinementEvidence + "source-bindings.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "unpublished",
+      figmaWrite: "not-authorized", businessMigration: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+export function getSliderRefinementSourceBindings(root, status) {
+  return verifySourceBindingTraversal("getSliderRefinementSourceBindings", root, status, () => {
+  if (!hasSliderRefinementAuthorization(status)) throw new Error("Slider refinement requires its exact finite authorization");
+  const sliderCloseout = getSliderCloseoutSourceBindings(root, status);
+  const closeout = getDatePickerCloseoutSourceBindings(root, status);
+  const select = getSelectUnificationSourceBindings(root, status);
+  const visual = status?.componentRefinements?.datePickerVisualFeedback === undefined ? null : getDatePickerVisualFeedbackSourceBindings(root, status);
+  const entry = status.componentRefinements.sliderRefinement;
+  const record = JSON.parse(readFileSync(join(root, entry.sourceBindings), "utf8"));
+  const hash = (file, expectedHash) => {
+    const sliderPrevious = sliderCloseoutPreviousHash(sliderCloseout, "sliderRefinement", file, expectedHash);
+    if (sliderPrevious !== undefined) return sliderPrevious;
+    const previous = datePickerCloseoutPreviousHash(closeout, "sliderRefinement", file, expectedHash);
+    if (previous !== undefined) return previous;
+    if (expectedHash && visual?.sourceFiles[file]?.before === expectedHash) return expectedHash;
+    if (expectedHash && select?.sourceFiles[file]?.before === expectedHash) return expectedHash;
+    const g6Previous = getG6PreviousSource(root, file);
+    if (g6Previous !== null) return createHash("sha256").update(g6Previous).digest("hex");
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error("Slider source must be a regular file: " + file);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  const baselinePath = sliderRefinementEvidence + "baseline.json";
+  if (hash(baselinePath) !== sliderRefinementBaselineHash) throw new Error("Slider must preserve its exact predecessor baseline");
+  const baseline = JSON.parse(readFileSync(join(root, baselinePath), "utf8"));
+  if (hash(baseline.initialBaseline.path) !== baseline.initialBaseline.sha256) throw new Error("Slider original intake baseline changed");
+  const initial = JSON.parse(readFileSync(join(root, baseline.initialBaseline.path), "utf8"));
+  for (const [file, expectedHash] of Object.entries(initial.files)) {
+    if (hash(sliderRefinementEvidence + "before-initial/" + file) !== expectedHash) throw new Error("Slider original intake source changed: " + file);
+  }
+  const before = parseYamlSubset(readFileSync(join(root, sliderRefinementEvidence + "before/status/current-phase.yaml"), "utf8"));
+  delete before.componentRefinements.sliderRefinement;
+  const current = structuredClone(status); delete current.componentRefinements.sliderRefinement;
+  if (closeout) delete current.componentRefinements.datePickerCloseout;
+  if (select) delete current.componentRefinements.selectUnification;
+  if (visual) delete current.componentRefinements.datePickerVisualFeedback;
+  restoreSliderCloseoutPhase(sliderCloseout, current, before);
+  if (!exactRecord(current, before)) throw new Error("Slider must preserve every previous phase record and Gate");
+  const expected = sliderRefinementSourcePaths.filter(file => entry.implementation === "completed" || existsSync(join(root, file)));
+  if (record.kind !== "SliderRefinementSourceBindings" || record.authorizedAt !== "2026-10-13" || record.scope !== entry.scope
+    || !exactRecord(record.baseline, { path: baselinePath, sha256: sliderRefinementBaselineHash })
+    || JSON.stringify(Object.keys(record).sort()) !== JSON.stringify(["kind", "authorizedAt", "scope", "baseline", "sourceFiles"].sort())
+    || JSON.stringify(Object.keys(record.sourceFiles ?? {}).sort()) !== JSON.stringify([...expected].sort())) throw new Error("Slider must bind only its exact finite source paths");
+  for (const [file, beforeHash] of Object.entries(baseline.files)) {
+    if (hash(sliderRefinementEvidence + "before/" + file) !== beforeHash) throw new Error("Slider before source changed: " + file);
+    if (!sliderRefinementSourcePaths.includes(file) && hash(file, beforeHash) !== beforeHash) throw new Error("Slider changed an unrelated source: " + file);
+  }
+  for (const [file, binding] of Object.entries(record.sourceFiles)) {
+    if (!exactRecord(binding, { before: baseline.files[file] ?? null, after: hash(file, binding.after) })) throw new Error("Slider current source changed: " + file);
+  }
+  for (const [file, expectedHash] of Object.entries(baseline.retainedEvidence)) if (hash(file) !== expectedHash) throw new Error("Slider historical evidence changed: " + file);
+  return record;
+
+  });
+}
+
+export function hasDatePickerUxRefinementAuthorization(status) {
+  const parent = status?.componentRefinements?.dateTimeOptimization, entry = parent?.uxRefinement;
+  return parent?.implementation === "completed" && Boolean(entry)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-12", decisionSource: "explicit-user-date-picker-ux-refinement",
+      userStatement: "可以，按这版方案落地到组件库，复用现有组件和样式，把前面发现的交互问题一起修掉，再检查窄屏和键盘操作。",
+      scope: "date-picker-panel-time-input-endpoints-validation-narrow-keyboard", workMode: "system-mode", assetIdentity: "registry-candidate",
+      plan: "docs/plans/2026-10-12-date-picker-ux-refinement.md", evidence: datePickerUxRefinementEvidence + "verification.md", sourceBindings: datePickerUxRefinementEvidence + "source-bindings.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "unpublished", figmaWrite: "not-authorized",
+      businessMigration: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+export function getDatePickerUxRefinementSourceBindings(root, status) {
+  return verifySourceBindingTraversal("getDatePickerUxRefinementSourceBindings", root, status, () => {
+  if (!hasDatePickerUxRefinementAuthorization(status)) throw new Error("DatePicker UX requires its exact finite refinement authorization");
+  const sliderCloseout = getSliderCloseoutSourceBindings(root, status);
+  const closeout = getDatePickerCloseoutSourceBindings(root, status);
+  const select = getSelectUnificationSourceBindings(root, status);
+  const slider = status?.componentRefinements?.sliderRefinement === undefined ? null : getSliderRefinementSourceBindings(root, status);
+  const visual = status?.componentRefinements?.datePickerVisualFeedback === undefined ? null : getDatePickerVisualFeedbackSourceBindings(root, status);
+  const hash = file => {
+    if (slider?.sourceFiles[file]?.before) return slider.sourceFiles[file].before;
+    if (visual?.sourceFiles[file]?.before) return visual.sourceFiles[file].before;
+    if (select?.sourceFiles[file]?.before) return select.sourceFiles[file].before;
+    const g6Previous = getG6PreviousSource(root, file);
+    if (g6Previous !== null) return createHash("sha256").update(g6Previous).digest("hex");
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error(`DatePicker UX source must be a regular file: ${file}`);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  const baselinePath = datePickerUxRefinementEvidence + "baseline.json";
+  if (hash(baselinePath) !== datePickerUxRefinementBaselineHash) throw new Error("DatePicker UX must preserve its original before baseline");
+  const baseline = JSON.parse(readFileSync(join(root, baselinePath), "utf8"));
+  if (hash(baseline.priorSourceBindings.path) !== baseline.priorSourceBindings.sha256) throw new Error("DatePicker UX must preserve the previous source proof");
+  const beforeStatus = parseYamlSubset(readFileSync(join(root, datePickerUxRefinementEvidence + "before/status/current-phase.yaml"), "utf8"));
+  const current = structuredClone(status); delete current.componentRefinements.dateTimeOptimization.uxRefinement;
+  if (closeout) delete current.componentRefinements.datePickerCloseout;
+  if (select) delete current.componentRefinements.selectUnification;
+  if (slider) delete current.componentRefinements.sliderRefinement;
+  if (visual) delete current.componentRefinements.datePickerVisualFeedback;
+  restoreSliderCloseoutPhase(sliderCloseout, current, beforeStatus);
+  if (!exactRecord(current, beforeStatus)) throw new Error("DatePicker UX must preserve every previous phase record and Gate");
+  const entry = status.componentRefinements.dateTimeOptimization.uxRefinement;
+  const record = JSON.parse(readFileSync(join(root, entry.sourceBindings), "utf8"));
+  const expected = datePickerUxRefinementSourcePaths.filter(file => entry.implementation === "completed" || existsSync(join(root, file)));
+  if (record.kind !== "DatePickerUxRefinementSourceBindings" || record.authorizedAt !== "2026-10-12" || record.scope !== entry.scope
+    || !exactRecord(record.baseline, { path: baselinePath, sha256: datePickerUxRefinementBaselineHash })
+    || JSON.stringify(Object.keys(record).sort()) !== JSON.stringify(["kind", "authorizedAt", "scope", "baseline", "sourceFiles"].sort())
+    || JSON.stringify(Object.keys(record.sourceFiles ?? {}).sort()) !== JSON.stringify([...expected].sort())) throw new Error("DatePicker UX must bind only its exact finite source paths");
+  for (const [file, expectedHash] of Object.entries(baseline.files)) {
+    if (expectedHash !== null && hash(datePickerUxRefinementEvidence + "before/" + file) !== expectedHash) throw new Error(`DatePicker UX before source changed: ${file}`);
+    if (expectedHash !== null && !datePickerUxRefinementSourcePaths.includes(file) && hash(file) !== expectedHash) throw new Error(`DatePicker UX changed an unrelated source: ${file}`);
+  }
+  for (const [file, binding] of Object.entries(record.sourceFiles)) {
+    if (!exactRecord(binding, { before: baseline.files[file] ?? null, after: hash(file) })) throw new Error(`DatePicker UX source successor changed: ${file}`);
+  }
+  for (const [file, expectedHash] of Object.entries(baseline.retainedEvidence)) if (hash(file) !== expectedHash) throw new Error(`DatePicker UX historical evidence changed: ${file}`);
+  return record;
+
+  });
+}
+
+export function hasDateTimeOptimizationAuthorization(status) {
+  const entry = status?.componentRefinements?.dateTimeOptimization;
+  return status?.currentPhase?.id === "token-foundations-v1" && hasG5ComponentsAuthorization(status)
+    && (entry?.uxRefinement === undefined || hasDatePickerUxRefinementAuthorization(status))
+    && ["in-progress", "completed"].includes(entry?.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry?.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry?.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-12", decisionSource: "explicit-user-four-batch-date-time-implementation",
+      userStatement: "按这个方案开始实施，按四个批次推进，功能、视觉、交互和动效都落实，完成后给我可操作的作业、考试和跨日时间段示例进行验收。",
+      scope: "calendar-date-picker-assignment-exam-time-ranges", workMode: "system-mode", assetIdentity: "registry-candidate",
+      plan: "docs/plans/2026-10-12-date-time-optimization-implementation.md", design: "docs/plans/2026-10-12-date-time-optimization-design.md",
+      evidence: dateTimeOptimizationEvidence + "verification.md", sourceBindings: dateTimeOptimizationEvidence + "source-bindings.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "unpublished", figmaWrite: "not-authorized",
+      businessMigration: "not-authorized", gitOperations: "no-operations-authorized",
+      ...(entry.uxRefinement === undefined ? {} : { uxRefinement: entry.uxRefinement }),
+    });
+}
+
+export function getDateTimeOptimizationSourceBindings(root, status) {
+  return verifySourceBindingTraversal("getDateTimeOptimizationSourceBindings", root, status, () => {
+  if (!hasDateTimeOptimizationAuthorization(status)) throw new Error("Date-time optimization requires its exact four-batch authorization");
+  const sliderCloseout = getSliderCloseoutSourceBindings(root, status);
+  const closeout = getDatePickerCloseoutSourceBindings(root, status);
+  const select = getSelectUnificationSourceBindings(root, status);
+  const slider = status?.componentRefinements?.sliderRefinement === undefined ? null : getSliderRefinementSourceBindings(root, status);
+  const successor = status.componentRefinements.dateTimeOptimization.uxRefinement === undefined ? null : getDatePickerUxRefinementSourceBindings(root, status);
+  const visual = status?.componentRefinements?.datePickerVisualFeedback === undefined ? null : getDatePickerVisualFeedbackSourceBindings(root, status);
+  const governance = getLibraryGovernanceCloseoutSourceBindings(root);
+  const hash = file => {
+    if (successor?.sourceFiles[file]) return successor.sourceFiles[file].before;
+    if (slider?.sourceFiles[file]?.before) return slider.sourceFiles[file].before;
+    if (visual?.sourceFiles[file]?.before) return visual.sourceFiles[file].before;
+    if (select?.sourceFiles[file]?.before) return select.sourceFiles[file].before;
+    if (governance?.sourceFiles[file]?.before != null) return governance.sourceFiles[file].before;
+    const g6Previous = getG6PreviousSource(root, file);
+    if (g6Previous !== null) return createHash("sha256").update(g6Previous).digest("hex");
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error(`Date-time source must be a regular file: ${file}`);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  const baselinePath = dateTimeOptimizationEvidence + "baseline.json";
+  if (hash(baselinePath) !== dateTimeOptimizationBaselineHash) throw new Error("Date-time optimization must preserve its original before baseline");
+  const baseline = JSON.parse(readFileSync(join(root, baselinePath), "utf8"));
+  const beforeStatus = parseYamlSubset(readFileSync(join(root, dateTimeOptimizationEvidence + "before/status/current-phase.yaml"), "utf8"));
+  const current = structuredClone(status); delete current.componentRefinements.dateTimeOptimization;
+  if (closeout) delete current.componentRefinements.datePickerCloseout;
+  if (select) delete current.componentRefinements.selectUnification;
+  if (slider) delete current.componentRefinements.sliderRefinement;
+  if (visual) delete current.componentRefinements.datePickerVisualFeedback;
+  restoreSliderCloseoutPhase(sliderCloseout, current, beforeStatus);
+  if (!exactRecord(current, beforeStatus)) throw new Error("Date-time optimization must preserve every previous phase record and Gate");
+  const record = JSON.parse(readFileSync(join(root, status.componentRefinements.dateTimeOptimization.sourceBindings), "utf8"));
+  const files = Object.keys(record.sourceFiles ?? {}), completed = status.componentRefinements.dateTimeOptimization.implementation === "completed";
+  const expected = dateTimeOptimizationSourcePaths.filter(file => completed || existsSync(join(root, file)));
+  if (record.kind !== "DateTimeOptimizationSourceBindings" || record.authorizedAt !== "2026-10-12" || record.scope !== status.componentRefinements.dateTimeOptimization.scope
+    || !exactRecord(record.baseline, { path: baselinePath, sha256: dateTimeOptimizationBaselineHash })
+    || JSON.stringify(Object.keys(record).sort()) !== JSON.stringify(["kind", "authorizedAt", "scope", "baseline", "sourceFiles"].sort())
+    || JSON.stringify([...files].sort()) !== JSON.stringify([...expected].sort())) throw new Error("Date-time optimization must bind only its exact finite source paths");
+  for (const [file, expectedHash] of Object.entries(baseline.files)) {
+    if (expectedHash !== null && hash(dateTimeOptimizationEvidence + "before/" + file) !== expectedHash) throw new Error(`Date-time before source changed: ${file}`);
+    if (expectedHash !== null && !dateTimeOptimizationSourcePaths.includes(file) && hash(file) !== expectedHash) throw new Error(`Date-time changed an unrelated source: ${file}`);
+  }
+  for (const [file, binding] of Object.entries(record.sourceFiles)) {
+    if (!exactRecord(binding, { before: baseline.files[file] ?? null, after: hash(file) })) throw new Error(`Date-time source successor changed: ${file}`);
+  }
+  for (const [file, expectedHash] of Object.entries(baseline.retainedEvidence)) if (hash(file) !== expectedHash) throw new Error(`Date-time historical evidence changed: ${file}`);
+  return record;
+
+  });
+}
+
+const g5G4AcceptanceSnapshots = {
+  "scripts/verification-helpers.mjs": "e1b6731708c00498c8e7d26ccc48b731465201a026e39f8e9cd54a422f1dc249",
+  "scripts/g4-page-acceptance.test.ts": "c0894e44cccba77b4b3a4e7ad2dc4543a2aedbcd26b6f0892f80d2d5fa971c71",
+  "scripts/g4-components-governance.test.ts": "4fd13e18415c4bf778ef13ebe31e59708cf4dde5129511c6e7c0aa4a22bc97a4",
+  "apps/playground/src/styles.css": "a52740f01004735e9f86c71a1ba94f977911a336b9ac23006ef140d0e38095ba",
+  "docs/ai/asset-index.md": "a590763aebbfa9edd4f96eb2517842b91b36a711155358e7788b51f0e955f742",
+};
+
+export function getG5SourceBindings(root, status) {
+  return verifySourceBindingTraversal("getG5SourceBindings", root, status, () => {
+  if (!hasG5ComponentsAuthorization(status)) throw new Error("G5 requires the explicit approved plan and finite unpublished scope");
+  const sliderCloseout = getSliderCloseoutSourceBindings(root, status);
+  const closeout = getDatePickerCloseoutSourceBindings(root, status);
+  const select = getSelectUnificationSourceBindings(root, status);
+  const slider = status?.componentRefinements?.sliderRefinement === undefined ? null : getSliderRefinementSourceBindings(root, status);
+  const successor = status?.componentRefinements?.dateTimeOptimization === undefined ? null : getDateTimeOptimizationSourceBindings(root, status);
+  const visual = status?.componentRefinements?.datePickerVisualFeedback === undefined ? null : getDatePickerVisualFeedbackSourceBindings(root, status);
+  const directory = "evidence/runtime/g5-components-2026-10-12/";
+  const governance = getLibraryGovernanceCloseoutSourceBindings(root);
+  const hash = file => {
+    if (successor?.sourceFiles[file]?.before) return successor.sourceFiles[file].before;
+    if (slider?.sourceFiles[file]?.before) return slider.sourceFiles[file].before;
+    if (visual?.sourceFiles[file]?.before) return visual.sourceFiles[file].before;
+    if (select?.sourceFiles[file]?.before) return select.sourceFiles[file].before;
+    if (governance?.sourceFiles[file]?.before != null) return governance.sourceFiles[file].before;
+    const g6Previous = getG6PreviousSource(root, file);
+    if (g6Previous !== null) return createHash("sha256").update(g6Previous).digest("hex");
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error(`G5 source must be a regular file: ${file}`);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  const record = JSON.parse(readFileSync(join(root, directory + "source-bindings.json"), "utf8"));
+  if (hash(directory + "baseline.json") !== "3d583c993fcd85dad98f78e2e325e5195e86835ca5fd672f230104aaaad38d00"
+    || hash(directory + "protected-source-sha256.json") !== "185a7553d46014baf5c185290ef607583d4d891be9fe274cebeae8e693c0d29e") throw new Error("G5 cannot rewrite the original baseline or protected source inventory");
+  if (record.kind !== "G5ComponentSourceBindings" || record.scope !== status.componentRefinements.g5Components.scope
+    || JSON.stringify(Object.keys(record.sourceFiles ?? {}).sort()) !== JSON.stringify([...g5SourceBindingPaths].sort())) throw new Error("G5 source inventory must match its finite declared paths");
+  for (const [file, expected] of Object.entries(record.sourceFiles)) if (hash(file) !== expected) throw new Error(`G5 current source changed: ${file}`);
+  for (const [file, expected] of Object.entries(g5G4AcceptanceSnapshots)) if (hash(directory + "before/" + file) !== expected) throw new Error(`G5 must retain the frozen G4 acceptance snapshot: ${file}`);
+  const baseline = JSON.parse(readFileSync(join(root, directory + "baseline.json"), "utf8"));
+  if (hash(directory + "before/current-phase.yaml") !== baseline.files["status/current-phase.yaml"]) throw new Error("G5 must retain the actual original phase snapshot");
+  const before = parseYamlSubset(readFileSync(join(root, directory + "before/current-phase.yaml"), "utf8"));
+  const current = structuredClone(status); delete current.componentRefinements.g5Components;
+  if (closeout) delete current.componentRefinements.datePickerCloseout;
+  if (select) delete current.componentRefinements.selectUnification;
+  if (successor) delete current.componentRefinements.dateTimeOptimization;
+  if (slider) delete current.componentRefinements.sliderRefinement;
+  if (visual) delete current.componentRefinements.datePickerVisualFeedback;
+  restoreSliderCloseoutPhase(sliderCloseout, current, before);
+  if (!exactRecord(current, before)) throw new Error("G5 must preserve all previous phase records and Gates");
+  const protectedFiles = JSON.parse(readFileSync(join(root, directory + "protected-source-sha256.json"), "utf8"));
+  for (const [file, expected] of Object.entries(protectedFiles)) if (hash(file) !== expected) throw new Error(`G5 changed an unrelated shared source: ${file}`);
+  return record;
+
+  });
+}
+
+// Only G4's proof readers use this bridge; their original expected hashes still have to match.
+// Later G4 predecessors are resolved first by each reader before consulting the G5 snapshot.
+function getG4G5SuccessorHash(root, status) {
+  if (!Object.hasOwn(status?.componentRefinements ?? {}, "g5Components")) return null;
+  const successor = getG5SourceBindings(root, status), directory = "evidence/runtime/g5-components-2026-10-12/";
+  const governance = getLibraryGovernanceCloseoutSourceBindings(root);
+  const retainedObservation = getSliderCloseoutSourceBindings(root, status)?.reconciliation.retainedSourceObservation;
+  const baseline = JSON.parse(readFileSync(join(root, directory + "baseline.json"), "utf8"));
+  const snapshots = [...Object.keys(g5G4AcceptanceSnapshots), "scripts/verify-boundaries.mjs", "scripts/verify-workspace.mjs", "scripts/verify-token-foundations.mjs"];
+  return file => {
+    if (file === retainedObservation?.file) return retainedObservation.before;
+    if (!Object.hasOwn(successor.sourceFiles, file)) return governance?.sourceFiles[file]?.before ?? undefined;
+    if (Object.hasOwn(baseline.files, file)) return baseline.files[file];
+    if (!snapshots.includes(file)) return undefined;
+    const path = join(root, directory, "before", file), info = lstatSync(path);
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error(`G5 predecessor must be a regular file: ${file}`);
+    return createHash("sha256").update(readFileSync(path)).digest("hex");
+  };
+}
+
+export const g4PageAcceptanceDecision = {
+  acceptedAt: "2026-10-12", decisionSource: "explicit-user-three-g4-pages-acceptance",
+  userStatement: "确定。完成这3个页面的验收。", pages: ["typography", "item", "progress"],
+  scope: "typography-item-progress-current-playground-pages-visual-only", humanGate: "accepted",
+  evidence: "evidence/runtime/g4-pages-acceptance-2026-10-12/acceptance.json",
+  contrastAcceptance: "not-granted", publication: "unpublished", figmaWrite: "not-authorized",
+  businessMigration: "not-authorized", gitOperations: "no-operations-authorized",
+};
+export const g4PageAcceptanceGuideNote = "\n2026-10-12 用户明确确认 Typography、Item、Progress 三个当前 Playground 页面的视觉与使用展示验收通过。当前限定结果见[页面验收记录](../../evidence/runtime/g4-pages-acceptance-2026-10-12/verification.md)；此前阶段记录保留，完整对比、无障碍、发布与生产采用分别记录。\n";
+const g4PageAcceptanceSources = ["scripts/verification-helpers.mjs", "scripts/g4-sizing-review.test.ts", "scripts/g4-page-acceptance.test.ts", ...["typography", "item", "progress"].map(name => `manifests/ui/${name}.yaml`), "registry/g4-assets.json", "docs/ai/g4-components.md"];
+
+export function getG4PageAcceptanceBindings(root, status) {
+  return verifySourceBindingTraversal("getG4PageAcceptanceBindings", root, status, () => {
+  const g5PredecessorHash = getG4G5SuccessorHash(root, status);
+  const decision = status?.componentRefinements?.g4Components?.pageAcceptance;
+  if (decision === undefined) return null;
+  if (!exactRecord(decision, g4PageAcceptanceDecision) || !hasG4SizingReviewAuthorization(status)) throw new Error("G4 page acceptance requires the exact explicit user decision and completed scoped delivery");
+  const directory = "evidence/runtime/g4-pages-acceptance-2026-10-12/", previous = "evidence/runtime/g4-review-sizing-2026-10-11/";
+  const hash = file => {
+    const predecessor = g5PredecessorHash?.(file); if (predecessor !== undefined) return predecessor;
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error(`G4 acceptance requires a regular file: ${file}`);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  if (hash(directory + "baseline.json") !== "0aa40e6d83d9392a32c4de434045cbaedc7335d1251c72538b2e8fe99460eb46") throw new Error("G4 page acceptance must preserve its actual original snapshot");
+  const baseline = JSON.parse(readFileSync(join(root, directory + "baseline.json"), "utf8"));
+  for (const [file, expected] of Object.entries(baseline.files)) if (hash(directory + "before/" + file) !== expected) throw new Error(`G4 acceptance original changed: ${file}`);
+  if (hash(previous + "source-bindings.json") !== "020d3a314defd6a1168ac1a58bb074801adf1cc5fa9d395dedb19658d2145fd1"
+    || hash(previous + "final-metadata-freeze.json") !== "758dbfdef392a5c736ad9e623e1cfd152a76139d189ca9789e6fcff9ff4f1429") throw new Error("G4 page acceptance cannot rewrite the frozen technical delivery");
+  const record = JSON.parse(readFileSync(join(root, directory + "source-bindings.json"), "utf8"));
+  if (!exactRecord(record, { kind: "G4PageAcceptanceSourceBindings", decision, baseline: { path: directory + "baseline.json", sha256: hash(directory + "baseline.json") }, sourceFiles: Object.fromEntries(g4PageAcceptanceSources.map(file => [file, { before: baseline.files[file] ?? null, after: hash(file) }])) })) throw new Error("G4 page acceptance source inventory or current metadata changed");
+  const previousPhase = parseYamlSubset(readFileSync(join(root, directory + "before/status/current-phase.yaml"), "utf8")), currentPhase = structuredClone(status);
+  if (g5PredecessorHash) { delete currentPhase.componentRefinements.g5Components; delete currentPhase.componentRefinements.dateTimeOptimization; delete currentPhase.componentRefinements.sliderRefinement; delete currentPhase.componentRefinements.datePickerVisualFeedback; delete currentPhase.componentRefinements.selectUnification; delete currentPhase.componentRefinements.datePickerCloseout; }
+  delete currentPhase.componentRefinements.g4Components.pageAcceptance;
+  restoreSliderCloseoutPhase(g5PredecessorHash ? getSliderCloseoutSourceBindings(root, status) : null, currentPhase, previousPhase);
+  if (!exactRecord(currentPhase, previousPhase)) throw new Error("G4 page acceptance cannot transfer any earlier Gate or permission");
+  for (const name of ["typography", "item", "progress"]) {
+    const file = `manifests/ui/${name}.yaml`, original = parseYamlSubset(readFileSync(join(root, directory + "before/" + file), "utf8")), current = parseYamlSubset(readFileSync(join(root, file), "utf8"));
+    if (!exactRecord(current, { ...original, verification: { ...original.verification, pageAcceptance: decision } })) throw new Error(`G4 page acceptance may add only scoped page metadata: ${file}`);
+  }
+  const registry = "registry/g4-assets.json", originalRegistry = JSON.parse(readFileSync(join(root, directory + "before/" + registry), "utf8"));
+  if (!exactRecord(JSON.parse(readFileSync(join(root, registry), "utf8")), { ...originalRegistry, pageAcceptance: decision })) throw new Error("G4 page acceptance cannot promote the shared Registry candidates");
+  const guide = "docs/ai/g4-components.md";
+  if (readFileSync(join(root, guide), "utf8") !== readFileSync(join(root, directory + "before/" + guide), "utf8") + g4PageAcceptanceGuideNote) throw new Error("G4 page acceptance may append only its scoped guide decision");
+  const confirmation = JSON.parse(readFileSync(join(root, decision.evidence), "utf8"));
+  if (!exactRecord(confirmation, { kind: "G4PageVisualAcceptance", decision, sourceBindings: { path: directory + "source-bindings.json", sha256: hash(directory + "source-bindings.json") }, previousTechnicalFreeze: { path: previous + "final-metadata-freeze.json", sha256: hash(previous + "final-metadata-freeze.json") } })) throw new Error("G4 page acceptance evidence must match the explicit decision and frozen source");
+  return record;
+
+  });
+}
+
+export function hasG4ComponentsAuthorization(status) {
+  const entry = status?.componentRefinements?.g4Components;
+  const visual = entry?.visualRefinement, sizing = entry?.sizingReview, acceptance = entry?.pageAcceptance;
+  return status?.currentPhase?.id === "token-foundations-v1"
+    && ["in-progress", "completed"].includes(entry?.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry?.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry?.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && (visual === undefined || entry.implementation === "completed" && validG4VisualRefinement(visual))
+    && (sizing === undefined || visual?.implementation === "completed" && validG4SizingReview(sizing))
+    && (acceptance === undefined || sizing?.implementation === "completed" && exactRecord(acceptance, g4PageAcceptanceDecision))
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-11", decisionSource: "explicit-user-g4-components-implementation",
+      userStatement: "确定，先补齐 G4：Typography 复用收口，建设 Item 和 Progress，并补齐 Playground 展示和使用说明。",
+      scope: "typography-reuse-item-progress-and-playground-docs", workMode: "system-mode", assetIdentity: "registry-candidate",
+      plan: "docs/plans/2026-10-11-g4-components.md", evidence: "evidence/runtime/g4-components-2026-10-11/verification.md",
+      sourceLock: "evidence/runtime/g4-components-2026-10-11/source-lock.json",
+      sourceBindings: "evidence/runtime/g4-components-2026-10-11/source-bindings.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "unpublished", figmaWrite: "not-authorized",
+      businessMigration: "not-authorized", gitOperations: "no-operations-authorized",
+      ...(visual ? { visualRefinement: visual } : {}),
+      ...(sizing ? { sizingReview: sizing } : {}),
+      ...(acceptance ? { pageAcceptance: acceptance } : {}),
+    });
+}
+
+function validG4VisualRefinement(entry) {
+  return ["in-progress", "completed"].includes(entry?.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-11", decisionSource: "explicit-user-g4-typography-cascade-and-course-material-refinement",
+      scope: "preview-typography-cascade-and-course-material-compositions", workMode: "system-mode",
+      plan: "docs/plans/2026-10-11-g4-visual-refinement.md", evidence: "evidence/runtime/g4-visual-refinement-2026-10-11/verification.md",
+      sourceBindings: "evidence/runtime/g4-visual-refinement-2026-10-11/source-bindings.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "unpublished", figmaWrite: "not-authorized",
+      businessMigration: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+export function hasG4VisualRefinementAuthorization(status) {
+  return hasG4ComponentsAuthorization(status) && validG4VisualRefinement(status.componentRefinements.g4Components.visualRefinement);
+}
+
+function validG4SizingReview(entry) {
+  return ["in-progress", "completed"].includes(entry?.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-11", decisionSource: "explicit-user-g4-title-data-sizing-and-item-icon-feedback",
+      scope: "title-16-exceptions-17-18-data-max-28-and-item-icons", workMode: "system-mode",
+      plan: "docs/plans/2026-10-11-g4-sizing-and-icons.md", evidence: "evidence/runtime/g4-review-sizing-2026-10-11/verification.md",
+      sourceBindings: "evidence/runtime/g4-review-sizing-2026-10-11/source-bindings.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "unpublished", figmaWrite: "not-authorized",
+      businessMigration: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+export function hasG4SizingReviewAuthorization(status) {
+  return hasG4VisualRefinementAuthorization(status) && validG4SizingReview(status.componentRefinements.g4Components.sizingReview);
+}
+
+export const g4SizingReviewSourcePaths = [
+  ...g4ComponentFiles.application, "apps/playground/src/docs/components/component-doc.css",
+  ...["input", "select", "input-number", "tag"].map(name => `apps/playground/src/docs/components/${name}-page.css`),
+  ...["typography-panel.tsx", "typography-panel.test.tsx"].map(file => `apps/playground/src/docs/token-foundations/${file}`),
+  ...["typography-contract.ts", "typography-contract.test.ts", "typography.css", "tailwind-theme.css"].map(file => `packages/foundations/src/${file}`),
+  "manifests/contracts/token-foundations-v1.json", ...g4ComponentFiles.documents,
+  "tests/e2e/g4-components.config.ts", "tests/e2e/g4-components.spec.ts", "tests/e2e/token-foundations.spec.ts",
+  ...["verification-helpers.mjs", "token-foundation-outputs.mjs", "verify-token-foundations.mjs", "verify-tailwind-b2.mjs", "verify-workspace.mjs", "verify-boundaries.mjs", "g4-components-governance.test.ts", "g4-visual-refinement.test.ts", "g4-sizing-review.test.ts"].map(file => `scripts/${file}`),
+  "docs/ai/g4-components.md", "docs/ai/token-selection.md", "docs/plans/2026-10-11-g4-sizing-and-icons.md",
+];
+const g4SizingBaselinePath = "evidence/runtime/g4-review-sizing-2026-10-11/baseline.json";
+const g4SizingBaselineChecksum = "d8148dfbef438f91786cf93976e93ad81600b2713653e8fe7f608b4a2f651503";
+
+export function validateG4SizingCssSuccessor(file, before, current) {
+  let expected = before;
+  if (file === "apps/playground/src/docs/components/component-doc.css") {
+    expected = before.replace("font-size:var(--rain-font-size-28); line-height:var(--rain-line-height-36);", "font-size:var(--rain-font-size-16); line-height:var(--rain-line-height-24);")
+      .replace("font-size:var(--rain-font-size-18); line-height:var(--rain-line-height-24);", "font-size:var(--rain-font-size-16); line-height:var(--rain-line-height-24);")
+      .replace(" .component-doc__title > h1 { font-size:var(--rain-font-size-24); line-height:var(--rain-line-height-32); }", "");
+  } else if (["input", "select", "input-number", "tag"].some(name => file === `apps/playground/src/docs/components/${name}-page.css`)) {
+    expected = before.replace("font-size: var(--rain-font-size-24); line-height: var(--rain-line-height-32);", "font-size: var(--rain-font-size-16); line-height: var(--rain-line-height-24);");
+  } else return ["G4 sizing CSS successor requires an exact registered title caller"];
+  return current === expected && expected !== before ? [] : [`G4 sizing may change only the exact title declarations: ${file}`];
+}
+
+export function getG4SizingReviewSourceBindings(root, status) {
+  return verifySourceBindingTraversal("getG4SizingReviewSourceBindings", root, status, () => {
+  const g5PredecessorHash = getG4G5SuccessorHash(root, status);
+  if (!hasG4SizingReviewAuthorization(status)) throw new Error("G4 sizing review requires its exact independent user authorization");
+  const entry = status.componentRefinements.g4Components.sizingReview, beforeRoot = "evidence/runtime/g4-review-sizing-2026-10-11/before/";
+  const acceptance = getG4PageAcceptanceBindings(root, status);
+  const predecessorFile = file => acceptance?.sourceFiles[file] ? `evidence/runtime/g4-pages-acceptance-2026-10-12/before/${file}` : file;
+  const hash = input => {
+    const file = predecessorFile(input);
+    const predecessor = g5PredecessorHash?.(file); if (predecessor !== undefined) return predecessor;
+    const g6Previous = getG6PreviousSource(root, file);
+    if (g6Previous !== null) return createHash("sha256").update(g6Previous).digest("hex");
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error(`G4 sizing source must be a regular file: ${file}`);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  if (hash(g4SizingBaselinePath) !== g4SizingBaselineChecksum) throw new Error("G4 sizing review must preserve its original 81-file baseline manifest bytes");
+  const baseline = JSON.parse(readFileSync(join(root, g4SizingBaselinePath), "utf8"));
+  for (const [file, expected] of Object.entries(baseline.files)) if (hash(beforeRoot + file) !== expected) throw new Error(`G4 sizing actual before snapshot changed: ${file}`);
+  const record = JSON.parse(readFileSync(join(root, entry.sourceBindings), "utf8"));
+  const retainedPaths = Object.keys(baseline.files).filter(file => !g4SizingReviewSourcePaths.includes(file) && file !== "status/current-phase.yaml");
+  const sameKeys = (value, keys) => JSON.stringify(Object.keys(value ?? {}).sort()) === JSON.stringify([...keys].sort());
+  if (record.kind !== "G4SizingReviewSourceBindings" || record.authorizedAt !== "2026-10-11" || record.scope !== entry.scope
+    || !sameKeys(record, ["kind", "authorizedAt", "scope", "baseline", "sourceFiles", "retainedRecords"])
+    || !exactRecord(record.baseline, { path: g4SizingBaselinePath, sha256: g4SizingBaselineChecksum })
+    || !sameKeys(record.sourceFiles, g4SizingReviewSourcePaths) || !sameKeys(record.retainedRecords, retainedPaths)) throw new Error("G4 sizing must retain its exact finite source inventory and unchanged predecessor records");
+  for (const [file, binding] of Object.entries(record.sourceFiles)) if (!exactRecord(binding, { before: baseline.files[file] ?? null, after: hash(file) })) throw new Error(`G4 sizing source successor changed: ${file}`);
+  for (const [file, expected] of Object.entries(record.retainedRecords)) if (expected !== baseline.files[file] || hash(file) !== expected) throw new Error(`G4 sizing retained predecessor or raw token changed: ${file}`);
+  for (const file of ["component-doc", "input-page", "select-page", "input-number-page", "tag-page"].map(name => `apps/playground/src/docs/components/${name}.css`)) {
+    const failures = validateG4SizingCssSuccessor(file, readFileSync(join(root, beforeRoot, file), "utf8"), readFileSync(join(root, file), "utf8"));
+    if (failures.length) throw new Error(failures.join("; "));
+  }
+  const beforeStatus = parseYamlSubset(readFileSync(join(root, beforeRoot, "status/current-phase.yaml"), "utf8")), current = structuredClone(status);
+  if (g5PredecessorHash) { delete current.componentRefinements.g5Components; delete current.componentRefinements.dateTimeOptimization; delete current.componentRefinements.sliderRefinement; delete current.componentRefinements.datePickerVisualFeedback; delete current.componentRefinements.selectUnification; delete current.componentRefinements.datePickerCloseout; }
+  delete current.componentRefinements.g4Components.sizingReview;
+  delete current.componentRefinements.g4Components.pageAcceptance;
+  restoreSliderCloseoutPhase(g5PredecessorHash ? getSliderCloseoutSourceBindings(root, status) : null, current, beforeStatus);
+  if (!exactRecord(current, beforeStatus)) throw new Error("G4 sizing review must preserve every prior phase record and Gate");
+  for (const name of ["typography", "item", "progress"]) {
+    const file = `manifests/ui/${name}.yaml`, before = parseYamlSubset(readFileSync(join(root, beforeRoot, file), "utf8")), actual = parseYamlSubset(readFileSync(join(root, predecessorFile(file)), "utf8"));
+    const metadata = { scope: entry.scope, evidence: entry.evidence, automated: entry.automatedVerification === "passed-scoped" ? "scoped-passed" : entry.automatedVerification, independentReview: entry.independentReview, humanGate: "awaiting_human", contrastAcceptance: "not-granted" };
+    const typographyChanges = name === "typography" ? { sourceVersion: "user-sizing-feedback-2026-10-11", migrationNotes: "标题默认 16px，显式例外 17/18px；关键数字最大 28px。本轮修改现有 Foundations 合同，旧验收保留，新反馈独立待审。", visualLineage: { ...before.visualLineage, redesignedTraits: ["独立使用页与检索映射；本轮按用户反馈修订 Heading/Data 字号合同，旧验收记录保留。"] } } : {};
+    if (!exactRecord(actual, { ...before, ...typographyChanges, verification: { ...before.verification, sizingReview: metadata } })) throw new Error(`G4 sizing Manifest must preserve capability and earlier Gates: ${file}`);
+  }
+  const registryFile = "registry/g4-assets.json", registry = JSON.parse(readFileSync(join(root, beforeRoot, registryFile), "utf8"));
+  registry.items[0].localStatus = "modified";
+  if (!exactRecord(JSON.parse(readFileSync(join(root, predecessorFile(registryFile)), "utf8")), registry)) throw new Error("G4 sizing Registry may change only Typography localStatus to modified");
+  return record;
+
+  });
+}
+
+export const g4VisualRefinementSourcePaths = [
+  "apps/playground/src/docs/components/component-doc.css", ...g4ComponentFiles.application,
+  "tests/e2e/g4-components.config.ts", "tests/e2e/g4-components.spec.ts",
+  "scripts/verification-helpers.mjs", "scripts/token-foundation-outputs.mjs", "scripts/verify-token-foundations.mjs", "scripts/verify-workspace.mjs", "scripts/verify-boundaries.mjs", "scripts/g4-components-governance.test.ts", "scripts/g4-visual-refinement.test.ts",
+  "docs/ai/g4-components.md", "docs/plans/2026-10-11-g4-visual-refinement.md", ...g4ComponentFiles.documents.filter(file => file.startsWith("manifests/")),
+];
+export const g4VisualRetainedRecordPaths = ["source-bindings.json", "source-integrity.json", "source-lock.json", "color-consumers.json", "color-verification.json", "verification.md", "global-before-current-comparison.json"].map(file => `evidence/runtime/g4-components-2026-10-11/${file}`);
+const g4OriginalBindingsChecksum = "27437c4f91707e8965a743f7b8b376e681c5c2353e1c612752ec216cae3e1a4d";
+const g4VisualBeforePhaseChecksum = "02e22e64a5202fa2aa6894b2d09c3c2d5e83901e8a4cdc48fd7fdbd0e27544a3";
+const g4VisualBaselineChecksum = "e59f06c8221d8de6d1a0782e9dc4dd9b5fe5720ba92bebed08985220f7b159d9";
+
+export function validateG4PreviewTypographySuccessor(before, current) {
+  const paragraphs = ".component-doc__header p,.component-doc__example p { margin:0; line-height:var(--rain-line-height-24); }";
+  const preview = before.match(/^\.component-doc__preview \{[^\n]+\}$/m)?.[0];
+  if (before.split(paragraphs).length !== 2 || !preview) return ["G4 preview typography predecessor must retain its exact paragraph and container rules"];
+  const expected = before.replace(paragraphs, ".component-doc__header p,.component-doc__example p { margin:0; }\n.component-doc__header p { line-height:var(--rain-line-height-24); }")
+    .replace(preview, preview.replace("min-width:0; }", "min-width:0; line-height:var(--rain-line-height-24); }"));
+  return current === expected ? [] : ["G4 preview typography must change only paragraph line-height ownership and the preview inherited default"];
+}
+
+export function getG4VisualRefinementSourceBindings(root, status) {
+  return verifySourceBindingTraversal("getG4VisualRefinementSourceBindings", root, status, () => {
+  const g5PredecessorHash = getG4G5SuccessorHash(root, status);
+  if (!hasG4VisualRefinementAuthorization(status)) throw new Error("G4 visual source bindings require their exact independent feedback authorization");
+  const sizing = hasG4SizingReviewAuthorization(status) ? getG4SizingReviewSourceBindings(root, status) : null;
+  const predecessorFile = file => sizing?.sourceFiles[file] ? `evidence/runtime/g4-review-sizing-2026-10-11/before/${file}` : file;
+  const entry = status.componentRefinements.g4Components.visualRefinement, beforeRoot = "evidence/runtime/g4-visual-refinement-2026-10-11/before/";
+  const hash = input => {
+    const file = predecessorFile(input);
+    const predecessor = g5PredecessorHash?.(file); if (predecessor !== undefined) return predecessor;
+    const g6Previous = getG6PreviousSource(root, file);
+    if (g6Previous !== null) return createHash("sha256").update(g6Previous).digest("hex");
+    const info = lstatSync(join(root, file));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error(`G4 visual source must be a regular file: ${file}`);
+    return createHash("sha256").update(readFileSync(join(root, file))).digest("hex");
+  };
+  const record = JSON.parse(readFileSync(join(root, entry.sourceBindings), "utf8"));
+  const baselinePath = "evidence/runtime/g4-visual-refinement-2026-10-11/baseline.json";
+  if (hash(baselinePath) !== g4VisualBaselineChecksum) throw new Error("G4 visual refinement must preserve its original actual baseline manifest bytes");
+  const baseline = JSON.parse(readFileSync(join(root, baselinePath), "utf8"));
+  for (const [file, expected] of Object.entries(baseline.files)) if (hash(beforeRoot + file) !== expected) throw new Error(`G4 visual refinement actual before snapshot changed: ${file}`);
+  const sameKeys = (value, keys) => JSON.stringify(Object.keys(value ?? {}).sort()) === JSON.stringify([...keys].sort());
+  const oldPath = "evidence/runtime/g4-components-2026-10-11/source-bindings.json";
+  if (hash(oldPath) !== g4OriginalBindingsChecksum || hash(beforeRoot + oldPath) !== g4OriginalBindingsChecksum) throw new Error("G4 visual refinement must preserve the original G4 source binding bytes");
+  if (record.kind !== "G4VisualRefinementSourceBindings" || record.authorizedAt !== "2026-10-11" || record.scope !== entry.scope
+    || !sameKeys(record, ["kind", "authorizedAt", "scope", "predecessor", "sourceFiles", "retainedRecords"])
+    || !exactRecord(record.predecessor, { path: oldPath, sha256: g4OriginalBindingsChecksum })
+    || !sameKeys(record.sourceFiles, g4VisualRefinementSourcePaths) || !sameKeys(record.retainedRecords, g4VisualRetainedRecordPaths)) throw new Error("G4 visual bindings must retain their exact finite source inventory and immutable predecessor");
+  for (const [file, binding] of Object.entries(record.sourceFiles)) {
+    const added = ["docs/plans/2026-10-11-g4-visual-refinement.md", "scripts/g4-visual-refinement.test.ts"].includes(file);
+    // These two test captures already contained the current feedback RED/output-path delta.
+    // Their separate inverse reconstructions must match the immutable original G4 after SHA below.
+    const predecessorRoot = ["tests/e2e/g4-components.config.ts", "tests/e2e/g4-components.spec.ts"].includes(file) ? "evidence/runtime/g4-visual-refinement-2026-10-11/predecessor/" : beforeRoot;
+    if (!exactRecord(binding, { before: added ? null : hash(predecessorRoot + file), after: hash(file) })) throw new Error(`G4 visual source successor changed: ${file}`);
+  }
+  for (const [file, expected] of Object.entries(record.retainedRecords)) if (hash(file) !== expected || hash(beforeRoot + file) !== expected) throw new Error(`G4 visual refinement retained prior G4 evidence changed: ${file}`);
+  const old = JSON.parse(readFileSync(join(root, oldPath), "utf8"));
+  for (const [file, binding] of Object.entries(old.sourceFiles)) {
+    const visual = record.sourceFiles[file];
+    if (visual ? visual.before !== binding.after : hash(file) !== binding.after) throw new Error(`G4 visual refinement cannot rewrite the original source outside its exact scope: ${file}`);
+  }
+  for (const [file, expected] of Object.entries(old.retainedRecords)) if (hash(file) !== expected) throw new Error(`G4 visual refinement cannot change retained Foundation or prior Gate: ${file}`);
+  if (hash(beforeRoot + "status/current-phase.yaml") !== g4VisualBeforePhaseChecksum) throw new Error("G4 visual refinement before phase must preserve the actual completed G4 predecessor");
+  const original = parseYamlSubset(readFileSync(join(root, beforeRoot, "status/current-phase.yaml"), "utf8")), current = structuredClone(status);
+  if (g5PredecessorHash) { delete current.componentRefinements.g5Components; delete current.componentRefinements.dateTimeOptimization; delete current.componentRefinements.sliderRefinement; delete current.componentRefinements.datePickerVisualFeedback; delete current.componentRefinements.selectUnification; delete current.componentRefinements.datePickerCloseout; }
+  delete current.componentRefinements.g4Components.visualRefinement;
+  delete current.componentRefinements.g4Components.sizingReview;
+  delete current.componentRefinements.g4Components.pageAcceptance;
+  restoreSliderCloseoutPhase(g5PredecessorHash ? getSliderCloseoutSourceBindings(root, status) : null, current, original);
+  if (JSON.stringify(current) !== JSON.stringify(original)) throw new Error("G4 visual refinement must preserve every prior phase record and Gate");
+  const docFile = "apps/playground/src/docs/components/component-doc.css", docFailures = validateG4PreviewTypographySuccessor(readFileSync(join(root, beforeRoot, docFile), "utf8"), readFileSync(join(root, predecessorFile(docFile)), "utf8"));
+  if (docFailures.length) throw new Error(docFailures.join("; "));
+  for (const name of ["typography", "item", "progress"]) {
+    const file = `manifests/ui/${name}.yaml`, before = parseYamlSubset(readFileSync(join(root, beforeRoot, file), "utf8")), actual = parseYamlSubset(readFileSync(join(root, predecessorFile(file)), "utf8"));
+    const metadata = { scope: "playground-documentation-visual-only", evidence: entry.evidence,
+      automated: entry.automatedVerification === "passed-scoped" ? "scoped-passed" : entry.automatedVerification, independentReview: entry.independentReview, humanGate: "awaiting_human", contrastAcceptance: "not-granted" };
+    if (!exactRecord(actual, { ...before, verification: { ...before.verification, visualRefinement: metadata } })) throw new Error(`G4 visual Manifest must preserve its original capability and Gate, adding only independent feedback metadata: ${file}`);
+  }
+  for (const [file, binding] of Object.entries(record.sourceFiles)) if (sizing?.sourceFiles[file]) {
+    if (binding.after !== sizing.sourceFiles[file].before) throw new Error(`G4 sizing must start from the recorded visual source: ${file}`);
+    binding.after = sizing.sourceFiles[file].after;
+  }
+  return record;
+
+  });
+}
+
+export const g4SourceBindingPaths = [
+  ...g4ComponentFiles.ui, ...g4ComponentFiles.application, ...g4ComponentFiles.documents,
+  "apps/playground/src/docs/components/component-catalog.tsx", "apps/playground/src/docs/components/component-asset-page.tsx", "apps/playground/src/styles.css",
+  "packages/ui/src/index.ts", "packages/ui/src/styles.css",
+  "docs/ai/g4-components.md", "docs/ai/prototype-design.md", "docs/ai/asset-index.md", "docs/plans/2026-10-11-g4-components.md",
+  "scripts/verification-helpers.mjs", "scripts/verify-tailwind-b2.mjs", "scripts/verify-token-foundations.mjs", "scripts/token-foundation-outputs.mjs",
+  ...g4ComponentFiles.workspace, "manifests/contracts/tailwind-b2.yaml",
+  "scripts/asset-index.mjs", "scripts/asset-index.test.ts", "scripts/verify-workspace.mjs", "scripts/verify-boundaries.mjs",
+];
+export const g4RetainedRecordPaths = [
+  "packages/foundations/src/typography-contract.ts", "packages/foundations/src/typography.css", "packages/foundations/src/tokens.css", "packages/foundations/src/tailwind-theme.css",
+  "pnpm-lock.yaml", "packages/ui/package.json", "registry/g1-assets.json", "registry/g2-assets.json",
+  "evidence/runtime/g123-playground-2026-10-07/color-consumers.json", "evidence/runtime/g123-playground-2026-10-07/tailwind-candidate-origins.json",
+];
+
+export function validateG4Registry(registry) {
+  if (registry.pageAcceptance !== undefined) {
+    if (!exactRecord(registry.pageAcceptance, g4PageAcceptanceDecision)) return ["G4 Registry page acceptance requires its exact scoped user decision"];
+    registry = { ...registry }; delete registry.pageAcceptance;
+  }
+  const sourceLock = "evidence/runtime/g4-components-2026-10-11/source-lock.json", license = "evidence/runtime/g4-components-2026-10-11/upstream/LICENSE.md";
+  const expected = {
+    schemaVersion: 1, kind: "RainLocalSourceRegistry", publication: "not-published", scope: "current-workspace", assetIdentity: "registry-candidate",
+    humanGate: "awaiting_human", contrastAcceptance: "not-granted", sourceLock,
+    dependencies: { "@base-ui/react": "1.8.0", "class-variance-authority": "0.7.1", clsx: "2.1.1", "tailwind-merge": "3.6.0" },
+    shared: {
+      files: ["packages/ui/src/utils/rain-class-names.ts", "packages/ui/src/separator/separator.tsx", "packages/ui/src/separator/separator.css", "packages/ui/src/separator/separator.css.d.ts"],
+      peerDependencies: ["react", "@rain-next/foundations"],
+      styleDependencies: ["@rain-next/foundations/tokens.css", "@rain-next/foundations/typography.css", "@rain-next/foundations/focus.css", "@rain-next/foundations/motion.css", "@rain-next/foundations/tailwind-theme.css", "@rain-next/ui/styles.css"],
+    },
+    items: [
+      { name: "typography", exportNames: ["typographyPresets", "typographyUtilityClassNames", "resolveTypographyPreset", "validateTypographyComposition", "validateDataFontUsage"], importPath: "@rain-next/foundations", manifest: "manifests/ui/typography.yaml",
+        files: ["packages/foundations/src/typography-contract.ts", "packages/foundations/src/typography.css", "packages/foundations/src/tailwind-theme.css"], modificationMode: "managed", localStatus: "clean-existing-source-reused" },
+      { name: "item", exportNames: ["Item", "ItemActions", "ItemContent", "ItemDescription", "ItemFooter", "ItemGroup", "ItemHeader", "ItemMedia", "ItemSeparator", "ItemTitle"], importPath: "@rain-next/ui", manifest: "manifests/ui/item.yaml",
+        files: ["packages/ui/src/item/item.tsx", "packages/ui/src/item/item.css", "packages/ui/src/item/item.css.d.ts", "packages/ui/src/item/README.md"], registryDependencies: ["registry/core-ui.json#button"], sourceLock, license, modificationMode: "managed", localStatus: "modified" },
+      { name: "progress", exportNames: ["Progress", "ProgressIndicator", "ProgressLabel", "ProgressTrack", "ProgressValue"], importPath: "@rain-next/ui", manifest: "manifests/ui/progress.yaml",
+        files: ["packages/ui/src/progress/progress.tsx", "packages/ui/src/progress/progress.css", "packages/ui/src/progress/progress.css.d.ts", "packages/ui/src/progress/README.md"], sourceLock, license, modificationMode: "managed", localStatus: "modified" },
+    ],
+  };
+  return exactRecord(registry, expected) ? [] : ["G4 Registry must retain its exact three unpublished candidates, sources, existing dependencies and independent Gates"];
+}
+
+export function getG4SourceBindings(root, status) {
+  return verifySourceBindingTraversal("getG4SourceBindings", root, status, () => {
+  const g5PredecessorHash = getG4G5SuccessorHash(root, status);
+  if (!hasG4ComponentsAuthorization(status)) throw new Error("G4 source bindings require their exact candidate authorization");
+  const record = JSON.parse(readFileSync(join(root, status.componentRefinements.g4Components.sourceBindings), "utf8"));
+  const sizing = hasG4SizingReviewAuthorization(status) ? getG4SizingReviewSourceBindings(root, status) : null;
+  const visual = hasG4VisualRefinementAuthorization(status) ? getG4VisualRefinementSourceBindings(root, status) : null;
+  const predecessorFile = file => sizing?.sourceFiles[file] ? `evidence/runtime/g4-review-sizing-2026-10-11/before/${file}` : file;
+  const beforeRoot = "evidence/runtime/g4-components-2026-10-11/before/";
+  const hash = input => {
+    const path = predecessorFile(input);
+    const predecessor = g5PredecessorHash?.(path); if (predecessor !== undefined) return predecessor;
+    const g6Previous = status?.componentRefinements?.g6Components ? getG6PreviousSource(root, path) : null;
+    if (g6Previous !== null) return createHash("sha256").update(g6Previous).digest("hex");
+    const stat = lstatSync(join(root, path));
+    if (!stat.isFile() || stat.isSymbolicLink()) throw new Error(`G4 source must be a regular file: ${path}`);
+    return createHash("sha256").update(readFileSync(join(root, path))).digest("hex");
+  };
+  const keysEqual = (record, keys) => JSON.stringify(Object.keys(record ?? {}).sort()) === JSON.stringify([...keys].sort());
+  if (record.kind !== "G4ComponentSourceBindings" || record.scope !== status.componentRefinements.g4Components.scope || record.authorizedAt !== "2026-10-11"
+    || !keysEqual(record, ["kind", "scope", "authorizedAt", "sourceFiles", "retainedRecords"])
+    || !keysEqual(record.sourceFiles, g4SourceBindingPaths) || !keysEqual(record.retainedRecords, g4RetainedRecordPaths)) throw new Error("G4 bindings must retain their exact finite source and predecessor inventory");
+  for (const [file, binding] of Object.entries(record.sourceFiles)) {
+    const added = [...g4ComponentFiles.ui, ...g4ComponentFiles.application, ...g4ComponentFiles.documents, ...g4ComponentFiles.workspace, "docs/ai/g4-components.md", "docs/plans/2026-10-11-g4-components.md"].includes(file);
+    const before = added ? null : hash(beforeRoot + file);
+    const successor = visual?.sourceFiles[file];
+    if (!exactRecord(binding, { before, after: successor?.before ?? hash(file) })) throw new Error(`G4 source successor changed: ${file}`);
+    if (successor) binding.after = successor.after;
+    else if (sizing?.sourceFiles[file]) {
+      if (binding.after !== sizing.sourceFiles[file].before) throw new Error(`G4 sizing must start from the original source: ${file}`);
+      binding.after = sizing.sourceFiles[file].after;
+    }
+  }
+  for (const [file, expected] of Object.entries(record.retainedRecords)) if (hash(file) !== expected || hash(beforeRoot + file) !== expected) throw new Error(`G4 retained source or record changed: ${file}`);
+  const stylesPath = "packages/ui/src/styles.css", styles = (status?.componentRefinements?.g6Components ? getG6PreviousSource(root, stylesPath) : null) ?? readFileSync(join(root, stylesPath), "utf8");
+  const imports = '@import "./item/item.css";\n@import "./progress/progress.css";\n';
+  if (styles.split(imports).length !== 2 || createHash("sha256").update(styles.replace(imports, "")).digest("hex") !== record.sourceFiles[stylesPath].before) throw new Error("G4 shared styles must add only the two exact component imports and preserve all prior styles");
+  const registryFailures = validateG4Registry(JSON.parse(readFileSync(join(root, predecessorFile("registry/g4-assets.json")), "utf8")));
+  if (registryFailures.length) throw new Error(registryFailures.join("; "));
+  const baseline = parseYamlSubset(readFileSync(join(root, beforeRoot + "status/current-phase.yaml"), "utf8"));
+  const current = { ...status, componentRefinements: Object.fromEntries(Object.entries(status.componentRefinements).filter(([name]) => name !== "g4Components")) };
+  if (g5PredecessorHash) { delete current.componentRefinements.g5Components; delete current.componentRefinements.dateTimeOptimization; delete current.componentRefinements.sliderRefinement; delete current.componentRefinements.datePickerVisualFeedback; delete current.componentRefinements.selectUnification; delete current.componentRefinements.datePickerCloseout; }
+  restoreSliderCloseoutPhase(g5PredecessorHash ? getSliderCloseoutSourceBindings(root, status) : null, current, baseline);
+  if (JSON.stringify(current) !== JSON.stringify(baseline)) throw new Error("G4 must preserve every prior phase record and Gate");
+  return record;
+
+  });
+}
+
+export function validateG4SourceDirectives(source, status, root = process.cwd()) {
+  if (status?.componentRefinements?.g6Components) {
+    try {
+      // This validator compares scan directives, including synthetic older-stage tests.
+      // The live G6 owner remains fully byte-bound; only its three exact scan lines are normalized here.
+      const record = getG6SourceBindings(root);
+      if (!record || !exactRecord(status.componentRefinements.g6Components, record.phase)) throw new Error("G6 directives require their exact recorded lifecycle");
+      const g6Directives = ["media", "interaction", "conversation"].map(name => `@source "./docs/components/g6-${name}-pages.tsx";`);
+      const uncommented = source.replace(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|(\/\*[\s\S]*?\*\/)/g, (match, comment) => comment ? "" : match);
+      if (g6Directives.some(line => uncommented.split(line).length !== 2)) throw new Error("G6 requires its three exact scan directives once");
+      source = uncommented;
+      for (const line of g6Directives) source = source.replace(line + "\n", "");
+    } catch (error) { return [`G6 source directives require exact bound bytes: ${error.message}`]; }
+  }
+
+  if (!hasG4ComponentsAuthorization(status)) return ["G4 scanning requires its exact candidate authorization"];
+  const directive = '@source "./docs/components/g4-component-pages.tsx";';
+  const successorDirectives = hasG5ComponentsAuthorization(status) ? ['@source "./docs/components/g5-component-pages.tsx";'] : [];
+  const before = readFileSync(join(root, "evidence/runtime/g4-components-2026-10-11/before/apps/playground/src/styles.css"), "utf8");
+  const directives = text => text.replace(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|(\/\*[\s\S]*?\*\/)/g, (match, comment) => comment ? "" : match).match(/@source\b[^;]+;/g) ?? [];
+  const expected = directives(before).flatMap(line => line.startsWith("@source inline") ? [directive, ...successorDirectives, line] : [line]);
+  return JSON.stringify(directives(source)) === JSON.stringify(expected) ? [] : ["G4 must add only its exact page scan source and preserve existing scan directives"];
+}
+
+export const g123PlaygroundFiles = {
+  application: [
+    "component-doc.tsx", "component-doc.css", "component-catalog.tsx", "component-asset-page.tsx",
+    "alert-page.tsx", "breadcrumb-page.tsx", "switch-page.tsx", "accordion-page.tsx", "collapsible-page.tsx", "resizable-page.tsx", "tooltip-page.tsx",
+    "button-group-page.tsx", "toggle-page.tsx", "toggle-group-page.tsx", "spinner-page.tsx", "skeleton-page.tsx", "skeleton-page.css", "toast-page.tsx",
+    "g1-component-pages.css", "g3-demo-location.ts", "g3-component-pages.tsx", "g3-component-pages.css", "g3-component-pages.test.tsx", "navigation-component-pages.tsx", "navigation-doc-pages.css",
+  ].map(file => `apps/playground/src/docs/components/${file}`).concat("apps/playground/src/routes/component-assets.test.tsx"),
+  ui: ["sheet", "context-menu", "hover-card", "menubar", "navigation-menu"].map(name => `packages/ui/src/${name}/${name}.tsx`).concat("packages/ui/src/_internal/popup.tsx", "packages/ui/src/_internal/g3-popup-context.test.tsx"),
+  documents: ["docs/plans/2026-10-07-g1-g3-playground.md", "evidence/runtime/g123-playground-2026-10-07/verification.md", "evidence/runtime/g123-playground-2026-10-07/color-consumers.json", "evidence/runtime/g123-playground-2026-10-07/token-current-result.json", "evidence/runtime/g123-playground-2026-10-07/token-initial-new-doc-findings.json", "evidence/runtime/g123-playground-2026-10-07/tailwind-candidate-origins.json"],
+  workspace: ["scripts/g123-playground-governance.test.ts", "tests/e2e/g123-playground.config.ts", "tests/e2e/g123-playground.spec.ts"],
+  scanSources: ["component-doc", "component-catalog", "switch-page", "accordion-page", "collapsible-page", "resizable-page", "tooltip-page", "button-group-page", "toggle-page", "toggle-group-page", "spinner-page", "skeleton-page", "toast-page", "g3-component-pages", "navigation-component-pages"],
+};
+export function hasG123PlaygroundAssetizationAuthorization(status) {
+  const entry = status?.componentRefinements?.g123PlaygroundAssetization;
+  return status?.currentPhase?.id === "token-foundations-v1"
+    && hasTokenFirstV12Authorization(status) && hasTokenFirstV12G1NextAuthorization(status) && hasTokenFirstV12G2Authorization(status)
+    && hasRecordedPostB2Refinement(status, "tokenFirstV12G3")
+    && ["in-progress", "completed"].includes(entry?.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry?.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry?.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-07", decisionSource: "explicit-user-g1-g3-assetization-and-playground",
+      userStatement: "补齐这批已有成果的组件沉淀与 Playground 展示", scope: "g1-g3-existing-candidates-and-independent-playground-docs",
+      workMode: "system-mode", assetIdentity: "registry-candidate",
+      plan: "docs/plans/2026-10-07-g1-g3-playground.md", evidence: "evidence/runtime/g123-playground-2026-10-07/verification.md",
+      g1RegistrySha256: g123PlaygroundRegistrySnapshots.g1, g2RegistrySha256: g123PlaygroundRegistrySnapshots.g2,
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized",
+      figmaWrite: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+export function hasG23FamilyVisualRefinementAuthorization(status) {
+  const entry = status?.componentRefinements?.g23FamilyVisualRefinement;
+  return status?.currentPhase?.id === "token-foundations-v1"
+    && ["in-progress", "completed"].includes(entry?.implementation)
+    && ["not-run", "failed", "passed-scoped"].includes(entry?.automatedVerification)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-08",
+      decisionSource: "explicit-user-family-route-and-visual-target-confirmation",
+      userStatement: "按家族精修；确定，继续；确定。",
+      scope: "toggle-group-command-sidebar-first-samples-and-document-preview", workMode: "system-mode",
+      plan: "docs/plans/2026-10-08-g2-g3-family-refinement.md",
+      visualTarget: "evidence/runtime/g2-g3-family-refinement-2026-10-08/approved-visual-target.png",
+      evidence: "evidence/runtime/g2-g3-family-refinement-2026-10-08/verification.md",
+      sourceBindings: "evidence/runtime/g2-g3-family-refinement-2026-10-08/source-bindings.json",
+      designDirection: "user-confirmed-image", implementation: entry.implementation,
+      automatedVerification: entry.automatedVerification, runtimeVisualReview: "awaiting-user-review",
+      contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized",
+      figmaWrite: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+export function hasG23RemainingVisualRefinementAuthorization(status) {
+  const entry = status?.componentRefinements?.g23RemainingVisualRefinement;
+  return hasG23FamilyVisualRefinementAuthorization(status)
+    && status.componentRefinements.g23FamilyVisualRefinement.implementation === "completed"
+    && ["in-progress", "completed"].includes(entry?.implementation)
+    && ["not-run", "failed", "passed-scoped"].includes(entry?.automatedVerification)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped")
+    && exactRecord(entry, {
+      authorization:"authorized", authorizedAt:"2026-10-08", decisionSource:"explicit-user-continue-remaining-g2-g3-styles",
+      userStatement:"继续优化g2、g3下，其他组件的样式", scope:"remaining-g2-g3-styles-and-existing-playground-examples",
+      workMode:"system-mode", plan:"docs/plans/2026-10-08-g2-g3-remaining-families.md",
+      visualTarget:"evidence/runtime/g2-g3-family-refinement-2026-10-08/approved-visual-target.png",
+      evidence:"evidence/runtime/g2-g3-remaining-families-2026-10-08/verification.md",
+      sourceBindings:"evidence/runtime/g2-g3-remaining-families-2026-10-08/source-bindings.json",
+      designDirection:"continue-user-confirmed-family-direction", implementation:entry.implementation,
+      automatedVerification:entry.automatedVerification, runtimeVisualReview:"awaiting-user-review",
+      contrastAcceptance:"not-granted", publication:"not-authorized", businessMigration:"not-authorized",
+      figmaWrite:"not-authorized", gitOperations:"no-operations-authorized",
+    });
+}
+
+const g23DocBindingsPath = "evidence/runtime/g2-g3-family-refinement-2026-10-08/source-bindings.json";
+export function hasToastActionPositionRefinementAuthorization(status) {
+  const entry = status?.componentRefinements?.toastActionPositionRefinement;
+  return hasG23RemainingVisualRefinementAuthorization(status)
+    && status.componentRefinements.g23RemainingVisualRefinement.implementation === "completed"
+    && ["in-progress", "completed"].includes(entry?.implementation)
+    && ["not-run", "failed", "passed-scoped"].includes(entry?.automatedVerification)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-08", decisionSource: "explicit-user-toast-text-action-and-top-position",
+      scope: "toast-text-action-and-top-centered-feedback", workMode: "system-mode",
+      plan: "docs/plans/2026-10-08-toast-action-position.md", evidence: "evidence/runtime/toast-action-position-2026-10-08/verification.md",
+      sourceBindings: "evidence/runtime/toast-action-position-2026-10-08/source-bindings.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, runtimeVisualReview: "awaiting-user-review",
+      contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized",
+      figmaWrite: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+const g23DocBindingsChecksum = "cadd8cd894a7581e317b601a829a72c3a44f8a327106e4c8cfaaceb9b42dbf00";
+export function hasSheetTaskRefinementAuthorization(status) {
+  const entry = status?.componentRefinements?.sheetTaskRefinement;
+  const feedback = entry?.feedbackRefinement;
+  const feedbackAuthorized = feedback === undefined || ["in-progress", "completed"].includes(feedback?.implementation)
+    && ["not-run", "failed", "passed-scoped"].includes(feedback.automatedVerification)
+    && (feedback.implementation !== "completed" || feedback.automatedVerification === "passed-scoped")
+    && exactRecord(feedback, {
+      authorization: "authorized", authorizedAt: "2026-10-09", decisionSource: "explicit-user-sheet-field-buttons-and-icon-feedback",
+      scope: "sheet-standard-input-native-history-off-neutral-name-fill-primary-save-tertiary-cancel-pdf-28",
+      evidence: "evidence/runtime/sheet-feedback-2026-10-09/verification.md",
+      sourceBindings: "evidence/runtime/sheet-feedback-2026-10-09/source-bindings.json",
+      implementation: feedback.implementation, automatedVerification: feedback.automatedVerification,
+      runtimeVisualReview: "awaiting-user-review", publication: "not-authorized",
+    });
+  const detailAccepted = entry?.implementation === "completed" && entry.runtimeVisualReview === "detail-accepted-other-states-pending"
+    && exactRecord(entry.detailVisualApproval, {
+      acceptedAt: "2026-10-09", decisionSource: "explicit-user-confirmation-after-sheet-runtime-handoff", userStatement: "确定",
+      scope: "presented-right-detail-visual-and-information-layout", evidence: "evidence/runtime/sheet-task-refinement-2026-10-09/visual-acceptance.json",
+    });
+  return hasToastActionPositionRefinementAuthorization(status)
+    && feedbackAuthorized
+    && ["in-progress", "completed"].includes(entry?.implementation)
+    && ["not-run", "failed", "passed-scoped"].includes(entry?.automatedVerification)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-09", decisionSource: "explicit-user-sheet-selected-visual-and-start-refinement",
+      userStatement: "确定，开始改造", scope: "sheet-task-parts-and-existing-playground-detail-edit", workMode: "system-mode",
+      plan: "docs/plans/2026-10-09-sheet-task-refinement.md",
+      visualTarget: "evidence/runtime/sheet-task-refinement-2026-10-09/approved-visual-target.png",
+      evidence: "evidence/runtime/sheet-task-refinement-2026-10-09/verification.md",
+      sourceBindings: "evidence/runtime/sheet-task-refinement-2026-10-09/source-bindings.json",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification,
+      runtimeVisualReview: detailAccepted ? "detail-accepted-other-states-pending" : "awaiting-user-review",
+      ...(detailAccepted ? { detailVisualApproval: entry.detailVisualApproval } : {}),
+      ...(feedback ? { feedbackRefinement: feedback } : {}),
+      contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized", figmaWrite: "not-authorized", gitOperations: "no-operations-authorized",
+    });
+}
+
+export function getG23DocumentationSourceBindings(root, status) {
+  return verifySourceBindingTraversal("getG23DocumentationSourceBindings", root, status, () => {
+  if (!hasG23FamilyVisualRefinementAuthorization(status)) throw new Error("G2–G3 documentation bindings require the exact first sample authorization");
+  const source = readFileSync(join(root, g23DocBindingsPath), "utf8");
+  if (createHash("sha256").update(source).digest("hex") !== g23DocBindingsChecksum) throw new Error("G2–G3 documentation bindings must preserve their recorded bytes");
+  const record = JSON.parse(source);
+  const successors = [];
+  if (hasG23RemainingVisualRefinementAuthorization(status)) successors.push({
+    path: status.componentRefinements.g23RemainingVisualRefinement.sourceBindings,
+    checksum: "dea5ca215723a2f512d1b17bd7f1248bfd9c371698c181bc22c36134919cb507",
+  });
+  if (hasToastActionPositionRefinementAuthorization(status)) successors.push({
+    path: status.componentRefinements.toastActionPositionRefinement.sourceBindings,
+    checksum: "ccdd8e9591489dba6529a378c83dcb46bedbb721931e6a0d8716fa806c499ceb",
+  });
+  if (hasSheetTaskRefinementAuthorization(status)) successors.push({
+    path: status.componentRefinements.sheetTaskRefinement.sourceBindings,
+    checksum: "d142bf0f5ae1edb03857a29c15ed10a0721ca1a11f26083d091795b98ec8b036",
+  });
+  if (hasSheetTaskRefinementAuthorization(status) && status.componentRefinements.sheetTaskRefinement.feedbackRefinement) successors.push({
+    path: status.componentRefinements.sheetTaskRefinement.feedbackRefinement.sourceBindings,
+    checksum: "1dcd5563e5bba6259e3154a72de25aea8ecc27504a0c530c919f0e182a4201e9",
+  });
+  for (const { path, checksum } of successors) {
+    const bytes = readFileSync(join(root, path));
+    if (createHash("sha256").update(bytes).digest("hex") !== checksum) throw new Error("G2–G3 remaining documentation bindings must preserve their recorded bytes");
+    const successor = JSON.parse(bytes);
+    for (const [file, binding] of Object.entries(successor.sourceFiles)) {
+      if (record.sourceFiles[file] && record.sourceFiles[file].after !== binding.before) throw new Error(`G2–G3 remaining documentation predecessor changed: ${file}`);
+      record.sourceFiles[file] = record.sourceFiles[file] ? { ...record.sourceFiles[file], after:binding.after } : binding;
+    }
+    record.lexicalSourceFiles ??= {};
+    for (const [file, binding] of Object.entries(successor.lexicalSourceFiles)) {
+      const previous = record.lexicalSourceFiles[file];
+      if (previous && previous.after !== binding.before) throw new Error(`G2–G3 lexical predecessor changed: ${file}`);
+      record.lexicalSourceFiles[file] = previous ? { ...previous, after: binding.after } : binding;
+      record.retainedRecords[file] = binding.after;
+    }
+    Object.assign(record.retainedRecords, successor.retainedRecords, { [path]:checksum });
+  }
+  if (hasSheetTaskRefinementAuthorization(status) && status.componentRefinements.sheetTaskRefinement.detailVisualApproval) {
+    const path = status.componentRefinements.sheetTaskRefinement.detailVisualApproval.evidence;
+    const bytes = readFileSync(join(root, path)), checksum = "112fd7de77a4f316c359a65c8101e0f6d5f60912af79fa7930936b0999d5dada";
+    if (createHash("sha256").update(bytes).digest("hex") !== checksum) throw new Error("Sheet detail acceptance must preserve its recorded bytes");
+    const approval = JSON.parse(bytes);
+    record.retainedRecords[path] = checksum;
+    record.retainedRecords[approval.reviewedSurface.screenshot] = approval.reviewedSurface.sha256;
+  }
+  if (hasG4ComponentsAuthorization(status)) {
+    const successor = getG4SourceBindings(root, status), stylesPath = "packages/ui/src/styles.css";
+    const binding = successor.sourceFiles[stylesPath];
+    if (record.sourceFiles[stylesPath]?.after !== binding.before) throw new Error("G4 shared-style predecessor must match the unchanged G2–G3 source record");
+    record.sourceFiles[stylesPath].after = binding.after;
+    const path = status.componentRefinements.g4Components.sourceBindings;
+    record.retainedRecords[path] = createHash("sha256").update(readFileSync(join(root, path))).digest("hex");
+    if (hasG4VisualRefinementAuthorization(status)) {
+      const visual = getG4VisualRefinementSourceBindings(root, status), docPath = "apps/playground/src/docs/components/component-doc.css", binding = visual.sourceFiles[docPath];
+      if (record.sourceFiles[docPath]?.after !== binding.before) throw new Error("G4 typography cascade predecessor must match the unchanged G2–G3 documentation record");
+      record.sourceFiles[docPath].after = binding.after;
+      const path = status.componentRefinements.g4Components.visualRefinement.sourceBindings;
+      record.retainedRecords[path] = createHash("sha256").update(readFileSync(join(root, path))).digest("hex");
+    }
+  }
+  for (const [file, binding] of Object.entries(record.sourceFiles)) {
+    if (createHash("sha256").update(getG6PreviousSource(root, file) ?? readFileSync(join(root, file))).digest("hex") !== binding.after) throw new Error(`G2–G3 documentation actual source changed: ${file}`);
+  }
+  for (const [file, expected] of Object.entries(record.retainedRecords)) {
+    if (createHash("sha256").update(getG6PreviousSource(root, file) ?? readFileSync(join(root, file))).digest("hex") !== expected) throw new Error(`G2–G3 documentation retained record changed: ${file}`);
+  }
+  return record;
+
+  });
+}
+
+export const buttonGroupRepairFiles = {
+  application: ["apps/playground/src/docs/components/button-group-page.tsx", "apps/playground/src/docs/components/button-group-page.css", "apps/playground/src/docs/components/button-group-page.test.tsx"],
+  ui: ["button-group.tsx", "button-group.css"].map(file => `packages/ui/src/button-group/${file}`),
+  documents: ["manifests/ui/button-group.yaml", "docs/plans/2026-10-07-button-group-repair.md", "evidence/runtime/button-group-repair-2026-10-07/verification.md", "evidence/runtime/button-group-repair-2026-10-07/source-bindings.json", "evidence/runtime/button-group-repair-2026-10-07/source-bindings-before-dark-fix.json", "evidence/runtime/button-group-repair-2026-10-07/doc-color-consumers.json", "docs/plans/2026-10-08-button-group-style.md", "evidence/runtime/button-group-style-2026-10-08/verification.md", "evidence/runtime/button-group-style-2026-10-08/source-bindings.json", "evidence/runtime/button-group-style-2026-10-08/doc-color-consumers.json", "docs/plans/2026-10-08-button-group-sizes.md", "evidence/runtime/button-group-sizes-2026-10-08/verification.md", "evidence/runtime/button-group-sizes-2026-10-08/source-bindings.json", "evidence/runtime/button-group-sizes-2026-10-08/doc-color-consumers.json", "evidence/runtime/button-group-sizes-2026-10-08/style-human-gate.json"],
+  workspace: ["scripts/g123-playground-governance.test.ts", "tests/e2e/button-group-repair.config.ts", "tests/e2e/button-group-repair.spec.ts"],
+};
+export function hasButtonGroupRepairAuthorization(status) {
+  const entry = status?.componentRefinements?.buttonGroupRepair;
+  const style = entry?.styleRefinement;
+  const styleAccepted = style?.humanGate === "accepted" && style.implementation === "completed"
+    && style.automatedVerification === "passed-scoped" && style.independentReview === "passed-scoped"
+    && exactRecord(style.humanGateDecision, {
+      acceptedAt: "2026-10-08", decisionSource: "explicit-user-button-group-style-current-runtime-confirmation",
+      userStatement: "确定。需要补充多尺寸，现在只有1个尺寸。", scope: "button-group-style-current-runtime-visual-only",
+      evidence: "evidence/runtime/button-group-sizes-2026-10-08/style-human-gate.json",
+    });
+  const styleAuthorized = style === undefined || ["in-progress", "completed"].includes(style.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(style.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(style.independentReview)
+    && (style.implementation !== "completed" || style.automatedVerification === "passed-scoped" && style.independentReview === "passed-scoped")
+    && exactRecord(style, {
+      authorization: "authorized", authorizedAt: "2026-10-08", decisionSource: "explicit-user-button-group-style-implementation",
+      userStatement: "开始改代码", scope: "button-group-disabled-content-continuous-seams-and-local-docs",
+      plan: "docs/plans/2026-10-08-button-group-style.md", evidence: "evidence/runtime/button-group-style-2026-10-08/verification.md",
+      sourceBindings: "evidence/runtime/button-group-style-2026-10-08/source-bindings.json",
+      implementation: style.implementation, automatedVerification: style.automatedVerification, independentReview: style.independentReview,
+      humanGate: styleAccepted ? "accepted" : "awaiting_human", ...(styleAccepted ? { humanGateDecision: style.humanGateDecision } : {}),
+    });
+  const sizes = entry?.sizeRefinement;
+  const sizesAuthorized = sizes === undefined || styleAccepted && entry.implementation === "completed"
+    && ["in-progress", "completed"].includes(sizes.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(sizes.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(sizes.independentReview)
+    && (sizes.implementation !== "completed" || sizes.automatedVerification === "passed-scoped" && sizes.independentReview === "passed-scoped")
+    && exactRecord(sizes, {
+      authorization: "authorized", authorizedAt: "2026-10-08", decisionSource: "explicit-user-button-group-five-sizes",
+      userStatement: "确定。需要补充多尺寸，现在只有1个尺寸。", scope: "button-group-existing-five-button-sizes-and-local-docs-only",
+      plan: "docs/plans/2026-10-08-button-group-sizes.md", evidence: "evidence/runtime/button-group-sizes-2026-10-08/verification.md",
+      sourceBindings: "evidence/runtime/button-group-sizes-2026-10-08/source-bindings.json",
+      implementation: sizes.implementation, automatedVerification: sizes.automatedVerification, independentReview: sizes.independentReview, humanGate: "awaiting_human",
+    });
+  return hasG123PlaygroundAssetizationAuthorization(status)
+    && styleAuthorized && sizesAuthorized
+    && status.componentRefinements.g123PlaygroundAssetization.implementation === "completed"
+    && createHash("sha256").update(JSON.stringify(status.componentRefinements.g123PlaygroundAssetization)).digest("hex") === "4b9b15d5c814cac94b8f4ef0208f48a34caecbdd889fd67f11e88b3f1c9f3c0f"
+    && ["in-progress", "completed"].includes(entry?.implementation)
+    && ["not-run", "passed-scoped", "failed"].includes(entry?.automatedVerification)
+    && ["not-run", "findings", "passed-scoped"].includes(entry?.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-10-07", decisionSource: "explicit-user-continue-button-group-repair",
+      userStatement: "继续修复", scope: "button-group-existing-part-contract-seams-and-playground-only",
+      workMode: "system-mode", assetIdentity: "registry-candidate",
+      evidence: "evidence/runtime/button-group-repair-2026-10-07/verification.md",
+      sourceBindings: "evidence/runtime/button-group-repair-2026-10-07/source-bindings.json",
+      g2RegistrySha256: g123PlaygroundRegistrySnapshots.g2,
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: "awaiting_human", contrastAcceptance: "not-granted", publication: "not-authorized", businessMigration: "not-authorized",
+      figmaWrite: "not-authorized", gitOperations: "no-operations-authorized",
+      ...(style ? { styleRefinement: style } : {}),
+      ...(sizes ? { sizeRefinement: sizes } : {}),
+    });
+}
+export function hasButtonGroupSizeRefinementAuthorization(status) {
+  return hasButtonGroupRepairAuthorization(status) && Boolean(status.componentRefinements.buttonGroupRepair.sizeRefinement);
+}
+
+export function getG123TailwindCandidateOrigins(root, status) {
+  return withSourceBindingTraversal(root, () => getG123TailwindCandidateOriginsInTraversal(root, status));
+}
+
+function getG123TailwindCandidateOriginsInTraversal(root, status) {
+  if (!hasG123PlaygroundAssetizationAuthorization(status)) throw new Error("Current lexical origins require the exact G1–G3 authorization");
+  const source = readFileSync(join(root, "evidence/runtime/g123-playground-2026-10-07/tailwind-candidate-origins.json"), "utf8");
+  const originalChecksum = "9d11352daa27460cd8076e68f56e9833f511dcfaa2f78cfcf9551e4aeea71518";
+  const repair = hasButtonGroupRepairAuthorization(status) ? getButtonGroupRepairSourceBindings(root, status) : null;
+  if (createHash("sha256").update(source).digest("hex") !== originalChecksum) {
+    // The completed G123 route revision changed only its two lexical hash entries.
+    const projection = repair?.lexicalProjection;
+    if (!projection || createHash("sha256").update(source.replaceAll(projection.completedRouteSha256, projection.originalRouteSha256)).digest("hex") !== originalChecksum) throw new Error("G1–G3 lexical origin inventory must preserve its recorded bytes");
+  }
+  const record = JSON.parse(source);
+  const family = hasG23RemainingVisualRefinementAuthorization(status) ? getG23DocumentationSourceBindings(root, status) : null;
+  const g4 = hasG4ComponentsAuthorization(status) ? getG4SourceBindings(root, status) : null;
+  const g5 = hasG5ComponentsAuthorization(status) ? getG5SourceBindings(root, status) : null;
+  const select = status?.componentRefinements?.selectUnification ? getSelectUnificationSourceBindings(root, status) : null;
+  const navigation = getRecordedNavigationSourceBindings(root, status);
+  const navBefore = navigation ? JSON.parse(readFileSync(join(root, "evidence/runtime/navigation-playground-refinement-2026-10-09/source-before.json"), "utf8")).filesSha256 : null;
+  const navAfter = navigation ? JSON.parse(readFileSync(join(root, "evidence/runtime/navigation-playground-refinement-2026-10-09/source-after.json"), "utf8")).filesSha256 : null;
+  for (const [file, expected] of Object.entries(record.sourceFiles)) {
+    const successor = file === "packages/ui/src/button-group/button-group.tsx" ? repair?.sourceFiles[file] : g4?.sourceFiles[file] ?? family?.lexicalSourceFiles[file];
+    let current = successor?.after ?? expected;
+    if (successor && successor.before !== expected) throw new Error(`G1–G3 lexical origin predecessor changed: ${file}`);
+    if (file === "apps/playground/src/styles.css" && g5) {
+      const before = createHash("sha256").update(readFileSync(join(root, "evidence/runtime/g5-components-2026-10-12/before/" + file))).digest("hex");
+      if (current !== before) throw new Error(`G1–G3 lexical G5 predecessor changed: ${file}`);
+      current = g5.sourceFiles[file];
+    }
+    if (file === "apps/playground/src/app.tsx" && navBefore) {
+      if (current !== navBefore[file]) throw new Error(`G1–G3 lexical navigation predecessor changed: ${file}`);
+      current = navAfter[file];
+      if (select) {
+        if (select.sourceFiles[file].before !== current) throw new Error(`G1–G3 lexical Select predecessor changed: ${file}`);
+        current = select.sourceFiles[file].after;
+      }
+    }
+    const provenSource = (status?.componentRefinements?.g6Components ? getG6PreviousSource(root, file) : null) ?? readFileSync(join(root, file), "utf8");
+    if (createHash("sha256").update(provenSource).digest("hex") !== current) throw new Error(`G1–G3 lexical origin successor changed: ${file}`);
+    if (current !== expected) {
+      record.sourceFiles[file] = current;
+      for (const [candidate, origins] of Object.entries(record.unusedCandidateSources)) if (Object.hasOwn(origins, file)) {
+        if (provenSource.includes(candidate)) origins[file] = current;
+        else delete origins[file];
+      }
+    }
+  }
+  return record;
+}
+
+export function getButtonGroupRepairSourceBindings(root, status) {
+  return withSourceBindingTraversal(root, () => getButtonGroupRepairSourceBindingsInTraversal(root, status));
+}
+
+function getButtonGroupRepairSourceBindingsInTraversal(root, status) {
+  if (!hasButtonGroupRepairAuthorization(status)) throw new Error("Button Group source bindings require the exact repair authorization");
+  const source = readFileSync(join(root, "evidence/runtime/button-group-repair-2026-10-07/source-bindings.json"), "utf8");
+  if (createHash("sha256").update(source).digest("hex") !== "8d497cc6315043155b478f0c48fd2a99004fb26a1c2c1e8a12de947615bc668b") throw new Error("Button Group source binding inventory must preserve its recorded bytes");
+  const record = JSON.parse(source);
+  const repair = status.componentRefinements.buttonGroupRepair;
+  for (const [refinement, checksum, label, beforeDirectory] of [
+    [repair.styleRefinement, "fa011732378deaabfd0a6ab40564e3dfed9617a10aff14a69cdfbe13c81edd5c", "style", "evidence/runtime/button-group-style-2026-10-08/before"],
+    [repair.sizeRefinement, "99b3202343ddf86340b8ffd579088b0c648711528fe751f81ac35d9b046f0f6b", "size", "evidence/runtime/button-group-sizes-2026-10-08/before"],
+  ]) {
+    if (!refinement) continue;
+    const source = readFileSync(join(root, refinement.sourceBindings), "utf8");
+    if (createHash("sha256").update(source).digest("hex") !== checksum) throw new Error(`Button Group ${label} bindings must preserve their recorded bytes`);
+    const successor = JSON.parse(source);
+    for (const [file, binding] of Object.entries(successor.sourceFiles)) {
+      if (record.sourceFiles[file]?.after !== binding.before) throw new Error(`Button Group ${label} predecessor changed: ${file}`);
+      record.sourceFiles[file].after = binding.after;
+      record.retainedRecords[`${beforeDirectory}/${file}`] = binding.before;
+    }
+    Object.assign(record.retainedRecords, successor.retainedRecords, { [refinement.sourceBindings]: checksum });
+  }
+  if (hasG23FamilyVisualRefinementAuthorization(status)) {
+    const successor = getG23DocumentationSourceBindings(root, status);
+    for (const [file, binding] of Object.entries(successor.sourceFiles)) {
+      const predecessor = record.sourceFiles[file]?.after ?? record.retainedRecords[file];
+      if (predecessor && predecessor !== binding.before) throw new Error(`G2–G3 documentation predecessor changed: ${file}`);
+      if (record.sourceFiles[file]) record.sourceFiles[file].after = binding.after;
+      record.retainedRecords[file] = binding.after;
+    }
+    Object.assign(record.retainedRecords, successor.retainedRecords, { [g23DocBindingsPath]: g23DocBindingsChecksum });
+  }
+  for (const [file, binding] of Object.entries(record.sourceFiles)) {
+    if (createHash("sha256").update(getG6PreviousSource(root, file) ?? readFileSync(join(root, file))).digest("hex") !== binding.after) throw new Error(`Button Group repair actual source changed: ${file}`);
+    if (binding.before && createHash("sha256").update(readFileSync(join(root, "evidence/runtime/button-group-repair-2026-10-07/before", file))).digest("hex") !== binding.before) throw new Error(`Button Group repair prior source changed: ${file}`);
+  }
+  for (const [file, expected] of Object.entries(record.retainedRecords)) if (createHash("sha256").update(getG6PreviousSource(root, file) ?? readFileSync(join(root, file))).digest("hex") !== expected) throw new Error(`Button Group repair retained record changed: ${file}`);
+  return record;
+}
+
+export function hasAlertAuthorization(status) {
+  const entry = status?.componentRefinements?.alert;
+  const accepted = entry?.humanGate === "accepted";
+  return status?.currentPhase?.id === "token-foundations-v1" && Boolean(entry)
+    && ["in-progress", "completed"].includes(entry.implementation)
+    && ["not-run", "passed-scoped"].includes(entry.automatedVerification)
+    && ["not-run", "passed-scoped"].includes(entry.independentReview)
+    && (entry.implementation !== "completed" || entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && ["awaiting_human", "accepted"].includes(entry.humanGate)
+    && (!accepted || entry.implementation === "completed" && entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped")
+    && exactRecord(entry, {
+      authorization: "authorized", authorizedAt: "2026-09-20", decisionSource: "explicit-user-start-alert", userStatement: "开始建设",
+      scope: "shared-alert-four-tones-page-banner-b-default-a-recipe", plan: "docs/plans/2026-09-20-alert.md", evidence: "evidence/runtime/alert/verification.md",
+      implementation: entry.implementation, automatedVerification: entry.automatedVerification, independentReview: entry.independentReview,
+      humanGate: accepted ? "accepted" : "awaiting_human",
+      ...(accepted ? { humanGateDecision: {
+        acceptedAt: "2026-09-20", decisionSource: "explicit-user-alert-visual-confirmation",
+        userStatement: "确定。完成视觉验收", scope: "alert-current-runtime-visual-only", evidence: "evidence/runtime/alert/verification.md",
+      } } : {}),
+      contrastAcceptance: "not-granted", publication: "unpublished", git: "no-operations-authorized",
+    });
+}
+export const alertFiles = {
+  application: ["alert-page.tsx", "alert-page.css"].map(file => `apps/playground/src/docs/components/${file}`),
+  ui: ["alert.tsx", "alert.css", "alert.css.d.ts", "alert.test.tsx", "README.md"].map(file => `packages/ui/src/alert/${file}`),
+  documents: ["manifests/ui/alert.yaml", "registry/alert.json"],
+  workspace: ["scripts/alert.mjs", "scripts/alert.test.ts", "tests/e2e/alert.spec.ts", "tests/e2e/alert.config.ts"],
+};
+
+export function hasTooltipAuthorization(status) {
+  const entry = status?.componentRefinements?.tooltip;
+  const accepted = entry?.humanGate === "accepted";
+  return hasTokenFirstV12G1NextAuthorization(status) && entry?.authorization === "authorized"
+    && entry.decisionSource === "explicit-user-classic-tooltip-and-missing-token"
+    && entry.scope === "shared-tooltip-classic-visual-behavior-and-preview-replacement"
+    && entry.tokenAddition === "fixed-tooltip-background-2F3545"
+    && (accepted ? entry.implementation === "implemented-shared-candidate"
+      && entry.automatedVerification === "passed-scoped" && entry.independentReview === "passed-scoped-read-only-review"
+      && exactRecord(entry.humanGateDecision, {
+        acceptedAt: "2026-09-20", decisionSource: "explicit-user-tooltip-confirmation", userStatement: "确定。",
+        scope: "tooltip-current-runtime-visual-and-bottom-first-interaction",
+        evidence: "evidence/runtime/tooltip-classic/verification.md",
+      }) === true : entry.humanGate === "awaiting_human" && entry.humanGateDecision === undefined)
+    && entry.contrastAcceptance === "not-granted"
+    && entry.publication === "unpublished" && entry.git === "no-operations-authorized";
+}
+
+export const tooltipFiles = {
+  ui: ["tooltip.tsx", "tooltip.css", "tooltip.css.d.ts", "tooltip.test.tsx", "README.md"].map(file => `packages/ui/src/tooltip/${file}`),
+  workspace: ["packages/foundations/src/tooltip-token-contract.ts", "scripts/tooltip.test.ts"],
+  documents: ["manifests/ui/tooltip.yaml", "registry/tooltip.json"],
+};
+
+export function hasTreeAuthorization(status) {
+  const entry = status?.componentRefinements?.treeDesignAndImplementationRules;
+  return entry?.authorization === "authorized-local-implementation"
+    && entry.authorizedAt === "2026-09-25"
+    && entry.decisionSource === "explicit-user-request-to-implement-approved-plan"
+    && entry.userStatement === "开始按照计划实施建设"
+    && entry.scope === "rain-next-tree-ui-and-manage-tree-pattern-per-approved-plan"
+    && entry.workMode === "system-mode-local-candidate-implementation"
+    && entry.plan === "../docs/plans/2026-09-25-tree-implementation-rules.md"
+    && entry.acceptedVisual === "../docs/design-reviews/tree/accepted-layout-a.html"
+    && entry.humanGate === "accepted"
+    && entry.humanGateScope === "tree-layout-a-representative-visual-design-only"
+    && exactRecord(entry.humanGateDecision, {
+      acceptedAt: "2026-09-25", decisionSource: "explicit-user-visual-acceptance",
+      userStatement: "确定。已经完成视觉审核。", scope: "basic-checkable-rich-manage-layout-a-visuals",
+      evidence: "../docs/plans/2026-09-25-tree-implementation-rules.md",
+    })
+    && entry.runtimeAcceptance === "accepted-current-local-tree-and-manage-tree-runtime-visual-after-feedback"
+    && entry.contrastAcceptance === "not-granted-known-preview-contrast-findings"
+    && entry.publication === "unpublished"
+    && JSON.stringify(entry.doesNotAuthorize) === JSON.stringify(["global-token-or-other-component-changes", "figma-write-or-publication", "package-registry-publication-or-business-migration", "git-commit-push-or-merge"]);
+}
+
+// shortcut: recorded scopes use exact snapshots; a changed scope needs a reviewed hash.
+const recordedPostB2Refinements = {
+  navigationPlaygroundVisualRefinement: "bf419479799a019bc18e3f8eb3adbafb79f52b57ec16b67bc2165e34c1dfe1a7",
+  breadcrumbSingleSize: "77eb9fb138e33c35f33edc175144efcee9d03900b902225cddf248004300b018",
+  tokenFirstG3NavigationRebuildV03: "d10978b4ba37a8b36d55b9deeebc66145e6f1c61ea7ca786fc1194d606df0c3c",
+  tokenFirstV12G3: "d8669a9fc0d788589e316b61aa931a25ee5ed054dda62bfa26cdab63428b651b",
+};
+
+export function hasRecordedPostB2Refinement(status, name) {
+  return Object.hasOwn(recordedPostB2Refinements, name)
+    && createHash("sha256").update(JSON.stringify(status?.componentRefinements?.[name] ?? null)).digest("hex") === recordedPostB2Refinements[name];
+}
+
 export function getValidatedTailwindB2History(status) {
+  return verifySourceBindingTraversal("getValidatedTailwindB2History", process.cwd(), status, () => {
+  const successor = getG6SourceBindings(process.cwd())?.closeoutSuccessor;
+  if (successor) { status = structuredClone(status); restoreG1G6CloseoutPhase(successor, status); }
   const fail = () => { throw new Error("Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged"); };
   const history = status?.phaseHistory?.tailwindB2;
   if (status?.currentPhase?.id !== "token-foundations-v1" || !history
@@ -2162,8 +4145,31 @@ export function getValidatedTailwindB2History(status) {
     || !exactRecord(status.phaseHistory, { foundationSpikeDay3: history.phaseHistory?.foundationSpikeDay3, tailwindB2: history })) fail();
   for (const key of ["schemaVersion", "kind", "preparationOutputs", "preparationChecks", "componentRefinements", "componentHumanGates", "independentAuditCheckpoints", "pendingGitActions"]) {
     const current = key === "componentRefinements"
-      ? Object.fromEntries(Object.entries(status[key]).filter(([name]) =>
-        !(name === "inputNumber" && hasInputNumberAuthorization(status))
+      ? Object.fromEntries(Object.entries(status[key]).filter(([name, record]) =>
+        !hasRecordedPostB2Refinement(status, name)
+        && !(name === "g23FamilyVisualRefinement" && hasG23FamilyVisualRefinementAuthorization(status))
+        && !(name === "g23RemainingVisualRefinement" && hasG23RemainingVisualRefinementAuthorization(status))
+        && !(name === "toastActionPositionRefinement" && hasToastActionPositionRefinementAuthorization(status))
+        && !(name === "sheetTaskRefinement" && hasSheetTaskRefinementAuthorization(status))
+        && !(name === "g123PlaygroundAssetization" && hasG123PlaygroundAssetizationAuthorization(status))
+        && !(name === "g4Components" && hasG4ComponentsAuthorization(status))
+        && !(name === "g5Components" && hasG5ComponentsAuthorization(status))
+        && !(name === "g6Components" && hasG6ComponentsAuthorization(status))
+        && !(name === "carouselUpgrade" && hasCarouselUpgradeAuthorization(status))
+        && !(name === "drawerRefinement" && hasDrawerRefinementAuthorization(status))
+        && !(name === "dateTimeOptimization" && hasDateTimeOptimizationAuthorization(status))
+        && !(name === "sliderRefinement" && hasSliderRefinementAuthorization(status))
+        && !(name === "datePickerVisualFeedback" && hasDatePickerVisualFeedbackAuthorization(status))
+        && !(name === "datePickerCloseout" && hasDatePickerCloseoutAuthorization(status))
+        && !(name === "sliderCloseout" && hasSliderCloseoutAuthorization(status))
+        && !(name === "selectUnification" && hasSelectUnificationAuthorization(status))
+        && !(name === "buttonGroupRepair" && hasButtonGroupRepairAuthorization(status))
+        && !(name === "tokenFirstV12G2" && hasTokenFirstV12G2Authorization(status))
+        && !(name === "treeDesignAndImplementationRules" && hasTreeAuthorization(status))
+        && !(name === "alert" && hasAlertAuthorization(status))
+        && !(name === "tooltip" && hasTooltipAuthorization(status))
+        && !(name === "tokenFirstV12" && hasTokenFirstV12Authorization(status))
+        && !(name === "inputNumber" && hasInputNumberAuthorization(status))
         && !(name === "generationQuality" && hasGenerationQualityAuthorization(status))
         && !(name === "avatarFamily" && hasAvatarFamilyAuthorization(status))
         && !(name === "m2Delivery" && hasM2Authorization(status))
@@ -2183,6 +4189,7 @@ export function getValidatedTailwindB2History(status) {
         && !(name === "selectionPatternsSc03" && hasSelectionPatternsSc03Authorization(status))
         && !(name === "selectionCardsSc02" && hasSelectionCardsSc02Authorization(status))
         && !(name === "radioSc01" && hasRadioSc01Authorization(status))
+        && !(name === "switchSc01" && hasSwitchSc01Authorization(status))
         && !(name === "checkboxSc01" && hasCheckboxSc01Authorization(status))
         && !(name === "select" && hasSelectRefinementAuthorization(status))
         && !(name === "tag" && hasTagRefinementAuthorization(status))
@@ -2201,6 +4208,7 @@ export function getValidatedTailwindB2History(status) {
   }
   validateTailwindB2Phase(history);
   return history;
+  });
 }
 
 export function getCurrentB2Status(status) {
@@ -2225,25 +4233,53 @@ export const buttonTextContrastException = Object.freeze({
 });
 
 export function validateTokenFoundationsV1Phase(status) {
+  return withSourceBindingTraversal(process.cwd(), () => validateTokenFoundationsV1PhaseInTraversal(status));
+}
+
+function validateTokenFoundationsV1PhaseInTraversal(status) {
+  const successor = getG6SourceBindings(process.cwd())?.closeoutSuccessor;
+  if (successor) { status = structuredClone(status); restoreG1G6CloseoutPhase(successor, status); }
   const fail = (reason) => { throw new Error(`Invalid Token Foundations V1 phase contract: ${reason}`); };
   const history = getValidatedTailwindB2History(status);
   const phase = status.currentPhase;
   const experiments = Object.keys(status.localExperiments ?? {});
   const allowedExperiments = [
+    ...(createHash("sha256").update(JSON.stringify(status.localExperiments?.rainDesignerStarter ?? null)).digest("hex") === "82d65d8136e87f56254f7c92e4516903af2f5bbda5a1c5b7477fda0fff59fe64" ? ["rainDesignerStarter"] : []),
     ...(hasQuestionOptionSizeReviewAuthorization(status) ? ["questionOptionSizeReview"] : []),
     ...(hasDropdownBatchOneAuthorization(status) ? ["dropdownBatchOne"] : []),
   ];
   if (JSON.stringify(experiments.sort()) !== JSON.stringify(allowedExperiments.sort())) fail("unapproved local experiment");
-  const expectedKeys = [...Object.keys(history), ...(status.tokenRefinements ? ["tokenRefinements"] : []), ...(allowedExperiments.length ? ["localExperiments"] : [])];
+  const recordedPhaseScopes = {
+    chartLibraryValidation: "05c872917c5e6ce4741e88ece1f8d210c06f7d4582f90a68a8792693099a14d4",
+    chartTrendMotion: "b87ef6e8a65dda3eb5b89723126245efd61df6fe05f80bb35172754bb8de5e35",
+    bklitRainValidation: "8d0e3f3aa56de08cb6927e304e2c2354054e7e23abfd90b87d09a524596aea91",
+    bklitRainCharts: "7c88cfad0ddb92c20c72e2527a4c5b0e98d3d88f8753812d4dcb033530bdbd67",
+    chartBusinessExpansion: "225317afc9930b67ca1dad1e3bdd8ec82b32b51a3d22e9fbc586961faa9c094c",
+    chartVariants: "92c4029aa5d6c2cc50216d0b91b86d480e7708a02dd2eda97a1773f7997e9044",
+    chartRadarFeedback20261009: "89cb2effdf4e95777305bbfdcb2cc325eb44f65feb0cb7848b1eb6081f88cfa3",
+    navigationComponentsV042: "4e39d5b5bf2ebe6d4d39515b8f8f730cc9e308ba7c45dcdf95edde0c14e83247",
+    navigationComponentsV042Continuation: "93380b695e0c9f5df744626b8615e0be17c1132e79176f061555c4eebbcfd03b",
+  };
+  for (const [key, hash] of Object.entries(recordedPhaseScopes)) {
+    if (status[key] && createHash("sha256").update(JSON.stringify(status[key])).digest("hex") !== hash) fail(`recorded phase scope ${key}`);
+  }
+  const navigation = status.navigationComponentsV042W6W8;
+  const acceptedNavigationKeys = ["authorization", "authorizedAt", "decisionSource", "userStatement", "workMode", "priorAcceptedBaseline", "scope", "plan", "humanGateG3", "publication", "gitOperations", "figmaWrite", "currentHumanReview01", "currentHumanReview02", "currentVisualAcceptanceRecord", "currentReviewDecision", "contrastReadabilityHumanReview", "nextAuthorizedWork"];
+  const navigationKeysAllowed = [...acceptedNavigationKeys, "currentBatch", "implementation", "protectedSnapshot", "scopedVerification", "globalQuality", "contrast", "voiceOver", "actualSafari", "handoffSnapshot", "handoff", "staticPreview", "finalSourceFreeze", "independentArchiveVerification", "finalReport", "currentW7Closeout"];
+  if (navigation && (Object.keys(navigation).some(key => !navigationKeysAllowed.includes(key))
+    || createHash("sha256").update(JSON.stringify(Object.fromEntries(acceptedNavigationKeys.map(key => [key, navigation[key]])))).digest("hex") !== "826ffd07b94f07e874fb1326a2301b3e4eecde98f54259b96f69628cce442212")) fail("navigation W6-W8 scope or permissions");
+  const navigationKeys = [...Object.keys(recordedPhaseScopes), "navigationComponentsV042W6W8"].filter(key => Object.hasOwn(status, key));
+  const expectedKeys = [...Object.keys(history), ...(status.tokenRefinements ? ["tokenRefinements"] : []), ...(allowedExperiments.length ? ["localExperiments"] : []), ...navigationKeys];
   if (JSON.stringify(Object.keys(status).sort()) !== JSON.stringify(expectedKeys.sort())) fail("unknown status fields");
   if (status.tokenRefinements) {
     const discovery = status.tokenRefinements.tagColorDiscovery;
-    if (discovery && (!["in-progress", "completed"].includes(discovery.implementation)
+    const discoveryComplete = ["completed", "completed-local-adaptation-and-visual-refinement"].includes(discovery?.implementation);
+    if (discovery && (!["in-progress", "completed", "completed-local-adaptation-and-visual-refinement"].includes(discovery.implementation)
       || !["not-run", "failed", "passed"].includes(discovery.automatedVerification)
       || !["not-run", "findings", "passed"].includes(discovery.independentReview)
       || !["not-evaluated", "awaiting_human", "accepted"].includes(discovery.humanGate)
-      || (discovery.implementation === "completed" && (discovery.automatedVerification !== "passed" || discovery.independentReview !== "passed"))
-      || (["awaiting_human", "accepted"].includes(discovery.humanGate) && discovery.implementation !== "completed")
+      || (discoveryComplete && (discovery.automatedVerification !== "passed" || discovery.independentReview !== "passed"))
+      || (["awaiting_human", "accepted"].includes(discovery.humanGate) && !discoveryComplete)
       || !exactRecord(discovery, {
         authorization: "authorized", authorizedAt: "2026-09-09",
         decisionSource: "explicit-user-confirmation-tag-color-discovery-scope", userStatement: "确认范围",
@@ -2924,4 +4960,173 @@ export function hasInputNumberAuthorization(status) {
       } } : {}),
       contrastAcceptance: "not-granted", publication: "not-authorized",
     }));
+}
+
+export function readTaskFourFile(root, filePath, label, failures, { binary = false } = {}) {
+  const absolutePath = join(root, filePath);
+  try {
+    const stat = lstatSync(absolutePath);
+    if (!stat.isFile() || stat.isSymbolicLink() || stat.size === 0) {
+      failures.push(`${label} must be a non-empty regular non-symbolic file: ${filePath}`);
+      return null;
+    }
+    return readFileSync(absolutePath, binary ? undefined : "utf8");
+  } catch (error) {
+    failures.push(`${label} cannot be read: ${filePath}: ${error.message}`);
+    return null;
+  }
+}
+
+
+function restoreNavigationW7RegistryBaseline(source, root, status, failures) {
+  const hash = value => createHash("sha256").update(value).digest("hex");
+  if (hash(source) !== "71d3f204385bf2aa7f74bc61b4d0a03c0928e369cadb3d5b7bb2201284e2d7dd") return source;
+  try { validateTokenFoundationsV1Phase(status); } catch { return source; }
+  const files = [
+    ["manifests/recipes/navigation-r2.yaml", "d4b10b46ffc4dbd923496b8770cff302ddd191091d8e241d535af4f84e3a5070"],
+    ["apps/playground/src/recipes/navigation-v042/r2.css", "6c3145aa2efafcbe0f10414b9de69989d7e5aad09823b4b646c02715424d6ee1"],
+  ];
+  for (const [path, expected] of files) {
+    const content = readTaskFourFile(root, path, "W7 recorded navigation successor", failures);
+    if (!content || hash(content) !== expected) return source;
+  }
+  // Preserve the accepted inventory; only this exact metadata successor projects back to it.
+  const record = JSON.parse(source);
+  record.currentSourceSnapshot = record.priorW7AccountHoverSourceSnapshot;
+  delete record.priorW7AccountHoverSourceSnapshot;
+  delete record.currentW7Repair;
+  const baseline = JSON.stringify(record, null, 2) + "\n";
+  return hash(baseline) === "6c2596329a392d4d4a06f17613fb123f3ec1e32c35bff4ac15b839cb96f60535" ? baseline : source;
+}
+
+function readLibraryRecordedInventory(root) {
+  const path = libraryGovernanceCloseoutEvidence + "recorded-inventories.json", failures = [];
+  const source = readTaskFourFile(root, path, "Recorded source inventory", failures);
+  if (!source || createHash("sha256").update(source).digest("hex") !== "51c51710bb1f7f88cd2d9e6f6ca8ff765837000822a6f544e433f6a184606808") throw new Error("Recorded source inventory changed");
+  const record = JSON.parse(source);
+  for (const [file, expected] of Object.entries(record.inputs)) {
+    const input = readTaskFourFile(root, file, "Recorded owner input", failures);
+    if (!input || createHash("sha256").update(input).digest("hex") !== expected) throw new Error("Recorded owner input changed: " + file);
+  }
+  return record;
+}
+
+export function getRecordedNavigationSourceBindings(root, status) {
+  if (!hasRecordedPostB2Refinement(status, "navigationPlaygroundVisualRefinement")) return null;
+  validateTokenFoundationsV1Phase(status);
+  const record = readLibraryRecordedInventory(root).navigation;
+  const w7Manifest = "manifests/recipes/navigation-r2.yaml";
+  const w7Source = readTaskFourFile(root, w7Manifest, "Retained W7 source", []);
+  const original = JSON.parse(readFileSync(join(root, "evidence/runtime/navigation-playground-refinement-2026-10-09/source-before.json"), "utf8"));
+  const successor = JSON.parse(readFileSync(join(root, "evidence/runtime/navigation-playground-refinement-2026-10-09/source-after.json"), "utf8"));
+  if (original.filesSha256[w7Manifest] !== "d4b10b46ffc4dbd923496b8770cff302ddd191091d8e241d535af4f84e3a5070"
+    || !w7Source || createHash("sha256").update(w7Source).digest("hex") !== successor.filesSha256[w7Manifest]) throw new Error("Navigation successor must retain the exact recorded W7 R2 Manifest successor");
+  for (const [file, binding] of Object.entries(record.sourceFiles)) {
+    const source = readTaskFourFile(root, file, "Navigation successor", [], { binary: true });
+    if (!source || createHash("sha256").update(source).digest("hex") !== binding.after) throw new Error("Navigation successor source changed: " + file);
+  }
+  return record;
+}
+
+export function getRecordedChartSourceBindings(root, status) {
+  if (!status?.bklitRainCharts) return null;
+  validateTokenFoundationsV1Phase(status);
+  const record = readLibraryRecordedInventory(root).charts;
+  const successor = getLibraryGovernanceCloseoutSourceBindings(root), sourceFiles = {};
+  for (const [file, expected] of Object.entries(record.sourceFiles)) {
+    const owned = successor?.sourceFiles[file];
+    if (owned?.before === expected && owned.after === null) continue;
+    const source = readTaskFourFile(root, file, "Chart source", [], { binary: true });
+    const actual = source && createHash("sha256").update(source).digest("hex");
+    if (actual !== expected && !(owned?.before === expected && owned.after === actual)) throw new Error("Chart source changed: " + file);
+    sourceFiles[file] = actual;
+  }
+  for (const [file, binding] of Object.entries(successor?.sourceFiles ?? {})) {
+    if (/^apps\/playground\/src\/docs\/components\/chart-(?:choropleth-drilldown|network-geometry)\.test\.tsx$/.test(file)) sourceFiles[file] = binding.after;
+  }
+  return { ...record, sourceFiles };
+}
+
+export function getLibraryLocalArtifactIntake(root) {
+  if (!getLibraryGovernanceCloseoutSourceBindings(root)) return null;
+  const path = libraryGovernanceCloseoutEvidence + "local-artifact-intake.json", source = readFileSync(join(root, path), "utf8");
+  if (createHash("sha256").update(source).digest("hex") !== "5683a726bc4d16e96b737d3374cd6ae9e0296ab03646dce3505364fe3dea3344") throw new Error("Existing local artifact intake changed");
+  const record = JSON.parse(source);
+  for (const [file, expected] of Object.entries(record.sourceFiles)) if (createHash("sha256").update(readFileSync(join(root, file))).digest("hex") !== expected) throw new Error("Existing local artifact source changed: " + file);
+  return record;
+}
+
+export function collectRecordedPostB2Documents(root, status, failures) {
+  let navigationSuccessor, chartSources;
+  try { navigationSuccessor = getRecordedNavigationSourceBindings(root, status); chartSources = getRecordedChartSourceBindings(root, status); }
+  catch (error) { failures.push(`Recorded later sources cannot be checked: ${error.message}`); }
+  const navigation = status?.navigationComponentsV042?.humanGate === "accepted"
+    && status?.navigationComponentsV042W6W8?.authorization === "authorized";
+  // Recorded Registry bytes bind each finite inventory to its existing sources and dependencies.
+  const snapshots = [
+    [hasG123PlaygroundAssetizationAuthorization(status), "g1-assets", g123PlaygroundRegistrySnapshots.g1],
+    [hasG123PlaygroundAssetizationAuthorization(status), "g2-assets", g123PlaygroundRegistrySnapshots.g2],
+    [hasRecordedPostB2Refinement(status, "breadcrumbSingleSize"), "breadcrumb", "05f9c806af22dd1e1d7acad6cfdf04406fed76f66e8d8f63a37062a3e4c2207e"],
+    [hasTreeAuthorization(status), "tree", "8e61a13126dc17fd8cb6d5ef1effb4eeb492ff4428fbf97c6d3128ec7cac7a62"],
+    [hasSwitchSc01Authorization(status), "switch", "f0a7bc35ce8466490193664322e86809ea40e28dc6e19379f92f7cca0f3c68c4"],
+    [hasRecordedPostB2Refinement(status, "tokenFirstV12G3"), "token-first-g3", "7ac9280e2373750ab3c632d1aca3c98cdbc2ecf2510186fdea0a2fcebbf4ed5e"],
+    [navigation, "navigation-v042", "6c2596329a392d4d4a06f17613fb123f3ec1e32c35bff4ac15b839cb96f60535"],
+    [navigation, "navigation-v042-w3", "a4870f9047a5b9154e5076e66da5e69e14ab69bcb1d038ef4695958547615af0"],
+    [navigation, "navigation-v042-workspaces", "9ed631f4aeb1cfeebda0469cff2f290364af6c8793971eeeb7c88b4eab02bfad"],
+    [navigation, "navigation-v042-recipes", "3954a81c2f761a5484ea8ea8fbe00b9fb33e0793243c39154ea93e6f7865603f"],
+  ];
+  const manifests = [], registries = [];
+  for (const [authorized, name, expected] of snapshots) {
+    if (!authorized) continue;
+    const path = `registry/${name}.json`;
+    let source = readTaskFourFile(root, path, "Task 5 recorded Registry", failures);
+    if (!source) continue;
+    const currentHash = createHash("sha256").update(source).digest("hex");
+    const successorHash = navigationSuccessor?.sourceFiles[path]?.after;
+    if (name === "navigation-v042" && currentHash !== successorHash) source = restoreNavigationW7RegistryBaseline(source, root, status, failures);
+    const recordedSuccessor = currentHash === successorHash && (navigationSuccessor.registryPredecessors[path] === expected
+      || name === "navigation-v042" && navigationSuccessor.registryPredecessors[path] === "71d3f204385bf2aa7f74bc61b4d0a03c0928e369cadb3d5b7bb2201284e2d7dd");
+    if (createHash("sha256").update(source).digest("hex") !== expected && !recordedSuccessor) {
+      failures.push(`Task 5 recorded Registry must preserve its existing sources, dependencies and unpublished identity: ${path}`);
+      continue;
+    }
+    registries.push(path);
+    manifests.push(...JSON.parse(source).items.map(item => item.manifest));
+  }
+  if (chartSources) {
+    const path = "registry/charts.json";
+    const registry = JSON.parse(readTaskFourFile(root, path, "Chart Registry", failures));
+    if (registry.kind !== "RainLocalSourceRegistry" || registry.scope !== "current-workspace" || registry.publication !== "not-published") failures.push("Chart Registry must retain its unpublished local source identity");
+    else { registries.push(path); manifests.push(...registry.items.map(item => item.manifest)); }
+  }
+  if (hasG4ComponentsAuthorization(status)) {
+    try {
+      getG4SourceBindings(root, status);
+      registries.push("registry/g4-assets.json");
+      manifests.push(...g4ComponentFiles.documents.filter(file => file.startsWith("manifests/")));
+    } catch (error) { failures.push(`G4 recorded sources cannot be checked: ${error.message}`); }
+  }
+  if (hasG5ComponentsAuthorization(status)) {
+    try {
+      getG5SourceBindings(root, status);
+      registries.push("registry/g5-assets.json");
+      manifests.push(...g5ComponentFiles.documents.filter(file => file.startsWith("manifests/")));
+    } catch (error) { failures.push(`G5 recorded sources cannot be checked: ${error.message}`); }
+  }
+  if (status?.componentRefinements?.g6Components) {
+    try {
+      const bindings = getG6SourceBindings(root, status);
+      const path = "registry/g6-assets.json";
+      if (bindings?.sourceFiles[path]?.after) {
+        registries.push(path);
+        manifests.push(...JSON.parse(readFileSync(join(root, path), "utf8")).items.map(item => item.manifest));
+      }
+      if (bindings?.closeoutSuccessor) for (const path of ["registry/attachment-workflow.json", "registry/conversation-composer.json"]) {
+        if (!bindings.closeoutSuccessor.sourceFiles[path]?.after) throw new Error("Closeout Recipe Registry lacks its finite source binding: " + path);
+        registries.push(path);
+        manifests.push(...JSON.parse(readFileSync(join(root, path), "utf8")).items.map(item => item.manifest));
+      }
+    } catch (error) { failures.push(`G6 recorded sources cannot be checked: ${error.message}`); }
+  }
+  return { manifests: [...new Set(manifests)], registries: [...new Set(registries)] };
 }

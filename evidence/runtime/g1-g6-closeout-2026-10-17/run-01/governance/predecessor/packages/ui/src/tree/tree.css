@@ -1,0 +1,61 @@
+.rain-tree { min-width: 0; overflow: auto; font-family: var(--rain-font-ui, "PingFang SC", sans-serif); color: var(--rain-category-text-neutral-1); }
+.rain-tree-node { position: relative; min-width: 0; outline: none; }
+.rain-tree-row { position: relative; display: flex; align-items: center; gap: 4px; box-sizing: border-box; min-width: 0; padding-inline-end: 8px; container-type: inline-size; }
+.rain-tree[data-variant="basic"][data-density="compact"] .rain-tree-row { min-height: 36px; }
+.rain-tree[data-variant="basic"][data-density="default"] .rain-tree-row { min-height: 44px; }
+.rain-tree[data-variant="rich"] .rain-tree-row { align-items: flex-start; padding-block: var(--rain-tree-rich-spacing); }
+.rain-tree[data-variant="rich"] :is(.rain-tree-expander, .rain-tree-drag-handle, [data-slot="checkbox"], [data-slot="checkbox-gap"], [data-slot="leading"], [data-slot="actions"]) { margin-top: -1px; }
+.rain-tree-node:hover > .rain-tree-row { background: var(--rain-category-fill-neutral-alpha-6); }
+.rain-tree-node[data-selected="true"] > .rain-tree-row { background: var(--rain-color-selection-item); }
+[data-rain-theme="dark"] .rain-tree-node[data-selected="true"] > .rain-tree-row { background: var(--rain-category-fill-brand-solid-4); }
+.rain-tree[data-selection-appearance="inset"] .rain-tree-node[data-selected="true"] > .rain-tree-row { background: transparent; }
+.rain-tree[data-selection-appearance="inset"] .rain-tree-node[data-selected="true"] > .rain-tree-row::before { content: ""; position: absolute; z-index: 0; inset: 0 4px; border-radius: 8px; background: var(--rain-color-selection-item); pointer-events: none; }
+[data-rain-theme="dark"] .rain-tree[data-selection-appearance="inset"] .rain-tree-node[data-selected="true"] > .rain-tree-row::before { background: var(--rain-category-fill-brand-solid-4); }
+.rain-tree-node:focus-visible > .rain-tree-row { outline-width: var(--rain-focus-width); outline-style: solid; outline-color: var(--rain-color-focus-item); outline-offset: calc(-1 * var(--rain-focus-offset)); }
+.rain-tree-row > :not([data-slot$="line"]):not([data-slot="connector"]) { position: relative; z-index: 2; }
+.rain-tree-expander, .rain-tree-drag-handle { flex: none; display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 0; background: none; color: var(--rain-category-icon-neutral-4); cursor: pointer; }
+.rain-tree-expander { width: 16px; height: 24px; border-radius: 6px; }
+.rain-tree-chevron { width: 12px; height: 12px; }
+.rain-tree-drag-handle { width: 20px; height: 24px; border-radius: 6px; }
+.rain-tree-expander:has(+ .rain-tree-drag-handle) { margin-inline-end: -4px; }
+.rain-tree-drag-icon { width: 16px; height: 16px; }
+.rain-tree-expander:hover, .rain-tree-drag-handle:hover { background: var(--rain-category-fill-neutral-alpha-3); }
+.rain-tree-expander:focus-visible, .rain-tree-drag-handle:focus-visible { outline-width: var(--rain-focus-width); outline-style: solid; outline-color: var(--rain-color-focus-control); outline-offset: var(--rain-focus-offset); }
+.rain-tree [data-slot="checkbox"], .rain-tree [data-slot="checkbox-gap"] { flex: none; width: 24px; height: 24px; }
+.rain-tree [data-slot="leading"] { display: inline-flex; flex: none; align-items: center; min-height: 24px; }
+.rain-tree-content { display: flex; flex: 1 1 auto; min-width: 0; flex-direction: column; justify-content: center; }
+.rain-tree-layout, .rain-tree-body { min-width: 0; }
+.rain-tree-body { display: flex; flex-direction: column; }
+.rain-tree[data-variant="rich"] .rain-tree-content { container-type: inline-size; }
+.rain-tree[data-variant="rich"] .rain-tree-layout { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; align-items: start; }
+.rain-tree[data-variant="rich"] .rain-tree-node [data-slot="title"] { display: block; }
+.rain-tree[data-variant="rich"] [data-slot="leading"] { display: inline-flex; margin-inline-end: 6px; vertical-align: middle; }
+.rain-tree-node [data-slot="title"] { font-size: 14px; line-height: 22px; font-weight: 400; min-width: 0; }
+.rain-tree-node [data-slot="title"] mark { color: inherit; background: var(--rain-category-fill-brand-alpha-3); border-radius: 2px; }
+.rain-tree-node[data-selected="true"] [data-slot="title"] { color: var(--rain-category-text-brand-1); font-weight: 600; }
+.rain-tree[data-variant="basic"] .rain-tree-node [data-slot="title"] { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rain-tree[data-variant="rich"] .rain-tree-node [data-slot="title"] { white-space: normal; overflow-wrap: anywhere; }
+.rain-tree-node [data-slot="description"] { color: var(--rain-category-text-neutral-6); font-size: 13px; line-height: 20px; overflow-wrap: anywhere; }
+.rain-tree[data-variant="rich"] .rain-tree-node [data-slot="description"] { margin-top: 4px; }
+.rain-tree-node [data-slot="meta"], .rain-tree-node [data-slot="meta-mobile"] { flex: none; color: var(--rain-category-text-neutral-6); font-size: 12px; line-height: 20px; }
+.rain-tree-node [data-slot="meta-mobile"] { display: none; }
+.rain-tree-node:is(:hover, :focus-within, :has([data-slot="drop-indicator"])) :is([data-slot="description"], [data-slot="meta"], [data-slot="meta-mobile"]) { color: var(--rain-category-text-neutral-4); }
+.rain-tree-node:is(:hover, :focus-within, :has([data-slot="drop-indicator"])) :is(.rain-tree-expander, .rain-tree-drag-handle) { color: var(--rain-category-icon-neutral-3); }
+.rain-tree-node :is(.rain-tree-expander, .rain-tree-drag-handle):is(:hover, :focus-visible) { color: var(--rain-category-icon-neutral-2); }
+.rain-tree-node [data-slot="actions"] { flex: none; display: inline-flex; align-items: flex-start; gap: 4px; visibility: hidden; min-height: 24px; }
+.rain-tree-node:hover [data-slot="actions"], .rain-tree-node:focus-within [data-slot="actions"] { visibility: visible; }
+.rain-tree-connector, .rain-tree-ancestor-line, .rain-tree-outgoing-line { position: absolute; display: block; z-index: 1; width: 1px; background: var(--rain-category-border-neutral-3); pointer-events: none; }
+.rain-tree-connector { top: 0; bottom: 0; }
+.rain-tree-connector.is-last, .rain-tree-ancestor-line.is-last { bottom: auto; height: var(--rain-tree-anchor); }
+.rain-tree-connector::after { content: ""; position: absolute; top: var(--rain-tree-anchor); left: 0; width: 12px; height: 1px; background: var(--rain-category-border-neutral-3); }
+.rain-tree-ancestor-line { top: 0; bottom: 0; }
+.rain-tree-outgoing-line { top: calc(var(--rain-tree-anchor) + 16px); bottom: 0; }
+.rain-tree[data-line-style="dotted"] :is(.rain-tree-connector, .rain-tree-ancestor-line, .rain-tree-outgoing-line) { background: repeating-linear-gradient(to bottom, var(--rain-category-border-neutral-3) 0 2px, transparent 2px 4px); }
+.rain-tree[data-line-style="dotted"] .rain-tree-connector::after { background: repeating-linear-gradient(to right, var(--rain-category-border-neutral-3) 0 2px, transparent 2px 4px); }
+.rain-tree [data-slot="drop-indicator"] { position: absolute; z-index: 3; inset-inline: 8px; height: 2px; background: var(--rain-category-fill-brand-solid-2); pointer-events: none; }
+.rain-tree [data-slot="drop-indicator"][data-placement="before"] { top: 0; }
+.rain-tree [data-slot="drop-indicator"][data-placement="after"] { bottom: 0; }
+.rain-tree [data-slot="drop-indicator"][data-placement="inside"] { position: absolute; inset-block: 1px; height: auto; z-index: 0; border: 1px solid var(--rain-category-border-brand-3); background: var(--rain-category-fill-brand-alpha-4); }
+.rain-tree [data-slot="load-status"], .rain-tree [data-slot="retry"], .rain-tree [data-slot="empty"] { display: block; padding: 4px 8px; font-size: 13px; }
+@container (max-width: 420px) { .rain-tree[data-variant="basic"] .rain-tree-node [data-slot="meta"] { display: none; } .rain-tree[data-variant="basic"] .rain-tree-node [data-slot="meta-mobile"] { display: block; } .rain-tree[data-variant="rich"] .rain-tree-layout { grid-template-columns: minmax(0, 1fr); row-gap: 4px; } }
+@media (forced-colors: active) { .rain-tree-connector, .rain-tree-ancestor-line, .rain-tree-outgoing-line, .rain-tree-connector::after { background: currentColor; } }

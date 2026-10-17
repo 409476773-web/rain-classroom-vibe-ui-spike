@@ -1,0 +1,18 @@
+/* Existing Rain G2 source adaptation; source-lock and MIT notice retained. */
+@layer base {
+  .rain-g2-toggle { box-sizing: border-box; min-width: var(--rain-space-36); min-height: var(--rain-input-height-32); padding: var(--rain-space-6) var(--rain-space-16); gap: var(--rain-space-4); border: var(--rain-line-thickness-1) solid transparent; border-radius: var(--rain-radius-6); background: transparent; color: var(--rain-category-text-neutral-3); font-family: var(--rain-font-ui); font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-20); font-weight: var(--rain-font-weight-regular); cursor: pointer; transition: background-color var(--rain-motion-feedback-duration), color var(--rain-motion-feedback-duration), border-color var(--rain-motion-feedback-duration), box-shadow var(--rain-motion-feedback-duration); }
+  .rain-g2-toggle-outline { border-color: var(--rain-category-border-neutral-3); background: var(--rain-category-background-neutral-1); }
+  .rain-g2-toggle:not([data-disabled]):hover { background: var(--rain-category-fill-neutral-alpha-6); }
+  .rain-g2-toggle:not([data-disabled]):active { background: var(--rain-category-fill-neutral-alpha-5); }
+  .rain-g2-toggle:focus-visible { outline: var(--rain-button-focus-outline-width) solid var(--rain-button-focus-outline); outline-offset: var(--rain-button-focus-outline-offset); box-shadow: var(--rain-button-focus-primary-shadow); position: relative; z-index: 2; }
+  .rain-g2-toggle[aria-pressed="true"] { background: var(--rain-category-fill-brand-alpha-4); border-color: var(--rain-category-border-brand-2); color: var(--rain-category-text-brand-1); box-shadow: none; font-weight: var(--rain-font-weight-semibold); }
+  .rain-g2-toggle[aria-pressed="true"]:not([data-disabled]):hover { background: var(--rain-category-fill-brand-alpha-3); }
+  .rain-g2-toggle[data-disabled] { cursor: not-allowed; color: var(--rain-category-text-neutral-6); background: var(--rain-category-background-neutral-2); border-color: var(--rain-category-border-neutral-3); }
+  .rain-g2-toggle[data-disabled][aria-pressed="true"] { background: var(--rain-category-fill-brand-alpha-4); }
+  .rain-g2-toggle > .rain-icon { width: var(--rain-space-18); height: var(--rain-space-18); }
+}
+@media (prefers-reduced-motion: reduce) { .rain-g2-toggle { transition: none; } }
+@media (forced-colors: active) {
+  .rain-g2-toggle[aria-pressed="true"] { outline: var(--rain-line-thickness-2) solid Highlight; outline-offset: calc(-1 * var(--rain-line-thickness-3)); }
+  .rain-g2-toggle[data-disabled] { color: GrayText; border-color: GrayText; background: Canvas; }
+}

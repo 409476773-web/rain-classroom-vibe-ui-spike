@@ -1,0 +1,60 @@
+{
+  "status": "passed-with-existing-test-project-typecheck-limitation",
+  "finalSourceFrozen": true,
+  "focusedUnit": {
+    "files": 10,
+    "passed": 117,
+    "log": "unit-final.log",
+    "exitCode": 0
+  },
+  "browser": {
+    "uniqueContracts": 115,
+    "passed": 113,
+    "captureOnlySkipped": 2,
+    "initial": {
+      "expected": 110,
+      "unexpected": 3,
+      "skipped": 2,
+      "json": "browser-suite-initial.json",
+      "log": "browser-suite-initial.log"
+    },
+    "correctedDriverRerun": {
+      "expected": 3,
+      "unexpected": 0,
+      "skipped": 0,
+      "json": "browser-driver-rerun.json",
+      "log": "browser-driver-rerun.log"
+    },
+    "corrections": [
+      {
+        "case": "R5/R6 1200 temporary platform preview",
+        "reason": "Regions retain underlying compact data-mode during expanded temporary preview; x-centering is asserted only when actual NavigationList appearance is icons. Expanded text entries stay left aligned."
+      },
+      {
+        "case": "R2 native radio click",
+        "reason": "After reuse, RadioGroup owns a sr-only native input; real pointer target is its existing label. Click label, keep checked/edit/draft assertions."
+      }
+    ],
+    "noProductionChangesForDriverCorrections": true
+  },
+  "playgroundTypecheckedBuild": {
+    "passed": true,
+    "exitCode": 0,
+    "log": "build-final.log",
+    "warning": "Existing large-bundle warning retained"
+  },
+  "wholeTestProjectTypecheck": {
+    "passed": false,
+    "exitCode": 1,
+    "priorDiagnostics": 7,
+    "newDiagnostics": 0,
+    "log": "test-typecheck-final.log",
+    "scope": "One existing Command TS2322 plus six original navigation-v042.spec.ts node:fs/promises TS2591; no dependencies/types relaxed"
+  },
+  "ownerAudits": {
+    "R1R2R3": "r1-r3/audit-summary.json",
+    "R4R5R6": "r4-r6/owner-report.json",
+    "S1S2S3S4S5S6": "states/review-evidence-index.json"
+  },
+  "humanGate": "pending-G2"
+}

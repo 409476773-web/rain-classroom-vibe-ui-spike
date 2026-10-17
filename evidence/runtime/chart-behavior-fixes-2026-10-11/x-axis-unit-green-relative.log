@@ -1,0 +1,27 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx (12 tests | 1 failed) 124ms
+   × category labels retain duplicate-name identities and resize to their real point centers 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > category labels retain duplicate-name identities and resize to their real point centers
+AssertionError: expected 91.6667966666667 to be close to 91.66666666666666, received difference is 0.00013000000004126377, but expected 5e-13
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:161:60
+    159|   expect(current).toEqual(ticks);
+    160|   const expected = [40 + 310 / 6, 195, 40 + 310 * 5 / 6];
+    161|   current.forEach((node, index) => expect(left(node, 390)).toBeCloseTo…
+       |                                                            ^
+    162|   expect(current.every(node => node.style.transition === "")).toBe(tru…
+    163| });
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:161:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 43 passed (44)
+   Start at  12:21:35
+   Duration  3.17s (transform 334ms, setup 269ms, import 824ms, tests 719ms, environment 1.09s)
+

@@ -1,3 +1,9 @@
+import { getG6SourceBindings, getG6PreviousSource, hasG6ComponentsAuthorization, withSourceBindingTraversal } from "./verification-helpers.mjs";
+import { hasG123PlaygroundAssetizationAuthorization, g123PlaygroundFiles } from "./verification-helpers.mjs";
+import { hasG5ComponentsAuthorization, getRecordedChartSourceBindings } from "./verification-helpers.mjs";
+import { g4ComponentFiles, getG4SourceBindings, hasG4ComponentsAuthorization, hasG4SizingReviewAuthorization, g4SizingReviewSourcePaths, validateG4SourceDirectives } from "./verification-helpers.mjs";
+import { hasAlertAuthorization } from "./verification-helpers.mjs";
+import { hasTooltipAuthorization } from "./verification-helpers.mjs";
 import { inputNumberFiles, hasInputNumberAuthorization } from "./verification-helpers.mjs";
 import { hasDialogRefinementAuthorization, hasSelectRegressionRepairAuthorization } from "./verification-helpers.mjs";
 import { avatarFamilyFiles, hasAvatarFamilyAuthorization } from "./verification-helpers.mjs";
@@ -5,6 +11,8 @@ import { hasBmBRn10Authorization, hasInsideFieldLabelsAuthorization, tableRn08Fi
 import { layoutsV1Files, hasLayoutsV1Authorization, hasDialogV2Authorization } from "./verification-helpers.mjs";
 import { createHash } from "node:crypto";
 import { hasCardV2Authorization } from "./verification-helpers.mjs";
+import { hasSwitchSc01Authorization, hasTreeAuthorization, collectRecordedPostB2Documents, readTaskFourFile } from "./verification-helpers.mjs";
+export { collectRecordedPostB2Documents } from "./verification-helpers.mjs";
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
@@ -2381,20 +2389,6 @@ export function validateTailwindB2Results(results, benchmark, { root = process.c
   return failures;
 }
 
-function readTaskFourFile(root, filePath, label, failures, { binary = false } = {}) {
-  const absolutePath = join(root, filePath);
-  try {
-    const stat = lstatSync(absolutePath);
-    if (!stat.isFile() || stat.isSymbolicLink() || stat.size === 0) {
-      failures.push(`${label} must be a non-empty regular non-symbolic file: ${filePath}`);
-      return null;
-    }
-    return readFileSync(absolutePath, binary ? undefined : "utf8");
-  } catch (error) {
-    failures.push(`${label} cannot be read: ${filePath}: ${error.message}`);
-    return null;
-  }
-}
 
 function collectTaskFourTreeFiles(root, relativeDirectory, failures) {
   const absoluteDirectory = join(root, relativeDirectory);
@@ -2500,7 +2494,7 @@ function parseFoundationsPublicIndex(source, failures, allowTokenFoundations = f
     offset += whitespace.length;
     if (offset === source.length) break;
 
-    const wildcard = source.slice(offset).match(/^export\s+\*\s+from\s+(["'])(\.\/(?:color-registry|typography-contract|tag-token-contract|select-token-contract|tabs-token-contract|overlay-token-contract))\1\s*;/);
+    const wildcard = source.slice(offset).match(/^export\s+\*\s+from\s+(["'])(\.\/(?:color-registry|typography-contract|tag-token-contract|select-token-contract|tabs-token-contract|overlay-token-contract|tooltip-token-contract))\1\s*;/);
     if (allowTokenFoundations && wildcard) {
       declarations.push({
         elements: [{ exportedName: "*", localName: "*", isTypeOnly: false }],
@@ -2804,7 +2798,67 @@ function extractCssBlock(source, marker) {
   return null;
 }
 
-export function parseTopLevelCssBlocks(source, label, failures) {
+export function parseTopLevelCssBlocks(source, label, failures, { root = process.cwd(), owner = "" } = {}) {
+  if (!owner && source.includes('@import "./questionnaire/questionnaire.css";')) {
+    try {
+      const bindings = getG6SourceBindings(root);
+      if (createHash("sha256").update(source).digest("hex") === bindings?.sourceFiles["packages/ui/src/styles.css"]?.after) owner = "packages/ui/src/styles.css";
+    } catch (error) { failures.push(`${label} G6 style owner requires bound bytes: ${error.message}`); }
+  }
+
+  const historicalSharedImports = '@import "./navigation/navigation.css";\n@import "./navigation/navigation-families.css";\n@import "./tree/tree.css";\n';
+  if (!owner && source.startsWith(historicalSharedImports)) {
+    try {
+      // Older synthetic stages have no G6 successor. Only their real complete
+      // stylesheet can own these registered imports; expected snippets cannot.
+      if (!getG6SourceBindings(root) && source === readFileSync(join(root, "packages/ui/src/styles.css"), "utf8")) owner = "packages/ui/src/styles.css";
+    } catch (error) { failures.push(`${label} historical style owner proof failed: ${error.message}`); }
+  }
+
+  if (owner === "packages/ui/src/styles.css") {
+    try {
+      const bindings = getG6SourceBindings(root);
+      if (bindings && createHash("sha256").update(source).digest("hex") !== bindings.sourceFiles[owner]?.after) {
+        failures.push(`${label} G6 normalization requires the exact bound owner bytes`);
+        return [];
+      }
+      if (bindings?.closeoutSuccessor) {
+        // The separate original Questionnaire verifier has checked the exact current
+        // selector extension. Preserve the older component checks on their predecessor.
+        source = readFileSync(join(root, "evidence/runtime/g1-g6-closeout-2026-10-17/run-01/governance/questionnaire-predecessor/evidence/runtime/questionnaire-reuse-2026-10-16/baseline/packages/ui/src/styles.css"), "utf8");
+        for (const file of ["conversation-composer/conversation-composer", "attachment-workflow/attachment-picker", "attachment-workflow/attachment-preview", "attachment-workflow/attachment-list"]) {
+          const line = `@import "./${file}.css";\n`;
+          if (source.split(line).length !== 2) throw new Error("Closeout shared CSS must retain each exact Recipe import once");
+          source = source.replace(line, "");
+        }
+      }
+    } catch (error) { failures.push(`${label} G6 style owner proof failed: ${error.message}`); return []; }
+    const g6Imports = ["attachment", "drawer", "input-otp", "carousel", "bubble", "marker", "message", "message-scroller", "questionnaire"].map(name => `@import "./${name}/${name}.css";`);
+    const present = g6Imports.filter(line => source.includes(line));
+    if (present.length) {
+      try {
+        const bindings = getG6SourceBindings(root);
+        if (!bindings?.sourceFiles[owner]?.after || present.length !== g6Imports.length || present.some(line => source.split(line).length !== 2)) throw new Error("G6 imports require all nine exact bound companion styles once");
+        for (const line of present) source = source.replace(line + "\n", "");
+      } catch (error) { failures.push(`${label} G6 imports require finite source binding: ${error.message}`); }
+    }
+  }
+  const sharedImports = '@import "./navigation/navigation.css";\n@import "./navigation/navigation-families.css";\n@import "./tree/tree.css";\n';
+  if (owner === "packages/ui/src/styles.css" && source.startsWith(sharedImports)) {
+    try {
+      const status = parseYamlSubset(readTaskFourFile(root, "status/current-phase.yaml", "Shared CSS authorization", failures));
+      validateTokenFoundationsV1Phase(status);
+      if (hasTreeAuthorization(status) && status.navigationComponentsV042?.humanGate === "accepted"
+        && status.navigationComponentsV042W6W8?.authorization === "authorized"
+        && (getG6PreviousSource(root, owner) ?? readTaskFourFile(root, owner, "Shared CSS owner", failures))?.startsWith(sharedImports)) {
+        source = source.slice(sharedImports.length);
+        const g4Imports = '@import "./item/item.css";\n@import "./progress/progress.css";\n';
+        if (source.startsWith(g4Imports) && hasG4ComponentsAuthorization(status)) {
+          source = source.slice(g4Imports.length);
+        }
+      }
+    } catch (error) { failures.push(`${label} shared imports require their recorded authorization: ${error.message}`); }
+  }
   const input = stripCssComments(source);
   const blocks = [];
   let cursor = 0;
@@ -2995,6 +3049,10 @@ function extendFrozenTokenRecord(frozen, additions, label, failures, aliases = {
 }
 
 export function validateTailwindB2CompositionBridge({ root = process.cwd() } = {}) {
+  return withSourceBindingTraversal(root, () => validateTailwindB2CompositionBridgeInTraversal(root));
+}
+
+function validateTailwindB2CompositionBridgeInTraversal(root) {
   const failures = [];
   const tokenFoundationsAuthorized = hasTokenFoundationsAuthorization(root, failures);
   const status = tokenFoundationsAuthorized ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {};
@@ -3047,7 +3105,12 @@ export function validateTailwindB2CompositionBridge({ root = process.cwd() } = {
   const expectedSpaceTokens = tokenFoundationsAuthorized
     ? { ...taskFourCompositionSpaceTokens, 28: "28px", 36: "36px", 40: "40px" }
     : taskFourCompositionSpaceTokens;
-  const expectedTypographyTokens = extendFrozenTokenRecord(taskFourTypographyTokenValues, outputs.typographyVariables, "typography values", failures,
+  const typographyBaseline = { ...taskFourTypographyTokenValues };
+  if (hasG4ComponentsAuthorization(status)) {
+    try { getG4SourceBindings(root, status); Object.assign(typographyBaseline, { "--rain-type-data-size": "28px", "--rain-type-data-line": "36px" }); }
+    catch (error) { failures.push(`G4 typography source cannot be checked: ${error.message}`); }
+  }
+  const expectedTypographyTokens = extendFrozenTokenRecord(typographyBaseline, outputs.typographyVariables, "typography values", failures,
     alignmentAuthorized ? getLegacyTypographyAliases() : {});
   const expectedComponentTokens = alignmentAuthorized
     ? extendFrozenTokenRecord(taskFourComponentTokenValues, legacyComponentTokenAliases, "component values", failures,
@@ -3055,6 +3118,7 @@ export function validateTailwindB2CompositionBridge({ root = process.cwd() } = {
     : { ...taskFourComponentTokenValues };
   const colorAliases = {
     ...(colorAlignmentAuthorized ? confirmedSemanticColorAliases : {}),
+    ...(hasSwitchSc01Authorization(status) ? pick(outputs.variables, /^--rain-color-switch-(?:track-(?:unchecked|hover|pressed|checked-hover|checked-pressed)|indicator)$/) : {}),
     ...(globalFocusAuthorized ? {
       "--rain-color-focus-control": "var(--rain-category-border-brand-1)",
       "--rain-color-focus-item": "var(--rain-category-border-brand-1)",
@@ -3173,6 +3237,7 @@ export function validateTailwindB2CompositionBridge({ root = process.cwd() } = {
 
   const dialogRefinementAuthorized = hasDialogRefinementAuthorization(status);
   if (dialogRefinementAuthorized) expectedPublicIndex.push({ moduleSpecifier: "./overlay-token-contract", isTypeOnly: false, elements: ["*"] });
+  if (hasTooltipAuthorization(status)) expectedPublicIndex.push({ moduleSpecifier: "./tooltip-token-contract", isTypeOnly: false, elements: ["*"] });
 
   const parsedTokens = tokens
     ? collectDirectScopedCssDeclarations(
@@ -3664,6 +3729,10 @@ export function validateTailwindB2CompositionBridge({ root = process.cwd() } = {
       ...(hasSelectionCardsSc02Authorization(status) ? ['@source "./docs/components/selection-cards-page.tsx";'] : []),
       ...(hasSelectionPatternsSc03Authorization(status) ? ['@source "./docs/components/selection-patterns-page.tsx";'] : []),
       ...(hasSelectionPlaygroundSc04Authorization(status) ? ['@source "./docs/components/selection-playground-page.tsx";'] : []),
+      ...(hasG123PlaygroundAssetizationAuthorization(status) ? g123PlaygroundFiles.scanSources.map(file => `@source "./docs/components/${file}.tsx";`) : []),
+      ...(hasG4ComponentsAuthorization(status) ? ['@source "./docs/components/g4-component-pages.tsx";'] : []),
+      ...(hasG5ComponentsAuthorization(status) ? ['@source "./docs/components/g5-component-pages.tsx";'] : []),
+      ...(hasG6ComponentsAuthorization(status) ? ["media", "interaction", "conversation"].map(name => `@source "./docs/components/g6-${name}-pages.tsx";`) : []),
       ...(colorAlignmentAuthorized ? ['@source inline("text-rain-action-primary");'] : []),
     ];
     const sourceOccurrences = controlledAtRuleOccurrences.filter(({ name }) => name === "source");
@@ -4090,7 +4159,7 @@ export function validateTagFamilyManifest({ manifest, name, root = process.cwd()
   return failures;
 }
 
-export function validateTagCssExceptions({ contract, source, authorized = true, batchTwoAuthorized = true }) {
+export function validateTagCssExceptions({ contract, source, authorized = true, batchTwoAuthorized = true, root = process.cwd() }) {
   const failures = [], label = "Authorized Tag native CSS";
   const ids = [...(batchTwoAuthorized ? ["tag-vertical-layout", "tag-domain-details", "tag-processing-motion", "tag-domain-forced-colors"] : ["tag-vertical-compatibility"]), "tag-disabled-action", "tag-link-composition", "tag-state-composition", "tag-choice-focus", "tag-touch-targets", "tag-forced-colors"];
   const entries = (contract?.cssExceptions?.entries ?? []).filter(({ id, component }) => component === "ui-tag" || ids.includes(id));
@@ -4157,7 +4226,7 @@ export function validateTagCssExceptions({ contract, source, authorized = true, 
       .rain-checkable-tag:has(input:focus-visible) { outline: 2px solid CanvasText; outline-offset: 2px; box-shadow: none; }
     }
   `;
-  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures).flatMap(({ header, body }) => {
+  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures, { root }).flatMap(({ header, body }) => {
     if (!/\.rain-(?:tag(?:\b|__)|link-tag\b|checkable-tag\b)/.test(`${header} ${body}`)) return [];
     if (header.startsWith("@")) return collect(body, [...ancestry, header]);
     // Select composition rules are checked by validateInputCssExceptions.
@@ -4170,7 +4239,7 @@ export function validateTagCssExceptions({ contract, source, authorized = true, 
   return failures;
 }
 
-export function validateTagSelectCssExceptions({ contract, source, authorized = false }) {
+export function validateTagSelectCssExceptions({ contract, source, authorized = false, root = process.cwd() }) {
   const failures = [], label = "Authorized TagSelect CSS";
   const ids = ["tag-select-layer", "tag-select-interaction", "tag-select-forced-colors"];
   const entries = (contract?.cssExceptions?.entries ?? []).filter((entry) => entry.component === "ui-tag-select" || ids.includes(entry.id));
@@ -4193,7 +4262,7 @@ export function validateTagSelectCssExceptions({ contract, source, authorized = 
       .rain-tag-select__option[data-selected], .rain-tag-select__option [data-slot="indicator"] { color: CanvasText; }
       .rain-tag-select__option[data-disabled], .rain-tag-select__option[data-disabled] [data-slot="indicator"] { color: GrayText; }
     }` : "";
-  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures).flatMap(({ header, body }) => {
+  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures, { root }).flatMap(({ header, body }) => {
     if (!/\.rain-tag-select(?:\b|__)/.test(`${header} ${body}`)) return [];
     if (header.startsWith("@")) return collect(body, [...ancestry, header]);
     return [{ scope: ancestry, selector: header.replace(/\s+/g, " "), declarations: stripCssComments(body).replace(/\s+/g, " ").trim() }];
@@ -4356,7 +4425,7 @@ export function validateInputCssExceptions({ contract, source, root = process.cw
     {"scope":["@media (forced-colors: active)"],"selector":".rain-field-frame[data-appearance=\"underlined\"][data-permission]:not([data-pointer-focus]):is(:has(> [data-slot=\"control\"]:focus-visible), [data-open=\"true\"])","declarations":"border-top-width: 0; border-bottom: 2px solid Highlight; background-image: none; outline: none; box-shadow: none;"},
     {"scope":["@media (prefers-reduced-motion: reduce)"],"selector":".rain-input","declarations":"transition: none;"}
   ];
-  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures).flatMap(({ header, body }) => {
+  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures, { root }).flatMap(({ header, body }) => {
     if (!/\.rain-(?:input|select|field-frame|field-label)(?:\b|__)/.test(`${header} ${body}`)) return [];
     if (header.startsWith("@")) return collect(body, [...ancestry, header]);
     return [{ scope: ancestry, selector: header.replace(/\s+/g, " "), declarations: stripCssComments(body).replace(/\s+/g, " ").trim() }];
@@ -4407,8 +4476,12 @@ function validateIconButtonCssExceptions(contract, root, authorized, failures) {
     .rain-icon > img { display: block; width: 100%; height: 100%; object-fit: contain; }
     @media (forced-colors: active) { .rain-icon[data-icon-color-mode="host"] { forced-color-adjust: none; } }
   `;
-  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures).flatMap(({ header, body }) => {
+  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures, { root }).flatMap(({ header, body }) => {
     if (!/(?:\.rain-icon(?:-button)?)(?![\w-])/.test(`${header} ${body}`)) return [];
+    if (header === '.rain-sidebar [data-slot="icon"] > .rain-icon' && hasG123PlaygroundAssetizationAuthorization(parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")))) {
+      if (stripCssComments(body).replace(/\s+/g, " ").trim() !== "width: var(--rain-space-18); height: var(--rain-space-18);") failures.push("Registered G3 Sidebar icon must retain its exact existing 18px size");
+      return [];
+    }
     if (header.startsWith("@")) return collect(body, [...ancestry, header]);
     return [{ scope: ancestry, selector: header, declarations: stripCssComments(body).replace(/\s+/g, " ").trim() }];
   });
@@ -4435,7 +4508,7 @@ function validateQuestionNumberCssException(contract, root, authorized, sizesAut
       .rain-question-number:disabled [data-slot="control"] { color: GrayText; }
     }
   ` : "";
-  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures).flatMap(({ header, body }) => {
+  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures, { root }).flatMap(({ header, body }) => {
     if (!/\.rain-question-number(?![\w-])/.test(`${header} ${body}`)) return [];
     if (header.startsWith("@")) return collect(body, [...ancestry, header]);
     return [{ scope: ancestry, selector: header.replace(/\s+/g, " "), declarations: stripCssComments(body).replace(/\s+/g, " ").trim() }];
@@ -4473,7 +4546,7 @@ function validateOptionButtonCssExceptions(contract, root, authorized, contentAu
       .rain-option-button[data-feedback="correct"], .rain-option-button[data-feedback="wrong"] { gap: var(--rain-space-8); }
     }` : ""}
   ` : "";
-  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures).flatMap(({ header, body }) => {
+  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures, { root }).flatMap(({ header, body }) => {
     if (!/\.rain-option-(?:button|group)(?![\w-])/.test(`${header} ${body}`)) return [];
     if (header.startsWith("@")) return collect(body, [...ancestry, header]);
     return [{ scope: ancestry, selector: header.replace(/\s+/g, " "), declarations: stripCssComments(body).replace(/\s+/g, " ").trim() }];
@@ -4481,7 +4554,7 @@ function validateOptionButtonCssExceptions(contract, root, authorized, contentAu
   if (!same(collect(source), collect(expected)) || (authorized && ids.some((id) => !source.includes(`@rain-css-exception ${id}`)))) failures.push(`${label} must preserve only the exact shared-focus and system-color rules`);
 }
 
-export function validateCheckboxCssExceptions({ contract, source, authorized = true, interactionAuthorized = true, menuVisualReuse = true }) {
+export function validateCheckboxCssExceptions({ contract, source, authorized = true, interactionAuthorized = true, menuVisualReuse = true, root = process.cwd() }) {
   const failures = [], label = "Authorized Checkbox CSS";
   const ids = [...(interactionAuthorized ? ["checkbox-interaction-highlight"] : []), "checkbox-focus", "checkbox-forced-colors"];
   const entries = (contract?.cssExceptions?.entries ?? []).filter((entry) => entry.component === "ui-checkbox" || ids.includes(entry.id));
@@ -4511,7 +4584,7 @@ export function validateCheckboxCssExceptions({ contract, source, authorized = t
       ${menuVisualReuse ? shareMenuSelectionSelectors('.rain-checkbox:has(input:disabled) [data-slot="control"]') : '.rain-checkbox:has(input:disabled) [data-slot="control"]'} { background-color: Canvas; border-color: GrayText; color: GrayText; }
       .rain-checkbox:has(input:focus-visible) [data-slot="control"] { outline: 2px solid CanvasText; outline-offset: 2px; box-shadow: none; }
     }` : "";
-  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures).flatMap(({ header, body }) => {
+  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures, { root }).flatMap(({ header, body }) => {
     if (!/\.rain-checkbox(?:-group)?(?![\w-])/.test(`${header} ${body}`)) return [];
     if (header.startsWith("@")) return collect(body, [...ancestry, header]);
     return [{ scope: ancestry, selector: header.replace(/\s+/g, " "), declarations: stripCssComments(body).replace(/\s+/g, " ").trim() }];
@@ -4522,7 +4595,7 @@ export function validateCheckboxCssExceptions({ contract, source, authorized = t
   return failures;
 }
 
-export function validateRadioCssExceptions({ contract, source, authorized = true, menuVisualReuse = true }) {
+export function validateRadioCssExceptions({ contract, source, authorized = true, menuVisualReuse = true, root = process.cwd() }) {
   const failures = [], label = "Authorized Radio CSS";
   const ids = ["radio-interaction-highlight", "radio-focus", "radio-forced-colors"];
   const entries = (contract?.cssExceptions?.entries ?? []).filter((entry) => entry.component === "ui-radio" || ids.includes(entry.id));
@@ -4553,7 +4626,7 @@ export function validateRadioCssExceptions({ contract, source, authorized = true
       .rain-radio:has(input:focus-visible) [data-slot="control"] { outline: 2px solid CanvasText; outline-offset: 2px; box-shadow: none; }
     }
     .rain-radio [data-slot="mark"] { background-color: currentColor; }` : "";
-  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures).flatMap(({ header, body }) => {
+  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures, { root }).flatMap(({ header, body }) => {
     if (!/\.rain-radio(?:-group)?(?![\w-])/.test(`${header} ${body}`)) return [];
     if (header.startsWith("@")) return collect(body, [...ancestry, header]);
     return [{ scope: ancestry, selector: header.replace(/\s+/g, " "), declarations: stripCssComments(body).replace(/\s+/g, " ").trim() }];
@@ -4564,7 +4637,7 @@ export function validateRadioCssExceptions({ contract, source, authorized = true
   return failures;
 }
 
-export function validateSelectionCardCssExceptions({ contract, source, authorized = true }) {
+export function validateSelectionCardCssExceptions({ contract, source, authorized = true, root = process.cwd() }) {
   const failures = [], label = "Selection card CSS";
   const ids = ["selection-card-layout", "selection-card-forced-colors"];
   const records = (contract?.cssExceptions?.entries ?? []).filter((entry) => entry.component === "ui-selection-cards");
@@ -4686,7 +4759,7 @@ export function validateSelectionCardCssExceptions({ contract, source, authorize
   .rain-selection-card__accent,
   .rain-selection-card__detail [data-slot="detail-value"] { color: CanvasText; }
 }` : "";
-  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures).flatMap(({ header, body }) => {
+  const collect = (css, ancestry = []) => parseTopLevelCssBlocks(css, label, failures, { root }).flatMap(({ header, body }) => {
     if (!/\.rain-selection-(?:card|recipe)[\w-]*/.test(`${header} ${body}`)) return [];
     if (header.startsWith("@")) return collect(body, [...ancestry, header]);
     return [{ scope: ancestry, selector: header.replace(/\s+/g, " "), declarations: stripCssComments(body).replace(/\s+/g, " ").trim() }];
@@ -4695,11 +4768,47 @@ export function validateSelectionCardCssExceptions({ contract, source, authorize
   return failures;
 }
 
+
+export const g4CssException = {
+  id: "g4-components-owned-parts", component: "g4-components",
+  selector: ".rain-item owned Parts; .rain-progress owned Parts; .g4-* documentation layout",
+  reason: "Owned Parts keep image fitting, focus, state feedback, density, indeterminate shape, reduced motion and forced colors; documentation uses a scoped responsive layout.",
+  tokens: ["--rain-space-4", "--rain-space-6", "--rain-space-8", "--rain-space-20", "--rain-focus-item", "--rain-motion-feedback-duration"],
+  tests: ["packages/ui/src/item/item.test.tsx", "packages/ui/src/progress/progress.test.tsx", "apps/playground/src/docs/components/g4-component-pages.test.tsx", "scripts/g4-components-governance.test.ts"],
+  status: "implemented-g4-candidates-awaiting-human",
+};
+
+export function validateG4TailwindContract({ contract, status, root = process.cwd() }) {
+  if (!hasG4ComponentsAuthorization(status)) return ["G4 protected sources require their exact candidate authorization"];
+  const protectedPaths = [...g4ComponentFiles.ui, ...g4ComponentFiles.application].filter(file => /\.(?:tsx|css)$/.test(file) && !file.endsWith(".test.tsx"));
+  const failures = protectedPaths.filter(file => !contract.protectedPaths?.optional?.includes(file)).map(file => `G4 missing protected source: ${file}`);
+  if (JSON.stringify((contract.cssExceptions?.entries ?? []).filter(entry => entry.id === g4CssException.id || entry.component === g4CssException.component)) !== JSON.stringify([g4CssException])) failures.push("G4 CSS exception must retain its exact owned Parts, Tokens and checks");
+  if (hasG4SizingReviewAuthorization(status)) for (const file of g4SizingReviewSourcePaths.filter(path => path.startsWith("apps/") && path.endsWith(".css"))) {
+    failures.push(...validateProtectedTailwindSource({ filePath: file, source: readFileSync(join(root, file), "utf8") }));
+  }
+  failures.push(...validateG4SourceDirectives(readFileSync(join(root, "apps/playground/src/styles.css"), "utf8"), status, root));
+  return failures;
+}
+
 export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) {
+  return withSourceBindingTraversal(root, () => validateTailwindB2SystemContractInTraversal(root));
+}
+
+function validateTailwindB2SystemContractInTraversal(root) {
   const failures = [];
   const tokenFoundationsAuthorized = hasTokenFoundationsAuthorization(root, failures);
   const phaseStatus = tokenFoundationsAuthorized ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : null;
+  let g4Status = phaseStatus, g4Authorized = false;
+  if (!g4Status) {
+    try { g4Status = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")); } catch { /* The phase parser already reports this failure. */ }
+  }
+  if (hasG4ComponentsAuthorization(g4Status)) {
+    try { getG4SourceBindings(root, g4Status); g4Authorized = true; }
+    catch (error) { failures.push(`G4 recorded sources cannot be checked: ${error.message}`); }
+  }
   const radioAuthorized = hasRadioSc01Authorization(phaseStatus);
+  let chartSources;
+  try { chartSources = getRecordedChartSourceBindings(root, phaseStatus)?.sourceFiles; } catch (error) { failures.push(`Chart sources cannot be checked: ${error.message}`); }
   const dropdownFamilyAuthorized = hasDropdownFamilyAuthorization(phaseStatus);
   const selectionPatternsAuthorized = hasSelectionPatternsSc03Authorization(phaseStatus);
   const selectionCardsAuthorized = hasSelectionCardsSc02Authorization(phaseStatus);
@@ -4754,16 +4863,19 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
       if (tokenFoundationsAuthorized && filePath.startsWith("apps/playground/src/docs/token-foundations/")) continue;
       const source = readFileSync(join(root, filePath), "utf8");
       for (const [, utility] of source.matchAll(/(?<![a-z0-9-])(?:[a-z-]+:)*(border-dashed|flex-wrap|overflow-x-auto)(?![a-z0-9-])/g)) {
+        if (hasAlertAuthorization(phaseStatus) && filePath === "packages/ui/src/alert/alert.tsx" && utility === "flex-wrap") continue;
         if (hasTableRn08Authorization(phaseStatus) && ["packages/ui/src/pagination/pagination.tsx", "packages/ui/src/empty/empty.tsx"].includes(filePath) && utility === "flex-wrap") continue;
         if (hasLayoutsV1Authorization(phaseStatus) && filePath === "packages/layouts/src/layout.tsx" && utility === "flex-wrap") continue;
         if (hasDialogV2Authorization(phaseStatus) && filePath === "packages/ui/src/dialog/dialog.tsx" && utility === "flex-wrap") continue;
         if (hasCardV2Authorization(phaseStatus) && filePath === "packages/ui/src/card/card.styles.ts" && utility === "flex-wrap") continue;
+        if (g4Authorized && ["packages/ui/src/item/item.tsx", "packages/ui/src/progress/progress.tsx"].includes(filePath) && utility === "flex-wrap") continue;
         if (selectionCardsAuthorized && filePath === "packages/ui/src/recipes/selection-card-recipes.tsx" && utility === "flex-wrap") continue;
         if (optionButtonAuthorized && filePath === "packages/ui/src/option-button/option-button.tsx" && utility === "flex-wrap") continue;
         if (hasCheckboxSc01Authorization(phaseStatus) && filePath === "packages/ui/src/checkbox/checkbox.tsx" && utility === "flex-wrap") continue;
         if (hasRadioSc01Authorization(phaseStatus) && filePath === "packages/ui/src/radio/radio.tsx" && utility === "flex-wrap") continue;
         if (tagAuthorized && filePath === "packages/ui/src/tag/checkable-tag.tsx" && utility === "flex-wrap") continue;
         if (selectAuthorized && filePath === "packages/ui/src/select/select.tsx" && utility === "flex-wrap") continue;
+        if (chartSources?.[filePath] && filePath === "packages/ui/src/charts/vendor/charts/profit-loss-legend.tsx" && utility === "flex-wrap") continue;
         failures.push(`Token Foundations V1 structural utility ${utility} is outside its authorized demo scope: ${filePath}`);
       }
     }
@@ -4821,6 +4933,7 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
         }
       }
     }
+    if (g4Authorized) failures.push(...validateG4TailwindContract({ contract, status: g4Status, root }));
 
     const tagProtectedPaths = ["packages/ui/src/tag/tag.tsx", "packages/ui/src/tag/tag.styles.ts", "packages/ui/src/tag/link-tag.tsx", "packages/ui/src/tag/checkable-tag.tsx", "apps/playground/src/docs/components/tag-page.tsx", ...(tagBatchTwoAuthorized ? ["packages/ui/src/tag/domain-tags.tsx", "packages/ui/src/tag/domain-tags.styles.ts"] : [])];
     const dropdownProtected = [...dropdownFamilyFiles.ui, ...dropdownFamilyFiles.application].filter(path => !path.endsWith(".test.tsx"));
@@ -4909,7 +5022,7 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
   validateTaskSevenButtonMigration(contract, button, root, failures, phaseStatus);
   if (tagAuthorized) {
     for (const name of Object.keys(activeTagManifests)) failures.push(...validateTagFamilyManifest({ manifest: loadYaml(root, `manifests/ui/${name}.yaml`, `${name} UI manifest`, failures), name, root, humanGate: tagHumanGate }));
-    failures.push(...validateTagCssExceptions({ contract, source: readTaskFourFile(root, "packages/ui/src/styles.css", "Tag CSS", failures) ?? "", batchTwoAuthorized: tagBatchTwoAuthorized }));
+    failures.push(...validateTagCssExceptions({ contract, root, source: readTaskFourFile(root, "packages/ui/src/styles.css", "Tag CSS", failures) ?? "", batchTwoAuthorized: tagBatchTwoAuthorized }));
     try {
       const item = JSON.parse(readFileSync(join(root, "registry/tag.json"), "utf8"));
       const expected = {
@@ -4925,7 +5038,7 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
     } catch (error) { failures.push(`Tag Registry item cannot be read: ${error.message}`); }
   }
   if (inputAuthorized) failures.push(...validateInputCssExceptions({ contract, root, source: readTaskFourFile(root, "packages/ui/src/styles.css", "Input CSS", failures) ?? "" }));
-  failures.push(...validateTagSelectCssExceptions({ contract, source: readTaskFourFile(root, "packages/ui/src/styles.css", "TagSelect CSS", failures) ?? "", authorized: tagBatchThreeAuthorized }));
+  failures.push(...validateTagSelectCssExceptions({ contract, root, source: readTaskFourFile(root, "packages/ui/src/styles.css", "TagSelect CSS", failures) ?? "", authorized: tagBatchThreeAuthorized }));
   if (tagBatchThreeAuthorized) {
     const humanGate = phaseStatus.componentRefinements.tagBatchThree.humanGate;
     failures.push(...validateTagSelectManifest({ manifest: loadYaml(root, "manifests/ui/tag-select.yaml", "TagSelect UI manifest", failures), root, humanGate }));
@@ -4939,10 +5052,10 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
   validateIconButtonCssExceptions(contract, root, iconButtonAuthorized, failures);
   validateQuestionNumberCssException(contract, root, questionNumberAuthorized, sizesAuthorized, failures);
   validateOptionButtonCssExceptions(contract, root, optionButtonAuthorized, optionButtonContentAuthorized, failures);
-  failures.push(...validateCheckboxCssExceptions({ contract, source: readTaskFourFile(root, "packages/ui/src/styles.css", "Checkbox CSS", failures) ?? "", authorized: checkboxAuthorized,
+  failures.push(...validateCheckboxCssExceptions({ contract, root, source: readTaskFourFile(root, "packages/ui/src/styles.css", "Checkbox CSS", failures) ?? "", authorized: checkboxAuthorized,
     interactionAuthorized: Boolean(phaseStatus?.componentRefinements?.checkboxSc01?.interactionRefinement), menuVisualReuse: hasDropdownSelectionVisualReuseAuthorization(phaseStatus) }));
-  failures.push(...validateRadioCssExceptions({ contract, source: readTaskFourFile(root, "packages/ui/src/styles.css", "Radio CSS", failures) ?? "", authorized: radioAuthorized, menuVisualReuse: hasDropdownSelectionVisualReuseAuthorization(phaseStatus) }));
-  failures.push(...validateSelectionCardCssExceptions({ contract, source: readTaskFourFile(root, "packages/ui/src/styles.css", "Selection card CSS", failures) ?? "", authorized: selectionCardsAuthorized }));
+  failures.push(...validateRadioCssExceptions({ contract, root, source: readTaskFourFile(root, "packages/ui/src/styles.css", "Radio CSS", failures) ?? "", authorized: radioAuthorized, menuVisualReuse: hasDropdownSelectionVisualReuseAuthorization(phaseStatus) }));
+  failures.push(...validateSelectionCardCssExceptions({ contract, root, source: readTaskFourFile(root, "packages/ui/src/styles.css", "Selection card CSS", failures) ?? "", authorized: selectionCardsAuthorized }));
   if (selectionPatternsAuthorized) {
     const state = phaseStatus.componentRefinements.selectionPatternsSc03;
     const humanGateScope = state.humanGateDecision?.scope;
@@ -4987,7 +5100,7 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
         || manifest?.verification?.independentReview !== independentReview || manifest?.verification?.contrastAcceptance !== "not-granted") failures.push(`${name} must retain its scoped verification and visual Gate`);
     }
     try {
-      const item = JSON.parse(readFileSync(join(root, "registry/radio.json"), "utf8"));
+      const item = JSON.parse(getG6PreviousSource(root, "registry/radio.json") ?? readFileSync(join(root, "registry/radio.json"), "utf8"));
       if (item.humanGate !== humanGate || item.humanGateScope !== humanGateScope || item.contrastAcceptance !== "not-granted" || item.publication !== "not-published"
         || item.scope !== "current-workspace" || !same(item.shared?.registryDependencies, [])
         || !item.shared?.files?.includes("packages/ui/src/utils/use-default-reset.ts")
@@ -5189,7 +5302,7 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
       manifest: loadYaml(root, `manifests/ui/${name}.yaml`, `${name} manifest`, failures), name, root, review: phaseStatus.componentRefinements.dropdownFamily,
     }));
     try {
-      const item = JSON.parse(readFileSync(join(root, "registry/dropdown-family.json"), "utf8"));
+      const item = JSON.parse(getG6PreviousSource(root, "registry/dropdown-family.json") ?? readFileSync(join(root, "registry/dropdown-family.json"), "utf8"));
       failures.push(...validateDropdownFamilyRegistry(item, { humanGate: phaseStatus.componentRefinements.dropdownFamily.humanGate }));
       for (const path of [...(item.shared?.files ?? []), ...(item.items ?? []).flatMap(entry => entry.files ?? []),
         ...(item.shared?.registryDependencies ?? []).map(name => `packages/ui/src/icons/${name}.tsx`)]) {
@@ -5197,7 +5310,15 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
       }
     } catch (error) { failures.push(`Dropdown family Registry cannot be read: ${error.message}`); }
   }
-  const expectedManifestFiles = [
+  const recordedDocuments = tokenFoundationsAuthorized ? collectRecordedPostB2Documents(root, phaseStatus, failures) : { manifests: [], registries: [] };
+  if (g4Authorized && !tokenFoundationsAuthorized) {
+    recordedDocuments.manifests.push(...g4ComponentFiles.documents.filter(file => file.startsWith("manifests/")));
+    recordedDocuments.registries.push("registry/g4-assets.json");
+  }
+  const expectedManifestFiles = unique([
+    ...recordedDocuments.manifests,
+    ...(hasAlertAuthorization(phaseStatus) ? ["manifests/ui/alert.yaml"] : []),
+    ...(hasTooltipAuthorization(phaseStatus) ? ["manifests/ui/tooltip.yaml"] : []),
     ...(hasInputNumberAuthorization(phaseStatus) ? ["manifests/ui/input-number.yaml"] : []),
     ...(hasAvatarFamilyAuthorization(phaseStatus) ? avatarFamilyFiles.documents.filter(path => path.startsWith("manifests/")) : []),
     ...(hasRn13Authorization(phaseStatus) ? rn13AssetIndexFiles.documents.filter(path => path.startsWith("manifests/")) : []),
@@ -5225,12 +5346,12 @@ export function validateTailwindB2SystemContract({ root = process.cwd() } = {}) 
     ...(selectionCardsAuthorized ? selectionCardsSc02Files.documents.filter((path) => path.startsWith("manifests/")) : []),
     ...(selectionPatternsAuthorized ? selectionPatternsSc03Files.documents.filter((path) => path.startsWith("manifests/")) : []),
     ...(radioAuthorized ? ["manifests/ui/radio.yaml", "manifests/ui/radio-group.yaml"] : []),
-  ].sort();
+  ]).sort();
   if (JSON.stringify(manifestFiles) !== JSON.stringify(expectedManifestFiles)) {
-    failures.push(`Task 5 manifest inventory must be exact: ${JSON.stringify(manifestFiles)}`);
+    failures.push(`Task 5 manifest inventory must be exact: missing ${JSON.stringify(expectedManifestFiles.filter(file => !manifestFiles.includes(file)))}, unexpected ${JSON.stringify(manifestFiles.filter(file => !expectedManifestFiles.includes(file)))}, expected ${expectedManifestFiles.length}, actual ${manifestFiles.length}`);
   }
   const registryFiles = collectTaskFiveFiles(root, "registry", failures).sort();
-const expectedRegistryFiles = [ ...(hasInputNumberAuthorization(phaseStatus) ? ["registry/input-number.json"] : []), ...(hasAvatarFamilyAuthorization(phaseStatus) ? avatarFamilyFiles.documents.filter(path => path.startsWith("registry/")) : []), ...(hasRn13Authorization(phaseStatus) ? rn13AssetIndexFiles.documents.filter(path => path.startsWith("registry/")) : []), ...(hasBmBRn10Authorization(phaseStatus) ? ["registry/textarea.json"] : []),...(hasTableRn08Authorization(phaseStatus) ? ["registry/table.json"] : []),
+const expectedRegistryFiles = [ ...recordedDocuments.registries, ...(hasAlertAuthorization(phaseStatus) ? ["registry/alert.json"] : []), ...(hasTooltipAuthorization(phaseStatus) ? ["registry/tooltip.json"] : []), ...(hasInputNumberAuthorization(phaseStatus) ? ["registry/input-number.json"] : []), ...(hasAvatarFamilyAuthorization(phaseStatus) ? avatarFamilyFiles.documents.filter(path => path.startsWith("registry/")) : []), ...(hasRn13Authorization(phaseStatus) ? rn13AssetIndexFiles.documents.filter(path => path.startsWith("registry/")) : []), ...(hasBmBRn10Authorization(phaseStatus) ? ["registry/textarea.json"] : []),...(hasTableRn08Authorization(phaseStatus) ? ["registry/table.json"] : []),
     ...(hasLayoutsV1Authorization(phaseStatus) ? ["registry/layouts.json"] : []),...(hasDialogV2Authorization(phaseStatus) ? ["registry/dialog.json"] : []),...(hasCardV2Authorization(phaseStatus) ? ["registry/card.json"] : []),...(tabsComponentAuthorized ? ["registry/tabs.json"] : []),...(dropdownFamilyAuthorized ? ["registry/dropdown-family.json"] : []),...(selectionPatternsAuthorized ? ["registry/selection-patterns.json"] : []),...(selectionCardsAuthorized ? ["registry/selection-cards.json"] : []),...(radioAuthorized ? ["registry/radio.json"] : []),...(tagBatchThreeAuthorized ? ["registry/tag-select.json"] : []), ...(checkboxAuthorized ? ["registry/checkbox.json"] : []), ...(selectAuthorized ? ["registry/select.json"] : []), ...(tagAuthorized ? ["registry/tag.json"] : []), "registry/.gitkeep", "registry/icons.json", ...(iconButtonAuthorized ? ["registry/icon-button.json"] : []), ...(questionNumberAuthorized ? ["registry/question-number.json"] : []), ...(optionButtonAuthorized ? ["registry/option-button.json"] : [])].sort();
   if (!same(registryFiles, expectedRegistryFiles)) {
     failures.push(`Task 5 Registry must remain unpublished with only the exact authorized local candidates: ${JSON.stringify(registryFiles)}`);
@@ -5360,7 +5481,7 @@ export function validateCardV2Metadata({ manifest, registry }) {
   return failures;
 }
 
-export function validateTabsCssExceptions({ source, contract, authorized }) {
+export function validateTabsCssExceptions({ source, contract, authorized, root = process.cwd() }) {
   const failures = [], ids = ["tabs-geometry", "tabs-touch-targets", "tabs-forced-colors"];
   const entries = (contract?.cssExceptions?.entries ?? []).filter(entry => entry.component === "ui-tabs" || ids.includes(entry.id));
   const selectorBranches = selector => {
@@ -5376,7 +5497,7 @@ export function validateTabsCssExceptions({ source, contract, authorized }) {
     }
     return [...result, selector.slice(start)];
   };
-  const collect = (css, scope = []) => parseTopLevelCssBlocks(css, "Tabs native CSS", failures).flatMap(({ header, body }) => {
+  const collect = (css, scope = []) => parseTopLevelCssBlocks(css, "Tabs native CSS", failures, { root }).flatMap(({ header, body }) => {
     if (header.startsWith("@")) return collect(body, [...scope, header.replace(/\s+/g, " ")]);
     const selector = header.replace(/\\([0-9a-f]{1,6})\s?|\\([^\n\r])/gi, (_, hex, literal) => hex ? String.fromCodePoint(parseInt(hex, 16) || 0xfffd) : literal);
     const generic = selectorBranches(selector).some(branch => !/^\s*\.[a-z_-]/i.test(branch) && /\[(?:data-(?:part|slot|appearance)|role)\b|(?:^|[\s,>+~(])(?:button|fieldset|\*)(?=[\s,):[.#>+~]|$)/i.test(branch));
@@ -5430,7 +5551,7 @@ export function verifyTailwindB2({ root = process.cwd() } = {}) {
   if (hasTabsRefinementAuthorization(phase) || tabsSources.size) {
     const contract = loadYaml(root, tailwindB2ContractPath, "Tabs preflight contract", failures);
     failures.push(...validateTabsPreflightInventory({ status: phase, files: tabsSources, protectedPaths: contract?.protectedPaths }));
-    failures.push(...validateTabsCssExceptions({ source: readFileSync(join(root, "packages/ui/src/styles.css"), "utf8"), contract,
+    failures.push(...validateTabsCssExceptions({ root, source: readFileSync(join(root, "packages/ui/src/styles.css"), "utf8"), contract,
       authorized: hasTabsRefinementAuthorization(phase) && ["component", "documentation"].includes(phase.componentRefinements.tabs.stage) }));
     if (phase?.componentRefinements?.tabs?.stage === "documentation" && contract?.tabsPreflight) failures.push("Retired Tabs preflight cannot retain its runtime CSS permission");
     const source = tabsSources.get("apps/playground/src/experiments/tabs-preflight.css");

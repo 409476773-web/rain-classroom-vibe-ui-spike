@@ -1,0 +1,134 @@
+
+Running 5 tests using 1 worker
+
+(node:16978) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-v042-r4-feedback.spec.ts:60:3 › R4 feedback contracts › existing AvatarGroup portraits remain visible and do not nest actions inside group selectors (5.7s)
+(node:16988) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/navigation-v042-r4-feedback.spec.ts:72:3 › R4 feedback contracts › compact activity cards reserve more room for details across every supported canvas width (713ms)
+(node:16993) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/e2e/navigation-v042-r4-feedback.spec.ts:89:3 › R4 feedback contracts › group filter, search and activity selection preserve identity and grey ungraded scores (855ms)
+(node:16998) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/e2e/navigation-v042-r4-feedback.spec.ts:106:3 › R4 feedback contracts › context boundary moves closer while keyboard, pointer resizing and temporary restoration retain the selected object (686ms)
+(node:17004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 tests/e2e/navigation-v042-r4-feedback.spec.ts:119:3 › R4 feedback contracts › platform brand and footer keep sensible alignment in compact and expanded modes (5.7s)
+
+
+  1) tests/e2e/navigation-v042-r4-feedback.spec.ts:60:3 › R4 feedback contracts › existing AvatarGroup portraits remain visible and do not nest actions inside group selectors 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-recipe-id="recipe-navigation-r4"]').getByRole('group', { name: '小组结果', exact: true }).getByRole('button', { name: '第一小分队', exact: true }).locator('[data-rain-id="ui-avatar-group"] [data-rain-id="ui-avatar"]')
+    Expected: 4
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('[data-recipe-id="recipe-navigation-r4"]').getByRole('group', { name: '小组结果', exact: true }).getByRole('button', { name: '第一小分队', exact: true }).locator('[data-rain-id="ui-avatar-group"] [data-rain-id="ui-avatar"]')
+        14 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      61 |     const root = await open(page), row = root.getByRole('group', { name: '小组结果', exact: true }).getByRole('button', { name: '第一小分队', exact: true });
+      62 |     const avatars = row.locator('[data-rain-id="ui-avatar-group"] [data-rain-id="ui-avatar"]');
+    > 63 |     await expect(avatars).toHaveCount(4);
+         |                           ^
+      64 |     await settle(page);
+      65 |     for (const avatar of await avatars.all()) {
+      66 |       const portrait = avatar.locator('img[data-slot="portrait"]');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-r4-feedback.spec.ts:63:27
+
+    Error Context: evidence/runtime/navigation-v042/review-06/red-test-artifacts/navigation-v042-r4-feedbac-711f3-ions-inside-group-selectors/error-context.md
+
+  2) tests/e2e/navigation-v042-r4-feedback.spec.ts:72:3 › R4 feedback contracts › compact activity cards reserve more room for details across every supported canvas width 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 56
+    Received: 48
+
+      74 |     for (const width of [1200, 1440, 1600]) {
+      75 |       const root = await open(page, width), now = await metrics(root), prior = before.cases[`R4-interaction-${width}-compact`];
+    > 76 |       expect(now.recovery?.height).toBe(56); expect(now.module?.height).toBe(44);
+         |                                    ^
+      77 |       expect(now.activityTrack?.padding).toBe('12px');
+      78 |       expect(now.activityTrack!.height).toBeLessThan(prior.activityTrack.height);
+      79 |       expect(now.queueHead!.height).toBeLessThan(prior.queueHead.height);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-r4-feedback.spec.ts:76:36
+
+    Error Context: evidence/runtime/navigation-v042/review-06/red-test-artifacts/navigation-v042-r4-feedbac-94a40-very-supported-canvas-width/error-context.md
+
+  3) tests/e2e/navigation-v042-r4-feedback.spec.ts:89:3 › R4 feedback contracts › group filter, search and activity selection preserve identity and grey ungraded scores 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 8
+    Received:    48
+
+       99 |     await expect(root.getByLabel('当前小组得分')).toContainText('—');
+      100 |     const color = await row.locator('.nv5-score').evaluate(el => getComputedStyle(el).color);
+    > 101 |     const [r, g, b] = color.match(/\d+/g)!.map(Number); expect(Math.max(r!, g!, b!) - Math.min(r!, g!, b!)).toBeLessThanOrEqual(8);
+          |                                                                                                             ^
+      102 |     await region(root, 'queue').getByRole('button', { name: '隐藏小组列表', exact: true }).click();
+      103 |     await restore(root, 'queue').click(); await expect(row).toHaveAttribute('aria-pressed', 'true');
+      104 |     await expect(root.getByRole('textbox', { name: '搜索小组', exact: true })).toHaveValue('知行');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-r4-feedback.spec.ts:101:109
+
+    Error Context: evidence/runtime/navigation-v042/review-06/red-test-artifacts/navigation-v042-r4-feedbac-e6b04-ty-and-grey-ungraded-scores/error-context.md
+
+  4) tests/e2e/navigation-v042-r4-feedback.spec.ts:106:3 › R4 feedback contracts › context boundary moves closer while keyboard, pointer resizing and temporary restoration retain the selected object 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 8
+    Received:    10
+
+      108 |     const nav = region(root, 'context').getByRole('navigation', { name: '课堂功能', exact: true });
+      109 |     const last = await shape(nav.locator('.rain-navigation-family__entry').first()), boundary = await shape(splitter);
+    > 110 |     expect(boundary.x - (last.x + last.width)).toBeLessThanOrEqual(8);
+          |                                                ^
+      111 |     const original = Number(await splitter.getAttribute('aria-valuenow'));
+      112 |     await splitter.focus(); await page.keyboard.press('ArrowRight'); expect(Number(await splitter.getAttribute('aria-valuenow'))).toBeGreaterThan(original);
+      113 |     const box = await shape(splitter); await page.mouse.move(box.x + box.width / 2, box.y + 80); await page.mouse.down(); await page.mouse.move(box.x + 28, box.y + 80, { steps: 8 }); await page.mouse.up();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-r4-feedback.spec.ts:110:48
+
+    Error Context: evidence/runtime/navigation-v042/review-06/red-test-artifacts/navigation-v042-r4-feedbac-985fd--retain-the-selected-object/error-context.md
+
+  5) tests/e2e/navigation-v042-r4-feedback.spec.ts:119:3 › R4 feedback contracts › platform brand and footer keep sensible alignment in compact and expanded modes 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  locator('[data-recipe-id="recipe-navigation-r4"]').locator('.nv5-platform-content>footer [data-rain-id="ui-avatar"] .rain-avatar__picture')
+    Expected: visible
+    Received: hidden
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[data-recipe-id="recipe-navigation-r4"]').locator('.nv5-platform-content>footer [data-rain-id="ui-avatar"] .rain-avatar__picture')
+        14 × locator resolved to <span aria-hidden="true" class="rain-avatar__picture">…</span>
+           - unexpected value "hidden"
+
+
+      128 |     const brand = await shape(root.locator('.nv5-brand')), platform = await shape(global);
+      129 |     expect(brand.x - platform.x).toBeLessThanOrEqual(20);
+    > 130 |     await expect(root.locator('.nv5-platform-content>footer [data-rain-id="ui-avatar"] .rain-avatar__picture')).toBeVisible();
+          |                                                                                                                 ^
+      131 |     expect(errors).toEqual([]);
+      132 |   });
+      133 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-r4-feedback.spec.ts:130:113
+
+    Error Context: evidence/runtime/navigation-v042/review-06/red-test-artifacts/navigation-v042-r4-feedbac-72517--compact-and-expanded-modes/error-context.md
+
+  5 failed
+    tests/e2e/navigation-v042-r4-feedback.spec.ts:60:3 › R4 feedback contracts › existing AvatarGroup portraits remain visible and do not nest actions inside group selectors 
+    tests/e2e/navigation-v042-r4-feedback.spec.ts:72:3 › R4 feedback contracts › compact activity cards reserve more room for details across every supported canvas width 
+    tests/e2e/navigation-v042-r4-feedback.spec.ts:89:3 › R4 feedback contracts › group filter, search and activity selection preserve identity and grey ungraded scores 
+    tests/e2e/navigation-v042-r4-feedback.spec.ts:106:3 › R4 feedback contracts › context boundary moves closer while keyboard, pointer resizing and temporary restoration retain the selected object 
+    tests/e2e/navigation-v042-r4-feedback.spec.ts:119:3 › R4 feedback contracts › platform brand and footer keep sensible alignment in compact and expanded modes 

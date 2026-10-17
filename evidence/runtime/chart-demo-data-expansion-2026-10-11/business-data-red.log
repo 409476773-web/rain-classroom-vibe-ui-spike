@@ -1,0 +1,2002 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts (38 tests | 2 failed) 12ms
+   × daily activity can change independently from a cohort whose total remains the same 3ms
+   × eight-day profiles have a broad interior peak and repeat within the existing quantity cycle 0ms
+ ❯ apps/playground/src/docs/components/chart-business/comparison-data.test.ts (16 tests | 1 failed) 18ms
+   × business updates vary actual category relationships instead of translating every value together 2ms
+ ❯ apps/playground/src/docs/components/chart-business/china-region-data.test.ts (23 tests | 2 failed) 312ms
+   × regional snapshots are varied and repeat instead of increasing forever by listing order 6ms
+   × every layer keeps stable identities and stays inside its initial fifty-person domain 8ms
+ ❯ apps/playground/src/docs/components/chart-business/matrix-data.test.ts (16 tests | 3 failed) 31ms
+   × all matrix snapshots repeat after three updates while keeping semantic holes and scales 16ms
+   × weekday-hour data makes overnight activity distinct from visible study peaks 0ms
+   × available self-similarity is complete while missing diagonals remain absent 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-data.test.ts > regional snapshots are varied and repeat instead of increasing forever by listing order
+AssertionError: expected [ { id: '110000', value: +0 }, …(33) ] to deeply equal [ { id: '110000', value: +0 }, …(33) ]
+
+- Expected
++ Received
+
+@@ -7,132 +7,132 @@
+      "id": "120000",
+      "value": null,
+    },
+    {
+      "id": "130000",
+-     "value": 34,
++     "value": 43,
+    },
+    {
+      "id": "140000",
+-     "value": 41,
++     "value": 50,
+    },
+    {
+      "id": "150000",
+-     "value": 48,
++     "value": 57,
+    },
+    {
+      "id": "210000",
+-     "value": 55,
++     "value": 64,
+    },
+    {
+      "id": "220000",
+-     "value": 62,
++     "value": 71,
+    },
+    {
+      "id": "230000",
+-     "value": 69,
++     "value": 78,
+    },
+    {
+      "id": "310000",
+-     "value": 76,
++     "value": 85,
+    },
+    {
+      "id": "320000",
+-     "value": 83,
++     "value": 92,
+    },
+    {
+      "id": "330000",
+-     "value": 90,
++     "value": 99,
+    },
+    {
+      "id": "340000",
+-     "value": 97,
++     "value": 106,
+    },
+    {
+      "id": "350000",
+-     "value": 104,
++     "value": 113,
+    },
+    {
+      "id": "360000",
+-     "value": 111,
++     "value": 120,
+    },
+    {
+      "id": "370000",
+-     "value": 118,
++     "value": 127,
+    },
+    {
+      "id": "410000",
+-     "value": 125,
++     "value": 134,
+    },
+    {
+      "id": "420000",
+-     "value": 132,
++     "value": 141,
+    },
+    {
+      "id": "430000",
+-     "value": 139,
++     "value": 148,
+    },
+    {
+      "id": "440000",
+-     "value": 146,
++     "value": 155,
+    },
+    {
+      "id": "450000",
+-     "value": 153,
++     "value": 162,
+    },
+    {
+      "id": "460000",
+-     "value": 160,
++     "value": 169,
+    },
+    {
+      "id": "500000",
+-     "value": 167,
++     "value": 176,
+    },
+    {
+      "id": "510000",
+-     "value": 174,
++     "value": 183,
+    },
+    {
+      "id": "520000",
+-     "value": 181,
++     "value": 190,
+    },
+    {
+      "id": "530000",
+-     "value": 188,
++     "value": 197,
+    },
+    {
+      "id": "540000",
+-     "value": 195,
++     "value": 204,
+    },
+    {
+      "id": "610000",
+-     "value": 202,
++     "value": 211,
+    },
+    {
+      "id": "620000",
+-     "value": 209,
++     "value": 218,
+    },
+    {
+      "id": "630000",
+-     "value": 216,
++     "value": 225,
+    },
+    {
+      "id": "640000",
+-     "value": 223,
++     "value": 232,
+    },
+    {
+      "id": "650000",
+-     "value": 230,
++     "value": 239,
+    },
+    {
+      "id": "710000",
+-     "value": 237,
++     "value": 246,
+    },
+    {
+      "id": "810000",
+-     "value": 244,
++     "value": 253,
+    },
+    {
+      "id": "820000",
+-     "value": 251,
++     "value": 260,
+    },
+  ]
+
+ ❯ apps/playground/src/docs/components/chart-business/china-region-data.test.ts:101:50
+     99| test("regional snapshots are varied and repeat instead of increasing f…
+    100|   const snapshots = [0, 1, 2].map(revision => makeChinaStatistics(null…
+    101|   expect(makeChinaStatistics(null, "normal", 3)).toEqual(snapshots[0]);
+       |                                                  ^
+    102|   const counts = snapshots[0]!.flatMap(row => row.value === null ? [] …
+    103|   expect(counts.some((value, index) => index > 1 && value < counts[ind…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-data.test.ts > every layer keeps stable identities and stays inside its initial fifty-person domain
+AssertionError: expected 102 to be less than or equal to 100
+ ❯ apps/playground/src/docs/components/chart-business/china-region-data.test.ts:117:108
+    115|       expect(rows[1]?.value).toBe(base[1]?.value);
+    116|       for (const { value } of rows) if (value !== null) {
+    117|         expect(Number.isInteger(value)).toBe(true); expect(value).toBe…
+       |                                                                                                            ^
+    118|       }
+    119|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/comparison-data.test.ts > business updates vary actual category relationships instead of translating every value together
+AssertionError: expected 1 to be greater than 1
+ ❯ apps/playground/src/docs/components/chart-business/comparison-data.test.ts:69:39
+     67|     const a = before.find(fixture => fixture.id === id)!, b = after.fi…
+     68|     const differences = b.rows.map((row, index) => Math.round((Number(…
+     69|     expect(new Set(differences).size).toBeGreaterThan(1);
+       |                                       ^
+     70|   }
+     71| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/matrix-data.test.ts > all matrix snapshots repeat after three updates while keeping semantic holes and scales
+AssertionError: expected [ [ …(167) ], [ …(24) ], …(3) ] to deeply equal [ [ …(167) ], [ …(24) ], …(3) ]
+
+- Expected
++ Received
+
+@@ -2,1021 +2,1021 @@
+    [
+      {
+        "columnId": "hour-1",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 6,
++       "value": 0,
+      },
+      {
+        "columnId": "hour-2",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 9,
++       "value": 3,
+      },
+      {
+        "columnId": "hour-3",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 12,
++       "value": 6,
+      },
+      {
+        "columnId": "hour-4",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 15,
++       "value": 9,
+      },
+      {
+        "columnId": "hour-5",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 18,
++       "value": 12,
+      },
+      {
+        "columnId": "hour-6",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 0,
++       "value": 15,
+      },
+      {
+        "columnId": "hour-7",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 3,
++       "value": 18,
+      },
+      {
+        "columnId": "hour-8",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 6,
++       "value": 0,
+      },
+      {
+        "columnId": "hour-9",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 9,
++       "value": 3,
+      },
+      {
+        "columnId": "hour-10",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 12,
++       "value": 6,
+      },
+      {
+        "columnId": "hour-11",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 15,
++       "value": 9,
+      },
+      {
+        "columnId": "hour-12",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 18,
++       "value": 12,
+      },
+      {
+        "columnId": "hour-13",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 0,
++       "value": 15,
+      },
+      {
+        "columnId": "hour-14",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 3,
++       "value": 18,
+      },
+      {
+        "columnId": "hour-15",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 6,
++       "value": 0,
+      },
+      {
+        "columnId": "hour-16",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 9,
++       "value": 3,
+      },
+      {
+        "columnId": "hour-17",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 12,
++       "value": 6,
+      },
+      {
+        "columnId": "hour-18",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 15,
++       "value": 9,
+      },
+      {
+        "columnId": "hour-19",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 18,
++       "value": 12,
+      },
+      {
+        "columnId": "hour-20",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 0,
++       "value": 15,
+      },
+      {
+        "columnId": "hour-21",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 3,
++       "value": 18,
+      },
+      {
+        "columnId": "hour-22",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 6,
++       "value": 0,
+      },
+      {
+        "columnId": "hour-23",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 9,
++       "value": 3,
+      },
+      {
+        "columnId": "hour-24",
+        "kind": "value",
+        "rowId": "weekday-1",
+-       "value": 12,
++       "value": 6,
+      },
+      {
+        "columnId": "hour-1",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 13,
++       "value": 7,
+      },
+      {
+        "columnId": "hour-2",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 16,
++       "value": 10,
+      },
+      {
+        "columnId": "hour-3",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 19,
++       "value": 13,
+      },
+      {
+        "columnId": "hour-4",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 1,
++       "value": 16,
+      },
+      {
+        "columnId": "hour-5",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 4,
++       "value": 19,
+      },
+      {
+        "columnId": "hour-6",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 7,
++       "value": 1,
+      },
+      {
+        "columnId": "hour-7",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 10,
++       "value": 4,
+      },
+      {
+        "columnId": "hour-8",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 13,
++       "value": 7,
+      },
+      {
+        "columnId": "hour-9",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 16,
++       "value": 10,
+      },
+      {
+        "columnId": "hour-10",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 19,
++       "value": 13,
+      },
+      {
+        "columnId": "hour-11",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 1,
++       "value": 16,
+      },
+      {
+        "columnId": "hour-12",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 4,
++       "value": 19,
+      },
+      {
+        "columnId": "hour-13",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 7,
++       "value": 1,
+      },
+      {
+        "columnId": "hour-14",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 10,
++       "value": 4,
+      },
+      {
+        "columnId": "hour-15",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 13,
++       "value": 7,
+      },
+      {
+        "columnId": "hour-16",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 16,
++       "value": 10,
+      },
+      {
+        "columnId": "hour-17",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 19,
++       "value": 13,
+      },
+      {
+        "columnId": "hour-18",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 1,
++       "value": 16,
+      },
+      {
+        "columnId": "hour-19",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 4,
++       "value": 19,
+      },
+      {
+        "columnId": "hour-20",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 7,
++       "value": 1,
+      },
+      {
+        "columnId": "hour-21",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 10,
++       "value": 4,
+      },
+      {
+        "columnId": "hour-22",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 13,
++       "value": 7,
+      },
+      {
+        "columnId": "hour-23",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 16,
++       "value": 10,
+      },
+      {
+        "columnId": "hour-24",
+        "kind": "value",
+        "rowId": "weekday-2",
+-       "value": 19,
++       "value": 13,
+      },
+      {
+        "columnId": "hour-1",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 20,
++       "value": 14,
+      },
+      {
+        "columnId": "hour-2",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 2,
++       "value": 17,
+      },
+      {
+        "columnId": "hour-3",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 5,
++       "value": 20,
+      },
+      {
+        "columnId": "hour-4",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 8,
++       "value": 2,
+      },
+      {
+        "columnId": "hour-5",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 11,
++       "value": 5,
+      },
+      {
+        "columnId": "hour-6",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 14,
++       "value": 8,
+      },
+      {
+        "columnId": "hour-7",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 17,
++       "value": 11,
+      },
+      {
+        "columnId": "hour-8",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 20,
++       "value": 14,
+      },
+      {
+        "columnId": "hour-9",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 2,
++       "value": 17,
+      },
+      {
+        "columnId": "hour-10",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 5,
++       "value": 20,
+      },
+      {
+        "columnId": "hour-11",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 8,
++       "value": 2,
+      },
+      {
+        "columnId": "hour-12",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 11,
++       "value": 5,
+      },
+      {
+        "columnId": "hour-13",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 14,
++       "value": 8,
+      },
+      {
+        "columnId": "hour-14",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 17,
++       "value": 11,
+      },
+      {
+        "columnId": "hour-15",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 20,
++       "value": 14,
+      },
+      {
+        "columnId": "hour-16",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 2,
++       "value": 17,
+      },
+      {
+        "columnId": "hour-17",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 5,
++       "value": 20,
+      },
+      {
+        "columnId": "hour-18",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 8,
++       "value": 2,
+      },
+      {
+        "columnId": "hour-19",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 11,
++       "value": 5,
+      },
+      {
+        "columnId": "hour-20",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 14,
++       "value": 8,
+      },
+      {
+        "columnId": "hour-21",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 17,
++       "value": 11,
+      },
+      {
+        "columnId": "hour-22",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 20,
++       "value": 14,
+      },
+      {
+        "columnId": "hour-23",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 2,
++       "value": 17,
+      },
+      {
+        "columnId": "hour-24",
+        "kind": "value",
+        "rowId": "weekday-3",
+-       "value": 5,
++       "value": 20,
+      },
+      {
+        "columnId": "hour-1",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 6,
++       "value": 0,
+      },
+      {
+        "columnId": "hour-2",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 9,
++       "value": 3,
+      },
+      {
+        "columnId": "hour-3",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 12,
++       "value": 6,
+      },
+      {
+        "columnId": "hour-4",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 15,
++       "value": 9,
+      },
+      {
+        "columnId": "hour-5",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 18,
++       "value": 12,
+      },
+      {
+        "columnId": "hour-6",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 0,
++       "value": 15,
+      },
+      {
+        "columnId": "hour-7",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 3,
++       "value": 18,
+      },
+      {
+        "columnId": "hour-8",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 6,
++       "value": 0,
+      },
+      {
+        "columnId": "hour-9",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 9,
++       "value": 3,
+      },
+      {
+        "columnId": "hour-10",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 12,
++       "value": 6,
+      },
+      {
+        "columnId": "hour-11",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 15,
++       "value": 9,
+      },
+      {
+        "columnId": "hour-12",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 18,
++       "value": 12,
+      },
+      {
+        "columnId": "hour-13",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 0,
++       "value": 15,
+      },
+      {
+        "columnId": "hour-14",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 3,
++       "value": 18,
+      },
+      {
+        "columnId": "hour-15",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 6,
++       "value": 0,
+      },
+      {
+        "columnId": "hour-16",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 9,
++       "value": 3,
+      },
+      {
+        "columnId": "hour-17",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 12,
++       "value": 6,
+      },
+      {
+        "columnId": "hour-18",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 15,
++       "value": 9,
+      },
+      {
+        "columnId": "hour-19",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 18,
++       "value": 12,
+      },
+      {
+        "columnId": "hour-20",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 0,
++       "value": 15,
+      },
+      {
+        "columnId": "hour-21",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 3,
++       "value": 18,
+      },
+      {
+        "columnId": "hour-22",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 6,
++       "value": 0,
+      },
+      {
+        "columnId": "hour-23",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 9,
++       "value": 3,
+      },
+      {
+        "columnId": "hour-24",
+        "kind": "value",
+        "rowId": "weekday-4",
+-       "value": 12,
++       "value": 6,
+      },
+      {
+        "columnId": "hour-1",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 13,
++       "value": 7,
+      },
+      {
+        "columnId": "hour-2",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 16,
++       "value": 10,
+      },
+      {
+        "columnId": "hour-3",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 19,
++       "value": 13,
+      },
+      {
+        "columnId": "hour-4",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 1,
++       "value": 16,
+      },
+      {
+        "columnId": "hour-5",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 4,
++       "value": 19,
+      },
+      {
+        "columnId": "hour-6",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 7,
++       "value": 1,
+      },
+      {
+        "columnId": "hour-7",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 10,
++       "value": 4,
+      },
+      {
+        "columnId": "hour-8",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 13,
++       "value": 7,
+      },
+      {
+        "columnId": "hour-9",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 16,
++       "value": 10,
+      },
+      {
+        "columnId": "hour-10",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 19,
++       "value": 13,
+      },
+      {
+        "columnId": "hour-11",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 1,
++       "value": 16,
+      },
+      {
+        "columnId": "hour-12",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 4,
++       "value": 19,
+      },
+      {
+        "columnId": "hour-13",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 7,
++       "value": 1,
+      },
+      {
+        "columnId": "hour-14",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 10,
++       "value": 4,
+      },
+      {
+        "columnId": "hour-15",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 13,
++       "value": 7,
+      },
+      {
+        "columnId": "hour-16",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 16,
++       "value": 10,
+      },
+      {
+        "columnId": "hour-17",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 19,
++       "value": 13,
+      },
+      {
+        "columnId": "hour-18",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 1,
++       "value": 16,
+      },
+      {
+        "columnId": "hour-19",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 4,
++       "value": 19,
+      },
+      {
+        "columnId": "hour-20",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 7,
++       "value": 1,
+      },
+      {
+        "columnId": "hour-21",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 10,
++       "value": 4,
+      },
+      {
+        "columnId": "hour-22",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 13,
++       "value": 7,
+      },
+      {
+        "columnId": "hour-23",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 16,
++       "value": 10,
+      },
+      {
+        "columnId": "hour-24",
+        "kind": "value",
+        "rowId": "weekday-5",
+-       "value": 19,
++       "value": 13,
+      },
+      {
+        "columnId": "hour-1",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 20,
++       "value": 14,
+      },
+      {
+        "columnId": "hour-2",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 2,
++       "value": 17,
+      },
+      {
+        "columnId": "hour-3",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 5,
++       "value": 20,
+      },
+      {
+        "columnId": "hour-4",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 8,
++       "value": 2,
+      },
+      {
+        "columnId": "hour-5",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 11,
++       "value": 5,
+      },
+      {
+        "columnId": "hour-6",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 14,
++       "value": 8,
+      },
+      {
+        "columnId": "hour-7",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 17,
++       "value": 11,
+      },
+      {
+        "columnId": "hour-8",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 20,
++       "value": 14,
+      },
+      {
+        "columnId": "hour-9",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 2,
++       "value": 17,
+      },
+      {
+        "columnId": "hour-10",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 5,
++       "value": 20,
+      },
+      {
+        "columnId": "hour-11",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 8,
++       "value": 2,
+      },
+      {
+        "columnId": "hour-12",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 11,
++       "value": 5,
+      },
+      {
+        "columnId": "hour-13",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 14,
++       "value": 8,
+      },
+      {
+        "columnId": "hour-14",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 17,
++       "value": 11,
+      },
+      {
+        "columnId": "hour-15",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 20,
++       "value": 14,
+      },
+      {
+        "columnId": "hour-16",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 2,
++       "value": 17,
+      },
+      {
+        "columnId": "hour-17",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 5,
++       "value": 20,
+      },
+      {
+        "columnId": "hour-18",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 8,
++       "value": 2,
+      },
+      {
+        "columnId": "hour-19",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 11,
++       "value": 5,
+      },
+      {
+        "columnId": "hour-20",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 14,
++       "value": 8,
+      },
+      {
+        "columnId": "hour-21",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 17,
++       "value": 11,
+      },
+      {
+        "columnId": "hour-22",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 20,
++       "value": 14,
+      },
+      {
+        "columnId": "hour-23",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 2,
++       "value": 17,
+      },
+      {
+        "columnId": "hour-24",
+        "kind": "value",
+        "rowId": "weekday-6",
+-       "value": 5,
++       "value": 20,
+      },
+      {
+        "columnId": "hour-1",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 6,
++       "value": 0,
+      },
+      {
+        "columnId": "hour-2",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 9,
++       "value": 3,
+      },
+      {
+        "columnId": "hour-3",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 12,
++       "value": 6,
+      },
+      {
+        "columnId": "hour-4",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 15,
++       "value": 9,
+      },
+      {
+        "columnId": "hour-5",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 18,
++       "value": 12,
+      },
+      {
+        "columnId": "hour-6",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 0,
++       "value": 15,
+      },
+      {
+        "columnId": "hour-7",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 3,
++       "value": 18,
+      },
+      {
+        "columnId": "hour-8",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 6,
++       "value": 0,
+      },
+      {
+        "columnId": "hour-9",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 9,
++       "value": 3,
+      },
+      {
+        "columnId": "hour-10",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 12,
++       "value": 6,
+      },
+      {
+        "columnId": "hour-11",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 15,
++       "value": 9,
+      },
+      {
+        "columnId": "hour-12",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 18,
++       "value": 12,
+      },
+      {
+        "columnId": "hour-13",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 0,
++       "value": 15,
+      },
+      {
+        "columnId": "hour-14",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 3,
++       "value": 18,
+      },
+      {
+        "columnId": "hour-15",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 6,
++       "value": 0,
+      },
+      {
+        "columnId": "hour-16",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 9,
++       "value": 3,
+      },
+      {
+        "columnId": "hour-17",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 12,
++       "value": 6,
+      },
+      {
+        "columnId": "hour-18",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 15,
++       "value": 9,
+      },
+      {
+        "columnId": "hour-19",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 18,
++       "value": 12,
+      },
+      {
+        "columnId": "hour-20",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 0,
++       "value": 15,
+      },
+      {
+        "columnId": "hour-21",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 3,
++       "value": 18,
+      },
+      {
+        "columnId": "hour-22",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 6,
++       "value": 0,
+      },
+      {
+        "columnId": "hour-23",
+        "kind": "value",
+        "rowId": "weekday-7",
+-       "value": 9,
++       "value": 3,
+      },
+    ],
+    [
+      {
+        "columnId": "version-1",
+        "kind": "value",
+        "rowId": "course-1",
+-       "value": 4,
++       "value": 1,
+      },
+      {
+        "columnId": "version-2",
+        "kind": "value",
+        "rowId": "course-1",
+-       "value": 5,
++       "value": 2,
+      },
+      {
+        "columnId": "version-3",
+        "kind": "missing",
+        "label": "未设学期",
+@@ -1024,41 +1024,41 @@
+      },
+      {
+        "columnId": "version-4",
+        "kind": "value",
+        "rowId": "course-1",
+-       "value": 7,
++       "value": 4,
+      },
+      {
+        "columnId": "version-1",
+        "kind": "value",
+        "rowId": "course-2",
+-       "value": 5,
++       "value": 2,
+      },
+      {
+        "columnId": "version-2",
+        "kind": "value",
+        "rowId": "course-2",
+-       "value": 6,
++       "value": 3,
+      },
+      {
+        "columnId": "version-3",
+        "kind": "value",
+        "rowId": "course-2",
+-       "value": 7,
++       "value": 4,
+      },
+      {
+        "columnId": "version-4",
+        "kind": "value",
+        "rowId": "course-2",
+-       "value": 8,
++       "value": 5,
+      },
+      {
+        "columnId": "version-1",
+        "kind": "value",
+        "rowId": "course-3",
+-       "value": 6,
++       "value": 3,
+      },
+      {
+        "columnId": "version-2",
+        "kind": "not-applicable",
+        "label": "无该课程",
+@@ -1066,393 +1066,393 @@
+      },
+      {
+        "columnId": "version-3",
+        "kind": "value",
+        "rowId": "course-3",
+-       "value": 8,
++       "value": 5,
+      },
+      {
+        "columnId": "version-4",
+        "kind": "value",
+        "rowId": "course-3",
+-       "value": 1,
++       "value": 6,
+      },
+      {
+        "columnId": "version-1",
+        "kind": "value",
+        "rowId": "course-4",
+-       "value": 7,
++       "value": 4,
+      },
+      {
+        "columnId": "version-2",
+        "kind": "value",
+        "rowId": "course-4",
+-       "value": 8,
++       "value": 5,
+      },
+      {
+        "columnId": "version-3",
+        "kind": "value",
+        "rowId": "course-4",
+-       "value": 1,
++       "value": 6,
+      },
+      {
+        "columnId": "version-4",
+        "kind": "value",
+        "rowId": "course-4",
+-       "value": 2,
++       "value": 7,
+      },
+      {
+        "columnId": "version-1",
+        "kind": "value",
+        "rowId": "course-5",
+-       "value": 8,
++       "value": 5,
+      },
+      {
+        "columnId": "version-2",
+        "kind": "value",
+        "rowId": "course-5",
+-       "value": 1,
++       "value": 6,
+      },
+      {
+        "columnId": "version-3",
+        "kind": "value",
+        "rowId": "course-5",
+-       "value": 2,
++       "value": 7,
+      },
+      {
+        "columnId": "version-4",
+        "kind": "value",
+        "rowId": "course-5",
+-       "value": 3,
++       "value": 8,
+      },
+      {
+        "columnId": "version-1",
+        "kind": "value",
+        "rowId": "course-6",
+-       "value": 1,
++       "value": 6,
+      },
+      {
+        "columnId": "version-2",
+        "kind": "value",
+        "rowId": "course-6",
+-       "value": 2,
++       "value": 7,
+      },
+      {
+        "columnId": "version-3",
+        "kind": "value",
+        "rowId": "course-6",
+-       "value": 3,
++       "value": 8,
+      },
+      {
+        "columnId": "version-4",
+        "kind": "value",
+        "rowId": "course-6",
+-       "value": 4,
++       "value": 1,
+      },
+    ],
+    [
+      {
+        "columnId": "course-2",
+        "kind": "value",
+        "rowId": "course-1",
+-       "value": 0.6,
++       "value": 0.3,
+      },
+      {
+        "columnId": "course-3",
+        "kind": "value",
+        "rowId": "course-1",
+-       "value": 0.9,
++       "value": 0.6,
+      },
+      {
+        "columnId": "course-4",
+        "kind": "value",
+        "rowId": "course-1",
+-       "value": 0.1,
++       "value": 0.9,
+      },
+      {
+        "columnId": "course-1",
+        "kind": "value",
+        "rowId": "course-2",
+-       "value": 1,
++       "value": 0.7,
+      },
+      {
+        "columnId": "course-2",
+        "kind": "value",
+        "rowId": "course-2",
+-       "value": 0.2,
++       "value": 1,
+      },
+      {
+        "columnId": "course-3",
+        "kind": "value",
+        "rowId": "course-2",
+-       "value": 0.5,
++       "value": 0.2,
+      },
+      {
+        "columnId": "course-4",
+        "kind": "value",
+        "rowId": "course-2",
+-       "value": 0.8,
++       "value": 0.5,
+      },
+      {
+        "columnId": "course-1",
+        "kind": "value",
+        "rowId": "course-3",
+-       "value": 0.6,
++       "value": 0.3,
+      },
+      {
+        "columnId": "course-2",
+        "kind": "value",
+        "rowId": "course-3",
+-       "value": 0.9,
++       "value": 0.6,
+      },
+      {
+        "columnId": "course-3",
+        "kind": "value",
+        "rowId": "course-3",
+-       "value": 0.1,
++       "value": 0.9,
+      },
+      {
+        "columnId": "course-4",
+        "kind": "value",
+        "rowId": "course-3",
+-       "value": 0.4,
++       "value": 0.1,
+      },
+      {
+        "columnId": "course-1",
+        "kind": "value",
+        "rowId": "course-4",
+-       "value": 0.2,
++       "value": 1,
+      },
+      {
+        "columnId": "course-2",
+        "kind": "value",
+        "rowId": "course-4",
+-       "value": 0.5,
++       "value": 0.2,
+      },
+      {
+        "columnId": "course-3",
+        "kind": "value",
+        "rowId": "course-4",
+-       "value": 0.8,
++       "value": 0.5,
+      },
+    ],
+    [
+      {
+        "columnId": "college-1",
+        "kind": "value",
+        "rowId": "category-1",
+-       "value": 9,
++       "value": 0,
+      },
+      {
+        "columnId": "college-2",
+        "kind": "value",
+        "rowId": "category-1",
+-       "value": 16,
++       "value": 7,
+      },
+      {
+        "columnId": "college-3",
+        "kind": "value",
+        "rowId": "category-1",
+-       "value": 23,
++       "value": 14,
+      },
+      {
+        "columnId": "college-4",
+        "kind": "value",
+        "rowId": "category-1",
+-       "value": 30,
++       "value": 21,
+      },
+      {
+        "columnId": "college-5",
+        "kind": "value",
+        "rowId": "category-1",
+-       "value": 37,
++       "value": 28,
+      },
+      {
+        "columnId": "college-6",
+        "kind": "value",
+        "rowId": "category-1",
+-       "value": 44,
++       "value": 35,
+      },
+      {
+        "columnId": "college-1",
+        "kind": "value",
+        "rowId": "category-2",
+-       "value": 20,
++       "value": 11,
+      },
+      {
+        "columnId": "college-2",
+        "kind": "value",
+        "rowId": "category-2",
+-       "value": 27,
++       "value": 18,
+      },
+      {
+        "columnId": "college-3",
+        "kind": "value",
+        "rowId": "category-2",
+-       "value": 34,
++       "value": 25,
+      },
+      {
+        "columnId": "college-4",
+        "kind": "value",
+        "rowId": "category-2",
+-       "value": 41,
++       "value": 32,
+      },
+      {
+        "columnId": "college-5",
+        "kind": "value",
+        "rowId": "category-2",
+-       "value": 48,
++       "value": 39,
+      },
+      {
+        "columnId": "college-6",
+        "kind": "value",
+        "rowId": "category-2",
+-       "value": 55,
++       "value": 46,
+      },
+      {
+        "columnId": "college-1",
+        "kind": "value",
+        "rowId": "category-3",
+-       "value": 31,
++       "value": 22,
+      },
+      {
+        "columnId": "college-2",
+        "kind": "value",
+        "rowId": "category-3",
+-       "value": 38,
++       "value": 29,
+      },
+      {
+        "columnId": "college-3",
+        "kind": "value",
+        "rowId": "category-3",
+-       "value": 45,
++       "value": 36,
+      },
+      {
+        "columnId": "college-4",
+        "kind": "value",
+        "rowId": "category-3",
+-       "value": 52,
++       "value": 43,
+      },
+      {
+        "columnId": "college-5",
+        "kind": "value",
+        "rowId": "category-3",
+-       "value": 59,
++       "value": 50,
+      },
+      {
+        "columnId": "college-6",
+        "kind": "value",
+        "rowId": "category-3",
+-       "value": 66,
++       "value": 57,
+      },
+      {
+        "columnId": "college-1",
+        "kind": "value",
+        "rowId": "category-4",
+-       "value": 42,
++       "value": 33,
+      },
+      {
+        "columnId": "college-2",
+        "kind": "value",
+        "rowId": "category-4",
+-       "value": 49,
++       "value": 40,
+      },
+      {
+        "columnId": "college-3",
+        "kind": "value",
+        "rowId": "category-4",
+-       "value": 56,
++       "value": 47,
+      },
+      {
+        "columnId": "college-4",
+        "kind": "value",
+        "rowId": "category-4",
+-       "value": 63,
++       "value": 54,
+      },
+      {
+        "columnId": "college-5",
+        "kind": "value",
+        "rowId": "category-4",
+-       "value": 70,
++       "value": 61,
+      },
+      {
+        "columnId": "college-6",
+        "kind": "value",
+        "rowId": "category-4",
+-       "value": 77,
++       "value": 68,
+      },
+      {
+        "columnId": "college-1",
+        "kind": "value",
+        "rowId": "category-5",
+-       "value": 53,
++       "value": 44,
+      },
+      {
+        "columnId": "college-2",
+        "kind": "value",
+        "rowId": "category-5",
+-       "value": 60,
++       "value": 51,
+      },
+      {
+        "columnId": "college-3",
+        "kind": "value",
+        "rowId": "category-5",
+-       "value": 67,
++       "value": 58,
+      },
+      {
+        "columnId": "college-4",
+        "kind": "value",
+        "rowId": "category-5",
+-       "value": 74,
++       "value": 65,
+      },
+      {
+        "columnId": "college-5",
+        "kind": "value",
+        "rowId": "category-5",
+-       "value": 81,
++       "value": 72,
+      },
+      {
+        "columnId": "college-6",
+        "kind": "value",
+        "rowId": "category-5",
+-       "value": 88,
++       "value": 79,
+      },
+      {
+        "columnId": "college-1",
+        "kind": "value",
+        "rowId": "category-6",
+-       "value": 64,
++       "value": 55,
+      },
+      {
+        "columnId": "college-2",
+        "kind": "value",
+        "rowId": "category-6",
+-       "value": 71,
++       "value": 62,
+      },
+      {
+        "columnId": "college-3",
+        "kind": "value",
+        "rowId": "category-6",
+-       "value": 78,
++       "value": 69,
+      },
+      {
+        "columnId": "college-4",
+        "kind": "value",
+        "rowId": "category-6",
+-       "value": 85,
++       "value": 76,
+      },
+      {
+        "columnId": "college-5",
+        "kind": "value",
+        "rowId": "category-6",
+-       "value": 92,
++       "value": 83,
+      },
+      {
+        "columnId": "college-6",
+        "kind": "value",
+        "rowId": "category-6",
+-       "value": 99,
++       "value": 90,
+      },
+    ],
+    [
+      {
+        "columnId": "requirement-1",
+
+ ❯ apps/playground/src/docs/components/chart-business/matrix-data.test.ts:94:52
+     92|   for (const size of [4, 6, 12] as const) for (let revision = 0; revis…
+     93|     const fixtures = makeMatrixFixtures(revision, "normal", size), rep…
+     94|     expect(fixtures.map(fixture => fixture.cells)).toEqual(repeated.ma…
+       |                                                    ^
+     95|     for (const fixture of fixtures) {
+     96|       const model = getMatrixEncoding(fixture.encoding, fixture.valueF…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/matrix-data.test.ts > weekday-hour data makes overnight activity distinct from visible study peaks
+AssertionError: expected 20 to be less than or equal to 4
+ ❯ apps/playground/src/docs/components/chart-business/matrix-data.test.ts:109:38
+    107|   const daytime = fixture.cells.filter(cell => fixture.columns.slice(8…
+    108|   const values = (cells: MatrixCell[]) => cells.flatMap(cell => cell.k…
+    109|   expect(Math.max(...values(night))).toBeLessThanOrEqual(4);
+       |                                      ^
+    110|   expect(Math.max(...values(daytime))).toBeGreaterThanOrEqual(16);
+    111|   expect(values(fixture.cells).some(value => value === 0)).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/matrix-data.test.ts > available self-similarity is complete while missing diagonals remain absent
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ apps/playground/src/docs/components/chart-business/matrix-data.test.ts:119:79
+    117|     const diagonal = fixture.cells.filter(cell => cell.rowId === cell.…
+    118|     expect(diagonal).toHaveLength(size - Math.ceil(size / 3));
+    119|     expect(diagonal.every(cell => cell.kind === "value" && cell.value …
+       |                                                                               ^
+    120|   }
+    121| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > daily activity can change independently from a cohort whose total remains the same
+AssertionError: expected [ 31, 43, 54, 53, 65, 77, 76, 88 ] to not deeply equal [ 31, 43, 54, 53, 65, 77, 76, 88 ]
+
+Compared values have no visual difference.
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts:33:27
+     31|   const before = makeMiniRows(0)[2]!, after = makeMiniRows(1)[2]!;
+     32|   expect(before.count).toBe(100); expect(after.count).toBe(100);
+     33|   expect(after.trend).not.toEqual(before.trend);
+       |                           ^
+     34| });
+     35|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > eight-day profiles have a broad interior peak and repeat within the existing quantity cycle
+AssertionError: expected 22 to be less than 18.7
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts:40:24
+     38|   expect(first.indexOf(Math.max(...first))).toBeGreaterThan(0);
+     39|   expect(first.indexOf(Math.max(...first))).toBeLessThan(first.length …
+     40|   expect(first.at(-1)).toBeLessThan(Math.max(...first) * .85);
+       |                        ^
+     41|   for (let revision = 0; revision < 24; revision++) {
+     42|     const rows = makeMiniRows(revision);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  4 failed (4)
+      Tests  8 failed | 85 passed (93)
+   Start at  11:18:38
+   Duration  1.81s (transform 950ms, setup 502ms, import 1.32s, tests 373ms, environment 1.76s)
+

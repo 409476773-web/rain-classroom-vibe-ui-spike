@@ -1,0 +1,48 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/rn14-starter.test.ts (3 tests | 2 failed) 5466ms
+   × delivers reachable design guidance and locks it with each standalone starter 1325ms
+   × exports a fixed local starter without links to the source workspace and detects changed shared files 1198ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/rn14-starter.test.ts > delivers reachable design guidance and locks it with each standalone starter
+AssertionError: docs/ai/prototype-design.md: g4-components.md: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ scripts/rn14-starter.test.ts:29:62
+     27|           const target = resolve(output, dirname(file), href.split("#"…
+     28|           expect(target.startsWith(output + "/"), `${file}: outside st…
+     29|           expect(existsSync(target), `${file}: ${match[1]}`).toBe(true…
+       |                                                              ^
+     30|           if (target.endsWith(".md")) pending.push(target.slice(output…
+     31|         }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/rn14-starter.test.ts > exports a fixed local starter without links to the source workspace and detects changed shared files
+Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged
+ ❯ fail scripts/verification-helpers.mjs:3496:30
+    3494|
+    3495| export function getValidatedTailwindB2History(status) {
+    3496|   const fail = () => { throw new Error("Invalid Token Foundations V1 h…
+       |                              ^
+    3497|   const history = status?.phaseHistory?.tailwindB2;
+    3498|   if (status?.currentPhase?.id !== "token-foundations-v1" || !history
+ ❯ getValidatedTailwindB2History scripts/verification-helpers.mjs:3557:67
+ ❯ scripts/rn14-starter.test.ts:112:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  13:21:36
+   Duration  6.31s (transform 102ms, setup 547ms, import 101ms, tests 5.47s, environment 0ms)
+

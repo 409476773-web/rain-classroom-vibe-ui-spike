@@ -115,6 +115,14 @@ function categoryAlias(id: string) {
 export const semanticColorAliases = Object.fromEntries(
   Object.entries(semanticColorCategoryIds).map(([name, id]) => [`--rain-color-${name}`, categoryAlias(id)]),
 );
+Object.assign(semanticColorAliases, {
+  "--rain-color-switch-track-unchecked": categoryAlias("Icon/Neutral/4"),
+  "--rain-color-switch-track-hover": categoryAlias("Icon/Neutral/3"),
+  "--rain-color-switch-track-pressed": categoryAlias("Text/Neutral/2"),
+  "--rain-color-switch-track-checked-hover": categoryAlias("Fill/Brand/Solid/1"),
+  "--rain-color-switch-track-checked-pressed": categoryAlias("Fill/Brand/Alpha/1"),
+  "--rain-color-switch-indicator": categoryAlias("OnColor/1"),
+});
 export const semanticColorRoleAliases = {
   "--rain-color-action-primary-text": categoryAlias("Text/Brand/1"),
 };

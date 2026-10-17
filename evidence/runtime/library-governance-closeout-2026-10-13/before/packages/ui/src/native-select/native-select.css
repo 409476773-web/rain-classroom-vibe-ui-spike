@@ -1,0 +1,22 @@
+/* @rain-css-exception native-select-parts: source-derived native geometry and platform option paint. */
+@layer components {
+  .rain-native-select {
+    transition: background-color var(--rain-input-transition-duration) var(--rain-input-transition-easing), border-color var(--rain-input-transition-duration) var(--rain-input-transition-easing);
+  }
+  .rain-native-select__icon {
+    inset-inline-end: var(--rain-space-12);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rain-category-icon-neutral-3);
+  }
+  .rain-native-select[data-size="24"] .rain-native-select__icon { inset-inline-end: var(--rain-space-8); }
+  .rain-native-select[data-state="disabled"] .rain-native-select__icon { color: var(--rain-category-icon-neutral-5); }
+  .rain-native-select option, .rain-native-select optgroup { background-color: Canvas; color: CanvasText; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rain-native-select { transition: none; }
+}
+@media (forced-colors: active) {
+  .rain-native-select__control { appearance: auto; }
+  .rain-native-select__icon { display: none; }
+}

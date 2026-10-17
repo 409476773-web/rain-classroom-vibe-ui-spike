@@ -1,0 +1,35 @@
+
+> @rain-next/workspace@0.0.0 test /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> vitest run scripts/charts.test.ts
+
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/charts.test.ts (5 tests | 1 failed) 122ms
+   × fixed native source hashes and relative dependency closure are complete 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/charts.test.ts > fixed native source hashes and relative dependency closure are complete
+AssertionError: charts/choropleth/choropleth-chart.tsx: expected 'c46beda63dda91302cce222b1548c15b6d262…' to be '8d99d3191c8705ff1118bf6f9de6ac718124b…' // Object.is equality
+
+Expected: "8d99d3191c8705ff1118bf6f9de6ac718124b1f6534f0feaec9122b2b998a2c5"
+Received: "c46beda63dda91302cce222b1548c15b6d262f3011f4aa5e5cda899c0d402a3d"
+
+ ❯ scripts/charts.test.ts:50:79
+     48|     const path = resolve(vendor, file.localPath);
+     49|     const source = readFileSync(path, "utf8");
+     50|     expect(createHash("sha256").update(source).digest("hex"), file.loc…
+       |                                                                               ^
+     51|     expect(source).not.toMatch(/(?:apps\/(?:prototype|playground)|@\/)…
+     52|     for (const [, specifier] of source.matchAll(/(?:from\s+|import\s*)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  00:36:02
+   Duration  809ms (transform 95ms, setup 91ms, import 154ms, tests 122ms, environment 356ms)
+
+ ELIFECYCLE  Test failed. See above for more details.

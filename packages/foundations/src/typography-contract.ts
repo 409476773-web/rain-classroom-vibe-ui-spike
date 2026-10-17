@@ -39,11 +39,11 @@ export const typographyPresets = {
   "ui-caption": preset("Typography/UI/Caption", "辅助信息", "次要元数据、图注与短辅助信息", "ui", 12, 20, 400),
   "ui-supporting": preset("Typography/UI/Supporting", "补充说明", "面板短说明和内容补充", "ui", 13, 20, 400),
   "heading-section": preset("Typography/Heading/Section", "区块标题", "卡片、区块标题和页面主标题", "ui", 16, 24, 600),
-  "heading-page": preset("Typography/Heading/Page", "大标题", "极少使用的页面主标题与重要数据", "ui", 24, 32, 600),
+  "heading-page": preset("Typography/Heading/Page", "页面标题", "页面主标题默认 16px；同页已有较多 16px 标题时，才手动选择 17px 或 18px", "ui", 16, 24, 600),
   "reading-small": preset("Typography/Reading/Small", "紧凑阅读", "较紧凑的长内容阅读区", "reading", 14, 24, 400),
   "reading-default": preset("Typography/Reading/Default", "常规阅读", "答案解析、评语和报告结论", "reading", 15, 26, 400),
   "reading-large": preset("Typography/Reading/Large", "大字阅读", "更大字号的阅读区", "reading", 16, 26, 400),
-  "data-default": preset("Typography/Data/Default", "关键数据", "极少使用、承担视觉锚点的关键数值。36px 为默认，可选其他已登记字号，并检查对应行高。", "data", 36, 42, 700),
+  "data-default": preset("Typography/Data/Default", "关键数据", "极少使用、承担视觉锚点的关键数值。默认 28px，最大 28px；可选更小的已登记字号，并检查对应行高。", "data", 28, 36, 700),
 } as const;
 export type TypographyPresetName = keyof typeof typographyPresets;
 
@@ -52,6 +52,8 @@ export const typographyIssueMessages = {
   "preset-unregistered": "这个排版方案尚未登记。",
   "font-role-invalid": "请选择界面、阅读或关键数据字体角色。",
   "font-size-unregistered": "字号不在已登记选择中；继承或未知值需要检查实际节点。",
+  "heading-font-size-limit": "标题默认 16px；极少数情况可手动选择 17px 或 18px。",
+  "data-font-size-limit": "关键数据字号最大为 28px。",
   "line-height-unregistered": "行高不在已登记选择中；未登记值按局部候选处理。",
   "line-height-range": "行高必须在字号的 1 至 2 倍之间，包含上下限。",
   "font-weight-invalid": "界面与阅读只用 400/600；关键数据只用 700。",
@@ -72,6 +74,7 @@ export function validateTypographyComposition(input: unknown, context?: { recipe
   const validLine = value.lineHeight === "equal" || (typeof value.lineHeight === "number" && Object.hasOwn(lineHeightTokens, value.lineHeight));
   if (typeof value.fontRole !== "string" || !["ui", "reading", "data"].includes(value.fontRole)) issues.push("font-role-invalid");
   if (!validSize) issues.push("font-size-unregistered");
+  if (value.fontRole === "data" && typeof value.fontSize === "number" && value.fontSize > 28) issues.push("data-font-size-limit");
   if (!validLine) issues.push("line-height-unregistered");
   const resolvedLineHeight = validSize && validLine ? (value.lineHeight === "equal" ? value.fontSize : value.lineHeight) as number : undefined;
   if (resolvedLineHeight !== undefined && (resolvedLineHeight < (value.fontSize as number) || resolvedLineHeight > 2 * (value.fontSize as number))) issues.push("line-height-range");
@@ -116,6 +119,10 @@ export function resolveTypographyPreset(name: string, overrides: Partial<Typogra
   }
   const composition = { ...typographyPresets[name as TypographyPresetName], ...overrides };
   const validation = validateTypographyComposition(composition);
+  if (name.startsWith("heading-") && ![16, 17, 18].includes(composition.fontSize)) {
+    validation.issues.push("heading-font-size-limit");
+    validation.valid = false;
+  }
   const css = validation.valid ? declarations(composition) : undefined;
   const style: CSSProperties | undefined = css ? {
     fontFamily: css["font-family"], fontSize: css["font-size"], lineHeight: css["line-height"],

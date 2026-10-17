@@ -1,0 +1,336 @@
+{
+  "kind": "NavigationV042ReviewEvidenceIndex",
+  "reviewRevision": "G2-composition-candidate-09",
+  "recordedAt": "2026-10-03T08:01:33.888268+00:00",
+  "scope": "Explicit user all12 R1-R6/S1-S6 self-audit and local optimization; current compact R3 screenshot retained",
+  "reviewState": "implemented-and-verified-pending-human-G2",
+  "runtimeUrl": "http://127.0.0.1:5198/?sample=R3#navigation-v042",
+  "workspace": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2",
+  "approvedReference": {
+    "version": "0.4.2-style.1",
+    "sha256": "d2574eaae899bb48b7a3201914861d27b23e0bc58a05bf1a75898eba697dd03c",
+    "unchanged": true,
+    "verification": "frozen-reference-check.log"
+  },
+  "sceneCoverage": [
+    {
+      "scene": "R1",
+      "views": [
+        "培养方案",
+        "产教模型"
+      ],
+      "canvasWidths": [
+        1200,
+        1440,
+        1600
+      ],
+      "ownerEvidence": "r1-r3/audit-summary.json"
+    },
+    {
+      "scene": "R2",
+      "views": [
+        "课程内容／编辑／范围"
+      ],
+      "canvasWidths": [
+        1200,
+        1440,
+        1600
+      ],
+      "ownerEvidence": "r1-r3/audit-summary.json"
+    },
+    {
+      "scene": "R3",
+      "views": [
+        "云盘",
+        "错题集"
+      ],
+      "canvasWidths": [
+        1200,
+        1440,
+        1600
+      ],
+      "ownerEvidence": "r1-r3/audit-summary.json"
+    },
+    {
+      "scene": "R4",
+      "views": [
+        "课堂互动",
+        "教师批改"
+      ],
+      "canvasWidths": [
+        1200,
+        1440,
+        1600
+      ],
+      "ownerEvidence": "r4-r6/owner-report.json"
+    },
+    {
+      "scene": "R5",
+      "views": [
+        "回放／事件／脑图"
+      ],
+      "canvasWidths": [
+        1200,
+        1440,
+        1600
+      ],
+      "ownerEvidence": "r4-r6/owner-report.json"
+    },
+    {
+      "scene": "R6",
+      "views": [
+        "表单",
+        "表格",
+        "分组",
+        "画册"
+      ],
+      "canvasWidths": [
+        1200,
+        1440,
+        1600
+      ],
+      "ownerEvidence": "r4-r6/owner-report.json"
+    },
+    {
+      "scene": "S1",
+      "views": [
+        "专业目的地／区域恢复"
+      ],
+      "canvasWidths": [
+        1200,
+        1440,
+        1600
+      ],
+      "ownerEvidence": "states/review-evidence-index.json"
+    },
+    {
+      "scene": "S2",
+      "views": [
+        "学习目录／区域恢复"
+      ],
+      "canvasWidths": [
+        1200,
+        1440,
+        1600
+      ],
+      "ownerEvidence": "states/review-evidence-index.json"
+    },
+    {
+      "scene": "S3",
+      "views": [
+        "协作页面／视图／区域恢复"
+      ],
+      "canvasWidths": [
+        1200,
+        1440,
+        1600
+      ],
+      "ownerEvidence": "states/review-evidence-index.json"
+    },
+    {
+      "scene": "S4",
+      "views": [
+        "互动",
+        "批改",
+        "区域恢复"
+      ],
+      "canvasWidths": [
+        1200,
+        1440,
+        1600
+      ],
+      "ownerEvidence": "states/review-evidence-index.json"
+    },
+    {
+      "scene": "S5",
+      "views": [
+        "文档草稿",
+        "完整／图标／标签／隐藏工具",
+        "区域恢复"
+      ],
+      "canvasWidths": [
+        1200,
+        1440,
+        1600
+      ],
+      "ownerEvidence": "states/review-evidence-index.json"
+    },
+    {
+      "scene": "S6",
+      "views": [
+        "回放／事件／时间／区域恢复"
+      ],
+      "canvasWidths": [
+        1200,
+        1440,
+        1600
+      ],
+      "ownerEvidence": "states/review-evidence-index.json"
+    }
+  ],
+  "methods": [
+    "V04 information roles and content adaptation",
+    "V05 actual control rendering and behavior",
+    "D05 interactions and current task identity",
+    "existing variants and feature-scoped Token mapping"
+  ],
+  "productionSourceLocks": "metadata-source-freeze.json",
+  "verification": {
+    "status": "passed-with-existing-test-project-typecheck-limitation",
+    "finalSourceFrozen": true,
+    "focusedUnit": {
+      "files": 10,
+      "passed": 117,
+      "log": "unit-final.log",
+      "exitCode": 0
+    },
+    "browser": {
+      "uniqueContracts": 115,
+      "passed": 113,
+      "captureOnlySkipped": 2,
+      "initial": {
+        "expected": 110,
+        "unexpected": 3,
+        "skipped": 2,
+        "json": "browser-suite-initial.json",
+        "log": "browser-suite-initial.log"
+      },
+      "correctedDriverRerun": {
+        "expected": 3,
+        "unexpected": 0,
+        "skipped": 0,
+        "json": "browser-driver-rerun.json",
+        "log": "browser-driver-rerun.log"
+      },
+      "corrections": [
+        {
+          "case": "R5/R6 1200 temporary platform preview",
+          "reason": "Regions retain underlying compact data-mode during expanded temporary preview; x-centering is asserted only when actual NavigationList appearance is icons. Expanded text entries stay left aligned."
+        },
+        {
+          "case": "R2 native radio click",
+          "reason": "After reuse, RadioGroup owns a sr-only native input; real pointer target is its existing label. Click label, keep checked/edit/draft assertions."
+        }
+      ],
+      "noProductionChangesForDriverCorrections": true
+    },
+    "playgroundTypecheckedBuild": {
+      "passed": true,
+      "exitCode": 0,
+      "log": "build-final.log",
+      "warning": "Existing large-bundle warning retained"
+    },
+    "wholeTestProjectTypecheck": {
+      "passed": false,
+      "exitCode": 1,
+      "priorDiagnostics": 7,
+      "newDiagnostics": 0,
+      "log": "test-typecheck-final.log",
+      "scope": "One existing Command TS2322 plus six original navigation-v042.spec.ts node:fs/promises TS2591; no dependencies/types relaxed"
+    },
+    "ownerAudits": {
+      "R1R2R3": "r1-r3/audit-summary.json",
+      "R4R5R6": "r4-r6/owner-report.json",
+      "S1S2S3S4S5S6": "states/review-evidence-index.json"
+    },
+    "humanGate": "pending-G2"
+  },
+  "metadataSummary": {
+    "updatedRegistries": 4,
+    "updatedCandidateManifests": 10,
+    "checkedCandidateAssets": 12,
+    "reusedAssets": 6,
+    "resolvedRegistryAssets": 5,
+    "currentRegistryHashEntries": 67,
+    "currentManifestSourceChecks": 12,
+    "physicalFamilyClosureFiles": [
+      {
+        "name": "Pure navigation-list physical source2 + explicit existing Radio/Tooltip/shared styles",
+        "files": 14
+      },
+      {
+        "name": "Pure object-navigator physical source2 + explicit existing Radio/Tooltip/shared styles",
+        "files": 14
+      },
+      {
+        "name": "Pure segmented-control physical source2 + explicit existing Radio/Tooltip/shared styles",
+        "files": 14
+      }
+    ],
+    "closureFiles": {
+      "businessLocal": 14,
+      "r2Local": 9,
+      "r2Pattern": 4,
+      "galleryLocal": 4
+    },
+    "protectedRootFiles": 71,
+    "featureTokenAliases": 122,
+    "historicalG1": "preserved",
+    "historicalReview08": "preserved",
+    "humanG2": "pending"
+  },
+  "documents": [
+    "scope.md",
+    "README.md",
+    "root-findings.json",
+    "verification-final.json",
+    "r1-r3/audit-summary.json",
+    "r1-r3/README.md",
+    "r4-r6/owner-report.json",
+    "r4-r6/README.md",
+    "r4-r6/palette-comparison.json",
+    "states/review-evidence-index.json",
+    "states/README.md",
+    "states/closure-validation-final.json",
+    "metadata-validation.json",
+    "root-truth-invariants.json",
+    "metadata-final-locks.json",
+    "protection-before.json",
+    "protection-final.json",
+    "independent-review.json",
+    "independent-review.md",
+    "metadata-source-freeze.json",
+    "cua-live-final.json",
+    "independent-metadata-check.json",
+    "independent-protection-check.json"
+  ],
+  "logs": [
+    "unit-final.log",
+    "build-final.log",
+    "test-typecheck-final.log",
+    "browser-suite-initial.log",
+    "browser-driver-rerun.log",
+    "root-before-check.log",
+    "root-after-check.log",
+    "root-unit.log",
+    "new-contracts-driver-corrections.log",
+    "new-contracts-final.log",
+    "metadata-validation-final.log",
+    "protection-validation-final.log",
+    "frozen-reference-check.log"
+  ],
+  "screenshots": {
+    "user": "user-screenshot.png",
+    "compactBefore": "platform-before/R3-1200-hover.png",
+    "compactAfter": "root-final/R3-compact-tooltip.png",
+    "compactAfterNoTooltip": "root-final/R3-compact-workspace.png",
+    "widthAndStateSamples": "platform-final/",
+    "businessAndEmpty": "r4-r6/",
+    "states": "states/",
+    "R1R2R3": "r1-r3/after-final/"
+  },
+  "retention": "All pre-existing evidence, G1 sourceSnapshot and Review08 locks/Gate kept; before protection17919 repo/254 workpack files",
+  "notVerified": [
+    "G2/G3 Human visual acceptance",
+    "complete contrast/VoiceOver/Safari/Firefox",
+    "real backend grading/media/sharing/history/upload",
+    "publication/migration/W6-W8 completion"
+  ],
+  "metadataFileLocks": "metadata-final-locks.json",
+  "independentReview": {
+    "sourceAndRuntime": "independent-review.json",
+    "metadata": "independent-metadata-check.json",
+    "protection": "independent-protection-check.json",
+    "blockingFindings": []
+  }
+}

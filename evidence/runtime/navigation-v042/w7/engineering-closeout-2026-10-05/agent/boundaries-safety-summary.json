@@ -1,0 +1,234 @@
+{
+  "schemaVersion": "1.0",
+  "recordedAt": "2026-10-05T17:07:04.277602+00:00",
+  "scope": "W7 boundary safety closeout; direct CLI proof without executing inspected product code",
+  "status": "scoped-passed-after-independent-retest",
+  "supersedes": "boundaries-summary.json/md claimed the initial 11-test scope passed, but independent mutation review showed four real escapes; preserve those files as superseded records, not final safety evidence.",
+  "independentRedBefore": {
+    "boundarySha256": "8b37d7001234ba773604aa9096591bcefece5f2d322e0ac7f1a694e25dd8fbbd",
+    "escapeCases": [
+      "unknown UI file self-registers in Registry shared.files",
+      "unknown root TS file self-registers with all-zero SHA in frozen source inventory",
+      "unknown test self-registers in regression-map testFiles",
+      "registered runtime imports executable code from docs data domain"
+    ],
+    "control": "unknown UI file alone was rejected"
+  },
+  "fix": [
+    "Reuse the original eight immutable Registry SHA/scope guard through pure verification-helpers.collectRecordedPostB2Documents; B2 owner moved it verbatim, boundary does not import B2 or product code.",
+    "Authenticate four historical frozen source/map JSON blobs before using any keys as inventory; altered bytes cannot self-authorize a source.",
+    "Remove mutable Manifest source/example fields from authorization inputs; retain publication checks and explicit known example paths.",
+    "For apps/packages literal relative source imports, reject executable code targets in root docs/evidence/artifacts and resolved code outside the live allowlist. Static non-code data references remain separate."
+  ],
+  "changedCodeOwnedByThisAgent": [
+    "scripts/verify-boundaries.mjs",
+    "scripts/verify-boundaries-navigation.test.ts"
+  ],
+  "sharedGuardRefactorOwnedByRootReviewAgent": [
+    "scripts/verification-helpers.mjs",
+    "scripts/verify-tailwind-b2.mjs"
+  ],
+  "immutableRegistryGuardPaths": [
+    "registry/breadcrumb.json",
+    "registry/tree.json",
+    "registry/switch.json",
+    "registry/token-first-g3.json",
+    "registry/navigation-v042.json",
+    "registry/navigation-v042-w3.json",
+    "registry/navigation-v042-workspaces.json",
+    "registry/navigation-v042-recipes.json"
+  ],
+  "acceptedRecordBlobSha256": {
+    "evidence/runtime/navigation-rebuild-v03/final-source-lock.json": "a32383a11c1a680f3f1feb178f3941acc6a0fadb71361e616ab1ff51b8fe0365",
+    "evidence/runtime/navigation-v042/w7/final-source.json": "f5f529e45def311a61ce0b6bfb1cfc9e719e8501197b1bcec99c640ba661bb16",
+    "evidence/runtime/navigation-v042/w6/review-02/final-source.json": "03dbe4ea246a33c8a31368e060e8a764e55854fbc85f1f25bb016cce8c0504d1",
+    "evidence/runtime/navigation-v042/w7/regression-map.json": "1ed8a56c959e8f78c1f9bb29b7d7d3649310c7bfd20aae7be3ffcd162dee9847"
+  },
+  "verification": {
+    "liveBoundary": {
+      "exitCode": 0,
+      "packageManifests": 6,
+      "applicationSources": 161,
+      "sharedPackageSources": 1131,
+      "log": "boundaries-safety-live-final.log"
+    },
+    "directTests": {
+      "exitCode": 0,
+      "total": 18,
+      "passed": 18,
+      "failed": 0,
+      "durationSeconds": 18.21,
+      "results": "boundaries-safety-final-results.json",
+      "log": "boundaries-safety-final.log"
+    },
+    "directTypecheck": {
+      "exitCode": 0,
+      "log": "boundaries-safety-direct-typecheck.log"
+    },
+    "whitespaceCheck": {
+      "exitCode": 0
+    },
+    "mutations": [
+      {
+        "label": "1-registered-baseline.log",
+        "expectedVerifierExit": 0,
+        "outcome": "accepted",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/1-registered-baseline.log"
+      },
+      {
+        "label": "2-unknown-root.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/2-unknown-root.log"
+      },
+      {
+        "label": "3-unknown-application.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/3-unknown-application.log"
+      },
+      {
+        "label": "4-unknown-ui.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/4-unknown-ui.log"
+      },
+      {
+        "label": "5-unknown-layouts.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/5-unknown-layouts.log"
+      },
+      {
+        "label": "6-unknown-test.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/6-unknown-test.log"
+      },
+      {
+        "label": "7-headless.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/7-headless.log"
+      },
+      {
+        "label": "8-reverse-dependency.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/8-reverse-dependency.log"
+      },
+      {
+        "label": "9-dependency.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/9-dependency.log"
+      },
+      {
+        "label": "10-historical-evidence.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/10-historical-evidence.log"
+      },
+      {
+        "label": "11-inventory-registry.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/11-inventory-registry.log"
+      },
+      {
+        "label": "12-inventory-freeze.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/12-inventory-freeze.log"
+      },
+      {
+        "label": "13-inventory-map.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/13-inventory-map.log"
+      },
+      {
+        "label": "14-docs-import.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/14-docs-import.log"
+      },
+      {
+        "label": "15-evidence-import.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/15-evidence-import.log"
+      },
+      {
+        "label": "16-artifacts-import.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/16-artifacts-import.log"
+      },
+      {
+        "label": "17-manifest-example.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/17-manifest-example.log"
+      },
+      {
+        "label": "18-invalid-parent.log",
+        "expectedVerifierExit": 1,
+        "outcome": "rejected",
+        "log": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundary-safety-final/18-invalid-parent.log"
+      }
+    ],
+    "independentRetest": {
+      "status": "passed-original-four-probes",
+      "verifierSha256": "bde47d00309d7aebb82ec99651c80e7a5ce2109a3d8e2cc5e98e6a79083819b7",
+      "results": "evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/boundary-independent-2026-10-06-after/results.json",
+      "baselineBoundaryExit": 0,
+      "baselineB2Exit": 0,
+      "unknownUiControlExit": 1,
+      "probes": [
+        {
+          "label": "registry-self-registration",
+          "boundaryExit": 1,
+          "b2Exit": 1
+        },
+        {
+          "label": "freeze-self-registration",
+          "boundaryExit": 1,
+          "b2Exit": 0
+        },
+        {
+          "label": "regression-map-self-registration",
+          "boundaryExit": 1,
+          "b2Exit": 0
+        },
+        {
+          "label": "runtime-imports-data-domain",
+          "boundaryExit": 1,
+          "b2Exit": 0
+        }
+      ],
+      "fixtureCleaned": true,
+      "sourceRootUnmodified": true,
+      "responsibility": "Boundary independently rejects all four. B2 separately rejects Registry corruption; the other three are Boundary source/inventory ownership checks, not standalone B2 checks."
+    }
+  },
+  "lineage": {
+    "originalTaskBeforeSha256": "b5d62bc727b5c8e6d97ebd5942b7c5f6f915c73a928388698ba5fa7af058d471",
+    "preSafetyReviewSha256": "8b37d7001234ba773604aa9096591bcefece5f2d322e0ac7f1a694e25dd8fbbd",
+    "finalBoundarySha256": "bde47d00309d7aebb82ec99651c80e7a5ce2109a3d8e2cc5e98e6a79083819b7",
+    "directTestSha256": "a55ca475bc824640da87b3fe2b0f44d62599dcfc274b7cb2e65c26c312a5255f",
+    "taskOnlyDiff": "boundaries-safety-task-only.diff"
+  },
+  "preservedFailures": [
+    "boundaries-safety-red.log/results: four added probes red, eleven original tests green",
+    "boundaries-safety-run-01.log/results: reverse dependency rejected during imported B2 product module loading before boundary guard; pure-helper reuse removes that dependency",
+    "boundaries-safety-intermediate.log: descriptive Manifest removal exposed four finite original example paths, now explicit",
+    "boundaries-safety-live-01.log is superseded; an intermediate block relocation reordered legacy sections, restored full verified pre-review source by exact SHA before final minimal guards; diagnostic source retained in boundaries-safety-structure-diagnostic.mjs"
+  ],
+  "scopeLimits": [
+    "Only the four reviewed escapes and added adjacent cases are proven closed here; do not infer full-project quality or closure counts for prior 147/49 failures.",
+    "The import check covers literal relative module targets; this is not a general arbitrary-JavaScript sandbox. Existing controlled browser-isolation URL imports retain their scope.",
+    "Data-domain seal integrity remains separately audited; concrete inventory JSON identities and literal executable imports are now enforced by this boundary CLI itself, not delegated to another verifier.",
+    "No real Registry/freeze/map, accepted UI/runtime/Tokens, publication, migration, Git or Figma mutation occurred."
+  ]
+}

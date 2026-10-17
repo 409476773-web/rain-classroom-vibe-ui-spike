@@ -1,0 +1,120 @@
+--- before/packages/ui/src/charts/network/network-chart.tsx
++++ after/packages/ui/src/charts/network/network-chart.tsx
+@@ -75,7 +75,7 @@
+         <svg className="rain-network__svg" viewBox={`0 0 ${geometry.width} ${geometry.height}`} aria-hidden="true">
+           <defs>
+             {categories.map((entry, index) => <radialGradient key={entry.id} id={`${instanceId}-node-${index}`}><stop offset="0%" stopColor={color(entry, index)} stopOpacity="1" /><stop offset="25%" stopColor={color(entry, index)} stopOpacity=".85" /><stop offset="70%" stopColor={color(entry, index)} stopOpacity=".28" /><stop offset="100%" stopColor={color(entry, index)} stopOpacity="0" /></radialGradient>)}
+-            {relations.map((entry, index) => <marker key={entry.id} id={`${instanceId}-arrow-${index}`} viewBox="0 0 6 6" refX="5.5" refY="3" markerWidth="5" markerHeight="5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0.6 L5.5,3 L0,5.4" fill="none" stroke={color(entry, index)} strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" /></marker>)}
++            {relations.map((entry, index) => <marker key={entry.id} id={`${instanceId}-arrow-${index}`} viewBox="0 0 5 5.7735" refX="5" refY="2.88675" markerWidth="5" markerHeight="5.7735" markerUnits="strokeWidth" orient="auto"><path d="M0,0 L5,2.88675 L0,5.7735 Z" fill={color(entry, index)} /></marker>)}
+           </defs>
+           {geometry.edges.map(edge => {
+             const index = relationIndex.get(edge.relation)!, entry = relations[index]!;
+--- before/packages/ui/src/charts/network/README.md
++++ after/packages/ui/src/charts/network/README.md
+@@ -34,7 +34,7 @@
+ | `className`, `style`及普通根div属性 | 宿主控制容器与局部配方；根保留`.rain-chart`及`data-rain-id="ui-chart-network"`。 |
+ | `layoutNetwork(nodes, edges)` | 校验图结构，按ID确定顺序。成对的`0…1`坐标原样保留；其他坐标单位整体拟合。无坐标用稳定的自然环绕位置，至少5节点且最大邻接数不少于3时将一个连接较多的节点放在内部。返回带x/y的节点及带lane的边，不修改输入、不启动力导循环。 |
+ 
+-默认柔光网络沿用原稿的实色中心向透明外缘渐变，普通节点没有深色描边，名称置于节点外。结构化关系用名称卡和类别色点，宿主应为卡片留出连线空间；不把有向关系自动解释成阶段或层级。类别图例与关系图例分别表达；关系使用颜色、实/虚/点线和小型开放箭头。选中节点使用类别色轮廓。
++默认柔光网络沿用原稿的实色中心向透明外缘渐变，普通节点没有深色描边，名称置于节点外。结构化关系用名称卡和类别色点，宿主应为卡片留出连线空间；不把有向关系自动解释成阶段或层级。类别图例与关系图例分别表达；关系使用颜色、实/虚/点线和原稿式实心等边三角箭头。箭头沿曲线末端方向，长度为当前线宽的5倍，高度为5.7735倍；颜色与透明度随所属关系，高亮线宽同步改变箭头，尖端保持既有边端点。来源为Figma CH-083的`ARROW_EQUILATERAL`矢量，见[箭头反馈证据](../../../../../evidence/runtime/chart-network-arrow-feedback-2026-10-10/verification.md)。选中节点使用类别色轮廓。
+ 
+ 连线根据节点形状、名称边界和同节点对的独立路径选择浅弧或绕行曲线，端点停在节点外。结构化曲线使用卡片侧边端口与朝外的控制点，分开同侧的多条线，并把来源、目标卡片内部纳入避让。反向、平行和无向关系仍是独立记录，不合并成虚构路径。权重只在详情和精确表展示，线宽、距离及节点面积不编码权重；位置不能解释为相关度、掌握程度或业务优先级。
+ 
+--- before/manifests/ui/chart-network.yaml
++++ after/manifests/ui/chart-network.yaml
+@@ -19,7 +19,7 @@
+   - "需要守恒流量和权重带宽时使用Sankey；普通产业卡片或概念示意不自动解释成网络。"
+   - "需要图编辑器、力导模拟、拖拽缩放，或任意密集/重叠/千节点输入的完整自动布局保证。"
+ anatomy:
+-  - "ui-chart-network根、图表标题、节点/关系图例、自适应SVG、开放箭头与径向渐变或名称卡、窄屏完整关系列表、可操作节点列表、选择详情和清除按钮、节点/关系精确Table。"
++  - "ui-chart-network根、图表标题、节点/关系图例、自适应SVG、原稿式实心等边三角箭头与径向渐变或名称卡、窄屏完整关系列表、可操作节点列表、选择详情和清除按钮、节点/关系精确Table。"
+ parts:
+   - "NetworkChart"
+   - "layoutNetwork"
+@@ -51,6 +51,7 @@
+   - "当前四组Mock为8至11节点、10至19边；视框960×560、圆半径24 SVG单位、结构化卡144×44。容器宽度不超过620px时显示全部关系列表，保留选择、详情和精确表。"
+   - "图中名称按估算字宽截短并最多分为两行，按钮/详情/表格保留全文。有限曲线候选避让节点与名称，不保证任意密集、重叠坐标或特殊字体的最优和完整避让。"
+   - "结构化使用卡片侧边端口与朝外控制点，同侧关系分开接入；来源与目标卡片内部均纳入曲线避让。"
++  - "两样式共用原稿ARROW_EQUILATERAL箭头，长度5倍线宽、高度5.7735倍线宽，沿曲线切向，尖端停在既有端点；关系色、透明度及高亮线宽同步。"
+ compositionRules:
+   - "categories与relations按稳定ID显式配置颜色或保持声明顺序，筛选不按当前节点顺序重配身份色。"
+   - "权重只作详情/表格原始读数，线宽、距离和圆面积不表达权重，未提供不补0。"
+@@ -107,13 +108,14 @@
+   - "evidence/runtime/chart-business-expansion/p4/baseline.md"
+   - "evidence/runtime/chart-business-expansion/p4/verification.md"
+   - "evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md"
++  - "evidence/runtime/chart-network-arrow-feedback-2026-10-10/verification.md"
+ migrationNotes:
+   - "Rain本地共享候选；原17 Bklit加Matrix/Network为19入口，170官网集合不变；未发布、未迁移、未写Figma。"
+ verification:
+-  automated: "scoped-passed"
+-  scope: "2026-10-10 structured feedback: 9 files/95 scoped unit and 7 Chromium browser tests passed, including full endpoint-card interiors and instant port-face update regression; 24 glow geometry snapshots unchanged. UI typecheck and both Playground/Prototype standard builds passed. 19 Registry closures, 170 official variants type/build and 66 business downloads including 16 network settings type/build/browser passed using installed dependency cache. Previous out-of-scope snapshot blockers are no longer present in these current checks. Whole-repository verification not claimed."
+-  independentReview: "read-only-96-structured-filtered-graphs-84-boundaries-576-host-configurations-20-state-switches-and-final-transition-diff; no-blocking-findings"
+-  humanGate: "glow-accepted-structured-awaiting-user-review"
+-  glowVisualHumanGate: "passed-current-view-only; user-2026-10-10-confirmed"
++  automated: "network-scoped-passed; broader-checks-blocked-outside-network"
++  scope: "2026-10-10 arrow feedback: 7 files/83 Network-scoped unit and 7 Chromium browser tests passed; layout/geometry/host/fixtures unchanged by protected hashes. UI typecheck, Prototype standard build, Playground runtime typecheck and Vite build passed. Playground standard build blocked by 3 China test typing errors; broader 95-unit run has 93 passes and 2 China color/export failures. 19 Registry closures, 170 official variants type/build and 16 Network download closures passed using installed dependency cache; full business download type/build/browser not reached because China export closure failed. Whole-repository verification not claimed."
++  independentReview: "prior-structured-review-only; arrow-source-and-browser-appearance-reviewed-locally"
++  humanGate: "glow-layout-and-material-accepted; revised-arrows-and-structured-awaiting-user-review"
++  glowVisualHumanGate: "passed-layout-and-node-material-only; arrow-feedback-open"
+   contrastAcceptance: "not-granted"
+-  evidence: "evidence/runtime/chart-network-structured-feedback-2026-10-10/verification.md"
++  evidence: "evidence/runtime/chart-network-arrow-feedback-2026-10-10/verification.md"
+--- before/status/current-phase.yaml
++++ after/status/current-phase.yaml
+@@ -29,7 +29,7 @@
+       baseline: "../evidence/runtime/chart-network-visual-refinement-2026-10-09/baseline.md"
+       verification: "../evidence/runtime/chart-network-visual-refinement-2026-10-09/verification.md"
+       previewUrl: "http://127.0.0.1:5173/#chart-network"
+-      visualHumanGate: "glow-accepted-structured-awaiting-review"
++      visualHumanGate: "glow-layout-and-node-material-accepted; latest-arrow-feedback-and-structured-awaiting-review"
+       contrastAcceptance: "not-granted"
+       publicationFigmaMigrationGit: "not-performed"
+       structuredFeedback20261010:
+@@ -49,4 +49,24 @@
+         structuredVisualHumanGate: "awaiting-user-review"
+         contrastAcceptance: "not-granted"
+         publicationFigmaMigrationGit: "not-performed"
++      arrowFeedback20261010:
++        authorization: "explicit-user-network-arrow-visual-feedback"
++        userStatement: "现在‘网络关系图’里的箭头样式都不如原设计稿"
++        workMode: "system-mode-unpublished-candidate-increment"
++        scope: "shared-arrow-marker-only; preserve-layout-paths-data-palettes-and-interactions"
++        implementation: "completed-local-technical-delivery"
++        reference: "Figma CH-083 MbWg1ft5zk1JRQiQ6dS30e/2905:47096; vector 2905:47150 ARROW_EQUILATERAL read-only SVG export"
++        arrow: "solid-equilateral; length-5x-stroke-width; height-5.7735x-stroke-width; auto-tangent; existing-endpoint-and-relation-color-opacity"
++        automatedVerification: "7-files-83-Network-scoped-unit; 7-network-Chromium-browser; UI-typecheck; Prototype-standard-build; Playground-runtime-typecheck-and-Vite-build-passed"
++        broaderChecks: "95-unit-run-93-passed-2-China-color-export-failures; Playground-standard-build-blocked-by-3-China-test-typing-errors"
++        consumption: "19-registry-closures-and-170-official-type-build-passed; 16-Network-download-closures-passed; business-type-build-browser-not-reached-after-China-export-closure-failure; installed-dependency-cache"
++        protectedRegression: "geometry-layout-host-and-fixture-four-source-hashes-unchanged"
++        plan: "../docs/plans/2026-10-10-network-arrow-feedback.md"
++        baseline: "../evidence/runtime/chart-network-arrow-feedback-2026-10-10/baseline.json"
++        verification: "../evidence/runtime/chart-network-arrow-feedback-2026-10-10/verification.md"
++        previewUrl: "http://127.0.0.1:5173/#chart-network"
++        glowVisualHumanGate: "prior-layout-and-node-material-only; revised-arrow-awaiting-user-review"
++        structuredVisualHumanGate: "awaiting-user-review"
++        contrastAcceptance: "not-granted"
++        publicationFigmaMigrationGit: "not-performed"
+ 
+--- before/tests/e2e/chart-business-network.spec.ts
++++ after/tests/e2e/chart-business-network.spec.ts
+@@ -3,7 +3,7 @@
+ import { makeNetworkFixtures } from "../../apps/playground/src/docs/components/chart-business/network-data";
+ import { measureColorContrast, type ColorValue } from "../../packages/foundations/src/color-registry";
+ 
+-const evidence = "evidence/runtime/chart-network-structured-feedback-2026-10-10/browser";
++const evidence = "evidence/runtime/chart-network-arrow-feedback-2026-10-10/browser";
+ const fixtures = makeNetworkFixtures();
+ 
+ async function geometryAudit(chart: Locator, links: { id: string; source: string; target: string }[]) {
+--- before/packages/ui/src/charts/network/network-chart.test.tsx
++++ after/packages/ui/src/charts/network/network-chart.test.tsx
+@@ -115,7 +115,7 @@
+   expect(view.container.querySelector('[data-network-node="b"] circle')).not.toHaveAttribute("stroke");
+   expect(view.container.querySelector('[data-network-node="b"]')).toHaveTextContent("概率统计");
+   expect([...view.container.querySelectorAll('[data-network-node="b"] text')].map(text => text.textContent).join("")).not.toContain("课程");
+-  expect(view.container.querySelector("marker")).toHaveAttribute("markerUnits", "userSpaceOnUse");
++  expect(view.container.querySelector("marker")).toHaveAttribute("markerUnits", "strokeWidth");
+   fireEvent.click(view.getByRole("button", { name: "高等数学，课程" }));
+   const root = view.container.querySelector(".rain-network");
+   view.rerender(<NetworkChart {...props} variant="structured" data-recipe="category-wide" onNodeSelect={onNodeSelect} />);

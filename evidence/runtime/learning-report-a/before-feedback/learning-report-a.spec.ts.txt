@@ -1,0 +1,135 @@
+import { test, expect } from "@playwright/test";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { contrastRatio } from "./color-contrast";
+
+const origin = "http://127.0.0.1:5369";
+const evidence = "evidence/runtime/learning-report-a/browser";
+test.beforeAll(() => mkdirSync(evidence, { recursive: true }));
+
+test("report A keeps global filters, local chart readings and loading states consistent", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", error => errors.push(error.message));
+  await page.goto(`${origin}/#token-first-report`);
+  await page.getByRole("link", { name: "查看报告 A 精细版" }).click();
+  await expect(page.locator("main")).toHaveAttribute("data-presentation", "comparison");
+  const metrics = page.getByRole("region", { name: "关键指标" });
+  const comparison = page.getByRole("region", { name: "班级对照" });
+  await expect(metrics).toContainText("80.9");
+  await expect(page.getByRole("table").getByRole("row")).toHaveCount(13);
+  await page.getByRole("button", { name: "统计口径", exact: true }).click();
+  await expect(page.getByRole("dialog")).toContainText("按已交份数加权");
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("button", { name: "统计口径", exact: true })).toBeFocused();
+  await page.getByRole("combobox", { name: "报告周期" }).click();
+  await page.getByRole("option", { name: "第 4–6 周" }).click();
+  await expect(comparison).toContainText("66 / 78 份");
+  await expect(comparison).toContainText("84.1");
+  const original = await metrics.textContent();
+  await page.getByRole("radio", { name: "平均分", exact: true }).press("ArrowRight");
+  await expect(page.getByRole("radio", { name: "提交率", exact: true })).toBeChecked();
+  await expect(comparison).toContainText("84.6");
+  await page.getByRole("combobox", { name: "固定对照" }).click();
+  await page.getByRole("option", { name: "第 4 周" }).click();
+  await expect(page.getByRole("status", { name: "趋势读数" })).toContainText("第 4 周");
+  const chart = page.getByRole("application", { name: "提交率趋势图" });
+  await chart.focus();
+  await chart.press("ArrowRight");
+  await expect(page.getByRole("status", { name: "图表即时读数" })).toBeVisible();
+  await expect(page.getByRole("status", { name: "趋势读数" })).toContainText("第 4 周");
+  expect(await metrics.textContent()).toBe(original);
+  await page.getByRole("combobox", { name: "报告班级" }).click();
+  await page.getByRole("option", { name: "二班", exact: true }).click();
+  await expect(comparison.getByText("一班", { exact: true })).toHaveCount(0);
+  await expect(comparison).toContainText("69 / 78 份");
+  await expect(page.getByRole("table").getByRole("row")).toHaveCount(4);
+  await page.locator(".bm-d-footer summary").click();
+  await page.getByRole("checkbox", { name: "下次加载失败" }).press("Space");
+  await expect(page.getByRole("checkbox", { name: "下次加载失败" })).toBeChecked();
+  await page.getByRole("button", { name: "刷新报告" }).click();
+  await expect(metrics).toHaveCount(0);
+  await expect(page.getByRole("alert")).toContainText("报告加载失败");
+  await expect(page.getByRole("alert")).toBeFocused();
+  await page.screenshot({ path: `${evidence}/failed.png`, fullPage: true });
+  await page.getByRole("button", { name: "重试加载" }).click();
+  await expect(metrics).toBeVisible();
+  await expect(comparison).toContainText("69 / 78 份");
+  await page.getByRole("button", { name: "预览空数据" }).click();
+  await expect(page.getByRole("heading", { name: "暂无报告数据" })).toBeVisible();
+  await expect(comparison).toHaveCount(0);
+  await page.getByRole("button", { name: "恢复示例数据" }).click();
+  await expect(comparison).toContainText("69 / 78 份");
+  expect(errors).toEqual([]);
+});
+
+test("report A renders readable scoped layouts, themes and chart roles without changing the original report", async ({ page }) => {
+  await page.goto(`${origin}/#learning-report`);
+  const geometries = [], colors = [];
+  for (const width of [1369, 900, 390]) {
+    await page.setViewportSize({ width, height: 807 });
+    await page.evaluate(() => document.fonts.ready);
+    const geometry = await page.evaluate(() => {
+      const rect = (selector: string) => document.querySelector(selector)!.getBoundingClientRect();
+      const style = (selector: string) => getComputedStyle(document.querySelector(selector)!);
+      return { width: innerWidth, scrollWidth: document.documentElement.scrollWidth,
+        trend: rect(".bm-d-trend").toJSON(), comparison: rect(".report-a-comparison").toJSON(),
+        title: style("h1").fontSize, data: style('.bm-d-statistic [data-slot="value"]').fontSize,
+        dataFont: style('.bm-d-statistic [data-slot="value"]').fontFamily,
+        unitFont: style('.bm-d-statistic [data-slot="unit"]').fontFamily,
+        tableScroll: rect('.bm-d-details table').width > rect('.bm-d-details').width,
+      };
+    });
+    geometries.push(geometry);
+    expect(geometry.scrollWidth).toBe(width);
+    expect(geometry.title).toBe("16px"); expect(geometry.data).toBe("20px");
+    expect(geometry.dataFont).toContain("LINE Seed"); expect(geometry.unitFont).toContain("PingFang");
+    if (width > 1000) expect(geometry.comparison.x).toBeGreaterThan(geometry.trend.right);
+    else expect(geometry.comparison.y).toBeGreaterThanOrEqual(geometry.trend.bottom);
+    await page.screenshot({ path: `${evidence}/${width}.png`, fullPage: true });
+  }
+  await page.setViewportSize({ width: 1369, height: 807 });
+  for (const theme of ["light", "dark"]) {
+    if (theme === "dark") {
+      await page.locator(".bm-d-footer summary").click();
+      await page.getByRole("button", { name: "切换深色" }).click();
+      await page.locator('main').evaluate(el => Promise.all(el.getAnimations({ subtree: true }).map(a => a.finished.catch(() => undefined))));
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.getByRole("button", { name: "统计口径", exact: true }).click();
+      await expect(page.getByRole("dialog")).toBeVisible();
+      await page.screenshot({ path: `${evidence}/dark-popover.png`, fullPage: true });
+      await page.keyboard.press("Escape");
+    }
+    const readings = await page.evaluate(() => [
+      ["title", "h1", ".bm-d-header", "color", 4.5],
+      ["scope", ".report-a-scope", "main", "color", 4.5],
+      ["auxiliary", ".report-a-note", ".bm-d-trend", "color", 4.5],
+      ["data", ".bm-d-statistic [data-slot=value]", ".bm-d-metrics", "color", 4.5],
+      ["comparison", ".report-a-comparison-label", ".report-a-comparison", "color", 4.5],
+      ["series-one", ".bm-d-series-one", ".bm-d-trend", "color", 3],
+      ["series-two", ".bm-d-series-two", ".bm-d-trend", "color", 3],
+      ["bar-one", ".report-a-bar.bm-d-series-one", ".report-a-bar", "color", 3],
+      ["axis", ".recharts-cartesian-axis-tick-value", ".bm-d-trend", "color", 4.5],
+    ].map(([name, selector, background, property, minimum]) => ({ name, minimum: Number(minimum),
+      foreground: getComputedStyle(document.querySelector(String(selector))!).getPropertyValue(String(property)),
+      background: getComputedStyle(document.querySelector(String(background))!).backgroundColor,
+      parent: getComputedStyle(document.querySelector("main")!).backgroundColor,
+    })));
+    for (const reading of readings) {
+      const ratio = contrastRatio(reading.foreground, reading.background, reading.parent);
+      colors.push({ theme, ...reading, ratio });
+    }
+    await page.screenshot({ path: `${evidence}/${theme}.png`, fullPage: true });
+  }
+  writeFileSync(`${evidence}/geometry.json`, JSON.stringify(geometries, null, 2));
+  writeFileSync(`${evidence}/contrast.json`, JSON.stringify(colors, null, 2));
+  expect(colors.filter(color => color.ratio < color.minimum)).toEqual([]);
+  await page.emulateMedia({ forcedColors: "active", reducedMotion: "reduce" });
+  await page.getByRole("radio", { name: "平均分", exact: true }).press("ArrowRight");
+  await expect(page.getByRole("radio", { name: "提交率", exact: true })).toBeChecked();
+  await page.screenshot({ path: `${evidence}/forced-colors.png`, fullPage: true });
+  await page.emulateMedia({ forcedColors: "none" });
+  await page.goto(`${origin}/#bm-d`);
+  await expect(page.locator("main")).toHaveAttribute("data-presentation", "original");
+  await expect(page.getByRole("region", { name: "班级对照" })).toHaveCount(0);
+  await expect(page.locator('.bm-d-statistic [data-slot="value"]').first()).toHaveCSS("font-size", "16px");
+  await expect(page.getByRole("table").getByRole("row")).toHaveCount(13);
+});

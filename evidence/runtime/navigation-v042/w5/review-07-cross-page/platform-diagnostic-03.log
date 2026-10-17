@@ -1,0 +1,30 @@
+
+Running 1 test using 1 worker
+
+(node:21347) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-v042-review07.spec.ts:4:119 › R1 1200 platform states consume category Tokens and preserve icon geometry (827ms)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests/e2e/navigation-v042-review07.spec.ts:4:119 › R1 1200 platform states consume category Tokens and preserve icon geometry 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "rgb(198, 216, 255)"
+    Received: "rgba(0, 0, 0, 0)"
+
+       9 |  await expect(current).toBeVisible();
+      10 |  const fact=await current.evaluate(el=>{const s=getComputedStyle(el);const t=s.getPropertyValue('--rain-category-fill-brand-solid-3').trim();return {bg:s.backgroundColor,token:t};});
+    > 11 |  expect(fact.bg).toBe('rgb(198, 216, 255)');expect(fact.token.toLowerCase()).toBe('#c6d8ff');
+         |                  ^
+      12 |  const other=platform.locator('.rain-navigation-family__item:not([data-active="true"]) .rain-navigation-family__row,[data-slot="item"]:not([data-active])').first();
+      13 |  await other.hover();
+      14 |  expect(await other.evaluate(el=>getComputedStyle(el).backgroundColor)).toBe('rgba(74, 102, 209, 0.2)');
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review07.spec.ts:11:18
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-07-cross-page/test-artifacts/navigation-v042-review07-R-f09a7--and-preserve-icon-geometry/error-context.md
+
+  1 failed
+    tests/e2e/navigation-v042-review07.spec.ts:4:119 › R1 1200 platform states consume category Tokens and preserve icon geometry 
+  1 error was not a part of any test, see above for details

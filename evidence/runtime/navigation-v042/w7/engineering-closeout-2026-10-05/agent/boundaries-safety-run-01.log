@@ -1,0 +1,69 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-boundaries-navigation.test.ts (16 tests | 1 failed) 15278ms
+     ✓ accepts the current finite registered sources without treating archived copies as live code  811ms
+     ✓ rejects an unknown live source: unapproved-navigation.ts  780ms
+     ✓ rejects an unknown live source: apps/playground/src/recipes/navigation-v042/unapproved.tsx  768ms
+     ✓ rejects an unknown live source: packages/ui/src/navigation/unapproved.ts  759ms
+     ✓ rejects an unknown live source: packages/layouts/src/unapproved.ts  741ms
+     ✓ rejects an unknown live source: tests/e2e/unapproved-navigation.spec.ts  729ms
+     ✓ rejects an unapproved Headless module even inside a registered G3 wrapper  723ms
+     × rejects Foundations importing UI through a known source 147ms
+     ✓ rejects an unauthorized direct package dependency  769ms
+     ✓ retains the exact historical evidence allowlist  760ms
+     ✓ rejects self-registration through an altered inventory: registry/navigation-v042.json  754ms
+     ✓ rejects self-registration through an altered inventory: evidence/runtime/navigation-v042/w6/review-02/final-source.json  785ms
+     ✓ rejects self-registration through an altered inventory: evidence/runtime/navigation-v042/w7/regression-map.json  796ms
+     ✓ rejects a registered runtime importing executable code from the docs data domain  800ms
+     ✓ does not let a mutable Manifest example authorize an unknown source  802ms
+     ✓ does not switch to the data/source domain when the accepted parent phase is invalid  406ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-boundaries-navigation.test.ts > accepted navigation boundary inventory > rejects Foundations importing UI through a known source
+AssertionError: expected 'node:internal/modules/run_main:107\n …' to contain 'Foundations reverses the dependency d…'
+
+- Expected
++ Received
+
+- Foundations reverses the dependency direction in packages/foundations/src/token-contract.ts
++ node:internal/modules/run_main:107
++     triggerUncaughtException(
++     ^
++
++ Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@rain-next/ui' imported from /private/var/folders/2h/mp7rp10x1plgfqrm94_0dcdm0000gn/T/rain-navigation-boundary-Q2Fqws/packages/foundations/src/token-contract.ts
++ Did you mean to import "file:///Users/wenchengkai/CodexFile/%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/packages/ui/src/index.ts"?
++     at Object.getPackageJSONURL (node:internal/modules/package_json_reader:316:9)
++     at packageResolve (node:internal/modules/esm/resolve:768:81)
++     at moduleResolve (node:internal/modules/esm/resolve:858:18)
++     at defaultResolve (node:internal/modules/esm/resolve:990:11)
++     at #cachedDefaultResolve (node:internal/modules/esm/loader:718:20)
++     at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:735:38)
++     at ModuleLoader.resolveSync (node:internal/modules/esm/loader:764:52)
++     at #resolve (node:internal/modules/esm/loader:700:17)
++     at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:620:35)
++     at ModuleJob.syncLink (node:internal/modules/esm/module_job:143:33) {
++   code: 'ERR_MODULE_NOT_FOUND'
++ }
++
++ Node.js v24.13.0
++
+
+ ❯ scripts/verify-boundaries-navigation.test.ts:106:27
+    104|     const result = mutate(file, `${readFileSync(join(fixtureRoot, file…
+    105|     expect(result.status).toBe(1);
+    106|     expect(result.output).toContain(`Foundations reverses the dependen…
+       |                           ^
+    107|   });
+    108|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 passed (16)
+   Start at  00:49:55
+   Duration  15.66s (transform 37ms, setup 199ms, import 23ms, tests 15.28s, environment 0ms)
+
+JSON report written to /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/navigation-v042/w7/engineering-closeout-2026-10-05/agent/boundaries-safety-results.json

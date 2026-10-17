@@ -1,0 +1,99 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/chart-brush.test.tsx (3 tests | 1 failed) 1143ms
+   × controlled preview echoes preserve the native drag anchor across consecutive pointer moves 1033ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/chart-brush.test.tsx > controlled preview echoes preserve the native drag anchor across consecutive pointer moves
+AssertionError: expected 98 to be close to 100, received difference is 2, but expected 0.005
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<svg>[39m
+        [36m<g[39m
+          [33mclass[39m=[32m"chart-brush"[39m
+        [36m>[39m
+          [36m<g[39m
+            [33mclass[39m=[32m"visx-group visx-brush"[39m
+            [33mtransform[39m=[32m"translate(0, 0)"[39m
+          [36m>[39m
+            [36m<rect[39m
+              [33mclass[39m=[32m"visx-bar visx-brush-overlay"[39m
+              [33mfill[39m=[32m"transparent"[39m
+              [33mheight[39m=[32m"80"[39m
+              [33mstyle[39m=[32m"cursor: crosshair;"[39m
+              [33mwidth[39m=[32m"400"[39m
+              [33mx[39m=[32m"0"[39m
+              [33my[39m=[32m"0"[39m
+            [36m/>[39m
+            [36m<g>[39m
+              [36m<rect[39m
+                [33mclass[39m=[32m"visx-brush-selection"[39m
+                [33mfill[39m=[32m"transparent"[39m
+                [33mfill-opacity[39m=[32m"0"[39m
+                [33mheight[39m=[32m"80"[39m
+                [33mstroke[39m=[32m"var(--chart-brush-border)"[39m
+                [33mstroke-width[39m=[32m"1"[39m
+                [33mstyle[39m=[32m"pointer-events: all; cursor: move;"[39m
+                [33mwidth[39m=[32m"254"[39m
+                [33mx[39m=[32m"98"[39m
+                [33my[39m=[32m"0"[39m
+              [36m/>[39m
+            [36m</g>[39m
+            [36m<g>[39m
+              [36m<g>[39m
+                [36m<rect[39m
+                  [33mclass[39m=[32m"visx-brush-handle-right"[39m
+                  [33mfill[39m=[32m"transparent"[39m
+                  [33mheight[39m=[32m"80"[39m
+                  [33mstyle[39m=[32m"cursor: ew-resize;"[39m
+                  [33mwidth[39m=[32m"8"[39m
+                  [33mx[39m=[32m"348"[39m
+                  [33my[39m=[32m"-4"[39m
+                [36m/>[39m
+              [36m</g>[39m
+            [36m</g>[39m
+            [36m<g>[39m
+              [36m<g>[39m
+                [36m<rect[39m
+                  [33mclass[39m=[32m"visx-brush-handle-left"[39m
+                  [33mfill[39m=[32m"transparent"[39m
+                  [33mheight[39m=[32m"80"[39m
+                  [33mstyle[39m=[32m"cursor: ew-resize;"[39m
+                  [33mwidth[39m=[32m"8"[39m
+                  [33mx[39m=[32m"94"[39m
+                  [33my[39m=[32m"-4"[39m
+                [36m/>[39m
+              [36m</g>[39m
+            [36m</g>[39m
+          [36m</g>[39m
+        [36m</g>[39m
+      [36m</svg>[39m
+    [36m</div>[39m
+  [36m</body>[39m
+[36m</html>[39m
+ ❯ expectNativeExtent packages/ui/src/charts/chart-brush.test.tsx:24:42
+     22| function expectNativeExtent(container: HTMLElement, start: number, end…
+     23|   const box = container.querySelector(".visx-brush-selection");
+     24|   expect(Number(box?.getAttribute("x"))).toBeCloseTo(start);
+       |                                          ^
+     25|   expect(Number(box?.getAttribute("width"))).toBeCloseTo(end - start);
+     26|   expect(Number(container.querySelector(".visx-brush-handle-left")?.ge…
+ ❯ packages/ui/src/charts/chart-brush.test.tsx:67:25
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  17:23:09
+   Duration  2.07s (transform 233ms, setup 110ms, import 311ms, tests 1.14s, environment 413ms)
+

@@ -1,0 +1,37 @@
+
+Running 1 test using 1 worker
+
+(node:18768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-v042-w5.spec.ts:70:1 › N09 N25 S5 ribbon modes have exact persistent heights and no temporary document displacement (5.9s)
+
+
+  1) tests/e2e/navigation-v042-w5.spec.ts:70:1 › N09 N25 S5 ribbon modes have exact persistent heights and no temporary document displacement 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('.nv44-workspace').locator('.rain-workspace__region[data-region-id="ribbon"]')
+    Expected: "true"
+    Received: "false"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for locator('.nv44-workspace').locator('.rain-workspace__region[data-region-id="ribbon"]')
+        14 × locator resolved to <div data-side="top" data-mode="tabs" aria-label="文档工具区" data-forced="false" data-temporary="false" data-region-id="ribbon" id="_r_0_-workspace-ribbon" class="rain-workspace__region nv44-ribbon">…</div>
+           - unexpected value "false"
+
+
+      77 |       if(mode==='tabs'){
+      78 |         await ribbon.getByRole('tab',{name:'开始',exact:true}).click();
+    > 79 |         await expect(ribbon).toHaveAttribute('data-temporary','true');
+         |                              ^
+      80 |         expect((await shape(paper)).y).toBe(y);await page.keyboard.press('Escape');
+      81 |         await ribbon.getByRole('tab',{name:'插入',exact:true}).click();
+      82 |       }else await restore(root,'ribbon').click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-w5.spec.ts:79:30
+
+    Error Context: evidence/runtime/navigation-v042/w5/s5-independent-red-02-artifacts/navigation-v042-w5-N09-N25-4bcfb-orary-document-displacement/error-context.md
+
+  1 failed
+    tests/e2e/navigation-v042-w5.spec.ts:70:1 › N09 N25 S5 ribbon modes have exact persistent heights and no temporary document displacement 

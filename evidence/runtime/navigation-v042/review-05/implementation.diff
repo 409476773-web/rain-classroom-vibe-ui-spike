@@ -1,0 +1,153 @@
+--- before/packages/ui/src/navigation/navigation.css
++++ after/packages/ui/src/navigation/navigation.css
+@@ -89,7 +89,7 @@
+ :scope .rain-tabs__nav-row:has(> [data-part="extra-end"]) .rain-tabs__list { padding-inline-end: 0; }
+ :scope .rain-tabs__nav [data-part="extra-end"] { display: flex; align-items: stretch; padding: var(--rain-space-8) var(--rain-local-cs-safe-inset, 24px) 0 var(--rain-space-8); }
+ }
+-.rain-scope-navigation__more { position: relative; isolation: isolate; display: inline-flex; align-items: center; gap: 8px; min-height: 64px; padding: 10px 16px; border: 0; border-radius: 10px 10px 0 0; color: var(--rain-local-navigation-browser-text); background: transparent; font: 400 15px/22px var(--rain-local-navigation-font); white-space: nowrap; cursor: pointer; }
++.rain-scope-navigation__more { position: relative; isolation: isolate; display: inline-flex; align-items: center; gap: var(--rain-space-4); min-height: 64px; padding: 10px 16px; border: 0; border-radius: 10px 10px 0 0; color: var(--rain-local-navigation-browser-text); background: transparent; font: 400 15px/22px var(--rain-local-navigation-font); white-space: nowrap; cursor: pointer; }
+ .rain-scope-navigation__more::before { content: ""; position: absolute; inset: 0 0 var(--rain-space-8); z-index: -1; border-radius: var(--rain-local-cs-tab-radius, 10px); pointer-events: none; }
+ .rain-scope-navigation__count { font-size: 13px; font-variant-numeric: tabular-nums; color: var(--rain-category-text-neutral-4); }
+ .rain-scope-navigation__more[aria-expanded="true"] { color: var(--rain-local-navigation-browser-current); }
+@@ -97,7 +97,7 @@
+ .rain-scope-navigation__more:enabled:hover::before { background: var(--rain-local-navigation-hover-fill); }
+ .rain-scope-navigation__more[aria-expanded="true"] > .rain-icon { transform: rotate(180deg); }
+ .rain-scope-navigation__more:disabled { opacity: .4; cursor: not-allowed; }
+-.rain-scope-navigation__more [data-rain-id="icon"] { width: 14px; height: 14px; }
++.rain-scope-navigation__more [data-rain-id="icon"] { width: 14px; height: 14px; color: var(--rain-category-icon-neutral-4); }
+ .rain-scope-navigation__close:enabled:hover { box-shadow: inset 0 0 0 100px var(--rain-local-navigation-hover-fill); }
+ .rain-scope-navigation__close:focus-visible,
+ .rain-scope-navigation__more:focus-visible,
+--- before/apps/playground/src/recipes/navigation-v042/r2.tsx
++++ after/apps/playground/src/recipes/navigation-v042/r2.tsx
+@@ -1,6 +1,6 @@
+ import { useId, useRef, useState, type ReactNode, type ReactElement } from 'react';
+ import { ConnectedSurface, Split } from '@rain-next/layouts';
+-import { Breadcrumb, Button, Dialog, DropdownMenu, IconButton, Popover, Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarItem, ScopeNavigation, Tree, defineRainLocalRecipe, type ButtonPart, type TreeNodeRecord } from '@rain-next/ui';
++import { Breadcrumb, Button, DropdownMenu, IconButton, Popover, Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarItem, ScopeNavigation, defineRainLocalRecipe, type ButtonPart } from '@rain-next/ui';
+ import { HomeIcon } from '@rain-next/ui/icons/home';
+ import { CourseIcon } from '@rain-next/ui/icons/course';
+ import { FolderIcon } from '@rain-next/ui/icons/folder';
+@@ -16,34 +16,23 @@
+ import { PinIcon } from '@rain-next/ui/icons/pin';
+ import { HistoryBackIcon } from '@rain-next/ui/icons/history-back';
+ import { EyeVisibleIcon } from '@rain-next/ui/icons/eye-visible';
+-import { AddBoldIcon } from '@rain-next/ui/icons/add-bold';
+-import { FilterIcon } from '@rain-next/ui/icons/filter';
+-import { MoreHorizontalIcon } from '@rain-next/ui/icons/more-horizontal';
+ import { ArrowDownIcon } from '@rain-next/ui/icons/arrow-down';
+ import { ArrowUpIcon } from '@rain-next/ui/icons/arrow-up';
+ import { ArrowLeftIcon } from '@rain-next/ui/icons/arrow-left';
+ import { SettingsAdjustIcon } from '@rain-next/ui/icons/settings-adjust';
+ import { AiSparklesIcon } from '@rain-next/ui/icons/ai-sparkles';
++import { CourseResources } from './course-resources';
+ import './r2.css';
+ 
+ const actionRecipe = defineRainLocalRecipe<ButtonPart, 'ui-button'>({id:'navigation-v042-action',scope:'feature',origin:'ui-button',classes:{root:'nv42-action'},modifiedParts:['root'],candidateTokens:['--rain-local-r2-text'],promotionStatus:'not-proposed'});
+ const iconRecipe = defineRainLocalRecipe<'root', 'ui-icon-button'>({id:'navigation-v042-icon',scope:'feature',origin:'ui-icon-button',classes:{root:'nv42-icon'},modifiedParts:['root'],candidateTokens:['--rain-local-r2-muted'],promotionStatus:'not-proposed'});
+-const names=['第一章 · 函数、极限与连续','1.1 函数的基本概念','函数的定义与表示','函数的性质','1.2 极限与连续','数列极限','极限的定义','收敛性与极限运算','两个重要极限','常见题型与方法','例题与拓展练习','函数的连续性','1.3 习题与应用','第二章 · 导数与微分','2.1 导数的概念','2.2 导数的应用'];
+-const parent=[-1,0,1,1,0,4,5,5,7,8,9,4,0,-1,13,13];
+-const types=['','','讲义','视频','','','讲义','','','','作业','讲义','作业','','讲义','考试'];
+-const counts=[20,6,2,4,8,3,1,2,2,2,2,5,6,16,8,8];
+-function treeData(filter:string, titles:Record<string,string>):TreeNodeRecord[] {
+-  const build=(parentIndex:number):TreeNodeRecord[]=>names.flatMap((title,i)=>parent[i]!==parentIndex || (filter!=='全部' && types[i] && types[i]!==filter)?[]:[{key:`node${i}`,title:titles[`node${i}`]??title,...(!types[i]?{children:build(i)}:{}),source:{type:types[i],count:counts[i],top:parentIndex===-1}}]);
+-  return build(-1);
+-}
+ export const r2ScopeItems=Array.from({length:201},(_,i)=>({id:`scope-${i}`,label:i===0?'公共资源包':i===2?'2026 秋 · 创新实验班':`2026 秋 · 高等数学 ${i} 班`,description:i===0?'公共内容 · 班级共用':'教学班 · 2026 秋季学期',icon:i===0?<FolderIcon size={17}/>:<MembersIcon size={17}/>}));
+ export interface R2RecipeProps { editor?:ReactNode; instanceId?:string; visibleLimit?:3|4|5; connection?:'inset'|'merged' }
+ /** Copyable mock recipe. Navigation never publishes, syncs or owns editor drafts. */
+ export function R2Recipe({editor,instanceId,visibleLimit=4,connection='inset'}:R2RecipeProps) {
+   const id=useId(), instance=instanceId??`r2-${id}`;
+   const [scope,setScope]=useState('scope-0'),[contextHidden,setContextHidden]=useState(false),[platform,setPlatform]=useState<'compact'|'expanded'|'hidden'>('compact');
+-  const [filter,setFilter]=useState('全部'),[selected,setSelected]=useState<readonly (string|number)[]>(['node4']),[expanded,setExpanded]=useState<readonly (string|number)[]>(names.flatMap((_,i)=>types[i]?[]:[`node${i}`]));
+-  const [titles,setTitles]=useState<Record<string,string>>({}),[editing,setEditing]=useState<string|null>(null),[draft,setDraft]=useState(''),[notice,setNotice]=useState('');
++  const [notice,setNotice]=useState('');
+   const [focusBefore,setFocusBefore]=useState<{platform:typeof platform;contextHidden:boolean}|null>(null);
+   const [termOpen,setTermOpen]=useState(false);
+   const restore=useRef<HTMLButtonElement>(null);
+@@ -51,7 +40,6 @@
+   const inform=(label:string)=>setNotice(`${label}：本地演示，未连接真实服务。`);
+   const icon=(label:string,child:ReactElement,onClick:()=>void,size:'28/14'|'28/16'='28/14')=><IconButton aria-label={label} size={size} localRecipe={iconRecipe} onClick={onClick} icon={child}/>;
+   const action=(label:string,onClick:()=>void,leading?:ReactNode,primary=false)=><Button size="small" variant={primary?'primary':'secondary'} localRecipe={actionRecipe} leadingIcon={leading} onClick={onClick}>{label}</Button>;
+-  const beginEdit=(key:string,title:string)=>{setEditing(key);setDraft(titles[key]??title);};
+   const focus=()=>{if(focusBefore){setPlatform(focusBefore.platform);setContextHidden(focusBefore.contextHidden);setFocusBefore(null);}else{setFocusBefore({platform,contextHidden});setPlatform('hidden');setContextHidden(true);}};
+   return <section className="nv42-r2" data-rain-id="recipe-navigation-r2" data-local-recipe="navigation-v042-r2" data-instance-id={instance} data-slot="root">
+     <header className="nv42-workspace-bar">
+@@ -77,15 +65,13 @@
+         </Split.Sidebar>
+         <Split.Main className="nv42-main">
+           <ScopeNavigation items={r2ScopeItems} value={scope} onValueChange={setScope} visibleLimit={visibleLimit} aria-label="课程内容范围" renderSurface={({track,panels})=><ConnectedSurface instanceId={`${instance}-scope`} activeKey={scope} connection={connection} track={track}>{panels}</ConnectedSurface>}>
+-            <div className="nv42-sheet"><div className="nv42-page-top"><div className="nv42-path" data-slot="scope-path"><Breadcrumb items={[{id:'course-content',label:'课程内容'},{id:scope,label:scopeLabel}]}/></div><div className="nv42-title-row"><div><h3>知识点总览</h3><p>以知识点组织公共资源，在班级中安排教学。</p></div><div className="nv42-tools">{action('预览学生端',()=>inform('预览学生端'),<EyeVisibleIcon size={16}/>)}{action('新增学习单元',()=>setNotice('新增学习单元：这是编辑树操作入口，尚未提交或发布任何内容。'),<AddBoldIcon size={16}/>,true)}</div></div></div>
+-            <div className="nv42-sheet-content"><div className="nv42-table-tools"><div className="nv42-stats"><span>7 级结构</span><span>16 个内容节点</span><span>36 个学习单元</span></div><div className="nv42-tools"><div className="nv42-filter" role="radiogroup" aria-label="内容类型">{['全部','作业','考试'].map((value,index)=><button key={value} role="radio" aria-checked={filter===value} tabIndex={filter===value?0:-1} onClick={()=>setFilter(value)} onKeyDown={e=>{if(['ArrowRight','ArrowLeft'].includes(e.key)){e.preventDefault();const next=(index+(e.key==='ArrowRight'?1:2))%3;setFilter(['全部','作业','考试'][next]!);(e.currentTarget.parentElement?.children[next] as HTMLElement)?.focus();}}}>{value}</button>)}</div>{icon('筛选',<FilterIcon size={16}/>,()=>inform('更多筛选'))}</div></div>
+-            {editor??<Tree data={treeData(filter,titles)} aria-label="课程内容编辑树" density="default" selectedKeys={selected} onSelectedKeysChange={setSelected} expandedKeys={expanded} onExpandedKeysChange={setExpanded} className="nv42-editor-tree" renderLeading={node=>{const data=node.source as {type:string};return data.type?<span className="nv42-type" data-type={data.type}>{data.type}</span>:<CourseIcon size={13}/>;}} renderTitle={(node,ctx)=><span onDoubleClick={()=>beginEdit(String(node.key),node.title)} style={{fontWeight:(node.source as {top:boolean}).top||ctx.selected?600:400}}>{node.title}</span>} renderMeta={node=><span className="nv42-tree-meta"><span>{node.children?`${(node.source as {count:number}).count} 个学习单元`:'已发布'}</span><span>09-24 更新</span></span>} renderActions={node=>icon(`编辑${node.title}`,node.children?<AddBoldIcon size={12}/>:<MoreHorizontalIcon size={12}/>,()=>beginEdit(String(node.key),node.title))}/>}</div>
++            <div className="nv42-sheet"><div className="nv42-page-top"><div className="nv42-path" data-slot="scope-path"><Breadcrumb items={[{id:'course-content',label:'课程内容'},{id:scope,label:scopeLabel}]}/></div><div className="nv42-title-row"><div><h3>知识点总览</h3><p>以知识点组织公共资源，在班级中安排教学。</p></div><div className="nv42-tools">{action('预览学生端',()=>inform('预览学生端'),<EyeVisibleIcon size={16}/>)}</div></div></div>
++            <div className="nv42-sheet-content">{editor??<CourseResources onFeedback={setNotice}/>}</div>
+             <footer className="nv42-notice"><span>{scope==='scope-0'?'公共资源的内容可供关联班级复用。':'当前查看教学班内容。范围切换不自动发布或同步资源。'}</span><span>模拟数据 · 未执行发布</span></footer></div>
+           </ScopeNavigation>
+         </Split.Main>
+       </Split.Root>
+     </div>
+-    <Dialog.Root open={editing!==null} onOpenChange={open=>{if(!open)setEditing(null);}}><Dialog.Content className="nv42-edit-dialog"><Dialog.Header><Dialog.Title>编辑内容节点</Dialog.Title><Dialog.Close aria-label="关闭编辑"><CloseIcon size={14}/></Dialog.Close></Dialog.Header><Dialog.Body><Dialog.Description>仅修改本地演示名称，不发布或同步课程。</Dialog.Description><label>节点名称<input value={draft} onChange={e=>setDraft(e.target.value)}/></label></Dialog.Body><Dialog.Footer><Button size="small" variant="secondary" onClick={()=>setEditing(null)}>取消</Button><Button size="small" disabled={!draft.trim()} onClick={()=>{if(editing&&draft.trim()){setTitles({...titles,[editing]:draft.trim()});setEditing(null);}}}>保存本地名称</Button></Dialog.Footer></Dialog.Content></Dialog.Root>
+     {notice&&<div className="nv42-toast" role="status">{notice}<button onClick={()=>setNotice('')} aria-label="关闭提示"><CloseIcon size={14}/></button></div>}
+   </section>;
+ }
+--- before/apps/playground/src/recipes/navigation-v042/r2.css
++++ after/apps/playground/src/recipes/navigation-v042/r2.css
+@@ -3,7 +3,7 @@
+   --rain-local-r2-text:#404d62; --rain-local-r2-muted:#626d7d; --rain-local-r2-shell:var(--rain-category-background-neutral-3);
+   --rain-local-r2-white:#fff; --rain-local-r2-rail:#e8edf8; --rain-local-r2-rail-border:#dce2ef;
+   --rain-local-r2-border:#e1e5eb; --rain-local-r2-selected:#e7efff; --rain-local-r2-selected-text:#1556cf;
+-  --rain-local-r2-tree-selected:#eaf0fc; --rain-local-r2-notice:#fff8ee; --rain-local-r2-notice-text:#8c6534; --rain-local-r2-notice-border:#f3e8d6;
++  --rain-local-r2-notice:#fff8ee; --rain-local-r2-notice-text:#8c6534; --rain-local-r2-notice-border:#f3e8d6;
+   --rain-local-r2-cover:linear-gradient(120deg,#405e97,#5d7fba);
+   --rain-local-r2-font:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+   position:relative;display:flex;flex-direction:column;width:100%;height:800px;min-width:0;overflow:hidden;background:var(--rain-local-r2-shell);color:var(--rain-local-r2-text);font-family:var(--rain-local-r2-font);font-size:14px;line-height:21px;
+@@ -91,21 +91,12 @@
+ .nv42-title-row .nv42-action:not([data-variant='primary']) {border:0;background:transparent;}
+ .nv42-tools {display:flex;align-items:center;gap:8px;}
+ .nv42-sheet-content {flex:1;min-height:0;overflow:auto;padding:0 26px 24px;}
+-.nv42-table-tools {height:32px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px;}
++.nv42-table-tools {min-height:32px;flex-wrap:wrap;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px;}
+ .nv42-stats {display:flex;align-items:center;gap:10px;font-size:14px;line-height:20px;}
+ .nv42-stats span+span {border-left:1px solid var(--rain-local-r2-border);padding-left:10px;}
+ .nv42-filter {display:flex;gap:2px;padding:3px;border-radius:6px;background:var(--rain-local-r2-shell);}
+ .nv42-filter button {height:26px;padding:0 12px;border:0;border-radius:4px;background:transparent;font-size:13px;line-height:20px;color:var(--rain-local-r2-text);}
+ .nv42-filter button[aria-checked='true'] {background:var(--rain-local-r2-white);box-shadow:0 0 0 1px var(--rain-local-r2-border);font-weight:600;}
+-.nv42-r2 .nv42-editor-tree {--rain-tree-row-inset:12px;--rain-tree-row-indent:20px;font-family:inherit;color:var(--rain-local-r2-text);overflow:visible;padding-top:7px;}
+-.nv42-editor-tree .rain-tree-row {height:44px;min-height:44px;gap:8px;padding-inline-end:12px;border-radius:0;}
+-.nv42-editor-tree .rain-tree-node:first-child .rain-tree-row {height:46px;}
+-.nv42-editor-tree .rain-tree-node[data-selected='true']>.rain-tree-row {border-radius:4px;background:var(--rain-local-r2-tree-selected);}
+-.nv42-editor-tree .rain-tree-node [data-slot='title'] {font-size:14px;line-height:21px;}
+-.nv42-editor-tree [data-slot='meta'] {font-size:12px;line-height:18px;color:var(--rain-local-r2-muted);}
+-.nv42-editor-tree [data-slot='actions'] {width:20px;}
+-.nv42-editor-tree [data-slot='leading'] {min-height:20px;}
+-.nv42-editor-tree .rain-tree-node:not(:has([data-slot='expander'])) [data-slot='leading'] {margin-left:23px;}
+ .nv42-tree-meta {display:flex;align-items:center;gap:20px;}
+ .nv42-type {padding:2px 4px;border-radius:3px;background:var(--rain-local-r2-selected);color:var(--rain-local-r2-selected-text);font-size:12px;line-height:18px;}
+ .nv42-type[data-type='视频'] {background:#e9f5ef;color:#35735d;}
+@@ -116,8 +107,6 @@
+ 
+ .nv42-main>.rain-scope-navigation>.rain-navigation>.rain-connected-surface>.rain-connected-surface__panel {overflow:hidden;}
+ .nv42-main>.rain-scope-navigation>.rain-navigation {flex:1;min-height:0;}
+-.nv42-edit-dialog label {display:block;}
+-.nv42-edit-dialog input {display:block;margin-top:8px;width:100%;border:1px solid var(--rain-category-border-neutral-3);padding:8px;border-radius:6px;}
+ .nv42-r2 .nv42-course-links {width:auto;min-width:0;}
+ 
+ .nv42-r2 .nv42-action:not([data-variant='primary']) :is([data-slot='label'], [data-slot='leading-icon'], [data-slot='trailing-icon']) {color:var(--rain-local-r2-muted);}
+@@ -132,13 +121,13 @@
+   .nv42-tree-meta {gap:12px;}
+ }
+ 
+-.nv42-editor-tree .rain-tree-node[data-selected='true']>.rain-tree-row>[data-slot='actions'] {visibility:visible;}
+ 
+-.nv42-table-tools .nv42-icon {width:30px;min-width:30px;height:30px;min-height:30px;padding:5px;border:1px solid #d5dae2;border-radius:6px;background:var(--rain-local-r2-white);color:#414958;}
+ 
+ /* G1 review-02: recipe backgrounds must retain hover feedback. */
+ .nv42-r2 .nv42-action:enabled:not([aria-disabled="true"]):not([data-state="loading"]):hover {box-shadow:inset 0 0 0 100px var(--rain-category-fill-neutral-alpha-6);}
+ .nv42-r2 .nv42-action[data-variant='primary']:enabled:not([aria-disabled="true"]):not([data-state="loading"]):hover {background:var(--rain-category-fill-brand-solid-1);border-color:var(--rain-category-fill-brand-solid-1);box-shadow:none;}
+ .nv42-r2 :is(.nv42-layout-button,.nv42-back,.nv42-term,.nv42-toast button):enabled:hover,
+ .nv42-filter button:enabled:not([aria-checked='true']):hover {background:var(--rain-category-fill-neutral-alpha-6);}
+-.nv42-edit-dialog input:enabled:hover:not(:focus) {border-color:var(--rain-category-border-brand-1);}
++
++.nv42-resource-help {margin-bottom:12px;color:var(--rain-category-text-neutral-5);font-size:12px;line-height:20px;}
++.nv42-resource-fields {display:grid;gap:16px;}

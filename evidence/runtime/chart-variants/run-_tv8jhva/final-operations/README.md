@@ -1,0 +1,9 @@
+# Per-card update and replay verification
+
+The first full Chromium run executed 21 tests: 20 passed and one failed because replaying `live-line-interactive` changed the captured Unix timestamps. Its trace and error context remain in `../final-operations-results`. After the Live replay fix, all three affected cases passed in 13.5 seconds: the full nine-card Live group, paused/reduced tooltip reading, and captured Gauge/Live source state. Their evidence is in `../final-operations-live-fixed{,-results}`. This is an explicit full-run plus affected-case aggregation, not a single 21/21 run.
+
+[operations-summary.json](operations-summary.json) verifies all 170 frozen IDs with no duplicate or missing ID/width pairs. Every card at 1440 px actually clicks Update, reaches revision 1, changes its precise table, and retains finite painted native geometry. It then clicks Replay, preserves the same precise data and revision, and retains finite geometry. The 170 updates and 170 replays form 340 verified actions. At 390 px, the same updated state passes the original geometry, exact-table, unique-SVG-definition, overflow, and browser-error assertions. The combined audit contains 340 records across 17 chart pages and 16 chart families.
+
+The summary lists each card's `updateVerified`, `replayVerified`, `updateRevision`, wide/narrow audit paths, commands, test hash, and current family source hashes. It checks those family hashes against the [latest isolated consumption snapshot](../final-consumption-replay/facts.json), which passed all 170 builds after the replay fix.
+
+The actions use reduced motion and Chromium. They do not establish universal normal-motion timing, Safari/VoiceOver, visual Human Gate acceptance, publication, or minimum Registry installation. The separate default monochrome CSS verification remains a distinct phase.

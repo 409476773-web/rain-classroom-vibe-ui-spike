@@ -1,0 +1,258 @@
+{
+  "config": {
+    "argv": [
+      "/Users/wenchengkai/.nvm/versions/node/v24.13.0/bin/node",
+      "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/node_modules/.pnpm/@playwright+test@1.62.1/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "tests/e2e/conversation-composer.config.ts",
+      "-g",
+      "manual layout changes animate"
+    ],
+    "configFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.config.ts",
+    "rootDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "conversation-composer.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "narrow",
+        "name": "narrow",
+        "testDir": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "conversation-composer.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": {
+      "cwd": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/",
+      "command": "pnpm --filter @rain-next/playground exec vite --host 127.0.0.1 --port 5482 --strictPort",
+      "url": "http://127.0.0.1:5482",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "conversation-composer.spec.ts",
+      "file": "conversation-composer.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "manual layout changes animate height continuously while typing and reduced motion stay immediate",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2447,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m2\u001b[39m\nReceived:    \u001b[31m0\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m2\u001b[39m\nReceived:    \u001b[31m0\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts:15:80",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts",
+                      "column": 80,
+                      "line": 15
+                    },
+                    "snippet": "  13 |   const opening=await form.evaluate(async node=>{const heights:number[]=[];const started=performance.now();await new Promise<void>(resolve=>{const sample=()=>{heights.push(node.getBoundingClientRect().height);if(performance.now()-started<300)requestAnimationFrame(sample);else resolve();};requestAnimationFrame(sample);});return heights;});\n  14 |   const expanded=(await form.boundingBox())!.height;\n> 15 |   expect(opening.filter(height=>height>collapsed+1&&height<expanded-1).length).toBeGreaterThanOrEqual(2);\n     |                                                                                ^\n  16 |   expect(opening.every((height,index)=>index===0||height>=opening[index-1]!-1)).toBeTruthy();\n  17 |   await expect(editor).toBeFocused();expect(await editor.evaluate(node=>(node as HTMLTextAreaElement).selectionStart)).toBe(1);\n  18 |   await form.getByRole('button',{name:'收起输入框',exact:true}).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts",
+                        "column": 80,
+                        "line": 15
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m2\u001b[39m\nReceived:    \u001b[31m0\u001b[39m\n\n  13 |   const opening=await form.evaluate(async node=>{const heights:number[]=[];const started=performance.now();await new Promise<void>(resolve=>{const sample=()=>{heights.push(node.getBoundingClientRect().height);if(performance.now()-started<300)requestAnimationFrame(sample);else resolve();};requestAnimationFrame(sample);});return heights;});\n  14 |   const expanded=(await form.boundingBox())!.height;\n> 15 |   expect(opening.filter(height=>height>collapsed+1&&height<expanded-1).length).toBeGreaterThanOrEqual(2);\n     |                                                                                ^\n  16 |   expect(opening.every((height,index)=>index===0||height>=opening[index-1]!-1)).toBeTruthy();\n  17 |   await expect(editor).toBeFocused();expect(await editor.evaluate(node=>(node as HTMLTextAreaElement).selectionStart)).toBe(1);\n  18 |   await form.getByRole('button',{name:'收起输入框',exact:true}).click();\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts:15:80"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-15T15:35:25.981Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-desktop/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-desktop/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-desktop/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts",
+                    "column": 80,
+                    "line": 15
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8a85acdd638525ebd759-fd5da1281b4f9fdf4615",
+          "file": "conversation-composer.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "manual layout changes animate height continuously while typing and reduced motion stay immediate",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "narrow",
+              "projectName": "narrow",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1806,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m2\u001b[39m\nReceived:    \u001b[31m0\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m2\u001b[39m\nReceived:    \u001b[31m0\u001b[39m\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts:15:80",
+                    "location": {
+                      "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts",
+                      "column": 80,
+                      "line": 15
+                    },
+                    "snippet": "  13 |   const opening=await form.evaluate(async node=>{const heights:number[]=[];const started=performance.now();await new Promise<void>(resolve=>{const sample=()=>{heights.push(node.getBoundingClientRect().height);if(performance.now()-started<300)requestAnimationFrame(sample);else resolve();};requestAnimationFrame(sample);});return heights;});\n  14 |   const expanded=(await form.boundingBox())!.height;\n> 15 |   expect(opening.filter(height=>height>collapsed+1&&height<expanded-1).length).toBeGreaterThanOrEqual(2);\n     |                                                                                ^\n  16 |   expect(opening.every((height,index)=>index===0||height>=opening[index-1]!-1)).toBeTruthy();\n  17 |   await expect(editor).toBeFocused();expect(await editor.evaluate(node=>(node as HTMLTextAreaElement).selectionStart)).toBe(1);\n  18 |   await form.getByRole('button',{name:'收起输入框',exact:true}).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts",
+                        "column": 80,
+                        "line": 15
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m2\u001b[39m\nReceived:    \u001b[31m0\u001b[39m\n\n  13 |   const opening=await form.evaluate(async node=>{const heights:number[]=[];const started=performance.now();await new Promise<void>(resolve=>{const sample=()=>{heights.push(node.getBoundingClientRect().height);if(performance.now()-started<300)requestAnimationFrame(sample);else resolve();};requestAnimationFrame(sample);});return heights;});\n  14 |   const expanded=(await form.boundingBox())!.height;\n> 15 |   expect(opening.filter(height=>height>collapsed+1&&height<expanded-1).length).toBeGreaterThanOrEqual(2);\n     |                                                                                ^\n  16 |   expect(opening.every((height,index)=>index===0||height>=opening[index-1]!-1)).toBeTruthy();\n  17 |   await expect(editor).toBeFocused();expect(await editor.evaluate(node=>(node as HTMLTextAreaElement).selectionStart)).toBe(1);\n  18 |   await form.getByRole('button',{name:'收起输入框',exact:true}).click();\n    at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts:15:80"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-15T15:35:29.644Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-narrow/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-narrow/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/evidence/runtime/conversation-composer-2026-10-15/run-06/motion-baseline/results/conversation-composer-manu-bfa4f-duced-motion-stay-immediate-narrow/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/conversation-composer.spec.ts",
+                    "column": 80,
+                    "line": 15
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8a85acdd638525ebd759-d71c2e489107d11af45f",
+          "file": "conversation-composer.spec.ts",
+          "line": 7,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-15T15:35:24.723Z",
+    "duration": 7144.707,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

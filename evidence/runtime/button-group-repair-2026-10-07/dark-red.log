@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+(node:37196) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/button-group-repair.spec.ts:113:1 › dark examples use a dark reading surface instead of retaining the light panel (696ms)
+
+
+  1) [chromium] › tests/e2e/button-group-repair.spec.ts:113:1 › dark examples use a dark reading surface instead of retaining the light panel 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "rgb(30, 36, 59)"
+    Received: "rgb(255, 255, 255)"
+
+      114 |   await page.getByRole("button", {name:"深色",exact:true}).click();
+      115 |   const surface=page.locator(".component-doc__preview").first();
+    > 116 |   expect(await surface.evaluate(el=>getComputedStyle(el).backgroundColor)).toBe("rgb(30, 36, 59)");
+          |                                                                            ^
+      117 |   const documentColors=await page.locator('[data-rain-id="doc-button-group"]').evaluate(el=>({background:getComputedStyle(el).backgroundColor,color:getComputedStyle(el).color}));
+      118 |   expect(documentColors.background).not.toBe("rgba(0, 0, 0, 0)");
+      119 |   expect(documentColors.color).not.toBe("rgb(20, 35, 60)");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/button-group-repair.spec.ts:116:76
+
+    Error Context: evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-dark-e-2b39e-f-retaining-the-light-panel-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-dark-e-2b39e-f-retaining-the-light-panel-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/button-group-repair-2026-10-07/browser/results/button-group-repair-dark-e-2b39e-f-retaining-the-light-panel-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/e2e/button-group-repair.spec.ts:113:1 › dark examples use a dark reading surface instead of retaining the light panel 

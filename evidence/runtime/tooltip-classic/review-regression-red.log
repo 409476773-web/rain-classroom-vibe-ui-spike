@@ -1,0 +1,58 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/tooltip/tooltip.test.tsx (3 tests | 1 failed) 1194ms
+   × suppresses empty/disabled content without disabling the owner and supports a target portal 1019ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/tooltip/tooltip.test.tsx > suppresses empty/disabled content without disabling the owner and supports a target portal
+TestingLibraryElementError: Unable to find role="tooltip"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+  [36m<div>[39m
+    [36m<button[39m
+      [33maria-describedby[39m=[32m"_r_5_"[39m
+      [33mdata-base-ui-tooltip-trigger[39m=[32m""[39m
+      [33mdata-popup-open[39m=[32m""[39m
+      [33mid[39m=[32m"base-ui-_r_7_"[39m
+    [36m>[39m
+      [0m目标[0m
+    [36m</button>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+  [36m<div>[39m
+    [36m<button[39m
+      [33maria-describedby[39m=[32m"_r_5_"[39m
+      [33mdata-base-ui-tooltip-trigger[39m=[32m""[39m
+      [33mdata-popup-open[39m=[32m""[39m
+      [33mid[39m=[32m"base-ui-_r_7_"[39m
+    [36m>[39m
+      [0m目标[0m
+    [36m</button>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ packages/ui/src/tooltip/tooltip.test.tsx:38:25
+     36|   for (const portalTarget of [null, () => null]) {
+     37|     view.rerender(<UI.Tooltip text="默认容器" open portal portalTarget={po…
+     38|     expect(await screen.findByRole("tooltip")).toHaveTextContent("默认容器…
+       |                         ^
+     39|     expect(target.querySelector('[role="tooltip"]')).toBeNull();
+     40|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  11:27:49
+   Duration  2.87s (transform 430ms, setup 159ms, import 822ms, tests 1.19s, environment 596ms)
+

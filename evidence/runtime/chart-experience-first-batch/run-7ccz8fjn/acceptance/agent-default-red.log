@@ -1,0 +1,200 @@
+
+Running 6 tests using 1 worker
+
+(node:2795) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/charts-playground.spec.ts:14:1 › [E01] standard missing readings keep dates, real zero and tooltip meanings (1.4s)
+(node:3306) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/charts-playground.spec.ts:51:1 › [E01] interrupted normal-motion updates preserve missing gaps and reduced motion reaches the terminal reading (1.4s)
+(node:3591) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/e2e/charts-playground.spec.ts:100:1 › [E01] both mini trend sizes keep their slots and missing latest readings across state changes (1.5s)
+(node:3973) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 tests/e2e/charts-playground.spec.ts:142:1 › [E02] standard and both mini bars retain real zeros and explain their reference-only scale (2.4s)
+  ✘  5 tests/e2e/charts-playground.spec.ts:172:60 › [E03] sunburst keyboard drill, multilevel return and external focus survive no-preference (6.6s)
+(node:3992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  6 tests/e2e/charts-playground.spec.ts:172:60 › [E03] sunburst keyboard drill, multilevel return and external focus survive reduce (6.3s)
+
+
+  1) tests/e2e/charts-playground.spec.ts:14:1 › [E01] standard missing readings keep dates, real zero and tooltip meanings 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-rain-id="chart-line"]').locator('.rain-chart-plot svg')
+    Expected: visible
+    Error: strict mode violation: locator('[data-rain-id="chart-line"]').locator('.rain-chart-plot svg') resolved to 2 elements:
+        1) <svg height="320" width="1390" aria-hidden="true">…</svg> aka locator('svg').first()
+        2) <svg width="100%" height="100%" aria-hidden="true" class="pointer-events-none absolute inset-0">…</svg> aka locator('svg').nth(1)
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-line"]').locator('.rain-chart-plot svg')
+
+
+      19 |     const host = page.locator(`[data-rain-id="chart-${id}"]`);
+      20 |     await page.getByRole("combobox", { name: "示例状态", exact: true }).selectOption("missing");
+    > 21 |     await expect(host.locator(".rain-chart-plot svg")).toBeVisible();
+         |                                                        ^
+      22 |     await host.getByText("查看精确数据", { exact: true }).click();
+      23 |     const rows = host.locator("tbody tr");
+      24 |     await expect(rows).toHaveCount(24);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/charts-playground.spec.ts:21:56
+
+    Error Context: evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E01-sta-f0f1d-l-zero-and-tooltip-meanings/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E01-sta-f0f1d-l-zero-and-tooltip-meanings/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E01-sta-f0f1d-l-zero-and-tooltip-meanings/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/charts-playground.spec.ts:51:1 › [E01] interrupted normal-motion updates preserve missing gaps and reduced motion reaches the terminal reading 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-rain-id="chart-line"]').locator('.rain-chart-plot svg')
+    Expected: visible
+    Error: strict mode violation: locator('[data-rain-id="chart-line"]').locator('.rain-chart-plot svg') resolved to 2 elements:
+        1) <svg height="320" width="1390" aria-hidden="true">…</svg> aka locator('svg').first()
+        2) <svg width="100%" height="100%" aria-hidden="true" class="pointer-events-none absolute inset-0">…</svg> aka locator('svg').nth(1)
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-line"]').locator('.rain-chart-plot svg')
+
+
+      57 |     const controls = page.locator("[data-chart-default-controls]");
+      58 |     await controls.getByRole("combobox", { name: "示例状态", exact: true }).selectOption("missing");
+    > 59 |     await expect(host.locator(".rain-chart-plot svg")).toBeVisible();
+         |                                                        ^
+      60 |     await host.getByText("查看精确数据", { exact: true }).click();
+      61 |     const dates = await host.locator("tbody th").allTextContents();
+      62 |     await controls.getByRole("button", { name: "更新数据", exact: true }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/charts-playground.spec.ts:59:56
+
+    Error Context: evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E01-int-0f997-eaches-the-terminal-reading/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E01-int-0f997-eaches-the-terminal-reading/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E01-int-0f997-eaches-the-terminal-reading/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/charts-playground.spec.ts:100:1 › [E01] both mini trend sizes keep their slots and missing latest readings across state changes 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-rain-id="chart-line"]').locator('.rain-business-mini-slot').locator('svg')
+    Expected: visible
+    Error: strict mode violation: locator('[data-rain-id="chart-line"]').locator('.rain-business-mini-slot').locator('svg') resolved to 2 elements:
+        1) <svg width="96" height="32" aria-hidden="true">…</svg> aka locator('svg').first()
+        2) <svg width="100%" height="100%" aria-hidden="true" class="pointer-events-none absolute inset-0">…</svg> aka locator('svg').nth(1)
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-line"]').locator('.rain-business-mini-slot').locator('svg')
+
+
+      112 |     await expect(slot).toHaveCSS("height", size === "compact" ? "32px" : "48px");
+      113 |     await expect(host.locator(".rain-chart-metric strong")).toHaveText("缺测");
+    > 114 |     await expect(slot.locator("svg")).toBeVisible();
+          |                                       ^
+      115 |     await host.getByText("查看精确数据", { exact: true }).click();
+      116 |     await expect(host.locator("tbody tr")).toHaveCount(24);
+      117 |     await expect(host.locator("tbody tr").last()).toContainText("缺测");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/charts-playground.spec.ts:114:39
+
+    Error Context: evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E01-bot-ededc-adings-across-state-changes/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E01-bot-ededc-adings-across-state-changes/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E01-bot-ededc-adings-across-state-changes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/charts-playground.spec.ts:172:60 › [E03] sunburst keyboard drill, multilevel return and external focus survive no-preference 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  locator('[data-rain-id="chart-sunburst"]').getByRole('link', { name: '返回学习内容', exact: true })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-sunburst"]').getByRole('link', { name: '返回学习内容', exact: true })
+        14 × locator resolved to <a data-slot="link" aria-label="返回学习内容" id="base-ui-_r_19_" data-return-id="学习内容" href="#chart-sunburst" data-trigger-disabled="" class="rain-breadcrumb-control relative min-w-0 rounded-rain-6 px-rain-4 font-rain-ui font-rain-regular no-underline outline-none rain-breadcrumb-link">学习内容</a>
+           - unexpected value "inactive"
+
+
+      207 |   await video.focus();
+      208 |   await video.press("Space");
+    > 209 |   await expect(back).toBeFocused();
+          |                      ^
+      210 |   const breadcrumb = host.getByRole("navigation", { name: "学习内容层级" });
+      211 |   await expect(breadcrumb.getByRole("link")).toHaveCount(2);
+      212 |   await expect(host.getByRole("group", { name: /当前层级/ }).getByRole("button")).toHaveCount(0);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/charts-playground.spec.ts:209:22
+
+    Error Context: evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E03-sun-40b01-focus-survive-no-preference/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E03-sun-40b01-focus-survive-no-preference/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E03-sun-40b01-focus-survive-no-preference/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/e2e/charts-playground.spec.ts:172:60 › [E03] sunburst keyboard drill, multilevel return and external focus survive reduce 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator: locator('[data-rain-id="chart-sunburst"]').getByRole('link', { name: '返回学习内容', exact: true })
+    Expected: focused
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-sunburst"]').getByRole('link', { name: '返回学习内容', exact: true })
+        8 × locator resolved to <a data-slot="link" aria-label="返回学习内容" id="base-ui-_r_19_" data-return-id="学习内容" href="#chart-sunburst" data-trigger-disabled="" class="rain-breadcrumb-control relative min-w-0 rounded-rain-6 px-rain-4 font-rain-ui font-rain-regular no-underline outline-none rain-breadcrumb-link">学习内容</a>
+          - unexpected value "inactive"
+
+
+      207 |   await video.focus();
+      208 |   await video.press("Space");
+    > 209 |   await expect(back).toBeFocused();
+          |                      ^
+      210 |   const breadcrumb = host.getByRole("navigation", { name: "学习内容层级" });
+      211 |   await expect(breadcrumb.getByRole("link")).toHaveCount(2);
+      212 |   await expect(host.getByRole("group", { name: /当前层级/ }).getByRole("button")).toHaveCount(0);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/charts-playground.spec.ts:209:22
+
+    Error Context: evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E03-sun-4746a-ternal-focus-survive-reduce/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E03-sun-4746a-ternal-focus-survive-reduce/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-first-batch/run-7ccz8fjn/acceptance/default-red-results/charts-playground--E03-sun-4746a-ternal-focus-survive-reduce/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    tests/e2e/charts-playground.spec.ts:14:1 › [E01] standard missing readings keep dates, real zero and tooltip meanings 
+    tests/e2e/charts-playground.spec.ts:51:1 › [E01] interrupted normal-motion updates preserve missing gaps and reduced motion reaches the terminal reading 
+    tests/e2e/charts-playground.spec.ts:100:1 › [E01] both mini trend sizes keep their slots and missing latest readings across state changes 
+    tests/e2e/charts-playground.spec.ts:172:60 › [E03] sunburst keyboard drill, multilevel return and external focus survive no-preference 
+    tests/e2e/charts-playground.spec.ts:172:60 › [E03] sunburst keyboard drill, multilevel return and external focus survive reduce 
+  1 passed (22.6s)

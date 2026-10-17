@@ -1,0 +1,93 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-combobox"
+name: "Combobox"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/combobox/combobox.tsx"
+styleSourcePath: "packages/ui/src/combobox/combobox.css"
+sourceVersion: "local-2026-10-12"
+description: "可输入的单值选择，明确接受已有候选或新文本。"
+useWhen:
+  - "输入检索候选；明确接受新文本后由宿主保存回填。"
+doNotUseWhen:
+  - "多选、标签输入或失焦自动创建值。"
+anatomy:
+  - "Root / InputGroup / Input / Clear / Trigger"
+  - "Portal / Positioner / Popup / List / Group / Item"
+parts:
+  - "Root / InputGroup / Input / Clear / Trigger"
+  - "Portal / Positioner / Popup / List / Group / Item"
+props:
+  - "options / selectedOption；value/defaultValue:string|number|null；onValueChange(value,details.reason=select|custom|clear)。"
+  - "searchValue / defaultSearchValue / onSearchValueChange；open / defaultOpen / onOpenChange；allowCustomValue。"
+  - "loading / loadError / onRetry / emptyText；size / appearance / status；name / form / disabled / readOnly / required；Input ref。"
+slots: []
+variants:
+  - "Rain local recipe"
+states:
+  - "default"
+  - "disabled"
+  - "focus-visible"
+dependencies:
+  - "react"
+  - "@base-ui/react/combobox@1.8.0"
+  - "Input / Button / IconButton / Select utils"
+  - "DropdownMenu styles / PopupProvider"
+tokens:
+  - "shared Input / Popup / Select paints"
+  - "Icon/Neutral/3/5"
+  - "Motion/Overlay/180ms"
+layoutConstraints:
+  - "宽度由宿主提供；保留区域密度与窄屏布局。"
+compositionRules:
+  - "重试使用带 refresh 前置图标的文字按钮，完成后恢复输入焦点。"
+  - "值、查询、开关独立受控或非受控；失焦不创建。"
+  - "新文本只在选择使用此输入后提交；宿主保存与回填。"
+allowedModifications:
+  - "宿主内容、className、既有variant；数据与保存由宿主拥有。"
+restrictedModifications:
+  - "不硬编码颜色或构建第二字段状态/浮层引擎。"
+accessibility:
+  - "唯一Base UI键盘焦点生命周期；IME不误提交。"
+  - "开放清空按钮可Tab/Enter；局部InputGroup aria-live=off兼容Base UI1.8外置Input兄弟动作，未改引擎。"
+examples:
+  - "#combobox"
+recipes:
+  - "G5可操作表单与筛选样例"
+antiPatterns:
+  - "多选、标签输入或失焦自动创建值。"
+relatedComponents:
+  - "FormItem"
+  - "Input"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Rain字段、菜单、图标与Token体系"
+  externalReferences:
+    - "shadcn Base UI / Nova at locked commit"
+  retainedTraits:
+    - "成熟来源部件与引擎语义/生命周期"
+  redesignedTraits:
+    - "Rain现有Token绑定与局部动效"
+  intentionallyNotInherited:
+    - "上游默认palette与cn"
+figmaMapping:
+  status: "reference-only"
+source:
+  repository: "https://github.com/shadcn-ui/ui"
+  commit: "3ba91b1cc83e1bbe4ab35a422ff2a694849c5048"
+  license: "MIT"
+  evidence: "evidence/runtime/g5-components-2026-10-12/source-lock.json"
+migrationNotes:
+  - "固定来源适配；未发布候选，人工视觉与对比度验收单独记录。"
+verification:
+  automated: "scoped-passed"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/g5-components-2026-10-12/verification.md"

@@ -1,0 +1,30 @@
+
+Running 1 test using 1 worker
+
+(node:16851) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/navigation-v042-r4-feedback.spec.ts:36:1 › capture immutable R4 feedback snapshots (30.0s)
+
+
+  1) tests/e2e/navigation-v042-r4-feedback.spec.ts:36:1 › capture immutable R4 feedback snapshots ──
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('[data-recipe-id="recipe-navigation-r4"]').locator('.rain-workspace__region[data-region-id="global"]').getByRole('button', { name: '展开平台导航', exact: true })
+
+
+      42 |     const root = await open(page, width);
+      43 |     for (const mode of ['compact', 'expanded', 'ungraded']) {
+    > 44 |       if (mode === 'expanded') await region(root, 'global').getByRole('button', { name: '展开平台导航', exact: true }).click();
+         |                                                                                                                  ^
+      45 |       if (mode === 'ungraded') await root.getByRole('group', { name: '小组结果', exact: true }).getByRole('button', { name: '知行合一', exact: true }).click();
+      46 |       await settle(page);
+      47 |       const key = `R4-interaction-${width}-${mode}`;
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-r4-feedback.spec.ts:44:114
+
+    Error Context: evidence/runtime/navigation-v042/review-06/test-artifacts/navigation-v042-r4-feedbac-8f1a5-table-R4-feedback-snapshots/error-context.md
+
+  1 failed
+    tests/e2e/navigation-v042-r4-feedback.spec.ts:36:1 › capture immutable R4 feedback snapshots ───

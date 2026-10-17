@@ -1,0 +1,99 @@
+
+Running 10 tests using 1 worker
+
+(node:16597) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/e2e/chart-third-batch-scatter.spec.ts:50:3 › 1440px no-preference: default dense and overlapping dates retain all exact series and current pointer values (4.4s)
+  ✓   2 tests/e2e/chart-third-batch-scatter.spec.ts:108:3 › 1440px no-preference: all ten original Scatter variants use dense dates, overlap readings and stable normal geometry (23.0s)
+  ✓   3 tests/e2e/chart-third-batch-scatter.spec.ts:50:3 › 1440px reduce: default dense and overlapping dates retain all exact series and current pointer values (2.8s)
+  ✓   4 tests/e2e/chart-third-batch-scatter.spec.ts:108:3 › 1440px reduce: all ten original Scatter variants use dense dates, overlap readings and stable normal geometry (7.5s)
+  ✘   5 tests/e2e/chart-third-batch-scatter.spec.ts:50:3 › 390px no-preference: default dense and overlapping dates retain all exact series and current pointer values (8.7s)
+(node:18886) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 tests/e2e/chart-third-batch-scatter.spec.ts:108:3 › 390px no-preference: all ten original Scatter variants use dense dates, overlap readings and stable normal geometry (23.2s)
+  ✘   7 tests/e2e/chart-third-batch-scatter.spec.ts:50:3 › 390px reduce: default dense and overlapping dates retain all exact series and current pointer values (8.0s)
+(node:19437) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 tests/e2e/chart-third-batch-scatter.spec.ts:108:3 › 390px reduce: all ten original Scatter variants use dense dates, overlap readings and stable normal geometry (8.3s)
+  ✓   9 tests/e2e/chart-third-batch-scatter.spec.ts:161:1 › 390px real touch on Scatter scrolls the page and cancels the temporary reading (1.9s)
+  ✓  10 tests/e2e/chart-third-batch-scatter.spec.ts:187:1 › 390px real two-finger Scatter preserves time selection during horizontal and vertical movement (1.1s)
+
+
+  1) tests/e2e/chart-third-batch-scatter.spec.ts:50:3 › 390px no-preference: default dense and overlapping dates retain all exact series and current pointer values 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-rain-id="chart-scatter"]').locator('.rain-chart-tooltip')
+    Expected substring: "286 人"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-scatter"]').locator('.rain-chart-tooltip')
+
+
+      86 |       await page.keyboard.press("Enter");
+      87 |       const updated = await timeline(page, 1, "scatter-overlap");
+    > 88 |       await expect(tip).toContainText(`${updated[5]!.enrolled} 人`);
+         |                         ^
+      89 |       await expect(status(host)).toHaveAttribute("data-point-reading-date", overlap[5]!.date);
+      90 |       await expect(status(host)).toContainText(`参与人数 ${updated[5]!.enrolled} 人`);
+      91 |       facts.overlap = { source: updated[5], reading: await status(host).textContent(), tooltip: await tip.textContent() };
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-third-batch-scatter.spec.ts:88:25
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-third-batch-2026-10-11/scatter/browser/after-04-final/test-results/chart-third-batch-scatter--1ec64--and-current-pointer-values/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-experience-third-batch-2026-10-11/scatter/browser/after-04-final/test-results/chart-third-batch-scatter--1ec64--and-current-pointer-values/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-third-batch-2026-10-11/scatter/browser/after-04-final/test-results/chart-third-batch-scatter--1ec64--and-current-pointer-values/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-third-batch-2026-10-11/scatter/browser/after-04-final/test-results/chart-third-batch-scatter--1ec64--and-current-pointer-values/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-third-batch-scatter.spec.ts:50:3 › 390px reduce: default dense and overlapping dates retain all exact series and current pointer values 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-rain-id="chart-scatter"]').locator('.rain-chart-tooltip')
+    Expected substring: "286 人"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('[data-rain-id="chart-scatter"]').locator('.rain-chart-tooltip')
+
+
+      86 |       await page.keyboard.press("Enter");
+      87 |       const updated = await timeline(page, 1, "scatter-overlap");
+    > 88 |       await expect(tip).toContainText(`${updated[5]!.enrolled} 人`);
+         |                         ^
+      89 |       await expect(status(host)).toHaveAttribute("data-point-reading-date", overlap[5]!.date);
+      90 |       await expect(status(host)).toContainText(`参与人数 ${updated[5]!.enrolled} 人`);
+      91 |       facts.overlap = { source: updated[5], reading: await status(host).textContent(), tooltip: await tip.textContent() };
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-third-batch-scatter.spec.ts:88:25
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-third-batch-2026-10-11/scatter/browser/after-04-final/test-results/chart-third-batch-scatter--acc44--and-current-pointer-values/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-experience-third-batch-2026-10-11/scatter/browser/after-04-final/test-results/chart-third-batch-scatter--acc44--and-current-pointer-values/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-experience-third-batch-2026-10-11/scatter/browser/after-04-final/test-results/chart-third-batch-scatter--acc44--and-current-pointer-values/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-experience-third-batch-2026-10-11/scatter/browser/after-04-final/test-results/chart-third-batch-scatter--acc44--and-current-pointer-values/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/chart-third-batch-scatter.spec.ts:50:3 › 390px no-preference: default dense and overlapping dates retain all exact series and current pointer values 
+    tests/e2e/chart-third-batch-scatter.spec.ts:50:3 › 390px reduce: default dense and overlapping dates retain all exact series and current pointer values 
+  8 passed (1.5m)

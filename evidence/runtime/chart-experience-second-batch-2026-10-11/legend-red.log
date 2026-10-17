@@ -1,0 +1,423 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/legend-interaction.test.tsx (10 tests | 9 failed) 135ms
+   × default: pointer preview returns to the keyboard target, and Escape clears without hiding data 79ms
+   × default: value updates keep the same focused item, removed identities clear 8ms
+   × default: reordered identities follow the same item and an outside tap clears 6ms
+   × custom: pointer preview returns to the keyboard target, and Escape clears without hiding data 9ms
+   × custom: value updates keep the same focused item, removed identities clear 6ms
+   × custom: reordered identities follow the same item and an outside tap clears 5ms
+   × compound: pointer preview returns to the keyboard target, and Escape clears without hiding data 5ms
+   × compound: value updates keep the same focused item, removed identities clear 7ms
+   × compound: reordered identities follow the same item and an outside tap clears 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > default: pointer preview returns to the keyboard target, and Escape clears without hiding data
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/^甲系列/`
+
+Here are the accessible roles:
+
+  status:
+
+  Name "当前聚焦":
+  [36m<output[39m
+    [33maria-label[39m=[32m"当前聚焦"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "外部操作":
+  [36m<button[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<output[39m
+      [33maria-label[39m=[32m"当前聚焦"[39m
+    [36m>[39m
+      [0m全部[0m
+    [36m</output>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"legend-container flex flex-col gap-2"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"cursor-pointer rounded-lg px-2 py-1.5 transition-all duration-150 ease-out"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex items-center gap-3"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"h-2.5 w-2.5 shrink-0 rounded-full"[39m
+            [33mstyle[39m=[32m"background-color: blue;"[39m
+          [36m/>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"flex-1 text-legend-foreground text-sm font-medium"[39m
+          [36m>[39m
+            [0m甲系列[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"text-legend-muted-foreground text-sm tabular-nums"[39m
+          [36m>[39m
+            [0m10[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"cursor-pointer rounded-lg px-2 py-1.5 transition-all duration-150 ease-out"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex items-center gap-3"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"h-2.5 w-2.5 shrink-0 rounded-full"[39m
+            [33mstyle[39m=[32m"background-color: purple;"[39m
+          [36m/>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"flex-1 text-legend-foreground text-sm font-medium"[39m
+          [36m>[39m
+            [0m乙系列[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"text-legend-muted-foreground text-sm tabular-nums"[39m
+          [36m>[39m
+            [0m20[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+    [36m<button[39m
+      [33mtype[39m=[32m"button"[39m
+    [36m>[39m
+      [0m外部操作[0m
+    [36m</button>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ packages/ui/src/charts/legend-interaction.test.tsx:24:22
+     22|   test(`${kind}: pointer preview returns to the keyboard target, and E…
+     23|     render(<Reading kind={kind} />);
+     24|     const a = screen.getByRole("button", { name: /^甲系列/ });
+       |                      ^
+     25|     const b = screen.getByRole("button", { name: /^乙系列/ });
+     26|     a.focus();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > default: value updates keep the same focused item, removed identities clear
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/^甲系列/`
+
+Here are the accessible roles:
+
+  status:
+
+  Name "当前聚焦":
+  [36m<output[39m
+    [33maria-label[39m=[32m"当前聚焦"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "外部操作":
+  [36m<button[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<output[39m
+      [33maria-label[39m=[32m"当前聚焦"[39m
+    [36m>[39m
+      [0m全部[0m
+    [36m</output>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"legend-container flex flex-col gap-2"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"cursor-pointer rounded-lg px-2 py-1.5 transition-all duration-150 ease-out"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex items-center gap-3"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"h-2.5 w-2.5 shrink-0 rounded-full"[39m
+            [33mstyle[39m=[32m"background-color: blue;"[39m
+          [36m/>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"flex-1 text-legend-foreground text-sm font-medium"[39m
+          [36m>[39m
+            [0m甲系列[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"text-legend-muted-foreground text-sm tabular-nums"[39m
+          [36m>[39m
+            [0m10[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"cursor-pointer rounded-lg px-2 py-1.5 transition-all duration-150 ease-out"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex items-center gap-3"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"h-2.5 w-2.5 shrink-0 rounded-full"[39m
+            [33mstyle[39m=[32m"background-color: purple;"[39m
+          [36m/>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"flex-1 text-legend-foreground text-sm font-medium"[39m
+          [36m>[39m
+            [0m乙系列[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"text-legend-muted-foreground text-sm tabular-nums"[39m
+          [36m>[39m
+            [0m20[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+    [36m<button[39m
+      [33mtype[39m=[32m"button"[39m
+    [36m>[39m
+      [0m外部操作[0m
+    [36m</button>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ packages/ui/src/charts/legend-interaction.test.tsx:38:22
+     36|   test(`${kind}: value updates keep the same focused item, removed ide…
+     37|     const view = render(<Reading kind={kind} />);
+     38|     const a = screen.getByRole("button", { name: /^甲系列/ });
+       |                      ^
+     39|     a.focus();
+     40|     view.rerender(<Reading kind={kind} items={initial.map(item => ({ .…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > default: reordered identities follow the same item and an outside tap clears
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/^甲系列/`
+
+Here are the accessible roles:
+
+  status:
+
+  Name "当前聚焦":
+  [36m<output[39m
+    [33maria-label[39m=[32m"当前聚焦"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "外部操作":
+  [36m<button[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<output[39m
+      [33maria-label[39m=[32m"当前聚焦"[39m
+    [36m>[39m
+      [0m全部[0m
+    [36m</output>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"legend-container flex flex-col gap-2"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"cursor-pointer rounded-lg px-2 py-1.5 transition-all duration-150 ease-out"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex items-center gap-3"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"h-2.5 w-2.5 shrink-0 rounded-full"[39m
+            [33mstyle[39m=[32m"background-color: blue;"[39m
+          [36m/>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"flex-1 text-legend-foreground text-sm font-medium"[39m
+          [36m>[39m
+            [0m甲系列[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"text-legend-muted-foreground text-sm tabular-nums"[39m
+          [36m>[39m
+            [0m10[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"cursor-pointer rounded-lg px-2 py-1.5 transition-all duration-150 ease-out"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex items-center gap-3"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"h-2.5 w-2.5 shrink-0 rounded-full"[39m
+            [33mstyle[39m=[32m"background-color: purple;"[39m
+          [36m/>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"flex-1 text-legend-foreground text-sm font-medium"[39m
+          [36m>[39m
+            [0m乙系列[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"text-legend-muted-foreground text-sm tabular-nums"[39m
+          [36m>[39m
+            [0m20[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+    [36m<button[39m
+      [33mtype[39m=[32m"button"[39m
+    [36m>[39m
+      [0m外部操作[0m
+    [36m</button>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ packages/ui/src/charts/legend-interaction.test.tsx:48:22
+     46|   test(`${kind}: reordered identities follow the same item and an outs…
+     47|     const view = render(<Reading kind={kind} />);
+     48|     const a = screen.getByRole("button", { name: /^甲系列/ });
+       |                      ^
+     49|     a.focus();
+     50|     view.rerender(<Reading kind={kind} items={[initial[1]!, initial[0]…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > custom: pointer preview returns to the keyboard target, and Escape clears without hiding data
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > compound: pointer preview returns to the keyboard target, and Escape clears without hiding data
+AssertionError: expected '全部' to be '甲系列' // Object.is equality
+
+Expected: "甲系列"
+Received: "全部"
+
+ ❯ packages/ui/src/charts/legend-interaction.test.tsx:27:36
+     25|     const b = screen.getByRole("button", { name: /^乙系列/ });
+     26|     a.focus();
+     27|     expect(selected().textContent).toBe("甲系列");
+       |                                    ^
+     28|     fireEvent.pointerEnter(b);
+     29|     expect(selected().textContent).toBe("乙系列");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > custom: value updates keep the same focused item, removed identities clear
+AssertionError: expected <body><div>…(3)</div></body> to be <button type="button"></button> // Object.is equality
+
+- Expected
++ Received
+
++ <body>
++   <div>
++     <output
++       aria-label="当前聚焦"
++     >
++       甲系列
++     </output>
++     <div
++       class="legend-container flex flex-col gap-2"
++     >
++       <div
++         data-hovered=""
++       >
+          <button
+            type="button"
+          >
+            甲系列
+-   10
++           11
++         </button>
++       </div>
++       <div>
++         <button
++           type="button"
++         >
++           乙系列
++           21
+          </button>
++       </div>
++     </div>
++     <button
++       type="button"
++     >
++       外部操作
++     </button>
++   </div>
++ </body>
+
+ ❯ packages/ui/src/charts/legend-interaction.test.tsx:41:36
+     39|     a.focus();
+     40|     view.rerender(<Reading kind={kind} items={initial.map(item => ({ .…
+     41|     expect(document.activeElement).toBe(a);
+       |                                    ^
+     42|     expect(selected().textContent).toBe("甲系列");
+     43|     view.rerender(<Reading kind={kind} items={[initial[1]!]} />);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > custom: reordered identities follow the same item and an outside tap clears
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > compound: reordered identities follow the same item and an outside tap clears
+AssertionError: expected '乙系列' to be '甲系列' // Object.is equality
+
+Expected: "甲系列"
+Received: "乙系列"
+
+ ❯ packages/ui/src/charts/legend-interaction.test.tsx:52:36
+     50|     view.rerender(<Reading kind={kind} items={[initial[1]!, initial[0]…
+     51|     expect(document.activeElement).toBe(a);
+     52|     expect(selected().textContent).toBe("甲系列");
+       |                                    ^
+     53|     fireEvent.pointerDown(screen.getByRole("button", { name: "外部操作" })…
+     54|     expect(selected().textContent).toBe("全部");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  packages/ui/src/charts/legend-interaction.test.tsx > compound: value updates keep the same focused item, removed identities clear
+AssertionError: expected '乙系列' to be '全部' // Object.is equality
+
+Expected: "全部"
+Received: "乙系列"
+
+ ❯ packages/ui/src/charts/legend-interaction.test.tsx:44:36
+     42|     expect(selected().textContent).toBe("甲系列");
+     43|     view.rerender(<Reading kind={kind} items={[initial[1]!]} />);
+     44|     expect(selected().textContent).toBe("全部");
+       |                                    ^
+     45|   });
+     46|   test(`${kind}: reordered identities follow the same item and an outs…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 failed | 1 passed (10)
+   Start at  13:45:16
+   Duration  2.17s (transform 822ms, setup 136ms, import 1.29s, tests 135ms, environment 512ms)
+

@@ -63,3 +63,15 @@ it("rejects weak-placeholder relabeling, missing boundaries and paints outside d
   fields.colorRecipeConsumers.find((entry: any) => entry.symbol === "fieldFrameRecipe").recipes[0].boundary.content = "decorative";
   expect(validateRegisteredRecipeColors({ filePath: fieldPath, source: readFileSync(fieldPath, "utf8"), outputs: fields }).join(" ")).toMatch(/exact|metadata|essential/);
 });
+
+it("distinguishes the registered G3 Sheet and scrollbar paints from their bounded geometry", () => {
+  const filePath = "packages/ui/src/styles.css", source = readFileSync(filePath, "utf8");
+  const check = (text: string) => validateRegisteredRecipeColors({ filePath, source: text });
+  expect(check(source)).toEqual([]);
+  for (const changed of [
+    source.replace("width:var(--rain-local-g3-sheet-size);", "color:var(--rain-local-g3-sheet-size);"),
+    source.replace("--rain-local-g3-sheet-size: min(420px, 100vw);", "--rain-local-g3-sheet-size: var(--rain-category-text-neutral-1);"),
+    source.replace(".rain-sheet-backdrop { background-color:var(--rain-overlay-focus); }", ".rain-sheet-backdrop { background-color:var(--rain-overlay-focus); }\n.rain-sheet-backdrop { background-color:var(--rain-overlay-focus); }"),
+    source + "\n.outside { color: var(--rain-category-text-neutral-1); }",
+  ]) { expect(changed).not.toBe(source); expect(check(changed).length).toBeGreaterThan(0); }
+});

@@ -1,0 +1,82 @@
+{
+  "recordedAt": "2026-10-03T03:19:22.494717+00:00",
+  "reviewer": "g2_close_audit_02",
+  "status": "passed-scoped-source-review",
+  "scope": "Independent source-only closure of grade-method natural width and unclipped marker; grading toolbar icon/wrapper geometry. Runtime pixel recapture remains reference owner.",
+  "sourceSha256": {
+    "apps/playground/src/recipes/navigation-v042/r4-r6.tsx": "f546a67d8603334b33466765d895a55c10bb26ed494b67a1a8657fb0f1df5ff1",
+    "apps/playground/src/recipes/navigation-v042/r4-r6.css": "1830412b44b9e4be880b4b67d473f3fc41f8ddce96f30e617b439b22f720ed10"
+  },
+  "priorAudit": {
+    "file": "evidence/runtime/navigation-v042/w5/2026-10-03-g2-close-independent-audit-02.json",
+    "sha256": "bda5f6496c781c7ce656a9dcbb0a989d9447903a1658550da26063420248005a",
+    "preserved": true,
+    "scopeNote": "Audit02 verified selector/caller/protection, not final marker paint visibility. Prior source hashes remain historical."
+  },
+  "rootCause": {
+    "width": "Earlier local flex:1/max-width280/width280 forced a wider grading selector than source natural144 width.",
+    "paintClipping": "Shared items overflow-x:auto caused y overflow:auto; the marker bottom:-1 was clipped by the scroll container. Source grading selector does not scroll.",
+    "horizontalOffset": "Source batch-AI button contains a sparkle icon. Candidate lacked that slot, narrowing the right toolbar and moving the middle group under justify-between."
+  },
+  "minimalFix": {
+    "gradeMethodRoot": "Scoped flex:none;width:auto;max-width:none retains original height34.",
+    "gradeMethodItems": "Scoped overflow:visible retains gap24 and border0; public white-line scroll behavior unchanged.",
+    "toolbarSlots": "Only nv5-grading-context > nv5-between source Button leading/trailing icon wrappers become18x18; label part excluded.",
+    "aiButton": "Adds existing/imported AiSparklesIcon size18 using existing leadingIcon slot. No new dependency or icon path."
+  },
+  "callers": [
+    "R4 grading standalone",
+    "S4 grading via R4Recipe scene={variant}"
+  ],
+  "excludedCallers": [
+    "R4 interaction",
+    "S4 default/inverse interaction",
+    "R5",
+    "R6",
+    "other public SegmentedControl consumers",
+    "other public Button consumers"
+  ],
+  "byteDifferenceProof": {
+    "method": "Read-only in-memory normalization removes sole AI leadingIcon prop and reverses three local CSS edits; normalized complete file hashes match Audit02. Source files were never reverted.",
+    "tsxNormalizedSha256": "ec415a755f2bbe0c58c11b310c91944946d255718ff50c64b7cb57b64021decd",
+    "cssNormalizedSha256": "594f111a2f1db3c5f9a6edc4d4556829afe4bcbbd226aa808925f247d8e886e2",
+    "tsxMatchesAudit02": true,
+    "cssMatchesAudit02": true,
+    "businessBehavior": "Every remaining TSX byte is identical to audit02, including onClick/onValueChange handlers, grading state, data, ARIA, instance identity and notices.",
+    "sharedNavigationStyles": "SHA identical to audit02"
+  },
+  "affectedReviewCases": [
+    "R4-grading-1200",
+    "R4-grading-1440",
+    "R4-grading-1600",
+    "R4-grading-selected-1440",
+    "S4-grading-1440"
+  ],
+  "unaffectedCaseReuseCount": 41,
+  "historicalOldCaseCount": 46,
+  "protection": {
+    "repo": {
+      "protectedFiles": 10570,
+      "modifiedCount": 13,
+      "missing": [],
+      "outsideScope": []
+    },
+    "workpack": {
+      "protectedFiles": 248,
+      "modifiedCount": 4,
+      "missing": [],
+      "outsideScope": []
+    }
+  },
+  "head": "321e1a0c1b5f9284e0fcb5167fa059d6174b1752",
+  "branch": "codex/card-v2",
+  "runtimeVerification": "Not run by this source reviewer. Await canonical five-case reference/candidate recapture and actual marker painted bounding box; do not infer visible2px from computed height alone.",
+  "metadata": "Root owns current source/Registry/Manifest hash refresh and final documentation index. Older captures/review SHAs remain unchanged.",
+  "remainingSourceP1P2": [],
+  "notCertified": [
+    "Pixel equality or Human G2/G3",
+    "Full N01-N38/a11y/VoiceOver/contrast",
+    "W6 E1-E6/W7/W8 completion",
+    "Git/Figma/publication"
+  ]
+}

@@ -1,0 +1,62 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/select-unification-governance.test.ts (3 tests | 3 failed) 8ms
+   × keeps the exact Select scope and user acceptance separate 4ms
+   × validates Select sources while retaining all previous phase records 0ms
+   × rejects additional paths, edited sources and forged before snapshots 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/select-unification-governance.test.ts > keeps the exact Select scope and user acceptance separate
+AssertionError: expected undefined to be type of 'function'
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ scripts/select-unification-governance.test.ts:12:51
+     10|
+     11| it("keeps the exact Select scope and user acceptance separate", () => {
+     12|   expect(proof.hasSelectUnificationAuthorization).toBeTypeOf("function…
+       |                                                   ^
+     13|   expect(proof.hasSelectUnificationAuthorization(phase())).toBe(true);
+     14|   for (const [key, value] of [["scope", "all-ui"], ["humanGate", "acce…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  scripts/select-unification-governance.test.ts > validates Select sources while retaining all previous phase records
+AssertionError: expected undefined to be type of 'function'
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ scripts/select-unification-governance.test.ts:24:52
+     22|
+     23| it("validates Select sources while retaining all previous phase record…
+     24|   expect(proof.getSelectUnificationSourceBindings).toBeTypeOf("functio…
+       |                                                    ^
+     25|   expect(proof.getSelectUnificationSourceBindings(process.cwd(), phase…
+     26|   const changed = phase(); changed.componentRefinements.sliderRefineme…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  scripts/select-unification-governance.test.ts > rejects additional paths, edited sources and forged before snapshots
+Error: ENOENT: no such file or directory, open 'evidence/runtime/select-unification-2026-10-13/source-bindings.json'
+ ❯ scripts/select-unification-governance.test.ts:35:52
+     33|   const put = (file: string, bytes: Buffer | string) => { mkdirSync(di…
+     34|   try {
+     35|     copySelectUnificationFixture(file => put(file, readFileSync(file))…
+       |                                                    ^
+     36|     const record = JSON.parse(readFileSync(evidence + "source-bindings…
+     37|     record.sourceFiles["unrelated.tsx"] = { before: null, after: "unre…
+ ❯ copySelectUnificationFixture scripts/select-unification-test-fixture.ts:6:151
+ ❯ scripts/select-unification-governance.test.ts:35:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  11:57:57
+   Duration  903ms (transform 94ms, setup 138ms, import 101ms, tests 8ms, environment 560ms)
+

@@ -1,0 +1,53 @@
+[WebServer] (node:17890) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:17892) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:17898) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/questionnaire-reuse.spec.ts:207:1 › shared field focus/permissions, forced colors, and actual 390px input hit area (7.3s)
+
+
+  1) [desktop] › tests/e2e/questionnaire-reuse.spec.ts:207:1 › shared field focus/permissions, forced colors, and actual 390px input hit area 
+
+    Error: expect(locator).toHaveCSS(expected) failed
+
+    Locator:  locator('[data-reuse-era="after"]').getByRole('form', { name: 'after invalid', exact: true }).getByRole('radio', { name: '选中项', exact: true }).locator('..')
+    Expected: "rgb(243, 72, 72)"
+    Received: "rgb(61, 123, 255)"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCSS" with timeout 5000ms
+      - waiting for locator('[data-reuse-era="after"]').getByRole('form', { name: 'after invalid', exact: true }).getByRole('radio', { name: '选中项', exact: true }).locator('..')
+        14 × locator resolved to <label data-invalid="" data-checked="" data-shortcut="A" data-type="radio" data-slot="choice" data-state="checked" data-density="default" data-rain-state="checked" class="rain-selection-card rain-selection-card__selection w-full rain-radio relative inline-flex min-w-rain-0 max-w-full items-start gap-rain-8 align-middle font-rain-ui cursor-pointer has-[:disabled]:cursor-not-allowed rain-questionnaire__choice">…</label>
+           - unexpected value "rgb(61, 123, 255)"
+
+
+      220 |   const invalidBorder = await invalidChoice.evaluate(node => { const probe = document.createElement("span"); node.append(probe); probe.style.color = "var(--rain-category-border-red-1)"; const expected = getComputedStyle(probe).color; probe.remove(); return expected; });
+      221 |   await expect(invalidChoice).toHaveCSS("border-color", invalidBorder);
+    > 222 |   await expect(after.getByRole("form", { name: "after invalid", exact: true }).getByRole("radio", { name: "选中项", exact: true }).locator("..")).toHaveCSS("border-color", invalidBorder);
+          |                                                                                                                                                ^
+      223 |   const report = [];
+      224 |   const select = after.getByRole("combobox", { name: "Select sibling", exact: true }), textarea = after.getByRole("textbox", { name: "Textarea sibling", exact: true });
+      225 |   for (const target of [normal, invalid, readonly, select, textarea]) {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/questionnaire-reuse.spec.ts:222:144
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/questionnaire-reuse-2026-10-16/browser/invalid-selected-red-results/questionnaire-reuse-shared-ef5cb-actual-390px-input-hit-area-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/questionnaire-reuse-2026-10-16/browser/invalid-selected-red-results/questionnaire-reuse-shared-ef5cb-actual-390px-input-hit-area-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/questionnaire-reuse-2026-10-16/browser/invalid-selected-red-results/questionnaire-reuse-shared-ef5cb-actual-390px-input-hit-area-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/questionnaire-reuse-2026-10-16/browser/invalid-selected-red-results/questionnaire-reuse-shared-ef5cb-actual-390px-input-hit-area-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [desktop] › tests/e2e/questionnaire-reuse.spec.ts:207:1 › shared field focus/permissions, forced colors, and actual 390px input hit area 

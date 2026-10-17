@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:47751) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/charts-playground.spec.ts:7:1 › [T09] catalog navigation restores focus after the lazy chart page loads (6.3s)
+
+
+  1) tests/e2e/charts-playground.spec.ts:7:1 › [T09] catalog navigation restores focus after the lazy chart page loads 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('heading', { name: '面积图', level: 1 })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByRole('heading', { name: '面积图', level: 1 })
+        9 × locator resolved to <h1 tabindex="-1" id="chart-area-title">面积图</h1>
+          - unexpected value "inactive"
+
+
+      11 |   await group.getByRole("link", { name: "面积图", exact: true }).click();
+      12 |   const heading = page.getByRole("heading", { name: "面积图", level: 1 });
+    > 13 |   await expect(heading).toBeFocused();
+         |                         ^
+      14 |   await page.getByRole("link", { name: "返回组件目录" }).click();
+      15 |   await expect(group).toBeVisible();
+      16 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/charts-playground.spec.ts:13:25
+
+    Error Context: evidence/runtime/bklit-rain-catalog/playground/test-results/charts-playground--T09-cat-7963a-r-the-lazy-chart-page-loads/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/bklit-rain-catalog/playground/test-results/charts-playground--T09-cat-7963a-r-the-lazy-chart-page-loads/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/bklit-rain-catalog/playground/test-results/charts-playground--T09-cat-7963a-r-the-lazy-chart-page-loads/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/charts-playground.spec.ts:7:1 › [T09] catalog navigation restores focus after the lazy chart page loads 

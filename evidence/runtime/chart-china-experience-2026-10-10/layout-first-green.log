@@ -1,0 +1,42 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx (17 tests | 5 failed | 12 skipped) 18ms
+   × map exploration offers a compact region picker instead of a permanently expanded button grid 12ms
+   × the fixed local reading appears immediately below the map and before optional precise data 1ms
+   × national breadcrumb is the single nearby return control 1ms
+   × load failure retains a stable map canvas and retries at its original location 1ms
+   × same-layer data updates preserve the color domain and selected region 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > map exploration offers a compact region picker instead of a permanently expanded button grid
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > the fixed local reading appears immediately below the map and before optional precise data
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > national breadcrumb is the single nearby return control
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > load failure retains a stable map canvas and retries at its original location
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > same-layer data updates preserve the color domain and selected region
+TypeError: Cannot read properties of null (reading 'data')
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.tsx:107:39
+    105|           <Popover.Title>{parentName} · 选择地区</Popover.Title>
+    106|           <ul className="rain-china-regions" aria-label="地区列表">{region…
+    107|             const feature = prepared!.data.features.find(feature => fe…
+       |                                       ^
+    108|             return <li key={region.id}><Button variant="tertiary" size…
+    109|               onClick={event => { keyboardNavigation.current = event.d…
+ ❯ ChinaRegionExamples apps/playground/src/docs/components/chart-business/china-region-examples.tsx:106:73
+ ❯ Object.react_stack_bottom_frame node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:25904:20
+ ❯ renderWithHooks node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:7662:22
+ ❯ updateFunctionComponent node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:10166:19
+ ❯ beginWork node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:11778:18
+ ❯ runWithFiberInDEV node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:874:13
+ ❯ performUnitOfWork node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22
+ ❯ workLoopSync node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 12 skipped (17)
+   Start at  10:59:19
+   Duration  2.71s (transform 1.26s, setup 101ms, import 2.03s, tests 18ms, environment 375ms)
+

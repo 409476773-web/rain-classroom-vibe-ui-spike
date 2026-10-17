@@ -1,0 +1,128 @@
+[WebServer] (node:25907) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:25909) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:25915) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:25917) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:25923) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 11:56:35 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ✘  1 [chromium] › tests/e2e/chart-matrix-sticky-layout.spec.ts:16:1 › row headings fit short and long labels while data columns stay equal (1.7s)
+(node:25928) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 11:56:37 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ✘  2 [chromium] › tests/e2e/chart-matrix-sticky-layout.spec.ts:36:1 › hovered sticky row remains opaque while the matrix scrolls underneath (2.2s)
+(node:25933) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 11:56:39 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ✘  3 [chromium] › tests/e2e/chart-matrix-sticky-layout.spec.ts:54:1 › quantity legend uses compact small medium large hints with unchanged values and colors (1.1s)
+
+
+  1) [chromium] › tests/e2e/chart-matrix-sticky-layout.spec.ts:16:1 › row headings fit short and long labels while data columns stay equal 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 72
+    Received:   144
+
+      20 |   const course=await matrix(page,"course-similarity").locator("tbody th").first().evaluate(node=>node.getBoundingClientRect().width);
+      21 |   await record("heading-baseline",{short,course});
+    > 22 |   expect(short).toBeLessThan(72);
+         |                 ^
+      23 |   expect(course).toBeGreaterThan(short+30);
+      24 |   await page.getByRole("combobox",{name:"示例状态",exact:true}).selectOption("long");
+      25 |   const long=await chart.locator("tbody th").first().evaluate(node=>node.getBoundingClientRect().width);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-matrix-sticky-layout.spec.ts:22:17
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-matrix-sticky-layout-2026-10-09/baseline-test-results/chart-matrix-sticky-layout-7abe3-ile-data-columns-stay-equal-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-matrix-sticky-layout-2026-10-09/baseline-test-results/chart-matrix-sticky-layout-7abe3-ile-data-columns-stay-equal-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-matrix-sticky-layout-2026-10-09/baseline-test-results/chart-matrix-sticky-layout-7abe3-ile-data-columns-stay-equal-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-matrix-sticky-layout-2026-10-09/baseline-test-results/chart-matrix-sticky-layout-7abe3-ile-data-columns-stay-equal-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/e2e/chart-matrix-sticky-layout.spec.ts:36:1 › hovered sticky row remains opaque while the matrix scrolls underneath 
+
+    Error: expect(received).toMatch(expected)
+
+    Expected pattern: /^rgb\(/
+    Received string:  "color(srgb 0.313726 0.454902 1 / 0.06)"
+
+      47 |   await record("sticky-hover-scroll",facts);
+      48 |   await chart.screenshot({path:`${evidence}/sticky-hover-scroll.png`});
+    > 49 |   expect(facts.background).toMatch(/^rgb\(/);
+         |                            ^
+      50 |   expect(facts.tint).toContain("linear-gradient");
+      51 |   expect(facts.hit).toBe(true);
+      52 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-matrix-sticky-layout.spec.ts:49:28
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-matrix-sticky-layout-2026-10-09/baseline-test-results/chart-matrix-sticky-layout-e1a30-e-matrix-scrolls-underneath-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-matrix-sticky-layout-2026-10-09/baseline-test-results/chart-matrix-sticky-layout-e1a30-e-matrix-scrolls-underneath-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-matrix-sticky-layout-2026-10-09/baseline-test-results/chart-matrix-sticky-layout-e1a30-e-matrix-scrolls-underneath-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-matrix-sticky-layout-2026-10-09/baseline-test-results/chart-matrix-sticky-layout-e1a30-e-matrix-scrolls-underneath-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › tests/e2e/chart-matrix-sticky-layout.spec.ts:54:1 › quantity legend uses compact small medium large hints with unchanged values and colors 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 3
+    + Received  + 3
+
+      Array [
+    -   8,
+    -   12,
+    -   16,
+    +   18,
+    +   25.455810546875,
+    +   36,
+      ]
+
+      59 |   await record("legend-hints",symbols);
+      60 |   expect(symbols.map(symbol=>symbol.value)).toEqual(["25","50","100"]);
+    > 61 |   expect(symbols.map(symbol=>symbol.diameter)).toEqual([8,12,16]);
+         |                                                ^
+      62 |   expect(symbols.every(symbol=>symbol.height<=24)).toBe(true);
+      63 |   await chart.screenshot({path:`${evidence}/compact-legend.png`});
+      64 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-matrix-sticky-layout.spec.ts:61:48
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/chart-matrix-sticky-layout-2026-10-09/baseline-test-results/chart-matrix-sticky-layout-2b8bf-unchanged-values-and-colors-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/chart-matrix-sticky-layout-2026-10-09/baseline-test-results/chart-matrix-sticky-layout-2b8bf-unchanged-values-and-colors-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-matrix-sticky-layout-2026-10-09/baseline-test-results/chart-matrix-sticky-layout-2b8bf-unchanged-values-and-colors-chromium/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-matrix-sticky-layout-2026-10-09/baseline-test-results/chart-matrix-sticky-layout-2b8bf-unchanged-values-and-colors-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [chromium] › tests/e2e/chart-matrix-sticky-layout.spec.ts:16:1 › row headings fit short and long labels while data columns stay equal 
+    [chromium] › tests/e2e/chart-matrix-sticky-layout.spec.ts:36:1 › hovered sticky row remains opaque while the matrix scrolls underneath 
+    [chromium] › tests/e2e/chart-matrix-sticky-layout.spec.ts:54:1 › quantity legend uses compact small medium large hints with unchanged values and colors 

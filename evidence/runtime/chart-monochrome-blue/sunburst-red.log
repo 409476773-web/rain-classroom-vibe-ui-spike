@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+(node:26817) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/charts-playground.spec.ts:103:1 › blue-gray monochrome is available in 15 native catalog entries with ordered intensity, readable sunburst labels and narrow previews (1.9s)
+
+
+  1) tests/e2e/charts-playground.spec.ts:103:1 › blue-gray monochrome is available in 15 native catalog entries with ordered intensity, readable sunburst labels and narrow previews 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      120 |       const labels = host.locator('svg text[style*="font-weight: 600"]');
+      121 |       await expect(labels.first()).toBeVisible();
+    > 122 |       expect(await labels.evaluateAll(nodes => nodes.every(node => getComputedStyle(node).fill === "rgb(20, 35, 70)"))).toBe(true);
+          |                                                                                                                         ^
+      123 |     }
+      124 |     if (["area", "bar", "funnel"].includes(entry.id)) {
+      125 |       await page.getByRole("button", { name: "对照实例", exact: true }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/charts-playground.spec.ts:122:121
+
+    Error Context: evidence/runtime/chart-monochrome-blue/sunburst-red/charts-playground-blue-gra-93170--labels-and-narrow-previews/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-monochrome-blue/sunburst-red/charts-playground-blue-gra-93170--labels-and-narrow-previews/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-monochrome-blue/sunburst-red/charts-playground-blue-gra-93170--labels-and-narrow-previews/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/charts-playground.spec.ts:103:1 › blue-gray monochrome is available in 15 native catalog entries with ordered intensity, readable sunburst labels and narrow previews 

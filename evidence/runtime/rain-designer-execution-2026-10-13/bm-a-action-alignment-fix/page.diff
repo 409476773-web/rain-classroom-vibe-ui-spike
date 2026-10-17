@@ -1,0 +1,15 @@
+--- bm-a/page.tsx before
++++ bm-a/page.tsx after
+@@ -1,4 +1,5 @@
+ import { DataTableRecipe } from "../../data-table-recipe";
++import "./page.css";
+ 
+ /** BM-A reuses the accepted view and host state; the full dataset is local and fictional. */
+ export function MaterialManagementScenario() {
+--- new local stylesheet
++++ bm-a/page.css
+@@ -0,0 +1,4 @@
++/* Match the text button's label inset while preserving its hit area and focus. */
++[data-scenario="bm-a"] .data-table-grid [data-slot="head"]:last-child {
++  padding-inline-start: calc(var(--rain-space-16) + var(--rain-button-text-padding-inline));
++}

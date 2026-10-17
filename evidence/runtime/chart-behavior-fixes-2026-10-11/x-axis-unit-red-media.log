@@ -1,0 +1,51 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx (11 tests | 2 failed) 148ms
+   × system reduced motion makes data-position changes immediate even without a caller override 6ms
+   × changing the system motion preference updates the mounted axis without a caller rerender 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > system reduced motion makes data-position changes immediate even without a caller override
+AssertionError: expected 'left 500ms cubic-bezier(0.85, 0, 0.15…' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ left 500ms cubic-bezier(0.85, 0, 0.15, 1)
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:124:46
+    122|   chart.update({ data: extendedRows });
+    123|   expect(chart.dateLabel().style.left).toBe("170px");
+    124|   expect(chart.dateLabel().style.transition).toBe("");
+       |                                              ^
+    125| });
+    126|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/ui/src/charts/chart-x-axis-resize.test.tsx > changing the system motion preference updates the mounted axis without a caller rerender
+AssertionError: expected 'left 500ms cubic-bezier(0.85, 0, 0.15…' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ left 500ms cubic-bezier(0.85, 0, 0.15, 1)
+
+ ❯ packages/ui/src/charts/chart-x-axis-resize.test.tsx:171:33
+    169|   });
+    170|   expect(chart.dateLabel()).toBe(tick);
+    171|   expect(tick.style.transition).toBe("");
+       |                                 ^
+    172|   act(() => {
+    173|     preference.reduced = false;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 9 passed (11)
+   Start at  12:13:30
+   Duration  988ms (transform 143ms, setup 94ms, import 290ms, tests 148ms, environment 370ms)
+

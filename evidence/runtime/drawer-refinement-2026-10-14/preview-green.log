@@ -1,0 +1,53 @@
+
+Running 2 tests using 1 worker
+
+(node:47992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [narrow] › tests/e2e/drawer-refinement.spec.ts:21:1 › aligned surface, fixed actions and single-layer preview preserve the draft (6.8s)
+(node:48380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [narrow] › tests/e2e/drawer-refinement.spec.ts:46:1 › long titles and short-preview body cannot scroll the fixed heading away (2.1s)
+
+
+  1) [narrow] › tests/e2e/drawer-refinement.spec.ts:21:1 › aligned surface, fixed actions and single-layer preview preserve the draft 
+
+    Error: expect(locator).toHaveCSS(expected) failed
+
+    Locator:  locator('[data-slot="drawer-overlay"]')
+    Expected: "1"
+    Received: "0.5"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCSS" with timeout 5000ms
+      - waiting for locator('[data-slot="drawer-overlay"]')
+        14 × locator resolved to <div dir="ltr" data-open="" aria-hidden="true" role="presentation" data-snap-points="" data-base-ui-inert="" data-density="default" data-rain-theme="light" data-rain-id="ui-drawer" data-slot="drawer-overlay" class="rain-drawer__overlay"></div>
+           - unexpected value "0.5"
+
+
+      34 |   await expect(page.getByRole("dialog")).toHaveCount(1);
+      35 |   await expect(page.getByRole("dialog")).toHaveAccessibleName("同层预览的课堂任务");
+    > 36 |   await expect(page.locator('[data-slot="drawer-overlay"]')).toHaveCSS("opacity", "1");
+         |                                                              ^
+      37 |   await expect(page.getByRole("dialog").getByText("课前准备 · 小组讨论", { exact: true })).toBeVisible();
+      38 |   await page.screenshot({ path: `${evidence}/preview-${info.project.name}.png` });
+      39 |   await page.getByRole("button", { name: "返回编辑", exact: true }).click();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/drawer-refinement.spec.ts:36:62
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-aligned--0392d--preview-preserve-the-draft-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [narrow] › tests/e2e/drawer-refinement.spec.ts:21:1 › aligned surface, fixed actions and single-layer preview preserve the draft 
+  1 passed (9.7s)

@@ -1,0 +1,20 @@
+--- before/apps/playground/src/docs/components/g5-component-pages.tsx
++++ candidate/apps/playground/src/docs/components/g5-component-pages.tsx
+@@ -41,7 +41,7 @@
+     code: `import { FormItem, Input } from "@rain-next/ui";\nimport { Grid } from "@rain-next/layouts";\nexport function Example() {\n  return <Grid columns={2} minColumnWidth={240} gap={16}>\n    <FormItem label="作业名称" required><Input size={36} defaultValue="第五讲案例分析" /></FormItem>\n    <FormItem label="说明" help="学生可见。"><Input size={36} placeholder="补充填写要求" /></FormItem>\n  </Grid>;\n}`,
+   },
+   "input-group": {
+-    title: "Input Group 输入组合", description: "行内信息继续使用 Input 插槽；多行输入让正文、字数与操作共享同一个外框。",
++    title: "Input Group 输入组合", description: "行内信息继续使用 Input 插槽；多行输入让正文、字数与操作共享同一个外框。复用 Input 与 Textarea，无独立 InputGroup 公共导出。",
+     source: "packages/ui/src/textarea/textarea.tsx", useWhen: ["评语、作业说明等长输入需要就近操作。", "输入内容与顶部提示、底部计数需要形成一组。"],
+     avoidWhen: ["用新组合重做 SearchInput 或 InputNumber。", "在同一个字段身份下拼多个独立输入。"],
+     props: [{ name: "blockStart / blockEnd", type: "ReactNode", description: "Textarea 顶部和底部的附加内容，保留单一外框。" }, { name: "blockStartChangesValue / blockEndChangesValue", type: "boolean", default: "true", description: "设为 false 的查看、复制动作可在只读字段中使用；禁用时全部阻止。" }],
+@@ -245,7 +245,7 @@
+ 
+ export function G5ComponentPage({ component }: { component: G5ComponentId }) {
+   const definition = definitions[component], Example = examples[component];
+-  return <ComponentDoc id={component} {...definition} category="G5 · 表单与日期" status={component === "label" || component === "field" ? "复用现有字段能力 · 当前用法待审阅" : "共享候选 · 视觉与体验待审阅"}>
++  return <ComponentDoc id={component} {...definition} category="G5 · 表单与日期" status={component === "label" || component === "field" ? "复用现有字段能力 · 当前用法待审阅" : component === "input-group" ? "现有控件本地组合 · 当前用法待审阅" : "共享候选 · 视觉与体验待审阅"}>
+     <Example />
+     <details className="g5-source-note"><summary>来源、复用关系与当前边界</summary><p>字段、输入、按钮、菜单和浮层使用现有 Rain 部件。新增部分适配固定版本的 shadcn Base UI 源码与 Nova 样式；日历交互与月份切换使用 DayPicker 9.13.2。自动检查、人工视觉接受和发布分别记录。</p><p>调用示例使用公开入口；完整接入关系见 docs/ai/g5-components.md 与 registry/g5-assets.json。</p></details>
+   </ComponentDoc>;

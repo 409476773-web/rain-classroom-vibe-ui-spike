@@ -1,0 +1,280 @@
+
+Running 10 tests using 1 worker
+
+(node:55183) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/e2e/chart-business-map-scope.spec.ts:5:1 › all 27 available provinces keep the range selector consistent with their actual map layer (2.4s)
+(node:55195) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 tests/e2e/chart-business-map.spec.ts:59:3 › no-preference: compact tools, stable scale/readings, keyboard drill and saved national view (5.6s)
+  ✘   3 tests/e2e/chart-business-map.spec.ts:120:3 › no-preference: 390px long names, direct counties, zero/missing, rejection and retry keep canvas stable (7.2s)
+(node:55255) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 tests/e2e/chart-business-map.spec.ts:59:3 › reduce: compact tools, stable scale/readings, keyboard drill and saved national view (4.7s)
+  ✘   5 tests/e2e/chart-business-map.spec.ts:120:3 › reduce: 390px long names, direct counties, zero/missing, rejection and retry keep canvas stable (6.0s)
+(node:55296) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 tests/e2e/chart-business-map.spec.ts:169:1 › ordinary wheel scrolls the page; drag and pinch do not activate; rapid click and tap do (3.9s)
+(node:55319) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 tests/e2e/chart-business-map.spec.ts:218:1 › failed drill retains national map, retry enters requested layer, late request respects latest intent (2.5s)
+(node:55329) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 tests/e2e/chart-business-map.spec.ts:242:1 › motion has intermediate drill and zoom frames; reduced motion reaches final state directly (2.7m)
+(node:55379) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 tests/e2e/chart-business-map.spec.ts:268:1 › all five original world-map variants retain 177 real regions and native zoom/reset (3.7s)
+  ✘  10 tests/e2e/chart-business-map.spec.ts:299:1 › unified region selector searches, switches provinces, restores focus and retains detail on Escape (4.1s)
+
+
+  1) tests/e2e/chart-business-map-scope.spec.ts:5:1 › all 27 available provinces keep the range selector consistent with their actual map layer 
+
+    Error: locator.press: Error: strict mode violation: getByRole('option', { name: '山东省', exact: true }) resolved to 2 elements:
+        1) <option value="370000">山东省</option> aka getByLabel('地图查看范围')
+        2) <div role="option" aria-label="山东省" data-focus="item" data-slot="option" id="base-ui-_r_2_-15" aria-selected="false" data-selected="false" class="rain-menu-item relative flex w-full min-w-rain-0 items-center gap-rain-10 rounded-rain-6 border-none px-rain-12 py-rain-6 text-left font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular no-underline cursor-pointer select-none outline-none">…</div> aka getByLabel('山东省')
+
+    Call log:
+      - waiting for getByRole('option', { name: '山东省', exact: true })
+
+
+      12 |   await page.getByRole("combobox", { name: "地图地区", exact: true }).click();
+      13 |   const scope = page.getByRole("combobox", { name: "地图查看范围" });
+    > 14 |   await page.getByRole("option", { name: "山东省", exact: true }).press("Enter");
+         |                                                                ^
+      15 |   await expect(scope).toHaveValue("370000");
+      16 |   await expect(scope.locator("option")).toHaveCount(28);
+      17 |   for (const province of provinces) {
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map-scope.spec.ts:14:64
+
+    Error Context: evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-scope-a-f82cb-with-their-actual-map-layer/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-scope-a-f82cb-with-their-actual-map-layer/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-scope-a-f82cb-with-their-actual-map-layer/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/chart-business-map.spec.ts:120:3 › no-preference: 390px long names, direct counties, zero/missing, rejection and retry keep canvas stable 
+
+    Error: locator.click: Error: strict mode violation: getByRole('option', { name: '全国', exact: true }) resolved to 2 elements:
+        1) <option value="national">全国</option> aka getByLabel('地图查看范围')
+        2) <div role="option" aria-label="全国" data-focus="item" data-slot="option" id="base-ui-_r_2_-0" aria-selected="false" data-selected="false" class="rain-menu-item relative flex w-full min-w-rain-0 items-center gap-rain-10 rounded-rain-6 border-none px-rain-12 py-rain-6 text-left font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular no-underline cursor-pointer select-none outline-none">…</div> aka getByLabel('全国')
+
+    Call log:
+      - waiting for getByRole('option', { name: '全国', exact: true })
+
+
+      26 |     const search = page.getByRole("combobox", { name: "搜索选项" });
+      27 |     await search.fill(name); await search.press("Enter");
+    > 28 |   } else await option.click();
+         |                       ^
+      29 | }
+      30 | async function expectTooltip(container: Locator, title: string, value?: string) {
+      31 |   const tooltip = container.locator(".rain-chart-tooltip");
+        at choose (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:28:23)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:158:5
+
+    Error Context: evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-no-pref-6be97-nd-retry-keep-canvas-stable/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-no-pref-6be97-nd-retry-keep-canvas-stable/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-no-pref-6be97-nd-retry-keep-canvas-stable/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/chart-business-map.spec.ts:120:3 › reduce: 390px long names, direct counties, zero/missing, rejection and retry keep canvas stable 
+
+    Error: locator.click: Error: strict mode violation: getByRole('option', { name: '全国', exact: true }) resolved to 2 elements:
+        1) <option value="national">全国</option> aka getByLabel('地图查看范围')
+        2) <div role="option" aria-label="全国" data-focus="item" data-slot="option" id="base-ui-_r_2_-0" aria-selected="false" data-selected="false" class="rain-menu-item relative flex w-full min-w-rain-0 items-center gap-rain-10 rounded-rain-6 border-none px-rain-12 py-rain-6 text-left font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular no-underline cursor-pointer select-none outline-none">…</div> aka getByLabel('全国')
+
+    Call log:
+      - waiting for getByRole('option', { name: '全国', exact: true })
+
+
+      26 |     const search = page.getByRole("combobox", { name: "搜索选项" });
+      27 |     await search.fill(name); await search.press("Enter");
+    > 28 |   } else await option.click();
+         |                       ^
+      29 | }
+      30 | async function expectTooltip(container: Locator, title: string, value?: string) {
+      31 |   const tooltip = container.locator(".rain-chart-tooltip");
+        at choose (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:28:23)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:158:5
+
+    Error Context: evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-reduce--b8fd3-nd-retry-keep-canvas-stable/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-reduce--b8fd3-nd-retry-keep-canvas-stable/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-reduce--b8fd3-nd-retry-keep-canvas-stable/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/chart-business-map.spec.ts:169:1 › ordinary wheel scrolls the page; drag and pinch do not activate; rapid click and tap do 
+
+    Error: locator.click: Error: strict mode violation: getByRole('option', { name: '全国', exact: true }) resolved to 2 elements:
+        1) <option value="national">全国</option> aka getByLabel('地图查看范围').getByRole('option', { name: '全国' })
+        2) <div role="option" aria-label="全国" data-focus="item" data-slot="option" id="base-ui-_r_2_-0" aria-selected="false" data-selected="false" class="rain-menu-item relative flex w-full min-w-rain-0 items-center gap-rain-10 rounded-rain-6 border-none px-rain-12 py-rain-6 text-left font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular no-underline cursor-pointer select-none outline-none">…</div> aka getByLabel('全国')
+
+    Call log:
+      - waiting for getByRole('option', { name: '全国', exact: true })
+
+
+      26 |     const search = page.getByRole("combobox", { name: "搜索选项" });
+      27 |     await search.fill(name); await search.press("Enter");
+    > 28 |   } else await option.click();
+         |                       ^
+      29 | }
+      30 | async function expectTooltip(container: Locator, title: string, value?: string) {
+      31 |   const tooltip = container.locator(".rain-chart-tooltip");
+        at choose (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:28:23)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:193:3
+
+    Error Context: evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-ordinar-0de9c-vate-rapid-click-and-tap-do/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-ordinar-0de9c-vate-rapid-click-and-tap-do/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-ordinar-0de9c-vate-rapid-click-and-tap-do/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/e2e/chart-business-map.spec.ts:218:1 › failed drill retains national map, retry enters requested layer, late request respects latest intent 
+
+    Error: locator.click: Error: strict mode violation: getByRole('option', { name: '广东省', exact: true }) resolved to 2 elements:
+        1) <option value="440000">广东省</option> aka getByLabel('地图查看范围').getByRole('option', { name: '广东省' })
+        2) <div role="option" aria-label="广东省" data-focus="item" data-slot="option" id="base-ui-_r_2_-19" aria-selected="false" data-selected="false" class="rain-menu-item relative flex w-full min-w-rain-0 items-center gap-rain-10 rounded-rain-6 border-none px-rain-12 py-rain-6 text-left font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular no-underline cursor-pointer select-none outline-none">…</div> aka getByLabel('广东省')
+
+    Call log:
+      - waiting for getByRole('option', { name: '广东省', exact: true })
+
+
+      26 |     const search = page.getByRole("combobox", { name: "搜索选项" });
+      27 |     await search.fill(name); await search.press("Enter");
+    > 28 |   } else await option.click();
+         |                       ^
+      29 | }
+      30 | async function expectTooltip(container: Locator, title: string, value?: string) {
+      31 |   const tooltip = container.locator(".rain-chart-tooltip");
+        at choose (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:28:23)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:225:3
+
+    Error Context: evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-failed--39e34-uest-respects-latest-intent/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-failed--39e34-uest-respects-latest-intent/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-failed--39e34-uest-respects-latest-intent/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) tests/e2e/chart-business-map.spec.ts:242:1 › motion has intermediate drill and zoom frames; reduced motion reaches final state directly 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByRole('option', { name: '全国', exact: true })
+        - locator resolved to <option value="national">全国</option>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+          - waiting 100ms
+        16 × waiting for element to be visible, enabled and stable
+           - element is not visible
+         - retrying click action
+           - waiting 500ms
+      - element was detached from the DOM, retrying
+        - locator resolved to <option value="national">全国</option>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is not visible
+        - retrying click action
+          - waiting 100ms
+        10 × waiting for element to be visible, enabled and stable
+           - element is not visible
+         - retrying click action
+           - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+
+
+      26 |     const search = page.getByRole("combobox", { name: "搜索选项" });
+      27 |     await search.fill(name); await search.press("Enter");
+    > 28 |   } else await option.click();
+         |                       ^
+      29 | }
+      30 | async function expectTooltip(container: Locator, title: string, value?: string) {
+      31 |   const tooltip = container.locator(".rain-chart-tooltip");
+        at choose (/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:28:23)
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:262:3
+
+    Error Context: evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-motion--cd8d1-eaches-final-state-directly/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-motion--cd8d1-eaches-final-state-directly/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-motion--cd8d1-eaches-final-state-directly/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) tests/e2e/chart-business-map.spec.ts:299:1 › unified region selector searches, switches provinces, restores focus and retains detail on Escape 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('option', { name: '全国', exact: true })
+    Expected: "true"
+    Error: strict mode violation: getByRole('option', { name: '全国', exact: true }) resolved to 2 elements:
+        1) <option value="national">全国</option> aka getByLabel('地图查看范围').getByRole('option', { name: '全国' })
+        2) <div role="option" aria-label="全国" data-focus="item" data-slot="option" data-highlighted="" data-selected="true" id="base-ui-_r_2_-0" aria-selected="true" class="rain-menu-item relative flex w-full min-w-rain-0 items-center gap-rain-10 rounded-rain-6 border-none px-rain-12 py-rain-6 text-left font-rain-ui text-rain-size-15 leading-rain-22 tracking-rain-default font-rain-regular no-underline cursor-pointer select-none outline-none">…</div> aka getByLabel('全国')
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for getByRole('option', { name: '全国', exact: true })
+
+
+      305 |   await expect(layer(page).getByRole("button", { name: "选择地区" })).toHaveCount(0);
+      306 |   await page.locator('.rain-china-region-select [data-slot="arrow"]').click();
+    > 307 |   await expect(page.getByRole("option", { name: "全国", exact: true })).toHaveAttribute("data-selected", "true");
+          |                                                                       ^
+      308 |   const popup = page.locator(".rain-china-picker");
+      309 |   await expect(popup).toHaveCSS("width", "320px");
+      310 |   const search = page.getByRole("combobox", { name: "搜索选项" });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:307:71
+
+    Error Context: evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-unified-cd228-nd-retains-detail-on-Escape/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-unified-cd228-nd-retains-detail-on-Escape/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-china-selector-feedback-2026-10-10/browser-results/chart-business-map-unified-cd228-nd-retains-detail-on-Escape/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7 failed
+    tests/e2e/chart-business-map-scope.spec.ts:5:1 › all 27 available provinces keep the range selector consistent with their actual map layer 
+    tests/e2e/chart-business-map.spec.ts:120:3 › no-preference: 390px long names, direct counties, zero/missing, rejection and retry keep canvas stable 
+    tests/e2e/chart-business-map.spec.ts:120:3 › reduce: 390px long names, direct counties, zero/missing, rejection and retry keep canvas stable 
+    tests/e2e/chart-business-map.spec.ts:169:1 › ordinary wheel scrolls the page; drag and pinch do not activate; rapid click and tap do 
+    tests/e2e/chart-business-map.spec.ts:218:1 › failed drill retains national map, retry enters requested layer, late request respects latest intent 
+    tests/e2e/chart-business-map.spec.ts:242:1 › motion has intermediate drill and zoom frames; reduced motion reaches final state directly 
+    tests/e2e/chart-business-map.spec.ts:299:1 › unified region selector searches, switches provinces, restores focus and retains detail on Escape 
+  3 passed (3.5m)

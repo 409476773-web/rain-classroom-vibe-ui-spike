@@ -1,0 +1,111 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-avatar-group"
+name: "AvatarGroup"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+migrationLabel: "rewrite-from-rain"
+sourcePath: "packages/ui/src/avatar/avatar-group.tsx"
+styleSourcePath: "packages/ui/src/avatar/avatar.css"
+sourceVersion: "local-2026-09-16"
+publication: "unpublished"
+description: "横向交叠成员头像，More 独立查看剩余成员。"
+useWhen:
+  - "Compact course membership with remaining-member disclosure"
+doNotUseWhen:
+  - "Per-member actions or presence/device/activity decorations"
+anatomy:
+  - "root"
+  - "strip"
+  - "more"
+  - "members"
+parts:
+  - "root"
+  - "strip"
+  - "more"
+  - "members"
+props:
+  - "members: readonly {id,name,src?}[]"
+  - "label: accessible strip/action name"
+  - "size: 24 | 32 | 40; default 32"
+  - "max: integer >=2; default 9; includes More"
+  - "render: optional native whole-strip action; native props and ref target this strip"
+  - "renderMember: optional rich remaining member content; host supplies explicit actions"
+  - "className: outer layout only"
+slots: []
+variants:
+  - "24"
+  - "32"
+  - "40"
+states:
+  - "empty"
+  - "all-visible"
+  - "overflow"
+  - "more-open"
+  - "focus-visible"
+density: "Image and status geometry is explicit and independent of control density; containing controls inherit host density."
+dependencies:
+  - "IconButton"
+  - "Avatar"
+  - "Popover"
+tokens:
+  - "Rain Category colors"
+  - "Space/2,4,6,8,10,12,14,16,20,24,32,40; Line/Thickness/1"
+  - "Radius/4,6,full"
+  - "Current shared Focus"
+layoutConstraints:
+  - "More counts within max; its action is a sibling of the optional strip action."
+compositionRules:
+  - "Classic front-to-back order: first member above later members; More below the strip."
+  - "More uses the 1px separator and 14px icon at size 24, otherwise 16px; its Popover closes with a top-right IconButton."
+  - "Native display has no Tab stop; actions use native button/link and shared focus."
+  - "Host owns members, status, actions and persistent image assignment; no network state engine."
+  - "人物图片＋雨课堂默认图 only. Group empty text is group-level empty state, not a text avatar."
+  - "Use public variants before a documented local recipe; className is for host layout."
+allowedModifications:
+  - "Declared content, variants, native action composition and host layout."
+restrictedModifications:
+  - "No initials/text/icon avatars, status controls, new global Tokens or copied overlay engines."
+accessibility:
+  - "Meaningful labels; empty alt avoids repeated identity announcements."
+  - "Native keyboard behavior; More uses existing Popover Escape and focus restoration."
+  - "Reduced motion is static; forced colors retain meaningful boundaries."
+  - "Current Avatar runtime visual Human Gate accepted on 2026-09-16; contrast and accessibility acceptance remain not granted."
+examples:
+  - "#avatar"
+recipes:
+  - "Member list row; course summary; classroom member status"
+antiPatterns:
+  - "Treating offline as disabled"
+  - "Assigning portraits after filtering"
+  - "Nesting More inside a whole-group button"
+relatedComponents:
+  - "Avatar"
+  - "Popover"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "evidence/runtime/avatar/source-assets.json"
+    - "docs/plans/2026-09-16-avatar-family-design-and-construction.md"
+  externalReferences:
+    - "https://base-ui.com/react/components/avatar"
+    - "https://ant.design/components/avatar/"
+    - "https://mui.com/material-ui/react-avatar/"
+  retainedTraits:
+    - "Rain people assets, fallback, group count rules, grid arrangements and passive states"
+  redesignedTraits:
+    - "React native image lifecycle; current Rain Token/focus; existing Popover; explicit native composition"
+  intentionallyNotInherited:
+    - "Vue code/SCSS and old focus prohibition"
+    - "Initials, generic icon avatars and account image workflows"
+figmaMapping: "not-established; legacy image lineage retained separately"
+migrationNotes: "Current legacy PNGs copied byte-for-byte; historical Figma export hashes differ and are not claimed as current verification."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  humanGateScope: "avatar-current-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/avatar/refinement-2026-09-16.md"

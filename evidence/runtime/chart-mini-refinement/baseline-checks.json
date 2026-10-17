@@ -1,0 +1,66 @@
+{
+  "sample": "T00 immutable source snapshot",
+  "observedAt": "2026-10-08T16:48:39.376344+00:00",
+  "unit": {
+    "command": "pnpm exec vitest run apps/playground/src/docs/components/chart-business/mini-data.test.ts apps/playground/src/docs/components/chart-business/mini-examples.test.tsx packages/ui/src/charts/data-bar.test.tsx packages/ui/src/charts/ring-compact.test.tsx scripts/verify-chart-business-consumption.test.ts",
+    "exitCode": 0,
+    "filesPassed": 5,
+    "testsPassed": 33,
+    "log": "baseline-unit.log",
+    "logStartLocal": "2026-10-09 00:47:39 Asia/Shanghai"
+  },
+  "playgroundTypecheck": {
+    "command": "pnpm --filter @rain-next/playground typecheck",
+    "exitCode": 0,
+    "log": "baseline-playground-typecheck.log"
+  },
+  "prototypeTypecheck": {
+    "command": "pnpm --filter @rain-next/prototype typecheck",
+    "exitCode": 0,
+    "log": "baseline-prototype-typecheck.log"
+  },
+  "chartsContract": {
+    "command": "pnpm exec vitest run scripts/charts.test.ts",
+    "exitCode": 1,
+    "testsPassed": 4,
+    "testsFailed": 1,
+    "log": "baseline-charts-contract.log",
+    "logStartLocal": "2026-10-09 00:47:39 Asia/Shanghai",
+    "failure": "scripts/charts.test.ts:19 expects registry.items length 17, receives 18; line20 independently retains old CHART_ENTRIES count17 and was not reached"
+  },
+  "mapping": {
+    "officialReferences": 170,
+    "uniqueOfficialIds": 170,
+    "officialFamilyCounts": {
+      "area": 19,
+      "bar": 21,
+      "line": 19,
+      "live-line": 9,
+      "pie": 9,
+      "radar": 6,
+      "ring": 6,
+      "scatter": 10,
+      "candlestick": 11,
+      "choropleth": 5,
+      "composed": 14,
+      "funnel": 9,
+      "gauge": 13,
+      "heatmap": 11,
+      "sankey": 5,
+      "sunburst": 3
+    },
+    "officialRainEntryCount": 17,
+    "currentCatalogCount": 18,
+    "currentRegistryCount": 18,
+    "additionalCurrentEntry": "matrix",
+    "matrixOrigin": "rain",
+    "officialReferenceContainsMatrix": false,
+    "allOriginalOfficialMappingsRemain": true
+  },
+  "notRun": [
+    "chart-mini-size.test.tsx: absent at T00; planned creation in T06",
+    "full repository unit/browser/build/token checks: outside assigned baseline scope",
+    "T00 browser screenshots and performance: not measured by this agent"
+  ],
+  "sourceBoundary": "All four commands executed against the pre-edit temporary source snapshot. Cached dependencies were reused by symlink; @rain-next workspace symlinks point to snapshot packages, not live sources."
+}

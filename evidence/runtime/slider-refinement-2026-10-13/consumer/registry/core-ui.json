@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "kind": "RainLocalSourceRegistry",
+  "publication": "not-published",
+  "scope": "current-workspace",
+  "statusSource": "Each item's Manifest; this source ledger does not promote local experiments or grant acceptance.",
+  "shared": {
+    "files": [
+      "packages/ui/src/recipes/local-recipe.ts",
+      "packages/ui/src/utils/rain-class-names.ts",
+      "packages/ui/src/styles.css",
+      "packages/ui/src/icons/assets/button-loading.png"
+    ],
+    "peerDependencies": ["react", "@rain-next/foundations", "class-variance-authority", "tailwind-merge"],
+    "styleDependencies": [
+      "@rain-next/foundations/tokens.css",
+      "@rain-next/foundations/typography.css",
+      "@rain-next/foundations/motion.css",
+      "@rain-next/foundations/focus.css",
+      "@rain-next/foundations/tailwind-theme.css",
+      "@rain-next/ui/styles.css"
+    ]
+  },
+  "items": [
+    {
+      "name": "button",
+      "exportName": "Button",
+      "importPath": "@rain-next/ui",
+      "manifest": "manifests/ui/button.yaml",
+      "files": ["packages/ui/src/button/button.tsx", "packages/ui/src/button/button.styles.ts"]
+    },
+    {
+      "name": "input",
+      "exportName": "Input",
+      "importPath": "@rain-next/ui",
+      "manifest": "manifests/ui/input.yaml",
+      "registryDependencies": ["registry/core-ui.json#button", "registry/core-ui.json#form-item", "registry/icon-button.json#icon-button", "registry/icons.json#circle-close-filled"],
+      "files": ["packages/ui/src/input/input.tsx", "packages/ui/src/input/input.styles.ts", "packages/ui/src/input/input.utils.ts", "packages/ui/src/field/field.styles.ts"]
+    },
+    {
+      "name": "search-input",
+      "exportName": "SearchInput",
+      "importPath": "@rain-next/ui",
+      "manifest": "manifests/ui/search-input.yaml",
+      "registryDependencies": ["registry/core-ui.json#input", "registry/core-ui.json#form-item", "registry/core-ui.json#button", "registry/icons.json#search"],
+      "files": ["packages/ui/src/input/search-input.tsx"]
+    },
+    {
+      "name": "form-item",
+      "exportName": "FormItem",
+      "importPath": "@rain-next/ui",
+      "manifest": "manifests/ui/form-item.yaml",
+      "typeDependencies": ["registry/core-ui.json#input"],
+      "files": ["packages/ui/src/input/form-item.tsx"]
+    },
+    {
+      "name": "badge",
+      "exportName": "Badge",
+      "importPath": "@rain-next/ui",
+      "manifest": "manifests/ui/badge.yaml",
+      "files": ["packages/ui/src/badge/badge.tsx"]
+    },
+    {
+      "name": "surface",
+      "exportName": "Surface",
+      "importPath": "@rain-next/ui",
+      "manifest": "manifests/ui/surface.yaml",
+      "files": ["packages/ui/src/surface/surface.tsx"]
+    },
+    {
+      "name": "link",
+      "exportName": "Link",
+      "importPath": "@rain-next/ui",
+      "manifest": "manifests/ui/link.yaml",
+      "files": ["packages/ui/src/link/link.tsx"]
+    }
+  ]
+}

@@ -23,6 +23,12 @@ import "@rain-next/ui/styles.css";
 import "@rain-next/layouts/styles.css";
 import "./styles.css";
 import { TeacherGradingPage } from "./scenarios/teacher-grading/page";
+import { ResourceUpdatePage } from "./scenarios/resource-update/page";
+import { ExamEditorPage } from "./scenarios/exam-editor/page";
+import { TokenFirstG1Page } from "./scenarios/token-first-g1/page";
+import { TokenFirstG2Page } from "./scenarios/token-first-g2/page";
+import { TokenFirstG3Page } from "./scenarios/token-first-g3/page";
+import { NavigationRebuildPage } from "./scenarios/token-first-g3/rebuild/page";
 
 function Prototype() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -30,7 +36,14 @@ function Prototype() {
   // m2-routes:start
   const [route, setRoute] = useState(window.location.hash);
   useEffect(() => { const change = () => setRoute(window.location.hash); window.addEventListener("hashchange", change); return () => window.removeEventListener("hashchange", change); }, []);
+  if (route === "#exam-editor") return <DensityProvider density="default"><ExamEditorPage /></DensityProvider>;
+  if (route === "#token-first-g1-next" || route === "#token-first-g1" || route === "#token-first-workbench" || route === "#token-first-report") return <DensityProvider density="default"><TokenFirstG1Page view={route === "#token-first-g1-next" ? "extensions" : route === "#token-first-workbench" ? "workbench" : route === "#token-first-report" ? "report" : "samples"} /></DensityProvider>;
+  if (route === "#token-first-g2") return <TokenFirstG2Page />;
+  if (route.startsWith("#token-first-g3") && new URLSearchParams(route.split("?")[1]).get("rebuild") === "1") return <NavigationRebuildPage />;
+  if (route.startsWith("#token-first-g3")) return <><a className="nr-baseline-entry" href="#token-first-g3?rebuild=1">打开 v0.3 导航重建候选</a><DensityProvider density="default"><TokenFirstG3Page /></DensityProvider></>;
+  if (route === "#resource-update") return <DensityProvider density="default"><ResourceUpdatePage /></DensityProvider>;
   if (route === "#teacher-grading") return <DensityProvider density="default"><TeacherGradingPage /></DensityProvider>;
+  if (route === "#learning-report") return <DensityProvider density="default"><LearningReportScenario key={route} presentation="comparison" /></DensityProvider>;
   if (route === "#bm-c") return <DensityProvider density="default"><GradingWorkbenchScenario /></DensityProvider>;
   if (route === "#bm-d") return <DensityProvider density="default"><LearningReportScenario /></DensityProvider>;
   // m2-routes:end

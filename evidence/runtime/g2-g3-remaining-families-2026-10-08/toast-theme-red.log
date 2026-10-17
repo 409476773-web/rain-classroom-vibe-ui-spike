@@ -1,0 +1,41 @@
+
+Running 1 test using 1 worker
+
+(node:78238) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/g2-g3-remaining-families.spec.ts:80:1 › toast follows the selected documentation theme and keeps its undo action (6.3s)
+
+
+  1) tests/e2e/g2-g3-remaining-families.spec.ts:80:1 › toast follows the selected documentation theme and keeps its undo action 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-slot="toast-portal"]')
+    Expected: "dark"
+    Received: "light"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for locator('[data-slot="toast-portal"]')
+        14 × locator resolved to <div id="_r_1_" data-base-ui-portal="" data-density="default" data-rain-theme="light" data-slot="toast-portal">…</div>
+           - unexpected value "light"
+
+
+      82 |   await page.getByRole("button", { name: "深色", exact: true }).click();
+      83 |   await page.getByRole("button", { name: "成功提示", exact: true }).click();
+    > 84 |   await expect(page.locator('[data-slot="toast-portal"]')).toHaveAttribute("data-rain-theme", "dark");
+         |                                                            ^
+      85 |   await page.getByRole("button", { name: "撤回", exact: true }).click();
+      86 |   await expect(page.getByRole("status").filter({ hasText: "已撤回当前示例设置" })).toBeVisible();
+      87 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g2-g3-remaining-families.spec.ts:84:60
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-t-f0210-e-and-keeps-its-undo-action/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g2-g3-remaining-families-2026-10-08/test-results/g2-g3-remaining-families-t-f0210-e-and-keeps-its-undo-action/error-context.md
+
+  1 failed
+    tests/e2e/g2-g3-remaining-families.spec.ts:80:1 › toast follows the selected documentation theme and keeps its undo action 

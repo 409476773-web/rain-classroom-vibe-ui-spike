@@ -1,0 +1,49 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/library-governance-closeout.test.ts (11 tests | 2 failed | 9 skipped) 38ms
+   × rejects missing CSS paint properties even when the source hash matches 22ms
+   × records each JSX paint and opacity expression, including white gradients and dynamic values 15ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/library-governance-closeout.test.ts > rejects missing CSS paint properties even when the source hash matches
+AssertionError: expected [] to not deeply equal []
+
+Compared values have no visual difference.
+
+ ❯ scripts/library-governance-closeout.test.ts:25:86
+     23|   const file = structuredClone(record.localSources.find((file: any) =>…
+     24|   file.inventory = file.inventory.filter((row: any) => row.property !=…
+     25|   expect(validateRecordedPaintSource(file, readFileSync(file.filePath,…
+       |                                                                                      ^
+     26| });
+     27|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/library-governance-closeout.test.ts > records each JSX paint and opacity expression, including white gradients and dynamic values
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ scripts/library-governance-closeout.test.ts:31:102
+     29|   const record = getLibraryPaintObservations();
+     30|   const file = record.inlineSources.find((file: any) => file.filePath.…
+     31|   expect(file.inventory.some((row: any) => row.property === "stopColor…
+       |                                                                                                      ^
+     32|   expect(file.inventory.some((row: any) => row.property === "strokeOpa…
+     33|   expect(file.inventory.some((row: any) => row.property === "backgroun…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 9 skipped (11)
+   Start at  22:56:21
+   Duration  1.08s (transform 367ms, setup 100ms, import 486ms, tests 38ms, environment 360ms)
+

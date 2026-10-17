@@ -1,0 +1,143 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-dropdown-menu"
+name: "DropdownMenu"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/dropdown-menu/dropdown-menu.tsx"
+styleSourcePath: "packages/ui/src/dropdown-menu/dropdown-menu.css"
+sourceVersion: "local-2026-09-10"
+publication: "unpublished"
+description: "更多操作与显示设置菜单；支持动作、链接、单选、多选和嵌套菜单，按真实行为选择菜单项。"
+useWhen:
+  - "组织低频的更多操作或显示设置；高频主操作继续在任务区域直接呈现。"
+  - "Start with the complete course-more or view-settings recipe; adapt declared parts when required."
+doNotUseWhen:
+  - "Independent controls inside a row belong in Popover; use Select for selecting a field value."
+anatomy:
+  - "Root owns Base UI state; Trigger, portaled Content, Item/LinkItem/CheckboxItem/RadioGroup/RadioItem, SubmenuRoot/SubmenuTrigger, Group/GroupLabel, Separator and ItemContent."
+parts:
+  - "content"
+  - "item"
+  - "label"
+  - "description"
+  - "leading"
+  - "meta"
+  - "shortcut"
+  - "indicator"
+  - "confirmation"
+props:
+  - "Root preserves Base UI controlled/default open, reasons, cancellation, trigger IDs and modal=false default."
+  - "Content width defaults to auto: intrinsic complete-item width, 140px minimum for all menus when the viewport permits, 320px auto cap with existing wrapping. A finite positive number overrides the cap; Base UI available width and height still constrain it. Popover keeps its 320px default."
+  - "Content exposes Base UI popup props except inline style; positionerProps exposes placement and string className, excluding inline style."
+  - "String className changes layout; named Local Recipe changes declared visual parts. Trigger render composes Button/IconButton and forwards its own ref."
+  - "Root closeOnAction defaults true. Item, LinkItem, CheckboxItem and RadioItem can override closeOnClick independently of their behavior type."
+  - "Item label is a non-empty string for typeahead and accessible naming; description, critical, leading, meta, shortcut, children, tone and pending are optional."
+  - "CheckboxItem/RadioItem checked state belongs to Base UI; they do not accept the separate selected appearance prop. Item/LinkItem selected shows a confirmation mark; provide aria-current when it means current context."
+  - "LinkItem preserves a real anchor and native href/modifier navigation; it has no disabled or pending API. An async action uses Item."
+  - "description and external aria-describedby are merged. Replacing children retains a hidden description; a supplied descriptionId refers to caller-owned markup and must exist exactly once."
+slots:
+  - "Trigger render"
+  - "Content children"
+  - "Item children"
+  - "ItemContent leading/meta/shortcut"
+variants:
+  - "Complete default recipe, named feature Local Recipe and ordinary children composition."
+states:
+  - "open"
+  - "closed"
+  - "focus-visible"
+  - "disabled"
+  - "highlighted"
+  - "pressed"
+  - "checked"
+  - "checked-disabled"
+  - "selected"
+  - "danger"
+  - "pending"
+dependencies:
+  - "react"
+  - "@rain-next/foundations"
+  - "@base-ui/react@1.8.0"
+  - "tailwind-merge"
+tokens:
+  - "Rain Typography 15/22 and 13/18, 600/400; Space/6,8,10,12,16; Radius/6,10,full; Shadow/overlay."
+  - "Background/Neutral/1, Border/Neutral/3, Text/Neutral/3; enabled non-danger ordinary descriptions Text/Neutral/3, retained danger/disabled descriptions Text/Neutral/4."
+  - "Selected Text/Brand/1, Text/Brand/2 and Icon/Brand/1; critical selected description Text/Brand/1."
+  - "Hover/Pressed Neutral Alpha/6,5 or Red Alpha/2,1. Checkbox 16/10 and Radio 18/6 share native passive indicators, 24px canvases and canonical state CSS; selected action confirmation 16/10 with Fill/Brand/Solid/2 and OnColor/1."
+  - "Shared Focus; nearest theme and effective density/metrics bridge across portals. No new Foundation values."
+layoutConstraints:
+  - "Menu uses auto width with a 140px minimum and 320px auto cap; panel starts at 320px. Explicit recipe widths remain supported."
+  - "Default popup paints live in the base layer, so Rain local content utilities can override them without changing sibling instances; geometry and interaction CSS remain shared."
+  - "Long label/ordinary description clamp at two lines; critical reasons remain complete. Short meta stays beside the label; long values use a custom content layout or full description."
+  - "Viewport width/height constrain content; a template recipe scrolls its body while keeping a normal footer."
+compositionRules:
+  - "Use the complete example first; change an existing variant, then a local recipe, then a local fork only if internal behavior changes."
+  - "Base UI exclusively owns open, positioning, focus and dismissal. The shared private bridge carries visual context only."
+  - "CheckboxIndicator/RadioIndicator are internal passive visuals reused by native controls and Base UI menu indicators. Keep native inputs and menu state owners separate; UI entry exports are unchanged."
+  - "Menu rows are single interactive targets; do not nest native Checkbox/Radio, input, favorite or delete buttons in a menuitem."
+  - "Popover content uses native Checkbox/RadioGroup and independent IconButton siblings. Search, categories, selection, retry and footer stay in the example."
+  - "Escape, Tab, outside press, submenu and Dialog handoff are independent from closeOnAction. A controlled owner must accept or cancel each state change."
+  - "When the originating trigger unmounts, the caller supplies finalFocus to a remaining logical target."
+allowedModifications:
+  - "Labels, leading visuals, short meta, trigger composition, panel width/placement, local classes and feature-owned content."
+  - "Existing fields, compact Tabs categories, thumbnails and independent actions inside Popover with normal semantics."
+restrictedModifications:
+  - "No extra overlay controller, business mode switches, new color values or nested controls in a menu row."
+  - "Do not weaken critical text roles or interpret pending contrast findings as accepted exceptions."
+accessibility:
+  - "Menu keeps Base UI keyboard opening, arrows, Home/End, typeahead, selection roles and disabled behavior."
+  - "Portaled panel must be named; form inputs preserve native labels, focus and group ownership."
+  - "Focus returns to the appropriate trigger or caller-supplied target; nearest theme and density are synchronized while open."
+  - "Forced-colors checks preserve meaningful markers and keyboard outline. Real screen reader, OS IME and physical touch remain separate checks."
+examples:
+  - "#dropdown"
+recipes:
+  - "Course card more menu"
+  - "Table view settings menu and native panel"
+  - "Learning unit type menu to template panel"
+antiPatterns:
+  - "Using menu semantics for a row with several actions."
+  - "Forking the Master for search/category/favorite content."
+  - "Closing on request before async failure can be shown."
+relatedComponents:
+  - "Button"
+  - "IconButton"
+  - "Checkbox"
+  - "RadioGroup"
+  - "Input"
+  - "Select"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Rain Classic internal Popup/Popover contract reviewed; Figma dropdown source 2255:26-29 and 2280:618-620 recorded in the construction plan."
+  externalReferences:
+    - "https://base-ui.com/react/components/menu"
+    - "https://base-ui.com/react/components/popover"
+    - "https://ui.shadcn.com/docs/components/base/dropdown-menu"
+    - "https://ant.design/components/dropdown/"
+  retainedTraits:
+    - "Information hierarchy, brand selected text/icon and 600/400 copy, optional descriptions and single-target rows."
+  redesignedTraits:
+    - "Base UI behavior, open React composition and current theme/density Token consumption."
+  intentionallyNotInherited:
+    - "Old fixed white surface and private color values; source 7/9px padding and raw shadow remain comparison-only."
+figmaMapping:
+  status: "reference-only"
+  evidence: "docs/plans/2026-09-09-dropdown-family-construction-plan.md"
+  codeConnect: "not-established"
+sourceEvidence:
+  - "docs/adr/0005-headless-base.md"
+  - "docs/plans/2026-09-09-dropdown-family-construction-plan.md"
+  - "evidence/runtime/dropdown/verification.md"
+migrationNotes:
+  - "New independent candidate, no existing Select/Dialog/choice-control migration or publication."
+verification:
+  automated: "passed"
+  independentReview: "findings"
+  humanGate: "accepted"
+  humanGateScope: "dropdown-menu-popover-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/dropdown/verification.md"

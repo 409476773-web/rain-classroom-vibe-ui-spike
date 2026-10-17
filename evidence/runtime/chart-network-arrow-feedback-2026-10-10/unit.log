@@ -1,0 +1,80 @@
+
+> @rain-next/workspace@0.0.0 test /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> vitest run packages/ui/src/charts/network/network-data.test.ts packages/ui/src/charts/network/network-geometry.test.ts packages/ui/src/charts/network/network-chart.test.tsx apps/playground/src/docs/components/chart-business/network-data.test.ts apps/playground/src/docs/components/chart-business/network-examples.test.tsx scripts/verify-chart-business-consumption.test.ts scripts/chart-color-consumers.test.ts scripts/charts.test.ts scripts/verify-chart-variant-consumption.test.ts
+
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/chart-color-consumers.test.ts (4 tests | 1 failed) 574ms
+   × chart and business color sources register in light mode while contrast and weak-content findings remain pending 339ms
+ ❯ scripts/verify-chart-variant-consumption.test.ts (8 tests | 1 failed) 71ms
+   × the real China exporter preserves current settings and includes all licensed local geometry 20ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/chart-color-consumers.test.ts > chart and business color sources register in light mode while contrast and weak-content findings remain pending
+AssertionError: apps/playground/src/docs/components/chart-business/china-region-page.css: expected [ …(20) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "Unregistered Category CSS paint apps/playground/src/docs/components/chart-business/china-region-page.css: .rain-china-reference color",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/chart-business/china-region-page.css: .rain-china-state background",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/chart-business/china-region-page.css: .rain-china-canvas:has([data-map-active=\"true\"]) .rain-china-state background",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/chart-business/china-region-page.css: .rain-china-map-controls border",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/chart-business/china-region-page.css: .rain-china-map-controls background",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/chart-business/china-region-page.css: .rain-china-reading border-top",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/chart-business/china-region-page.css: .rain-china-reading border-bottom",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/chart-business/china-region-page.css: .rain-china-reading color",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/chart-business/china-region-page.css: .rain-china-source-line color",
++   "Unregistered Category CSS paint apps/playground/src/docs/components/chart-business/china-region-page.css: .rain-china-demo color",
++   "Missing registered CSS paint: apps/playground/src/docs/components/chart-business/china-region-page.css .rain-china-reference, .rain-china-level color",
++   "Missing registered CSS paint: apps/playground/src/docs/components/chart-business/china-region-page.css .rain-china-state border",
++   "Missing registered CSS paint: apps/playground/src/docs/components/chart-business/china-region-page.css .rain-china-detail border-top",
++   "Missing registered CSS paint: apps/playground/src/docs/components/chart-business/china-region-page.css .rain-china-detail border-bottom",
++   "Category/local colors require registered Token consumer metadata: apps/playground/src/docs/components/chart-business/china-region-page.css",
++   "Raw/private or unregistered Category/display color in apps/playground/src/docs/components/chart-business/china-region-page.css",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/chart-business/china-region-page.css: color: var(--rain-category-text-neutral-3)",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/chart-business/china-region-page.css: background: var(--rain-category-background-neutral-1)",
++   "Unregistered visual color declaration in apps/playground/src/docs/components/chart-business/china-region-page.css: background: var(--rain-category-fill-neutral-alpha-2)",
++   "Unregistered border color in apps/playground/src/docs/components/chart-business/china-region-page.css: 1px solid var(--rain-category-border-neutral-4)",
++ ]
+
+ ❯ scripts/chart-color-consumers.test.ts:23:173
+     21| test("chart and business color sources register in light mode while co…
+     22|   const pendingContrastFindings: any[] = [], pendingEligibilityFinding…
+     23|   for (const filePath of files) expect(validateRegisteredRecipeColors(…
+       |                                                                                                                                                                             ^
+     24|   expect(pendingContrastFindings.some(row => row.tokenId === "Text/Neu…
+     25|   expect(pendingEligibilityFindings.some(row => row.tokenId === "Text/…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/verify-chart-variant-consumption.test.ts > the real China exporter preserves current settings and includes all licensed local geometry
+AssertionError: expected [Function] to not throw an error but 'AssertionError [ERR_ASSERTION]: china…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"AssertionError [ERR_ASSERTION]: china-real: chart-business/china-region-examples.tsx requires ./china-region-map"
+
+ ❯ scripts/verify-chart-variant-consumption.test.ts:56:61
+     54|   const exporter=await exportedDownloads(directory,"chartChinaFiles");
+     55|   const files=exporter.files({provinceId:"440000",selectedId:"440100",…
+     56|   expect(()=>assertDownloadClosure(files,"china-real")).not.toThrow();
+       |                                                             ^
+     57|   expect(Object.keys(files)).toHaveLength(11);
+     58|   expect(Object.keys(files).some(path=>path.includes("world.geojson"))…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 7 passed (9)
+      Tests  2 failed | 93 passed (95)
+   Start at  11:00:43
+   Duration  10.98s (transform 4.41s, setup 1.82s, import 7.92s, tests 12.06s, environment 7.70s)
+
+ ELIFECYCLE  Test failed. See above for more details.

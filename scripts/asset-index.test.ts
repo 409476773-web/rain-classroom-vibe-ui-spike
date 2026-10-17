@@ -1,15 +1,52 @@
 // @vitest-environment node
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { expect, it } from "vitest";
+import { beforeAll, expect, it } from "vitest";
 import * as helpers from "./verification-helpers.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+let assets: any[];
+
+beforeAll(async () => {
+  const { readAssets } = await import("./asset-index.mjs");
+  assets = readAssets(root);
+}, 30_000);
+
+function authorizationPhase(refinement: "generationQuality" | "rn13AssetIndex") {
+  // Keep authorization mutation tests on the independently sealed phase; later
+  // unrelated component decisions are not inputs to these asset-index checks.
+  const checkpoint = readFileSync(resolve(root, "evidence/runtime/generation-quality/phase-before.yaml"), "utf8");
+  expect(createHash("sha256").update(checkpoint).digest("hex")).toBe("1d5eae623167a7f149b23165dafa3665ecbb483b44939f65999b063e4d9c92d4");
+  const phase = helpers.parseYamlSubset(checkpoint) as any;
+  const current = helpers.parseYamlSubset(readFileSync(resolve(root, "status/current-phase.yaml"), "utf8")) as any;
+  phase.componentRefinements[refinement] = structuredClone(current.componentRefinements[refinement]);
+  return phase;
+}
+
+it("recognizes existing Foundation wildcard exports while excluding type-only exports and resolving cycles", async () => {
+  const { validateAsset } = await import("./asset-index.mjs");
+  const fixture = mkdtempSync(resolve(tmpdir(), "rain-g4-asset-index-"));
+  try {
+    mkdirSync(resolve(fixture, "packages/foundations/src"), { recursive: true });
+    writeFileSync(resolve(fixture, "packages/foundations/package.json"), JSON.stringify({ name: "@rain-next/foundations", exports: { ".": "./src/index.ts" } }));
+    writeFileSync(resolve(fixture, "packages/foundations/src/index.ts"), 'export * from "./typography-contract"; export type * from "./types";');
+    writeFileSync(resolve(fixture, "packages/foundations/src/typography-contract.ts"), 'export const typographyPresets = {}; export * from "./index";');
+    writeFileSync(resolve(fixture, "packages/foundations/src/types.ts"), "export type Typography = string;");
+    const asset = {
+      manifest: { id: "foundation-typography", sourcePath: "packages/foundations/src/typography-contract.ts" },
+      item: { exportNames: ["typographyPresets"], importPath: "@rain-next/foundations", files: ["packages/foundations/src/typography-contract.ts"] },
+      registry: {},
+    };
+    expect(() => validateAsset(asset, fixture)).not.toThrow();
+    expect(() => validateAsset({ ...asset, item: { ...asset.item, exportNames: ["Typography"] } }, fixture)).toThrow("Unexported asset");
+  } finally { rmSync(fixture, { recursive: true, force: true }); }
+});
 
 it("finds existing assets by their interaction purpose", async () => {
-  const { readAssets, renderAssetIndex } = await import("./asset-index.mjs");
-  const assets = readAssets(root);
+  const { renderAssetIndex } = await import("./asset-index.mjs");
   for (const [purpose, expected] of [
     ["内容分区", "Tabs"],
     ["单选", "RadioGroup"],
@@ -21,7 +58,7 @@ it("finds existing assets by their interaction purpose", async () => {
 });
 
 it("limits generation-quality authorization without changing previous decisions", () => {
-  const phase = helpers.parseYamlSubset(readFileSync(resolve(root, "status/current-phase.yaml"), "utf8")) as any;
+  const phase = authorizationPhase("generationQuality");
   expect(() => helpers.getValidatedTailwindB2History(phase)).not.toThrow();
   for (const change of [
     { scope: "all-components" }, { humanGate: "accepted" },
@@ -60,8 +97,7 @@ it("limits generation-quality authorization without changing previous decisions"
 
 it("keeps the asset index traceable, current and separate from local experiments and acceptance", async () => {
   expect(existsSync(resolve(root, "scripts/asset-index.mjs"))).toBe(true);
-  const { readAssets, renderAssetIndex, validateAsset } = await import("./asset-index.mjs");
-  const assets = readAssets(root);
+  const { renderAssetIndex, validateAsset } = await import("./asset-index.mjs");
   const markdown = renderAssetIndex(assets);
   expect(readFileSync(resolve(root, "docs/ai/asset-index.md"), "utf8")).toBe(markdown);
   for (const file of ["docs/ai/README.md", "docs/ai/asset-index.md"]) {
@@ -97,7 +133,7 @@ it("keeps the asset index traceable, current and separate from local experiments
   const failed = { ...dialog, manifest: { ...dialog.manifest, verification: { ...dialog.manifest.verification, automated: "failed" } } };
   expect(renderAssetIndex([failed])).not.toContain("**Dialog**");
 
-  const phase = helpers.parseYamlSubset(readFileSync(resolve(root, "status/current-phase.yaml"), "utf8")) as any;
+  const phase = authorizationPhase("rn13AssetIndex");
   expect(helpers.hasRn13Authorization(phase)).toBe(true);
   expect(helpers.getValidatedTailwindB2History(phase)).toEqual(phase.phaseHistory.tailwindB2);
   for (const change of [{ scope: "all-components" }, { humanGate: "accepted" }, { publication: "published" }, { businessMigration: "authorized" }]) {

@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+(node:24766) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/chart-business-map.spec.ts:26:3 › no-preference: national and province maps fit actual boundaries, retain readings and return by stable identity (2.1s)
+
+
+  1) tests/e2e/chart-business-map.spec.ts:26:3 › no-preference: national and province maps fit actual boundaries, retain readings and return by stable identity 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1090.75
+    Received:    1130.75
+
+      34 |     await expect(layer(page).locator(".choropleth-features path")).toHaveCount(34);
+      35 |     const controlBounds = await layer(page).locator(".rain-china-map-controls").evaluate(node => ({ bottom: node.getBoundingClientRect().bottom, mapBottom: node.closest(".rain-china-map")!.getBoundingClientRect().bottom }));
+    > 36 |     expect(controlBounds.bottom).toBeLessThanOrEqual(controlBounds.mapBottom);
+         |                                  ^
+      37 |     await layer(page).screenshot({ path: `${evidence}/national-${motion}.png` });
+      38 |     await layer(page).getByRole("button", { name: "广东省", exact: true }).focus();
+      39 |     await page.keyboard.press("Enter");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/chart-business-map.spec.ts:36:34
+
+    Error Context: evidence/runtime/chart-mini-refinement/browser/business-results/chart-business-map-no-pref-ef5a0-d-return-by-stable-identity/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/chart-mini-refinement/browser/business-results/chart-business-map-no-pref-ef5a0-d-return-by-stable-identity/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/chart-mini-refinement/browser/business-results/chart-business-map-no-pref-ef5a0-d-return-by-stable-identity/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/chart-business-map.spec.ts:26:3 › no-preference: national and province maps fit actual boundaries, retain readings and return by stable identity 

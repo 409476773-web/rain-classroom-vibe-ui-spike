@@ -1,0 +1,129 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/foundations/src/typography-contract.test.ts (13 tests | 3 failed) 11ms
+     × defaults headings to 16px and permits only explicit 17/18px exceptions 4ms
+     × keeps key Data at 28px or smaller while retaining the raw size identities 2ms
+     × keeps component exceptions outside the public role and letter-spacing contract 1ms
+ ❯ apps/playground/src/docs/token-foundations/typography-panel.test.tsx (7 tests | 2 failed) 296ms
+     × offers 16/17/18px headings and keeps Data options within 28px 103ms
+     × keeps data-default preview visible when a size change needs a different line height 32ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/foundations/src/typography-contract.test.ts > public typography contract > defaults headings to 16px and permits only explicit 17/18px exceptions
+AssertionError: expected [ 'line-height-range' ] to include 'heading-font-size-limit'
+ ❯ packages/foundations/src/typography-contract.test.ts:23:42
+     21|       for (const fontSize of [14, 19, 24]) {
+     22|         const result = resolveTypographyPreset(name, { fontSize, lineH…
+     23|         expect(result.validation.issues).toContain("heading-font-size-…
+       |                                          ^
+     24|         expect(result.style).toBeUndefined();
+     25|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  packages/foundations/src/typography-contract.test.ts > public typography contract > keeps key Data at 28px or smaller while retaining the raw size identities
+AssertionError: expected { …(9) } to match object { fontSize: 28, lineHeight: 36 }
+(7 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "fontSize": 28,
+-   "lineHeight": 36,
++   "fontSize": 36,
++   "lineHeight": 42,
+  }
+
+ ❯ packages/foundations/src/typography-contract.test.ts:30:65
+     28|
+     29|   it("keeps key Data at 28px or smaller while retaining the raw size i…
+     30|     expect(resolveTypographyPreset("data-default").composition).toMatc…
+       |                                                                 ^
+     31|     expect(resolveTypographyPreset("data-default", { fontSize: 24, lin…
+     32|     for (const fontSize of [32, 36, 40]) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  packages/foundations/src/typography-contract.test.ts > public typography contract > keeps component exceptions outside the public role and letter-spacing contract
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ packages/foundations/src/typography-contract.test.ts:138:38
+    136|     const before = resolveTypographyPreset("heading-section");
+    137|     const changed = resolveTypographyPreset("heading-section", { fontS…
+    138|     expect(changed.validation.valid).toBe(false);
+       |                                      ^
+    139|     expect(changed.validation.issues).toContain("heading-font-size-lim…
+    140|     expect(changed.composition).toMatchObject({ fontRole: "ui", fontWe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  apps/playground/src/docs/token-foundations/typography-panel.test.tsx > TypographyPanel > offers 16/17/18px headings and keeps Data options within 28px
+AssertionError: expected [ Array(19) ] to deeply equal [ 16, 17, 18 ]
+
+- Expected
++ Received
+
+  [
++   9,
++   10,
++   11,
++   12,
++   13,
++   14,
++   15,
+    16,
+    17,
+    18,
++   19,
++   20,
++   22,
++   24,
++   26,
++   28,
++   32,
++   36,
++   40,
+  ]
+
+ ❯ apps/playground/src/docs/token-foundations/typography-panel.test.tsx:13:108
+     11|     const size = screen.getByRole("combobox", { name: "字号" });
+     12|     fireEvent.change(preset, { target: { value: "heading-page" } });
+     13|     expect(within(size).getAllByRole("option").map(option => Number((o…
+       |                                                                                                            ^
+     14|     fireEvent.change(preset, { target: { value: "data-default" } });
+     15|     expect(size).toHaveValue("28");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  apps/playground/src/docs/token-foundations/typography-panel.test.tsx > TypographyPanel > keeps data-default preview visible when a size change needs a different line height
+Error: expect(element).toHaveValue(36)
+
+Expected the element to have value:
+  36
+Received:
+  42
+ ❯ apps/playground/src/docs/token-foundations/typography-panel.test.tsx:82:18
+     80|     fireEvent.click(screen.getByRole("button", { name: "恢复完整方案" }));
+     81|     expect(screen.getByTestId("typography-live-preview")).toBeVisible(…
+     82|     expect(line).toHaveValue(presetName === "data-default" ? "36" : pr…
+       |                  ^
+     83|   });
+     84| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  5 failed | 15 passed (20)
+   Start at  22:58:54
+   Duration  2.35s (transform 620ms, setup 329ms, import 1.23s, tests 307ms, environment 1.17s)
+

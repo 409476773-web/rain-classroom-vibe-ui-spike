@@ -14,12 +14,17 @@ const phase = () => governance.parseYamlSubset(read("status/current-phase.yaml")
 it("accepts only M2 local delivery, preserves prior decisions, and keeps both benchmarks independent", () => {
   expect(typeof governance.hasM2Authorization).toBe("function");
   const status = phase();
+  expect(() => governance.validateTokenFoundationsV1Phase(status)).not.toThrow();
   expect(governance.hasM2Authorization(status)).toBe(true);
   expect(governance.getValidatedTailwindB2History(status)).toEqual(status.phaseHistory.tailwindB2);
-  const earlier = structuredClone(status); delete earlier.componentRefinements.m2Delivery; delete earlier.componentRefinements.generationQuality;
-  if (governance.hasAvatarFamilyAuthorization(status)) delete earlier.componentRefinements.avatarFamily;
-  if (governance.hasInputNumberAuthorization(status)) delete earlier.componentRefinements.inputNumber;
-  expect(earlier).toEqual(governance.parseYamlSubset(read("evidence/runtime/m2/before/status/current-phase.yaml.txt")));
+  const beforeSource = read("evidence/runtime/m2/before/status/current-phase.yaml.txt");
+  const checkpointSource = read("evidence/runtime/generation-quality/phase-before.yaml");
+  expect(createHash("sha256").update(beforeSource).digest("hex")).toBe("16e82c849f594587fef1c94acf4b3148f26a9266ea6101c66e096341957c4515");
+  expect(createHash("sha256").update(checkpointSource).digest("hex")).toBe("1d5eae623167a7f149b23165dafa3665ecbb483b44939f65999b063e4d9c92d4");
+  const checkpoint = governance.parseYamlSubset(checkpointSource) as any;
+  const earlier = structuredClone(checkpoint); delete earlier.componentRefinements.m2Delivery;
+  expect(earlier).toEqual(governance.parseYamlSubset(beforeSource));
+  expect(() => governance.validateTokenFoundationsV1Phase(checkpoint)).not.toThrow();
   for (const patch of [{ scope: "all-benchmarks" }, { humanGate: "accepted" }, { contrastAcceptance: "granted" },
     { publication: "published" }, { businessMigration: "authorized" }, { implementation: "completed", automatedVerification: "not-run" }, { unexpected: true }, { benchmarks: {} }, { benchmarks: { ...status.componentRefinements.m2Delivery.benchmarks, bmE: {} } }]) {
     const invalid = structuredClone(status); Object.assign(invalid.componentRefinements.m2Delivery, patch);
@@ -45,10 +50,31 @@ it("accepts only M2 local delivery, preserves prior decisions, and keeps both be
 });
 
 it("projects only the reviewed M2 prototype entrance without changing the frozen source transitions", () => {
-  const status = phase(), file = "apps/prototype/src/main.tsx", source = read(file);
+  const phaseSource = read("evidence/runtime/generation-quality/phase-before.yaml");
+  expect(createHash("sha256").update(phaseSource).digest("hex")).toBe("1d5eae623167a7f149b23165dafa3665ecbb483b44939f65999b063e4d9c92d4");
+  const status = governance.parseYamlSubset(phaseSource) as any;
+  const file = "apps/prototype/src/main.tsx";
+  let source = read(`evidence/runtime/token-first-v12-g1/before/${file}.txt`);
+  expect(createHash("sha256").update(source).digest("hex")).toBe("f7413ef1a63344d88e3ea6b59290b9641d439821102d691b85fd434c8ff95860");
+  // Project the sealed later entry back to the independently recorded M2 source input, without inspecting live code.
+  const laterEntries = [
+    'import { ListCompositionPreview } from "./scenarios/list-composition/page";\n',
+    '  if (route === "#list-composition") return <DensityProvider density="default"><ListCompositionPreview /></DensityProvider>;\n',
+    'import { TeacherGradingPage } from "./scenarios/teacher-grading/page";\n',
+    'import { ExamEditorPage } from "./scenarios/exam-editor/page";\n',
+    '  if (route === "#exam-editor") return <DensityProvider density="default"><ExamEditorPage /></DensityProvider>;\n',
+    '  if (route === "#teacher-grading") return <DensityProvider density="default"><TeacherGradingPage /></DensityProvider>;\n',
+  ];
+  for (const addition of laterEntries) { expect(source.split(addition)).toHaveLength(2); source = source.replace(addition, ""); }
+  const sourceLock = JSON.parse(read("evidence/runtime/m2/final-source-lock.json"));
+  expect(sourceLock.sourceFiles[file]).toBe("f09f83952461a5ccb0c502e7501e3aecc04050e053a6d549b05d28beb8c5fa01");
+  expect(createHash("sha256").update(source).digest("hex")).toBe(sourceLock.sourceFiles[file]);
   const before = read(`evidence/runtime/m2/before/${file}.txt`);
   const expected = createHash("sha256").update(before).digest("hex");
-  const transitions = JSON.parse(read("evidence/runtime/rn15-delivery/source-transitions.json"));
+  expect(expected).toBe("99d4eda6cad50a343f5bac76334d1a0fde0890da976339153851e7df6e29b862");
+  const transitionSource = read("evidence/runtime/rn15-delivery/source-transitions.json");
+  expect(createHash("sha256").update(transitionSource).digest("hex")).toBe("dbc947f3c4e19dfb0570d4ff69325d9968ad68c41631c81ce02a631d91e0b7eb");
+  const transitions = JSON.parse(transitionSource);
   expect(governance.matchesRn15ProtectedSource(file, source, expected, status, transitions)).toBe(true);
   const movedEntry = source.match(/\/\/ m2-entry:start[\s\S]*?\/\/ m2-entry:end\n/)![0];
   for (const changed of [source.replace(movedEntry, "") + movedEntry, source + "\n// arbitrary change", source.replace("<LearningReportScenario />", "<UnreviewedScenario />"),
@@ -93,12 +119,45 @@ it("checks each local color on its real surfaces and rejects weakened SVG, text,
     expect(validateRegisteredRecipeColors({ filePath, source, outputs, root: "/__missing_m2_authorization__" }).length).toBeGreaterThan(0);
   }
   const graphic = getM2ColorConsumers().filter((entry: any) => ["stroke", "fill", "color"].includes(entry.property) && entry.use.role === "icon");
-  expect(graphic).toHaveLength(3);
+  const historicalRoot = mkdtempSync(join(tmpdir(), "rain-m2-original-color-contract-"));
+  try {
+    mkdirSync(join(historicalRoot, "status")); mkdirSync(join(historicalRoot, "evidence/runtime/m2"), { recursive: true });
+    const phaseSource = read("evidence/runtime/generation-quality/phase-before.yaml");
+    expect(createHash("sha256").update(phaseSource).digest("hex")).toBe("1d5eae623167a7f149b23165dafa3665ecbb483b44939f65999b063e4d9c92d4");
+    writeFileSync(join(historicalRoot, "status/current-phase.yaml"), phaseSource);
+    writeFileSync(join(historicalRoot, "evidence/runtime/m2/color-consumers.json"), read("evidence/runtime/m2/color-consumers.json"));
+    const originalGraphic = getM2ColorConsumers(historicalRoot).filter((entry: any) => ["stroke", "fill", "color"].includes(entry.property) && entry.use.role === "icon");
+    expect(originalGraphic.map((entry: any) => [entry.filePath, entry.selector, entry.property, entry.use.tokenId])).toEqual([
+      ["apps/prototype/src/scenarios/bm-d/page.css", '.bm-d [data-series="one"]', "stroke", "Icon/Second/1"],
+      ["apps/prototype/src/scenarios/bm-d/page.css", '.bm-d [data-series="one"]', "fill", "Icon/Second/1"],
+      ["apps/prototype/src/scenarios/bm-d/page.css", '.bm-d [data-series="two"]', "stroke", "Icon/Green/1"],
+      ["apps/prototype/src/scenarios/bm-d/page.css", '.bm-d [data-series="two"]', "fill", "Icon/Green/1"],
+    ]);
+    for (const entry of originalGraphic) expect(entry).toMatchObject({ minimumContrast: 3, use: { content: "meaningful-icon", property: "color", critical: true } });
+  } finally { rmSync(historicalRoot, { recursive: true, force: true }); }
+  expect(graphic.map((entry: any) => [entry.filePath, entry.selector, entry.property, entry.use.tokenId])).toEqual([
+    ["apps/prototype/src/scenarios/bm-c/page.css", ".bm-c-disclosure-icons", "color", "Icon/Neutral/3"],
+    ["apps/prototype/src/scenarios/bm-d/page.css", ".bm-d .bm-d-series-one", "color", "Icon/Second/1"],
+    ["apps/prototype/src/scenarios/bm-d/page.css", ".bm-d .bm-d-series-two", "color", "Icon/Green/1"],
+    ["apps/prototype/src/scenarios/bm-d/report-a.css", '.bm-d[data-presentation="comparison"] .bm-d-series-one', "color", "Icon/Brand/2"],
+    ["apps/prototype/src/scenarios/bm-d/report-a.css", '.bm-d[data-presentation="comparison"] .bm-d-series-two', "color", "Icon/Neutral/3"],
+  ]);
   for (const entry of graphic) expect(entry).toMatchObject({ minimumContrast: 3, use: { content: "meaningful-icon", property: "color", critical: true } });
   for (const patch of [{ minimumContrast: 0 }, { use: { ...graphic[0].use, content: "decorative", critical: false } }]) {
     const invalid = structuredClone(outputs);
     Object.assign(invalid.colorCssConsumers.find(entry => entry.filePath === graphic[0].filePath && entry.selector === graphic[0].selector && entry.property === graphic[0].property)!, patch);
     expect(validateRegisteredRecipeColors({ filePath: graphic[0].filePath, source: read(graphic[0].filePath), outputs: invalid }).length).toBeGreaterThan(0);
+  }
+});
+
+it("rejects unknown M2 successors or changes to the frozen parent history", () => {
+  const status = phase();
+  for (const change of ["top-level", "component", "history"]) {
+    const invalid = structuredClone(status);
+    if (change === "top-level") invalid.unapprovedSuccessor = { authorization: "authorized" };
+    if (change === "component") invalid.componentRefinements.unapprovedSuccessor = { authorization: "authorized" };
+    if (change === "history") invalid.phaseHistory.tailwindB2.blockedActions.push("unrecorded permission");
+    expect(() => governance.validateTokenFoundationsV1Phase(invalid)).toThrow();
   }
 });
 

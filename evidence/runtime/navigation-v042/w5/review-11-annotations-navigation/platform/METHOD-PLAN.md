@@ -1,0 +1,11 @@
+# Review11 local platform navigation and quiet boundaries
+
+Prototype Mode. This scope is platform-navigation.css; R2; S wrappers; Gallery theme wiring; one new platform browser spec and EV11 evidence. Existing R1/R3 and R4/R5/R6 owners perform only their small rail-header/account markup changes. No shared/Foundation defaults, existing tests, frozen approved HTML, phase or Registry writes in this ownership.
+
+Methods: V01 keeps theme and palette roles consistent; V02 uses a common structure with controlled scene differences; V04 keeps primary identity and auxiliary text hierarchy distinct; V05 evaluates content, style and behavior together in a local variant; D05 checks narrow width, text length, density and state; I01 preserves information roles and current identity independently of layout; I03 retains actual before/after rendering, geometry and interaction evidence.
+
+1. Open/operate/measure the frozen reference at100%; lock light/dark compact/expanded rail and boundaries. Capture current12 scenes and missing Gallery R-theme control evidence before edits.
+2. Restore local palette/geometry through feature-scoped contract. Use R2 structural interaction model. Reuse existing surfaces#e8edf8/#252d43 as root-authorized frozen local aliases; existing Rain brand, category text, oncolor and focus Tokens remain authoritative. Theme changes only exterior rail. Make splitter paint transparent normally and visible on hover/drag/keyboard focus without changing hit area or controller.
+3. Actual after12×3 widths×2 themes×2 rail modes, reference comparison and quiet-boundary hover/drag/focus/keyboard checks. Add focused browser regressions first, run existing relevant tests/typecheck. Preserve old records; final source hashes and copied local-recipe closure remain reviewable.
+
+Root cause hypotheses to verify: Review07's platform mapping replaces approved white current/translucent white hover with brand-solid current/neutral-alpha hover; Gallery inverse is gated on S and never passed to standalone R recipes; multiple locally styled rail implementations have different head, logo, icon and track geometry. R2 Sidebar icons15px contrast with approved v04220px and other NavigationList20px. Native PaneSplitter paints a normal1px line; local consumer overrides can reinforce it.

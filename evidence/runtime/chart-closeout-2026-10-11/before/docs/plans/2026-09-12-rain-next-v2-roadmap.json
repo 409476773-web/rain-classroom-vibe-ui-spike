@@ -1,0 +1,2809 @@
+{
+  "kind": "RainNextV2PlanningSnapshot",
+  "sourceFile": "08_计划与验收台账V2.json",
+  "sourceSha256": "3dffdee459b9b45860c9cf251e64d1a033d1fb6e24e06718ef4ab7c4610ebdfe",
+  "scope": "V2 original proposal; implementation states are recorded per batch, not backfilled here",
+  "milestones": [
+    {
+      "id": "P0",
+      "title": "限定准入",
+      "mustHave": [
+        "RN-00",
+        "RN-01",
+        "RN-02",
+        "RN-03"
+      ],
+      "state": "proposed"
+    },
+    {
+      "id": "M0-C",
+      "title": "Card静态接入与改造",
+      "mustHave": [
+        "RN-04",
+        "RN-C1",
+        "RN-C2",
+        "RN-C3",
+        "RN-C4"
+      ],
+      "state": "proposed"
+    },
+    {
+      "id": "M0-O",
+      "title": "复杂交互接入",
+      "mustHave": [
+        "RN-04",
+        "RN-05"
+      ],
+      "state": "proposed"
+    },
+    {
+      "id": "M1",
+      "title": "业务原型可开始使用",
+      "mustHave": [
+        "RN-06",
+        "RN-07",
+        "RN-08",
+        "RN-09",
+        "RN-10",
+        "RN-13",
+        "RN-14",
+        "RN-15"
+      ],
+      "state": "proposed",
+      "qualification": "缺失BM子项只关闭切片；视觉/辅助技术/发布分别记录"
+    },
+    {
+      "id": "M2",
+      "title": "工作台报告与扩面",
+      "mustHave": [
+        "RN-11",
+        "RN-12",
+        "RN-14",
+        "RN-15"
+      ],
+      "ongoingTask": "RN-16",
+      "state": "proposed"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "RN-00",
+      "title": "冻结基线与运行前核对",
+      "plannedMilestone": "P0",
+      "workStatus": "proposed",
+      "dependsOn": [],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "新批次证据目录（执行前确定）"
+      ],
+      "deliverables": [
+        "记录实际 HEAD、工作区差异、工具链及锁文件版本",
+        "只读核对相关合同，列出未决事项",
+        "在获得必要执行权限且隔离证据输出后记录实际基线检查"
+      ],
+      "acceptanceCriteria": [
+        "不覆盖用户未提交修改与历史图片/日志",
+        "已运行、未运行、失败及原因分开",
+        "运行依赖安装与脚本前确认阶段及实际权限，不因本计划存在推导授权"
+      ],
+      "nonGoals": [
+        "不修复所有历史问题",
+        "不自动升级依赖",
+        "不将历史1266项通过改写为本次通过"
+      ],
+      "risks": [
+        "当前本地工作区可能领先于固定Commit",
+        "测试可能写回证据目录"
+      ],
+      "sourceRefs": [
+        "R01",
+        "R02",
+        "R03",
+        "R14"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-00"
+    },
+    {
+      "id": "RN-01",
+      "title": "定义新接入阶段与不变量",
+      "plannedMilestone": "P0",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-00"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "status/current-phase.yaml 的当前阶段部分",
+        "新阶段计划与ADR；必要的治理规则"
+      ],
+      "deliverables": [
+        "首批授权边界及依赖范围",
+        "受保护资产和回归范围",
+        "区分历史冻结检查与当前通用规则"
+      ],
+      "acceptanceCriteria": [
+        "保留历史阶段和已接受设计",
+        "不删除品牌、来源、焦点与状态检查换速度",
+        "凡与原锁定决策冲突先列差异；不自动通过Human Gate"
+      ],
+      "nonGoals": [
+        "不重写全仓治理系统",
+        "不写Figma、不发布、不远程Git操作"
+      ],
+      "risks": [
+        "通用改动可能被旧批次规则误拒绝",
+        "放宽范围过大导致未授权改动"
+      ],
+      "sourceRefs": [
+        "R01",
+        "R03"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-01"
+    },
+    {
+      "id": "RN-02",
+      "title": "建立全品类与上游来源处置表",
+      "plannedMilestone": "P0",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-00"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "接入清单（本计划附带JSON可作为提案）",
+        "既有来源记录或其单一入口"
+      ],
+      "deliverables": [
+        "64项目录逐项保留/补齐/映射/延后决定",
+        "首批上游源码版本/内容摘要及依赖锁定",
+        "上游组件到Rain公开API/图标的映射"
+      ],
+      "acceptanceCriteria": [
+        "64 项按职责而非同名机械对照；Badge 对照 Tag，普通 Card 与 Hover Card 分开",
+        "已有成熟资产不重复安装，Card 明确列为 adapt-shadcn 优先替换候选",
+        "Card 作者源码、所选 Card 样式、实际取得内容、CLI 与依赖分别记录；未知不伪填版本",
+        "其他组件的固定来源不从 Card 的上游 Commit 自动推导"
+      ],
+      "nonGoals": [
+        "不要求逐一重写已有组件",
+        "不把目录登记视为可用"
+      ],
+      "risks": [
+        "同名不同语义",
+        "CLI固定但下载内容未固定"
+      ],
+      "sourceRefs": [
+        "R04",
+        "R09",
+        "R15",
+        "E01",
+        "E07"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-02"
+    },
+    {
+      "id": "RN-03",
+      "title": "完成首批样式与行为接口转译规则",
+      "plannedMilestone": "P0",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-01",
+        "RN-02"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "现有Token事实源与生成区的限定增量",
+        "首批组件样式和适配说明",
+        "现有工具类校验与合并规则"
+      ],
+      "deliverables": [
+        "颜色/字体/尺寸/圆角/焦点/状态选择器映射",
+        "受控动态几何与局部候选Token的处理边界",
+        "首批静态类扫描和生成证明"
+      ],
+      "acceptanceCriteria": [
+        "不重新打开Tailwind全部默认视觉主题",
+        "不机械把default/primary/accent视为等价语义",
+        "同时核对data-open等辅助变体、动效、响应式与源扫描",
+        "运行时浮层测量不登记为全局品牌Token",
+        "旧 Card unlayered CSS 与新工具类的实际优先级被验证；不只检查 rainCn 字符串",
+        "上游 slot 条件和实际 Rain 属性一并转译，嵌套归属不泄漏"
+      ],
+      "nonGoals": [
+        "不创建第二套Token事实源",
+        "不为所有组件新增Wrapper",
+        "不对现有颜色做无授权修正"
+      ],
+      "risks": [
+        "样式类存在源码但未生成CSS",
+        "类名合并静默丢失样式",
+        "导入辅助CSS改变全局"
+      ],
+      "sourceRefs": [
+        "R05",
+        "R06",
+        "E02",
+        "E05",
+        "E06",
+        "R17",
+        "R18",
+        "R19",
+        "U01",
+        "U02",
+        "E04",
+        "X01",
+        "X02"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-03"
+    },
+    {
+      "id": "RN-04",
+      "title": "建立真实原型消费入口",
+      "plannedMilestone": "P0",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-01",
+        "RN-02"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "apps/prototype/**（拟新增，先检查本地是否已存在）",
+        "对应package配置",
+        "限定扫描/构建配置"
+      ],
+      "deliverables": [
+        "现有Rain组件组成的最小应用",
+        "仅含运行所需的入口和CSS",
+        "固定数据和Mock接口约定"
+      ],
+      "acceptanceCriteria": [
+        "不导入Playground文档CSS/截图/历史证据",
+        "显式消费Foundation/UI样式和Tailwind源路径",
+        "构建及生产预览均检查，不以开发热更新代替",
+        "没有虚构npm已发布状态"
+      ],
+      "nonGoals": [
+        "不先建立公开npm或Registry服务器",
+        "不复制完整文档站作为业务项目"
+      ],
+      "risks": [
+        "workspace别名掩盖缺失依赖",
+        "仅在Playground拥有样式"
+      ],
+      "sourceRefs": [
+        "R06",
+        "R13",
+        "E06"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-04"
+    },
+    {
+      "id": "RN-C1",
+      "title": "Card 来源、消费者与目标合同",
+      "plannedMilestone": "M0-C",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-00",
+        "RN-02"
+      ],
+      "suggestedOwnerRole": "实施代理／前端集成；设计师集中视觉 Gate；独立技术复核",
+      "proposedWriteScope": [
+        "Card 专项当前计划／ADR 提案",
+        "消费者与兼容表"
+      ],
+      "deliverables": [
+        "所有实际消费者、重导出、旧样式与测试分类",
+        "固定作者模板和 Card 样式来源",
+        "最小 API、slot、尺寸、语义与视觉候选"
+      ],
+      "acceptanceCriteria": [
+        "不把 GitHub 不完整搜索的零结果当无消费者",
+        "保留七导出、article、Title.as、variant 的有效兼容",
+        "size 省略 default，不暗改内部控件密度",
+        "20／16 是待审候选不是既有批准值"
+      ],
+      "nonGoals": [
+        "不重新审查整个 64 项源码",
+        "不提前修改 Card 或状态 Gate"
+      ],
+      "risks": [
+        "本地已存在较新实现",
+        "把旧样式值等同品牌规则",
+        "源模板没有最终样式"
+      ],
+      "sourceRefs": [
+        "R17",
+        "R18",
+        "R20",
+        "R21",
+        "U01",
+        "U02",
+        "U04"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "v1TaskId": null,
+      "scopeOfStatus": "V2 planning task only; not project asset maturity"
+    },
+    {
+      "id": "RN-C2",
+      "title": "Card 替换候选与样式治理",
+      "plannedMilestone": "M0-C",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-01",
+        "RN-03",
+        "RN-C1"
+      ],
+      "suggestedOwnerRole": "实施代理／前端集成；设计师集中视觉 Gate；独立技术复核",
+      "proposedWriteScope": [
+        "packages/ui/src/card/**",
+        "styles.css 的 Card 专属段",
+        "UI 出口的必要类型",
+        "合并／生成机制确有必要的最小增量"
+      ],
+      "deliverables": [
+        "基于上游转译的 Rain Card",
+        "受控统一 spacing、default/sm、Local Recipe",
+        "旧 CSS 冲突消除、有效语义与 ref 保留"
+      ],
+      "acceptanceCriteria": [
+        "公共入口唯一，不长期新增第二套 Card",
+        "rainCn 与 computed style 双重检查",
+        "所属 slot 规则正确，嵌套 Card 不串样式",
+        "根不擅自成为按钮、Header/Footer 不是必填",
+        "不安装新 Headless；不为占位 cn 安装包"
+      ],
+      "nonGoals": [
+        "不重写 Surface/Badge/Link",
+        "不全局移动 styles.css layer",
+        "不新增业务 layout/data 参数"
+      ],
+      "risks": [
+        "未分层旧 CSS 压过工具类",
+        "后代 :has 越界",
+        "Context 或 CSS 变量向内层泄漏"
+      ],
+      "sourceRefs": [
+        "R17",
+        "R18",
+        "R19",
+        "R16",
+        "U01",
+        "U02",
+        "X01",
+        "X02"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "v1TaskId": null,
+      "scopeOfStatus": "V2 planning task only; not project asset maturity"
+    },
+    {
+      "id": "RN-C3",
+      "title": "Card 消费迁移、四 Recipe 与登记",
+      "plannedMilestone": "M0-C",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-C2",
+        "RN-04"
+      ],
+      "suggestedOwnerRole": "实施代理／前端集成；设计师集中视觉 Gate；独立技术复核",
+      "proposedWriteScope": [
+        "Core UI Card 消费",
+        "拟新增 Card 页面／路由／扫描",
+        "manifests/ui/card.yaml、registry/card.json（拟新增）",
+        "原型 Card 样本"
+      ],
+      "deliverables": [
+        "CR-01～CR-04",
+        "当前消费者与当前文档同步",
+        "来源与未验证范围可检索"
+      ],
+      "acceptanceCriteria": [
+        "只有 Content、无 Footer、媒体上下/左右及操作组合均成立",
+        "非目标组件保持",
+        "新的 Card 页面 CSS 在真实构建中存在",
+        "元数据用当前 Rain 格式，不冒称标准 CLI 分发"
+      ],
+      "nonGoals": [
+        "不设计四个巨型公共 Card",
+        "不需要先做 Chart、Avatar 或完整 Layout",
+        "不覆盖历史截图/日志"
+      ],
+      "risks": [
+        "示例从 Playground 偷带样式",
+        "旧选择器仍命中",
+        "迁移示例未迁移断言"
+      ],
+      "sourceRefs": [
+        "R20",
+        "R21",
+        "R22",
+        "R06",
+        "R12",
+        "R15"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "v1TaskId": null,
+      "scopeOfStatus": "V2 planning task only; not project asset maturity"
+    },
+    {
+      "id": "RN-C4",
+      "title": "Card 回归、两轮改造与集中评审",
+      "plannedMilestone": "M0-C",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-C3"
+      ],
+      "suggestedOwnerRole": "实施代理／前端集成；设计师集中视觉 Gate；独立技术复核",
+      "proposedWriteScope": [
+        "Card 单元／浏览器／非目标回归",
+        "新批次证据",
+        "限定视觉待审记录"
+      ],
+      "deliverables": [
+        "Card 验收矩阵实际结果",
+        "两轮连续编辑与非目标对照",
+        "明确可用范围或未决问题"
+      ],
+      "acceptanceCriteria": [
+        "无未经解释的破坏性接口变更",
+        "样式/slot/嵌套/焦点/长内容均检查",
+        "本轮失败和未跑项如实登记",
+        "Human Gate 只能用真实反馈，不由技术 PASS 代填"
+      ],
+      "nonGoals": [
+        "不宣称生产可用",
+        "不等待所有卡片形态完成",
+        "不自动发布或 push"
+      ],
+      "risks": [
+        "只看截图忽略行为",
+        "未测字体/设备冒称完成",
+        "价值指标用推测数字"
+      ],
+      "sourceRefs": [
+        "R21",
+        "R22",
+        "R11",
+        "R16",
+        "P01"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "v1TaskId": null,
+      "scopeOfStatus": "V2 planning task only; not project asset maturity"
+    },
+    {
+      "id": "RN-05",
+      "title": "Dialog＋Separator：复杂交互准入样本",
+      "plannedMilestone": "M0-O",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-03",
+        "RN-04"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "packages/ui/src/dialog/**（拟新增）",
+        "packages/ui/src/separator/**（拟新增）",
+        "现有UI公共入口",
+        "对应Manifest/本地Registry/测试",
+        "apps/prototype 的接入样本"
+      ],
+      "deliverables": [
+        "Base UI相容Dialog源码及Rain适配",
+        "Dialog内复用现有Button/Input/Select/FormItem",
+        "简单展示组件Separator作为对照",
+        "来源和限定可用范围"
+      ],
+      "acceptanceCriteria": [
+        "单一Base UI交互管理；PopupProvider仅处理已支持的视觉桥接",
+        "触发器名称/ref/事件，关闭与焦点返回正确",
+        "长内容滚动且操作区可见",
+        "先Escape关闭内层Select，后续关闭Dialog；焦点链正确",
+        "同屏不同主题与密度、局部覆盖及动态切换按声明验证",
+        "按钮重复点击不重复创建业务任务；失败保留草稿",
+        "私有CSS变量需要显式作用域处理，不能假定跨Portal继承"
+      ],
+      "nonGoals": [
+        "不新增一套表单状态平台",
+        "不使用空壳假组件冒充公共Dialog",
+        "不把Sheet/Drawer全变体也纳入此样本",
+        "不要求所有 Card 视觉扩展先完成；Card 技术准入不代替 Overlay 准入"
+      ],
+      "risks": [
+        "Portal主题/密度/局部变量",
+        "原生Button属性被Base UI组合后状态冲突"
+      ],
+      "sourceRefs": [
+        "R07",
+        "R08",
+        "R09",
+        "E03"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-05"
+    },
+    {
+      "id": "RN-06",
+      "title": "建设四类最小公共布局",
+      "plannedMilestone": "M1",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-03",
+        "RN-04"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "packages/layouts/**（当前仅占位，拟实现）",
+        "对应文档/契约/测试"
+      ],
+      "deliverables": [
+        "Stack、Inline、Grid",
+        "Split的区域、收起和滚动边界",
+        "对应最小用法与修改规则"
+      ],
+      "acceptanceCriteria": [
+        "只拥有空间与区域状态，不拥有业务查询/选择/评分",
+        "先用静态受控属性，不生成动态Tailwind类",
+        "有限列数、换行和收缩明确",
+        "Split收起时内容保留策略明确，焦点可达",
+        "不因几何相似要求所有Card/表格内部使用同一个巨型布局组件"
+      ],
+      "nonGoals": [
+        "拖动调宽和布局持久化可延后",
+        "不做通用拖拽编辑器",
+        "不先建多个布局Package"
+      ],
+      "risks": [
+        "溢出/嵌套滚动",
+        "布局收起造成业务草稿丢失"
+      ],
+      "sourceRefs": [
+        "R01",
+        "R10"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-06"
+    },
+    {
+      "id": "RN-07",
+      "title": "Textarea与字段衔接；按需Switch",
+      "plannedMilestone": "M1",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-05"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "packages/ui/src/textarea/**（拟新增）",
+        "FormItem契约与必要桥接",
+        "对应测试/元数据"
+      ],
+      "deliverables": [
+        "与现有字段体系一致的Textarea",
+        "宿主拥有草稿/错误/提交状态的最小表单样本",
+        "Switch仅在首批业务必要时接入"
+      ],
+      "acceptanceCriteria": [
+        "Textarea真正消费FormItem上下文或显式建立同等关联",
+        "标签点击可聚焦；description/error ID、disabled、required正确",
+        "不依赖当前Select未提供的原生提交/约束校验",
+        "不新增第二份字段值事实源",
+        "保存成功后提交，失败保留，取消不污染已提交对象"
+      ],
+      "nonGoals": [
+        "不并用多个表单引擎",
+        "不强制先做完整Form/Field体系",
+        "不把原生textarea原样塞入后宣称已集成"
+      ],
+      "risks": [
+        "FormItem不自动向任意孩子注入id",
+        "Select aria-required不代表浏览器会拦截无值提交"
+      ],
+      "sourceRefs": [
+        "R08",
+        "R09"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-07"
+    },
+    {
+      "id": "RN-08",
+      "title": "Table、Pagination、Empty与首个数据配方",
+      "plannedMilestone": "M1",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-03",
+        "RN-04"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "packages/ui/src/table/** 等拟新增UI",
+        "apps/prototype/scenarios/bm-a 的本地配方",
+        "对应契约/来源/验证"
+      ],
+      "deliverables": [
+        "语义表格部件",
+        "适配Rain按钮的分页",
+        "空数据与无筛选结果表达",
+        "固定版本的数据引擎与可组合DataTable配方"
+      ],
+      "acceptanceCriteria": [
+        "数据标识稳定，不能依赖行号跨排序保存选择",
+        "排序/筛选/分页由声明模式处理，不客户端服务端双重执行",
+        "页码与筛选条件合法性明确",
+        "跨视图选择与表格列状态分开",
+        "复用已有Checkbox/DropdownMenu/Tag/Input/Select"
+      ],
+      "nonGoals": [
+        "不做万能DataView/DataGrid",
+        "不实现全库数据访问平台",
+        "跨结果全集全选与虚拟化可延后但要标明"
+      ],
+      "risks": [
+        "指南与安装的表格引擎版本不匹配",
+        "复用同名组件却传入不兼容props"
+      ],
+      "sourceRefs": [
+        "R04",
+        "R09",
+        "E04_DATA"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-08"
+    },
+    {
+      "id": "RN-09",
+      "title": "BM-A 数据管理场景与状态契约",
+      "plannedMilestone": "M1",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-06",
+        "RN-08",
+        "RN-C4"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "apps/prototype/scenarios/bm-a/**（拟新增）",
+        "benchmarks登记的本批实现引用",
+        "新证据目录"
+      ],
+      "deliverables": [
+        "搜索筛选、紧凑表格、标签、行选择、分页、批量操作",
+        "卡片切换作为后续编辑任务",
+        "状态与事件清单"
+      ],
+      "acceptanceCriteria": [
+        "建议默认：选中集合按id在当前查询范围内跨页保留；表头全选仅当前页可选行",
+        "建议默认：改变查询条件清空选择并回到首个有效页；切换视图保留查询和选择",
+        "建议默认须标记为本场景决定，不写成全局组件默认",
+        "失败重试/空状态/异步过期结果明确",
+        "不越权操作未选记录"
+      ],
+      "nonGoals": [
+        "不把上述选择规则宣称为已确认业务需求",
+        "不宣称未实现的结果全集选择"
+      ],
+      "risks": [
+        "选中项悄悄丢失或影响错误对象"
+      ],
+      "sourceRefs": [
+        "R10"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-09"
+    },
+    {
+      "id": "RN-10",
+      "title": "BM-B 大表单与任务容器场景",
+      "plannedMilestone": "M1",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-06",
+        "RN-07"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "apps/prototype/scenarios/bm-b/**（拟新增）",
+        "Sheet按实际需求的独立批次",
+        "对应状态和新证据"
+      ],
+      "deliverables": [
+        "Dialog或Sheet、分组、单/双列、长文本、校验、固定操作",
+        "上传先使用明确的Mock流程含成功/失败",
+        "副本草稿和提交状态"
+      ],
+      "acceptanceCriteria": [
+        "完整BM-B保留源登记全部条目；若上传未做只标切片完成",
+        "建议默认：显式打开创建草稿、取消丢弃、保存失败保留、成功更新宿主",
+        "是否拦截关闭、切换容器是否保留草稿在本场景明确",
+        "容器形态变化不要求重写字段或泄漏宿主状态"
+      ],
+      "nonGoals": [
+        "不做真实对象存储",
+        "不把模拟上传声称为真实接口"
+      ],
+      "risks": [
+        "只做正常状态就宣称完整大表单"
+      ],
+      "sourceRefs": [
+        "R08",
+        "R09",
+        "R10"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-10"
+    },
+    {
+      "id": "RN-11",
+      "title": "BM-C 工作台",
+      "plannedMilestone": "M2",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-06",
+        "RN-07",
+        "RN-08"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "apps/prototype/scenarios/bm-c/**（拟新增）",
+        "对应局部布局/状态/测试"
+      ],
+      "deliverables": [
+        "任务栏、上下文区、主任务区、右侧检查器、独立滚动和收起",
+        "按已有需求组织批改业务切片"
+      ],
+      "acceptanceCriteria": [
+        "A/B卷、批改方式、对象筛选与评分分别定义拥有者",
+        "保存分数到下一对象的路径顺畅；失败不能静默切走",
+        "调整列宽或收起不丢失作答与评分草稿",
+        "Keyboard与焦点重排后仍成立"
+      ],
+      "nonGoals": [
+        "不加用户未要求的强制评语/申诉步骤",
+        "不要求一开始就加入Resizable引擎"
+      ],
+      "risks": [
+        "布局工具掺入领域状态",
+        "主操作被容器结构遮挡"
+      ],
+      "sourceRefs": [
+        "R10"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-11"
+    },
+    {
+      "id": "RN-12",
+      "title": "BM-D 报告与Statistic/Chart",
+      "plannedMilestone": "M2",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-06",
+        "RN-C4"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "apps/prototype/scenarios/bm-d/**（拟新增）",
+        "最小Statistic与图表品牌适配",
+        "对应文档/来源/测试"
+      ],
+      "deliverables": [
+        "标题、四指标、趋势、摘要、AI洞察",
+        "Value/Unit/Label分离",
+        "声明统计范围的图表配方"
+      ],
+      "acceptanceCriteria": [
+        "统计以完整筛选范围或明确声明的数据集为基准，不错误使用当前页",
+        "仅关键数值使用Data字形；中文单位保持UI字体",
+        "图表颜色按数据语义映射，不能把色号选择当统计定义",
+        "数据源与图表本地交互状态分开"
+      ],
+      "nonGoals": [
+        "不建设所有图表类型",
+        "不调用真实AI服务",
+        "不分发字体文件"
+      ],
+      "risks": [
+        "报告被默认Card堆成看板",
+        "图表引擎类型过度外泄导致迁移困难"
+      ],
+      "sourceRefs": [
+        "R01",
+        "R10"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-12"
+    },
+    {
+      "id": "RN-13",
+      "title": "最小检索、文档与登记闭合",
+      "plannedMilestone": "M1",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-C3",
+        "RN-05"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "docs/ai短入口（拟新增或复用既有）",
+        "manifests与registry限定补全",
+        "组件说明与来源记录"
+      ],
+      "deliverables": [
+        "单一可检索资产索引（从实际登记生成）",
+        "现有遗漏与本批新增资产的精确Manifest",
+        "当前可用范围与已知问题",
+        "需要逐项分发时生成标准Registry输出",
+        "新 Card 精确的本地 Manifest／Registry 与来源；不声称转换为在线标准 Registry"
+      ],
+      "acceptanceCriteria": [
+        "日常AI只加载当前任务需要的契约",
+        "不把完整Token巨型合同和全部历史日志作为日常必读",
+        "代码入口、Manifest与Registry依赖一致",
+        "保持assetIdentity/maturity/publication/Human Gate分离",
+        "标准Registry依赖指向Rain完整地址，不误指内置button"
+      ],
+      "nonGoals": [
+        "不先建搜索服务/MCP服务器",
+        "不以安装状态自动提升资产成熟度"
+      ],
+      "risks": [
+        "元数据再次变成手工双重事实源"
+      ],
+      "sourceRefs": [
+        "R01",
+        "R04",
+        "R12",
+        "E07"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-13",
+      "plannedMilestones": [
+        "M1",
+        "M2"
+      ]
+    },
+    {
+      "id": "RN-14",
+      "title": "连续AI编辑与干净消费验证",
+      "plannedMilestone": "M1",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-09",
+        "RN-10",
+        "RN-C4"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "新批次benchmark运行与截图目录",
+        "最小Starter或本地导出流程（拟新增）"
+      ],
+      "deliverables": [
+        "BM-A/B至少各一轮生成和两轮结构修改记录",
+        "独立临时目录消费一次固定版本Starter",
+        "BM-C/D在其实现后补齐同类测评"
+      ],
+      "acceptanceCriteria": [
+        "记录prompt、输入Commit、模型暴露信息、实际命令、结果和差异",
+        "目标任务的共享基础未被擅改，非目标样本保持",
+        "所有实际值未测则not-measured，不能填0",
+        "干净目录没有偷偷引用原仓库/文档站路径",
+        "至少覆盖构建与运行及一次嵌套浮层"
+      ],
+      "nonGoals": [
+        "不拿历史单元数代替AI性能结果",
+        "不在本轮捏造效率百分比"
+      ],
+      "risks": [
+        "同仓应用被当作独立安装证明",
+        "截图漂亮但事件失效"
+      ],
+      "sourceRefs": [
+        "R01",
+        "R10",
+        "E06"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-14",
+      "plannedMilestones": [
+        "M1",
+        "M2"
+      ]
+    },
+    {
+      "id": "RN-15",
+      "title": "验证收口与试用交付",
+      "plannedMilestone": "M1",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-13",
+        "RN-14",
+        "RN-05",
+        "RN-C4"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "批次报告、已知问题与来源清单",
+        "最小CI配置提案/授权后实现"
+      ],
+      "deliverables": [
+        "M1/M2限定交付范围",
+        "未决问题、使用限制和回退点",
+        "可重复类型/构建/组件与关键浏览器检查",
+        "一页非开发者体验说明"
+      ],
+      "acceptanceCriteria": [
+        "只将已验证资产暴露到默认可用检索",
+        "新增关键交互缺陷未解决则阻断该资产，不把整批虚标完成",
+        "原有颜色问题不被掩盖，不扩大已知缺陷配方使用范围",
+        "保留历史验收并由设计师独立确认新视觉",
+        "不自动publish/push/Figma写入"
+      ],
+      "nonGoals": [
+        "不追求全生产化",
+        "不等待所有低频品类才试用"
+      ],
+      "risks": [
+        "日期到了就降低标准",
+        "把本地可用误称已发布"
+      ],
+      "sourceRefs": [
+        "R01",
+        "R02",
+        "R11",
+        "R14"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-15",
+      "plannedMilestones": [
+        "M1",
+        "M2"
+      ]
+    },
+    {
+      "id": "RN-16",
+      "title": "其余标准品类受控扩面",
+      "plannedMilestone": "M2",
+      "workStatus": "proposed",
+      "dependsOn": [
+        "RN-05",
+        "RN-13"
+      ],
+      "suggestedOwnerRole": "实现代理/前端执行；独立技术复核",
+      "proposedWriteScope": [
+        "每批明确的新增组件目录",
+        "对应元数据/测试/文档"
+      ],
+      "deliverables": [
+        "按64品类对照继续接入",
+        "先处理低依赖且有场景的品类",
+        "专项库单独锁定与验证"
+      ],
+      "acceptanceCriteria": [
+        "每项经过相同接入检查而不是全量复制后虚标可用",
+        "已有资产的相关能力先映射再补新接口",
+        "每批有明确范围/依赖/回归/风险",
+        "覆盖品类、API深度和使用场景成熟度分开",
+        "Card 不再按缺失项重复接入；品类存在不等于 API 与成熟度完成"
+      ],
+      "nonGoals": [
+        "不把批次号当作工作日或完成承诺",
+        "不强迫每项独立npm包或最终自研"
+      ],
+      "risks": [
+        "为凑数量进入重复实现",
+        "引入不兼容的交互/动画上下文"
+      ],
+      "sourceRefs": [
+        "R04",
+        "E01",
+        "E02"
+      ],
+      "executionEvidence": [],
+      "implementationExecuted": false,
+      "humanGate": "not-evaluated",
+      "scopeOfStatus": "V2 planning task only; not project asset maturity",
+      "v1TaskId": "RN-16",
+      "ongoing": true
+    }
+  ],
+  "coverageItems": [
+    {
+      "index": 1,
+      "upstreamCategory": "Accordion",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 2,
+      "upstreamCategory": "Alert",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 3,
+      "upstreamCategory": "Alert Dialog",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 4,
+      "upstreamCategory": "Aspect Ratio",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 5,
+      "upstreamCategory": "Attachment",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 6,
+      "upstreamCategory": "Avatar",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 7,
+      "upstreamCategory": "Badge",
+      "rainCurrentCorrespondence": "Rain Tag / LinkTag 更接近上游 Badge；Rain Badge 另有点/计数/短标记职责",
+      "proposedWave": "保留与对应核对",
+      "relatedTask": "RN-02",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "semantic-map",
+      "targetActionLabel": "先对照Rain Tag/LinkTag；不替换计数型Rain Badge",
+      "relatedTasks": [
+        "RN-02"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "异名映射候选；非同名替换"
+    },
+    {
+      "index": 8,
+      "upstreamCategory": "Breadcrumb",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 9,
+      "upstreamCategory": "Bubble",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 10,
+      "upstreamCategory": "Button",
+      "rainCurrentCorrespondence": "Button；文字动作通过 variant=text；另有 IconButton",
+      "proposedWave": "保留与对应核对",
+      "relatedTask": "RN-02",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "retain-and-gap-audit",
+      "targetActionLabel": "保留当前主实现，补明确缺口，不重复安装",
+      "relatedTasks": [
+        "RN-02"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "已有公开实现；非全功能等价认证"
+    },
+    {
+      "index": 11,
+      "upstreamCategory": "Button Group",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 12,
+      "upstreamCategory": "Calendar",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 13,
+      "upstreamCategory": "Card",
+      "rainCurrentCorrespondence": "Card + Header/Title/Description/Action/Content/Footer",
+      "proposedWave": "M0-C 首批",
+      "relatedTask": "RN-C2",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "作者源码与Card样式审阅版本固定；尚未实施，不等于安装产物已取得或锁定。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R17",
+        "R18",
+        "R20",
+        "R21",
+        "U01",
+        "U02",
+        "U04"
+      ],
+      "targetAction": "replace-via-adapt-shadcn",
+      "targetActionLabel": "优先替换薄弱实现：采用上游基线＋Rain适配",
+      "relatedTasks": [
+        "RN-C1",
+        "RN-C2",
+        "RN-C3",
+        "RN-C4"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": "3ba91b1cc83e1bbe4ab35a422ff2a694849c5048",
+      "baselineClassification": "已有公开实现；非全功能等价认证"
+    },
+    {
+      "index": 14,
+      "upstreamCategory": "Carousel",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 15,
+      "upstreamCategory": "Chart",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "M2 报告及内容需要时",
+      "relatedTask": "RN-12",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-12"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 16,
+      "upstreamCategory": "Checkbox",
+      "rainCurrentCorrespondence": "Checkbox / CheckboxGroup",
+      "proposedWave": "保留与对应核对",
+      "relatedTask": "RN-02",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "retain-and-gap-audit",
+      "targetActionLabel": "保留当前主实现，补明确缺口，不重复安装",
+      "relatedTasks": [
+        "RN-02"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "已有公开实现；非全功能等价认证"
+    },
+    {
+      "index": 17,
+      "upstreamCategory": "Collapsible",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 18,
+      "upstreamCategory": "Combobox",
+      "rainCurrentCorrespondence": "Select 内部已有 Base UI Combobox，覆盖有限候选搜索选择",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "extend-existing-or-add-specific",
+      "targetActionLabel": "已有部分能力；明确差异后补公共入口或专属能力",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "相关能力存在；尚非完整公共对应物"
+    },
+    {
+      "index": 19,
+      "upstreamCategory": "Command",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 20,
+      "upstreamCategory": "Context Menu",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 21,
+      "upstreamCategory": "Data Table",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "M1 由BM-A/B拉动",
+      "relatedTask": "RN-08",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-08"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 22,
+      "upstreamCategory": "Date Picker",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 23,
+      "upstreamCategory": "Dialog",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "M0-O 首批",
+      "relatedTask": "RN-05",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-05"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 24,
+      "upstreamCategory": "Direction",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 25,
+      "upstreamCategory": "Drawer",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 26,
+      "upstreamCategory": "Dropdown Menu",
+      "rainCurrentCorrespondence": "DropdownMenu 复合部件及子菜单、勾选/单选菜单项",
+      "proposedWave": "保留与对应核对",
+      "relatedTask": "RN-02",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "retain-and-gap-audit",
+      "targetActionLabel": "保留当前主实现，补明确缺口，不重复安装",
+      "relatedTasks": [
+        "RN-02"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "已有公开实现；非全功能等价认证"
+    },
+    {
+      "index": 27,
+      "upstreamCategory": "Empty",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "M1 由BM-A/B拉动",
+      "relatedTask": "RN-08",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-08"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 28,
+      "upstreamCategory": "Field",
+      "rainCurrentCorrespondence": "FormItem 与内部共享 Field 样式",
+      "proposedWave": "M1 由BM-A/B拉动",
+      "relatedTask": "RN-07",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "extend-existing-or-add-specific",
+      "targetActionLabel": "已有部分能力；明确差异后补公共入口或专属能力",
+      "relatedTasks": [
+        "RN-07"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "相关能力存在；尚非完整公共对应物"
+    },
+    {
+      "index": 29,
+      "upstreamCategory": "Hover Card",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 30,
+      "upstreamCategory": "Input",
+      "rainCurrentCorrespondence": "Input / SearchInput / FormItem",
+      "proposedWave": "保留与对应核对",
+      "relatedTask": "RN-02",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "retain-and-gap-audit",
+      "targetActionLabel": "保留当前主实现，补明确缺口，不重复安装",
+      "relatedTasks": [
+        "RN-02"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "已有公开实现；非全功能等价认证"
+    },
+    {
+      "index": 31,
+      "upstreamCategory": "Input Group",
+      "rainCurrentCorrespondence": "Input 的附加内容与 SearchInput 有相关组合",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "extend-existing-or-add-specific",
+      "targetActionLabel": "已有部分能力；明确差异后补公共入口或专属能力",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "相关能力存在；尚非完整公共对应物"
+    },
+    {
+      "index": 32,
+      "upstreamCategory": "Input OTP",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 33,
+      "upstreamCategory": "Item",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 34,
+      "upstreamCategory": "Kbd",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 35,
+      "upstreamCategory": "Label",
+      "rainCurrentCorrespondence": "FormItem 内具有关联标签能力",
+      "proposedWave": "M1 由BM-A/B拉动",
+      "relatedTask": "RN-07",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "extend-existing-or-add-specific",
+      "targetActionLabel": "已有部分能力；明确差异后补公共入口或专属能力",
+      "relatedTasks": [
+        "RN-07"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "相关能力存在；尚非完整公共对应物"
+    },
+    {
+      "index": 36,
+      "upstreamCategory": "Marker",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 37,
+      "upstreamCategory": "Menubar",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 38,
+      "upstreamCategory": "Message",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 39,
+      "upstreamCategory": "Message Scroller",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 40,
+      "upstreamCategory": "Native Select",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 41,
+      "upstreamCategory": "Navigation Menu",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 42,
+      "upstreamCategory": "Pagination",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "M1 由BM-A/B拉动",
+      "relatedTask": "RN-08",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-08"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 43,
+      "upstreamCategory": "Popover",
+      "rainCurrentCorrespondence": "Popover 复合部件",
+      "proposedWave": "保留与对应核对",
+      "relatedTask": "RN-02",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "retain-and-gap-audit",
+      "targetActionLabel": "保留当前主实现，补明确缺口，不重复安装",
+      "relatedTasks": [
+        "RN-02"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "已有公开实现；非全功能等价认证"
+    },
+    {
+      "index": 44,
+      "upstreamCategory": "Progress",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 45,
+      "upstreamCategory": "Questionnaire",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 46,
+      "upstreamCategory": "Radio Group",
+      "rainCurrentCorrespondence": "Radio / RadioGroup",
+      "proposedWave": "保留与对应核对",
+      "relatedTask": "RN-02",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "retain-and-gap-audit",
+      "targetActionLabel": "保留当前主实现，补明确缺口，不重复安装",
+      "relatedTasks": [
+        "RN-02"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "已有公开实现；非全功能等价认证"
+    },
+    {
+      "index": 47,
+      "upstreamCategory": "Resizable",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 48,
+      "upstreamCategory": "Scroll Area",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 49,
+      "upstreamCategory": "Select",
+      "rainCurrentCorrespondence": "Select：单/多选与搜索组合",
+      "proposedWave": "保留与对应核对",
+      "relatedTask": "RN-02",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "retain-and-gap-audit",
+      "targetActionLabel": "保留当前主实现，补明确缺口，不重复安装",
+      "relatedTasks": [
+        "RN-02"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "已有公开实现；非全功能等价认证"
+    },
+    {
+      "index": 50,
+      "upstreamCategory": "Separator",
+      "rainCurrentCorrespondence": "DropdownMenu.Separator",
+      "proposedWave": "M0-C或M0-O共用接入样本",
+      "relatedTask": "RN-05",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "extend-existing-or-add-specific",
+      "targetActionLabel": "已有部分能力；明确差异后补公共入口或专属能力",
+      "relatedTasks": [
+        "RN-05"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "相关能力存在；尚非完整公共对应物"
+    },
+    {
+      "index": 51,
+      "upstreamCategory": "Sheet",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "M1 由BM-A/B拉动",
+      "relatedTask": "RN-10",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-10"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 52,
+      "upstreamCategory": "Sidebar",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 53,
+      "upstreamCategory": "Skeleton",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 54,
+      "upstreamCategory": "Slider",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 55,
+      "upstreamCategory": "Spinner",
+      "rainCurrentCorrespondence": "Button 内 loading-indicator",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "extend-existing-or-add-specific",
+      "targetActionLabel": "已有部分能力；明确差异后补公共入口或专属能力",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "相关能力存在；尚非完整公共对应物"
+    },
+    {
+      "index": 56,
+      "upstreamCategory": "Switch",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "M1 由BM-A/B拉动",
+      "relatedTask": "RN-07",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-07"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 57,
+      "upstreamCategory": "Table",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "M1 由BM-A/B拉动",
+      "relatedTask": "RN-08",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-08"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 58,
+      "upstreamCategory": "Tabs",
+      "rainCurrentCorrespondence": "Tabs：便利入口及 Root/Nav/Panels 组合",
+      "proposedWave": "保留与对应核对",
+      "relatedTask": "RN-02",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "retain-and-gap-audit",
+      "targetActionLabel": "保留当前主实现，补明确缺口，不重复安装",
+      "relatedTasks": [
+        "RN-02"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "已有公开实现；非全功能等价认证"
+    },
+    {
+      "index": 59,
+      "upstreamCategory": "Textarea",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "M1 由BM-A/B拉动",
+      "relatedTask": "RN-07",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-07"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 60,
+      "upstreamCategory": "Toast",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 61,
+      "upstreamCategory": "Toggle",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 62,
+      "upstreamCategory": "Toggle Group",
+      "rainCurrentCorrespondence": "未见独立公共入口；不排除实验、依赖或页面内部存在相关实现",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "adopt-or-adapt-missing",
+      "targetActionLabel": "补齐候选；按真实任务和依赖接入",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "当前公共 UI 出口未见对应资产"
+    },
+    {
+      "index": 63,
+      "upstreamCategory": "Tooltip",
+      "rainCurrentCorrespondence": "Tabs 的内部完整标签/禁用原因提示路径",
+      "proposedWave": "后续按依赖与业务扩面",
+      "relatedTask": "RN-16",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "extend-existing-or-add-specific",
+      "targetActionLabel": "已有部分能力；明确差异后补公共入口或专属能力",
+      "relatedTasks": [
+        "RN-16"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "相关能力存在；尚非完整公共对应物"
+    },
+    {
+      "index": 64,
+      "upstreamCategory": "Typography",
+      "rainCurrentCorrespondence": "Foundations 的 UI/Reading/Data 排版及排版 Token",
+      "proposedWave": "M2 报告及内容需要时",
+      "relatedTask": "RN-12",
+      "planningStatus": "proposed",
+      "sourceLocked": false,
+      "upstreamSourceVersion": null,
+      "implementationDoneByThisPlan": false,
+      "admissionEvidence": [],
+      "note": "品类覆盖不等于全API或成熟度对齐；本表未改写仓库状态。",
+      "baselineEvidenceScope": "V1 fixed-commit public-export review carried forward; not a new full API audit",
+      "sourceRefs": [
+        "R04",
+        "R02",
+        "E01"
+      ],
+      "targetAction": "extend-existing-or-add-specific",
+      "targetActionLabel": "已有部分能力；明确差异后补公共入口或专属能力",
+      "relatedTasks": [
+        "RN-12"
+      ],
+      "installArtifactLocked": false,
+      "upstreamReviewedCommit": null,
+      "baselineClassification": "相关能力存在；尚非完整公共对应物"
+    }
+  ]
+}

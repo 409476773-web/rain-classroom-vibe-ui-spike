@@ -1,0 +1,48 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/asset-index.test.ts (4 tests | 2 failed) 2381ms
+   × limits generation-quality authorization without changing previous decisions 10ms
+   × keeps the asset index traceable, current and separate from local experiments and acceptance 1129ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/asset-index.test.ts > limits generation-quality authorization without changing previous decisions
+AssertionError: expected [Function] to not throw an error but 'Error: Invalid Token Foundations V1 h…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged"
+
+ ❯ scripts/asset-index.test.ts:45:66
+     43| it("limits generation-quality authorization without changing previous …
+     44|   const phase = helpers.parseYamlSubset(readFileSync(resolve(root, "st…
+     45|   expect(() => helpers.getValidatedTailwindB2History(phase)).not.toThr…
+       |                                                                  ^
+     46|   for (const change of [
+     47|     { scope: "all-components" }, { humanGate: "accepted" },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/asset-index.test.ts > keeps the asset index traceable, current and separate from local experiments and acceptance
+Error: Invalid Token Foundations V1 history: the complete frozen B2 state and existing Gates must remain unchanged
+ ❯ fail scripts/verification-helpers.mjs:2738:30
+    2736|
+    2737| export function getValidatedTailwindB2History(status) {
+    2738|   const fail = () => { throw new Error("Invalid Token Foundations V1 h…
+       |                              ^
+    2739|   const history = status?.phaseHistory?.tailwindB2;
+    2740|   if (status?.currentPhase?.id !== "token-foundations-v1" || !history
+ ❯ Module.getValidatedTailwindB2History scripts/verification-helpers.mjs:2794:67
+ ❯ scripts/asset-index.test.ts:122:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  2 failed | 46 passed (48)
+   Start at  20:03:56
+   Duration  5.92s (transform 6.39s, setup 1.27s, import 6.39s, tests 6.26s, environment 3.88s)
+

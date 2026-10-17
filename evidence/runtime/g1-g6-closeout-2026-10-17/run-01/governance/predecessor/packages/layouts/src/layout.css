@@ -1,0 +1,15 @@
+@import './workspace.css';
+@layer components {
+  .rain-grid { grid-template-columns: repeat(var(--rain-layout-columns), minmax(0, 1fr)); }
+  .rain-grid[data-adaptive="true"] {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, max(var(--rain-layout-column-min-width), calc((100% - (var(--rain-layout-columns) - 1) * var(--rain-layout-gap)) / var(--rain-layout-columns)))), 1fr));
+  }
+  .rain-grid > * { min-width: 0; }
+  .rain-split-main { flex: 1 1 0; min-width: var(--rain-layout-main-min-width); }
+  .rain-split-sidebar { flex: 0 0 auto; width: var(--rain-layout-sidebar-width); }
+  .rain-split-sidebar[hidden] { display: none; }
+  .rain-split[data-collapsed="true"] > .rain-split-main { min-width: 0; }
+  .rain-split[data-stacked="true"] { flex-direction: column; }
+  .rain-split[data-stacked="true"] > .rain-split-main,
+  .rain-split[data-stacked="true"] > .rain-split-sidebar { flex: 1 1 0; min-width: 0; width: 100%; }
+}

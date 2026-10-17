@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import { completionRate, createReport, reportState, regionalValues, intensityColor, createGoals, validGoals, validRegions, geography } from './data.mjs';
+
+assert.equal(completionRate(180, 126), 70);
+assert.equal(completionRate(0, 0), null);
+assert.equal(reportState(createReport()), 'normal');
+assert.equal(createReport('normal', true).length, 7);
+for (const state of ['zero', 'mixed', 'empty', 'invalid']) assert.equal(reportState(createReport(state)), state);
+assert.equal(reportState([{ ...createReport()[0], date: new Date('invalid') }]), 'invalid');
+assert.equal(reportState([createReport()[1], createReport()[0]]), 'invalid');
+assert.equal(intensityColor(0), 'var(--chart-scale-01)');
+assert.equal(intensityColor(null), 'var(--chart-no-data)');
+assert.notEqual(intensityColor(0), intensityColor(null));
+assert.equal(intensityColor(100), 'var(--chart-scale-05)');
+assert.throws(() => intensityColor(NaN), RangeError);
+assert.equal(validRegions(regionalValues('invalid')), false);
+assert.equal(new Set(geography.features.map(feature => feature.properties.id)).size, 6);
+assert.deepEqual(createGoals().map(goal => goal.value / goal.maxValue * 100), [75,70,0,100]);
+assert.equal(validGoals(createGoals('invalid')), false);
+assert.equal(validGoals(createGoals('zero')), true);
+console.log('Independent consumer data checks passed: dates, denominators, zero/missing, intensity bounds, independent targets.');

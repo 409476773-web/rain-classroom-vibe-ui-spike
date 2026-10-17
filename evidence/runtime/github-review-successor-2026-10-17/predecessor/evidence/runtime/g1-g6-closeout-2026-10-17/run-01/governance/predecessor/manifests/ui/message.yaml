@@ -1,0 +1,123 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-message"
+name: "Message"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/message/message.tsx"
+sourceVersion: "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; rain-adaptation-2026-10-14"
+description: "发送者、内容、元信息和消息动作的开放布局。"
+useWhen:
+  - "消息行需要身份/时间、正文、附件和具体消息动作的组织。"
+  - "需start/end发送方向与连续同发送者的占位头像。"
+doNotUseWhen:
+  - "新造sender/user/assistant role自动映射或头像加载引擎。"
+  - "整行可点击再嵌套按钮，或由组件发请求/管权限。"
+anatomy:
+  - "root"
+  - "group"
+  - "avatar"
+  - "content"
+  - "header"
+  - "footer"
+parts:
+  - "root"
+  - "group"
+  - "avatar"
+  - "content"
+  - "header"
+  - "footer"
+props:
+  - "Root原生div + align(start默认|end) + MessageRecipe。"
+  - "Group/Avatar/Content/Header/Footer为原生div属性/ref/className/style，子Part可显式localRecipe。"
+  - "没有sender、role、messages、时间格式化、onSend公共Props。"
+slots:
+  - "Message"
+  - "MessageGroup"
+  - "MessageAvatar"
+  - "MessageContent"
+  - "MessageHeader"
+  - "MessageFooter"
+variants:
+  - "start/end整行顺序；正文通过Bubble不同表面组合。"
+states:
+  - "等待/流式/已读/失败/复制/重试由宿主内容与动作表达。"
+dependencies:
+  - "React19.2.8与Rain Foundations；rainCn依赖既有tailwind-merge3.6.0。"
+  - "本项实际源码/内部helper/被动视觉依赖在Registry登记；消费仍为managed @rain-next/ui。"
+tokens:
+  - "正文UI14/22与Text/Neutral/2；Header/Footer12/20、semibold、Text/Neutral/3。"
+  - "Avatar占位中性表面/min32；Content gap10、metadata内padding12；ghost取消metadata padding。"
+layoutConstraints:
+  - "end用row-reverse及内容end对齐；Footer跟随消息侧。"
+  - "source在Footer存在时Avatar上移32保留；多行Footer需组合检查。"
+compositionRules:
+  - "Avatar slot放既有Avatar；Group的前几行可保留空位，末行显示头像。"
+  - "正文组合Bubble/Attachment，动作复用Button/IconButton；Root局改不影响兄弟实例。"
+allowedModifications:
+  - "使用本条列出的真实Props/ref/className/style；仅source已提供的Parts支持render/localRecipe，不把通用模板当API。"
+  - "视觉用既有Rain Token/具名局部方案；已登记源几何/动效差额不升级全局Foundation。"
+restrictedModifications:
+  - "不得移除原生语义/焦点/生命周期、重复行为引擎或扩大人工/发布接受。"
+accessibility:
+  - "姓名/时间与错误须可读，头像按内容或装饰给alt；动作命名含具体消息用途。"
+  - "复制成功/失败、重试等待反馈由宿主提供；状态不能仅靠颜色。"
+examples:
+  - "apps/playground/src/docs/components/g6-conversation-pages.tsx"
+recipes:
+  - "默认与有名局改只作用该实例；原生组合接缝及未改兄弟需保持。"
+antiPatterns:
+  - "新造sender/user/assistant role自动映射或头像加载引擎。"
+  - "整行可点击再嵌套按钮，或由组件发请求/管权限。"
+relatedComponents:
+  - "ui-avatar"
+  - "ui-bubble"
+  - "ui-attachment"
+  - "ui-marker"
+  - "ui-message-scroller"
+  - "ui-button"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "正文UI14/22与Text/Neutral/2；Header/Footer12/20、semibold、Text/Neutral/3。"
+    - "Avatar占位中性表面/min32；Content gap10、metadata内padding12；ghost取消metadata padding。"
+  externalReferences:
+    - "固定shadcn Base UI TSX及同版Nova；sharedCSS仅在本条source差额列明时转译。"
+  retainedTraits:
+    - "root"
+    - "group"
+    - "avatar"
+    - "content"
+    - "header"
+    - "footer"
+  redesignedTraits:
+    - "保留6Parts布局；Rain字阶/字重600/密度/逻辑位置接入，不复制Avatar engine。"
+    - "32px上移仍来源基线，没有测量observer或额外消息wrapper。"
+  intentionallyNotInherited:
+    - "新造sender/user/assistant role自动映射或头像加载引擎。"
+    - "整行可点击再嵌套按钮，或由组件发请求/管权限。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/g6-components-2026-10-14/source-lock.json"
+  - "evidence/runtime/g6-research-2026-10-14/source-supplement.json"
+migrationNotes: "2026-10-14用户授权完整G6建设；人工视觉、对比度、发布与生产采用分别记录。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  evidence: "evidence/runtime/g6-components-2026-10-14/verification.md"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+styleSourcePath: "packages/ui/src/message/message.css"
+density:
+  - "行gap8→6，Content10→8；Avatar min32与metadata字阶不缩小。"
+sourceDifferences:
+  - "保留6Parts布局；Rain字阶/字重600/密度/逻辑位置接入，不复制Avatar engine。"
+  - "32px上移仍来源基线，没有测量observer或额外消息wrapper。"
+verificationLimits:
+  - "两行Footer/不同按钮尺寸对齐、无头像/长文本/附件、RTL与动作焦点待浏览器核验。"

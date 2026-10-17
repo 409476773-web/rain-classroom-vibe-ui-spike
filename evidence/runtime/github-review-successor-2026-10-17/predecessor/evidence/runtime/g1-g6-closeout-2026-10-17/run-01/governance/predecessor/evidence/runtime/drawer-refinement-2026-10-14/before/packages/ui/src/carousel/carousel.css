@@ -1,0 +1,19 @@
+/* @rain-css-exception ui-carousel: source flex basis, outside-control distance and orientation; Embla owns all motion. */
+@layer base {
+  .rain-carousel { position: relative; min-width: 0; }
+  .rain-carousel__viewport { overflow: hidden; }
+  .rain-carousel__content { display: flex; margin-inline-start: calc(var(--rain-space-16) * -1); touch-action: pan-y pinch-zoom; }
+  .rain-carousel__content[data-orientation="vertical"] { flex-direction: column; margin-inline-start: 0; margin-block-start: calc(var(--rain-space-16) * -1); touch-action: pan-x pinch-zoom; }
+  .rain-carousel__item { min-width: 0; flex: 0 0 100%; padding-inline-start: var(--rain-space-16); }
+  .rain-carousel__item[data-orientation="vertical"] { padding-inline-start: 0; padding-block-start: var(--rain-space-16); }
+  .rain-carousel__navigation { position: absolute; touch-action: manipulation; }
+  .rain-carousel__previous[data-orientation="horizontal"] { inset-block: 0; inset-inline-start: -48px; margin-block: auto; }
+  .rain-carousel__next[data-orientation="horizontal"] { inset-block: 0; inset-inline-end: -48px; margin-block: auto; }
+  .rain-carousel__previous[data-orientation="vertical"] { inset-block-start: -48px; inset-inline-start: 50%; transform: translateX(-50%); }
+  .rain-carousel__next[data-orientation="vertical"] { inset-block-end: -48px; inset-inline-start: 50%; transform: translateX(-50%); }
+  .rain-carousel:dir(rtl) .rain-carousel__navigation[data-orientation="vertical"] { transform: translateX(50%); }
+  .rain-carousel:focus-visible { outline: var(--rain-focus-width) solid var(--rain-focus-control); outline-offset: var(--rain-focus-offset); }
+}
+@media (forced-colors: active) {
+  .rain-carousel:focus-visible { outline-color: Highlight; }
+}

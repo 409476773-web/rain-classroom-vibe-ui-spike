@@ -1,0 +1,89 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/chart-color-consumers.test.ts (4 tests | 1 failed) 401ms
+   × four chart color sources register in light mode while contrast and weak-content findings remain pending 75ms
+ ❯ apps/playground/src/docs/components/chart-variants/trend.test.tsx (8 tests | 1 failed) 7366ms
+   × all 52 frozen trend variants have a real plot and precise readable data 5048ms
+ ❯ apps/playground/src/docs/components/chart-variants/structure.test.tsx (12 tests | 1 failed) 9110ms
+   × registers all 24 structure variants with a real plot and exact data 5287ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/chart-color-consumers.test.ts > four chart color sources register in light mode while contrast and weak-content findings remain pending
+AssertionError: packages/ui/src/charts/styles.css: expected [ …(4) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "Unregistered visual color declaration in packages/ui/src/charts/styles.css: background: var(--chart-no-data)",
++   "Unregistered visual color declaration in packages/ui/src/charts/styles.css: background: var(--chart-1)",
++   "Unregistered visual color declaration in packages/ui/src/charts/styles.css: background: repeating-linear-gradient(135deg, var(--chart-no-data), var(--chart-no-data) 3px, transparent 3px, transparent 6px)",
++   "Unregistered border color in packages/ui/src/charts/styles.css: 1px dashed var(--chart-label)",
++ ]
+
+ ❯ scripts/chart-color-consumers.test.ts:18:173
+     16| test("four chart color sources register in light mode while contrast a…
+     17|   const pendingContrastFindings: any[] = [], pendingEligibilityFinding…
+     18|   for (const filePath of files) expect(validateRegisteredRecipeColors(…
+       |                                                                                                                                                                             ^
+     19|   expect(pendingContrastFindings.some(row => row.tokenId === "Text/Neu…
+     20|   expect(pendingEligibilityFindings.some(row => row.tokenId === "Text/…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/structure.test.tsx > registers all 24 structure variants with a real plot and exact data
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/playground/src/docs/components/chart-variants/structure.test.tsx:26:1
+     24| const getModule = () => import("./structure");
+     25|
+     26| test("registers all 24 structure variants with a real plot and exact d…
+       | ^
+     27|   const module = await getModule().catch(() => null);
+     28|   expect(module?.StructureVariant, "structure family renderer is imple…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/trend.test.tsx > all 52 frozen trend variants have a real plot and precise readable data
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/playground/src/docs/components/chart-variants/trend.test.tsx:37:1
+     35| }
+     36|
+     37| test("all 52 frozen trend variants have a real plot and precise readab…
+       | ^
+     38|   const { TrendVariant, TREND_VARIANT_IDS } = await moduleUnderTest();
+     39|   expect([...TREND_VARIANT_IDS]).toEqual(expected);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-variants/trend.test.tsx > all 52 frozen trend variants have a real plot and precise readable data
+TypeError: path.getTotalLength is not a function
+ ❯ packages/ui/src/charts/vendor/charts/path-stroke-utils.ts:56:26
+     54|     }
+     55|     const d = path.getAttribute("d");
+     56|     const len = d ? path.getTotalLength() : 0;
+       |                          ^
+     57|     setMetrics((prev) =>
+     58|       prev.pathD === d && prev.pathLength === len
+ ❯ Object.react_stack_bottom_frame node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:25989:20
+ ❯ runWithFiberInDEV node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:874:13
+ ❯ commitHookEffectListMount node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:13249:29
+ ❯ commitHookPassiveMountEffects node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:13336:11
+ ❯ commitPassiveMountOnFiber node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:15484:13
+ ❯ recursivelyTraversePassiveMountEffects node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:15439:11
+ ❯ commitPassiveMountOnFiber node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:15718:11
+ ❯ recursivelyTraversePassiveMountEffects node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:15439:11
+ ❯ commitPassiveMountOnFiber node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.development.js:15718:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  3 failed | 24 passed (27)
+      Tests  3 failed | 126 passed (129)
+   Start at  22:53:20
+   Duration  12.67s (transform 21.70s, setup 14.52s, import 25.61s, tests 43.57s, environment 42.40s)
+

@@ -1,0 +1,72 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-chart-variant-consumption.test.ts (7 tests | 5 failed) 40ms
+   × URL-loaded geometry provinces.geojson must be present in the actual downloaded closure 1ms
+   × URL-loaded geometry cities-hdx.geojson must be present in the actual downloaded closure 0ms
+   × URL-loaded geometry counties-osm.geojson must be present in the actual downloaded closure 0ms
+   × URL-loaded assets reject escaped and dynamic module-relative paths 0ms
+   × China downloads are extracted from their independent source module with all raw geometry 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-chart-variant-consumption.test.ts > URL-loaded geometry provinces.geojson must be present in the actual downloaded closure
+ FAIL  scripts/verify-chart-variant-consumption.test.ts > URL-loaded geometry cities-hdx.geojson must be present in the actual downloaded closure
+ FAIL  scripts/verify-chart-variant-consumption.test.ts > URL-loaded geometry counties-osm.geojson must be present in the actual downloaded closure
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ scripts/verify-chart-variant-consumption.test.ts:31:52
+     29|   expect(()=>assertDownloadClosure(files,"china")).not.toThrow();
+     30|   delete files[`chart-business/data/china/${geometry}`];
+     31|   expect(()=>assertDownloadClosure(files,"china")).toThrow(`requires .…
+       |                                                    ^
+     32| });
+     33|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  scripts/verify-chart-variant-consumption.test.ts > URL-loaded assets reject escaped and dynamic module-relative paths
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ scripts/verify-chart-variant-consumption.test.ts:35:110
+     33|
+     34| test("URL-loaded assets reject escaped and dynamic module-relative pat…
+     35|   expect(()=>assertDownloadClosure({ "main.ts": 'new URL("../outside.g…
+       |                                                                                                              ^
+     36|   expect(()=>assertDownloadClosure({ "main.ts": 'const name="data.geoj…
+     37|   expect(()=>assertDownloadClosure({ "main.ts": 'new URL(`/data.geojso…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  scripts/verify-chart-variant-consumption.test.ts > China downloads are extracted from their independent source module with all raw geometry
+Error: ENOENT: no such file or directory, open '/var/folders/2h/mp7rp10x1plgfqrm94_0dcdm0000gn/T/rain-china-download-test-5DhWJx/chart-example-source.tsx'
+ ❯ read scripts/verify-chart-variant-consumption.mjs:12:22
+     10|
+     11| const workspace = resolve(dirname(fileURLToPath(import.meta.url)), "..…
+     12| const read = path => readFileSync(path, "utf8");
+       |                      ^
+     13| const json = path => JSON.parse(read(path));
+     14| const hash = content => createHash("sha256").update(content).digest("h…
+ ❯ exportedDownloads scripts/verify-chart-variant-consumption.mjs:36:18
+ ❯ scripts/verify-chart-variant-consumption.test.ts:47:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 2 passed (7)
+   Start at  00:44:49
+   Duration  2.68s (transform 1.27s, setup 104ms, import 2.07s, tests 40ms, environment 381ms)
+

@@ -1,0 +1,204 @@
+--- before/packages/ui/src/command/command.test.tsx
++++ after/packages/ui/src/command/command.test.tsx
+@@ -2,7 +2,7 @@
+ import { render, screen } from "@testing-library/react";
+ import userEvent from "@testing-library/user-event";
+ import { expect, it, vi } from "vitest";
+-import { Command } from "./command";
++import { Command, type CommandGroupData, type CommandOption } from "./command";
+ 
+ const groups = [{ value: "任务", items: [
+   { value: "open-panel", label: "打开任务面板" },
+@@ -17,9 +17,9 @@
+       <Command.Input placeholder="搜索命令" />
+       <Command.Empty>没有匹配命令</Command.Empty>
+       <Command.List>
+-        {(group: typeof groups[number]) => <Command.Group key={group.value} items={group.items}>
++        {(group: CommandGroupData) => <Command.Group key={group.value} items={group.items}>
+           <Command.GroupLabel>{group.value}</Command.GroupLabel>
+-          <Command.Collection>{(item: typeof groups[number]["items"][number]) => <Command.Item key={item.value} value={item} onSelect={item.value === "open-panel" ? onSelect : undefined}>{item.label}</Command.Item>}</Command.Collection>
++          <Command.Collection>{(item: CommandOption) => <Command.Item key={item.value} value={item} onSelect={item.value === "open-panel" ? onSelect : undefined}>{item.label}</Command.Item>}</Command.Collection>
+         </Command.Group>}
+       </Command.List>
+     </Command>,
+--- before/apps/playground/src/docs/components/core-ui-page.test.tsx
++++ after/apps/playground/src/docs/components/core-ui-page.test.tsx
+@@ -5,7 +5,7 @@
+ import { CoreUiPage } from "./core-ui-page";
+ 
+ describe("CoreUiPage", () => {
+-  it("documents eight families with field previews and Alert and Tabs detail entries", () => {
++  it("documents the complete family identities with field previews and detail entries", () => {
+     const { container } = render(<CoreUiPage />);
+     expect(screen.getByRole("heading", { level: 1, name: "Core UI，把高频动作先做准" })).toHaveAttribute(
+       "id",
+@@ -14,7 +14,17 @@
+     const page = container.querySelector('[data-rain-id="core-ui-page"]');
+     expect(page).toHaveAttribute("data-asset-identity", "local-experiment");
+     expect(page).toHaveAttribute("data-maturity", "prototype-ready");
+-    expect(container.querySelectorAll('[data-slot="component-family"]')).toHaveLength(8);
++    expect(Array.from(container.querySelectorAll('[data-slot="component-family"]'), (family) => family.getAttribute("data-rain-id"))).toEqual([
++      "core-ui-button",
++      "core-ui-input",
++      "core-ui-input-number",
++      "core-ui-alert",
++      "core-ui-breadcrumb",
++      "core-ui-tabs",
++      "core-ui-select",
++      "core-ui-tag-badge",
++      "core-ui-surface-card",
++    ]);
+     expect(screen.getByRole("link", { name: "查看 Alert 全部用法" })).toHaveAttribute("href", "#alert");
+     expect(screen.getByRole("link", { name: "查看 InputNumber 全部用法" })).toHaveAttribute("href", "#input-number");
+     expect(screen.getByRole('link', { name: '查看 Tabs 全部用法' })).toHaveAttribute('href', '#tabs');
+--- before/tests/e2e/core-ui.spec.ts
++++ after/tests/e2e/core-ui.spec.ts
+@@ -132,7 +132,22 @@
+     "data-maturity",
+     "prototype-ready",
+   );
+-  await expect(page.locator('[data-slot="component-family"]')).toHaveCount(6);
++  const expectedFamilies = [
++    "core-ui-button",
++    "core-ui-input",
++    "core-ui-input-number",
++    "core-ui-alert",
++    "core-ui-breadcrumb",
++    "core-ui-tabs",
++    "core-ui-select",
++    "core-ui-tag-badge",
++    "core-ui-surface-card",
++  ];
++  const families = page.locator('[data-slot="component-family"]');
++  await expect(families).toHaveCount(expectedFamilies.length);
++  for (const [index, identity] of expectedFamilies.entries()) {
++    await expect(families.nth(index)).toHaveAttribute("data-rain-id", identity);
++  }
+   await expect(page.getByRole('link', { name: '查看 Tabs 全部用法' })).toHaveAttribute('href', '#tabs');
+   await expect(page.getByText("prototype-ready")).toHaveCount(4);
+   await expect(page.getByText("分批验收")).toBeVisible();
+--- before/tests/e2e/learning-report-a.spec.ts
++++ after/tests/e2e/learning-report-a.spec.ts
+@@ -2,14 +2,13 @@
+ import { mkdirSync, writeFileSync } from "node:fs";
+ import { contrastRatio } from "./color-contrast";
+ 
+-const origin = "http://127.0.0.1:5369";
+ const evidence = "evidence/runtime/learning-report-a/v2-feedback";
+ test.beforeAll(() => mkdirSync(evidence, { recursive: true }));
+ 
+ test("report V2 preserves filter scope, keyboard readings and recovery", async ({ page }) => {
+   const errors: string[] = [];
+   page.on("pageerror", error => errors.push(error.message));
+-  await page.goto(`${origin}/#learning-report`);
++  await page.goto("/#learning-report");
+   const metrics = page.getByRole("region", { name: "关键指标", exact: true });
+   const gaps = page.getByRole("region", { name: "提交缺口", exact: true });
+   await expect(metrics).toContainText("80.9");
+@@ -69,7 +68,7 @@
+ });
+ 
+ test("report V2 keeps three breathable chapters, blue gaps and a locally scrolling mobile table", async ({ page }) => {
+-  await page.goto(`${origin}/#learning-report`);
++  await page.goto("/#learning-report");
+   const geometries = [];
+   for (const width of [1242, 1154, 920, 390]) {
+     await page.setViewportSize({ width, height: 900 });
+@@ -78,13 +77,15 @@
+       const rect = (selector: string) => document.querySelector(selector)!.getBoundingClientRect();
+       const style = (selector: string) => getComputedStyle(document.querySelector(selector)!);
+       const chapterBoxes = [...document.querySelectorAll('[data-slot="report-chapter"]')].map(el => el.getBoundingClientRect().toJSON());
++      const blueToken = document.createElement('span');
++      blueToken.style.color = style('main').getPropertyValue('--rain-category-fill-taglive-solid-1').trim();
+       return { width: innerWidth, scrollWidth: document.documentElement.scrollWidth, chapterBoxes,
+         hero1: rect('.report-a-hero-score').toJSON(), hero2: rect('.report-a-hero-completion').toJSON(),
+         gap: rect('.report-a-gap-visual').toJSON(), insight: rect('.report-a-gap-insight').toJSON(),
+         dataFont: style('.bm-d-statistic [data-slot="value"]').fontFamily, unitFont: style('.bm-d-statistic [data-slot="unit"]').fontFamily,
+         toggle: rect('.bm-d-metric-option').height, compareSize: style('.report-a-comparison-value').fontSize,
+         blue: style('.report-a-gap-start').stopColor,
+-        expectedBlue: style('main').getPropertyValue('--rain-category-fill-taglive-solid-1').trim(),
++        expectedBlue: blueToken.style.color,
+         tableScroll: document.querySelector('[data-rain-id="ui-table-scroll-area"]')?.scrollWidth ?? 0,
+       };
+     });
+@@ -95,10 +96,7 @@
+     expect(geometry.chapterBoxes[2].top - geometry.chapterBoxes[1].bottom).toBe(24);
+     expect(geometry.toggle).toBe(32); expect(geometry.compareSize).toBe('14px');
+     expect(geometry.dataFont).toContain('LINE Seed'); expect(geometry.unitFont).toContain('PingFang');
+-    const expectedBlue = geometry.expectedBlue.startsWith('#')
+-      ? `rgb(${geometry.expectedBlue.slice(1).match(/../g)!.map(part => parseInt(part, 16)).join(', ')})`
+-      : geometry.expectedBlue;
+-    expect(geometry.blue).toBe(expectedBlue);
++    expect(geometry.blue).toBe(geometry.expectedBlue);
+     if (width > 900) expect(geometry.insight.x).toBeGreaterThan(geometry.gap.right);
+     else expect(geometry.insight.y).toBeGreaterThanOrEqual(geometry.gap.bottom);
+     if (width > 760) expect(geometry.hero1.y).toBe(geometry.hero2.y);
+@@ -128,7 +126,7 @@
+   await expect(page.getByRole('radio', { name: '提交率', exact: true })).toBeChecked();
+   await page.screenshot({ path: `${evidence}/forced-colors.png`, fullPage: true });
+   await page.emulateMedia({ forcedColors: 'none' });
+-  await page.goto(`${origin}/#bm-d`);
++  await page.goto("/#bm-d");
+   await expect(page.locator('main')).toHaveAttribute('data-presentation', 'original');
+   await expect(page.getByRole('combobox', { name: '固定对照' })).toBeVisible();
+   await expect(page.getByRole('table').getByRole('row')).toHaveCount(13);
+--- before/tests/e2e/learning-report.config.ts
++++ after/tests/e2e/learning-report.config.ts
+@@ -5,5 +5,5 @@
+   testDir: ".", testMatch: "learning-report-a.spec.ts", workers: 1, retries: 0,
+   outputDir: "../../evidence/runtime/learning-report-a/v2/test-results",
+   reporter: "list",
+-  use: { ...devices["Desktop Chrome"], viewport: { width: 1115, height: 812 }, trace: "retain-on-failure" },
++  use: { ...devices["Desktop Chrome"], baseURL: process.env.RAIN_REPORT_BASE_URL ?? "http://127.0.0.1:5369", viewport: { width: 1115, height: 812 }, trace: "retain-on-failure" },
+ });
+--- before/playwright.config.ts
++++ after/playwright.config.ts
+@@ -28,12 +28,12 @@
+   projects: [
+     {
+       name: "chromium",
+-      testIgnore: ["**/bm-a.spec.ts", "**/m2.spec.ts", "**/navigation-rebuild-closure.spec.ts"],
++      testIgnore: ["**/bm-a.spec.ts", "**/m2.spec.ts", "**/navigation-rebuild-closure.spec.ts", "**/learning-report-a.spec.ts"],
+       use: { ...devices["Desktop Chrome"] },
+     },
+     {
+       name: "chromium-prototype",
+-      testMatch: ["**/bm-a.spec.ts", "**/m2.spec.ts", "**/navigation-rebuild-closure.spec.ts"],
++      testMatch: ["**/bm-a.spec.ts", "**/m2.spec.ts", "**/navigation-rebuild-closure.spec.ts", "**/learning-report-a.spec.ts"],
+       use: { ...devices["Desktop Chrome"], baseURL: "http://127.0.0.1:4174" },
+     },
+   ],
+--- before/tests/e2e/navigation-v042-w6-review01.config.ts
++++ after/tests/e2e/navigation-v042-w6-review01.config.ts
+@@ -16,7 +16,7 @@
+     baseURL: process.env.RAIN_REVIEW01_BASE_URL ?? 'http://127.0.0.1:5204',
+     viewport: { width: 1338, height: 796 },
+     locale: 'zh-CN',
+-    reducedMotion: 'reduce',
++    contextOptions: { reducedMotion: 'reduce' },
+     screenshot: 'only-on-failure',
+     trace: 'retain-on-failure',
+   },
+--- before/tests/e2e/navigation-v042-w6-review02.config.ts
++++ after/tests/e2e/navigation-v042-w6-review02.config.ts
+@@ -7,7 +7,7 @@
+   reporter: [['list'], ['json', { outputFile: '../../evidence/runtime/navigation-v042/w6/review-02/independent/browser-results.json' }]],
+   use: {
+     baseURL: process.env.RAIN_REVIEW02_BASE_URL ?? 'http://127.0.0.1:5204',
+-    viewport: { width: 1343, height: 747 }, locale: 'zh-CN', reducedMotion: 'reduce',
++    viewport: { width: 1343, height: 747 }, locale: 'zh-CN', contextOptions: { reducedMotion: 'reduce' },
+     screenshot: 'only-on-failure', trace: 'retain-on-failure',
+   },
+   projects: [
+--- before/tests/e2e/navigation-v042-w6-review01-compat.config.ts
++++ after/tests/e2e/navigation-v042-w6-review01-compat.config.ts
+@@ -1,2 +1,2 @@
+ import { defineConfig } from '@playwright/test';
+-export default defineConfig({testDir:'.',testMatch:'navigation-v042-w6.spec.ts',workers:1,retries:0,reporter:[['list'],['json',{outputFile:'../../evidence/runtime/navigation-v042/w6/review-01/compat-browser-results.json'}]],use:{baseURL:'http://127.0.0.1:5204',viewport:{width:1440,height:1100},locale:'zh-CN',reducedMotion:'reduce',screenshot:'only-on-failure',trace:'retain-on-failure'},outputDir:'../../evidence/runtime/navigation-v042/w6/review-01/compat-browser-artifacts'});
++export default defineConfig({testDir:'.',testMatch:'navigation-v042-w6.spec.ts',workers:1,retries:0,reporter:[['list'],['json',{outputFile:'../../evidence/runtime/navigation-v042/w6/review-01/compat-browser-results.json'}]],use:{baseURL:'http://127.0.0.1:5204',viewport:{width:1440,height:1100},locale:'zh-CN',contextOptions:{reducedMotion:'reduce'},screenshot:'only-on-failure',trace:'retain-on-failure'},outputDir:'../../evidence/runtime/navigation-v042/w6/review-01/compat-browser-artifacts'});
+--- before/tests/e2e/navigation-v042-w6-review02-compat.config.ts
++++ after/tests/e2e/navigation-v042-w6-review02-compat.config.ts
+@@ -1,2 +1,2 @@
+ import { defineConfig } from '@playwright/test';
+-export default defineConfig({testDir:'.',testMatch:'navigation-v042-w6.spec.ts',workers:1,retries:0,reporter:[['list'],['json',{outputFile:'../../evidence/runtime/navigation-v042/w6/review-02/compat-browser-results.json'}]],use:{baseURL:'http://127.0.0.1:5204',viewport:{width:1440,height:1100},locale:'zh-CN',reducedMotion:'reduce',screenshot:'only-on-failure',trace:'retain-on-failure'},outputDir:'../../evidence/runtime/navigation-v042/w6/review-02/compat-browser-artifacts'});
++export default defineConfig({testDir:'.',testMatch:'navigation-v042-w6.spec.ts',workers:1,retries:0,reporter:[['list'],['json',{outputFile:'../../evidence/runtime/navigation-v042/w6/review-02/compat-browser-results.json'}]],use:{baseURL:'http://127.0.0.1:5204',viewport:{width:1440,height:1100},locale:'zh-CN',contextOptions:{reducedMotion:'reduce'},screenshot:'only-on-failure',trace:'retain-on-failure'},outputDir:'../../evidence/runtime/navigation-v042/w6/review-02/compat-browser-artifacts'});

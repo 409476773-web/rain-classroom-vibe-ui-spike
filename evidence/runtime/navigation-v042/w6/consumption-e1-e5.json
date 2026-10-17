@@ -1,0 +1,819 @@
+{
+  "schemaVersion": 1,
+  "task": "W6 E1–E5 independent application consumption",
+  "recordedAt": "2026-10-04T09:20:23.500339+00:00",
+  "entry": "/navigation-v042-w6-consumer.html#E1",
+  "navigation": [
+    "#E1",
+    "#E2",
+    "#E3",
+    "#E4",
+    "#E5",
+    "#E6"
+  ],
+  "assetIdentity": "local-experiment",
+  "maturity": "local-experiment",
+  "mock": true,
+  "workMode": "prototype-mode-consumption-with-read-only-shared-assets",
+  "publicImports": {
+    "@rain-next/ui": [
+      "Button",
+      "Input",
+      "Textarea",
+      "NavigationBar",
+      "NavigationTabs",
+      "ScopeNavigation",
+      "ObjectNavigator",
+      "SegmentedControl"
+    ],
+    "@rain-next/layouts": [
+      "ConnectedSurface",
+      "WorkspaceLayout",
+      "RecoverableRegion",
+      "RegionRestoreTrigger",
+      "PaneSplitter",
+      "useWorkspaceLayout",
+      "createWorkspaceKey"
+    ]
+  },
+  "loadedEvidence": [
+    {
+      "path": "AGENTS.md",
+      "currentSha256": "d830fd4f7198f860dd2c11c5c6e108ac1bc0e332776eb55780c2b58dbf326845",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "SPIKE_BRIEF.md",
+      "currentSha256": "b1fac2ace9a25be11c106c74fc494191f00934aa81f899fe59e6d73fe3624512",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "status/current-phase.yaml",
+      "currentSha256": "2175072a5d6a115f7c21c54e8c1d9bf6e8f86bd462ae08069de178bbcda0a01f",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "evidence/visual-evidence.yaml",
+      "currentSha256": "8c88d853ad7549fda4dbb9fcf4069db3df91f98867362f2ce21ebbc10fd7884d",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "benchmarks/benchmark-registry.yaml",
+      "currentSha256": "6af678383cfa707519900e99ead4002d8454610844f67abe7e5ee7e6b67cf30d",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "benchmarks/README.md",
+      "currentSha256": "685900db8605c3102e203294f57bd50e0edbc3e496aa09a6312f8e5ef5c5ebb3",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "docs/ai/asset-index.md",
+      "currentSha256": "8d6bc93d08111b2a0c910ceb1c837825826899ac68620c703950da3780fa68c4",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "docs/ai/prototype-design.md",
+      "currentSha256": "0b7d281af94e329b0316f1c33ec6928c89b5e78f88cdfa83e650c28e566caa01",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "docs/ai/information-design.md",
+      "currentSha256": "570bf6f1d6b539cd47477b1a0a520538ed2b01ff9bd05b8e53762db131a8bbe3",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "docs/ai/skills/rain-navigation-composition/SKILL.md",
+      "currentSha256": "14cbb9eb7cab28ce00fd462a66b6fdf437e98da71d58d49b235c34303867e7dd",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "docs/ai/navigation-v042-w5.md",
+      "currentSha256": "afbd71e98745210969c4b2828ec94689f3dfeeb4b4e63280b71631dcb6a2a608",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "docs/ai/navigation-workspaces-v042.md",
+      "currentSha256": "824e11e2680c178e42761ca2184a2f40a3dde4ade8953f3694af3938fbef9c1d",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "docs/ai/navigation-v042.md",
+      "currentSha256": "6e01f85040971eeb7a75907323ec87d2f712bcd300d2d5be049f3de9395520cf",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "packages/ui/src/index.ts",
+      "currentSha256": "352c65cec438127a8d482d570a19c7d8db6eb611fa2cb37b9b64f8aead123c53",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "packages/layouts/src/index.ts",
+      "currentSha256": "709823a9e5dd352adaa040c9c681ea98098cfe4e13ae4f5ff2f5d6e728014037",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "packages/ui/package.json",
+      "currentSha256": "5a034aaae6bfa2fee634f6ea52fa32ab812487469a7b1c736c0360ec270b9b9c",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "packages/layouts/package.json",
+      "currentSha256": "31c4baf5b22e1df57114cc759742adf7533d89ede6df9ba02dd8b7dbcf33f7fb",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "packages/ui/src/navigation/navigation.tsx",
+      "currentSha256": "a1c01be7dd9b6d5b46e4aa132e4d7b59a4e001eaf8934e0b19b716e7dc36ad79",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "packages/ui/src/navigation/navigation-families.tsx",
+      "currentSha256": "74ea3796b3062d546279dc6912b2e67c0ccb148cfcff042fd6c13721bd94c62d",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "packages/layouts/src/connected-surface.tsx",
+      "currentSha256": "60ab4b1eae4a8d7241732e5f0e6ed7083bd50519c1470075ab30d2b4310744b6",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "packages/layouts/src/workspace.tsx",
+      "currentSha256": "1d8677dc534adf4a369ae3c4d380049f0e48a228d4660c3e6bdb35e37da86805",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "packages/layouts/src/workspace-state.ts",
+      "currentSha256": "f41cde5f5fb26a86517021e862a8c73dc592de9f718829c7ce353c2d22e9dcc5",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "apps/playground/src/recipes/navigation-v042/r2.tsx",
+      "currentSha256": "57f08d739c56698fc12365715d74284ca3a5260dd677799adeb5dcc54e94694d",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+      "currentSha256": "d8da4b3a5866cb95ee811b5ed689cdcc0aebeb03e5312e23ac0a8237e4c10d70",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "manifests/recipes/navigation-r2.yaml",
+      "currentSha256": "543ea5c9fd9c50b3b0b9ceed6744b20f51d735b598c79dacbfe00d59a6c27e5f",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "manifests/recipes/navigation-r4.yaml",
+      "currentSha256": "555f27fa3d81a15e5a997003757a890f4ecd6a46ef982cbc6eb114b9d8214410",
+      "readScope": "task-relevant sections and API or metadata"
+    },
+    {
+      "path": "manifests/recipes/navigation-r5.yaml",
+      "currentSha256": "6cc66d0303c0759e04d9d8ed4d88c5157c6969ed437117f7fcc7b778e27434e8",
+      "readScope": "task-relevant sections and API or metadata"
+    }
+  ],
+  "selectedAssets": [
+    {
+      "manifest": "manifests/ui/navigation-bar.yaml",
+      "id": "ui-navigation-bar",
+      "name": "NavigationBar",
+      "assetIdentity": "registry-candidate",
+      "maturity": "registry-candidate",
+      "sourceVersion": "local-2026-09-30-navigation-v042-g1-review-07",
+      "sourcePath": "packages/ui/src/navigation/navigation.tsx",
+      "currentSourceSha256": "a1c01be7dd9b6d5b46e4aa132e4d7b59a4e001eaf8934e0b19b716e7dc36ad79",
+      "styleSourcePath": "packages/ui/src/navigation/navigation.css",
+      "currentStyleSha256": "7afc4224bee32a49e2c217c7dfcf320ce6e831e733d10d91adcb64f4a011d8df",
+      "manifestSha256": "46849723b541dbd8ff787758a432c108ff24e08524e9c9e091d1851bb12631f8",
+      "selectionReason": "Native hash destinations for E1–E6."
+    },
+    {
+      "manifest": "manifests/ui/navigation-tabs.yaml",
+      "id": "ui-navigation-tabs",
+      "name": "NavigationTabs",
+      "assetIdentity": "registry-candidate",
+      "maturity": "registry-candidate",
+      "sourceVersion": "local-2026-09-30-navigation-v042-g1-review-07",
+      "sourcePath": "packages/ui/src/navigation/navigation.tsx",
+      "currentSourceSha256": "a1c01be7dd9b6d5b46e4aa132e4d7b59a4e001eaf8934e0b19b716e7dc36ad79",
+      "styleSourcePath": "packages/ui/src/navigation/navigation.css",
+      "currentStyleSha256": "7afc4224bee32a49e2c217c7dfcf320ce6e831e733d10d91adcb64f4a011d8df",
+      "manifestSha256": "15a8526bfc4e18b533ed355625e0ba73f534a3a445400a09f3ff9ae29fc5270a",
+      "selectionReason": "Complete E2 submission/member content panels."
+    },
+    {
+      "manifest": "manifests/ui/scope-navigation.yaml",
+      "id": "ui-scope-navigation",
+      "name": "ScopeNavigation",
+      "assetIdentity": "registry-candidate",
+      "maturity": "registry-candidate",
+      "sourceVersion": "local-2026-09-30-navigation-v042-g1-review-07",
+      "sourcePath": "packages/ui/src/navigation/navigation.tsx",
+      "currentSourceSha256": "a1c01be7dd9b6d5b46e4aa132e4d7b59a4e001eaf8934e0b19b716e7dc36ad79",
+      "styleSourcePath": "packages/ui/src/navigation/navigation.css",
+      "currentStyleSha256": "7afc4224bee32a49e2c217c7dfcf320ce6e831e733d10d91adcb64f4a011d8df",
+      "manifestSha256": "5be59ec5e3cf9069d12aa5f808b9e96fef3f84e0f6355eed6fb06dbf515c31fe",
+      "selectionReason": "Shared resource +240 classes, complete search, overflow-current and unavailable current."
+    },
+    {
+      "manifest": "manifests/ui/object-navigator.yaml",
+      "id": "ui-object-navigator",
+      "name": "ObjectNavigator",
+      "assetIdentity": "registry-candidate",
+      "maturity": "registry-candidate",
+      "sourceVersion": "local-2026-10-01-navigation-v042-W3",
+      "sourcePath": "packages/ui/src/navigation/navigation-families.tsx",
+      "currentSourceSha256": "74ea3796b3062d546279dc6912b2e67c0ccb148cfcff042fd6c13721bd94c62d",
+      "styleSourcePath": "packages/ui/src/navigation/navigation-families.css",
+      "currentStyleSha256": "16a0f032e48195ff62aab11d127c98de170eb982209d594bb4ac4aeb084ae64e",
+      "manifestSha256": "861ee9878ca0be019faf24324567d646e17b7e756f7ba99322f1312b4e6a2774",
+      "selectionReason": "Controlled current activity/group/student/question/knowledge/directory objects with stable IDs."
+    },
+    {
+      "manifest": "manifests/ui/segmented-control.yaml",
+      "id": "ui-segmented-control",
+      "name": "SegmentedControl",
+      "assetIdentity": "registry-candidate",
+      "maturity": "registry-candidate",
+      "sourceVersion": "local-2026-10-01-navigation-v042-W3",
+      "sourcePath": "packages/ui/src/navigation/navigation-families.tsx",
+      "currentSourceSha256": "74ea3796b3062d546279dc6912b2e67c0ccb148cfcff042fd6c13721bd94c62d",
+      "styleSourcePath": "packages/ui/src/navigation/navigation-families.css",
+      "currentStyleSha256": "16a0f032e48195ff62aab11d127c98de170eb982209d594bb4ac4aeb084ae64e",
+      "manifestSha256": "ef7591189992f2280e8426dfaa09996e9ea03b35d324d0bbb9c7940749f5988b",
+      "selectionReason": "Only grading mode and queue appearance conditions."
+    },
+    {
+      "manifest": "manifests/layouts/connected-surface.yaml",
+      "id": "layout-connected-surface",
+      "name": "ConnectedSurface",
+      "assetIdentity": "registry-candidate",
+      "maturity": "registry-candidate",
+      "sourceVersion": "local-2026-09-30-navigation-v042-g1-review-04",
+      "sourcePath": "packages/layouts/src/connected-surface.tsx",
+      "currentSourceSha256": "60ab4b1eae4a8d7241732e5f0e6ed7083bd50519c1470075ab30d2b4310744b6",
+      "styleSourcePath": "packages/layouts/src/connected-surface.css",
+      "currentStyleSha256": "d251bc454f1611ca6c1fac0e4524b2caae79cf1bb1f8827f046653efd6ad6261",
+      "manifestSha256": "458b0ca313490188aea05c7a9a9220bf8d9119841b8e1584816eba66f74376e1",
+      "selectionReason": "One shared contour owner for the course range strip and panel."
+    },
+    {
+      "manifest": "manifests/layouts/workspace.yaml",
+      "id": "layout-workspace",
+      "name": "WorkspaceLayout / RecoverableRegion",
+      "assetIdentity": "registry-candidate",
+      "maturity": "registry-candidate",
+      "sourceVersion": "local-2026-10-01-navigation-v042-W4",
+      "sourcePath": "packages/layouts/src/workspace.tsx",
+      "currentSourceSha256": "1d8677dc534adf4a369ae3c4d380049f0e48a228d4660c3e6bdb35e37da86805",
+      "styleSourcePath": "packages/layouts/src/workspace.css",
+      "currentStyleSha256": "f690ced7af96312ab00baf054591bf5ec5b090276e9d01da91672f9237c3d73b",
+      "manifestSha256": "7a53030b2e56dc7fc16c96c08908835d4795727d469c3f5d52f1f221581d084e",
+      "selectionReason": "One layout controller, stable external recovery, temporary overlay and focus."
+    },
+    {
+      "manifest": "manifests/layouts/workspace-state.yaml",
+      "id": "layout-workspace-state",
+      "name": "Workspace state controller",
+      "assetIdentity": "registry-candidate",
+      "maturity": "registry-candidate",
+      "sourceVersion": "local-2026-10-01-navigation-v042-W4",
+      "sourcePath": "packages/layouts/src/workspace-state.ts",
+      "currentSourceSha256": "f41cde5f5fb26a86517021e862a8c73dc592de9f718829c7ce353c2d22e9dcc5",
+      "styleSourcePath": null,
+      "currentStyleSha256": null,
+      "manifestSha256": "52782189e3e6c447cd16d2fb57275cf8ae4385ad2f581d685a5d75dbe05aaaee",
+      "selectionReason": "App-owned new stable workspace key; requested/effective/session state stays separate from business drafts."
+    }
+  ],
+  "registriesActuallyInspected": [
+    {
+      "path": "registry/navigation-v042.json",
+      "sha256": "fab445cb98467ad79c84f18cbb78b1a4eb21202f0df2ad6e12b6bcb068afabe5",
+      "publication": "not-published",
+      "itemsInspected": [
+        {
+          "name": "navigation-bar",
+          "files": [
+            "packages/ui/src/navigation/navigation.tsx",
+            "packages/ui/src/navigation/navigation.css"
+          ],
+          "registryDependencies": []
+        },
+        {
+          "name": "navigation-tabs",
+          "files": [
+            "packages/ui/src/navigation/navigation.tsx",
+            "packages/ui/src/navigation/navigation.css"
+          ],
+          "registryDependencies": []
+        },
+        {
+          "name": "scope-navigation",
+          "files": [
+            "packages/ui/src/navigation/navigation.tsx",
+            "packages/ui/src/navigation/navigation.css"
+          ],
+          "registryDependencies": []
+        },
+        {
+          "name": "connected-surface",
+          "files": [
+            "packages/layouts/src/connected-surface.tsx",
+            "packages/layouts/src/connected-surface-geometry.ts",
+            "packages/layouts/src/connected-surface.css",
+            "packages/layouts/src/connected-surface.css.d.ts"
+          ],
+          "registryDependencies": []
+        },
+        {
+          "name": "navigation-r2",
+          "files": [
+            "apps/playground/src/recipes/navigation-v042/r2.tsx",
+            "apps/playground/src/recipes/navigation-v042/r2.css",
+            "apps/playground/navigation-v042-consumer.html",
+            "apps/playground/src/recipes/navigation-v042/consumer.tsx",
+            "apps/playground/src/recipes/navigation-v042/r2.css.d.ts",
+            "apps/playground/src/recipes/navigation-v042/consumer.css",
+            "apps/playground/src/recipes/navigation-v042/consumer.css.d.ts",
+            "apps/playground/src/recipes/navigation-v042/course-resources.tsx",
+            "apps/playground/src/recipes/navigation-v042/platform-navigation.css"
+          ],
+          "registryDependencies": [
+            "registry/navigation-v042.json#scope-navigation",
+            "registry/navigation-v042.json#connected-surface",
+            "registry/icon-button.json#icon-button",
+            "registry/core-ui.json#button",
+            "registry/dropdown-family.json#popover",
+            "home",
+            "course",
+            "folder",
+            "members",
+            "rain-classroom",
+            "notification",
+            "help",
+            "expand",
+            "collapse",
+            "pin",
+            "history-back",
+            "eye-visible",
+            "arrow-left",
+            "settings-adjust",
+            "ai-sparkles",
+            "registry/breadcrumb.json#breadcrumb",
+            "registry/dropdown-family.json#dropdown-menu",
+            "graduation-cap",
+            "ranking",
+            "arrow-down",
+            "arrow-up",
+            "registry/tree.json#manage-tree",
+            "registry/core-ui.json#input",
+            "registry/core-ui.json#form-item",
+            "registry/select.json#select",
+            "registry/tag.json#tag",
+            "registry/tooltip.json#tooltip",
+            "registry/avatar.json#avatar",
+            "registry/navigation-v042-w3.json#segmented-control"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "registry/navigation-v042-w3.json",
+      "sha256": "a4870f9047a5b9154e5076e66da5e69e14ab69bcb1d038ef4695958547615af0",
+      "publication": "not-published",
+      "itemsInspected": [
+        {
+          "name": "object-navigator",
+          "files": [
+            "packages/ui/src/navigation/navigation-families.tsx",
+            "packages/ui/src/navigation/navigation-families.css"
+          ],
+          "registryDependencies": [
+            "registry/tooltip.json#tooltip"
+          ]
+        },
+        {
+          "name": "segmented-control",
+          "files": [
+            "packages/ui/src/navigation/navigation-families.tsx",
+            "packages/ui/src/navigation/navigation-families.css"
+          ],
+          "registryDependencies": [
+            "registry/tooltip.json#tooltip"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "registry/navigation-v042-workspaces.json",
+      "sha256": "0dab2da82384b7834b43ec9a6e8985c3139d85f4cb88df28bfd415738c4182bd",
+      "publication": "not-published",
+      "itemsInspected": [
+        {
+          "name": "workspace-layout",
+          "files": [
+            "packages/layouts/src/workspace.tsx",
+            "packages/layouts/src/workspace.css"
+          ],
+          "registryDependencies": []
+        },
+        {
+          "name": "workspace-state",
+          "files": [
+            "packages/layouts/src/workspace-state.ts"
+          ],
+          "registryDependencies": []
+        }
+      ]
+    },
+    {
+      "path": "registry/navigation-v042-recipes.json",
+      "sha256": "3954a81c2f761a5484ea8ea8fbe00b9fb33e0793243c39154ea93e6f7865603f",
+      "publication": "not-published",
+      "itemsInspected": [
+        {
+          "name": "navigation-r4",
+          "files": [
+            "apps/playground/navigation-v042-w3-consumer.html",
+            "apps/playground/src/recipes/navigation-v042/consumer.css",
+            "apps/playground/src/recipes/navigation-v042/consumer.css.d.ts",
+            "apps/playground/src/recipes/navigation-v042/platform-navigation.css",
+            "apps/playground/src/recipes/navigation-v042/r1-r3.css",
+            "apps/playground/src/recipes/navigation-v042/r1-r3.css.d.ts",
+            "apps/playground/src/recipes/navigation-v042/r1-r3.tsx",
+            "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+            "apps/playground/src/recipes/navigation-v042/r4-r6.css.d.ts",
+            "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+            "apps/playground/src/recipes/navigation-v042/w3-consumer.tsx",
+            "apps/playground/src/recipes/navigation-v042/workspace-states.css",
+            "apps/playground/src/recipes/navigation-v042/workspace-states.css.d.ts",
+            "apps/playground/src/recipes/navigation-v042/workspace-states.tsx"
+          ],
+          "registryDependencies": [
+            "home",
+            "course",
+            "folder",
+            "graduation-cap",
+            "members",
+            "resource",
+            "file",
+            "ranking",
+            "rain-classroom",
+            "notification",
+            "help",
+            "collapse",
+            "expand",
+            "search",
+            "pin",
+            "close",
+            "arrow-left",
+            "arrow-right",
+            "arrow-down",
+            "play",
+            "pause-triangle",
+            "volume",
+            "edit-pencil",
+            "settings-3",
+            "text",
+            "download",
+            "rating-star",
+            "filter",
+            "link",
+            "more",
+            "rating-star-0",
+            "upload",
+            "refresh",
+            "file-format-pdf-outline",
+            "file-format-docx-outline",
+            "file-format-xlsx-outline",
+            "list-view",
+            "card-view",
+            "ai-sparkles",
+            "layout-split",
+            "editor-bold",
+            "history-back",
+            "registry/tooltip.json#tooltip",
+            "registry/table.json#empty"
+          ]
+        },
+        {
+          "name": "navigation-r5",
+          "files": [
+            "apps/playground/navigation-v042-w3-consumer.html",
+            "apps/playground/src/recipes/navigation-v042/consumer.css",
+            "apps/playground/src/recipes/navigation-v042/consumer.css.d.ts",
+            "apps/playground/src/recipes/navigation-v042/platform-navigation.css",
+            "apps/playground/src/recipes/navigation-v042/r1-r3.css",
+            "apps/playground/src/recipes/navigation-v042/r1-r3.css.d.ts",
+            "apps/playground/src/recipes/navigation-v042/r1-r3.tsx",
+            "apps/playground/src/recipes/navigation-v042/r4-r6.css",
+            "apps/playground/src/recipes/navigation-v042/r4-r6.css.d.ts",
+            "apps/playground/src/recipes/navigation-v042/r4-r6.tsx",
+            "apps/playground/src/recipes/navigation-v042/w3-consumer.tsx",
+            "apps/playground/src/recipes/navigation-v042/workspace-states.css",
+            "apps/playground/src/recipes/navigation-v042/workspace-states.css.d.ts",
+            "apps/playground/src/recipes/navigation-v042/workspace-states.tsx"
+          ],
+          "registryDependencies": [
+            "home",
+            "course",
+            "folder",
+            "graduation-cap",
+            "members",
+            "resource",
+            "file",
+            "ranking",
+            "rain-classroom",
+            "notification",
+            "help",
+            "collapse",
+            "expand",
+            "search",
+            "pin",
+            "close",
+            "arrow-left",
+            "arrow-right",
+            "arrow-down",
+            "play",
+            "pause-triangle",
+            "volume",
+            "edit-pencil",
+            "settings-3",
+            "text",
+            "download",
+            "rating-star",
+            "filter",
+            "link",
+            "more",
+            "rating-star-0",
+            "upload",
+            "refresh",
+            "file-format-pdf-outline",
+            "file-format-docx-outline",
+            "file-format-xlsx-outline",
+            "list-view",
+            "card-view",
+            "ai-sparkles",
+            "layout-split",
+            "editor-bold",
+            "history-back",
+            "registry/tooltip.json#tooltip",
+            "registry/table.json#empty"
+          ]
+        }
+      ]
+    }
+  ],
+  "higherLevelDiscovery": {
+    "searchOrder": "Template → Block → Pattern → Layout → UI",
+    "discoveredRecipes": [
+      "recipe-navigation-r2",
+      "recipe-navigation-r4",
+      "recipe-navigation-r5"
+    ],
+    "actualRecipeImportOrCopy": false,
+    "retreatReason": "R2 exposes editor/instance/layout but fixed range fixtures; R4/R5 expose scene/workspace with their own fixed mock identities/drafts. New 240-class/removal fixtures and new stable paper/student/question/activity/knowledge IDs require a new app-owned host. Reused public layout and UI contracts instead of claiming source-recipe installation.",
+    "retainedRelations": [
+      "R2 shared scope strip and connected content surface",
+      "R4 distinct activities and groups / grading queue +main+constant score",
+      "R5 transcript, time and recoverable knowledge index"
+    ]
+  },
+  "ownedSourceLock": {
+    "apps/playground/navigation-v042-w6-consumer.html": "5da3a32803933a41f29f8d28283e16ff0bac910f913749db43aa3a8e8959c608",
+    "apps/playground/src/recipes/navigation-w6/consumer.tsx": "a4309a763ebecdf38d81d6e654bc133f116c7879aa8311d5d6171c2e53c801f7",
+    "apps/playground/src/recipes/navigation-w6/consumer.css": "07bdc672ce19b04a66d0e843353a518d87ebd334188e77d684830901d2f71e3a",
+    "apps/playground/src/recipes/navigation-w6/consumer.css.d.ts": "3423de425b002cb0a5c00f4abd6313d3750f34e9a48e9d19f062459bdb9ec0a7",
+    "apps/playground/src/recipes/navigation-w6/scenes.tsx": "12e4ebea23d1d37f1147419e09a60119fbb2a5885c7ff9923d9b0837f8f2a25e",
+    "apps/playground/src/recipes/navigation-w6/scenes.test.tsx": "d031b88ef530bfbf6b9f39034245ed792ad4dc9de72aef16addb155569a16a79",
+    "apps/playground/src/recipes/navigation-w6/consumer-app.tsx": "ffdc714e1e269e71e94c60acf2750664e593a69905d4987f10e739176be4a2fd",
+    "apps/playground/src/recipes/navigation-w6/active-session-guard.tsx": "535c71dce6aa0f64af5ed42fb2ca4f66dbdee77b4c7c4f6b826536cefb5325e9",
+    "apps/playground/src/recipes/navigation-w6/consumer-lifecycle.test.tsx": "66bf8cca2a8a04a0c1edd2f099aa6f1a15e91fadc49b06bd76efcf366e932672"
+  },
+  "sourceVersion": {
+    "packageVersions": "@rain-next/ui=0.0.0, @rain-next/layouts=0.0.0; local workspace exports",
+    "gitHead": "321e1a0c1b5f9284e0fcb5167fa059d6174b1752",
+    "baseline": "G2-composition-candidate-13 (source lineage only, new consumer visual acceptance not inherited)"
+  },
+  "instancePatch": {
+    "instanceId": "w6-E5-A",
+    "modifiedParts": [
+      "ObjectNavigator entry padding/min-height",
+      "ObjectNavigator label font size/line height",
+      "ObjectNavigator description font size/line height"
+    ],
+    "scopeSelector": ".w6-isolation-instance[data-instance-id=\"w6-E5-A\"][data-directory-density=\"compact\"] .w6-directory",
+    "existingTokensOnly": true,
+    "instanceB": "Same mounted memoized component, unchanged DOM/selection/draft verified by unit assertion. Computed CSS comparison assigned to root browser verification."
+  },
+  "designMethods": [
+    {
+      "id": "D01",
+      "use": "New mock tasks own business identities/drafts; navigation and layout only manage their stated roles."
+    },
+    {
+      "id": "D02",
+      "use": "One shared course surface; explicit directory/main/score relations with one splitter for each shared edge."
+    },
+    {
+      "id": "I01",
+      "use": "Destinations are native links; current objects are ObjectNavigator buttons; conditions are radio-backed SegmentedControl; full detail sections are Tabs."
+    },
+    {
+      "id": "D05",
+      "use": "Long course names, 240 classes, two duplicate labels with different IDs, disabled/removed current and measured container adaptation."
+    },
+    {
+      "id": "V04",
+      "use": "Existing neutral/typography Tokens for title/body/help, no new global Tokens."
+    }
+  ],
+  "fixtures": {
+    "E1": {
+      "classes": 240,
+      "publicScopes": 1,
+      "duplicateLabels": [
+        "class-199",
+        "class-200"
+      ],
+      "disabled": [
+        "class-238"
+      ],
+      "removal": "Current class ID remains app-selected, shared missing-current message is displayed; host drafts remain keyed by scope; restore button returns the same ID and original draft."
+    },
+    "E2": {
+      "activities": [
+        "discussion",
+        "vote",
+        "reflection"
+      ],
+      "groupsPerActivity": 3,
+      "groupSwitch": "Switching activity explicitly chooses that activity's first valid group; group feedback drafts keyed by stable group ID."
+    },
+    "E3": {
+      "paper": "paper-microclimate",
+      "students": [
+        "lin-ning",
+        "chen-an",
+        "zhou-lan"
+      ],
+      "questions": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "draftKey": "paper/question/student",
+      "queueDefaultMode": "hidden",
+      "scoreModes": [
+        "expanded"
+      ],
+      "save": "Explicit local-state save only. Mode/appearance/focus/visibility do not save a grade."
+    },
+    "E4": {
+      "media": "Static脱敏visual mock and explicit +10-second mock step, no media service",
+      "knowledgeDefaultMode": "hidden",
+      "temporary": "RegionRestoreTrigger intent=peek; Escape restores trigger focus; pinned uses public PIN_TEMP action",
+      "seek": "Only activation updates time and transcript current object; hover does not seek."
+    },
+    "E5": {
+      "A": "w6-E5-A",
+      "B": "w6-E5-B",
+      "patch": "Only A directory geometry/typography consumes existing Tokens; restores default on second activation."
+    }
+  },
+  "redGreenEvidence": [
+    {
+      "timeLocal": "2026-10-04 16:54:43",
+      "command": "pnpm exec vitest run apps/playground/src/recipes/navigation-w6/scenes.test.tsx",
+      "exitCode": 1,
+      "summary": "7/7 tests failed against empty exported scene scaffolds; absent controls expected."
+    },
+    {
+      "timeLocal": "2026-10-04 16:58:17",
+      "exitCode": 1,
+      "summary": "5 passed, 2 failed: missing-current test assumed an accessible editor; temporary selector accidentally selected splitter sharing data-region-id."
+    },
+    {
+      "timeLocal": "2026-10-04 17:01:11",
+      "exitCode": 1,
+      "summary": "6 passed, missing-current restoration test failed because external restore-current control was absent; then app-owned restore-current fixture added."
+    },
+    {
+      "timeLocal": "2026-10-04 17:01:30",
+      "exitCode": 0,
+      "summary": "7/7 passed."
+    },
+    {
+      "timeLocal": "2026-10-04 17:03:18",
+      "exitCode": 1,
+      "summary": "6 passed, E3 failed expected object group missing after test was changed first from condition radio to object button semantics."
+    },
+    {
+      "timeLocal": "2026-10-04 17:03:42",
+      "command": "pnpm exec vitest run apps/playground/src/recipes/navigation-w6/scenes.test.tsx --reporter=verbose",
+      "exitCode": 0,
+      "summary": "1 test file /7 tests passed; 2.42s total; 725ms tests; no warnings in final output."
+    }
+  ],
+  "verification": {
+    "unit": "17/17 W6 tests passed in three files: 7 E1–E5 +6 E6 +4 lifecycle",
+    "typecheck": "pnpm --filter @rain-next/playground typecheck passed after ActiveSessionGuard and E1 portal repair",
+    "sourceTokenReferences": "0 undefined Foundation custom properties",
+    "browser": "delegated-to-root; not-run-by-this-consumer-agent",
+    "humanVisual": "pending-new-consumer-review",
+    "AT": "not-run-by-this-consumer-agent",
+    "contrast": "not-granted",
+    "crossBrowser": "not-run",
+    "publication": "unpublished",
+    "gitOperations": "not-run",
+    "figmaWrite": "not-run",
+    "backendOrProductionScoring": "not-connected",
+    "finalUnitLog": " ✓ apps/playground/src/recipes/navigation-w6/scenes.test.tsx > W6 independent application consumers > E1 searches the entire 240-class collection and preserves each scope draft 327ms\n ✓ apps/playground/src/recipes/navigation-w6/scenes.test.tsx > W6 independent application consumers > E1 handles missing current scope without silently selecting or losing its draft 136ms\n ✓ apps/playground/src/recipes/navigation-w6/scenes.test.tsx > W6 independent application consumers > E2 keeps group identity and detail valid when switching activity 49ms\n ✓ apps/playground/src/recipes/navigation-w6/scenes.test.tsx > W6 independent application consumers > E3 initially hides the object queue while score stays mounted through focus 37ms\n ✓ apps/playground/src/recipes/navigation-w6/scenes.test.tsx > W6 independent application consumers > E3 keeps the student/question pair and keyed draft through mode, appearance and queue changes 84ms\n ✓ apps/playground/src/recipes/navigation-w6/scenes.test.tsx > W6 independent application consumers > E4 seeks only on activation and closes temporary knowledge index with restored focus 60ms\n ✓ apps/playground/src/recipes/navigation-w6/scenes.test.tsx > W6 independent application consumers > E5 compacts only instance A without changing instance B DOM, selection or draft 30ms\n\n Test Files  1 passed (1)\n      Tests  7 passed (7)\n   Start at  17:03:42\n   Duration  2.42s (transform 568ms, setup 113ms, import 998ms, tests 725ms, environment 479ms)\n",
+    "finalTypecheckLog": "> @rain-next/playground@0.0.0 typecheck /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/apps/playground\n> tsc --noEmit --project tsconfig.json\nexit_code: 0\n",
+    "finalLifecycleUnitLog": " ✓ consumer-lifecycle.test.tsx > closes E4 temporary index when hash navigation leaves its scene and keeps the replay business state 519ms\n ✓ consumer-lifecycle.test.tsx > unmounts E1 range portal on hash navigation without resetting its host scope or draft 484ms\n ✓ consumer-lifecycle.test.tsx > ends E3 focus on deactivation without replacing grading fields or changing their identity 24ms\n ✓ consumer-lifecycle.test.tsx > dismisses E6 forced temporary review on deactivation and preserves the mounted local review draft 50ms\n Test Files  3 passed (3)\n      Tests  17 passed (17)\n   Start at  17:17:40\n   Duration  2.82s (transform 1.78s, setup 380ms, import 3.21s, tests 2.50s, environment 1.33s)\n"
+  },
+  "redlineChecks": {
+    "protectedPackagesCompared": 2105,
+    "changedProtectedPackageFiles": [
+      "packages/ui/src/navigation/README-W3.md",
+      "packages/layouts/src/README-workspace.md"
+    ],
+    "sharedPackagesUnchanged": false,
+    "ownCSSRootScoped": "W6 composition rules scoped to .w6-consumer /specific instance; root-added independent loader includes document font-family rule consuming existing Foundation font. No new Tokens.",
+    "globalTokenDefinitionAdded": false,
+    "galleryDOMOrGlobalAPIImported": false,
+    "knownLimits": [
+      "Page-local score number field and mock save are demonstration state, no production validation/grade service.",
+      "New UI performance, full contrast, assistive technology and broad browser claims await separate verification.",
+      "R2/R4/R5 relationships were consulted, source-recipe payload was not copied or installed.",
+      "Effort/time/token and broad AI success rate are not measured by this trial."
+    ],
+    "sharedRuntimeSourcesUnchanged": true,
+    "changedProtectedPackageFilesOwner": "Two README documentation files updated concurrently by root for W6 governance; no runtime source/default CSS/Token/export change."
+  },
+  "sourceLockHistory": [
+    {
+      "recordedAt": "2026-10-04T09:06:05.413411+00:00",
+      "ownedSourceLock": {
+        "apps/playground/navigation-v042-w6-consumer.html": "5da3a32803933a41f29f8d28283e16ff0bac910f913749db43aa3a8e8959c608",
+        "apps/playground/src/recipes/navigation-w6/consumer.tsx": "d04bb32ad19ff9498584eb3fbc7d694509d393fed56e66d4b655c0da967db2e7",
+        "apps/playground/src/recipes/navigation-w6/consumer.css": "aea64a5040f475a5ecf9a908c20864f8de3dc5030754b655a07ae99936d3478a",
+        "apps/playground/src/recipes/navigation-w6/consumer.css.d.ts": "3423de425b002cb0a5c00f4abd6313d3750f34e9a48e9d19f062459bdb9ec0a7",
+        "apps/playground/src/recipes/navigation-w6/scenes.tsx": "336c514efc8a56e6a15882ec0d61313048664f3b8807091ca835b6159123d470",
+        "apps/playground/src/recipes/navigation-w6/scenes.test.tsx": "d031b88ef530bfbf6b9f39034245ed792ad4dc9de72aef16addb155569a16a79"
+      },
+      "scope": "Initial consumer before independent lifecycle feedback and root Tailwind-loader fix"
+    }
+  ],
+  "lifecycleRepair": {
+    "scope": "W6 new consumer only; shared/previously accepted runtime unchanged",
+    "rootCause": "All scenes stayed mounted with hidden/inert but did not have an activation lifecycle; document workspace sessions and portal popover escaped DOM hidden ownership.",
+    "guard": "Local ActiveSessionGuard inside every E2–E6 Workspace, active=false clears temporary/ribbon via DISMISS_TEMP reason=outside and exits focus with EXIT_FOCUS; no focus restoration into hidden scene.",
+    "portal": "E1 receives active(default true); only stateless navigation subtree ScopeNavigation uses active/inactive session key. Application scope/removal/drafts remain mounted in CourseResources.",
+    "appTestSeam": "Original pure hash app moved from consumer.tsx to consumer-app.tsx to unit-test real hash transitions. Entry remains consumer.tsx with original style imports, StrictMode and createRoot; W6Consumer is reexported.",
+    "E6Delta": "Only active optional prop(default true), guard import and guard render within WorkspaceLayout. Resource/draft/save/filter/scroll business unchanged.",
+    "readOnlyCSSByThisAgent": true,
+    "rootCSSFix": {
+      "owner": "root",
+      "path": "apps/playground/src/recipes/navigation-w6/consumer.css",
+      "sha256": "07bdc672ce19b04a66d0e843353a518d87ebd334188e77d684830901d2f71e3a",
+      "change": "Root prepended existing independent Tailwind source(none)/Foundation theme/source scanning loader, after real browser observed missing generated button utilities. This agent did not edit CSS."
+    },
+    "initialRed": {
+      "startLocal": "2026-10-04 17:14:38",
+      "command": "pnpm exec vitest run apps/playground/src/recipes/navigation-w6/consumer-lifecycle.test.tsx --reporter=dot",
+      "exitCode": 1,
+      "expectedFailures": [
+        "E4 hash navigation left temporary=true",
+        "E3 active=false left focused=true",
+        "E6 active=false left temporary=true"
+      ],
+      "testTimingCorrection": "Initial E1 expected visibility before Popover positioning settled; corrected to waitFor visible."
+    },
+    "portalRed": {
+      "startLocal": "2026-10-04 17:15:21",
+      "command": "pnpm exec vitest run apps/playground/src/recipes/navigation-w6/consumer-lifecycle.test.tsx -t E1-range-portal --reporter=dot",
+      "exitCode": 1,
+      "observed": "After E1 -> E2 actual host hash event, search range input remained in portal document."
+    },
+    "green": {
+      "startLocal": "2026-10-04 17:17:40",
+      "command": "pnpm exec vitest run apps/playground/src/recipes/navigation-w6/consumer-lifecycle.test.tsx apps/playground/src/recipes/navigation-w6/scenes.test.tsx apps/playground/src/recipes/navigation-w6/review-workbench.test.tsx --reporter=verbose",
+      "exitCode": 0,
+      "files": 3,
+      "tests": 17,
+      "oldSceneTests": 7,
+      "oldE6Tests": 6,
+      "newLifecycleTests": 4,
+      "durationSeconds": 2.82,
+      "testDurationSeconds": 2.5
+    },
+    "typecheck": {
+      "command": "pnpm --filter @rain-next/playground typecheck",
+      "exitCode": 0
+    },
+    "browser": "Root and independent reviewer own actual browser/harness verification; this agent did not run browser."
+  }
+}

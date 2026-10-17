@@ -1,0 +1,35 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/verify-tailwind-b2.test.ts (182 tests | 1 failed | 181 skipped) 71112ms
+     × emits only Rain utilities or the current explicit structural allowlist from real sources 17290ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-tailwind-b2.test.ts > Tailwind B2 Task 4 controlled theme bridge > emits only Rain utilities or the current explicit structural allowlist from real sources
+AssertionError: unexpected non-Rain utilities: [&_a]:underline: expected [ '[&_a]:underline' ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "[&_a]:underline",
++ ]
+
+ ❯ scripts/verify-tailwind-b2.test.ts:3428:103
+    3426|         !currentStructuralAllowlist.has(normalizeUtility(utility)) &&
+    3427|         !unusedScannerOutput.has(utility) && !currentScopedOutput.has(…
+    3428|       expect(unexpectedUtilities, `unexpected non-Rain utilities: ${un…
+       |                                                                                                       ^
+    3429|     } finally {
+    3430|       rmSync(outputRoot, { recursive: true, force: true });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 181 skipped (182)
+   Start at  00:22:04
+   Duration  72.46s (transform 431ms, setup 152ms, import 563ms, tests 71.11s, environment 534ms)
+

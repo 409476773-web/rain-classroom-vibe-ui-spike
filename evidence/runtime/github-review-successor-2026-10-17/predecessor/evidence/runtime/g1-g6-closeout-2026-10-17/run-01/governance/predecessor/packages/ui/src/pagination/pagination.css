@@ -1,0 +1,58 @@
+/* @rain-css-exception pagination-geometry: complete token recipes, semantic Parts and inert natural-width measurements. */
+.rain-pagination, .rain-pagination__settings {
+  --rain-local-pagination-control-size: var(--rain-input-height-32);
+}
+.rain-pagination[data-size="24"], .rain-pagination__settings[data-size="24"] { --rain-local-pagination-control-size: var(--rain-input-height-24); }
+.rain-pagination[data-size="28"], .rain-pagination__settings[data-size="28"] { --rain-local-pagination-control-size: var(--rain-input-height-28); }
+.rain-pagination__page {
+  min-inline-size: var(--rain-local-pagination-control-size);
+  block-size: var(--rain-local-pagination-control-size);
+  font: inherit;
+}
+.rain-pagination__page:is(a):not([aria-disabled="true"]):hover { background: var(--rain-category-fill-brand-alpha-4); }
+.rain-pagination__page:is(a):not([aria-disabled="true"]):active { background: var(--rain-category-fill-brand-alpha-3); }
+.rain-pagination__page:where(a)[data-current="true"] { color: var(--rain-category-text-brand-1); }
+.rain-pagination__page:where(a)[aria-disabled="true"] { color: var(--rain-category-text-neutral-6); }
+.rain-pagination__page:where(a):not([data-slot="page"]):not([aria-disabled="true"]) { color: var(--rain-category-icon-neutral-3); }
+.rain-pagination__navigation-icon:not([aria-disabled="true"]):is(:hover, :active) { color: var(--rain-category-icon-neutral-2); }
+.rain-pagination__size-trigger:not(:disabled):not([aria-disabled="true"]):is(:hover, :active) .rain-pagination__navigation-icon { color: var(--rain-category-icon-neutral-2); }
+.rain-pagination[data-state="loading"] .rain-pagination__page { cursor: progress; }
+.rain-pagination[data-align="center"] { justify-content: center; }
+.rain-pagination[data-align="end"] { justify-content: flex-end; }
+.rain-pagination[data-align="between"] { justify-content: space-between; }
+.rain-pagination[data-align="between"] > [data-slot="actions"] { margin-inline-start: auto; }
+.rain-pagination, .rain-pagination > [data-slot="actions"], .rain-pagination [data-slot="navigation"] { flex-wrap: nowrap; white-space: nowrap; }
+.rain-pagination > [data-slot="summary"], .rain-pagination [data-pagination-settings-trigger] { flex: none; }
+.rain-pagination__jumper-input { inline-size: 100%; }
+.rain-pagination__settings [data-slot="jump-error"], .rain-pagination__settings [data-slot="total"] { overflow-wrap: anywhere; }
+.rain-pagination__size-trigger { gap: var(--rain-space-4); }
+.rain-pagination__size-options { flex-wrap: wrap; }
+
+.rain-pagination__measure-clip {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  inline-size: 0;
+  block-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+.rain-pagination__measure {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  inline-size: max-content;
+  max-inline-size: none;
+  visibility: hidden;
+  pointer-events: none;
+}
+.rain-pagination__simple { display: flex; }
+.rain-pagination__simple [data-slot="current-status"] { display: block; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; }
+.rain-pagination [data-slot="navigation"] { min-inline-size: 0; max-inline-size: 100%; }
+
+/* @rain-css-exception pagination-forced-colors: preserve current-page and unavailable semantics in system colors. */
+@media (forced-colors: active) {
+  .rain-pagination__page[aria-current="page"] { outline: var(--rain-line-thickness-1) solid Highlight; }
+  .rain-pagination__page[aria-disabled="true"], .rain-pagination__page:disabled { color: GrayText; }
+}

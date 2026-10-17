@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts (33 tests | 1 failed) 8ms
+   × composition [1.7976931348623157e+308,1.7976931348623157e+308] keeps the invalid state 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/mini-data.test.ts > composition [1.7976931348623157e+308,1.7976931348623157e+308] keeps the invalid state
+AssertionError: expected 'normal' to be 'invalid' // Object.is equality
+
+Expected: "invalid"
+Received: "normal"
+
+ ❯ apps/playground/src/docs/components/chart-business/mini-data.test.ts:31:106
+     29| test.each([
+     30|   [[0,0],"zero"], [[0,3],"normal"], [[null,3],"missing"], [[NaN,2],"in…
+     31| ] as const)("composition %j keeps the %s state", (values,state) => exp…
+       |                                                                                                          ^
+     32| test("40-row entities keep the same identity and values through sortin…
+     33|   const original = makeMiniRows();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 32 passed (33)
+   Start at  00:59:01
+   Duration  585ms (transform 23ms, setup 103ms, import 15ms, tests 8ms, environment 373ms)
+

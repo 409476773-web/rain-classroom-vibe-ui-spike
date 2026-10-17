@@ -1,0 +1,36 @@
+
+> @rain-next/workspace@0.0.0 test /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+> vitest run packages/ui/src/charts/network/network-data.test.ts packages/ui/src/charts/network/network-geometry.test.ts packages/ui/src/charts/network/network-chart.test.tsx apps/playground/src/docs/components/chart-business/network-data.test.ts apps/playground/src/docs/components/chart-business/network-examples.test.tsx scripts/verify-chart-business-consumption.test.ts scripts/chart-color-consumers.test.ts scripts/charts.test.ts scripts/verify-chart-variant-consumption.test.ts
+
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ packages/ui/src/charts/network/network-chart.test.tsx (13 tests | 1 failed) 558ms
+   × glow is the default and switching presentation preserves selection and relationship semantics 23ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/charts/network/network-chart.test.tsx > glow is the default and switching presentation preserves selection and relationship semantics
+Error: expect(element).toHaveAttribute("markerUnits", "userSpaceOnUse") // element.getAttribute("markerUnits") === "userSpaceOnUse"
+
+Expected the element to have attribute:
+  markerUnits="userSpaceOnUse"
+Received:
+  markerUnits="strokeWidth"
+ ❯ packages/ui/src/charts/network/network-chart.test.tsx:118:50
+    116|   expect(view.container.querySelector('[data-network-node="b"]')).toHa…
+    117|   expect([...view.container.querySelectorAll('[data-network-node="b"] …
+    118|   expect(view.container.querySelector("marker")).toHaveAttribute("mark…
+       |                                                  ^
+    119|   fireEvent.click(view.getByRole("button", { name: "高等数学，课程" }));
+    120|   const root = view.container.querySelector(".rain-network");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 8 passed (9)
+      Tests  1 failed | 94 passed (95)
+   Start at  10:56:55
+   Duration  12.84s (transform 5.85s, setup 2.86s, import 10.09s, tests 13.18s, environment 15.52s)
+
+ ELIFECYCLE  Test failed. See above for more details.

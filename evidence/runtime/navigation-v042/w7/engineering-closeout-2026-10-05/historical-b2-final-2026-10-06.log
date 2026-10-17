@@ -1,0 +1,57 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+----------------------------------------x················x-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > passes the complete unmodified fixture before testing any mutation
+AssertionError: expected 'Boundary verification failed:\n- Task…' to match /verification passed/
+
+- Expected:
+/verification passed/
+
++ Received:
+"Boundary verification failed:
+- Task 2 benchmark allowlist file is missing: benchmarks/README.md
+- Completed refinement artifact is missing: evidence/runtime/day-3/text-button-desktop.png
+- Completed refinement artifact is missing: evidence/runtime/day-3/text-button-mobile.png
+- Day 3 runtime evidence allowlist mismatch: expected [\"evidence/runtime/day-3/README.md\",\"evidence/runtime/day-3/core-ui-page.png\",\"evidence/runtime/day-3/red-green-summary.md\",\"evidence/runtime/day-3/text-button-desktop.png\",\"evidence/runtime/day-3/text-button-mobile.png\"], received []
+- Day 3 Core UI screenshot cannot be audited: ENOENT: no such file or directory, lstat '/private/var/folders/2h/mp7rp10x1plgfqrm94_0dcdm0000gn/T/rain-day2-evidence-lock-SNzK4g/evidence/runtime/day-3/core-ui-page.png'
+"
+
+ ❯ scripts/verification-helpers.test.ts:953:50
+    951|       const result = run(script);
+    952|       expect(result.error).toBeUndefined();
+    953|       expect(`${result.stdout}${result.stderr}`).toMatch(/verification…
+       |                                                  ^
+    954|       expect(result.status).toBe(0);
+    955|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/verification-helpers.test.ts > Tailwind B2 real CLI boundaries > leaves the fixture valid after all mutation checks
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ scripts/verification-helpers.test.ts:1042:49
+    1040|
+    1041|   it("leaves the fixture valid after all mutation checks", () => {
+    1042|     expect(run("verify-boundaries.mjs").status).toBe(0);
+       |                                                 ^
+    1043|     expect(run("verify-workspace.mjs").status).toBe(0);
+    1044|     expect(run("verify-evidence.mjs").status).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 16 passed | 225 skipped (243)
+   Start at  01:37:06
+   Duration  16.27s (transform 1.02s, setup 239ms, import 1.37s, tests 13.32s, environment 1.06s)
+

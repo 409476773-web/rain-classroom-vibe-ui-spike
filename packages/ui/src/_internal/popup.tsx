@@ -45,9 +45,9 @@ export function PopupProvider({ children, triggerId, defaultTriggerId }: { child
   return <PopupContext.Provider value={{ anchor, registerAnchor, theme, density }}>{typeof children === "function" ? children(activateAnchor) : children}</PopupContext.Provider>;
 }
 
-export function usePopupTriggerRef(ref: ForwardedRef<HTMLElement>) {
+export function usePopupTriggerRef<T extends HTMLElement>(ref: ForwardedRef<T>) {
   const { registerAnchor } = usePopupScope();
-  return useCallback((element: HTMLElement | null) => {
+  return useCallback((element: T | null) => {
     registerAnchor(element);
     if (typeof ref === "function") return ref(element);
     if (ref) ref.current = element;

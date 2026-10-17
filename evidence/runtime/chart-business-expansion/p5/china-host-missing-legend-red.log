@@ -1,0 +1,70 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx (12 tests | 4 failed) 884ms
+   × national loading becomes 34 real provincial buttons and a same-value precise table 215ms
+   × zero uses the same truthful readings in list, scale and table 28ms
+   × missing uses the same truthful readings in list, scale and table 28ms
+   × an all-null layer does not claim all values are zero 21ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > national loading becomes 34 real provincial buttons and a same-value precise table
+Error: expect(received).toHaveAttribute()
+
+received value must be an HTMLElement or an SVGElement.
+Received has type:  Null
+Received has value: null
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx:30:47
+     28|   expect(regionList(view).getAllByRole("button")).toHaveLength(34);
+     29|   expect(view.getByText("CH-117")).toBeInTheDocument();
+     30|   expect(view.container.querySelector("svg")).toHaveAttribute("aria-hi…
+       |                                               ^
+     31|   expect(view.container.querySelectorAll(".choropleth-features path"))…
+     32|   expect(view.getByRole("table", { hidden: true })).toHaveTextContent(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > zero uses the same truthful readings in list, scale and table
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > missing uses the same truthful readings in list, scale and table
+AssertionError: expected  to have a length of 21 but got +0
+
+- Expected
++ Received
+
+- 21
++ 0
+
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx:103:72
+    101|   expect(view.getByRole("table", { hidden: true })).toHaveTextContent(…
+    102|   expect(view.getByLabelText(/参与人数色阶/)).toHaveTextContent("无数据");
+    103|   expect(view.container.querySelectorAll(".choropleth-features path"))…
+       |                                                                        ^
+    104| });
+    105|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx > an all-null layer does not claim all values are zero
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  暂无有效数值
+Received:
+  全部为 0无数据
+ ❯ apps/playground/src/docs/components/chart-business/china-region-examples.test.tsx:109:41
+    107|   const view = render(<ChinaRegionExamples provinceId="440000" state="…
+    108|   await view.findByRole("button", { name: /^广州市$/ });
+    109|   expect(view.getByLabelText(/参与人数色阶/)).toHaveTextContent("暂无有效数值");
+       |                                         ^
+    110|   expect(view.getByLabelText(/参与人数色阶/)).not.toHaveTextContent("全部为 0");
+    111| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 8 passed (12)
+   Start at  00:53:41
+   Duration  4.40s (transform 1.57s, setup 149ms, import 2.67s, tests 884ms, environment 609ms)
+

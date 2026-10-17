@@ -1,0 +1,52 @@
+
+Running 13 tests using 1 worker
+
+(node:24829) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -   1 tests/e2e/navigation-v042-r4-feedback.spec.ts:43:1 › capture immutable R4 feedback snapshots
+  ✓   2 tests/e2e/navigation-v042-r4-feedback.spec.ts:67:3 › R4 feedback contracts › existing AvatarGroup portraits remain visible and do not nest actions inside group selectors (668ms)
+  ✓   3 tests/e2e/navigation-v042-r4-feedback.spec.ts:79:3 › R4 feedback contracts › compact activity cards reserve more room for details across every supported canvas width (1.8s)
+  ✓   4 tests/e2e/navigation-v042-r4-feedback.spec.ts:109:3 › R4 feedback contracts › group filter, search and activity selection preserve identity and grey ungraded scores (876ms)
+  ✓   5 tests/e2e/navigation-v042-r4-feedback.spec.ts:127:3 › R4 feedback contracts › context boundary moves closer while keyboard, pointer resizing and temporary restoration retain the selected object (965ms)
+  ✓   6 tests/e2e/navigation-v042-r4-feedback.spec.ts:160:3 › R4 feedback contracts › platform brand and footer keep sensible alignment in compact and expanded modes (2.4s)
+  ✓   7 tests/e2e/navigation-v042-r4-feedback.spec.ts:180:3 › R4 feedback contracts › S4 inverse platform and recovery use their scoped Token palette (1.5s)
+  -   8 tests/e2e/navigation-v042-review08.spec.ts:22:1 › capture review08 before or after at all existing canvas widths
+  ✓   9 tests/e2e/navigation-v042-review08.spec.ts:31:39 › Review08 local feedback › smaller header icons retain usable targets and selected group theme at 1200 (1.2s)
+  ✓  10 tests/e2e/navigation-v042-review08.spec.ts:31:39 › Review08 local feedback › smaller header icons retain usable targets and selected group theme at 1440 (1.2s)
+  ✓  11 tests/e2e/navigation-v042-review08.spec.ts:31:39 › Review08 local feedback › smaller header icons retain usable targets and selected group theme at 1600 (1.2s)
+  ✘  12 tests/e2e/navigation-v042-review08.spec.ts:42:3 › Review08 local feedback › small pin and hide controls preserve selection through temporary recovery in S4 (1.2s)
+(node:24851) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 tests/e2e/navigation-v042-review08.spec.ts:54:3 › Review08 local feedback › shared RegionHead defaults stay at 32/18 in grading, replay and documents (1.4s)
+
+
+  1) tests/e2e/navigation-v042-review08.spec.ts:42:3 › Review08 local feedback › small pin and hide controls preserve selection through temporary recovery in S4 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('[data-recipe-id="recipe-navigation-r4"]').locator('[data-region-id="queue"]')
+    Expected: "true"
+    Error: strict mode violation: locator('[data-recipe-id="recipe-navigation-r4"]').locator('[data-region-id="queue"]') resolved to 2 elements:
+        1) <div data-side="start" aria-label="小组列表" data-mode="hidden" data-forced="false" data-temporary="true" data-region-id="queue" id="_r_1_-workspace-queue" class="rain-workspace__region nv5-queue">…</div> aka getByLabel('小组列表', { exact: true })
+        2) <div hidden="" tabindex="-1" role="separator" aria-valuemin="212" aria-valuemax="320" aria-valuenow="240" aria-label="调整小组列表宽度" data-region-id="queue" aria-orientation="vertical" class="rain-workspace__splitter " aria-controls="_r_1_-workspace-queue"></div> aka getByLabel('调整小组列表宽度')
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 5000ms
+      - waiting for locator('[data-recipe-id="recipe-navigation-r4"]').locator('[data-region-id="queue"]')
+
+
+      44 |     const other=root.getByRole('group',{name:'小组结果',exact:true}).getByRole('button',{name:'探索者小组',exact:true});await other.click();
+      45 |     for(const [pane,label,id] of [[queue,'小组列表','queue'],[context,'课堂功能','context']] as const){
+    > 46 |       await pane.getByRole('button',{name:`取消固定${label}`,exact:true}).click();await expect(pane).toHaveAttribute('data-temporary','true');
+         |                                                                                                  ^
+      47 |       const pin=pane.getByRole('button',{name:`固定${label}`,exact:true});await expect(pin).toHaveAttribute('data-size','32/14');await pin.focus();await page.keyboard.press('Enter');await expect(pane).toHaveAttribute('data-temporary','false');
+      48 |       const hide=pane.getByRole('button',{name:`隐藏${label}`,exact:true});await hide.focus();await page.keyboard.press('Enter');await expect(pane).toBeHidden();
+      49 |       await root.locator(`.rain-workspace__restore[aria-controls$="-workspace-${id}"]`).first().click();await expect(pane).toBeVisible();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/navigation-v042-review08.spec.ts:46:98
+
+    Error Context: evidence/runtime/navigation-v042/w5/review-08-r4-details/test-artifacts/navigation-v042-review08-R-218f8-gh-temporary-recovery-in-S4/error-context.md
+
+  1 failed
+    tests/e2e/navigation-v042-review08.spec.ts:42:3 › Review08 local feedback › small pin and hide controls preserve selection through temporary recovery in S4 
+  2 skipped
+  10 passed (15.2s)

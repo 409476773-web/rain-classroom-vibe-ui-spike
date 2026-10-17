@@ -40,3 +40,5 @@ export type { InputSize } from "./input-token-contract";
 export * from "./select-token-contract";
 export * from "./tabs-token-contract";
 export * from "./overlay-token-contract";
+
+export * from "./tooltip-token-contract";

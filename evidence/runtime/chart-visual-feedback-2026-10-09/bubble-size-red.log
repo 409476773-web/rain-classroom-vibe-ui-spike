@@ -1,0 +1,37 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/docs/components/chart-business/matrix-data.test.ts (13 tests | 1 failed) 17ms
+   × bubble and support fixtures share truthful scales while CH145 retains only three grades 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/chart-business/matrix-data.test.ts > bubble and support fixtures share truthful scales while CH145 retains only three grades
+AssertionError: expected { kind: 'bubble', domainMax: 100 } to match object { maxRadius: 18 }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "maxRadius": 18,
++   "domainMax": 100,
++   "kind": "bubble",
+  }
+
+ ❯ apps/playground/src/docs/components/chart-business/matrix-data.test.ts:53:27
+     51|   const countModel = getMatrixEncoding(counts.encoding, counts.valueFo…
+     52|   expect(counts.encoding.kind).toBe("bubble");
+     53|   expect(counts.encoding).toMatchObject({ maxRadius: 18 });
+       |                           ^
+     54|   for (const cell of counts.cells) expect(() => countModel.encode(cell…
+     55|   const support = fixtures[4]!;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 passed (13)
+   Start at  07:54:37
+   Duration  1.55s (transform 683ms, setup 89ms, import 986ms, tests 17ms, environment 367ms)
+

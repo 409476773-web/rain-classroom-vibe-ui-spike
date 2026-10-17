@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ apps/playground/src/recipes/navigation-v042/workspace-states.test.tsx (9 tests | 1 failed) 956ms
+   × restores S5 default panel widths as well as modes without losing the document draft 80ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/recipes/navigation-v042/workspace-states.test.tsx > restores S5 default panel widths as well as modes without losing the document draft
+Error: expect(element).toHaveAttribute("aria-valuenow", "216") // element.getAttribute("aria-valuenow") === "216"
+
+Expected the element to have attribute:
+  aria-valuenow="216"
+Received:
+  aria-valuenow="246"
+ ❯ apps/playground/src/recipes/navigation-v042/workspace-states.test.tsx:95:22
+     93|     fireEvent.click(screen.getByRole('button', { name: '布局设置' }));
+     94|     fireEvent.click(await screen.findByRole('button', { name: '恢复默认', …
+     95|     expect(splitter).toHaveAttribute('aria-valuenow', '216');
+       |                      ^
+     96|     expect(draft).toHaveValue('恢复默认仍属于当前文档的目标。');
+     97|   } finally { geometry.mockRestore(); }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  13:49:11
+   Duration  2.48s (transform 576ms, setup 97ms, import 971ms, tests 956ms, environment 371ms)
+

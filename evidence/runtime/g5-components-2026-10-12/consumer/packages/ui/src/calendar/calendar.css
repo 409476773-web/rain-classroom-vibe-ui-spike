@@ -1,0 +1,61 @@
+/* @rain-css-exception calendar-parts: shadcn/Nova table parts and DayPicker 9.13.2 animation lifecycle. */
+.rain-calendar {
+  --rdp-animation_duration: var(--rain-motion-region-duration);
+  --rdp-animation_timing: var(--rain-motion-ease-out);
+  width: max-content;
+  max-width: 100%;
+  color: var(--rain-category-text-neutral-1);
+}
+.rain-calendar__months { position: relative; display: flex; gap: var(--rain-space-24); }
+.rain-calendar__month { display: flex; flex-direction: column; gap: var(--rain-space-8); min-width: 0; width: calc(var(--rain-space-32) * 7); }
+.rain-calendar__nav { position: absolute; inset: 0 0 auto; display: flex; justify-content: space-between; pointer-events: none; }
+.rain-calendar__nav > button { pointer-events: auto; }
+.rain-calendar__caption { display: flex; align-items: center; justify-content: center; min-height: var(--rain-space-24); padding-inline: var(--rain-space-24); }
+.rain-calendar__dropdowns { display: flex; gap: var(--rain-space-4); align-items: center; }
+.rain-calendar__select { min-width: 0; }
+.rain-calendar__grid { width: 100%; table-layout: fixed; border-collapse: collapse; }
+.rain-calendar__weekday { height: var(--rain-space-28); color: var(--rain-category-text-neutral-4); font-weight: var(--rain-font-weight-regular); text-align: center; }
+.rain-calendar__day { position: relative; padding: 0; height: var(--rain-space-32); text-align: center; }
+.rain-calendar__day-button {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  width: 100%; min-width: 0; height: var(--rain-space-32); padding: 0;
+  border: 0; border-radius: var(--rain-radius-4); background: transparent;
+  color: inherit; font-weight: var(--rain-font-weight-regular); cursor: pointer;
+  transition: background-color var(--rain-motion-feedback-duration) var(--rain-motion-ease-out), color var(--rain-motion-feedback-duration) var(--rain-motion-ease-out);
+}
+.rain-calendar__day-button:hover:not(:disabled) { background: var(--rain-category-fill-neutral-alpha-6); }
+.rain-calendar__day-label { color: inherit; }
+.rain-calendar__today:not([data-selected]) .rain-calendar__day-button { color: var(--rain-category-text-brand-1); font-weight: var(--rain-font-weight-semibold); }
+.rain-calendar__outside { color: var(--rain-category-text-neutral-4); }
+.rain-calendar__disabled { color: var(--rain-category-text-neutral-6); }
+.rain-calendar__disabled .rain-calendar__day-button { cursor: not-allowed; }
+.rain-calendar__hidden { visibility: hidden; }
+.rain-calendar__range-middle { background: var(--rain-category-fill-brand-alpha-4); }
+.rain-calendar__range-start { border-radius: var(--rain-radius-4) 0 0 var(--rain-radius-4); background: var(--rain-category-fill-brand-alpha-4); }
+.rain-calendar__range-end { border-radius: 0 var(--rain-radius-4) var(--rain-radius-4) 0; background: var(--rain-category-fill-brand-alpha-4); }
+.rain-calendar__day-button[data-range-middle="true"] { border-radius: 0; color: var(--rain-category-text-brand-1); }
+.rain-calendar__day-button:is([data-selected-single="true"], [data-range-start="true"], [data-range-end="true"]) { background: var(--rain-category-fill-brand-solid-2); color: var(--rain-category-oncolor-1); }
+.rain-calendar__day-button:is([data-selected-single="true"], [data-range-start="true"], [data-range-end="true"]):hover { background: var(--rain-category-fill-brand-solid-2); }
+/* These eight classes, including caption animationend, are required by useAnimation cleanup. */
+.rain-calendar .rdp-weeks_before_enter { animation: rain-calendar-in-left var(--rdp-animation_duration) var(--rdp-animation_timing) both; }
+.rain-calendar .rdp-weeks_before_exit { animation: rain-calendar-out-left var(--rdp-animation_duration) var(--rdp-animation_timing) both; }
+.rain-calendar .rdp-weeks_after_enter { animation: rain-calendar-in-right var(--rdp-animation_duration) var(--rdp-animation_timing) both; }
+.rain-calendar .rdp-weeks_after_exit { animation: rain-calendar-out-right var(--rdp-animation_duration) var(--rdp-animation_timing) both; }
+.rain-calendar :is(.rdp-caption_after_enter, .rdp-caption_before_enter) { animation: rain-calendar-fade-in var(--rdp-animation_duration) var(--rdp-animation_timing) both; }
+.rain-calendar :is(.rdp-caption_after_exit, .rdp-caption_before_exit) { animation: rain-calendar-fade-out var(--rdp-animation_duration) var(--rdp-animation_timing) both; }
+.rain-calendar[dir="rtl"] .rdp-weeks_after_enter { animation-name: rain-calendar-in-left; }
+.rain-calendar[dir="rtl"] .rdp-weeks_before_enter { animation-name: rain-calendar-in-right; }
+.rain-calendar[dir="rtl"] .rdp-weeks_after_exit { animation-name: rain-calendar-out-left; }
+.rain-calendar[dir="rtl"] .rdp-weeks_before_exit { animation-name: rain-calendar-out-right; }
+@keyframes rain-calendar-in-left { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes rain-calendar-out-left { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+@keyframes rain-calendar-in-right { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes rain-calendar-out-right { from { transform: translateX(0); } to { transform: translateX(100%); } }
+@keyframes rain-calendar-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rain-calendar-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .rain-calendar__day-button { transition: none; } }
+@media (forced-colors: active) {
+  .rain-calendar__day-button:is([data-selected-single="true"], [data-range-start="true"], [data-range-end="true"]) { outline: 2px solid Highlight; outline-offset: -2px; }
+  .rain-calendar__range-middle { border-block: 1px solid Highlight; }
+  .rain-calendar__disabled { color: GrayText; }
+}

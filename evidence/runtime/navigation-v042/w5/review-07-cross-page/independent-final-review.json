@@ -1,0 +1,251 @@
+{
+  "schemaVersion": "1.0",
+  "createdAt": "2026-10-03T06:17:55.335Z",
+  "reviewer": "review07_r1_r3",
+  "reviewRole": "Independent review of root platform/Gallery changes; R1/R3 source-owner self-review; additionally fixed root-confirmed containment defect under explicit instruction.",
+  "status": "scope-verified-human-review-pending",
+  "sourceSha256": {
+    "apps/playground/src/recipes/navigation-v042/platform-navigation.css": "8160073503c157398ea53377278bab0b14294690d9a1de962eacd7c07ec898f9",
+    "packages/ui/src/navigation/navigation-families.css": "16a0f032e48195ff62aab11d127c98de170eb982209d594bb4ac4aeb084ae64e",
+    "apps/playground/src/recipes/navigation-v042/r1-r3.tsx": "571aab233648b1ca5deac852aba671d26783f0b3418c82a85b134489cb114b77",
+    "apps/playground/src/recipes/navigation-v042/r1-r3.css": "18fd68598f782e4071aa82e2c9d79ed07691eb41c8b170f3430ba38dad523ec2",
+    "apps/playground/src/recipes/navigation-v042/samples.tsx": "697f686c4308fefc9a4557ef21347b88179bdc4fa82037b1d6a2c6fa83a4bf24",
+    "apps/playground/src/recipes/navigation-v042/w3-samples.tsx": "7406b05af820ee7768399151eca8ac6b9d8e137a52d55d1c6c40ee33b1a499a1",
+    "apps/playground/src/recipes/navigation-v042/w3-samples.css": "976f03a2ffc1c528aacfa0ae6651d6b44e7493d8f14465711b92385bb77a1303",
+    "tests/e2e/navigation-v042-review07.spec.ts": "94f4ccb8ecc571f8963952ad6bf46b6e53cd6555210ae0a60da266590b09002f"
+  },
+  "methods": [
+    "V01",
+    "V04",
+    "D05"
+  ],
+  "scope": [
+    "platform-navigation.css public category Token mapping and row-vs-entry layering",
+    "S1/R1/R3/S2 expanded platform containment at 1200/1440/1600",
+    "representative platform current/hover rendering",
+    "A4/Connections empty search and Escape focus return",
+    "A2/A5 formal Avatar portrait visibility",
+    "R3 file identity, metadata and grid interaction as previously recorded"
+  ],
+  "findings": [
+    {
+      "id": "expanded-content-crops-selected-right-corner",
+      "severity": "visual-defect",
+      "status": "fixed",
+      "selector": ".nv43-platform-content[data-expanded=true]",
+      "trigger": "208px region with 6px left/right host padding and 208px inner width",
+      "before": {
+        "regionWidth": 208,
+        "contentWidth": 208,
+        "currentRight": 239,
+        "regionRight": 233,
+        "scrollWidth": 220,
+        "clientWidth": 207
+      },
+      "change": "width:100%;min-width:0; pane default 208 remains",
+      "after": {
+        "regionWidth": 208,
+        "contentWidth": 195,
+        "currentRight": 226,
+        "regionRight": 233,
+        "scrollWidth": 207,
+        "clientWidth": 207
+      },
+      "evidenceBefore": "r1-r3/platform-containment-before-v2/measurements.json",
+      "evidenceAfter": "r1-r3/platform-containment-after/measurements.json"
+    }
+  ],
+  "unresolvedProductFindings": [],
+  "platformContainment": {
+    "cases": 12,
+    "allContained": true,
+    "allHorizontalScrollEliminated": true,
+    "pageErrors": [],
+    "explicitIconToggleCases": 9,
+    "iconTogglePassed": true,
+    "notMeasured": "This containment collector leaves S2 icon toggle as not-measured when expansion is temporary; formal root matrix compares its compact and temporary-expanded geometry."
+  },
+  "platformStateMeasurements": {
+    "createdAt": "2026-10-03T06:16:11.488Z",
+    "cases": [
+      {
+        "sample": "R3",
+        "current": {
+          "background": "rgb(198, 216, 255)",
+          "color": "rgb(15, 85, 223)"
+        },
+        "hover": {
+          "background": "rgba(74, 102, 209, 0.2)",
+          "entryBackground": "rgba(0, 0, 0, 0)"
+        },
+        "icons": [
+          [
+            18,
+            18
+          ],
+          [
+            18,
+            18
+          ],
+          [
+            18,
+            18
+          ],
+          [
+            18,
+            18
+          ]
+        ]
+      },
+      {
+        "sample": "S1",
+        "current": {
+          "background": "rgb(198, 216, 255)",
+          "color": "rgb(15, 85, 223)"
+        },
+        "hover": {
+          "background": "rgba(74, 102, 209, 0.2)",
+          "entryBackground": "rgba(0, 0, 0, 0)"
+        },
+        "icons": [
+          [
+            18,
+            18
+          ],
+          [
+            18,
+            18
+          ],
+          [
+            18,
+            18
+          ],
+          [
+            18,
+            18
+          ]
+        ]
+      }
+    ]
+  },
+  "galleryMeasurements": {
+    "createdAt": "2026-10-03T06:12:07.603Z",
+    "cases": [
+      {
+        "sample": "A4",
+        "emptyStatus": "无匹配范围",
+        "focusReturned": true
+      },
+      {
+        "sample": "Connections",
+        "emptyStatus": "无匹配范围",
+        "focusReturned": true
+      },
+      {
+        "sample": "A2",
+        "portraits": [
+          {
+            "width": 32,
+            "height": 32,
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "loaded": true,
+            "src": "http://127.0.0.1:5198/@fs/Users/wenchengkai/CodexFile/%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/packages/ui/src/avatar/assets/student-01.png"
+          },
+          {
+            "width": 32,
+            "height": 32,
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "loaded": true,
+            "src": "http://127.0.0.1:5198/@fs/Users/wenchengkai/CodexFile/%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/packages/ui/src/avatar/assets/student-02.png"
+          },
+          {
+            "width": 32,
+            "height": 32,
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "loaded": true,
+            "src": "http://127.0.0.1:5198/@fs/Users/wenchengkai/CodexFile/%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/packages/ui/src/avatar/assets/student-03.png"
+          },
+          {
+            "width": 32,
+            "height": 32,
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "loaded": true,
+            "src": "http://127.0.0.1:5198/@fs/Users/wenchengkai/CodexFile/%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/packages/ui/src/avatar/assets/student-04.png"
+          }
+        ],
+        "passed": true
+      },
+      {
+        "sample": "A5",
+        "portraits": [
+          {
+            "width": 32,
+            "height": 32,
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "loaded": true,
+            "src": "http://127.0.0.1:5198/@fs/Users/wenchengkai/CodexFile/%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/packages/ui/src/avatar/assets/student-01.png"
+          },
+          {
+            "width": 32,
+            "height": 32,
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "loaded": true,
+            "src": "http://127.0.0.1:5198/@fs/Users/wenchengkai/CodexFile/%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/packages/ui/src/avatar/assets/student-02.png"
+          },
+          {
+            "width": 32,
+            "height": 32,
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "loaded": true,
+            "src": "http://127.0.0.1:5198/@fs/Users/wenchengkai/CodexFile/%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/packages/ui/src/avatar/assets/student-03.png"
+          },
+          {
+            "width": 32,
+            "height": 32,
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "loaded": true,
+            "src": "http://127.0.0.1:5198/@fs/Users/wenchengkai/CodexFile/%E9%9B%A8%E8%AF%BE%E5%A0%82-shadcn%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%B6%E6%9E%84/.worktrees/card-v2/packages/ui/src/avatar/assets/student-04.png"
+          }
+        ],
+        "passed": true
+      }
+    ],
+    "pageErrors": []
+  },
+  "r3FileEvidence": {
+    "path": "r1-r3/after-04/audit.json",
+    "cases": 12,
+    "operationSequences": 54,
+    "note": "This earlier successful full-scene record predates the final containment-only CSS fix; platform-containment-after records final affected geometry."
+  },
+  "testReview": {
+    "actualPriorProductFailure": "Early transparent state background was corrected by root CSS row/entry layering.",
+    "priorAssertionFailures": "browser-regression-04: 36 platform failures compare semantically equal #c6d8ff and rgb(198 216 255); R2 failure assumes enter-edit button exists although sample starts editing. These are test expectation problems, not product failures.",
+    "currentSpec": "Current RGB-channel Token assertion and conditional edit entry address these assumptions; newly added current-row containment assertion catches actual crop.",
+    "galleryFocusTiming": "Use awaited toBeFocused after Escape; immediate document.activeElement checks can run before focus return.",
+    "avatarSelector": "Check img[data-slot=portrait]; hidden default fallback is normal Avatar state.",
+    "coverageLimit": "R2 test exercises editing/filter/layout identity; its title does not by itself establish preservation of a newly entered resource draft."
+  },
+  "limitations": [
+    "No human visual approval inferred",
+    "No full contrast/VoiceOver/multi-browser review",
+    "No backend data or publication verification",
+    "Root final full build/browser run remains the authoritative aggregate"
+  ]
+}

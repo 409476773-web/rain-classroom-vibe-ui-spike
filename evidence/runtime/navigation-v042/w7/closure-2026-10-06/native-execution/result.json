@@ -1,0 +1,92 @@
+{
+  "kind": "actual-VoiceOver-bounded-experiment-unsuccessful",
+  "recordedAt": "2026-10-06T04:23:42.913346+00:00",
+  "acceptedSource": "review02 snapshot served by existing 5368; no new R2 source involved",
+  "status": "not-run-no-stable-reader-or-actual-speech",
+  "actualSpokenCases": [],
+  "originalState": {
+    "readerRunning": false,
+    "voiceOverOnOffKey": 0,
+    "basis": "before.json"
+  },
+  "actions": [
+    {
+      "step": "CUA setup",
+      "result": "first browser policy inventory error, one setup retry succeeded; own tab1165681375 created"
+    },
+    {
+      "step": "native Chrome switched to own E3 tab",
+      "result": "native CUA observed E3 林宁第1题 and real tab controls"
+    },
+    {
+      "step": "one normal Cmd-F5",
+      "startedAt": "2026-10-06T04:05:37.409Z",
+      "result": "Chrome AX unchanged; after-start.json has no VoiceOver or Quickstart PID, preference0"
+    },
+    {
+      "step": "CUA getApp installed VoiceOver.app",
+      "requestedTimeoutMs": 10000,
+      "result": "provider did not honor requested timeout; call aborted by user/orchestrator after830.3seconds; no successful state returned; potential side effect unknown until final read"
+    },
+    {
+      "step": "cleanup dedicated tab",
+      "result": "close completed; fresh CUA listTabs excludes1165681375, keeps1165681376 and1165681295"
+    },
+    {
+      "step": "restore Codex foreground via CUA",
+      "result": "rejected by tool safety rule; no bypass attempted"
+    }
+  ],
+  "limits": {
+    "plannedExperimentBudgetSeconds": 90,
+    "budgetMet": false,
+    "reason": "CUA native getApp call remained pending830.3seconds despite timeout_ms10000; no additional experiment action while pending",
+    "experimentStopped": true,
+    "furtherReaderStarts": false,
+    "newTCCOrAppleEventPermissionRequested": false,
+    "SafariAutomationUsed": false,
+    "clipboardAccessed": false,
+    "desktopDiagnosticOutputCreated": false,
+    "actualSpeechCaptured": false,
+    "DOMOrBrowserAXUsedAsSpeech": false
+  },
+  "cleanup": {
+    "dedicatedTabClosed": true,
+    "otherTabsObservedRemaining": [
+      "1165681376",
+      "1165681295"
+    ],
+    "newUISettingsChanged": false,
+    "VOAppleScriptControlModified": false,
+    "VOcaptionSettingModified": false,
+    "VOwelcomeSettingModified": false,
+    "foregroundRestoreAttempt": "CUA safety-blocked",
+    "foregroundRestored": null,
+    "ReaderFinalVerification": {
+      "readerRunning": false,
+      "quickstartRunning": false,
+      "ownedUtilityRunning": false,
+      "voiceOverOnOffKey": 0,
+      "previewHTTP": 200,
+      "evidence": "cleanup.json",
+      "recordedAt": "2026-10-06T04:23:01.949273+00:00"
+    }
+  },
+  "cases": [
+    {
+      "id": "VO-E3-tabs",
+      "status": "not-run",
+      "reason": "No stable actual reader / spoken source"
+    },
+    {
+      "id": "VO-E6-recovery",
+      "status": "not-run",
+      "reason": "No stable actual reader / spoken source; did not navigate E6"
+    },
+    {
+      "id": "VO-E6-resource",
+      "status": "not-run",
+      "reason": "No stable actual reader / spoken source; did not navigate E6"
+    }
+  ]
+}

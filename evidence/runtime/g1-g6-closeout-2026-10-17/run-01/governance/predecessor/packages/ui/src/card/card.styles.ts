@@ -1,0 +1,20 @@
+// Adapted from shadcn-ui/ui@3ba91b1 (Card + Nova Card rules), MIT.
+// Source identities and retained license: evidence/runtime/card-v2/source-lock.json.
+export const cardClasses = {
+  root: "rain-card flex min-w-0 flex-col gap-(--rain-card-section-gap) py-(--rain-card-spacing) overflow-visible rounded-rain-8 border-solid border-rain-line-1",
+  header: "rain-card__header grid min-w-0 auto-rows-min items-start gap-x-rain-12 gap-y-rain-4 px-(--rain-card-spacing)",
+  title: "rain-card__title m-rain-0 min-w-0 wrap-anywhere font-rain-ui text-rain-size-16 leading-rain-24 font-rain-semibold",
+  description: "rain-card__description col-start-1 m-rain-0 min-w-0 wrap-anywhere font-rain-ui text-rain-size-14 leading-rain-22 font-rain-regular",
+  action: "rain-card__action flex min-w-0 max-w-full flex-wrap items-center justify-end gap-rain-8",
+  content: "rain-card__content min-w-0 wrap-anywhere px-(--rain-card-spacing) font-rain-ui text-rain-size-14 leading-rain-24 font-rain-regular",
+  footer: "rain-card__footer flex min-w-0 flex-wrap items-center gap-rain-8 px-(--rain-card-spacing) font-rain-ui text-rain-size-13 leading-rain-22 font-rain-regular",
+} as const;
+
+export const cardPaints = {
+  root: "border-rain-category-border-neutral-3 bg-rain-category-background-neutral-1 text-rain-category-text-neutral-2",
+  title: "text-rain-category-text-neutral-1",
+  description: "text-rain-category-text-neutral-3",
+  footer: "text-rain-category-text-neutral-3",
+  raised: "bg-rain-category-background-neutral-2 border-rain-category-border-neutral-2 text-rain-category-text-neutral-2",
+} as const;
+export type CardPart = keyof typeof cardClasses;

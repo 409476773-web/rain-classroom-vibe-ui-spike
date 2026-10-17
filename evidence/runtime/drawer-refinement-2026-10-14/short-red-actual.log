@@ -1,0 +1,40 @@
+
+Running 1 test using 1 worker
+
+(node:97026) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [narrow] › tests/e2e/drawer-refinement.spec.ts:111:1 › 320px-high failure actions remain reachable and continuous text wraps (2.9s)
+
+
+  1) [narrow] › tests/e2e/drawer-refinement.spec.ts:111:1 › 320px-high failure actions remain reachable and continuous text wraps 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 321
+    Received:    399
+
+      117 |   await expect(page.getByRole("alert")).toContainText("保存失败");
+      118 |   const footer = await page.locator('.g6-task-footer').boundingBox();
+    > 119 |   expect(footer!.y + footer!.height).toBeLessThanOrEqual(321);
+          |                                      ^
+      120 |   await page.getByRole("button", { name: "预览任务", exact: true }).click();
+      121 |   await page.getByRole("button", { name: "返回编辑", exact: true }).click();
+      122 |   await page.getByRole("textbox", { name: "任务要求", exact: true }).fill("https://example.com/" + "longcontinuouscontent".repeat(25));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/drawer-refinement.spec.ts:119:38
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-320px-hi-bf298-e-and-continuous-text-wraps-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-320px-hi-bf298-e-and-continuous-text-wraps-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-320px-hi-bf298-e-and-continuous-text-wraps-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/drawer-refinement-2026-10-14/browser/results/drawer-refinement-320px-hi-bf298-e-and-continuous-text-wraps-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [narrow] › tests/e2e/drawer-refinement.spec.ts:111:1 › 320px-high failure actions remain reachable and continuous text wraps 

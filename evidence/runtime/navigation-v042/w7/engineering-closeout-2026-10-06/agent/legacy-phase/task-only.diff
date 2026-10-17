@@ -1,0 +1,348 @@
+--- before/scripts/m2.test.ts
++++ after/scripts/m2.test.ts
+@@ -14,13 +14,17 @@
+ it("accepts only M2 local delivery, preserves prior decisions, and keeps both benchmarks independent", () => {
+   expect(typeof governance.hasM2Authorization).toBe("function");
+   const status = phase();
++  expect(() => governance.validateTokenFoundationsV1Phase(status)).not.toThrow();
+   expect(governance.hasM2Authorization(status)).toBe(true);
+   expect(governance.getValidatedTailwindB2History(status)).toEqual(status.phaseHistory.tailwindB2);
+-  const earlier = structuredClone(status); delete earlier.componentRefinements.m2Delivery; delete earlier.componentRefinements.generationQuality;
+-  if (governance.hasAvatarFamilyAuthorization(status)) delete earlier.componentRefinements.avatarFamily;
+-  if (governance.hasInputNumberAuthorization(status)) delete earlier.componentRefinements.inputNumber;
+-  if (governance.hasTokenFirstV12Authorization(status)) delete earlier.componentRefinements.tokenFirstV12;
+-  expect(earlier).toEqual(governance.parseYamlSubset(read("evidence/runtime/m2/before/status/current-phase.yaml.txt")));
++  const beforeSource = read("evidence/runtime/m2/before/status/current-phase.yaml.txt");
++  const checkpointSource = read("evidence/runtime/generation-quality/phase-before.yaml");
++  expect(createHash("sha256").update(beforeSource).digest("hex")).toBe("16e82c849f594587fef1c94acf4b3148f26a9266ea6101c66e096341957c4515");
++  expect(createHash("sha256").update(checkpointSource).digest("hex")).toBe("1d5eae623167a7f149b23165dafa3665ecbb483b44939f65999b063e4d9c92d4");
++  const checkpoint = governance.parseYamlSubset(checkpointSource) as any;
++  const earlier = structuredClone(checkpoint); delete earlier.componentRefinements.m2Delivery;
++  expect(earlier).toEqual(governance.parseYamlSubset(beforeSource));
++  expect(() => governance.validateTokenFoundationsV1Phase(checkpoint)).not.toThrow();
+   for (const patch of [{ scope: "all-benchmarks" }, { humanGate: "accepted" }, { contrastAcceptance: "granted" },
+     { publication: "published" }, { businessMigration: "authorized" }, { implementation: "completed", automatedVerification: "not-run" }, { unexpected: true }, { benchmarks: {} }, { benchmarks: { ...status.componentRefinements.m2Delivery.benchmarks, bmE: {} } }]) {
+     const invalid = structuredClone(status); Object.assign(invalid.componentRefinements.m2Delivery, patch);
+@@ -46,10 +50,31 @@
+ });
+ 
+ it("projects only the reviewed M2 prototype entrance without changing the frozen source transitions", () => {
+-  const status = phase(), file = "apps/prototype/src/main.tsx", source = read(file);
++  const phaseSource = read("evidence/runtime/generation-quality/phase-before.yaml");
++  expect(createHash("sha256").update(phaseSource).digest("hex")).toBe("1d5eae623167a7f149b23165dafa3665ecbb483b44939f65999b063e4d9c92d4");
++  const status = governance.parseYamlSubset(phaseSource) as any;
++  const file = "apps/prototype/src/main.tsx";
++  let source = read(`evidence/runtime/token-first-v12-g1/before/${file}.txt`);
++  expect(createHash("sha256").update(source).digest("hex")).toBe("f7413ef1a63344d88e3ea6b59290b9641d439821102d691b85fd434c8ff95860");
++  // Project the sealed later entry back to the independently recorded M2 source input, without inspecting live code.
++  const laterEntries = [
++    'import { ListCompositionPreview } from "./scenarios/list-composition/page";\n',
++    '  if (route === "#list-composition") return <DensityProvider density="default"><ListCompositionPreview /></DensityProvider>;\n',
++    'import { TeacherGradingPage } from "./scenarios/teacher-grading/page";\n',
++    'import { ExamEditorPage } from "./scenarios/exam-editor/page";\n',
++    '  if (route === "#exam-editor") return <DensityProvider density="default"><ExamEditorPage /></DensityProvider>;\n',
++    '  if (route === "#teacher-grading") return <DensityProvider density="default"><TeacherGradingPage /></DensityProvider>;\n',
++  ];
++  for (const addition of laterEntries) { expect(source.split(addition)).toHaveLength(2); source = source.replace(addition, ""); }
++  const sourceLock = JSON.parse(read("evidence/runtime/m2/final-source-lock.json"));
++  expect(sourceLock.sourceFiles[file]).toBe("f09f83952461a5ccb0c502e7501e3aecc04050e053a6d549b05d28beb8c5fa01");
++  expect(createHash("sha256").update(source).digest("hex")).toBe(sourceLock.sourceFiles[file]);
+   const before = read(`evidence/runtime/m2/before/${file}.txt`);
+   const expected = createHash("sha256").update(before).digest("hex");
+-  const transitions = JSON.parse(read("evidence/runtime/rn15-delivery/source-transitions.json"));
++  expect(expected).toBe("99d4eda6cad50a343f5bac76334d1a0fde0890da976339153851e7df6e29b862");
++  const transitionSource = read("evidence/runtime/rn15-delivery/source-transitions.json");
++  expect(createHash("sha256").update(transitionSource).digest("hex")).toBe("dbc947f3c4e19dfb0570d4ff69325d9968ad68c41631c81ce02a631d91e0b7eb");
++  const transitions = JSON.parse(transitionSource);
+   expect(governance.matchesRn15ProtectedSource(file, source, expected, status, transitions)).toBe(true);
+   const movedEntry = source.match(/\/\/ m2-entry:start[\s\S]*?\/\/ m2-entry:end\n/)![0];
+   for (const changed of [source.replace(movedEntry, "") + movedEntry, source + "\n// arbitrary change", source.replace("<LearningReportScenario />", "<UnreviewedScenario />"),
+@@ -94,12 +119,45 @@
+     expect(validateRegisteredRecipeColors({ filePath, source, outputs, root: "/__missing_m2_authorization__" }).length).toBeGreaterThan(0);
+   }
+   const graphic = getM2ColorConsumers().filter((entry: any) => ["stroke", "fill", "color"].includes(entry.property) && entry.use.role === "icon");
+-  expect(graphic).toHaveLength(3);
++  const historicalRoot = mkdtempSync(join(tmpdir(), "rain-m2-original-color-contract-"));
++  try {
++    mkdirSync(join(historicalRoot, "status")); mkdirSync(join(historicalRoot, "evidence/runtime/m2"), { recursive: true });
++    const phaseSource = read("evidence/runtime/generation-quality/phase-before.yaml");
++    expect(createHash("sha256").update(phaseSource).digest("hex")).toBe("1d5eae623167a7f149b23165dafa3665ecbb483b44939f65999b063e4d9c92d4");
++    writeFileSync(join(historicalRoot, "status/current-phase.yaml"), phaseSource);
++    writeFileSync(join(historicalRoot, "evidence/runtime/m2/color-consumers.json"), read("evidence/runtime/m2/color-consumers.json"));
++    const originalGraphic = getM2ColorConsumers(historicalRoot).filter((entry: any) => ["stroke", "fill", "color"].includes(entry.property) && entry.use.role === "icon");
++    expect(originalGraphic.map((entry: any) => [entry.filePath, entry.selector, entry.property, entry.use.tokenId])).toEqual([
++      ["apps/prototype/src/scenarios/bm-d/page.css", '.bm-d [data-series="one"]', "stroke", "Icon/Second/1"],
++      ["apps/prototype/src/scenarios/bm-d/page.css", '.bm-d [data-series="one"]', "fill", "Icon/Second/1"],
++      ["apps/prototype/src/scenarios/bm-d/page.css", '.bm-d [data-series="two"]', "stroke", "Icon/Green/1"],
++      ["apps/prototype/src/scenarios/bm-d/page.css", '.bm-d [data-series="two"]', "fill", "Icon/Green/1"],
++    ]);
++    for (const entry of originalGraphic) expect(entry).toMatchObject({ minimumContrast: 3, use: { content: "meaningful-icon", property: "color", critical: true } });
++  } finally { rmSync(historicalRoot, { recursive: true, force: true }); }
++  expect(graphic.map((entry: any) => [entry.filePath, entry.selector, entry.property, entry.use.tokenId])).toEqual([
++    ["apps/prototype/src/scenarios/bm-c/page.css", ".bm-c-disclosure-icons", "color", "Icon/Neutral/3"],
++    ["apps/prototype/src/scenarios/bm-d/page.css", ".bm-d .bm-d-series-one", "color", "Icon/Second/1"],
++    ["apps/prototype/src/scenarios/bm-d/page.css", ".bm-d .bm-d-series-two", "color", "Icon/Green/1"],
++    ["apps/prototype/src/scenarios/bm-d/report-a.css", '.bm-d[data-presentation="comparison"] .bm-d-series-one', "color", "Icon/Brand/2"],
++    ["apps/prototype/src/scenarios/bm-d/report-a.css", '.bm-d[data-presentation="comparison"] .bm-d-series-two', "color", "Icon/Neutral/3"],
++  ]);
+   for (const entry of graphic) expect(entry).toMatchObject({ minimumContrast: 3, use: { content: "meaningful-icon", property: "color", critical: true } });
+   for (const patch of [{ minimumContrast: 0 }, { use: { ...graphic[0].use, content: "decorative", critical: false } }]) {
+     const invalid = structuredClone(outputs);
+     Object.assign(invalid.colorCssConsumers.find(entry => entry.filePath === graphic[0].filePath && entry.selector === graphic[0].selector && entry.property === graphic[0].property)!, patch);
+     expect(validateRegisteredRecipeColors({ filePath: graphic[0].filePath, source: read(graphic[0].filePath), outputs: invalid }).length).toBeGreaterThan(0);
++  }
++});
++
++it("rejects unknown M2 successors or changes to the frozen parent history", () => {
++  const status = phase();
++  for (const change of ["top-level", "component", "history"]) {
++    const invalid = structuredClone(status);
++    if (change === "top-level") invalid.unapprovedSuccessor = { authorization: "authorized" };
++    if (change === "component") invalid.componentRefinements.unapprovedSuccessor = { authorization: "authorized" };
++    if (change === "history") invalid.phaseHistory.tailwindB2.blockedActions.push("unrecorded permission");
++    expect(() => governance.validateTokenFoundationsV1Phase(invalid)).toThrow();
+   }
+ });
+ 
+--- before/scripts/rn15-delivery.test.ts
++++ after/scripts/rn15-delivery.test.ts
+@@ -1,30 +1,48 @@
+ // @vitest-environment node
+-import { readFileSync } from "node:fs";
++import { mkdtempSync, readFileSync, rmSync } from "node:fs";
++import { spawnSync } from "node:child_process";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { createHash } from "node:crypto";
+ import { expect, it } from "vitest";
+ import * as governance from "./verification-helpers.mjs";
+ 
+ it("accepts only the M1 local delivery and preserves every preceding decision", () => {
+   expect(typeof governance.hasRn15Authorization).toBe("function");
+   const status = governance.parseYamlSubset(readFileSync("status/current-phase.yaml", "utf8")) as any;
++  expect(() => governance.validateTokenFoundationsV1Phase(status)).not.toThrow();
+   expect(governance.hasRn15Authorization(status)).toBe(true);
+   expect(governance.getValidatedTailwindB2History(status)).toEqual(status.phaseHistory.tailwindB2);
+-  const earlier = structuredClone(status); delete earlier.componentRefinements.rn15Delivery;
+-  if (governance.hasTokenFirstV12Authorization(status)) delete earlier.componentRefinements.tokenFirstV12;
+-  if (governance.hasGenerationQualityAuthorization(status)) delete earlier.componentRefinements.generationQuality;
+-  if (governance.hasM2Authorization(status)) delete earlier.componentRefinements.m2Delivery;
+-  if (governance.hasAvatarFamilyAuthorization(status)) delete earlier.componentRefinements.avatarFamily;
+-  if (governance.hasInputNumberAuthorization(status)) delete earlier.componentRefinements.inputNumber;
+-  expect(earlier).toEqual(governance.parseYamlSubset(readFileSync("evidence/runtime/rn15-delivery/before/status/current-phase.yaml.txt", "utf8")));
+-  const transitions = JSON.parse(readFileSync("evidence/runtime/rn15-delivery/source-transitions.json", "utf8"));
+-  for (const entry of transitions) {
+-    const source = readFileSync(entry.file, "utf8");
+-    const matches = (value: string, phase = status, records = transitions) => governance.matchesRn15ProtectedSource(entry.file, value, entry.beforeSha256, phase, records);
+-    expect(matches(source), entry.file).toBe(true);
+-    expect(matches(source + "\n/* unrecorded change */"), entry.file).toBe(false);
+-    expect(matches(source, earlier), entry.file).toBe(false);
+-    expect(matches(source, status, []), entry.file).toBe(false);
+-    expect(matches(source, status, [{ ...entry, authorization: "all-files" }]), entry.file).toBe(false);
+-  }
++  const beforeSource = readFileSync("evidence/runtime/rn15-delivery/before/status/current-phase.yaml.txt", "utf8");
++  const checkpointSource = readFileSync("evidence/runtime/m2/before/status/current-phase.yaml.txt", "utf8");
++  expect(createHash("sha256").update(beforeSource).digest("hex")).toBe("9de5c83cf524ea1960d67fa0fc804a011a2427211f61528f1308630386925061");
++  expect(createHash("sha256").update(checkpointSource).digest("hex")).toBe("16e82c849f594587fef1c94acf4b3148f26a9266ea6101c66e096341957c4515");
++  const checkpoint = governance.parseYamlSubset(checkpointSource) as any;
++  const earlier = structuredClone(checkpoint); delete earlier.componentRefinements.rn15Delivery;
++  expect(earlier).toEqual(governance.parseYamlSubset(beforeSource));
++  expect(() => governance.validateTokenFoundationsV1Phase(checkpoint)).not.toThrow();
++  const transitionSource = readFileSync("evidence/runtime/rn15-delivery/source-transitions.json", "utf8");
++  expect(createHash("sha256").update(transitionSource).digest("hex")).toBe("dbc947f3c4e19dfb0570d4ff69325d9968ad68c41631c81ce02a631d91e0b7eb");
++  const transitions = JSON.parse(transitionSource);
++  expect(transitions).toHaveLength(16);
++  const archive = "evidence/runtime/rn14-editability/starter-final.tar.gz";
++  expect(createHash("sha256").update(readFileSync(archive)).digest("hex")).toBe("81ed247e9e3c57bf9edd94ace9bea30487557ab5404c26570aa8ea055c7f900e");
++  const frozenRoot = mkdtempSync(join(tmpdir(), "rain-rn15-source-checkpoint-"));
++  try {
++    const extraction = spawnSync("tar", ["-xzf", archive, "-C", frozenRoot], { encoding: "utf8" });
++    expect(extraction.status, extraction.stderr).toBe(0);
++    for (const entry of transitions) {
++      // These two named host files were excluded from the RN14 starter; their original transition SHA remains strict.
++      const source = readFileSync(["apps/prototype/src/course-dialog.tsx", "apps/prototype/src/course-dialog.css"].includes(entry.file) ? entry.file : join(frozenRoot, entry.file), "utf8");
++      expect(createHash("sha256").update(source).digest("hex"), entry.file).toBe(entry.afterSha256);
++      const matches = (value: string, phase = checkpoint, records = transitions) => governance.matchesRn15ProtectedSource(entry.file, value, entry.beforeSha256, phase, records);
++      expect(matches(source), entry.file).toBe(true);
++      expect(matches(source + "\n/* unrecorded change */"), entry.file).toBe(false);
++      expect(matches(source, earlier), entry.file).toBe(false);
++      expect(matches(source, checkpoint, []), entry.file).toBe(false);
++      expect(matches(source, checkpoint, [{ ...entry, authorization: "all-files" }]), entry.file).toBe(false);
++    }
++  } finally { rmSync(frozenRoot, { recursive: true, force: true }); }
+   for (const change of [{ scope: "m2-all-benchmarks" }, { snapshotId: "unreviewed" }, { humanGate: "accepted" },
+     { contrastAcceptance: "granted" }, { publication: "published" }, { businessMigration: "authorized" },
+     { implementation: "completed", automatedVerification: "not-run" }, { unexpected: true }]) {
+@@ -37,3 +55,14 @@
+   delete missingAcceptance.componentRefinements.rn14Editability.humanGateDecision;
+   expect(governance.hasRn15Authorization(missingAcceptance)).toBe(false);
+ });
++
++it("rejects unknown RN15 successors and changes to the frozen parent history", () => {
++  const status = governance.parseYamlSubset(readFileSync("status/current-phase.yaml", "utf8")) as any;
++  for (const change of ["top-level", "component", "history"]) {
++    const invalid = structuredClone(status);
++    if (change === "top-level") invalid.unapprovedSuccessor = { authorization: "authorized" };
++    if (change === "component") invalid.componentRefinements.unapprovedSuccessor = { authorization: "authorized" };
++    if (change === "history") invalid.phaseHistory.tailwindB2.blockedActions.push("unrecorded permission");
++    expect(() => governance.validateTokenFoundationsV1Phase(invalid)).toThrow();
++  }
++});
+--- before/scripts/table-rn08.test.ts
++++ after/scripts/table-rn08.test.ts
+@@ -1,8 +1,8 @@
+-import { hasInputNumberAuthorization } from "./verification-helpers.mjs";
+-import { hasTokenFirstV12Authorization } from "./verification-helpers.mjs";
+-import { hasAvatarFamilyAuthorization } from "./verification-helpers.mjs";
+-import { hasGenerationQualityAuthorization, hasM2Authorization, hasBmBRn10Authorization, hasBmARn09Authorization, hasRn13Authorization, hasRn14Authorization, hasRn15Authorization, hasDialogRefinementAuthorization, matchesRn15ProtectedSource } from "./verification-helpers.mjs";
+-import { readFileSync, existsSync } from "node:fs";
++import { matchesRn15ProtectedSource, validateTokenFoundationsV1Phase } from "./verification-helpers.mjs";
++import { readFileSync, existsSync, mkdtempSync, rmSync } from "node:fs";
++import { spawnSync } from "node:child_process";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
+ import { fileURLToPath } from "node:url";
+ import { createHash } from "node:crypto";
+ import { expect, it } from "vitest";
+@@ -14,6 +14,11 @@
+ const path = (file: string) => fileURLToPath(new URL("../" + file, import.meta.url));
+ const read = (file: string) => readFileSync(path(file), "utf8");
+ const phase = () => parseYamlSubset(read("status/current-phase.yaml")) as any;
++const frozenPhase = (file: string, sha256: string) => {
++  const source = read(file);
++  expect(createHash("sha256").update(source).digest("hex"), file).toBe(sha256);
++  return parseYamlSubset(source) as any;
++};
+ 
+ it("keeps both header states as pending critical text and rejects weakened color roles or surfaces", () => {
+   const filePath = "packages/ui/src/table/table.styles.ts", source = read(filePath), outputs = getTokenFoundationOutputs();
+@@ -47,28 +52,40 @@
+ 
+ it("authorizes only RN-08 and preserves all prior phase records and existing shared implementations", () => {
+   const status = phase(), current = status.componentRefinements.tableRn08;
++  expect(() => validateTokenFoundationsV1Phase(status)).not.toThrow();
+   expect(hasTableRn08Authorization(status)).toBe(true);
+   for (const patch of [{ scope: "all-data-components" }, { dependencies: { reactTable: "9.0.0", tableCore: "9.0.0" } }, { humanGate: "accepted" }, { contrastAcceptance: "accepted" }, { packageOrRegistryPublication: "published" }, { unexpected: true }]) {
+     expect(hasTableRn08Authorization({ ...status, componentRefinements: { ...status.componentRefinements, tableRn08: { ...current, ...patch } } })).toBe(false);
+   }
+-  const { tableRn08, ...earlier } = status.componentRefinements;
+-  if (hasTokenFirstV12Authorization(status)) delete earlier.tokenFirstV12;
+-  if (hasAvatarFamilyAuthorization(status)) delete earlier.avatarFamily;
+-  if (hasInputNumberAuthorization(status)) delete earlier.inputNumber;
+-  if (hasGenerationQualityAuthorization(status)) delete earlier.generationQuality;
+-  if (hasM2Authorization(status)) delete earlier.m2Delivery;
+-  if (hasRn15Authorization(status)) delete earlier.rn15Delivery;
+-  if (hasDialogRefinementAuthorization(status)) delete earlier.dialogRefinement;
+-  if (hasRn14Authorization(status)) delete earlier.rn14Editability;
+-  if (hasRn13Authorization(status)) delete earlier.rn13AssetIndex;
+-  if (hasBmBRn10Authorization(status)) delete earlier.bmBRn10;
+-  if (hasBmARn09Authorization(status)) delete earlier.bmARn09;
+-  expect({ ...status, componentRefinements: earlier }).toEqual(parseYamlSubset(read("evidence/runtime/table-rn08/before-phase.yaml.txt")));
+-  const hashes = JSON.parse(read("evidence/runtime/table-rn08/before-hashes.json"));
+-  const transitions = JSON.parse(read("evidence/runtime/rn15-delivery/source-transitions.json"));
+-  for (const [file, checksum] of Object.entries(hashes)) if (file.startsWith("packages/") && file !== "packages/ui/src/index.ts") {
+-    expect(matchesRn15ProtectedSource(file, readFileSync(path(file)), checksum, status, transitions), file).toBe(true);
+-  }
++  const before = frozenPhase("evidence/runtime/table-rn08/before-phase.yaml.txt", "93756106f926ecadd09719fbe342d1198c0430dc44a96c19197cff8c25db5c8f");
++  const checkpoint = frozenPhase("evidence/runtime/inside-field-labels/before/status/current-phase.yaml.txt", "3aa6b3052a8f2699561a060d6ce70c6a31d30b269116754d8b53ec8b40413338");
++  const earlier = structuredClone(checkpoint); delete earlier.componentRefinements.tableRn08;
++  expect(earlier).toEqual(before);
++  expect(() => validateTokenFoundationsV1Phase(checkpoint)).not.toThrow();
++  const hashSource = read("evidence/runtime/table-rn08/before-hashes.json");
++  expect(createHash("sha256").update(hashSource).digest("hex")).toBe("276349f7aa47966e5524344655159cd45aacfe648e8eac4a426b88acc1c6ae2c");
++  const hashes = JSON.parse(hashSource);
++  const transitionSource = read("evidence/runtime/rn15-delivery/source-transitions.json");
++  expect(createHash("sha256").update(transitionSource).digest("hex")).toBe("dbc947f3c4e19dfb0570d4ff69325d9968ad68c41631c81ce02a631d91e0b7eb");
++  const transitions = JSON.parse(transitionSource);
++  const archive = path("evidence/runtime/rn14-editability/starter-final.tar.gz");
++  expect(createHash("sha256").update(readFileSync(archive)).digest("hex")).toBe("81ed247e9e3c57bf9edd94ace9bea30487557ab5404c26570aa8ea055c7f900e");
++  const frozenRoot = mkdtempSync(join(tmpdir(), "rain-table-rn08-source-checkpoint-"));
++  try {
++    const extraction = spawnSync("tar", ["-xzf", archive, "-C", frozenRoot], { encoding: "utf8" });
++    expect(extraction.status, extraction.stderr).toBe(0);
++    const protectedFiles = Object.entries(hashes).filter(([file]) => file.startsWith("packages/") && file !== "packages/ui/src/index.ts");
++    expect(protectedFiles).toHaveLength(1932);
++    for (const [file, checksum] of protectedFiles) {
++      // The original empty package marker is outside the starter payload and still uses its strict original hash.
++      const source = readFileSync(file === "packages/layouts/.gitkeep" ? path(file) : join(frozenRoot, file));
++      expect(matchesRn15ProtectedSource(file, source, checksum, status, transitions), file).toBe(true);
++    }
++    const file = "packages/foundations/src/tokens.css", source = readFileSync(join(frozenRoot, file));
++    expect(matchesRn15ProtectedSource(file, Buffer.concat([source, Buffer.from("\n/* unrecorded change */")]), hashes[file], status, transitions)).toBe(false);
++    expect(matchesRn15ProtectedSource(file, source, hashes[file], status, [])).toBe(false);
++    expect(matchesRn15ProtectedSource(file, source, hashes[file], status, transitions.map((entry: any) => ({ ...entry, authorization: "all-files" })))).toBe(false);
++  } finally { rmSync(frozenRoot, { recursive: true, force: true }); }
+ });
+ 
+ it("keeps the three candidates and all referenced sources unpublished; the data engine stays in the local host", () => {
+@@ -116,21 +133,12 @@
+     expect(hasInsideFieldLabelsAuthorization(invalid)).toBe(false);
+     expect(hasTableRn08Authorization(invalid)).toBe(false);
+   }
+-  const current = structuredClone(status);
+-  if (hasTokenFirstV12Authorization(status)) delete current.componentRefinements.tokenFirstV12;
+-  if (hasAvatarFamilyAuthorization(status)) delete current.componentRefinements.avatarFamily;
+-  if (hasInputNumberAuthorization(status)) delete current.componentRefinements.inputNumber;
+-  if (hasGenerationQualityAuthorization(status)) delete current.componentRefinements.generationQuality;
+-  if (hasM2Authorization(status)) delete current.componentRefinements.m2Delivery;
+-  if (hasRn15Authorization(status)) delete current.componentRefinements.rn15Delivery;
+-  if (hasDialogRefinementAuthorization(status)) delete current.componentRefinements.dialogRefinement;
+-  if (hasRn14Authorization(status)) delete current.componentRefinements.rn14Editability;
+-  if (hasRn13Authorization(status)) delete current.componentRefinements.rn13AssetIndex;
+-  if (hasBmBRn10Authorization(status)) delete current.componentRefinements.bmBRn10;
+-  if (hasBmARn09Authorization(status)) delete current.componentRefinements.bmARn09;
++  const before = frozenPhase("evidence/runtime/inside-field-labels/before/status/current-phase.yaml.txt", "3aa6b3052a8f2699561a060d6ce70c6a31d30b269116754d8b53ec8b40413338");
++  const checkpoint = frozenPhase("evidence/runtime/empty-refinement/before-phase.yaml.txt", "b785081e54aacf3367ea9d6f0e00505933d00189e130c006579870ba833d4ce8");
++  const current = structuredClone(checkpoint);
+   delete current.componentRefinements.tableRn08.insideFieldLabels;
+-  if (hasEmptyRefinementAuthorization(status)) delete current.componentRefinements.tableRn08.emptyRefinement;
+-  expect(current).toEqual(parseYamlSubset(read("evidence/runtime/inside-field-labels/before/status/current-phase.yaml.txt")));
++  expect(current).toEqual(before);
++  expect(() => validateTokenFoundationsV1Phase(checkpoint)).not.toThrow();
+   const lock = JSON.parse(read("evidence/runtime/inside-field-labels/before/source-lock.json"));
+   expect(Object.keys(lock.sha256)).toEqual([...insideFieldLabelFiles, "status/current-phase.yaml"]);
+   for (const [file, checksum] of Object.entries(lock.sha256)) {
+@@ -141,20 +149,12 @@
+ it("limits the Empty follow-up to its own presentations and preserves the preceding phase and original art", () => {
+   const status = phase(), entry = status.componentRefinements.tableRn08.emptyRefinement;
+   expect(hasEmptyRefinementAuthorization(status)).toBe(true);
+-  const previous = structuredClone(status);
+-  if (hasTokenFirstV12Authorization(status)) delete previous.componentRefinements.tokenFirstV12;
+-  if (hasAvatarFamilyAuthorization(status)) delete previous.componentRefinements.avatarFamily;
+-  if (hasInputNumberAuthorization(status)) delete previous.componentRefinements.inputNumber;
+-  if (hasGenerationQualityAuthorization(status)) delete previous.componentRefinements.generationQuality;
+-  if (hasM2Authorization(status)) delete previous.componentRefinements.m2Delivery;
+-  if (hasRn15Authorization(status)) delete previous.componentRefinements.rn15Delivery;
+-  if (hasDialogRefinementAuthorization(status)) delete previous.componentRefinements.dialogRefinement;
+-  if (hasRn14Authorization(status)) delete previous.componentRefinements.rn14Editability;
+-  if (hasRn13Authorization(status)) delete previous.componentRefinements.rn13AssetIndex;
+-  if (hasBmBRn10Authorization(status)) delete previous.componentRefinements.bmBRn10;
+-  if (hasBmARn09Authorization(status)) delete previous.componentRefinements.bmARn09;
++  const before = frozenPhase("evidence/runtime/empty-refinement/before-phase.yaml.txt", "b785081e54aacf3367ea9d6f0e00505933d00189e130c006579870ba833d4ce8");
++  const checkpoint = frozenPhase("evidence/runtime/bm-a-rn09/before/status/current-phase.yaml.txt", "76aaeaf31a6a5f2a858fcc0cd17d2ca23e03bb2239ebede64c9d32be88c9896a");
++  const previous = structuredClone(checkpoint);
+   delete previous.componentRefinements.tableRn08.emptyRefinement;
+-  expect(previous).toEqual(parseYamlSubset(read("evidence/runtime/empty-refinement/before-phase.yaml.txt")));
++  expect(previous).toEqual(before);
++  expect(() => validateTokenFoundationsV1Phase(checkpoint)).not.toThrow();
+   for (const patch of [{ scope: "all-empty-consumers" }, { humanGate: "unknown" }, { humanGateDecision: undefined }, { humanGateDecision: { ...entry.humanGateDecision, scope: "all-components-runtime-visual" } }, { humanGateDecision: { ...entry.humanGateDecision, userStatement: "assumed" } }, { automatedVerification: "not-run" }, { contrastAcceptance: "accepted" }, { publication: "published" }, { unexpected: true }]) {
+     const invalid = structuredClone(status);
+     invalid.componentRefinements.tableRn08.emptyRefinement = { ...entry, ...patch };
+@@ -170,6 +170,17 @@
+   expect(validateRegisteredRecipeColors({ filePath: "packages/ui/src/empty/empty.tsx", source: read("packages/ui/src/empty/empty.tsx"), outputs: getTokenFoundationOutputs(), root: path(""), pendingContrastFindings: findings, pendingEligibilityFindings: eligibility })).toEqual([]);
+   expect(findings).toEqual([]);
+   expect(eligibility).toEqual([]);
++});
++
++it("rejects unknown Table successors and changes to the frozen parent history", () => {
++  const status = phase();
++  for (const change of ["top-level", "component", "history"]) {
++    const invalid = structuredClone(status);
++    if (change === "top-level") invalid.unapprovedSuccessor = { authorization: "authorized" };
++    if (change === "component") invalid.componentRefinements.unapprovedSuccessor = { authorization: "authorized" };
++    if (change === "history") invalid.phaseHistory.tailwindB2.blockedActions.push("unrecorded permission");
++    expect(() => validateTokenFoundationsV1Phase(invalid)).toThrow();
++  }
+ });
+ 
+ it("checks inside labels as critical interactive text on every real shared field surface", () => {

@@ -1,0 +1,108 @@
+
+Running 2 tests using 1 worker
+
+(node:74186) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/g4-components.spec.ts:256:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles (1.6s)
+(node:74196) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [narrow] › tests/e2e/g4-components.spec.ts:256:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles (1.6s)
+
+
+  1) [desktop] › tests/e2e/g4-components.spec.ts:256:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.rain-chart-note')
+    Expected substring: "已更新 1 次"
+    Error: strict mode violation: locator('.rain-chart-note') resolved to 35 elements:
+        1) <p role="status" class="rain-chart-note">示例数据 · 已更新 1 次</p> aka getByText('示例数据 · 已更新 1 次')
+        2) <p role="status" class="rain-chart-note">示例数据 · 已更新 0 次</p> aka getByLabel('Line Chart - Linear').getByText('示例数据 · 已更新 0 次')
+        3) <p role="status" class="rain-chart-note">示例数据 · 已更新 0 次</p> aka getByLabel('Line Chart - Multiple Lines').getByText('示例数据 · 已更新 0 次')
+        4) <p class="rain-chart-note">滚动到此处查看示例</p> aka getByLabel('Line Chart - Series Markers').getByText('滚动到此处查看示例')
+        5) <p role="status" class="rain-chart-note">示例数据 · 已更新 0 次</p> aka getByLabel('Line Chart - Series Markers').getByText('示例数据 · 已更新 0 次')
+        6) <p class="rain-chart-note">滚动到此处查看示例</p> aka getByLabel('Line Chart - Dashed Tail').getByText('滚动到此处查看示例')
+        7) <p role="status" class="rain-chart-note">示例数据 · 已更新 0 次</p> aka getByLabel('Line Chart - Dashed Tail').getByText('示例数据 · 已更新 0 次')
+        8) <p class="rain-chart-note">滚动到此处查看示例</p> aka getByLabel('Line Chart - Markers').getByText('滚动到此处查看示例')
+        9) <p role="status" class="rain-chart-note">示例数据 · 已更新 0 次</p> aka getByLabel('Line Chart - Markers').getByText('示例数据 · 已更新 0 次')
+        10) <p class="rain-chart-note">滚动到此处查看示例</p> aka getByLabel('Line Chart - X Axis').getByText('滚动到此处查看示例')
+        ...
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('.rain-chart-note')
+
+
+      274 |     } else {
+      275 |       await page.locator("[data-chart-default-controls]").getByRole("button", { name: "更新数据", exact: true }).click();
+    > 276 |       await expect(page.locator(selector)).toContainText("已更新 1 次");
+          |                                            ^
+      277 |     }
+      278 |     await expect(page.locator(selector)).toHaveCSS("font-size", size);
+      279 |     await expect(page.locator(selector)).toHaveCSS("line-height", line);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:276:44
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [narrow] › tests/e2e/g4-components.spec.ts:256:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.rain-chart-note')
+    Expected substring: "已更新 1 次"
+    Error: strict mode violation: locator('.rain-chart-note') resolved to 36 elements:
+        1) <p role="status" class="rain-chart-note">示例数据 · 已更新 1 次</p> aka getByText('示例数据 · 已更新 1 次')
+        2) <p role="status" class="rain-chart-note">示例数据 · 已更新 0 次</p> aka getByLabel('Line Chart - Linear').getByText('示例数据 · 已更新 0 次')
+        3) <p class="rain-chart-note">滚动到此处查看示例</p> aka getByLabel('基础结构').getByText('滚动到此处查看示例')
+        4) <p role="status" class="rain-chart-note">示例数据 · 已更新 0 次</p> aka getByLabel('Line Chart - Multiple Lines').getByText('示例数据 · 已更新 0 次')
+        5) <p class="rain-chart-note">滚动到此处查看示例</p> aka getByLabel('Line Chart - Series Markers').getByText('滚动到此处查看示例')
+        6) <p role="status" class="rain-chart-note">示例数据 · 已更新 0 次</p> aka getByLabel('Line Chart - Series Markers').getByText('示例数据 · 已更新 0 次')
+        7) <p class="rain-chart-note">滚动到此处查看示例</p> aka getByLabel('Line Chart - Dashed Tail').getByText('滚动到此处查看示例')
+        8) <p role="status" class="rain-chart-note">示例数据 · 已更新 0 次</p> aka getByLabel('Line Chart - Dashed Tail').getByText('示例数据 · 已更新 0 次')
+        9) <p class="rain-chart-note">滚动到此处查看示例</p> aka getByLabel('Line Chart - Markers').getByText('滚动到此处查看示例')
+        10) <p role="status" class="rain-chart-note">示例数据 · 已更新 0 次</p> aka getByLabel('Line Chart - Markers').getByText('示例数据 · 已更新 0 次')
+        ...
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('.rain-chart-note')
+
+
+      274 |     } else {
+      275 |       await page.locator("[data-chart-default-controls]").getByRole("button", { name: "更新数据", exact: true }).click();
+    > 276 |       await expect(page.locator(selector)).toContainText("已更新 1 次");
+          |                                            ^
+      277 |     }
+      278 |     await expect(page.locator(selector)).toHaveCSS("font-size", size);
+      279 |     await expect(page.locator(selector)).toHaveCSS("line-height", line);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:276:44
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/g4-visual-refinement-2026-10-11/browser/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/e2e/g4-components.spec.ts:256:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles 
+    [narrow] › tests/e2e/g4-components.spec.ts:256:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles 

@@ -129,8 +129,11 @@ it("keeps native Focus, system colors and library glyphs in the declared control
   expect(css).toContain(".rain-checkbox:has(input:focus-visible)");
   expect(css).toContain("outline: var(--rain-focus-width) solid var(--rain-focus-control)");
   expect(css).toContain("/* @rain-css-exception checkbox-forced-colors:");
-  expect(source).toContain('from "../icons/check-bold"');
-  expect(source).toContain('from "../icons/minus-bold"');
+  expect(source).toContain('from "../selection-control/selection-control"');
+  const surface = readFileSync("packages/ui/src/selection-control/selection-control.tsx", "utf8");
+  expect(surface).toContain('from "../icons/check-bold"');
+  expect(surface).toContain('from "../icons/minus-bold"');
+  expect(surface).not.toMatch(/<svg|aria-pressed|role="button"/);
   expect(source).not.toMatch(/<svg|aria-pressed|role="button"/);
 });
 

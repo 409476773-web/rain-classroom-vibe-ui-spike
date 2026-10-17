@@ -1,0 +1,44 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2
+
+ ❯ scripts/charts.test.ts (5 tests | 1 failed) 135ms
+   × fixed native source hashes and relative dependency closure are complete 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/charts.test.ts > fixed native source hashes and relative dependency closure are complete
+AssertionError: expected [ 'charts/animation.ts', …(178) ] to deeply equal [ 'charts/animation.ts', …(179) ]
+
+- Expected
++ Received
+
+@@ -12,11 +12,10 @@
+    "charts/bar-x-axis.tsx",
+    "charts/bar-y-axis.tsx",
+    "charts/bar.tsx",
+    "charts/candlestick-chart.tsx",
+    "charts/candlestick.tsx",
+-   "charts/category-scale.ts",
+    "charts/chart-brush-handle.tsx",
+    "charts/chart-brush-layout.tsx",
+    "charts/chart-brush-selection-overlay.tsx",
+    "charts/chart-brush-track-overlay.tsx",
+    "charts/chart-brush.tsx",
+
+ ❯ scripts/charts.test.ts:41:18
+     39|   const disk = readdirSync(vendor, { recursive: true }).map(String).fi…
+     40|   expect(new Set(locked).size).toBe(locked.length);
+     41|   expect(locked).toEqual(disk);
+       |                  ^
+     42|   const registered = [...new Set<string>([...registry.shared.files, ..…
+     43|     .filter(path => path.startsWith("packages/ui/src/charts/vendor/") …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 8 passed (9)
+   Start at  14:33:38
+   Duration  1.55s (transform 566ms, setup 269ms, import 802ms, tests 482ms, environment 994ms)
+
+Token Foundations outputs are consistent.

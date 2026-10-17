@@ -1,0 +1,414 @@
+
+Running 12 tests using 1 worker
+
+(node:90873) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [desktop] › tests/e2e/g4-components.spec.ts:43:1 › three G4 pages expose examples, API, copyable code, themes and inherited density (147ms)
+(node:91165) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 [desktop] › tests/e2e/g4-components.spec.ts:84:1 › Typography uses existing measured roles and separates value from Chinese unit (200ms)
+(node:91260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 [desktop] › tests/e2e/g4-components.spec.ts:110:1 › Typography paragraphs keep the registered line heights on actual text nodes (166ms)
+(node:91266) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 [desktop] › tests/e2e/g4-components.spec.ts:143:1 › Typography sizing reaches existing consumers and limits named preset choices (155ms)
+(node:91272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 [desktop] › tests/e2e/g4-components.spec.ts:218:1 › Item lists aligned readable resources and keeps native keyboard navigation (140ms)
+(node:91278) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 [desktop] › tests/e2e/g4-components.spec.ts:435:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles (149ms)
+(node:91285) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 [narrow] › tests/e2e/g4-components.spec.ts:43:1 › three G4 pages expose examples, API, copyable code, themes and inherited density (132ms)
+(node:91291) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 [narrow] › tests/e2e/g4-components.spec.ts:84:1 › Typography uses existing measured roles and separates value from Chinese unit (138ms)
+(node:91297) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 [narrow] › tests/e2e/g4-components.spec.ts:110:1 › Typography paragraphs keep the registered line heights on actual text nodes (142ms)
+(node:91303) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  10 [narrow] › tests/e2e/g4-components.spec.ts:143:1 › Typography sizing reaches existing consumers and limits named preset choices (140ms)
+(node:91309) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  11 [narrow] › tests/e2e/g4-components.spec.ts:218:1 › Item lists aligned readable resources and keeps native keyboard navigation (123ms)
+(node:91317) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  12 [narrow] › tests/e2e/g4-components.spec.ts:435:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles (125ms)
+
+
+  1) [desktop] › tests/e2e/g4-components.spec.ts:43:1 › three G4 pages expose examples, API, copyable code, themes and inherited density 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5391/#typography
+    Call log:
+      - navigating to "http://127.0.0.1:5391/#typography", waiting until "load"
+
+
+      44 |   const headingFacts = [];
+      45 |   for (const id of ["typography", "item", "progress"]) {
+    > 46 |     await page.goto(`/#${id}`);
+         |                ^
+      47 |     await expect(page.locator(`#${id}-title`)).toBeVisible();
+      48 |     await expect(page.getByRole("heading", { name: "API 与结构", exact: true })).toBeVisible();
+      49 |     const headings = await page.locator(".component-doc__title > h1, main.component-doc h2").evaluateAll(nodes => nodes.map(node => ({
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:46:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-three-G4-pag-39576-hemes-and-inherited-density-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-three-G4-pag-39576-hemes-and-inherited-density-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-three-G4-pag-39576-hemes-and-inherited-density-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-three-G4-pag-39576-hemes-and-inherited-density-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop] › tests/e2e/g4-components.spec.ts:84:1 › Typography uses existing measured roles and separates value from Chinese unit 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5391/#typography
+    Call log:
+      - navigating to "http://127.0.0.1:5391/#typography", waiting until "load"
+
+
+      83 |
+      84 | test("Typography uses existing measured roles and separates value from Chinese unit", async ({ page }, info) => {
+    > 85 |   await page.goto("/#typography");
+         |              ^
+      86 |   const facts = await page.locator('[data-slot="typography-data-example"]').evaluate(root => {
+      87 |     const measure = (selector: string) => {
+      88 |       const node = root.querySelector<HTMLElement>(selector)!;
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:85:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-u-6372f-tes-value-from-Chinese-unit-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-u-6372f-tes-value-from-Chinese-unit-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-u-6372f-tes-value-from-Chinese-unit-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-u-6372f-tes-value-from-Chinese-unit-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › tests/e2e/g4-components.spec.ts:110:1 › Typography paragraphs keep the registered line heights on actual text nodes 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5391/#typography
+    Call log:
+      - navigating to "http://127.0.0.1:5391/#typography", waiting until "load"
+
+
+      109 |
+      110 | test("Typography paragraphs keep the registered line heights on actual text nodes", async ({ page }, info) => {
+    > 111 |   await page.goto("/#typography");
+          |              ^
+      112 |   await expect(page.locator("#typography-title")).toBeVisible();
+      113 |   const facts = [];
+      114 |   for (const [selector, line] of [
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:111:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-p-9f502-eights-on-actual-text-nodes-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-p-9f502-eights-on-actual-text-nodes-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-p-9f502-eights-on-actual-text-nodes-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-p-9f502-eights-on-actual-text-nodes-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [desktop] › tests/e2e/g4-components.spec.ts:143:1 › Typography sizing reaches existing consumers and limits named preset choices 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5391/#input
+    Call log:
+      - navigating to "http://127.0.0.1:5391/#input", waiting until "load"
+
+
+      144 |   const facts = [];
+      145 |   for (const [id, headingId] of [["input", "input-title"], ["select", "select-title"], ["input-number", "input-number-title"], ["tag", "tag-title"]] as const) {
+    > 146 |     await page.goto(`/#${id}`);
+          |                ^
+      147 |     const heading = page.locator(`#${headingId}`);
+      148 |     await expect(heading).toBeVisible();
+      149 |     const measured = await heading.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight }));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:146:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [desktop] › tests/e2e/g4-components.spec.ts:218:1 › Item lists aligned readable resources and keeps native keyboard navigation 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5391/#item
+    Call log:
+      - navigating to "http://127.0.0.1:5391/#item", waiting until "load"
+
+
+      217 |
+      218 | test("Item lists aligned readable resources and keeps native keyboard navigation", async ({ page }, info) => {
+    > 219 |   await page.goto("/#item");
+          |              ^
+      220 |   const list = page.getByRole("list", { name: "本讲课程资料", exact: true });
+      221 |   await expect(list.getByRole("listitem")).toHaveCount(3);
+      222 |   await expect(list.getByRole("button", { name: "课堂讨论任务尚未开放", exact: true })).toBeDisabled();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:219:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [desktop] › tests/e2e/g4-components.spec.ts:435:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5391/#button-group
+    Call log:
+      - navigating to "http://127.0.0.1:5391/#button-group", waiting until "load"
+
+
+      440 |     ["chart-line", "[data-chart-default-controls] + p.rain-chart-note", "13px", "20px"],
+      441 |   ] as const) {
+    > 442 |     await page.goto(`/#${id}`);
+          |                ^
+      443 |     await expect(page.locator(`#${id}-title`)).toBeVisible();
+      444 |     await expect(page.locator(`#${id}-title`)).toHaveCSS("font-size", "16px");
+      445 |     await expect(page.locator(`#${id}-title`)).toHaveCSS("line-height", "24px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:442:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [narrow] › tests/e2e/g4-components.spec.ts:43:1 › three G4 pages expose examples, API, copyable code, themes and inherited density 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5391/#typography
+    Call log:
+      - navigating to "http://127.0.0.1:5391/#typography", waiting until "load"
+
+
+      44 |   const headingFacts = [];
+      45 |   for (const id of ["typography", "item", "progress"]) {
+    > 46 |     await page.goto(`/#${id}`);
+         |                ^
+      47 |     await expect(page.locator(`#${id}-title`)).toBeVisible();
+      48 |     await expect(page.getByRole("heading", { name: "API 与结构", exact: true })).toBeVisible();
+      49 |     const headings = await page.locator(".component-doc__title > h1, main.component-doc h2").evaluateAll(nodes => nodes.map(node => ({
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:46:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-three-G4-pag-39576-hemes-and-inherited-density-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-three-G4-pag-39576-hemes-and-inherited-density-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-three-G4-pag-39576-hemes-and-inherited-density-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-three-G4-pag-39576-hemes-and-inherited-density-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [narrow] › tests/e2e/g4-components.spec.ts:84:1 › Typography uses existing measured roles and separates value from Chinese unit 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5391/#typography
+    Call log:
+      - navigating to "http://127.0.0.1:5391/#typography", waiting until "load"
+
+
+      83 |
+      84 | test("Typography uses existing measured roles and separates value from Chinese unit", async ({ page }, info) => {
+    > 85 |   await page.goto("/#typography");
+         |              ^
+      86 |   const facts = await page.locator('[data-slot="typography-data-example"]').evaluate(root => {
+      87 |     const measure = (selector: string) => {
+      88 |       const node = root.querySelector<HTMLElement>(selector)!;
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:85:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-u-6372f-tes-value-from-Chinese-unit-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-u-6372f-tes-value-from-Chinese-unit-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-u-6372f-tes-value-from-Chinese-unit-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-u-6372f-tes-value-from-Chinese-unit-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [narrow] › tests/e2e/g4-components.spec.ts:110:1 › Typography paragraphs keep the registered line heights on actual text nodes 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5391/#typography
+    Call log:
+      - navigating to "http://127.0.0.1:5391/#typography", waiting until "load"
+
+
+      109 |
+      110 | test("Typography paragraphs keep the registered line heights on actual text nodes", async ({ page }, info) => {
+    > 111 |   await page.goto("/#typography");
+          |              ^
+      112 |   await expect(page.locator("#typography-title")).toBeVisible();
+      113 |   const facts = [];
+      114 |   for (const [selector, line] of [
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:111:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-p-9f502-eights-on-actual-text-nodes-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-p-9f502-eights-on-actual-text-nodes-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-p-9f502-eights-on-actual-text-nodes-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-p-9f502-eights-on-actual-text-nodes-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [narrow] › tests/e2e/g4-components.spec.ts:143:1 › Typography sizing reaches existing consumers and limits named preset choices 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5391/#input
+    Call log:
+      - navigating to "http://127.0.0.1:5391/#input", waiting until "load"
+
+
+      144 |   const facts = [];
+      145 |   for (const [id, headingId] of [["input", "input-title"], ["select", "select-title"], ["input-number", "input-number-title"], ["tag", "tag-title"]] as const) {
+    > 146 |     await page.goto(`/#${id}`);
+          |                ^
+      147 |     const heading = page.locator(`#${headingId}`);
+      148 |     await expect(heading).toBeVisible();
+      149 |     const measured = await heading.evaluate(node => ({ size: getComputedStyle(node).fontSize, line: getComputedStyle(node).lineHeight }));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:146:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Typography-s-f35d1-limits-named-preset-choices-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [narrow] › tests/e2e/g4-components.spec.ts:218:1 › Item lists aligned readable resources and keeps native keyboard navigation 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5391/#item
+    Call log:
+      - navigating to "http://127.0.0.1:5391/#item", waiting until "load"
+
+
+      217 |
+      218 | test("Item lists aligned readable resources and keeps native keyboard navigation", async ({ page }, info) => {
+    > 219 |   await page.goto("/#item");
+          |              ^
+      220 |   const list = page.getByRole("list", { name: "本讲课程资料", exact: true });
+      221 |   await expect(list.getByRole("listitem")).toHaveCount(3);
+      222 |   await expect(list.getByRole("button", { name: "课堂讨论任务尚未开放", exact: true })).toBeDisabled();
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:219:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-Item-lists-a-521cf--native-keyboard-navigation-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [narrow] › tests/e2e/g4-components.spec.ts:435:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5391/#button-group
+    Call log:
+      - navigating to "http://127.0.0.1:5391/#button-group", waiting until "load"
+
+
+      440 |     ["chart-line", "[data-chart-default-controls] + p.rain-chart-note", "13px", "20px"],
+      441 |   ] as const) {
+    > 442 |     await page.goto(`/#${id}`);
+          |                ^
+      443 |     await expect(page.locator(`#${id}-title`)).toBeVisible();
+      444 |     await expect(page.locator(`#${id}-title`)).toHaveCSS("font-size", "16px");
+      445 |     await expect(page.locator(`#${id}-title`)).toHaveCSS("line-height", "24px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/card-v2/tests/e2e/g4-components.spec.ts:442:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tests/e2e/evidence/runtime/g4-review-sizing-2026-10-11/browser-red-actual/results/g4-components-shared-docum-0e6c1-r-and-Chart-paragraph-roles-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12 failed
+    [desktop] › tests/e2e/g4-components.spec.ts:43:1 › three G4 pages expose examples, API, copyable code, themes and inherited density 
+    [desktop] › tests/e2e/g4-components.spec.ts:84:1 › Typography uses existing measured roles and separates value from Chinese unit 
+    [desktop] › tests/e2e/g4-components.spec.ts:110:1 › Typography paragraphs keep the registered line heights on actual text nodes 
+    [desktop] › tests/e2e/g4-components.spec.ts:143:1 › Typography sizing reaches existing consumers and limits named preset choices 
+    [desktop] › tests/e2e/g4-components.spec.ts:218:1 › Item lists aligned readable resources and keeps native keyboard navigation 
+    [desktop] › tests/e2e/g4-components.spec.ts:435:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles 
+    [narrow] › tests/e2e/g4-components.spec.ts:43:1 › three G4 pages expose examples, API, copyable code, themes and inherited density 
+    [narrow] › tests/e2e/g4-components.spec.ts:84:1 › Typography uses existing measured roles and separates value from Chinese unit 
+    [narrow] › tests/e2e/g4-components.spec.ts:110:1 › Typography paragraphs keep the registered line heights on actual text nodes 
+    [narrow] › tests/e2e/g4-components.spec.ts:143:1 › Typography sizing reaches existing consumers and limits named preset choices 
+    [narrow] › tests/e2e/g4-components.spec.ts:218:1 › Item lists aligned readable resources and keeps native keyboard navigation 
+    [narrow] › tests/e2e/g4-components.spec.ts:435:1 › shared documentation retains adjacent Button Group, Spinner and Chart paragraph roles 

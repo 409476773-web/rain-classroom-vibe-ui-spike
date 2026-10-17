@@ -1,0 +1,36 @@
+.trend-chart-body { height: 280px; isolation: isolate; }
+.trend-native { position: relative; z-index: 1; }
+.trend-materials, .trend-guides { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.trend-materials { z-index: 0; }
+.trend-interaction { position: absolute; inset: 0; z-index: 2; touch-action: pan-y; border-radius: var(--rain-radius-6); }
+.trend-interaction:focus-visible { outline: 2px solid var(--rain-color-focus-item); outline-offset: 3px; }
+.trend-week-target { position: absolute; width: 10px; }
+.trend-guides, .trend-date-pill, .trend-tooltip { opacity: 0; visibility: hidden; transition: opacity 150ms ease, visibility 150ms; }
+.trend-interaction[data-visible="true"] .trend-guides,
+.trend-interaction[data-visible="true"] .trend-date-pill,
+.trend-interaction[data-visible="true"] .trend-tooltip { opacity: 1; visibility: visible; }
+.trend-crosshair { fill: var(--rain-category-text-neutral-4); opacity: .55; }
+.trend-date-pill { position: absolute; top: 0; left: 0; pointer-events: none; white-space: nowrap; padding: var(--rain-space-4) var(--rain-space-8); border-radius: var(--rain-radius-6); color: var(--rain-local-chart-surface); background: var(--rain-local-chart-ink); font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-16); font-variant-numeric: tabular-nums; }
+.trend-tooltip { position: absolute; top: 0; left: 0; width: 178px; pointer-events: none; font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); }
+.trend-tooltip-surface { padding: var(--rain-space-12) var(--rain-space-14) var(--rain-space-8); border-radius: var(--rain-radius-8); background: var(--rain-local-chart-surface); border: 1px solid var(--rain-local-chart-grid); box-shadow: var(--rain-shadow-overlay); transform: scale(.965); transform-origin: top left; transition: transform 180ms ease; }
+.trend-interaction[data-visible="true"] .trend-tooltip-surface { transform: scale(1); }
+.trend-tooltip[data-side="left"] .trend-tooltip-surface { transform-origin: top right; }
+.trend-tooltip-heading, .trend-tooltip-row { display: flex; align-items: center; justify-content: space-between; gap: var(--rain-space-12); }
+.trend-tooltip-heading { margin-bottom: var(--rain-space-8); }
+.trend-tooltip-heading > span { color: var(--rain-local-chart-muted); font-size: var(--rain-font-size-12); }
+.trend-tooltip-row { margin-top: var(--rain-space-4); }
+.trend-tooltip-row > span { display: inline-flex; align-items: center; gap: var(--rain-space-8); color: var(--rain-local-chart-secondary); }
+.trend-tooltip-row strong { font-weight: 600; font-variant-numeric: tabular-nums; color: var(--rain-local-chart-ink); }
+.trend-tooltip-row i, .trend-legend-swatch { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.trend-tooltip p { margin: var(--rain-space-8) 0 0; padding-top: var(--rain-space-6); border-top: 1px solid var(--rain-local-chart-grid); font-size: var(--rain-font-size-12); color: var(--rain-local-chart-muted); }
+.chart-sample.trend-motion-sample .trend-legend { margin: var(--rain-space-4) 0 var(--rain-space-12); }
+.chart-sample.trend-motion-sample .trend-legend button { display: inline-flex; gap: var(--rain-space-8); align-items: center; border-color: transparent; background: transparent; padding: var(--rain-space-4) var(--rain-space-8); color: var(--rain-local-chart-secondary); }
+.chart-sample.trend-motion-sample .trend-legend button[aria-pressed="true"] { background: transparent; border-color: transparent; color: var(--rain-local-chart-secondary); }
+.chart-sample.trend-motion-sample .trend-legend button[aria-pressed="false"] { opacity: .45; text-decoration: line-through; }
+.chart-sample.trend-motion-sample .trend-legend button:disabled { cursor: default; }
+.chart-sample.trend-motion-sample .trend-legend button:hover { background: var(--rain-color-selection-item); }
+.trend-legend-hint { margin-left: auto; color: var(--rain-local-chart-muted); font-size: var(--rain-font-size-12); }
+.trend-interaction[data-motion="reduced"] .trend-guides,
+.trend-interaction[data-motion="reduced"] .trend-date-pill,
+.trend-interaction[data-motion="reduced"] .trend-tooltip,
+.trend-interaction[data-motion="reduced"] .trend-tooltip-surface { transition: none; }

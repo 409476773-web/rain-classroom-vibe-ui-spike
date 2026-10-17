@@ -28,11 +28,20 @@ function packageEntry(root, specifier) {
   return relative(root, requireFile(root, `packages/${name}/${entry}`));
 }
 
-function exportsOf(root, path) {
+function exportsOf(root, path, visited = new Set()) {
+  if (visited.has(path)) return new Set();
+  visited.add(path);
   const source = parseSync(path, readFileSync(requireFile(root, path), "utf8"));
   if (source.errors.length) throw new Error(`Cannot parse asset exports: ${path}`);
   const result = new Set();
   for (const node of source.program.body) {
+    if (node.type === "ExportAllDeclaration" && node.exportKind !== "type" && !node.exported && node.source.value.startsWith(".")) {
+      const target = relative(root, resolve(root, dirname(path), node.source.value));
+      const file = [target, `${target}.ts`, `${target}.tsx`].find(candidate => existsSync(resolve(root, candidate)));
+      if (!file) throw new Error(`Unresolved asset export: ${path}/${node.source.value}`);
+      for (const name of exportsOf(root, file, visited)) result.add(name);
+      continue;
+    }
     if (node.type !== "ExportNamedDeclaration" || node.exportKind === "type") continue;
     for (const item of node.specifiers) if (item.exportKind !== "type") result.add(item.exported.name);
     if (node.declaration?.type === "VariableDeclaration") {
@@ -128,7 +137,7 @@ export function renderAssetIndex(assets, query = "") {
   const rows = [];
   for (const { manifest: m, manifestPath, registryPath, item } of assets) {
     const automated = m.verification?.automated ?? m.automatedVerification;
-    if (!["registry-candidate", "system-approved"].includes(m.assetIdentity) || ["local-experiment", "deprecated"].includes(m.maturity) || automated !== "passed") continue;
+    if (!["registry-candidate", "system-approved"].includes(m.assetIdentity) || ["local-experiment", "deprecated"].includes(m.maturity) || !["passed", "scoped-passed"].includes(automated)) continue;
     if (query && ![m.id, m.name, m.description, ...(m.useWhen ?? []), ...names(item)].join(" ").toLowerCase().includes(query.toLowerCase())) continue;
     const gate = m.verification?.humanGate ?? m.humanGate ?? "not-recorded";
     const contrast = m.verification?.contrastAcceptance ?? m.contrastAcceptance ?? "not-recorded";
@@ -139,7 +148,7 @@ export function renderAssetIndex(assets, query = "") {
     "",
     "由 `scripts/asset-index.mjs --write` 从实际 Manifest / Registry 生成；勿手改。日常入口见 [按需使用](README.md)。",
     "",
-    "只收录有自动验证通过登记的非本地实验资产；这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；`not-recorded` 表示未登记，不能视作通过。",
+    "只收录有 passed 或 scoped-passed 自动验证登记的非本地实验资产；scoped-passed 仅表示合同所列专项检查通过，不表示全库校验通过。这是当前工作区的候选检索，不是在线安装清单。验证时间、限定范围、子项验收与已知问题须打开对应合同和证据；not-recorded 表示未登记，不能视作通过。",
     "",
     "按用途关键词（如内容分区、单选、筛选、搜索）检索候选，再查看合同；关键词命中不代表适合当前任务。基础能力按需查 [Token](token-selection.md)、[图标](icon-selection.md)。本地场景与设计限制见 [使用入口](README.md)。",
     "",
