@@ -159,3 +159,24 @@ refinementVerification:
   humanGate: "awaiting_human"
   contrastAcceptance: "not-granted"
   publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "dialogs-panels"
+  taskIds:
+    - "organize"
+    - "act-feedback"
+  searchAliases:
+    - "抽屉"
+    - "边缘任务面板"
+  implementationRole: "root"
+  controlScope: "四方向抽屉与自动组装的内容入口"
+  stateOwner: "Drawer Root 统一 open；DrawerContent 组装 Portal、条件遮罩、Viewport 与 Popup。宿主拥有业务草稿，不能仅按设备或是否有手势区分 Sheet。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-sheet"
+      condition: "比较自动组装 DrawerContent 与显式 Portal/Backdrop/Content 的 Sheet；两者共用 Base Drawer 引擎且均有四方向能力。"
+      evidence:
+        path: "packages/ui/src/drawer/drawer.tsx"
+        symbol: "Drawer"
+        kind: "contract"

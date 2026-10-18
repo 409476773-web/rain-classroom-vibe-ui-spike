@@ -127,3 +127,23 @@ variantCoverage:
     - "离屏、后台、用户暂停或减少动效停止生产和原生时钟；手动追加推进冻结窗口。"
   limitations:
     - "浏览器真实RAF/时间控制已测；物理设备节流、Safari/VoiceOver未确认。"
+
+discovery:
+  version: 1
+  familyId: "charts"
+  taskIds:
+    - "analyze"
+  searchAliases:
+    - "live-line"
+    - "图表"
+  implementationRole: "root"
+  controlScope: "带 Unix 秒时间戳的有界实时观测"
+  stateOwner: "宿主拥有有界观测缓存、Unix 秒时序和生产者清理；图表上下文维护视图与提示，暂停与恢复遵守现有窗口合同。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-chart-line"
+      condition: "已有静态历史数据或不需要实时窗口时比较 LineChart；LiveLine 需要宿主有界生产者。"
+      evidence:
+        path: "packages/ui/src/charts/vendor/charts/live-line-chart.tsx"
+        symbol: "LiveLineChart"
+        kind: "contract"

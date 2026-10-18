@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page, type TestInfo } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-const evidenceRoot = fileURLToPath(new URL("../../evidence/runtime/date-picker-ux-refinement-2026-10-12/browser/", import.meta.url));
+const evidenceRoot = evidenceOutputPath(fileURLToPath(new URL("../../evidence/runtime/date-picker-ux-refinement-2026-10-12/browser/", import.meta.url)));
 const evidence = process.env.RAIN_DATE_TIME_CSS_ZOOM_STRESS === "1" ? `${evidenceRoot}/css-zoom-stress` : evidenceRoot;
 mkdirSync(evidence, { recursive: true });
 const fixedNow = new Date("2026-10-12T10:00:30+08:00");

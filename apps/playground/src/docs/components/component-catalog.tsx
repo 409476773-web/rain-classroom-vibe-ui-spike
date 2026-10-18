@@ -51,7 +51,7 @@ export const componentDocEntries = [
   { id: "scope-navigation", title: "Scope Navigation 范围导航", description: "大量范围的检索与切换", group: "导航与工作区布局" },
   { id: "tree", title: "Tree 树形组件", description: "层级展示、展开、选择、勾选与搜索", group: "导航与工作区布局" },
   { id: "manage-tree", title: "ManageTree 管理树", description: "基于 Tree 的草稿编辑与保存组合", group: "导航与工作区布局" },
-  { id: "navigation-list", title: "Navigation List 层级列表", description: "分类、层级与当前选择", group: "导航与工作区布局" },
+  { id: "navigation-list", title: "Navigation List 页面导航列表", description: "分组、图标与当前页面；不承担树形展开", group: "导航与工作区布局" },
   { id: "object-navigator", title: "Object Navigator 对象导航", description: "对象选择与列表、卡片外观", group: "导航与工作区布局" },
   { id: "segmented-control", title: "Segmented Control 模式选择", description: "少量互斥模式", group: "导航与工作区布局" },
   { id: "connected-surface", title: "Connected Surface 连接表面", description: "导航边缘与任务面的接续", group: "导航与工作区布局" },

@@ -2,6 +2,7 @@ import { dirname, join, relative } from "node:path";
 import { constants, cpSync, existsSync, mkdirSync, readFileSync } from "node:fs";
 import { closeoutBindingsPath, closeoutEvidence } from "./g1-g6-closeout-governance.mjs";
 import { githubReviewEvidence, githubReviewFixtureFiles } from "./github-review-successor.mjs";
+import { deepReviewFixtureFiles } from "./deep-review-successor.mjs";
 
 function copyG1G6CloseoutFixture(copy: (file: string) => void, root = process.cwd()) {
   if (!existsSync(join(root, closeoutBindingsPath))) return;
@@ -15,6 +16,7 @@ function copyG1G6CloseoutFixture(copy: (file: string) => void, root = process.cw
   ]);
   for (const file of files) copy(file);
   for (const file of githubReviewFixtureFiles(root)) copy(file);
+  for (const file of deepReviewFixtureFiles(root)) copy(file);
 }
 
 function copyG6GovernanceFixture(copy: (file: string) => void) {

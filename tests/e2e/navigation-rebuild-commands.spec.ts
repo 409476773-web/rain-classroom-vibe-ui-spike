@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { chooseSelect } from './navigation-rebuild-select';
 import { expect, test, type Locator } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
 
-const evidence = 'evidence/runtime/navigation-rebuild-v03';
+const evidence = evidenceOutputPath('evidence/runtime/navigation-rebuild-v03');
 test.beforeAll(() => mkdirSync(evidence, { recursive: true }));
 async function insideViewport(locator: Locator) {
   expect(await locator.evaluate(element => { const r = element.getBoundingClientRect(); return r.left >= 0 && r.top >= 0 && r.right <= innerWidth + 1 && r.bottom <= innerHeight + 1; })).toBe(true);

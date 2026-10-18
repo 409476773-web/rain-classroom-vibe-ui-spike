@@ -42,22 +42,35 @@ const NetworkChartPage = lazy(async () => {
 const pages = { switch:SwitchPage, accordion:AccordionPage, collapsible:CollapsiblePage, resizable:ResizablePage, tooltip:TooltipPage, "button-group":ButtonGroupPage, toggle:TogglePage, "toggle-group":ToggleGroupPage, spinner:SpinnerPage, skeleton:SkeletonPage, toast:ToastPage, typography:TypographyPage, item:ItemPage, progress:ProgressPage };
 const g3 = ["scroll-area","sheet","sidebar","command","kbd","context-menu","hover-card","menubar","navigation-menu"];
 export function ComponentAssetPage({ component, navigationCount = 0 }: { component: ComponentDocId; navigationCount?: number }) {
+  const loading = ["label", "field", "input-group", "combobox", "slider", "calendar", "date-picker"].includes(component) ? "正在载入表单组件…"
+    : ["drawer", "input-otp", "carousel"].includes(component) ? "正在载入交互组件…"
+    : "正在载入组件文档…";
+  // Focus commits with the document, after its lazy module has resolved.
+  return <Suspense fallback={<p role="status">{loading}</p>}>
+    <ComponentDocument component={component} navigationCount={navigationCount} />
+    <DocumentFocus component={component} navigationCount={navigationCount} />
+  </Suspense>;
+}
+function DocumentFocus({ component, navigationCount = 0 }: { component: ComponentDocId; navigationCount?: number }) {
   const previousComponent = useRef<ComponentDocId | null>(null);
   useEffect(() => {
     const sameDestinationDocument = previousComponent.current === component && (component === "navigation-list" || component === "navigation-bar");
     if (navigationCount > 0 && !sameDestinationDocument) document.getElementById(`${component}-title`)?.focus();
     previousComponent.current = component;
   }, [component, navigationCount]);
-  if (component === "conversation-composer") return <Suspense fallback={<p role="status">正在载入对话输入…</p>}><ConversationComposerPage/></Suspense>;
-  if (component === "chart-business") return <Suspense fallback={<p role="status">正在载入图表…</p>}><ChartBusinessPage navigationCount={navigationCount} /></Suspense>;
-  if (["label", "field", "input-group", "combobox", "slider", "calendar", "date-picker"].includes(component)) return <Suspense fallback={<p role="status">正在载入表单组件…</p>}><G5ComponentPage key={component} component={component as G5ComponentId} /></Suspense>;
-  if (component === "data-table" || component === "aspect-ratio" || component === "attachment" || component === "direction") return <Suspense fallback={<p role="status">正在载入媒体组件…</p>}><G6MediaPage key={component} component={component} /></Suspense>;
-  if (component === "drawer" || component === "input-otp" || component === "carousel") return <Suspense fallback={<p role="status">正在载入交互组件…</p>}><G6InteractionPage key={component} component={component} /></Suspense>;
-  if (component === "bubble" || component === "marker" || component === "message" || component === "message-scroller" || component === "questionnaire") return <Suspense fallback={<p role="status">正在载入会话组件…</p>}><G6ConversationPage key={component} component={component} /></Suspense>;
-  if (component === "chart-category") return <Suspense fallback={<p role="status">正在载入图表…</p>}><CategoryChartPage navigationCount={navigationCount} /></Suspense>;
-  if (component === "chart-network") return <Suspense fallback={<p role="status">正在载入图表…</p>}><NetworkChartPage navigationCount={navigationCount} /></Suspense>;
-  if (component === "chart-china") return <Suspense fallback={<p role="status">正在载入图表…</p>}><ChinaRegionPage navigationCount={navigationCount} renderSource={settings => <ChinaDownload settings={settings} />} /></Suspense>;
-  if (component.startsWith("chart-")) return <Suspense fallback={<p role="status">正在载入图表…</p>}><ChartPage key={component} id={component.slice(6) as ChartId} navigationCount={navigationCount} /></Suspense>;
+  return null;
+}
+function ComponentDocument({ component, navigationCount }: { component: ComponentDocId; navigationCount: number }) {
+  if (component === "conversation-composer") return <ConversationComposerPage/>;
+  if (component === "chart-business") return <ChartBusinessPage navigationCount={navigationCount} />;
+  if (["label", "field", "input-group", "combobox", "slider", "calendar", "date-picker"].includes(component)) return <G5ComponentPage key={component} component={component as G5ComponentId} />;
+  if (component === "data-table" || component === "aspect-ratio" || component === "attachment" || component === "direction") return <G6MediaPage key={component} component={component} />;
+  if (component === "drawer" || component === "input-otp" || component === "carousel") return <G6InteractionPage key={component} component={component} />;
+  if (component === "bubble" || component === "marker" || component === "message" || component === "message-scroller" || component === "questionnaire") return <G6ConversationPage key={component} component={component} />;
+  if (component === "chart-category") return <CategoryChartPage navigationCount={navigationCount} />;
+  if (component === "chart-network") return <NetworkChartPage navigationCount={navigationCount} />;
+  if (component === "chart-china") return <ChinaRegionPage navigationCount={navigationCount} renderSource={settings => <ChinaDownload settings={settings} />} />;
+  if (component.startsWith("chart-")) return <ChartPage key={component} id={component.slice(6) as ChartId} navigationCount={navigationCount} />;
   if (component in pages) { const Page = pages[component as keyof typeof pages]; return <Page />; }
   if (g3.includes(component)) return <G3ComponentPage component={component as G3ComponentId} />;
   return <NavigationComponentPage component={component as NavigationComponentId} />;

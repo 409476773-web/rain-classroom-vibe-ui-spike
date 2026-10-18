@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 
-const captures = "evidence/runtime/g2-g3-remaining-families-2026-10-08/browser";
+const captures = evidenceOutputPath("evidence/runtime/g2-g3-remaining-families-2026-10-08/browser");
 mkdirSync(captures, { recursive: true });
 
 test("navigation opens below its trigger without resizing the toolbar and retains current destination", async ({ page }) => {

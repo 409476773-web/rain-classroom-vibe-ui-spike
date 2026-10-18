@@ -1,0 +1,132 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-avatar"
+name: "Avatar"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+migrationLabel: "rewrite-from-rain"
+sourcePath: "packages/ui/src/avatar/avatar.tsx"
+styleSourcePath: "packages/ui/src/avatar/avatar.css"
+sourceVersion: "local-2026-09-16"
+publication: "unpublished"
+description: "单头像：人物图片与雨课堂默认图，加载与解码失败稳定回退。"
+useWhen:
+  - "Person identity in member rows and classroom context"
+doNotUseWhen:
+  - "Text, initial, generic-icon or non-person avatar"
+anatomy:
+  - "root"
+  - "picture"
+  - "fallback"
+  - "portrait"
+parts:
+  - "root"
+  - "picture"
+  - "fallback"
+  - "portrait"
+props:
+  - "src?: string"
+  - "alt: string; empty for an adjacent identity name"
+  - "size: 24 | 32 | 40; default 32"
+  - "shape: circle | square; default circle"
+  - "presence?: online | offline; omitted makes no claim"
+  - "render: native button or link with its own action label"
+  - "children: passive status decorations"
+slots:
+  - "passive decorations"
+variants:
+  - "circle"
+  - "square"
+  - "24"
+  - "32"
+  - "40"
+states:
+  - "fallback"
+  - "loading"
+  - "decoded"
+  - "failed"
+  - "online"
+  - "offline"
+  - "focus-visible"
+density: "Image and status geometry is explicit and independent of control density; containing controls inherit host density."
+dependencies:
+  - "AvatarGroup"
+  - "AvatarGrid"
+  - "StatusIndicatorGroup"
+  - "ActivityOverlay"
+tokens:
+  - "Rain Category colors"
+  - "Space/2,4,6,8,10,12,14,16,20,24,32,40; Line/Thickness/1"
+  - "Radius/4,6,full"
+  - "Current shared Focus"
+layoutConstraints:
+  - "Fixed owned geometry; parent owns outer spacing."
+compositionRules:
+  - "Square radii are 4/6/6 at 24/32/40; image geometry stays fixed through hover and press; independent 1px frame plus pressed 1px inner separator."
+  - "Member details use an anchored nonmodal Popover; pure dismissal is a top-right IconButton."
+  - "Native display has no Tab stop; actions use native button/link and shared focus."
+  - "Host owns members, status, actions and persistent image assignment; no network state engine."
+  - "人物图片＋雨课堂默认图 only. Group empty text is group-level empty state, not a text avatar."
+  - "Use public variants before a documented local recipe; className is for host layout."
+allowedModifications:
+  - "Declared content, variants, native action composition and host layout."
+restrictedModifications:
+  - "No initials/text/icon avatars, status controls, new global Tokens or copied overlay engines."
+accessibility:
+  - "Meaningful labels; empty alt avoids repeated identity announcements."
+  - "Native keyboard behavior; More uses existing Popover Escape and focus restoration."
+  - "Reduced motion is static; forced colors retain meaningful boundaries."
+  - "Current Avatar runtime visual Human Gate accepted on 2026-09-16; contrast and accessibility acceptance remain not granted."
+examples:
+  - "#avatar"
+recipes:
+  - "Member list row; course summary; classroom member status"
+antiPatterns:
+  - "Treating offline as disabled"
+  - "Assigning portraits after filtering"
+  - "Nesting More inside a whole-group button"
+relatedComponents:
+  - "AvatarGroup"
+  - "AvatarGrid"
+  - "StatusIndicatorGroup"
+  - "ActivityOverlay"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "evidence/runtime/avatar/source-assets.json"
+    - "docs/plans/2026-09-16-avatar-family-design-and-construction.md"
+  externalReferences:
+    - "https://base-ui.com/react/components/avatar"
+    - "https://ant.design/components/avatar/"
+    - "https://mui.com/material-ui/react-avatar/"
+  retainedTraits:
+    - "Rain people assets, fallback, group count rules, grid arrangements and passive states"
+  redesignedTraits:
+    - "React native image lifecycle; current Rain Token/focus; existing Popover; explicit native composition"
+  intentionallyNotInherited:
+    - "Vue code/SCSS and old focus prohibition"
+    - "Initials, generic icon avatars and account image workflows"
+figmaMapping: "not-established; legacy image lineage retained separately"
+migrationNotes: "Current legacy PNGs copied byte-for-byte; historical Figma export hashes differ and are not claimed as current verification."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  humanGateScope: "avatar-current-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/avatar/refinement-2026-09-16.md"
+
+discovery:
+  version: 1
+  familyId: "avatars"
+  taskIds:
+    - "identify"
+  searchAliases:
+    - "头像"
+    - "人物"
+  implementationRole: "root"
+  controlScope: "单个人物或对象的图像与回退标识"
+  stateOwner: "宿主提供身份、图片和名称；组件只管理图像显示与失败回退，不拥有用户资料。"
+  relationships: []

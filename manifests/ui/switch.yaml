@@ -116,3 +116,24 @@ figmaMapping:
   status: "reference-only"
   evidence: "not-created"
   codeConnect: "not-established"
+
+discovery:
+  version: 1
+  familyId: "boolean-settings"
+  taskIds:
+    - "fill-validate"
+    - "act-feedback"
+  searchAliases:
+    - "开关"
+    - "布尔设置"
+  implementationRole: "root"
+  controlScope: "一个布尔设置的切换"
+  stateOwner: "宿主拥有 checked 与保存策略；Switch 保留开关语义，立即生效或待保存由页面明确，不混同提交型 Checkbox 或工具 pressed。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-checkbox"
+      condition: "确认同意、提交型勾选或多选集合用 Checkbox；即时布尔设置用 Switch。"
+      evidence:
+        path: "packages/ui/src/switch/switch.tsx"
+        symbol: "Switch"
+        kind: "contract"

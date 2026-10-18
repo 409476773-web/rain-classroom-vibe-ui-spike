@@ -1,0 +1,111 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-direction"
+name: "Direction"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/direction/direction.ts"
+sourceVersion: "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; rain-adaptation-2026-10-14"
+description: "配对Base UI行为方向与宿主DOM dir，允许局部嵌套覆盖。"
+useWhen:
+  - "同界面需要局部ltr/rtl并匹配控件行为与DOM文字方向。"
+  - "为新的Portal容器或Carousel明确带出行为方向。"
+doNotUseWhen:
+  - "只加Provider就期待自动写document.dir。"
+  - "反转数据排序、统一镜像文件glyph/Logo，或声称全库RTL完成。"
+anatomy:
+  - "provider"
+  - "hook"
+parts:
+  - "provider"
+  - "hook"
+props:
+  - "直接重导出Base UI1.8.0 DirectionProvider/useDirection/DirectionProviderProps。"
+  - "Provider direction?: ltr|rtl，默认ltr，children；无DOM、className、size或variants。"
+slots:
+  - "DirectionProvider"
+  - "useDirection"
+variants:
+  - "ltr/rtl是上下文方向，不是视觉variant。"
+states:
+  - "无内置业务状态/动画。"
+dependencies:
+  - "React19.2.8；@base-ui/react1.8.0 direction-provider。"
+  - "本项实际源码/内部helper/被动视觉依赖在Registry登记；消费仍为managed @rain-next/ui。"
+tokens:
+  - "无视觉Token；采用该方向的控件继续消费自己的Rain合同。"
+layoutConstraints:
+  - "宿主DOM dir与Provider同值；LTR岛也显式配对。"
+  - "Portal不会继承局部DOM dir；新Drawer useDirection带入视觉容器，Carousel同步Embla与logical布局。"
+compositionRules:
+  - "支持嵌套Provider与默认兄弟；方向变更不自动改变值/选择或数据顺序。"
+allowedModifications:
+  - "Provider仅direction/children，useDirection读取上下文；视觉DOM属性与局部方案由消费者处理。"
+  - "视觉用既有Rain Token/具名局部方案；已登记源几何/动效差额不升级全局Foundation。"
+restrictedModifications:
+  - "不得移除原生语义/焦点/生命周期、重复行为引擎或扩大人工/发布接受。"
+accessibility:
+  - "命名和键盘方向由实际消费者提供；只登记实测消费者。"
+examples:
+  - "apps/playground/src/docs/components/g6-media-pages.tsx"
+recipes:
+  - "同值Provider+DOM dir构成局部方向岛；未包裹的兄弟继续默认ltr。"
+antiPatterns:
+  - "只加Provider就期待自动写document.dir。"
+  - "反转数据排序、统一镜像文件glyph/Logo，或声称全库RTL完成。"
+relatedComponents:
+  - "ui-slider"
+  - "ui-carousel"
+  - "ui-drawer"
+  - "ui-attachment"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "无视觉Token；采用该方向的控件继续消费自己的Rain合同。"
+  externalReferences:
+    - "固定shadcn Base UI TSX；Nova/sharedCSS没有本组件独立paint需搬运。"
+  retainedTraits:
+    - "provider"
+    - "hook"
+  redesignedTraits:
+    - "作者两入口直接复用，文件为.ts并增加类型重导出；没有新包装DOM或主题引擎。"
+  intentionallyNotInherited:
+    - "只加Provider就期待自动写document.dir。"
+    - "反转数据排序、统一镜像文件glyph/Logo，或声称全库RTL完成。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/g6-components-2026-10-14/source-lock.json"
+  - "evidence/runtime/g6-research-2026-10-14/source-supplement.json"
+migrationNotes: "2026-10-14用户授权完整G6建设；人工视觉、对比度、发布与生产采用分别记录。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  evidence: "evidence/runtime/g6-components-2026-10-14/verification.md"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+density:
+  - "无密度轴；不新增direction store。"
+sourceDifferences:
+  - "作者两入口直接复用，文件为.ts并增加类型重导出；没有新包装DOM或主题引擎。"
+verificationLimits:
+  - "旧Select/Tooltip/Table等局部Portal与全库RTL未覆盖；方向岛/嵌套/浏览器需按消费者验证。"
+
+discovery:
+  version: 1
+  familyId: "arrangement"
+  taskIds:
+    - "organize"
+  searchAliases:
+    - "RTL"
+    - "LTR"
+    - "阅读方向"
+  implementationRole: "helper"
+  controlScope: "子树的排版与键盘方向上下文"
+  stateOwner: "DirectionProvider 提供单一方向值，useDirection 读取；它不是视觉容器，不改变业务语义或文字内容。"
+  relationships: []

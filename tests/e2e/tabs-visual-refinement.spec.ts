@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from '@playwright/test';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-const output = resolve('evidence/runtime/tabs-visual-refinement');
+const output = evidenceOutputPath(resolve('evidence/runtime/tabs-visual-refinement'));
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 1000 });

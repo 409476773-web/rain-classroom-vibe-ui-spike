@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const evidence = process.env.RAIN_CHART_RADAR_EVIDENCE_DIR ?? "evidence/runtime/chart-radar-feedback-2026-10-09/browser";
+const evidence = process.env.RAIN_CHART_RADAR_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/chart-radar-feedback-2026-10-09/browser");
 const variants = ["radar-default", "radar-triangle", "radar-hexagon", "radar-single-series", "radar-minimal", "radar-grid-only"];
 test.beforeAll(() => mkdir(evidence, { recursive: true }));
 const cardFor = (page: Page, id: string) => page.locator(`[data-chart-variant="${id}"]`);

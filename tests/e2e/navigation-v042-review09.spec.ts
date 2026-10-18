@@ -1,6 +1,7 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import {mkdirSync} from 'node:fs';
 import {test,expect,type Page} from '@playwright/test';
-const evidence=process.env.NAVIGATION_REVIEW09_EVIDENCE_DIR??'evidence/runtime/navigation-v042/w5/review-09-all-scenes/root-final';
+const evidence=process.env.NAVIGATION_REVIEW09_EVIDENCE_DIR??evidenceOutputPath('evidence/runtime/navigation-v042/w5/review-09-all-scenes/root-final');
 const open=async(page:Page,sample:string)=>{await page.goto(`/?sample=${sample}#navigation-v042`);return page.locator('.rain-workspace').first();};
 test.beforeAll(()=>mkdirSync(evidence,{recursive:true}));
 test('compact navigation uses existing Rain tooltip with pointer, keyboard and Escape behavior',async({page})=>{

@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-const captures = fileURLToPath(new URL("../../evidence/runtime/g2-g3-family-refinement-2026-10-08/browser/", import.meta.url));
+const captures = evidenceOutputPath(fileURLToPath(new URL("../../evidence/runtime/g2-g3-family-refinement-2026-10-08/browser/", import.meta.url)));
 mkdirSync(captures, { recursive: true });
 
 test("separated toggles have one boundary each and retain independent selection", async ({ page }) => {

@@ -1,0 +1,210 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-select"
+name: "Select"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/select/select.tsx"
+styleSourcePath: "packages/ui/src/select/select.styles.ts"
+sharedFrameSource: "packages/ui/src/field/field.styles.ts"
+sourceVersion: "local-2026-10-13"
+publication: "unpublished"
+description: "从候选集中单选或多选的字段；可组合候选搜索、清空与完整键盘行为，适合筛选和表单条件。"
+useWhen:
+  - "展开面板需要在目标浏览器中使用统一 Rain 视觉；简单单选也使用本组件。"
+  - "候选较多、标签较长或需要搜索时，使用 Select 选择筛选条件或字段值；由宿主拥有查询和生效范围。"
+  - "Choose identities from a finite candidate set with complete value, search, clear and keyboard behavior."
+doNotUseWhen:
+  - "少量且需要持续可见的选项先比较 RadioGroup 或 CheckableTagGroup；独立操作列表使用 DropdownMenu。"
+  - "Free creation, a tree/cascade, numeric editing, a form state store or a production overlay system is required."
+anatomy:
+  - "Root"
+  - "Frame"
+  - "Value"
+  - "ClearAction"
+  - "Arrow"
+  - "SelectedValue"
+  - "TagRemove"
+  - "OptionsPanel"
+  - "Search"
+  - "Option"
+parts:
+  - "root"
+  - "frame"
+  - "value"
+  - "clear-action"
+  - "arrow"
+  - "tag"
+  - "tag-remove"
+  - "popup"
+  - "search"
+  - "option"
+props:
+  - "multiple / searchable: independent booleans"
+  - "options / selectedOptions: unique finite number or string identity and nonempty label"
+  - "value / defaultValue / onValueChange: scalar-or-null for single; readonly array for multiple"
+  - "onValueChange details: select, deselect, remove or clear; actual known selectedOptions"
+  - "appearance / size / status / readOnly / disabled / required"
+  - "name / form: opt into Base UI form serialization and associate an optional external form"
+  - "placeholder / clearable: true by default / clearLabel"
+  - "display: summary by default; count or tags for multiple"
+  - "maxCount: finite nonnegative integer; additions only"
+  - "searchValue / defaultSearchValue / onSearchValueChange / filterOption / searchPlaceholder"
+  - "loading / loadError / onRetry / emptyText / noResultsText"
+  - "open / defaultOpen / onOpenChange"
+  - "id / aria-label / aria-labelledby / aria-describedby / aria-invalid / onFocus / onBlur / ref.focus"
+  - "className: root layout; localRecipe: declared Select Parts"
+variants:
+  - "outlined"
+  - "filled"
+  - "underlined"
+states:
+  - "empty"
+  - "filled"
+  - "open"
+  - "active-option"
+  - "selected-option"
+  - "warning"
+  - "error"
+  - "readonly"
+  - "disabled"
+  - "loading"
+  - "load-error"
+  - "no-results"
+sizes:
+  - 24
+  - 28
+  - 32
+  - 36
+tokens:
+  - "Select heights alias the corresponding Input height tokens; no global Control Height."
+  - "Select value heights alias Tag/24,28; formal Tag Local Recipe retains the accepted distinct composition."
+  - "Select action 24px and coarse-pointer target 44px; Icon/Size/12,14,16."
+  - "Space/4,6,8,12; Radius/4,6,8; Line/Thickness/1; UI/Compact and UI/Default."
+  - "Existing Text, Icon, Border and Fill categories; no new colors or accepted contrast exceptions."
+  - "Text/Neutral/5 placeholder and Icon/Neutral/4 arrow; disabled retains Text/Neutral/6 and Icon/Neutral/5."
+dependencies:
+  - "Input and internal FormItem context"
+  - "Button for the optional retry action"
+  - "@base-ui/react@1.8.0 Select and Combobox; existing PopupProvider and shared popup surface"
+  - "DropdownMenu.ItemContent and menu row styles; Tag with Select Local Recipe"
+  - "React, CVA, rainCn and public icon entries"
+layoutConstraints:
+  - "Fixed summary sizes remain 24/28/32/36. Tags only permit 32/36, with 24/28 values and four-pixel block padding: 34/38 single-line actual height."
+  - "Summary fits at most two names, then fewer names, then total count; full selected labels remain in the accessible description."
+  - "Portal popup aligns with the complete field at a four-pixel gap, inherits theme and density, and stays within the viewport; virtualization remains deferred."
+compositionRules:
+  - "FormItem labelPosition=inside places its fixed visible label within the field; top remains the default and label identity/description ownership is unchanged."
+  - "For a one-line toolbar, compose explicit size32 in default density and size28 in compact density with matching Buttons; global component defaults remain unchanged."
+  - "Inside-label toolbar composition uses existing single-line summary or count for multiple choice; in-frame search and wrapping-label behavior are not added."
+  - "Use the complete Select by default; multiple and searchable do not create parallel components."
+  - "Current options override selectedOptions metadata; unknown selected identities remain visible and never disappear when results refresh."
+  - "Value, query and open are independently controlled; same-value selection does not emit a value callback."
+  - "Single choice closes; multiple choice retains query and open state; actual closing clears the query, while clearing values does not."
+  - "Only the host requests data, rejects stale responses, saves the form or cancels a draft."
+  - "Named fields submit through the existing Base UI input; multiple values use repeated names. Required uses the serialized nonempty value; unnamed fields retain host validation. Form reset remains host-owned."
+  - "Loading and failure hide stale candidates while values, clear and search stay available."
+  - "FormItem owns label, feedback and field status; internal search clears that context and remains independently normal."
+  - "Selected values use formal Tag with a Select-specific Local Recipe; the Tag master retains its existing behavior."
+  - "One-level groups retain first appearance and option order; empty groups disappear after filtering."
+allowedModifications:
+  - "Choose complete variants and map real options, labels and host-owned state."
+  - "Use an explicitly declared Local Recipe for known Parts."
+restrictedModifications:
+  - "Do not change value identity, hide technical findings, add network state, or replace public Tokens with local colors."
+  - "Do not substitute menuitem semantics for options or add a second overlay controller."
+accessibility:
+  - "A named combobox trigger exposes expanded state and the appropriate listbox or search-dialog ownership; FormItem labels focus it. Required is aria-required and error is aria-invalid."
+  - "Active option differs from selection; ordinary Select uses option focus, searchable Select keeps input focus with aria-activedescendant; arrows skip blocked options and Enter confirms."
+  - "Escape and single confirmation return focus; Tab and outside clicks keep external focus."
+  - "Tag removal moves to the next or previous removal action only while focus still belongs to that interaction."
+  - "IME uses a temporary draft and commits once; Enter never submits the outer form."
+  - "Readonly content stays selectable and focusable; disabled blocks actions and form submission. Named fields bridge required and FormData through Base UI without a platform picker or a second value store."
+  - "Synthetic IME and browser semantics are checked separately from real-device IME and full screen-reader review."
+visualLineage:
+  rainClassicReferences:
+    - "Rain Classic Select closed-choice behavior, four-pixel popup gap, contextual clear and existing Input proportions."
+  externalReferences:
+    - "https://ui.shadcn.com/docs/components/select"
+    - "https://ant.design/components/select/"
+    - "https://mui.com/material-ui/react-select/"
+  retainedTraits:
+    - "Rain typography, compact fields, light status surfaces and source icon identities."
+  redesignedTraits:
+    - "One four-capability API, shared three-appearance frame, selected metadata separation and constrained token composition."
+  intentionallyNotInherited:
+    - "Legacy hardcoded colors, duplicate Select/SearchSelect APIs, data requests and premature overlay abstractions."
+examples:
+  - "#select"
+  - "#input"
+recipes:
+  - "Complete default single Select"
+  - "Multiple summary, count and wrapping selected values"
+  - "Host-owned remote candidates and form draft"
+antiPatterns:
+  - "Treat current search results as a complete validity roster."
+  - "Use search text as selected value or silently truncate an over-limit backfill."
+relatedComponents:
+  - "Input"
+  - "FormItem"
+  - "Tag"
+figmaMapping:
+  status: "not-written"
+migrationLabel: "rewrite-from-rain"
+migrationNotes:
+  - "Workspace candidate only; no Classic mutation, publication or business migration."
+menuLayer:
+  status: "formal-dependencies"
+  implementation: "base-ui-select-combobox"
+  headlessSelection: "@base-ui/react@1.8.0"
+verification:
+  automated: "passed"
+  independentReview: "findings"
+  humanGate: "accepted"
+  humanGateScope: "select-runtime-visual-only"
+  visualBaseline: "accepted-preview-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/select/verification.md"
+
+insideFieldLabels:
+  implementation: "completed"
+  automated: "passed"
+  independentReview: "findings"
+  plan: "docs/plans/2026-09-14-inside-field-labels.md"
+  evidence: "evidence/runtime/inside-field-labels/verification.md"
+  labelPosition: "optional-inside-default-top"
+  humanGate: "accepted"
+  humanGateScope: "input-search-input-select-inside-labels-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  publication: "not-authorized"
+
+formUnification:
+  decisionSource: "用户要求所有目标浏览器展开后统一雨课堂视觉，并授权最小范围修改。"
+  scope: "named-form-integration-and-native-demo-consolidation"
+  plan: "docs/plans/2026-10-13-select-unification.md"
+  evidence: "evidence/runtime/select-unification-2026-10-13/verification.md"
+  humanGate: "awaiting_human"
+
+discovery:
+  version: 1
+  familyId: "candidate-selection"
+  taskIds:
+    - "choose"
+    - "fill-validate"
+  searchAliases:
+    - "下拉选择"
+    - "多选筛选"
+    - "有限候选"
+  implementationRole: "root"
+  controlScope: "有限候选的单选或多选字段，可在面板搜索"
+  stateOwner: "宿主拥有 value、选项和异步结果；value/query/open 各按受控合同处理，组件不创建任意新值，保持表单 name 与 reset 协议。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-combobox"
+      condition: "需要可编辑主输入框并显式提交一个自由新值时比较 Combobox；Select 仅接受有限单/多值。"
+      evidence:
+        path: "packages/ui/src/select/select.tsx"
+        symbol: "Select"
+        kind: "contract"

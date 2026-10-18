@@ -1,0 +1,102 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-avatar-grid"
+name: "AvatarGrid"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+migrationLabel: "rewrite-from-rain"
+sourcePath: "packages/ui/src/avatar/avatar-grid.tsx"
+styleSourcePath: "packages/ui/src/avatar/avatar.css"
+sourceVersion: "local-2026-09-16"
+publication: "unpublished"
+description: "固定 40px 群组标识，空态和 1–9 人专用排列。"
+useWhen:
+  - "Compact group identity"
+doNotUseWhen:
+  - "A directory of individually actionable members or More"
+anatomy:
+  - "root"
+  - "content"
+  - "row"
+  - "empty"
+parts:
+  - "root"
+  - "content"
+  - "row"
+  - "empty"
+props:
+  - "members: readonly {id,name,src?}[]; first 9 only"
+  - "label: accessible group/action name"
+  - "emptyLabel: short empty-state text; default 暂无"
+  - "render: optional native whole-grid button/link"
+slots: []
+variants:
+  - "40px"
+states:
+  - "empty"
+  - "1–9"
+  - "truncated"
+  - "focus-visible"
+density: "Image and status geometry is explicit and independent of control density; containing controls inherit host density."
+dependencies:
+  - "Avatar"
+tokens:
+  - "Rain Category colors"
+  - "Space/2,4,6,8,10,12,14,16,20,24,32,40; Line/Thickness/1"
+  - "Radius/4,6,full"
+  - "Current shared Focus"
+layoutConstraints:
+  - "Exactly 40x40; no More; empty text and fixed arrangements."
+compositionRules:
+  - "40px outer / 38px clipped content; outer radius 5px / content radius 4px; 1px gutters."
+  - "Cell sizes 38/18.5/12px and radii 4/2/1px for 1 / 2-4 / 5-9 members; content clipping is independent of cell rounding."
+  - "Native display has no Tab stop; actions use native button/link and shared focus."
+  - "Host owns members, status, actions and persistent image assignment; no network state engine."
+  - "人物图片＋雨课堂默认图 only. Group empty text is group-level empty state, not a text avatar."
+  - "Use public variants before a documented local recipe; className is for host layout."
+allowedModifications:
+  - "Declared content, variants, native action composition and host layout."
+restrictedModifications:
+  - "No initials/text/icon avatars, status controls, new global Tokens or copied overlay engines."
+accessibility:
+  - "Meaningful labels; empty alt avoids repeated identity announcements."
+  - "Native keyboard behavior; More uses existing Popover Escape and focus restoration."
+  - "Reduced motion is static; forced colors retain meaningful boundaries."
+  - "Current Avatar runtime visual Human Gate accepted on 2026-09-16; contrast and accessibility acceptance remain not granted."
+examples:
+  - "#avatar"
+recipes:
+  - "Member list row; course summary; classroom member status"
+antiPatterns:
+  - "Treating offline as disabled"
+  - "Assigning portraits after filtering"
+  - "Nesting More inside a whole-group button"
+relatedComponents:
+  - "Avatar"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "evidence/runtime/avatar/source-assets.json"
+    - "docs/plans/2026-09-16-avatar-family-design-and-construction.md"
+  externalReferences:
+    - "https://base-ui.com/react/components/avatar"
+    - "https://ant.design/components/avatar/"
+    - "https://mui.com/material-ui/react-avatar/"
+  retainedTraits:
+    - "Rain people assets, fallback, group count rules, grid arrangements and passive states"
+  redesignedTraits:
+    - "React native image lifecycle; current Rain Token/focus; existing Popover; explicit native composition"
+  intentionallyNotInherited:
+    - "Vue code/SCSS and old focus prohibition"
+    - "Initials, generic icon avatars and account image workflows"
+figmaMapping: "not-established; legacy image lineage retained separately"
+migrationNotes: "Current legacy PNGs copied byte-for-byte; historical Figma export hashes differ and are not claimed as current verification."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  humanGateScope: "avatar-current-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/avatar/refinement-2026-09-16.md"

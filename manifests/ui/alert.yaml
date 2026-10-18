@@ -15,7 +15,7 @@ description: "页面内持续提示，四种状态、内容与操作组合；单
 useWhen:
   - "在相关内容附近持续说明信息、结果、风险或失败，并提供处理入口。"
 doNotUseWhen:
-  - "瞬时操作反馈用 Message/Toast；强制回应的重要确认用 AlertDialog；字段错误由 FormItem 承担。"
+  - "瞬时操作反馈用 Toast；强制回应的重要确认用 AlertDialog；字段错误由 FormItem 承担。"
 anatomy:
   - "root"
   - "icon"
@@ -110,3 +110,31 @@ verification:
   humanGate: "accepted"
   humanGateScope: "alert-current-runtime-visual-only"
   contrastAcceptance: "not-granted"
+
+discovery:
+  version: 1
+  familyId: "feedback"
+  taskIds:
+    - "act-feedback"
+  searchAliases:
+    - "持续提示"
+    - "就近问题说明"
+    - "页面警告"
+  implementationRole: "root"
+  controlScope: "页面内持续问题或状态说明"
+  stateOwner: "宿主拥有可见性、请求和处理动作；Alert 不建立瞬时队列或自动关闭计时。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-toast"
+      evidence:
+        path: "packages/ui/src/alert/alert.tsx"
+        kind: "contract"
+        symbol: "Alert"
+      condition: "保存成功等短时操作反馈使用 Toast；当前 Message 是会话消息结构。"
+    - type: "alternativeWhen"
+      targetId: "ui-form-item"
+      evidence:
+        path: "packages/ui/src/alert/alert.tsx"
+        kind: "contract"
+        symbol: "Alert"
+      condition: "字段校验错误由 FormItem 就近说明和关联。"

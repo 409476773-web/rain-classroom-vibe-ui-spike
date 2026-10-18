@@ -1,0 +1,44 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ scripts/rn14-starter.test.ts (9 tests | 1 failed) 8609ms
+   × preserves the existing RN14 authorization and frozen B2 history 28ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/rn14-starter.test.ts > preserves the existing RN14 authorization and frozen B2 history
+AssertionError: Deep review current source changed: apps/playground/src/docs/components/g5-component-pages.test.tsx
++ actual - expected
+
++ 'b0aefb1254ea002717691b4333e059b0ad6b48976ac0ae632b91dfcbf678255a'
+- 'd4f266f8b0227920af4deffb84b20c4d9a9f38d48ba0873b6771ffa16a9a4f32'
+
+
+Expected: "d4f266f8b0227920af4deffb84b20c4d9a9f38d48ba0873b6771ffa16a9a4f32"
+Received: "b0aefb1254ea002717691b4333e059b0ad6b48976ac0ae632b91dfcbf678255a"
+
+ ❯ readDeepReviewBindings scripts/deep-review-successor.mjs:141:12
+    139|   for (const [file, binding] of Object.entries(record.sourceFiles)) {
+    140|     assert.deepEqual(Object.keys(binding).sort(), ["before", "after", …
+    141|     assert.equal(sha(bytes(root, file)), binding.after, "Deep review c…
+       |            ^
+    142|     if (binding.before !== null) {
+    143|       assert.equal(binding.beforeSnapshot, deepReviewEvidence + "befor…
+ ❯ throughDeepReview scripts/verification-helpers.mjs:643:54
+ ❯ scripts/verification-helpers.mjs:645:100
+ ❯ verifySourceBindingTraversal scripts/verification-helpers.mjs:607:75
+ ❯ getG6SourceBindingView scripts/verification-helpers.mjs:644:10
+ ❯ getG6SourceBindings scripts/verification-helpers.mjs:649:26
+ ❯ scripts/verification-helpers.mjs:4146:21
+ ❯ verifySourceBindingTraversal scripts/verification-helpers.mjs:607:75
+ ❯ getValidatedTailwindB2History scripts/verification-helpers.mjs:4145:10
+ ❯ scripts/rn14-starter.test.ts:206:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  13:46:12
+   Duration  9.06s (transform 163ms, setup 101ms, import 254ms, tests 8.61s, environment 0ms)
+

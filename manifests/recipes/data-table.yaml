@@ -148,3 +148,24 @@ sourceDifferences:
 verificationLimits:
   - "真实服务、权限、服务器分页、生产规模/性能与真实设备未验证。"
   - "复制后的列/业务动作、跨浏览器、读屏与人工视觉/对比度需各自验证。"
+
+discovery:
+  version: 1
+  familyId: "tables"
+  taskIds:
+    - "analyze"
+    - "choose"
+  searchAliases:
+    - "DataTable"
+    - "数据表组合"
+    - "TanStack表格"
+  implementationRole: "recipe"
+  controlScope: "本地 TanStack 排序、筛选、分页和选择组合"
+  stateOwner: "DataTableRecipe 是源码复制入口，不存在公共 DataTable 导出；宿主负责稳定 row ID、统计范围和跨筛选选择，服务端全集选择需业务合同。"
+  relationships:
+    - type: "composes"
+      targetId: "ui-table"
+      evidence:
+        path: "apps/prototype/src/data-table-recipe.tsx"
+        symbol: "DataTableRecipe"
+        kind: "render"

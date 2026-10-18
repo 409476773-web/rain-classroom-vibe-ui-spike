@@ -1,0 +1,71 @@
+{
+  "version": "A01-v1",
+  "items": [
+    {
+      "id": "CAL-01",
+      "prompt": "同页“题目/统计/讨论”各有完整内容，切换保留草稿",
+      "evaluatorGuidance": "Tabs；需要导航外观可用 NavigationTabs；说明 Panels 生命周期，不能只做三颗样式按钮"
+    },
+    {
+      "id": "CAL-02",
+      "prompt": "横向去课程、资源、成员不同 URL",
+      "evaluatorGuidance": "NavigationBar 等真实链接导航；保留 href/修改键，不能靠 Tabs 伪造路由语义"
+    },
+    {
+      "id": "CAL-03",
+      "prompt": "切换公共资源和多个教学班范围，更多班级可搜索",
+      "evaluatorGuidance": "比较 ScopeNavigation；scope 与文档面板、对象草稿分开；不把所有状态叫 activeTab"
+    },
+    {
+      "id": "CAL-04",
+      "prompt": "当前批改对象队列与“未批改/已批改”条件共存",
+      "evaluatorGuidance": "对象比较 ObjectNavigator，字段条件比较 SegmentedControl/RadioGroup；维护已有 teacher-grading 面板时尊重局部合同"
+    },
+    {
+      "id": "CAL-05",
+      "prompt": "工具条中的单/多按下状态，可允许全不选",
+      "evaluatorGuidance": "Toggle/ToggleGroup；值数组和可空说明，不能说它与 RadioGroup 无损互换"
+    },
+    {
+      "id": "CAL-06",
+      "prompt": "模板单选，独立预览不改变选择",
+      "evaluatorGuidance": "RadioCardWithPreview；若仅图片展示可比较 RadioPreviewCard，不能把图像命名当 onPreview 能力"
+    },
+    {
+      "id": "CAL-07",
+      "prompt": "有限课程多选与可显式接受新文字的单值字段",
+      "evaluatorGuidance": "前者 Select，后者比较 Combobox；明确搜索位置、allowCustomValue/提交，不虚构 Combobox 多选"
+    },
+    {
+      "id": "CAL-08",
+      "prompt": "静态分类、跳转分类、勾选筛选、就地改一个有限分类",
+      "evaluatorGuidance": "分别比较 Tag/LinkTag/CheckableTag(Group)/TagSelect；不补写 TagSelect 的搜索/多选/form API"
+    },
+    {
+      "id": "CAL-09",
+      "prompt": "为输入显示标签和错误，搜索 Label/Field/InputGroup",
+      "evaluatorGuidance": "FormItem 文档映射和输入插槽组合；不从 @rain-next/ui 导入虚构 Label/Field/InputGroup"
+    },
+    {
+      "id": "CAL-10",
+      "prompt": "边缘临时编辑面板，需要控制 Portal 和关闭焦点",
+      "evaluatorGuidance": "比较 Sheet/Drawer 的实际组装合同；不机械按设备分界，不重复套自动 Portal/Viewport"
+    },
+    {
+      "id": "CAL-11",
+      "prompt": "课程会话消息、发送附件、保存成功提示",
+      "evaluatorGuidance": "Message/Bubble/MessageScroller/Composer 按职责组合；宿主接上传队列；短反馈 Toast，不能双队列/双答案 owner"
+    },
+    {
+      "id": "CAL-12",
+      "prompt": "学习目标分别完成率、课程占比分布、日期热度与盈亏分段",
+      "evaluatorGuidance": "Ring/Pie、Heatmap/Matrix 数据语义区分；ProfitLossLine 必须有 LineChart + 同 dataKey Line 上下文"
+    }
+  ],
+  "acceptance": {
+    "reasonableMinimum": 10,
+    "denominator": 12,
+    "hardFailureMaximum": 0
+  },
+  "allowedAlternatives": "接受合同正确的等价组合、合理 no-match 和具名 Local Recipe；不按组件名唯一匹配。"
+}

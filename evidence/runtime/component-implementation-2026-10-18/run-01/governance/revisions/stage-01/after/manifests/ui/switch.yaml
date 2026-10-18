@@ -1,0 +1,139 @@
+id: "ui-switch"
+name: "Switch"
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/switch/switch.tsx"
+styleSourcePath: "packages/ui/src/styles.css"
+sourceVersion: "local-2026-09-20"
+publication: "unpublished"
+description: "A pure native switch control that preserves the Rain Classic three-size visual recipe while using Base UI form and accessibility behavior."
+useWhen:
+  - "Use for an immediate two-state setting whose label and description are owned by the host."
+  - "Use the native name, value, form and required props when the setting participates in form submission."
+doNotUseWhen:
+  - "Use Checkbox for multiple selection or a setting that needs a third mixed state."
+  - "Use a host-owned row/card recipe when the setting includes explanatory content or dependent actions."
+anatomy:
+  - "Native button root with hidden form input, track, movable indicator and optional loading indicator."
+parts:
+  - "root"
+  - "track"
+  - "indicator"
+  - "loading-indicator"
+props:
+  - "checked or defaultChecked, with onCheckedChange for controlled state."
+  - "size: small, medium or large; medium is the default."
+  - "disabled and loading; disabled owns focusability when both are true while the loading indicator remains visible."
+  - "name, value, form and required for native form behavior."
+  - "Native aria, id, className, event and button ref attributes; accessible naming is supplied by aria-label, aria-labelledby or an external label."
+  - "The public API does not expose readOnly, label, description or card composition props."
+slots: []
+variants:
+  - "small: 28px hit area, 24x14px track, 10px indicator."
+  - "medium: 32px hit area, 28x16px track, 12px indicator."
+  - "large: 44px hit area, 38x20px track, 15px indicator."
+states:
+  - "unchecked"
+  - "checked"
+  - "hover"
+  - "pressed"
+  - "focus-visible"
+  - "loading"
+  - "disabled"
+  - "disabled with loading indicator"
+dependencies:
+  - "react"
+  - "@base-ui/react/switch"
+  - "@rain-next/foundations"
+  - "tailwind-merge"
+  - "@rain-next/ui/icon"
+  - "@rain-next/ui/icons/button-loading"
+tokens:
+  - "Existing Rain semantic fill, neutral, on-color, focus, disabled and motion tokens."
+  - "Local geometry variables preserve the legacy 28/32/44px hit areas and 24x14, 28x16, 38x20px tracks."
+layoutConstraints:
+  - "Switch is a pure control; labels, descriptions, grouping and row layout remain host-owned."
+  - "The root remains a native button with type=button and the hidden input owns form serialization."
+compositionRules:
+  - "Controlled state requires onCheckedChange and cannot combine with defaultChecked."
+  - "Loading blocks activation and change/click callbacks while remaining focusable; disabled remains native and removes the control from the tab order."
+  - "FormData includes only a named checked enabled switch; uncontrolled reset restores its declared default without a change callback."
+  - "data-rain-id=ui-switch and declared data slots are stable inspection hooks; local layout className is allowed."
+allowedModifications:
+  - "Choose an approved size, state, accessible name and native form attributes."
+  - "Use layout-only className at the host boundary."
+restrictedModifications:
+  - "Do not replace switch semantics with aria-pressed, a text toggle or an unlabelled icon."
+  - "Do not add public label/description/card orchestration, raw colors, new dependencies or global token changes."
+accessibility:
+  - "Native button semantics expose role=switch, aria-checked, Space/Enter activation, visible focus and external label association."
+  - "Loading exposes aria-disabled and aria-busy, preserves focusability and blocks repeat activation."
+  - "Disabled uses native disabled behavior and keeps the combined loading indicator visible."
+  - "Forced colors retain checked, disabled and focus meaning; reduced motion removes movement."
+examples:
+  - "#switch"
+recipes: []
+antiPatterns:
+  - "Using Switch for a set of choices, mixed selection or a business workflow action."
+  - "Treating loading as a second checked state or hiding the control's accessible name in a tooltip alone."
+relatedComponents:
+  - "Checkbox"
+  - "Radio"
+  - "FormItem"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Rain Classic Vue Switch source: src/components/Switch/Switch.vue, switch.contract.js and switch.scss."
+  externalReferences:
+    - "https://ui.shadcn.com/docs/components/switch"
+    - "https://base-ui.com/react/components/switch"
+    - "https://www.radix-ui.com/primitives/docs/components/switch"
+  retainedTraits:
+    - "Old Switch small/medium/large hit areas, track sizes, inset, thumb shift and loading indicator placement."
+  redesignedTraits:
+    - "Base UI hidden input, native button, controlled/default state and form reset behavior."
+  intentionallyNotInherited:
+    - "Vue input/change/click event payloads, instance focus methods and built-in label/description composition."
+sourceEvidence:
+  - "docs/plans/2026-09-20-switch-implementation.md"
+  - "docs/adr/0009-native-switch.md"
+  - "packages/ui/src/switch/switch.test.tsx"
+  - "packages/ui/src/switch/switch.styles.test.ts"
+migrationNotes:
+  - "New public candidate only; no Rain Classic change, business migration or publication authorization."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  humanGateScope: "switch-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/switch/verification.md"
+figmaMapping:
+  status: "reference-only"
+  evidence: "not-created"
+  codeConnect: "not-established"
+
+discovery:
+  version: 1
+  familyId: "boolean-settings"
+  taskIds:
+    - "fill-validate"
+    - "act-feedback"
+  searchAliases:
+    - "开关"
+    - "布尔设置"
+  implementationRole: "root"
+  controlScope: "一个布尔设置的切换"
+  stateOwner: "宿主拥有 checked 与保存策略；Switch 保留开关语义，立即生效或待保存由页面明确，不混同提交型 Checkbox 或工具 pressed。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-checkbox"
+      condition: "确认同意、提交型勾选或多选集合用 Checkbox；即时布尔设置用 Switch。"
+      evidence:
+        path: "packages/ui/src/switch/switch.tsx"
+        symbol: "Switch"
+        kind: "contract"

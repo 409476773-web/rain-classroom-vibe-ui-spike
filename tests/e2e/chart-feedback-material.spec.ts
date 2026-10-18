@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const evidence = "evidence/runtime/chart-variants/feedback-2026-10-08/material";
+const evidence = evidenceOutputPath("evidence/runtime/chart-variants/feedback-2026-10-08/material");
 for (const site of [
   { name: "playground", base: "http://127.0.0.1:5173/" },
   { name: "prototype", base: "http://127.0.0.1:5387/bklit-catalog.html" },

@@ -144,3 +144,24 @@ controlReuse:
   humanGate: "awaiting_human"
   contrastAcceptance: "not-granted"
   publicContract: "既有 Props、回调、input ref、默认值与 reset 合同保留；内部共享层不从根入口导出。"
+
+discovery:
+  version: 1
+  familyId: "selection-inputs"
+  taskIds:
+    - "choose"
+    - "fill-validate"
+  searchAliases:
+    - "多选卡片"
+  implementationRole: "specialization"
+  controlScope: "带结构化内容的复选输入表面"
+  stateOwner: "复用内部 CheckboxControl 的真实输入绑定；宿主/CheckboxGroup 拥有勾选状态，CardSurface 只呈现，不在通用 Card 上另建 click 选择协议。"
+  relationships:
+    - type: "usesBehavior"
+      targetId: "ui-checkbox"
+      condition: "复用非公共 CheckboxControl seam，公开消费仍使用 CheckboxCard。"
+      evidence:
+        path: "packages/ui/src/selection-card/selection-card.tsx"
+        symbol: "CheckboxCard"
+        kind: "render"
+        targetSymbol: "CheckboxControl"

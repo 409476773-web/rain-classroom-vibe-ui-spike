@@ -86,3 +86,25 @@ verification:
   humanGate: "awaiting_human"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/g5-components-2026-10-12/verification.md"
+
+discovery:
+  version: 1
+  familyId: "candidate-selection"
+  taskIds:
+    - "choose"
+    - "fill-validate"
+  searchAliases:
+    - "原生选择"
+    - "Native Select"
+    - "兼容选择"
+  implementationRole: "compatibility"
+  controlScope: "维护原生 select API 的既有表单字段"
+  stateOwner: "值和业务提交由宿主/原生表单持有，保留真实 select、option 和 optgroup；当前兼容路由复用 Select 说明页不表示运行时同值别名。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-select"
+      evidence:
+        path: "packages/ui/src/native-select/native-select.tsx"
+        kind: "contract"
+        symbol: "NativeSelect"
+      condition: "新业务需要统一 Rain 展开面板时使用 Select；维护明确依赖原生 select API 的既有调用继续 NativeSelect。"

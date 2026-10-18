@@ -1,0 +1,137 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-chart-matrix"
+name: "分类矩阵 MatrixChart"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "react-only"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/charts/matrix/matrix-chart.tsx"
+styleSourcePath: "packages/ui/src/charts/matrix/matrix.css"
+sourceVersion: "rain-local-2026-10-09"
+description: "等宽原生表格分类矩阵，显式热度、面积与色阶气泡或离散等级编码；连续指向/键盘查看与图例联动，区分有效0、缺测和不适用。"
+useWhen:
+  - "星期×小时、课程×培养方案版本、课程相似度、分类计数或支撑关系。"
+doNotUseWhen:
+  - "逐日日历贡献图，使用独立 HeatmapChart。"
+  - "未定义统计口径或希望自动推断对称关系、对角线、学期及等级。"
+anatomy:
+  - "图表根、横滚容器、原生caption、行列标题、数据格、透明格内读数、同源联动图例、统一提示浮层。"
+parts:
+  - "MatrixChart"
+  - "getMatrixDataIndex"
+  - "getMatrixEncoding"
+props:
+  - "rows/columns: MatrixAxisItem{id,label}[]；每轴 ID 唯一，宿主排序保留 ID。"
+  - "cells: MatrixCell[]；value/missing/not-applicable 互斥，省略坐标是缺测；重复坐标或未知引用拒绝。"
+  - "encoding: heat明确domain，离散顺序可声明steps（有限严格递增、含域端点，未声明值拒绝）；bubble明确domainMax/可选maxRadius；level明确唯一数值到标签和颜色的列表。"
+  - "caption、rowHeaderLabel、valueFormat、reducedMotion、普通根 div 属性。"
+slots:
+  - "业务动作、筛选与排序由宿主在矩阵外组合，不生成无意义逐格按钮。"
+variants:
+  - "heat 五档连续顺序色阶及相邻插值，数字居中、背景透明；有限递增域、超域拒绝，细渐变图例与格内同域同色。"
+  - "heat.steps明确离散顺序值；开课学期示例使用1至8分段图例，仅显示真实学期，不创造小数步值。"
+  - "bubble 面积与五档顺序色阶共用非负数量域，r=maxRadius×sqrt(value/domainMax)，最大半径默认14、0<rMax≤18 SVG单位。"
+  - "level 显式等级，格中仅固定面积圆点；等级标签保留图例和可访问读数，不创造未知等级。"
+states:
+  - "value、有效0、missing、not-applicable、空轴；无效数据拒绝，由宿主显示错误。"
+  - "bubble 的 domainMax=0 只接受0，半径0；另用中性小点标记零，不把该标记解释为数量面积。"
+  - "未设学期为 missing，无该课程为 not-applicable；CH145 只有无直接、一般、核心支撑三级。"
+dependencies:
+  - "React / React DOM、既有motion/react、Rain Foundations、CHART_SCALE_VARS、Bklit空间入场与TooltipBox；未新增依赖。"
+tokens:
+  - "现有--chart-scale-01至05、foreground、no-data、grid、tooltip角色；Rain OnColor、UI字体、Spacing、Radius、Focus。"
+layoutConstraints:
+  - "目标验证尺寸12×12及7×24；原生table，不使用Canvas、虚拟化或矩阵框架。"
+  - ".rain-chart.rain-matrix局部样式由相邻matrix.css导入；所有数据列等宽；行标题按真实UI字体与最长文字自适应，48–240px且上限为容器40%，长标签换行；字体及尺寸变化重测，横滚保留不透明行标题。"
+  - "课程数Mock使用既有maxRadius=18/domainMax=100，在40×40画布留2单位边缘余量；共享默认14不变，不给小值加最小半径。"
+compositionRules:
+  - "Playground /#chart-matrix统一展示组件文档及五组矩阵实例；/#chart-business及其下载不包含矩阵。"
+  - "数据颜色、半径、读数消费同一编码结果；图例保留数值/色阶及联动范围，数量图例的8/12/16px小中大圆仅作提示，不用于校准面积；不能从颜色反推业务状态。"
+  - "相似度明确domain=[0,1]，不默认对称，不自动补对角线。"
+  - "bubble数字按真实文字bbox居中，白字且无底板；放不下时通过指向/键盘提示和表格读数查看，不缩字号或放大小值圆。"
+  - "首次可视区域入场复用Bklit空间交错；稳定坐标排序平滑移动，颜色/半径连续更新；有限500ms采样实际半径/填色决定容纳与字色，数字不统一隐藏；等级语义即时，不创造中间等级。"
+  - "悬停/聚焦以当前格轮廓和行列联动强调，图例联动对应范围或等级，数值填色保持映射；相邻格复用浮层及短离开宽限。"
+  - "分类矩阵与日历热图共用视觉/交互基础，各自保留分类和日期语义；不制造假日期，不按数量排序日历。"
+allowedModifications:
+  - "宿主提供轴顺序、单位、数值格式、完整等级映射与已校验业务数据。"
+restrictedModifications:
+  - "不把缺测或null转成0，不夹紧越界值，不自动创造等级、学期或关系。"
+accessibility:
+  - "原生表格caption，useId实例隔离标题ID，每格headers关联行列标题，aria-label始终保留精确读数；格内重复图形和数字为装饰。"
+  - "热力按实际解析填色选深/浅字，气泡使用OnColor；全状态无独立文字底板。forced-colors使用系统前景/背景；实际白字可读性需独立测量，不据此宣称对比度Gate通过。"
+  - "宿主重新渲染时重取色、测量，字体加载完成后重测；外部直接改CSS而不触发渲染不在当前探色覆盖。"
+  - "纯数据格无Tab stop；整个滚动区是方向键查看的单一入口；初次聚焦首格滚至可见，已有指向坐标时保留；Home/End定位、Escape关闭提示，活动格轮廓清晰；浮层有tooltip语义和精确描述，真实动作使用宿主按钮。"
+  - "保留系统reduced-motion和forced-colors；真实读屏、完整对比度及物理触屏尚未验证。"
+examples:
+  - "apps/playground/src/docs/components/chart-business/matrix-examples.tsx"
+  - "apps/playground/src/docs/components/chart-business/matrix-data.ts"
+recipes:
+  - "intensity"
+  - "monochrome-blue"
+  - "category-near"
+  - "category-wide"
+defaultRecipe: "intensity"
+antiPatterns:
+  - "用radius与数量线性相乘，造成面积平方失真。"
+  - "未声明缺测却自动补0、1或对称值；重复图例被当成新等级。"
+relatedComponents:
+  - "ui-chart-heatmap"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Figma MbWg1ft5zk1JRQiQ6dS30e / 2901:130074；CH026/033/044/054、CH076/115、CH084/087/089/090、CH085/088/091/092、CH145。"
+    - "已知来源节点CH089=2905:47953、CH091=2905:48674、CH145=2905:127039；本任务未重新写入或发布Figma。"
+  externalReferences:
+    - "本地锁定Bklit CHART_SCALE_VARS、Heatmap空间入场和TooltipBox；保留vendor来源锁定，无伪造日期适配。"
+  retainedTraits:
+    - "两轴分类交叉、相似度色阶、计数面积气泡与明确支撑等级的业务语义。"
+    - "2026-10-09按原稿核对恢复热度/可容纳气泡的格内数字，以及支撑等级的单元格圆点、格外图例。"
+  redesignedTraits:
+    - "独立原生HTML table、稳定ID数据模型、精确可访问读数和Rain现有chart角色。"
+    - "2026-10-09用户确认等宽数据列、大小与色阶共用数量域、透明读数、语义图例及连续交互。"
+  intentionallyNotInherited:
+    - "原设计Mock不进入共享UI；无日历数据假设、自动对称补值或第四个支撑等级。"
+figmaMapping:
+  status: "reference-only"
+  fileKey: "MbWg1ft5zk1JRQiQ6dS30e"
+  nodeId: "2901:130074"
+  codeConnect: "not-established"
+sourceEvidence:
+  - "packages/ui/src/charts/matrix/README.md"
+  - "evidence/runtime/chart-business-expansion/p2-agent/design.md"
+  - "evidence/runtime/chart-business-expansion/p2-agent/verification.md"
+  - "evidence/runtime/chart-visual-feedback-2026-10-09/verification.md"
+  - "evidence/runtime/chart-matrix-refinement-2026-10-09/verification.md"
+  - "evidence/runtime/chart-matrix-page-separation-2026-10-09/verification.md"
+  - "evidence/runtime/chart-matrix-sticky-layout-2026-10-09/verification.md"
+migrationNotes:
+  - "Rain本地共享候选；保留既有日历Heatmap；未发布、未写回Figma、未迁移生产业务。"
+verification:
+  automated: "scoped-191-unit-18-browser-ui-typecheck-2-builds-11-current-source-isolated-download-type-build-passed"
+  independentReview: "read-only-integration-review-passed-after-five-boundary-repairs"
+  humanGate: "awaiting-user-review"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/chart-matrix-sticky-layout-2026-10-09/verification.md"
+
+discovery:
+  version: 1
+  familyId: "charts"
+  taskIds:
+    - "analyze"
+  searchAliases:
+    - "matrix"
+    - "图表"
+  implementationRole: "root"
+  controlScope: "任意分类行列矩阵；有效 0、缺测与不适用分开"
+  stateOwner: "宿主拥有经过校验的数据、单位、分母、稳定身份与精确读数；图表根提供自身系列/轴/图例/提示所需上下文。查询过滤、业务选择与持久化不由图表隐式决定。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-chart-heatmap"
+      condition: "真实日历逐日强度使用 Heatmap；保持有效 0 与缺测语义。"
+      evidence:
+        path: "packages/ui/src/charts/matrix/matrix-chart.tsx"
+        symbol: "MatrixChart"
+        kind: "contract"

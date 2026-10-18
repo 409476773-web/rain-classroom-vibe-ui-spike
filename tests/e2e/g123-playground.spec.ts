@@ -1,9 +1,10 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const routes = ["alert","switch","collapsible","accordion","tooltip","resizable","button-group","toggle","toggle-group","spinner","skeleton","toast","breadcrumb","scroll-area","sheet","sidebar","command","kbd","context-menu","hover-card","menubar","navigation-menu","navigation-tabs","navigation-bar","scope-navigation","navigation-list","object-navigator","segmented-control","connected-surface","workspace"];
-const captures = process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g123` : fileURLToPath(new URL("../../evidence/runtime/g123-playground-2026-10-07/browser/", import.meta.url));
+const captures = process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g123` : evidenceOutputPath(fileURLToPath(new URL("../../evidence/runtime/g123-playground-2026-10-07/browser/", import.meta.url)));
 mkdirSync(captures, { recursive: true });
 
 test("all 30 independent component URLs show their demo, API and copyable code", async ({ page }) => {

@@ -257,3 +257,31 @@ currentPlaygroundStyleSourceSnapshot:
   scope: "Shared stylesheet successor: dark portaled Scope dropdown maps existing local variables to semantic theme tokens. API, light defaults and historical visual acceptance unchanged."
   humanGate: "awaiting-user-review"
   evidence: "evidence/runtime/navigation-playground-refinement-2026-10-09/verification.md"
+
+discovery:
+  version: 1
+  familyId: "navigation"
+  taskIds:
+    - "navigate"
+  searchAliases:
+    - "页面导航"
+    - "路由导航"
+    - "名称指示线"
+  implementationRole: "root"
+  controlScope: "页面、路由或工作区功能的真实链接目的地"
+  stateOwner: "宿主拥有 activeId、路由与导航后的内容焦点；组件保留真实 href、修饰键和 aria-current，不创建 Tab 面板。"
+  relationships:
+    - type: "sharesPresentation"
+      targetId: "ui-tabs"
+      evidence:
+        path: "packages/ui/src/navigation/navigation.css"
+        kind: "selector"
+        selector: ".rain-tabs__tab"
+      condition: "共享导航范围内的 Tabs class 外观，不共享 Tabs 选择/面板行为；局部样式改造须检查选择器影响范围。"
+    - type: "alternativeWhen"
+      targetId: "ui-navigation-tabs"
+      evidence:
+        path: "packages/ui/src/navigation/navigation.tsx"
+        kind: "contract"
+        symbol: "NavigationBar"
+      condition: "同一对象内切换真实关联面板时比较 NavigationTabs。"

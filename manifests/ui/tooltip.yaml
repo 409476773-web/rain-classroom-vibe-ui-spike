@@ -121,3 +121,23 @@ verification:
     userStatement: "确定。"
     scope: "tooltip-current-runtime-visual-and-bottom-first-interaction"
     evidence: "evidence/runtime/tooltip-classic/verification.md"
+
+discovery:
+  version: 1
+  familyId: "anchored-overlays"
+  taskIds:
+    - "read-communicate"
+  searchAliases:
+    - "文字提示"
+    - "完整名称"
+  implementationRole: "root"
+  controlScope: "真实可聚焦入口的短文字补充"
+  stateOwner: "Tooltip 管理自身打开与关闭；单个真实交互子元素保留焦点和 ref，内容不放可交互控件，宿主拥有原动作。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-popover"
+      condition: "内容包含按钮、输入或长操作说明时用 Popover；Tooltip 只补充简短文字。"
+      evidence:
+        path: "packages/ui/src/tooltip/tooltip.tsx"
+        symbol: "Tooltip"
+        kind: "contract"

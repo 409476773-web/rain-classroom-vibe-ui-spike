@@ -62,3 +62,22 @@ verification:
   humanGate: "accepted"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/tag-batch-two/verification.md"
+
+discovery:
+  version: 1
+  familyId: "tags"
+  taskIds:
+    - "identify"
+  searchAliases:
+    - "系统状态标签"
+  implementationRole: "specialization"
+  controlScope: "success/processing/warning/error/neutral 静态状态"
+  stateOwner: "宿主提供已定义业务枚举；DomainRoot 与 Tag 配方共享表面，不包装通用 Tag，不推导请求、通知、重试或任意工作流状态。"
+  relationships:
+    - type: "sharesPresentation"
+      targetId: "ui-tag"
+      condition: "使用 DomainRoot/getTagRecipe 共享 Tag 表面，不是 Tag wrapper。"
+      evidence:
+        path: "packages/ui/src/tag/domain-tags.tsx"
+        symbol: "SystemStatusTag"
+        kind: "contract"

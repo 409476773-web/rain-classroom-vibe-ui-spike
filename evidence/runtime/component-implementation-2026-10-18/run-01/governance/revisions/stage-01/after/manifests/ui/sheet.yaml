@@ -1,0 +1,171 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-sheet"
+name: "Sheet"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/sheet/sheet.tsx"
+styleSourcePath: "packages/ui/src/styles.css"
+sourceVersion: "local-2026-10-09-task-parts"
+description: "模态侧面板，提供固定 Header、独立滚动 Body 与按需 Footer，支持四方向、关闭与焦点恢复。"
+useWhen:
+  - "模态侧面板，支持四方向、遮罩、关闭与焦点恢复。"
+doNotUseWhen:
+  - "只有页面私有、不可复用的装饰性内容不进入共享组件。"
+anatomy:
+  - "root"
+  - "trigger"
+  - "portal"
+  - "backdrop"
+  - "content"
+  - "header"
+  - "body"
+  - "footer"
+  - "title"
+  - "description"
+  - "close"
+parts:
+  - "root"
+  - "trigger"
+  - "portal"
+  - "backdrop"
+  - "content"
+  - "header"
+  - "body"
+  - "footer"
+  - "title"
+  - "description"
+  - "close"
+props:
+  - "组件复合 API 与本地 Base UI / React 类型以 sourcePath 为准。"
+  - "Header / Body / Footer 接收 HTMLAttributes<HTMLDivElement> 和 ref；Body tabIndex 默认 0。"
+  - "Root swipeDirection 与 Content side 由宿主配对；top 对应 up，bottom 对应 down。"
+slots:
+  - "children: 由宿主提供内容与业务操作。"
+variants:
+  - "Rain 默认视觉；方向、密度与组合由宿主局部 Recipe 控制。"
+states:
+  - "默认、焦点、禁用与交互状态按组件源码处理。"
+dependencies:
+  - "React"
+  - "Base UI 1.8.0"
+tokens:
+  - "优先复用 Rain 现有语义 Token；临时视觉值集中于 G3 局部 CSS，待 Foundation Gate 审计。"
+layoutConstraints:
+  - "宿主决定方向与宽度，长内容在面板内滚动；浮层不得被遮罩遮挡。"
+  - "Header / Footer 不参与正文滚动；Body 保留 min-height:0、overflow:auto 与键盘焦点。"
+  - "共享侧向宽度仍为 min(420px,100vw)；文档任务示例 480px 为局部 Recipe，不是公共默认。"
+compositionRules:
+  - "共享组件只处理通用交互与语义；路径、数据及执行结果由宿主负责。"
+  - "详情使用 Header + Body，Footer 按任务需要添加；编辑用 Footer 关联正文 form 的统一提交。"
+  - "Title / Description 在 Header 内由 Header 提供间距；已有独立组合仍保留原间距。"
+  - "关闭不等于保存；草稿、校验、取消与提交结果由宿主显式管理。"
+allowedModifications:
+  - "宿主内容、受控状态、局部尺寸与密度 Recipe。"
+restrictedModifications:
+  - "不修改基础 Token，不引入成熟库默认视觉，不直接访问业务接口。"
+accessibility:
+  - "Escape、遮罩关闭及触发器焦点恢复由 Base UI Drawer 提供。"
+examples:
+  - "apps/prototype/src/scenarios/token-first-g3/page.tsx"
+  - "apps/playground/src/docs/components/g3-component-pages.tsx#SheetDemo"
+recipes:
+  - "G3 层级型工作台与密度型指挥台，视觉待用户确认。"
+  - "sheet-task-detail-edit：连续表面、局部 PDF 文件标识、三列属性、编号目录与独立编辑表单；运行视觉待用户确认。"
+antiPatterns:
+  - "用静态视觉假冒可执行操作或真实导航。"
+relatedComponents: []
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences: []
+  externalReferences:
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; MIT"
+    - "Base UI 1.8.0"
+  retainedTraits:
+    - "Rain 语义颜色、Focus 和基础密度。"
+  redesignedTraits:
+    - "G3 两套工作台方向的层级、边界和交互状态。"
+  intentionallyNotInherited:
+    - "外部组件库的默认品牌视觉与全量 API。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/token-first-v12-g3/source-lock.json"
+  - "evidence/runtime/sheet-task-refinement-2026-10-09/approved-visual-target.png"
+migrationNotes: "G3 新共享候选；不触及 G1/G2 和 BM-C。"
+humanGate: "pending-visual-review"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  independentReview: "not-run"
+  evidence: "evidence/runtime/token-first-v12-g3/verification.md"
+  humanGate: "pending-visual-review"
+  contrastAcceptance: "not-granted"
+
+visualRefinement:
+  id: "g23-remaining-families-2026-10-08"
+  directionApproval: "continue-user-confirmed-family-direction"
+  scope: "current-shared-candidate-and-existing-playground-sample"
+  visualTarget: "evidence/runtime/g2-g3-family-refinement-2026-10-08/approved-visual-target.png"
+  implementation: "completed"
+  evidence: "evidence/runtime/g2-g3-remaining-families-2026-10-08/verification.md"
+  runtimeHumanGate: "awaiting-user-review"
+  publication: "unpublished"
+
+feedbackRefinement:
+  id: "sheet-feedback-2026-10-09"
+  scope: "sheet-standard-input-native-history-off-neutral-name-fill-primary-save-tertiary-cancel-pdf-28"
+  source: "explicit-user-screenshots-and-browser-annotation"
+  evidence: "evidence/runtime/sheet-feedback-2026-10-09/verification.md"
+  implementation: "completed"
+  runtimeHumanGate: "awaiting-user-review"
+  retainedApproval: "taskRefinement.detailVisualAcceptance applies to the preceding screenshot and source only."
+  localRecipe:
+    id: "sheet-resource-name"
+    origin: "ui-input"
+    scope: "SheetDemo resource-name field only"
+    modifiedParts:
+      - "root-fill"
+    token: "Fill/Neutral/Solid/7"
+    behavior: "Keep standard editable Input; autocomplete off; neutral default/focus fill; retain focus border and validation colors."
+    promotionStatus: "not-proposed"
+
+taskRefinement:
+  id: "sheet-task-detail-edit-2026-10-09"
+  directionApproval: "explicit-user-selected-local-identity-and-small-pdf-tint"
+  scope: "sheet-task-parts-and-existing-playground-detail-edit"
+  plan: "docs/plans/2026-10-09-sheet-task-refinement.md"
+  visualTarget: "evidence/runtime/sheet-task-refinement-2026-10-09/approved-visual-target.png"
+  implementation: "completed"
+  evidence: "evidence/runtime/sheet-task-refinement-2026-10-09/verification.md"
+  runtimeHumanGate: "detail-accepted-other-states-pending"
+  detailVisualAcceptance:
+    acceptedAt: "2026-10-09"
+    userStatement: "确定"
+    scope: "presented-right-detail-visual-and-information-layout"
+    evidence: "evidence/runtime/sheet-task-refinement-2026-10-09/visual-acceptance.json"
+  publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "dialogs-panels"
+  taskIds:
+    - "organize"
+    - "act-feedback"
+  searchAliases:
+    - "侧面板"
+    - "边缘面板"
+  implementationRole: "root"
+  controlScope: "四方向边缘面板的显式 Parts 组合"
+  stateOwner: "Sheet.Root 透传 Base Drawer 能力；宿主在同一 Root 下显式组合 Portal、Backdrop、Content，统一 open 和业务草稿，保留焦点及嵌套合同。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-drawer"
+      condition: "需要现成自动组装的内容入口时比较 Drawer；不能只按移动端/桌面端或是否有手势区分。"
+      evidence:
+        path: "packages/ui/src/sheet/sheet.tsx"
+        symbol: "Sheet"
+        kind: "contract"

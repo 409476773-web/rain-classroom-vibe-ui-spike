@@ -226,9 +226,13 @@ const expectedScripts = {
     "verify:tailwind-b2": "node scripts/verify-tailwind-b2.mjs",
   } : {}),
   ...(isTokenFoundationsV1 ? { "generate:tokens": "node scripts/generate-token-foundations.mjs", "verify:tokens": "node scripts/verify-token-foundations.mjs" } : {}),
+  ...(g6Bindings?.deepReviewSuccessor ? {
+    "verify:css-variables": "node scripts/verify-css-variables.mjs",
+    "verify:playground-status": "node scripts/playground-status.mjs --check",
+  } : {}),
   "verify:reuse-audit": "node scripts/verify-rain-classic-reuse-audit.mjs",
   "verify:governance":
-    "pnpm verify:lockfile && pnpm verify:workspace && pnpm verify:evidence && pnpm verify:boundaries && pnpm verify:tailwind-b2" + (isTokenFoundationsV1 ? " && pnpm verify:tokens" : ""),
+    "pnpm verify:lockfile && pnpm verify:workspace && pnpm verify:evidence && pnpm verify:boundaries && pnpm verify:tailwind-b2" + (isTokenFoundationsV1 ? " && pnpm verify:tokens" : "") + (g6Bindings?.deepReviewSuccessor ? " && pnpm verify:css-variables && pnpm verify:playground-status" : ""),
   verify:
     "pnpm verify:governance && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e",
 };

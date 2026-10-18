@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { fileURLToPath } from "node:url";
 
-const captures = process.env.BUTTON_GROUP_EVIDENCE ?? fileURLToPath(new URL("../../evidence/runtime/button-group-repair-2026-10-07/browser/", import.meta.url));
+const captures = process.env.BUTTON_GROUP_EVIDENCE ?? evidenceOutputPath(fileURLToPath(new URL("../../evidence/runtime/button-group-repair-2026-10-07/browser/", import.meta.url)));
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/#button-group");

@@ -139,3 +139,22 @@ parts:
   - "description"
   - "supplementary"
   - "actions"
+
+discovery:
+  version: 1
+  familyId: "selection-inputs"
+  taskIds:
+    - "choose"
+  searchAliases:
+    - "对象多选"
+    - "对象卡"
+  implementationRole: "recipe"
+  controlScope: "身份、状态和辅助值的多选卡"
+  stateOwner: "宿主/复选组拥有勾选集合；Recipe 组合 CheckboxCard 内容，保留其输入协议。"
+  relationships:
+    - type: "composes"
+      targetId: "ui-checkbox-card"
+      evidence:
+        path: "packages/ui/src/recipes/selection-card-recipes.tsx"
+        symbol: "CheckboxObjectCard"
+        kind: "render"

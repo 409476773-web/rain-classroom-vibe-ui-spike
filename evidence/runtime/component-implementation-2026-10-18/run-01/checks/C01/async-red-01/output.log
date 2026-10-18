@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ apps/playground/src/docs/examples/composition-async.test.tsx (2 tests | 2 failed) 139ms
+   × keeps applied query and draft on failure, blocks duplicate requests, and retries the same input 110ms
+   × saves zero only after completion, keeps failed ID draft, and blocks navigation during save 28ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/examples/composition-async.test.tsx > keeps applied query and draft on failure, blocks duplicate requests, and retries the same input
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ apps/playground/src/docs/examples/composition-async.test.tsx:13:18
+     11|   const input = within(form).getByRole("textbox", { name: "资源名称" });
+     12|   fireEvent.change(input, { target: { value: "案例" } }); fireEvent.subm…
+     13|   expect(search).toHaveBeenCalledTimes(1); expect(input).toBeDisabled(…
+       |                  ^
+     14|   expect(screen.getByRole("status", { name: "资源筛选结果" })).toHaveTextCon…
+     15|   await act(async () => first.reject(new Error("offline")));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/playground/src/docs/examples/composition-async.test.tsx > saves zero only after completion, keeps failed ID draft, and blocks navigation during save
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ apps/playground/src/docs/examples/composition-async.test.tsx:27:16
+     25|   fireEvent.change(within(form).getByRole("textbox"), { target: { valu…
+     26|   fireEvent.submit(form); fireEvent.submit(form);
+     27|   expect(save).toHaveBeenCalledTimes(1); expect(save).toHaveBeenCalled…
+       |                ^
+     28|   expect(screen.getByRole("button", { name: "下一份" })).toBeDisabled();
+     29|   await act(async () => first.reject(new Error("offline")));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  13:52:16
+   Duration  4.37s (transform 1.13s, setup 106ms, import 3.64s, tests 139ms, environment 390ms)
+

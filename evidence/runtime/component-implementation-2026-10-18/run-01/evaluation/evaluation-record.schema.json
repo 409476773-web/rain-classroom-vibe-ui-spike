@@ -1,0 +1,737 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rain-ai-evaluation-record-v2",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "runId",
+    "taskId",
+    "kind",
+    "executionStatus",
+    "protocolId",
+    "consumerSnapshotId",
+    "profileId",
+    "model",
+    "modelSettings",
+    "unknownSettings",
+    "allowedInputs",
+    "inputHashes",
+    "initialContext",
+    "filesRead",
+    "contaminated",
+    "contaminationNotes",
+    "firstSelection",
+    "selectionChanges",
+    "versions",
+    "dimensionScores",
+    "checks",
+    "failures",
+    "attribution",
+    "feedbackBatches",
+    "timing",
+    "tokens",
+    "cost",
+    "humanReview",
+    "finalOutcome",
+    "unmeasured"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": [
+        "rain-ai-evaluation/2"
+      ]
+    },
+    "runId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "taskId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "kind": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "calibration",
+        "independent",
+        null
+      ]
+    },
+    "executionStatus": {
+      "type": "string",
+      "enum": [
+        "not-run",
+        "running",
+        "completed",
+        "blocked",
+        "budget-exhausted",
+        "contaminated"
+      ]
+    },
+    "protocolId": {
+      "type": "string"
+    },
+    "consumerSnapshotId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "profileId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "model": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "modelSettings": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "unknownSettings": {
+      "type": "array"
+    },
+    "allowedInputs": {
+      "type": "array"
+    },
+    "inputHashes": {
+      "type": "object"
+    },
+    "initialContext": {
+      "type": "array"
+    },
+    "filesRead": {
+      "type": "array"
+    },
+    "contaminated": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "contaminationNotes": {
+      "type": "array"
+    },
+    "firstSelection": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "recordedAt",
+        "choices",
+        "intent",
+        "alternatives",
+        "stateOwners",
+        "modificationSurfaces",
+        "retainedContracts",
+        "evidenceRead"
+      ],
+      "properties": {
+        "recordedAt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "choices": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "assetId",
+              "entry"
+            ],
+            "properties": {
+              "assetId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "entry": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "intent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "alternatives": {
+          "type": "array"
+        },
+        "stateOwners": {
+          "type": "array",
+          "minItems": 1
+        },
+        "modificationSurfaces": {
+          "type": "array",
+          "minItems": 1
+        },
+        "retainedContracts": {
+          "type": "array",
+          "minItems": 1
+        },
+        "evidenceRead": {
+          "type": "array"
+        }
+      },
+      "additionalProperties": false
+    },
+    "selectionChanges": {
+      "type": "array"
+    },
+    "versions": {
+      "type": "object",
+      "required": [
+        "T0",
+        "F0",
+        "S1",
+        "R1",
+        "E1",
+        "E2"
+      ],
+      "properties": {
+        "T0": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "status",
+            "frozenAt",
+            "sourceTreeHash",
+            "manifestPath",
+            "checks",
+            "failures",
+            "sharedHashBefore",
+            "sharedHashAfter"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "captured",
+                "failed",
+                "no-change",
+                "not-run"
+              ]
+            },
+            "frozenAt": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sourceTreeHash": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "manifestPath": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "checks": {
+              "type": "array"
+            },
+            "failures": {
+              "type": "array"
+            },
+            "sharedHashBefore": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sharedHashAfter": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "F0": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "status",
+            "frozenAt",
+            "sourceTreeHash",
+            "manifestPath",
+            "checks",
+            "failures",
+            "sharedHashBefore",
+            "sharedHashAfter"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "captured",
+                "failed",
+                "no-change",
+                "not-run"
+              ]
+            },
+            "frozenAt": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sourceTreeHash": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "manifestPath": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "checks": {
+              "type": "array"
+            },
+            "failures": {
+              "type": "array"
+            },
+            "sharedHashBefore": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sharedHashAfter": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "S1": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "status",
+            "frozenAt",
+            "sourceTreeHash",
+            "manifestPath",
+            "checks",
+            "failures",
+            "sharedHashBefore",
+            "sharedHashAfter"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "captured",
+                "failed",
+                "no-change",
+                "not-run"
+              ]
+            },
+            "frozenAt": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sourceTreeHash": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "manifestPath": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "checks": {
+              "type": "array"
+            },
+            "failures": {
+              "type": "array"
+            },
+            "sharedHashBefore": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sharedHashAfter": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "R1": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "status",
+            "frozenAt",
+            "sourceTreeHash",
+            "manifestPath",
+            "checks",
+            "failures",
+            "sharedHashBefore",
+            "sharedHashAfter"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "captured",
+                "failed",
+                "no-change",
+                "not-run"
+              ]
+            },
+            "frozenAt": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sourceTreeHash": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "manifestPath": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "checks": {
+              "type": "array"
+            },
+            "failures": {
+              "type": "array"
+            },
+            "sharedHashBefore": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sharedHashAfter": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "E1": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "status",
+            "frozenAt",
+            "sourceTreeHash",
+            "manifestPath",
+            "checks",
+            "failures",
+            "sharedHashBefore",
+            "sharedHashAfter"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "captured",
+                "failed",
+                "no-change",
+                "not-run"
+              ]
+            },
+            "frozenAt": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sourceTreeHash": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "manifestPath": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "checks": {
+              "type": "array"
+            },
+            "failures": {
+              "type": "array"
+            },
+            "sharedHashBefore": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sharedHashAfter": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "E2": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "status",
+            "frozenAt",
+            "sourceTreeHash",
+            "manifestPath",
+            "checks",
+            "failures",
+            "sharedHashBefore",
+            "sharedHashAfter"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "captured",
+                "failed",
+                "no-change",
+                "not-run"
+              ]
+            },
+            "frozenAt": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sourceTreeHash": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "manifestPath": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "checks": {
+              "type": "array"
+            },
+            "failures": {
+              "type": "array"
+            },
+            "sharedHashBefore": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sharedHashAfter": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "dimensionScores": {
+      "type": "array"
+    },
+    "checks": {
+      "type": "array"
+    },
+    "failures": {
+      "type": "array"
+    },
+    "attribution": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "feedbackBatches": {
+      "type": "array"
+    },
+    "timing": {
+      "type": "object",
+      "required": [
+        "startedAt",
+        "endedAt",
+        "installSeconds",
+        "verificationSeconds",
+        "userWaitSeconds",
+        "activeSeconds"
+      ],
+      "properties": {
+        "startedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "endedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "installSeconds": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "verificationSeconds": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "userWaitSeconds": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "activeSeconds": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "tokens": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "cost": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "humanReview": {
+      "type": "object",
+      "required": [
+        "status",
+        "version",
+        "scope",
+        "verbatimFeedback"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "not-run",
+            "awaiting_human",
+            "accepted",
+            "rework"
+          ]
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scope": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "verbatimFeedback": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "finalOutcome": {
+      "type": "string",
+      "enum": [
+        "not-run",
+        "passed-scoped",
+        "failed",
+        "blocked",
+        "no-runnable-draft",
+        "remediation",
+        "contaminated"
+      ]
+    },
+    "unmeasured": {
+      "type": "array",
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false
+}

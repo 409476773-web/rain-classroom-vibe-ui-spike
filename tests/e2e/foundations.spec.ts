@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 
 import { contrastRatio } from "./color-contrast";
@@ -523,7 +524,7 @@ test("the Day 2 Foundations contract is reachable and inspectable", async (
 
   const screenshotPath =
     runtimeEnvironment.RAIN_UPDATE_DAY_2_EVIDENCE === "1"
-      ? "evidence/runtime/day-2/foundations-page.png"
+      ? evidenceOutputPath("evidence/runtime/day-2/foundations-page.png")
       : testInfo.outputPath("foundations-page.png");
   await compactInput.focus();
   await expect(compactInput).toBeFocused();

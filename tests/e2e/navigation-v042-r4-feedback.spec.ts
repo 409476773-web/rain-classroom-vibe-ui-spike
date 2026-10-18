@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const evidence = resolve(process.env.NAVIGATION_FEEDBACK_EVIDENCE_DIR ?? 'evidence/runtime/navigation-v042/w5/review-06-r4-feedback');
+const evidence = resolve(process.env.NAVIGATION_FEEDBACK_EVIDENCE_DIR ?? evidenceOutputPath('evidence/runtime/navigation-v042/w5/review-06-r4-feedback'));
 const capture = process.env.R4_FEEDBACK_CAPTURE;
 mkdirSync(evidence,{recursive:true});
 const open = async (page: Page, width = 1440) => {

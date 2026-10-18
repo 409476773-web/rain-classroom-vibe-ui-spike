@@ -126,3 +126,24 @@ buttonGroupRepair:
   apiChanged: false
   tokenValuesChanged: false
   sourceHumanGateTransferred: false
+
+discovery:
+  version: 1
+  familyId: "actions"
+  taskIds:
+    - "act-feedback"
+    - "organize"
+  searchAliases:
+    - "相邻动作"
+    - "按钮组"
+  implementationRole: "composition"
+  controlScope: "相邻动作的连续外观与方向"
+  stateOwner: "子按钮各自拥有动作；ButtonGroup 不管理单选、多选或 pressed 状态，separator/text 是具名导出。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-toggle-group"
+      condition: "相邻项需要维持工具 pressed 状态时使用 ToggleGroup；ButtonGroup 不管理选择。"
+      evidence:
+        path: "packages/ui/src/button-group/button-group.tsx"
+        symbol: "ButtonGroup"
+        kind: "contract"

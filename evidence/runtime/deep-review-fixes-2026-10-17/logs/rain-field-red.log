@@ -1,0 +1,720 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ apps/playground/src/docs/components/g5-component-pages.test.tsx (14 tests | 4 failed | 10 skipped) 280ms
+   × associates course and points errors with each field and focuses the first invalid field 155ms
+   × focuses the invalid points value  before later fields 45ms
+   × focuses the invalid points value 0 before later fields 41ms
+   × focuses the invalid points value 201 before later fields 37ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/g5-component-pages.test.tsx > associates course and points errors with each field and focuses the first invalid field
+Error: expect(element).toHaveAttribute("aria-invalid", "true") // element.getAttribute("aria-invalid") === "true"
+
+Expected the element to have attribute:
+  aria-invalid="true"
+Received:
+  null
+ ❯ apps/playground/src/docs/components/g5-component-pages.test.tsx:59:18
+     57|   fireEvent.change(points, { target: { value: "" } });
+     58|   fireEvent.submit(form);
+     59|   expect(course).toHaveAttribute("aria-invalid", "true");
+       |                  ^
+     60|   expect(course).toHaveAccessibleDescription("请选择所属课程。");
+     61|   expect(points).toHaveAttribute("aria-invalid", "true");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  apps/playground/src/docs/components/g5-component-pages.test.tsx > focuses the invalid points value  before later fields
+Error: expect(element).toHaveFocus()
+
+Expected element with focus:
+  <input
+  aria-describedby="rain-field-_r_16_-unit"
+  aria-labelledby="rain-field-_r_16_-label"
+  aria-valuemax="200"
+  aria-valuemin="1"
+  class="rain-input__control min-w-0 w-full flex-1 border-none bg-transparent p-rain-0 text-inherit outline-none placeholder:text-rain-category-text-neutral-5 disabled:cursor-not-allowed disabled:placeholder:text-rain-category-text-neutral-6"
+  data-key-data="false"
+  data-slot="control"
+  id="rain-field-_r_16_"
+  inputmode="numeric"
+  required=""
+  role="spinbutton"
+  size="5"
+  type="text"
+  value=""
+/>
+Received element with focus:
+  <body>
+  <div>
+    <form
+      aria-label="作业发布设置"
+      class="g5-panel g5-form"
+      novalidate=""
+    >
+      <div
+        class="g5-task-heading"
+      >
+        <h3>
+          作业发布设置
+        </h3>
+        <p>
+          本地样板 · 人工智能导论 · 第五讲
+        </p>
+      </div>
+      <div
+        class="rain-grid grid min-w-0 gap-rain-16"
+        data-adaptive="true"
+        data-columns="2"
+        data-rain-id="layout-grid"
+        data-slot="root"
+        style="--rain-layout-gap: 16px; --rain-layout-columns: 2; --rain-layout-column-min-width: 240px;"
+      >
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <span … />
+        </div>
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <div … />
+          <input … />
+        </div>
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <div … />
+          <input … />
+        </div>
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <span … />
+        </div>
+      </div>
+      <div
+        class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+        data-label-position="top"
+        data-rain-id="ui-form-item"
+        data-slot="root"
+        data-status="default"
+      >
+        <label
+          class="inline-flex items-center gap-rain-4 mb-rain-4 text-rain-size-14 font-rain-semibold"
+          data-slot="label"
+          for="rain-field-_r_18_"
+          id="rain-field-_r_18_-label"
+        >
+          作业说明
+        </label>
+        <span
+          class="rain-textarea rain-input rain-field-frame relative box-border inline-flex min-w-0 border-solid border-rain-line-1 rounded-rain-6 bg-rain-category-fill-neutral-solid-7 border-rain-category-border-neutral-2 text-rain-category-text-neutral-1 hover:border-rain-category-border-neutral-1 has-[:focus]:border-rain-category-border-brand-1 has-[:focus]:bg-rain-category-fill-brand-alpha-4 data-[open=true]:border-rain-category-border-brand-1 data-[open=true]:bg-rain-category-fill-brand-alpha-4 w-full min-h-rain-40 flex-auto items-stretch overflow-auto px-rain-0 rain-type-reading-small flex-col gap-rain-0 resize-y"
+          data-appearance="outlined"
+          data-density="default"
+          data-has-block-addons="true"
+          data-permission="editable"
+          data-rain-id="ui-textarea"
+          data-slot="root"
+          data-state="editable"
+          data-status="default"
+        >
+          <textarea … />
+          <span … />
+        </span>
+        <span
+          class="text-rain-category-text-neutral-3"
+          data-slot="help"
+          id="rain-field-_r_18_-help"
+        >
+          说明学习目标、提交内容和判断依据。
+        </span>
+      </div>
+      <fieldset
+        aria-labelledby="_r_19_-legend"
+        aria-orientation="horizontal"
+        class="rain-radio-group min-w-rain-0 m-rain-0 p-rain-0 border-none font-rain-ui text-rain-size-15 leading-rain-24"
+        data-density="default"
+        data-invalid="false"
+        data-orientation="horizontal"
+        data-rain-id="ui-radio-group"
+        data-slot="root"
+        role="radiogroup"
+      >
+        <legend
+          class="p-rain-0 mb-rain-8 font-rain-semibold"
+          data-slot="legend"
+          id="_r_19_-legend"
+        >
+          开放方式
+        </legend>
+        <div
+          class="flex min-w-rain-0 items-start gap-rain-12 flex-wrap"
+          data-slot="items"
+        >
+          <label … />
+          <label … />
+        </div>
+      </fieldset>
+      <div
+        class="rain-grid grid min-w-0 gap-rain-16"
+        data-adaptive="true"
+        data-columns="1"
+        data-rain-id="layout-grid"
+        data-slot="root"
+        style="--rain-layout-gap: 16px; --rain-layout-columns: 1; --rain-layout-column-min-width: 240px;"
+      >
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <div … />
+          <span … />
+        </div>
+      </div>
+      <dl
+        aria-label="作业设置摘要"
+        class="g5-date-summary"
+      >
+        <div>
+          <dt … />
+          <dd … />
+        </div>
+        <div>
+          <dt … />
+          <dd … />
+        </div>
+        <div>
+          <dt … />
+          <dd … />
+        </div>
+      </dl>
+      <div
+        class="g5-form-footer"
+      >
+        <p
+          aria-label="作业保存结果"
+          role="status"
+        >
+          请补齐课程和有效的满分。
+        </p>
+        <button
+          class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:shadow-rain-button-focus-primary h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-on-color-foreground bg-rain-button-primary border-rain-action-ghost hover:bg-rain-button-primary-hover active:bg-rain-button-primary-pressed active:border-rain-button-strong-brand-border"
+          data-density="default"
+          data-focus="control"
+          data-rain-id="ui-button"
+          data-size="medium"
+          data-slot="root"
+          data-state="default"
+          data-tone="default"
+          data-variant="primary"
+          type="submit"
+        >
+          <span … />
+        </button>
+      </div>
+    </form>
+  </div>
+</body>
+ ❯ apps/playground/src/docs/components/g5-component-pages.test.tsx:78:18
+     76|   fireEvent.change(points, { target: { value } });
+     77|   fireEvent.submit(form);
+     78|   expect(points).toHaveFocus();
+       |                  ^
+     79|   expect(points).toHaveAttribute("aria-invalid", "true");
+     80|   expect(points).toHaveAccessibleDescription(/请输入 1–200 之间的整数满分。/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  apps/playground/src/docs/components/g5-component-pages.test.tsx > focuses the invalid points value 0 before later fields
+Error: expect(element).toHaveFocus()
+
+Expected element with focus:
+  <input
+  aria-describedby="rain-field-_r_1u_-control-message rain-field-_r_1u_-unit"
+  aria-invalid="true"
+  aria-labelledby="rain-field-_r_1u_-label"
+  aria-valuemax="200"
+  aria-valuemin="1"
+  aria-valuenow="0"
+  aria-valuetext="0 分"
+  class="rain-input__control min-w-0 w-full flex-1 border-none bg-transparent p-rain-0 text-inherit outline-none placeholder:text-rain-category-text-neutral-5 disabled:cursor-not-allowed disabled:placeholder:text-rain-category-text-neutral-6"
+  data-key-data="false"
+  data-slot="control"
+  id="rain-field-_r_1u_"
+  inputmode="numeric"
+  required=""
+  role="spinbutton"
+  size="5"
+  type="text"
+  value="0"
+/>
+Received element with focus:
+  <body>
+  <div>
+    <form
+      aria-label="作业发布设置"
+      class="g5-panel g5-form"
+      novalidate=""
+    >
+      <div
+        class="g5-task-heading"
+      >
+        <h3>
+          作业发布设置
+        </h3>
+        <p>
+          本地样板 · 人工智能导论 · 第五讲
+        </p>
+      </div>
+      <div
+        class="rain-grid grid min-w-0 gap-rain-16"
+        data-adaptive="true"
+        data-columns="2"
+        data-rain-id="layout-grid"
+        data-slot="root"
+        style="--rain-layout-gap: 16px; --rain-layout-columns: 2; --rain-layout-column-min-width: 240px;"
+      >
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <span … />
+        </div>
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <div … />
+          <input … />
+        </div>
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <div … />
+          <input … />
+        </div>
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="error"
+        >
+          <label … />
+          <span … />
+          <span … />
+        </div>
+      </div>
+      <div
+        class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+        data-label-position="top"
+        data-rain-id="ui-form-item"
+        data-slot="root"
+        data-status="default"
+      >
+        <label
+          class="inline-flex items-center gap-rain-4 mb-rain-4 text-rain-size-14 font-rain-semibold"
+          data-slot="label"
+          for="rain-field-_r_20_"
+          id="rain-field-_r_20_-label"
+        >
+          作业说明
+        </label>
+        <span
+          class="rain-textarea rain-input rain-field-frame relative box-border inline-flex min-w-0 border-solid border-rain-line-1 rounded-rain-6 bg-rain-category-fill-neutral-solid-7 border-rain-category-border-neutral-2 text-rain-category-text-neutral-1 hover:border-rain-category-border-neutral-1 has-[:focus]:border-rain-category-border-brand-1 has-[:focus]:bg-rain-category-fill-brand-alpha-4 data-[open=true]:border-rain-category-border-brand-1 data-[open=true]:bg-rain-category-fill-brand-alpha-4 w-full min-h-rain-40 flex-auto items-stretch overflow-auto px-rain-0 rain-type-reading-small flex-col gap-rain-0 resize-y"
+          data-appearance="outlined"
+          data-density="default"
+          data-has-block-addons="true"
+          data-permission="editable"
+          data-rain-id="ui-textarea"
+          data-slot="root"
+          data-state="editable"
+          data-status="default"
+        >
+          <textarea … />
+          <span … />
+        </span>
+        <span
+          class="text-rain-category-text-neutral-3"
+          data-slot="help"
+          id="rain-field-_r_20_-help"
+        >
+          说明学习目标、提交内容和判断依据。
+        </span>
+      </div>
+      <fieldset
+        aria-labelledby="_r_21_-legend"
+        aria-orientation="horizontal"
+        class="rain-radio-group min-w-rain-0 m-rain-0 p-rain-0 border-none font-rain-ui text-rain-size-15 leading-rain-24"
+        data-density="default"
+        data-invalid="false"
+        data-orientation="horizontal"
+        data-rain-id="ui-radio-group"
+        data-slot="root"
+        role="radiogroup"
+      >
+        <legend
+          class="p-rain-0 mb-rain-8 font-rain-semibold"
+          data-slot="legend"
+          id="_r_21_-legend"
+        >
+          开放方式
+        </legend>
+        <div
+          class="flex min-w-rain-0 items-start gap-rain-12 flex-wrap"
+          data-slot="items"
+        >
+          <label … />
+          <label … />
+        </div>
+      </fieldset>
+      <div
+        class="rain-grid grid min-w-0 gap-rain-16"
+        data-adaptive="true"
+        data-columns="1"
+        data-rain-id="layout-grid"
+        data-slot="root"
+        style="--rain-layout-gap: 16px; --rain-layout-columns: 1; --rain-layout-column-min-width: 240px;"
+      >
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <div … />
+          <span … />
+        </div>
+      </div>
+      <dl
+        aria-label="作业设置摘要"
+        class="g5-date-summary"
+      >
+        <div>
+          <dt … />
+          <dd … />
+        </div>
+        <div>
+          <dt … />
+          <dd … />
+        </div>
+        <div>
+          <dt … />
+          <dd … />
+        </div>
+      </dl>
+      <div
+        class="g5-form-footer"
+      >
+        <p
+          aria-label="作业保存结果"
+          role="status"
+        >
+          请补齐课程和有效的满分。
+        </p>
+        <button
+          class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:shadow-rain-button-focus-primary h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-on-color-foreground bg-rain-button-primary border-rain-action-ghost hover:bg-rain-button-primary-hover active:bg-rain-button-primary-pressed active:border-rain-button-strong-brand-border"
+          data-density="default"
+          data-focus="control"
+          data-rain-id="ui-button"
+          data-size="medium"
+          data-slot="root"
+          data-state="default"
+          data-tone="default"
+          data-variant="primary"
+          type="submit"
+        >
+          <span … />
+        </button>
+      </div>
+    </form>
+  </div>
+</body>
+ ❯ apps/playground/src/docs/components/g5-component-pages.test.tsx:78:18
+     76|   fireEvent.change(points, { target: { value } });
+     77|   fireEvent.submit(form);
+     78|   expect(points).toHaveFocus();
+       |                  ^
+     79|   expect(points).toHaveAttribute("aria-invalid", "true");
+     80|   expect(points).toHaveAccessibleDescription(/请输入 1–200 之间的整数满分。/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  apps/playground/src/docs/components/g5-component-pages.test.tsx > focuses the invalid points value 201 before later fields
+Error: expect(element).toHaveFocus()
+
+Expected element with focus:
+  <input
+  aria-describedby="rain-field-_r_2m_-control-message rain-field-_r_2m_-unit"
+  aria-invalid="true"
+  aria-labelledby="rain-field-_r_2m_-label"
+  aria-valuemax="200"
+  aria-valuemin="1"
+  aria-valuenow="201"
+  aria-valuetext="201 分"
+  class="rain-input__control min-w-0 w-full flex-1 border-none bg-transparent p-rain-0 text-inherit outline-none placeholder:text-rain-category-text-neutral-5 disabled:cursor-not-allowed disabled:placeholder:text-rain-category-text-neutral-6"
+  data-key-data="false"
+  data-slot="control"
+  id="rain-field-_r_2m_"
+  inputmode="numeric"
+  required=""
+  role="spinbutton"
+  size="5"
+  type="text"
+  value="201"
+/>
+Received element with focus:
+  <body>
+  <div>
+    <form
+      aria-label="作业发布设置"
+      class="g5-panel g5-form"
+      novalidate=""
+    >
+      <div
+        class="g5-task-heading"
+      >
+        <h3>
+          作业发布设置
+        </h3>
+        <p>
+          本地样板 · 人工智能导论 · 第五讲
+        </p>
+      </div>
+      <div
+        class="rain-grid grid min-w-0 gap-rain-16"
+        data-adaptive="true"
+        data-columns="2"
+        data-rain-id="layout-grid"
+        data-slot="root"
+        style="--rain-layout-gap: 16px; --rain-layout-columns: 2; --rain-layout-column-min-width: 240px;"
+      >
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <span … />
+        </div>
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <div … />
+          <input … />
+        </div>
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <div … />
+          <input … />
+        </div>
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="error"
+        >
+          <label … />
+          <span … />
+          <span … />
+        </div>
+      </div>
+      <div
+        class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+        data-label-position="top"
+        data-rain-id="ui-form-item"
+        data-slot="root"
+        data-status="default"
+      >
+        <label
+          class="inline-flex items-center gap-rain-4 mb-rain-4 text-rain-size-14 font-rain-semibold"
+          data-slot="label"
+          for="rain-field-_r_2o_"
+          id="rain-field-_r_2o_-label"
+        >
+          作业说明
+        </label>
+        <span
+          class="rain-textarea rain-input rain-field-frame relative box-border inline-flex min-w-0 border-solid border-rain-line-1 rounded-rain-6 bg-rain-category-fill-neutral-solid-7 border-rain-category-border-neutral-2 text-rain-category-text-neutral-1 hover:border-rain-category-border-neutral-1 has-[:focus]:border-rain-category-border-brand-1 has-[:focus]:bg-rain-category-fill-brand-alpha-4 data-[open=true]:border-rain-category-border-brand-1 data-[open=true]:bg-rain-category-fill-brand-alpha-4 w-full min-h-rain-40 flex-auto items-stretch overflow-auto px-rain-0 rain-type-reading-small flex-col gap-rain-0 resize-y"
+          data-appearance="outlined"
+          data-density="default"
+          data-has-block-addons="true"
+          data-permission="editable"
+          data-rain-id="ui-textarea"
+          data-slot="root"
+          data-state="editable"
+          data-status="default"
+        >
+          <textarea … />
+          <span … />
+        </span>
+        <span
+          class="text-rain-category-text-neutral-3"
+          data-slot="help"
+          id="rain-field-_r_2o_-help"
+        >
+          说明学习目标、提交内容和判断依据。
+        </span>
+      </div>
+      <fieldset
+        aria-labelledby="_r_2p_-legend"
+        aria-orientation="horizontal"
+        class="rain-radio-group min-w-rain-0 m-rain-0 p-rain-0 border-none font-rain-ui text-rain-size-15 leading-rain-24"
+        data-density="default"
+        data-invalid="false"
+        data-orientation="horizontal"
+        data-rain-id="ui-radio-group"
+        data-slot="root"
+        role="radiogroup"
+      >
+        <legend
+          class="p-rain-0 mb-rain-8 font-rain-semibold"
+          data-slot="legend"
+          id="_r_2p_-legend"
+        >
+          开放方式
+        </legend>
+        <div
+          class="flex min-w-rain-0 items-start gap-rain-12 flex-wrap"
+          data-slot="items"
+        >
+          <label … />
+          <label … />
+        </div>
+      </fieldset>
+      <div
+        class="rain-grid grid min-w-0 gap-rain-16"
+        data-adaptive="true"
+        data-columns="1"
+        data-rain-id="layout-grid"
+        data-slot="root"
+        style="--rain-layout-gap: 16px; --rain-layout-columns: 1; --rain-layout-column-min-width: 240px;"
+      >
+        <div
+          class="rain-form-item flex flex-col min-w-0 gap-rain-4 rain-type-ui-default text-rain-category-text-neutral-1"
+          data-label-position="top"
+          data-rain-id="ui-form-item"
+          data-slot="root"
+          data-status="default"
+        >
+          <label … />
+          <div … />
+          <span … />
+        </div>
+      </div>
+      <dl
+        aria-label="作业设置摘要"
+        class="g5-date-summary"
+      >
+        <div>
+          <dt … />
+          <dd … />
+        </div>
+        <div>
+          <dt … />
+          <dd … />
+        </div>
+        <div>
+          <dt … />
+          <dd … />
+        </div>
+      </dl>
+      <div
+        class="g5-form-footer"
+      >
+        <p
+          aria-label="作业保存结果"
+          role="status"
+        >
+          请补齐课程和有效的满分。
+        </p>
+        <button
+          class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button duration-rain-button ease-rain-button motion-reduce:transition-none focus-rain-button focus-visible:outline-solid focus-visible:outline-rain-button-focus focus-visible:outline-rain-button-focus-outline focus-visible:outline-offset-rain-button-focus cursor-pointer focus-visible:shadow-rain-button-focus-primary h-rain-button-medium-height min-w-rain-button-medium-min-width px-rain-button-medium-padding-inline gap-rain-button-gap rounded-rain-button-medium text-rain-button-medium text-rain-button-on-color-foreground bg-rain-button-primary border-rain-action-ghost hover:bg-rain-button-primary-hover active:bg-rain-button-primary-pressed active:border-rain-button-strong-brand-border"
+          data-density="default"
+          data-focus="control"
+          data-rain-id="ui-button"
+          data-size="medium"
+          data-slot="root"
+          data-state="default"
+          data-tone="default"
+          data-variant="primary"
+          type="submit"
+        >
+          <span … />
+        </button>
+      </div>
+    </form>
+  </div>
+</body>
+ ❯ apps/playground/src/docs/components/g5-component-pages.test.tsx:78:18
+     76|   fireEvent.change(points, { target: { value } });
+     77|   fireEvent.submit(form);
+     78|   expect(points).toHaveFocus();
+       |                  ^
+     79|   expect(points).toHaveAttribute("aria-invalid", "true");
+     80|   expect(points).toHaveAccessibleDescription(/请输入 1–200 之间的整数满分。/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 10 skipped (14)
+   Start at  22:57:46
+   Duration  4.88s (transform 1.34s, setup 100ms, import 4.03s, tests 280ms, environment 379ms)
+

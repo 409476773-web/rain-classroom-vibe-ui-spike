@@ -127,3 +127,24 @@ feedbackRefinement:
   evidence: "evidence/runtime/toast-action-position-2026-10-08/verification.md"
   runtimeHumanGate: "awaiting-user-review"
   publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "feedback"
+  taskIds:
+    - "act-feedback"
+  searchAliases:
+    - "短时通知"
+    - "保存反馈"
+    - "消息提示"
+  implementationRole: "root"
+  controlScope: "短时非阻断操作结果通知"
+  stateOwner: "ToastProvider/manager 与 viewport 管理通知生命周期；宿主拥有动作结果。Toaster 是现成入口，ui-message 是会话结构，不能替代通知。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-alert"
+      condition: "需要在区域中持续展示说明或警示时比较 Alert；Toast 是短时通知。"
+      evidence:
+        path: "packages/ui/src/toast/toast.tsx"
+        symbol: "Toaster"
+        kind: "contract"

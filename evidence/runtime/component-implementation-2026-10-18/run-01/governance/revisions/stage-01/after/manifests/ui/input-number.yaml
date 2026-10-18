@@ -1,0 +1,123 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-input-number"
+name: "InputNumber"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/input-number/input-number.tsx"
+styleSourcePath: "packages/ui/src/input-number/input-number.css"
+sharedFrameSource: "packages/ui/src/field/field.styles.ts"
+sourceVersion: "local-2026-09-16"
+publication: "unpublished"
+description: "数值填写、左右加减与传统右侧箭头；保留越界草稿，与 Input 共用三种字段外观。"
+useWhen:
+  - "数量、分值、百分比等需要数值校验与运算的字段。"
+doNotUseWhen:
+  - "手机号、学号和编号需要保留字符串身份；使用 Input。"
+  - "任意精度十进制、货币/地区格式或科学计数输入；首版未支持。"
+parts:
+  - "root"
+  - "frame"
+  - "controls"
+  - "decrease"
+  - "value-region"
+  - "control"
+  - "prefix-text"
+  - "clear-slot"
+  - "clear-action"
+  - "suffix-text"
+  - "increase"
+  - "message"
+props:
+  - "value/defaultValue: number|null; onValueChange; onValueCommit; onValidityChange"
+  - "min/max optional; step positive defaults 1; precision optional 0–15"
+  - "controls defaults true; clearable defaults false"
+  - "controlsLayout: split (default) or stacked; shares one numeric state and validation"
+  - "keyData defaults false; important values use Data font, bold 700 and tabular/lining numerals without changing size or line height; units/labels/placeholders keep UI typography"
+  - "Intrinsic width: 5ch value region plus actual affixes and controls; stable while typing; fullWidth explicitly fills its parent"
+  - "prefixText/suffixText; native input ref, name, form, label and descriptions"
+variants:
+  - "outlined"
+  - "filled"
+  - "underlined"
+sizes:
+  - 24
+  - 28
+  - 32
+  - 36
+densities:
+  compactDefault: 24
+  defaultDefault: 32
+statuses:
+  - "default"
+  - "warning"
+  - "error"
+states:
+  - "empty"
+  - "filled"
+  - "editing"
+  - "focus-visible"
+  - "read-only"
+  - "disabled"
+behavior:
+  - "Manual range/precision errors retain raw input; no blur clamp or rounding."
+  - "120 above max 100 decreases to 119; increase is disabled."
+  - "Incomplete -, . and -. remain visible and block native submission. A trailing dot finishes on blur, Enter or native requestSubmit."
+  - "Optional empty is null; required is owned by FormItem or the input prop."
+  - "Decimal steps use exact digit arithmetic before safe number conversion."
+  - "Controlled hosts own numbers; raw spelling is local to an edit session."
+  - "Numeric feedback joins FormItem descriptions; business messages remain host-owned."
+  - "No wheel changes, long press, scrub, locale formatting or high precision string mode."
+  - "Stacked controls reserve space and appear on hover/focus; always shown on non-hover devices."
+  - "Enabled clear action is hidden at rest and revealed only on field hover/focus; its reserved slot prevents value movement. Touch focuses the field before clearing."
+accessibility:
+  - "Native text input with spinbutton semantics and accessible name; named native buttons."
+  - "ArrowUp/ArrowDown steps; native Tab and Enter; readonly remains selectable."
+  - "Invalid current drafts block native validated submission; noValidate/form.submit bypass browser validation."
+  - "Unit and numeric errors are associated descriptions; forced-color focus retained."
+  - "Stacked arrows prioritize dense desktop fields; use split for larger touch targets."
+visualLineage:
+  rainClassicReferences:
+    - "/Users/wenchengkai/CodexFile/雨课堂_ai设计系统_v3.0/src/components/InputNumber"
+  classicPattern: "80px left-aligned numeric input with right stacked up/down chevrons, revealed on hover/focus."
+  externalReferences:
+    - "https://ui.shadcn.com/docs/components/input-group"
+    - "https://ant.design/components/input-number/"
+    - "https://material-web.dev/components/text-field/"
+    - "https://base-ui.com/react/components/number-field"
+examples:
+  - "#input-number"
+  - "Compact stacked inputs embedded in Table cells and an inline filter layout."
+  - "Table/filter examples explicitly use default size 32, with aligned 32px buttons; do not inherit 24px compact fields in these examples."
+  - "Grading: derive max and suffixText such as /10分 from the same host full-score value; keyData emphasizes only the editable score, and clearing it retains the fixed suffix."
+relatedComponents:
+  - "Input"
+  - "FormItem"
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/input-number/verification.md"
+
+discovery:
+  version: 1
+  familyId: "fields"
+  taskIds:
+    - "fill-validate"
+  searchAliases:
+    - "数字输入"
+    - "步进数值"
+  implementationRole: "root"
+  controlScope: "可解析数字、文本草稿、步进和提交边界"
+  stateOwner: "宿主拥有已提交数值；组件区分编辑草稿与解析值，保留精度、范围和 blur/提交规则；编号、电话等字符串仍用 Input。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-input"
+      condition: "编号、电话、前导零等不可按数字计算的内容使用 Input，不能通过数值解析丢失文本。"
+      evidence:
+        path: "packages/ui/src/input-number/input-number.tsx"
+        symbol: "InputNumber"
+        kind: "contract"

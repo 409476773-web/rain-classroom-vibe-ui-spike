@@ -139,3 +139,22 @@ parts:
   - "description"
   - "supplementary"
   - "actions"
+
+discovery:
+  version: 1
+  familyId: "selection-inputs"
+  taskIds:
+    - "choose"
+  searchAliases:
+    - "比较方案"
+    - "推荐方案"
+  implementationRole: "recipe"
+  controlScope: "带推荐信息和详情的方案单选卡"
+  stateOwner: "宿主/RadioGroup 拥有选中值；Recipe 组合 RadioCard，不把推荐状态当作已选状态。"
+  relationships:
+    - type: "composes"
+      targetId: "ui-radio-card"
+      evidence:
+        path: "packages/ui/src/recipes/selection-card-recipes.tsx"
+        symbol: "RadioComparisonCard"
+        kind: "render"

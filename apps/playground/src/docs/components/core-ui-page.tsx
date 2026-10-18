@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 
 import { DensityProvider } from "@rain-next/foundations";
+import { AssetDiscovery } from "./asset-discovery";
 import { ComponentCatalog, componentDocEntries } from "./component-catalog";
 import {
   Alert,
@@ -85,6 +86,7 @@ export function CoreUiPage() {
       data-rain-id="core-ui-page"
       data-slot="component-document"
     >
+      <p><Button variant="text" onClick={() => document.getElementById("asset-discovery-title")?.scrollIntoView({ behavior: "smooth" })}>按任务选组件</Button> · <Link href="#compositions">操作组合配方</Link></p>
       <header className="core-ui-hero" data-slot="component-hero">
         <a className="back-link" data-focus="item" href="#overview">
           返回 Playground
@@ -99,6 +101,7 @@ export function CoreUiPage() {
               按用途查找已有组件与工作区布局，查看独立用法、状态和接口。
               当前资产为未发布的共享候选，各自审阅范围继续保留。
             </p>
+            <Link href="#compositions">操作三种常用组合与失败状态</Link>
             <Link href="#checkbox">查看 Checkbox 与分组表单</Link>
             <Link href="#selection-playground">打开分类选择 Playground 与源码检索</Link>
             <Link href="#radio">查看 Radio 与单选分组</Link>
@@ -127,7 +130,8 @@ export function CoreUiPage() {
         </div>
       </header>
 
-      <ComponentCatalog />
+      <AssetDiscovery />
+      <details open><summary data-focus="item">原组件索引与完整示例</summary><ComponentCatalog /></details>
 
       <section className="core-family" data-rain-id="core-ui-button" data-slot="component-family">
         <FamilyHeading

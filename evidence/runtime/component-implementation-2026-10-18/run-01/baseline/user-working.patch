@@ -1,0 +1,1672 @@
+diff --git a/apps/playground/src/docs/components/component-asset-page.tsx b/apps/playground/src/docs/components/component-asset-page.tsx
+index cba7b720..4f28223b 100644
+--- a/apps/playground/src/docs/components/component-asset-page.tsx
++++ b/apps/playground/src/docs/components/component-asset-page.tsx
+@@ -42,22 +42,35 @@ const NetworkChartPage = lazy(async () => {
+ const pages = { switch:SwitchPage, accordion:AccordionPage, collapsible:CollapsiblePage, resizable:ResizablePage, tooltip:TooltipPage, "button-group":ButtonGroupPage, toggle:TogglePage, "toggle-group":ToggleGroupPage, spinner:SpinnerPage, skeleton:SkeletonPage, toast:ToastPage, typography:TypographyPage, item:ItemPage, progress:ProgressPage };
+ const g3 = ["scroll-area","sheet","sidebar","command","kbd","context-menu","hover-card","menubar","navigation-menu"];
+ export function ComponentAssetPage({ component, navigationCount = 0 }: { component: ComponentDocId; navigationCount?: number }) {
++  const loading = ["label", "field", "input-group", "combobox", "slider", "calendar", "date-picker"].includes(component) ? "正在载入表单组件…"
++    : ["drawer", "input-otp", "carousel"].includes(component) ? "正在载入交互组件…"
++    : "正在载入组件文档…";
++  // Focus commits with the document, after its lazy module has resolved.
++  return <Suspense fallback={<p role="status">{loading}</p>}>
++    <ComponentDocument component={component} navigationCount={navigationCount} />
++    <DocumentFocus component={component} navigationCount={navigationCount} />
++  </Suspense>;
++}
++function DocumentFocus({ component, navigationCount = 0 }: { component: ComponentDocId; navigationCount?: number }) {
+   const previousComponent = useRef<ComponentDocId | null>(null);
+   useEffect(() => {
+     const sameDestinationDocument = previousComponent.current === component && (component === "navigation-list" || component === "navigation-bar");
+     if (navigationCount > 0 && !sameDestinationDocument) document.getElementById(`${component}-title`)?.focus();
+     previousComponent.current = component;
+   }, [component, navigationCount]);
+-  if (component === "conversation-composer") return <Suspense fallback={<p role="status">正在载入对话输入…</p>}><ConversationComposerPage/></Suspense>;
+-  if (component === "chart-business") return <Suspense fallback={<p role="status">正在载入图表…</p>}><ChartBusinessPage navigationCount={navigationCount} /></Suspense>;
+-  if (["label", "field", "input-group", "combobox", "slider", "calendar", "date-picker"].includes(component)) return <Suspense fallback={<p role="status">正在载入表单组件…</p>}><G5ComponentPage key={component} component={component as G5ComponentId} /></Suspense>;
+-  if (component === "data-table" || component === "aspect-ratio" || component === "attachment" || component === "direction") return <Suspense fallback={<p role="status">正在载入媒体组件…</p>}><G6MediaPage key={component} component={component} /></Suspense>;
+-  if (component === "drawer" || component === "input-otp" || component === "carousel") return <Suspense fallback={<p role="status">正在载入交互组件…</p>}><G6InteractionPage key={component} component={component} /></Suspense>;
+-  if (component === "bubble" || component === "marker" || component === "message" || component === "message-scroller" || component === "questionnaire") return <Suspense fallback={<p role="status">正在载入会话组件…</p>}><G6ConversationPage key={component} component={component} /></Suspense>;
+-  if (component === "chart-category") return <Suspense fallback={<p role="status">正在载入图表…</p>}><CategoryChartPage navigationCount={navigationCount} /></Suspense>;
+-  if (component === "chart-network") return <Suspense fallback={<p role="status">正在载入图表…</p>}><NetworkChartPage navigationCount={navigationCount} /></Suspense>;
+-  if (component === "chart-china") return <Suspense fallback={<p role="status">正在载入图表…</p>}><ChinaRegionPage navigationCount={navigationCount} renderSource={settings => <ChinaDownload settings={settings} />} /></Suspense>;
+-  if (component.startsWith("chart-")) return <Suspense fallback={<p role="status">正在载入图表…</p>}><ChartPage key={component} id={component.slice(6) as ChartId} navigationCount={navigationCount} /></Suspense>;
++  return null;
++}
++function ComponentDocument({ component, navigationCount }: { component: ComponentDocId; navigationCount: number }) {
++  if (component === "conversation-composer") return <ConversationComposerPage/>;
++  if (component === "chart-business") return <ChartBusinessPage navigationCount={navigationCount} />;
++  if (["label", "field", "input-group", "combobox", "slider", "calendar", "date-picker"].includes(component)) return <G5ComponentPage key={component} component={component as G5ComponentId} />;
++  if (component === "data-table" || component === "aspect-ratio" || component === "attachment" || component === "direction") return <G6MediaPage key={component} component={component} />;
++  if (component === "drawer" || component === "input-otp" || component === "carousel") return <G6InteractionPage key={component} component={component} />;
++  if (component === "bubble" || component === "marker" || component === "message" || component === "message-scroller" || component === "questionnaire") return <G6ConversationPage key={component} component={component} />;
++  if (component === "chart-category") return <CategoryChartPage navigationCount={navigationCount} />;
++  if (component === "chart-network") return <NetworkChartPage navigationCount={navigationCount} />;
++  if (component === "chart-china") return <ChinaRegionPage navigationCount={navigationCount} renderSource={settings => <ChinaDownload settings={settings} />} />;
++  if (component.startsWith("chart-")) return <ChartPage key={component} id={component.slice(6) as ChartId} navigationCount={navigationCount} />;
+   if (component in pages) { const Page = pages[component as keyof typeof pages]; return <Page />; }
+   if (g3.includes(component)) return <G3ComponentPage component={component as G3ComponentId} />;
+   return <NavigationComponentPage component={component as NavigationComponentId} />;
+diff --git a/apps/playground/src/docs/components/component-doc.css b/apps/playground/src/docs/components/component-doc.css
+index 5de55e8a..1f3cc00a 100644
+--- a/apps/playground/src/docs/components/component-doc.css
++++ b/apps/playground/src/docs/components/component-doc.css
+@@ -29,7 +29,7 @@ body:has(.component-doc) { background: var(--rain-category-background-neutral-1)
+ 
+ .component-doc__status { margin:var(--rain-space-12) 0 0; color:var(--rain-category-text-neutral-4); font-size:var(--rain-font-size-13); line-height:var(--rain-line-height-20); }
+ .component-doc__loading-result { width:min(100%,480px); padding:var(--rain-space-16); border:var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); border-radius:var(--rain-radius-8); }
+-.component-doc__loading-result strong { font-size:var(--rain-font-size-14); font-weight:var(--rain-font-weight-medium); }
++.component-doc__loading-result strong { font-size:var(--rain-font-size-14); font-weight:var(--rain-font-weight-semibold); }
+ .component-doc__loading-result > p { margin:var(--rain-space-8) 0 0; color:var(--rain-category-text-neutral-4); font-size:var(--rain-font-size-13); line-height:var(--rain-line-height-20); }
+ .component-doc__example > p { color:var(--rain-category-text-neutral-4); font-size:var(--rain-font-size-13); line-height:var(--rain-line-height-20); }
+ .component-doc__preview > [role="status"] { color:var(--rain-category-text-neutral-4); font-size:var(--rain-font-size-13); }
+diff --git a/apps/playground/src/docs/components/g3-component-pages.css b/apps/playground/src/docs/components/g3-component-pages.css
+index 2c657d8e..76a5dfd7 100644
+--- a/apps/playground/src/docs/components/g3-component-pages.css
++++ b/apps/playground/src/docs/components/g3-component-pages.css
+@@ -88,7 +88,7 @@
+ .g3-doc-nav-content { width:min(calc(var(--rain-space-40) * 8),calc(100vw - var(--rain-space-40) * 2)); }
+ .g3-doc-nav-link { width:100%; padding-block:var(--rain-space-10); }
+ .g3-doc-nav-link > span:last-child { display:grid; gap:var(--rain-space-2); }
+-.g3-doc-nav-link strong { font-weight:var(--rain-font-weight-medium); }
++.g3-doc-nav-link strong { font-weight:var(--rain-font-weight-semibold); }
+ .g3-doc-nav-link > span:last-child > span { color:var(--rain-category-text-neutral-3); font-size:var(--rain-font-size-12); line-height:var(--rain-line-height-18); }
+ .g3-doc-preview { padding: var(--rain-space-16); border: var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); border-radius: var(--rain-radius-8); background: var(--rain-category-background-neutral-2); }
+ .g3-doc-shortcut { width:min(100%,480px); padding:var(--rain-space-20); border:var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); border-radius:var(--rain-radius-8); background:var(--rain-category-background-neutral-1); }
+diff --git a/apps/playground/src/docs/components/g5-component-pages.test.tsx b/apps/playground/src/docs/components/g5-component-pages.test.tsx
+index c9a115bc..9212d84b 100644
+--- a/apps/playground/src/docs/components/g5-component-pages.test.tsx
++++ b/apps/playground/src/docs/components/g5-component-pages.test.tsx
+@@ -2,6 +2,7 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
+ import { afterEach, expect, it } from "vitest";
+ import { parseSync } from "vite";
+ import { App } from "../../app";
++import { AssignmentSettingsExample } from "./g5-component-pages";
+ import { ComponentCatalog } from "./component-catalog";
+ 
+ afterEach(() => { window.location.hash = ""; });
+@@ -32,7 +33,7 @@ it("opens the existing Select for legacy native links and removes the duplicate
+ 
+ it("validates and saves the host form while preserving the edited fields", async () => {
+   window.location.hash = "#field";
+-  render(<App />);
++  render(<AssignmentSettingsExample />);
+   const form = await screen.findByRole("form", { name: "作业发布设置" });
+   expect(within(form).getByRole("combobox", { name: "作业类型" }).tagName).toBe("BUTTON");
+   const title = within(form).getByRole("textbox", { name: "作业名称" });
+@@ -46,6 +47,62 @@ it("validates and saves the host form while preserving the edited fields", async
+   expect(title).toHaveValue("第六讲课堂练习");
+ });
+ 
++it("associates course and points errors with each field and focuses the first invalid field", async () => {
++  window.location.hash = "#field";
++  render(<AssignmentSettingsExample />);
++  const form = await screen.findByRole("form", { name: "作业发布设置" });
++  const course = within(form).getByRole("combobox", { name: "所属课程" });
++  const points = within(form).getByRole("spinbutton", { name: "满分" });
++  fireEvent.click(within(form).getByRole("button", { name: "清除所属课程" }));
++  fireEvent.change(points, { target: { value: "" } });
++  fireEvent.submit(form);
++  expect(course).toHaveAttribute("aria-invalid", "true");
++  expect(course).toHaveAccessibleDescription("请选择所属课程。");
++  expect(points).toHaveAttribute("aria-invalid", "true");
++  expect(points).toHaveAccessibleDescription(/请输入 1–200 之间的整数满分。/);
++  expect(course).toHaveFocus();
++  const title = within(form).getByRole("textbox", { name: "作业名称" });
++  fireEvent.change(title, { target: { value: "" } });
++  fireEvent.submit(form);
++  expect(title).toHaveFocus();
++  expect(within(form).getByRole("status", { name: "作业保存结果" })).not.toHaveTextContent("设置已保存");
++});
++
++it("keeps unresolved field errors when another field is edited", () => {
++  render(<AssignmentSettingsExample />);
++  const form = screen.getByRole("form", { name: "作业发布设置" });
++  const title = within(form).getByRole("textbox", { name: "作业名称" });
++  const course = within(form).getByRole("combobox", { name: "所属课程" });
++  const points = within(form).getByRole("spinbutton", { name: "满分" });
++  fireEvent.change(title, { target: { value: "" } });
++  fireEvent.click(within(form).getByRole("button", { name: "清除所属课程" }));
++  fireEvent.change(points, { target: { value: "" } });
++  fireEvent.submit(form);
++  fireEvent.change(title, { target: { value: "修正后的作业名称" } });
++  fireEvent.change(within(form).getByRole("textbox", { name: "作业说明" }), { target: { value: "补充说明" } });
++  expect(title).not.toHaveAttribute("aria-invalid", "true");
++  expect(course).toHaveAccessibleDescription("请选择所属课程。");
++  expect(points).toHaveAccessibleDescription(/请输入 1–200 之间的整数满分。/);
++  fireEvent.change(points, { target: { value: "80" } });
++  expect(points).not.toHaveAttribute("aria-invalid", "true");
++  expect(course).toHaveAttribute("aria-invalid", "true");
++  fireEvent.submit(form);
++  expect(course).toHaveFocus();
++  expect(points).toHaveValue("80");
++});
++
++it.each(["", "0", "201"])("focuses the invalid points value %s before later fields", async value => {
++  window.location.hash = "#field";
++  render(<AssignmentSettingsExample />);
++  const form = await screen.findByRole("form", { name: "作业发布设置" });
++  const points = within(form).getByRole("spinbutton", { name: "满分" });
++  fireEvent.change(points, { target: { value } });
++  fireEvent.submit(form);
++  expect(points).toHaveFocus();
++  expect(points).toHaveAttribute("aria-invalid", "true");
++  expect(points).toHaveAccessibleDescription(/请输入 1–200 之间的整数满分。/);
++});
++
+ it("submits multiline feedback through the attached action and keeps a sibling unchanged", async () => {
+   window.location.hash = "#input-group";
+   render(<App />);
+diff --git a/apps/playground/src/docs/components/g5-component-pages.tsx b/apps/playground/src/docs/components/g5-component-pages.tsx
+index 8175b700..a6bda8a2 100644
+--- a/apps/playground/src/docs/components/g5-component-pages.tsx
++++ b/apps/playground/src/docs/components/g5-component-pages.tsx
+@@ -7,6 +7,8 @@ import { Stack, Grid } from "@rain-next/layouts";
+ import { ComponentDoc, DocExample, type DocProp } from "./component-doc";
+ import { CrossDayTimeExample, ExamTimeSettingsExample, dateAt, dateTimeText, homeworkDeadlinePresets, localTimeZoneText, useFutureMinute } from "./date-time-examples";
+ import { SliderExamples, sliderExampleCode } from "./slider-examples";
++import { SectionedFormExample } from "../examples/sectioned-form";
++import sectionedFormCode from "../examples/sectioned-form.tsx?raw";
+ import "./g5-component-pages.css";
+ 
+ export const g5Ids = ["label", "field", "input-group", "combobox", "slider", "calendar", "date-picker"] as const;
+@@ -38,7 +40,7 @@ const definitions: Record<G5ComponentId, Definition> = {
+     source: "packages/ui/src/input/form-item.tsx", useWhen: ["编辑一个对象，多个字段最终统一保存。", "帮助和错误需要跟随对应字段。"],
+     avoidWhen: ["把业务校验或提交状态塞进字段组件。", "为每个字段套一个 Card。"],
+     props: [{ name: "label / help / message", type: "ReactNode", description: "标签、帮助和反馈分别与一个逻辑字段关联。" }, { name: "status / disabled / required", type: "FieldStatus / boolean / boolean", description: "传递字段状态；校验和保存由宿主持有。" }],
+-    code: `import { FormItem, Input } from "@rain-next/ui";\nimport { Grid } from "@rain-next/layouts";\nexport function Example() {\n  return <Grid columns={2} minColumnWidth={240} gap={16}>\n    <FormItem label="作业名称" required><Input size={36} defaultValue="第五讲案例分析" /></FormItem>\n    <FormItem label="说明" help="学生可见。"><Input size={36} placeholder="补充填写要求" /></FormItem>\n  </Grid>;\n}`,
++    code: sectionedFormCode,
+   },
+   "input-group": {
+     title: "Input Group 输入组合", description: "行内信息继续使用 Input 插槽；多行输入让正文、字数与操作共享同一个外框。复用 Input 与 Textarea，无独立 InputGroup 公共导出。",
+@@ -94,18 +96,26 @@ export function AssignmentSettingsExample() {
+   const [openingMode, setOpeningMode] = useState("immediate");
+   const [opensAt, setOpensAt] = useState<Date | null>(() => dateAt(new Date(), 1, 9));
+   const [deadline, setDeadline] = useState<Date | null>(() => dateAt(new Date(), 1, 23, 59));
+-  const [error, setError] = useState({ title: "", fields: "", opening: "", deadline: "" }), [saved, setSaved] = useState("");
+-  const titleRef = useRef<HTMLInputElement>(null), pointsRef = useRef<HTMLInputElement>(null);
++  const [error, setError] = useState({ title: "", course: "", points: "", opening: "", deadline: "" }), [saved, setSaved] = useState("");
++  const titleRef = useRef<HTMLInputElement>(null), courseRef = useRef<HTMLInputElement>(null), pointsRef = useRef<HTMLInputElement>(null);
+   const openingRef = useRef<HTMLButtonElement>(null), deadlineRef = useRef<HTMLButtonElement>(null);
+   const { minimum, refresh } = useFutureMinute();
+   const zone = localTimeZoneText();
+-  function clearFeedback() { setError({ title: "", fields: "", opening: "", deadline: "" }); setSaved(""); }
++  function clearFeedback(...fields: (keyof typeof error)[]) {
++    if (fields.length) setError(previous => {
++      const next = { ...previous };
++      for (const field of fields) next[field] = "";
++      return next;
++    });
++    setSaved("");
++  }
+   function save(event: FormEvent<HTMLFormElement>) {
+     event.preventDefault();
+     const now = new Date();
+     const nextError = {
+       title: title.trim() ? "" : "请输入作业名称。",
+-      fields: course !== null && points !== null && points > 0 && pointsRef.current?.validity.valid ? "" : "请补齐课程和有效的满分。",
++      course: course !== null ? "" : "请选择所属课程。",
++      points: points !== null && Number.isInteger(points) && points >= 1 && points <= 200 && pointsRef.current?.validity.valid ? "" : "请输入 1–200 之间的整数满分。",
+       opening: openingMode === "scheduled" ? !opensAt ? "请选择定时开放时间。" : opensAt < now ? "开放时间已经过去，请重新选择。" : "" : "",
+       deadline: !deadline ? "请选择作业截止时间。" : deadline <= now ? "截止时间必须晚于当前时间，请重新选择。" : openingMode === "scheduled" && opensAt && deadline <= opensAt ? "截止时间必须晚于开放时间。" : "",
+     };
+@@ -113,6 +123,8 @@ export function AssignmentSettingsExample() {
+     if (Object.values(nextError).some(Boolean)) {
+       setSaved("");
+       if (nextError.title) titleRef.current?.focus();
++      else if (nextError.course) courseRef.current?.focus();
++      else if (nextError.points) pointsRef.current?.focus();
+       else if (nextError.opening) openingRef.current?.focus();
+       else if (nextError.deadline) deadlineRef.current?.focus();
+       return;
+@@ -122,21 +134,21 @@ export function AssignmentSettingsExample() {
+   return <form className="g5-panel g5-form" aria-label="作业发布设置" onSubmit={save} noValidate>
+     <div className="g5-task-heading"><h3>作业发布设置</h3><p>本地样板 · 人工智能导论 · 第五讲</p></div>
+     <Grid columns={2} minColumnWidth={240} gap={16}>
+-      <FormItem label="作业名称" required status={error.title ? "error" : "default"} message={error.title || undefined}><Input ref={titleRef} size={36} value={title} onValueChange={next => { setTitle(next); clearFeedback(); }} /></FormItem>
++      <FormItem label="作业名称" required status={error.title ? "error" : "default"} message={error.title || undefined}><Input ref={titleRef} size={36} value={title} onValueChange={next => { setTitle(next); clearFeedback("title"); }} /></FormItem>
+       <FormItem label="作业类型"><Select size={36} name="kind" clearable={false} value={kind} onValueChange={next => { setKind(next); clearFeedback(); }} options={[{ value: "report", label: "案例报告" }, { value: "practice", label: "课堂练习" }, { value: "discussion", label: "讨论任务" }]} /></FormItem>
+-      <FormItem label="所属课程" required><Combobox size={36} options={courses} value={course} onValueChange={next => { setCourse(next); clearFeedback(); }} /></FormItem>
+-      <FormItem label="满分" required><InputNumber ref={pointsRef} size={36} fullWidth value={points} onChange={() => setSaved("")} onValueChange={next => { setPoints(next); clearFeedback(); }} min={1} max={200} precision={0} suffixText="分" /></FormItem>
++      <FormItem label="所属课程" required status={error.course ? "error" : "default"} message={error.course || undefined}><Combobox ref={courseRef} size={36} options={courses} value={course} onValueChange={next => { setCourse(next); clearFeedback("course"); }} /></FormItem>
++      <FormItem label="满分" required status={error.points ? "error" : "default"} message={error.points || undefined}><InputNumber ref={pointsRef} size={36} fullWidth value={points} onChange={() => clearFeedback("points")} onValueChange={next => { setPoints(next); clearFeedback("points"); }} min={1} max={200} precision={0} suffixText="分" /></FormItem>
+     </Grid>
+     <FormItem label="作业说明" help="说明学习目标、提交内容和判断依据。"><Textarea rows={3} value={note} onValueChange={next => { setNote(next); clearFeedback(); }} maxLength={500} blockEnd={<span className="g5-count">{note.length} / 500</span>} /></FormItem>
+-    <RadioGroup legend="开放方式" orientation="horizontal" value={openingMode} onValueChange={next => { setOpeningMode(next); clearFeedback(); refresh(); }}
++    <RadioGroup legend="开放方式" orientation="horizontal" value={openingMode} onValueChange={next => { setOpeningMode(next); clearFeedback("opening", "deadline"); refresh(); }}
+       options={[{ value: "immediate", label: "立即开放" }, { value: "scheduled", label: "定时开放" }]} />
+     <Grid columns={openingMode === "scheduled" ? 2 : 1} minColumnWidth={240} gap={16}>
+       {openingMode === "scheduled" && <FormItem label="定时开放时间" required status={error.opening ? "error" : "default"} message={error.opening || undefined}>
+-        <DatePicker ref={openingRef} aria-label="定时开放时间" showTime size={36} value={opensAt} minDate={minimum} onOpenChange={open => { if (open) refresh(); }} onValueChange={next => { setOpensAt(next); clearFeedback(); }} />
++        <DatePicker ref={openingRef} aria-label="定时开放时间" showTime size={36} value={opensAt} minDate={minimum} onOpenChange={open => { if (open) refresh(); }} onValueChange={next => { setOpensAt(next); clearFeedback("opening", "deadline"); }} />
+       </FormItem>}
+       <FormItem label="作业截止时间" required status={error.deadline ? "error" : "default"} message={error.deadline || undefined} help="23:59 是明确时刻；到达该时间后停止提交。">
+         <DatePicker ref={deadlineRef} aria-label="作业截止时间" showTime size={36} value={deadline} minDate={minimum} presets={homeworkDeadlinePresets}
+-          onOpenChange={open => { if (open) refresh(); }} onValueChange={next => { setDeadline(next); clearFeedback(); }} />
++          onOpenChange={open => { if (open) refresh(); }} onValueChange={next => { setDeadline(next); clearFeedback("deadline"); }} />
+       </FormItem>
+     </Grid>
+     <dl className="g5-date-summary" aria-label="作业设置摘要">
+@@ -144,12 +156,13 @@ export function AssignmentSettingsExample() {
+       <div><dt>截止时间</dt><dd>{deadline ? dateTimeText(deadline) : "待设置"}</dd></div>
+       <div><dt>时间基准</dt><dd>{zone}</dd></div>
+     </dl>
+-    <div className="g5-form-footer"><p role="status" aria-label="作业保存结果">{saved || error.fields || (error.title || error.opening || error.deadline ? "请修正标出的设置，内容已保留。" : "面板确定后更新草稿，保存后更新本地作业设置。")}</p><Button type="submit" variant="primary">保存设置</Button></div>
++    <div className="g5-form-footer"><p role="status" aria-label="作业保存结果">{saved || (Object.values(error).some(Boolean) ? "请修正标出的设置，内容已保留。" : "面板确定后更新草稿，保存后更新本地作业设置。")}</p><Button type="submit" variant="primary">保存设置</Button></div>
+   </form>;
+ }
+ 
+ function FieldExamples() {
+   return <>
++    <DocExample title="可复制：分区表单与就近校验" description="下方复制代码与此示例使用同一份源码，包含课程与满分校验、首错定位和本地保存。"><div className="g5-panel"><SectionedFormExample /></div></DocExample>
+     <DocExample title="按填写任务组织表单" description="短字段并排，长说明独占一行；日期和保存各自有明确的确认范围。"><AssignmentSettingsExample /></DocExample>
+     <DocExample title="帮助、警告与错误" description="反馈就近出现；字段组仍用已有 Layout，字段身份各自独立。"><div className="g5-panel"><Grid columns={2} minColumnWidth={220} gap={16}>
+       <FormItem label="班级人数" status="warning" message="当前分组建议每组 4–6 人。"><InputNumber size={36} fullWidth defaultValue={5} min={1} max={10} /></FormItem>
+diff --git a/apps/playground/src/docs/components/g6-task-details-drawer.css b/apps/playground/src/docs/components/g6-task-details-drawer.css
+index 5a87d9cf..e08edc7e 100644
+--- a/apps/playground/src/docs/components/g6-task-details-drawer.css
++++ b/apps/playground/src/docs/components/g6-task-details-drawer.css
+@@ -45,7 +45,7 @@
+ .g6-task-details-table-scroll { scrollbar-width:thin; padding-bottom:var(--rain-space-8); }
+ .g6-task-details-footer { align-items:center; border-top:var(--rain-line-thickness-1) solid var(--rain-category-border-neutral-3); }
+ .g6-task-details-navigation { display:flex; align-items:center; justify-content:center; gap:var(--rain-space-24); }
+-.g6-task-details-position { flex-shrink:0; min-width:var(--rain-space-48); text-align:center; color:var(--rain-category-text-neutral-3); font-size:var(--rain-font-size-13); line-height:var(--rain-line-height-20); font-variant-numeric:tabular-nums; }
++.g6-task-details-position { flex-shrink:0; min-width:48px /* local pagination-label width, not spacing */; text-align:center; color:var(--rain-category-text-neutral-3); font-size:var(--rain-font-size-13); line-height:var(--rain-line-height-20); font-variant-numeric:tabular-nums; }
+ .g6-task-details-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+ @container task-details (max-width:400px) { .g6-task-details-facts { grid-template-columns:minmax(0,1fr); } .g6-task-details-facts dt { min-width:calc(var(--rain-space-32) * 2); } }
+ @media (max-width:768px) { .g6-task-details-example[data-open="true"] { padding-inline-end:0; } .g6-task-details-panel { border-inline-start:0; } }
+diff --git a/apps/playground/src/docs/components/slider-examples.css b/apps/playground/src/docs/components/slider-examples.css
+index b7e3e133..c4163cc4 100644
+--- a/apps/playground/src/docs/components/slider-examples.css
++++ b/apps/playground/src/docs/components/slider-examples.css
+@@ -7,8 +7,8 @@
+ .slider-examples .slider-example--range, .slider-examples .slider-example__parameters { max-width: 640px; }
+ .slider-example__heading { display: flex; align-items: flex-start; flex-wrap: wrap; gap: var(--rain-space-16); }
+ .slider-example__heading > label { padding-block: var(--rain-space-6); }
+-.slider-example__heading > label, .slider-example__label { margin: 0; font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-20); font-weight: var(--rain-font-weight-medium); }
+-.slider-example__heading > output { font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-20); font-weight: var(--rain-font-weight-medium); font-variant-numeric: tabular-nums; }
++.slider-example__heading > label, .slider-example__label { margin: 0; font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-20); font-weight: var(--rain-font-weight-semibold); }
++.slider-example__heading > output { font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-20); font-weight: var(--rain-font-weight-semibold); font-variant-numeric: tabular-nums; }
+ .slider-example__precise { position: relative; display: grid; align-content: start; min-height: calc(var(--rain-space-32) + var(--rain-space-24)); min-width: 0; }
+ .slider-example__precise [data-slot="message"], .slider-example__precise > .slider-example__error { position: absolute; inset-block-start: calc(var(--rain-space-32) + var(--rain-space-4)); inset-inline-start: 0; width: max-content; max-width: 240px; }
+ .slider-example__range-inputs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 344px; max-width: 100%; gap: var(--rain-space-24); }
+diff --git a/apps/playground/src/routes/overview-page.tsx b/apps/playground/src/routes/overview-page.tsx
+index f93e8325..6b2b947b 100644
+--- a/apps/playground/src/routes/overview-page.tsx
++++ b/apps/playground/src/routes/overview-page.tsx
+@@ -2,7 +2,9 @@ import {
+   benchmarkIndex,
+   type BenchmarkIndexEntry,
+ } from "../docs/benchmark-index";
++import delivery from "../docs/library-status.generated.json";
+ import { overviewRoutes } from "./route-registry";
++import "./overview-page.css";
+ 
+ const implementationLabels: Record<
+   BenchmarkIndexEntry["implementation"],
+@@ -25,19 +27,29 @@ export function OverviewPage({
+         aria-labelledby="overview-title"
+         data-slot="overview-intro"
+       >
+-        <p className="eyebrow">Rain Classroom · Foundation Spike</p>
++        <p className="eyebrow">Rain Classroom · Local Component Library</p>
+         <h1 id="overview-title" tabIndex={-1}>
+           Rain Next Playground
+         </h1>
+-        <p className="intro-copy" aria-label="历史基线">
+-          Day 3 Core UI 已完成本地实现和自动检查，现作为 B2 对照基线。
+-          图标库继续复用；各组件人工验收与发布状态独立记录。
+-        </p>
+         <div className="phase-line" aria-label="当前阶段">
+           <span className="phase-dot" aria-hidden="true" />
+-          <span>token-foundations-v1</span>
+-          <strong>第 0/1 批 · 基础能力建设 · 视觉验收待确认</strong>
++          <strong>{delivery.title}</strong>
++          <span>更新于 {delivery.updatedAt}</span>
+         </div>
++        <div className="overview-summary">
++          <p>{delivery.scope}</p>
++          <p>{delivery.currentWork}</p>
++          <p aria-label="资产范围">{delivery.contracts} 份资产合同 · {delivery.candidates} 项候选 · {delivery.localExperiments} 项本地实验</p>
++          <p>{delivery.acceptance}</p>
++          <p>{delivery.limitations}</p>
++        </div>
++        <details className="overview-history">
++          <summary data-focus="item">历史基线</summary>
++          <p className="intro-copy" aria-label="历史基线">
++            Day 3 Core UI 已完成本地实现和自动检查，现作为 B2 对照基线。
++            图标库继续复用；各组件人工验收与发布状态独立记录。
++          </p>
++        </details>
+       </section>
+ 
+       <section
+@@ -50,7 +62,7 @@ export function OverviewPage({
+             <p className="section-index">START HERE</p>
+             <h2 id="entry-title">直接入口</h2>
+           </div>
+-          <p>使用普通链接进入当前可检查区域；本阶段不建立持久文档导航。</p>
++          <p>从基础规范、组件用法、图标和业务切片进入当前可体验范围。</p>
+         </div>
+ 
+         <ul className="entry-grid">
+@@ -87,7 +99,7 @@ export function OverviewPage({
+               组件范围
+             </h2>
+           </div>
+-          <p>四个基础家族已完成本地实现和自动检查；点击 Components 可查看待人工验收的候选。</p>
++          <p>组件目录覆盖基础控件、表单、导航、工作区、图表与会话组合；实现与各自验收范围见对应文档。</p>
+         </div>
+       </section>
+ 
+@@ -104,7 +116,7 @@ export function OverviewPage({
+               Benchmark 入口
+             </h2>
+           </div>
+-          <p>四类范围均已登记；实现、自动验证与 Human Gate 仍各自独立。</p>
++          <p>四类业务切片已有本地实现；下方分别显示实现、自动检查与人工确认记录。</p>
+         </div>
+ 
+         <ul className="benchmark-grid">
+@@ -120,8 +132,12 @@ export function OverviewPage({
+                   <span className="benchmark-id">{benchmark.id}</span>
+                   <span className="benchmark-title">{benchmark.title}</span>
+                   <span className="benchmark-status">
+-                    {implementationLabels[implementation]}
++                    实现：{implementationLabels[implementation]}
+                   </span>
++                  <div className="benchmark-lifecycle">
++                    <span>自动检查：{benchmark.automatedVerification === "passed" ? "已有通过记录" : benchmark.automatedVerification === "failed" ? "失败" : "未运行"}</span>
++                    <span>人工确认：{benchmark.humanGate === "accepted" ? "当前场景已接受" : "待确认"}</span>
++                  </div>
+                   <span className="benchmark-evidence">
+                     {benchmark.evidenceIds.length} 条正式来源
+                   </span>
+diff --git a/apps/playground/src/routes/playground-shell.test.tsx b/apps/playground/src/routes/playground-shell.test.tsx
+index 32802bf2..890004cb 100644
+--- a/apps/playground/src/routes/playground-shell.test.tsx
++++ b/apps/playground/src/routes/playground-shell.test.tsx
+@@ -6,6 +6,7 @@ import {
+   benchmarkIndex,
+   type BenchmarkIndexEntry,
+ } from "../docs/benchmark-index";
++import delivery from "../docs/library-status.generated.json";
+ import { OverviewPage } from "./overview-page";
+ 
+ describe("playground-shell", () => {
+@@ -95,13 +96,15 @@ describe("playground-shell", () => {
+     expect(screen.queryByText("尚未实现")).not.toBeInTheDocument();
+   });
+ 
+-  it("separates the current B2 entry from the completed historical baseline", () => {
++  it("renders the current delivery summary separately from historical evidence", () => {
+     render(<App />);
+ 
+     expect(screen.getByLabelText("当前阶段")).toHaveTextContent(
+-      "第 0/1 批 · 基础能力建设 · 视觉验收待确认",
++      delivery.title,
+     );
+-    expect(screen.getByLabelText("当前阶段")).toHaveTextContent("token-foundations-v1");
++    expect(screen.getByLabelText("当前阶段")).toHaveTextContent(delivery.updatedAt);
++    expect(screen.getByLabelText("资产范围")).toHaveTextContent(`${delivery.contracts} 份资产合同`);
++    expect(screen.getByText(delivery.limitations)).toBeVisible();
+     expect(screen.getByLabelText("历史基线")).toHaveTextContent("Day 3 Core UI 已完成本地实现和自动检查");
+     expect(screen.getByLabelText("历史基线")).toHaveTextContent("图标库继续复用");
+   });
+diff --git a/apps/playground/src/routes/route-registry.ts b/apps/playground/src/routes/route-registry.ts
+index 127e34df..4877dffe 100644
+--- a/apps/playground/src/routes/route-registry.ts
++++ b/apps/playground/src/routes/route-registry.ts
+@@ -18,15 +18,15 @@ export const overviewRoutes: readonly OverviewRoute[] = [
+     id: "components",
+     label: "Components",
+     href: "#components",
+-    description: "检查 Button、Input、Select、Tabs、Dropdown/Popover、Tag/Badge 与 Surface/Card，查看完整组件用法。",
++    description: "按用途查看基础控件、表单、导航、工作区、图表与会话组合的用法。",
+     meta: "组件与组合入口",
+   },
+   {
+     id: "benchmarks",
+     label: "Benchmarks",
+     href: "#benchmarks",
+-    description: "四类真实业务切片已登记，目前仅提供验证入口。",
+-    meta: "4 个已登记",
++    description: "查看数据管理、大表单、批改工作台与报告切片的当前实现与独立验收状态。",
++    meta: "4 类业务切片",
+   },
+   {
+     id: "icons",
+diff --git a/apps/prototype/src/scenarios/bklit-validation/chart-theme.css b/apps/prototype/src/scenarios/bklit-validation/chart-theme.css
+index 5e35b7cc..e8c20491 100644
+--- a/apps/prototype/src/scenarios/bklit-validation/chart-theme.css
++++ b/apps/prototype/src/scenarios/bklit-validation/chart-theme.css
+@@ -80,7 +80,7 @@
+ .rain-chart .legend-container { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: var(--rain-space-4); }
+ .rain-chart .legend-container :is(.text-sm,.text-base) { font-size: var(--rain-font-size-12); font-weight: var(--rain-font-weight-regular); }
+ .rain-chart .tabular-nums.leading-none { font-family: var(--rain-font-data); }
+-.rain-chart :is(button,a,select,summary,[tabindex]):focus-visible { outline: 2px solid var(--rain-brand-primary); outline-offset: 3px; }
++.rain-chart :is(button,a,select,summary,[tabindex]):focus-visible { outline: 2px solid var(--rain-color-focus-control); outline-offset: 3px; }
+ .rain-chart-plot { height: 320px; width: 100%; min-width: 0; }
+ .rain-chart-flow { height: 340px; width: 100%; }
+ .rain-chart-mini { width: 96px; height: 40px; }
+diff --git a/apps/prototype/src/scenarios/bklit-validation/page.css b/apps/prototype/src/scenarios/bklit-validation/page.css
+index 22062a08..3df77c69 100644
+--- a/apps/prototype/src/scenarios/bklit-validation/page.css
++++ b/apps/prototype/src/scenarios/bklit-validation/page.css
+@@ -30,7 +30,7 @@ body { margin: 0; background: var(--rain-category-background-neutral-2); }
+ .bklit-eyebrow { font-size: var(--rain-font-size-12); letter-spacing: .12em; color: var(--rain-category-text-neutral-4); }
+ .bklit-page-heading h1 { font-size: var(--rain-font-size-28); font-weight: 600; line-height: var(--rain-line-height-36); margin: var(--rain-space-8) 0; }
+ .bklit-page-heading p:not(.bklit-eyebrow), .bklit-section-heading p { font-size: var(--rain-font-size-14); line-height: var(--rain-line-height-24); color: var(--rain-category-text-neutral-3); }
+-.bklit-lab a { color: var(--rain-brand-primary); text-decoration: none; font-size: var(--rain-font-size-14); }
++.bklit-lab a { color: var(--rain-color-text-link); text-decoration: none; font-size: var(--rain-font-size-14); }
+ .bklit-lab a:hover { text-decoration: underline; }
+ .bklit-toolbar { margin-top: var(--rain-space-24); padding-block: var(--rain-space-16); border-block: 1px solid var(--rain-category-border-neutral-4); display: flex; justify-content: space-between; align-items: center; gap: var(--rain-space-16); flex-wrap: wrap; }
+ .bklit-toolbar nav, .bklit-toolbar > div { display: flex; align-items: center; gap: var(--rain-space-16); flex-wrap: wrap; }
+@@ -103,6 +103,6 @@ body { margin: 0; background: var(--rain-category-background-neutral-2); }
+ .bklit-data th:first-child, .bklit-data td:first-child { text-align: left; }
+ .bklit-data th { font-weight: 600; }
+ .bklit-footer { margin-top: var(--rain-space-32); padding-top: var(--rain-space-20); border-top: 1px solid var(--rain-category-border-neutral-4); color: var(--rain-category-text-neutral-4); font-size: var(--rain-font-size-12); line-height: var(--rain-line-height-20); }
+-.bklit-lab :is(a, select, summary, [tabindex]):focus-visible { outline: 2px solid var(--rain-brand-primary); outline-offset: 3px; }
++.bklit-lab :is(a, select, summary, [tabindex]):focus-visible { outline: 2px solid var(--rain-color-focus-control); outline-offset: 3px; }
+ @media (max-width: 900px) { .bklit-pair { grid-template-columns: 1fr; } .bklit-lab { padding: var(--rain-space-24) var(--rain-space-16); } .bklit-page-heading { align-items: start; flex-direction: column; gap: var(--rain-space-12); } }
+ @media (max-width: 420px) { .bklit-surface > header > span:last-child { display: none; } .bklit-toolbar > div { gap: var(--rain-space-8); } .bklit-chart-region { padding: var(--rain-space-4); } .bklit-plot { height: 250px; } .bklit-series-legend.legend-container { justify-content: flex-start; } }
+diff --git a/apps/prototype/src/scenarios/exam-editor/page.css b/apps/prototype/src/scenarios/exam-editor/page.css
+index 76e0b102..5815e23a 100644
+--- a/apps/prototype/src/scenarios/exam-editor/page.css
++++ b/apps/prototype/src/scenarios/exam-editor/page.css
+@@ -105,7 +105,7 @@
+ .em-target-toolbar h3 { font-size:var(--rain-font-size-14); font-weight:var(--rain-font-weight-semibold); display:flex; align-items:center; gap:var(--rain-space-12); }
+ .em-target-toolbar h3 span { font-size:var(--rain-font-size-14); font-weight:var(--rain-font-weight-regular); color:var(--rain-category-text-neutral-4); }
+ .em-target-tools { display:flex; align-items:center; gap:var(--rain-space-16); min-width:0; }
+-.em-display-modes { flex:none; width:var(--rain-space-240); }
++.em-display-modes { flex:none; width:240px /* local display-mode control width, not spacing */; }
+ .em-display-modes .rain-tabs__nav { width:100%; }
+ .em-target-toolbar [data-rain-id="ui-input"] { width:240px; min-width:0; }
+ .em-target-body { flex:1; min-height:0; background:var(--rain-category-background-neutral-3); padding:var(--rain-space-16) var(--rain-space-28); scrollbar-gutter:stable; }
+diff --git a/docs/ai/README.md b/docs/ai/README.md
+index bd24c7cf..3dc0f2fb 100644
+--- a/docs/ai/README.md
++++ b/docs/ai/README.md
+@@ -1,5 +1,7 @@
+ # Rain 按需使用入口
+ 
++同排尺寸、状态归属与局部改造先看[三个组合指引](composition-recipes.md)：筛选工具栏、分区大表单和连续批改操作区；附可直接复制的完整 TSX。
++
+ 导航 v0.4.2 候选：按需读 [UI 选择](navigation-v042-w3.md)、[可恢复工作区](navigation-workspaces-v042.md)、[R4–R6 与独立消费](navigation-v042-w5.md)。仓库内 [实施](skills/rain-navigation-implementation/SKILL.md) / [组合](skills/rain-navigation-composition/SKILL.md) Skill 未全局安装；G2/G3 与发布分别登记。
+ 
+ 适用范围：当前本地工作区的原型与候选源码。先遵守根 [AGENTS](../../AGENTS.md)；本页用于减少重复加载，不能替代当前任务的阶段、来源与验证边界。
+diff --git a/docs/ai/prototype-design.md b/docs/ai/prototype-design.md
+index 78b08426..c699aa6b 100644
+--- a/docs/ai/prototype-design.md
++++ b/docs/ai/prototype-design.md
+@@ -39,6 +39,8 @@
+ 
+ ## 把组件组织成页面
+ 
++需要同排控件、分区表单或连续批改时，查看[三个组合指引](composition-recipes.md)，核对尺寸、业务状态归属和允许改造的位置；附完整源码，新的业务组合仍需单独验证。
++
+ 就近的纯文字说明使用共享候选 `@rain-next/ui` Tooltip，合同见 `packages/ui/src/tooltip/README.md`，继承 Classic 固定深底视觉。Resizable 已在本轮迁为共享候选，从 `@rain-next/ui` 导入，独立 Playground 入口 `#resizable`；此前固定 Starter 快照不自动包含本轮新资产，源码合同见 `manifests/ui/resizable.yaml`。用于阅读与判断区域的空间分配。Tooltip 当前视觉与默认下方交互已确认，Resizable 原样板视觉接受保留为来源，本轮共享候选与文档待审；不以 Tabs 截断提示冒充通用入口，不复制拖动引擎，业务状态留宿主。
+ 
+ | 条件 | 保持的设计关系 | 反例与检查 |
+diff --git a/manifests/layouts/workspace-state.yaml b/manifests/layouts/workspace-state.yaml
+index 9b362635..8850c669 100644
+--- a/manifests/layouts/workspace-state.yaml
++++ b/manifests/layouts/workspace-state.yaml
+@@ -91,6 +91,7 @@ layoutConstraints:
+   - "Derived space constraints never overwrite requested preferences."
+ compositionRules:
+   - "Session snapshots and temporary layers never enter persisted layout JSON."
++  - "RESIZE_REGION_KEY Enter selects supported hidden or compact, otherwise leaves state unchanged; explicit unsupported target modes still throw."
+ accessibility:
+   - "React adapter owns focus and ARIA effects; pure reducer owns no DOM."
+ examples:
+diff --git a/manifests/layouts/workspace.yaml b/manifests/layouts/workspace.yaml
+index d8bcf1a8..b3840c7f 100644
+--- a/manifests/layouts/workspace.yaml
++++ b/manifests/layouts/workspace.yaml
+@@ -108,9 +108,10 @@ layoutConstraints:
+ compositionRules:
+   - "One controller per workspace and stable spec key per user/workspace/subscene/instance."
+   - "No style/mode/theme key that remounts business roots."
++  - "Built-in restore controls select only allowedModes; single-mode/no-action controls are disabled."
+ accessibility:
+   - "Native named recovery button with aria-controls/expanded; hidden body inert."
+-  - "Separator has orientation/name/min/max/current and keyboard operation; Enter returns focus to recovery."
++  - "Separator has orientation/name/min/max/current and keyboard operation; Enter chooses hidden, otherwise compact, and returns focus to recovery. Without either mode Enter retains state/focus."
+   - "Existing popup handles Escape before a workspace temporary layer; one active workspace reacts."
+ examples:
+   - "#navigation-v042 (R1/R2/R3/S1-S6)"
+diff --git a/manifests/ui/input.yaml b/manifests/ui/input.yaml
+index 78a9eef4..1de1545c 100644
+--- a/manifests/ui/input.yaml
++++ b/manifests/ui/input.yaml
+@@ -91,6 +91,7 @@ compositionRules:
+   - "For a one-line toolbar, compose explicit size32 in default density and size28 in compact density with matching Buttons; global component defaults remain unchanged."
+   - "Explicit size wins; all internal gaps are Space/4."
+   - "FormItem owns labels, descriptions and validation presentation; page owns validation rules."
++  - "Uncontrolled Input and SearchInput reset to the mounted defaultValue through their native owner form, including external form associations. Native value/FormData reset synchronously; count and clear state follow after reset dispatch. Cancelled reset preserves edits; controlled values remain owned by the host. Reset does not emit change, clear or search callbacks."
+   - "Clear uses the standard value event path once and returns focus; it does not dismiss validation."
+   - "Clear uses circle-close-filled centered at 14px inside a 24px target; its stable slot precedes suffixText units."
+   - "Desktop clear shows on hover/focus and touch shows nonempty values; hidden clear never separates units from count/actions."
+diff --git a/manifests/ui/tree.yaml b/manifests/ui/tree.yaml
+index dbb9c832..20413bac 100644
+--- a/manifests/ui/tree.yaml
++++ b/manifests/ui/tree.yaml
+@@ -69,6 +69,7 @@ layoutConstraints:
+   - "常态保留浅色；悬停、焦点所在行和有效拖拽目标增强说明／辅助文字及操作图标，离开后恢复。"
+ compositionRules:
+   - "宿主拥有权威数据和异步结果回写；Tree 仅提出移动及状态变更。"
++  - "根 StrictMode 的 effect 重放取消并释放初始展开分支的旧请求，再启动有效请求；卸载与版本切换忽略过期响应，旧请求完成不得删除新请求。"
+   - "勾选背景与行选中独立；不参与勾选隐藏复选框，受限时显示禁用态。"
+ allowedModifications:
+   - "业务字段适配、节点渲染、状态受控与既有视觉变体。"
+diff --git a/package.json b/package.json
+index 7f2d2584..9d4917a6 100644
+--- a/package.json
++++ b/package.json
+@@ -21,10 +21,12 @@
+     "generate:tokens": "node scripts/generate-token-foundations.mjs",
+     "verify:tokens": "node scripts/verify-token-foundations.mjs",
+     "verify:reuse-audit": "node scripts/verify-rain-classic-reuse-audit.mjs",
+-    "verify:governance": "pnpm verify:lockfile && pnpm verify:workspace && pnpm verify:evidence && pnpm verify:boundaries && pnpm verify:tailwind-b2 && pnpm verify:tokens",
++    "verify:governance": "pnpm verify:lockfile && pnpm verify:workspace && pnpm verify:evidence && pnpm verify:boundaries && pnpm verify:tailwind-b2 && pnpm verify:tokens && pnpm verify:css-variables && pnpm verify:playground-status",
+     "verify": "pnpm verify:governance && pnpm verify:icons && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e",
+     "generate:icons": "node scripts/generate-icons.mjs",
+-    "verify:icons": "node scripts/verify-icons.mjs"
++    "verify:icons": "node scripts/verify-icons.mjs",
++    "verify:css-variables": "node scripts/verify-css-variables.mjs",
++    "verify:playground-status": "node scripts/playground-status.mjs --check"
+   },
+   "devDependencies": {
+     "@playwright/test": "^1.62.1",
+diff --git a/packages/layouts/src/README-workspace-adapter.md b/packages/layouts/src/README-workspace-adapter.md
+index df0737c4..5b5d40a8 100644
+--- a/packages/layouts/src/README-workspace-adapter.md
++++ b/packages/layouts/src/README-workspace-adapter.md
+@@ -8,7 +8,9 @@ Pass a stable `toolbar` containing external `RegionRestoreTrigger` controls. Reg
+ 
+ Temporary panels use inline absolute positioning to preserve the content instance and its original occupancy. Outside pointer events continue to their original target; Escape and explicit close restore focus to the stable recovery trigger. Portal events retain logical ownership through React capture. Existing Base UI popup/modal layers get Escape first; the adapter does not replace their focus or overlay management. Escape targets the most recently interacted workspace instance. Hover is off by default; opt-in uses 240 ms open / 360 ms close, bridges trigger-to-panel movement, respects editable focus and cancels timers on context change or unmount.
+ 
+-Splitter pointer drag clamps width without hiding. Physical left/right keys change width by 10 px or Shift 32 px; Home/End use the allowed budget; Enter hides explicitly and sends focus to the external recovery button. The separator owns the boundary and its full accessible value range. Width and region changes naturally trigger ConnectedSurface measurement through ResizeObserver.
++Splitter pointer drag clamps width without hiding. Physical left/right keys change width by 10 px or Shift 32 px; Home/End use the allowed budget. Enter chooses hidden when supported, otherwise compact, and sends focus to the external recovery button. Without either mode, Enter leaves state and focus unchanged while resize keys remain available. The separator owns the boundary and its full accessible value range. Width and region changes naturally trigger ConnectedSurface measurement through ResizeObserver.
++
++Built-in restore controls resolve only modes listed in `allowedModes`. Sidebars prefer compact when collapsing, then hidden; top ribbons prefer tabs, then hidden, then a supported full/icons toggle. Reduced-only compact/hidden or tabs/hidden pairs toggle those supported modes without inventing an expanded view. A control with no available action is disabled, including single-mode configurations. Temporary full/icons ribbon recovery remains available only when one of those modes is supported. Explicit reducer actions retain unsupported-mode validation.
+ 
+ Business selection, playback state and drafts belong to the mounted recipe caller; the adapter persists only versioned layout preferences. Re-keying business content by mode/width/theme is unnecessary. Callers that unmount business recipes must supply their own durable business owner.
+ 
+diff --git a/packages/layouts/src/README-workspace.md b/packages/layouts/src/README-workspace.md
+index 4ae7c2b6..5b854be6 100644
+--- a/packages/layouts/src/README-workspace.md
++++ b/packages/layouts/src/README-workspace.md
+@@ -29,7 +29,7 @@ saveWorkspacePreferences(storage: WorkspaceStorage | undefined, key: string, spe
+ 
+ 每次 hide/show/mode/pin 意图同时关闭旧暂态并完成新的操作；不需要先 dismiss 再等第二次点击。`SHOW_REGION` / `PIN_TEMP` 传入 viewportWidth 后，如果不能常驻，保留展开请求并临时显示。peek 不改变主区占位；unpin 恢复进入暂态时的基态，无该 session 记录时退回 hidden（top 优先 tabs）。进入专注只建立一次偏好快照，专注期间 mode/width 改动进入 focusOverrides；退出还原进入前的隐藏状态和宽度、清空暂态，专注内的 pin 不污染原 pin 基态。
+ 
+-Resize 在 recipe 和当前主区预算内 clamp；hidden/compact只加实际占位和剩余空间并扣展开边界，不把保存的展开宽度再算一遍；有限负值按 minWidth clamp，非有限值拒绝。键盘 ArrowLeft/Right 分别调宽 -/+10，Shift 为32，Home 为 min，End 为当前可用 max，Enter 显式隐藏并保留展开宽度。物理拖动方向和 end 边界的键盘方向映射由 Splitter 消费层决定。
++Resize 在 recipe 和当前主区预算内 clamp；hidden/compact只加实际占位和剩余空间并扣展开边界，不把保存的展开宽度再算一遍；有限负值按 minWidth clamp，非有限值拒绝。键盘 ArrowLeft/Right 分别调宽 -/+10，Shift 为32，Home 为 min，End 为当前可用 max。Enter 优先隐藏；不允许 hidden 时退到允许的 compact；均不允许时保持原状态。折叠不改变保存的展开宽度。显式 SET_MODE / HIDE_REGION / SET_RIBBON 等仍拒绝不支持的目标模式。物理拖动方向和 end 边界的键盘方向映射由 Splitter 消费层决定。
+ 
+ ## 存储边界
+ 
+diff --git a/packages/layouts/src/workspace-state.test.ts b/packages/layouts/src/workspace-state.test.ts
+index 95124f71..00ae2410 100644
+--- a/packages/layouts/src/workspace-state.test.ts
++++ b/packages/layouts/src/workspace-state.test.ts
+@@ -51,6 +51,16 @@ describe("workspace identity and restoration contract", () => {
+     expect(() => validateWorkspaceSpec({ ...spec, regions: [{ ...spec.regions[1]!, allowedModes: ["full"] }] })).toThrow();
+   });
+ 
++  it("retains explicit unsupported-mode errors while Enter resolves a supported collapse", () => {
++    const compact: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, allowedModes: ["expanded", "compact"] }] };
++    const state = createWorkspaceState(compact);
++    expect(() => workspaceReducer(compact, state, { type: "HIDE_REGION", regionId: "global" })).toThrow(/unsupported mode hidden/);
++    expect(() => workspaceReducer(compact, state, { type: "SET_MODE", regionId: "global", mode: "hidden" })).toThrow(/unsupported mode hidden/);
++    expect(workspaceReducer(compact, state, { type: "RESIZE_REGION_KEY", regionId: "global", key: "Enter", viewportWidth: 1200 }).preferences.global).toEqual({ mode: "compact", expandedWidth: 220 });
++    const fixed: WorkspaceSpec = { ...compact, regions: [{ ...compact.regions[0]!, allowedModes: ["expanded"] }] }, fixedState = createWorkspaceState(fixed);
++    expect(workspaceReducer(fixed, fixedState, { type: "RESIZE_REGION_KEY", regionId: "global", key: "Enter", viewportWidth: 1200 })).toBe(fixedState);
++  });
++
+   it("keeps fractional width limits during initialization, resizing and preference loading", () => {
+     for (const bound of [100.4, 100.6]) {
+       const fractional = { ...spec, regions: [{ ...spec.regions[1]!, minWidth: bound, defaultWidth: bound, maxWidth: bound }] };
+diff --git a/packages/layouts/src/workspace-state.ts b/packages/layouts/src/workspace-state.ts
+index eb770e68..4ba91b34 100644
+--- a/packages/layouts/src/workspace-state.ts
++++ b/packages/layouts/src/workspace-state.ts
+@@ -250,7 +250,10 @@ export function workspaceReducer(spec: WorkspaceSpec, state: WorkspaceState, act
+       return { ...next, session: { ...next.session, temporary: state.session.temporary, ribbonTemporary: state.session.ribbonTemporary } };
+     }
+     case "RESIZE_REGION_KEY": {
+-      if (action.key === "Enter") return workspaceReducer(spec, state, { type: "HIDE_REGION", regionId: region.id });
++      if (action.key === "Enter") {
++        const mode = region.allowedModes.includes("hidden") ? "hidden" : region.allowedModes.includes("compact") ? "compact" : undefined;
++        return mode ? setPreference(state, region, { ...previous, mode }) : state;
++      }
+       const width = action.key === "Home" ? region.minWidth : action.key === "End" ? availableMaxWidth(spec, state, region, action.viewportWidth) : previous.expandedWidth + (action.key === "ArrowLeft" ? -1 : 1) * (action.shiftKey ? 32 : 10);
+       return workspaceReducer(spec, state, { type: "RESIZE_REGION", regionId: region.id, width, viewportWidth: action.viewportWidth });
+     }
+diff --git a/packages/layouts/src/workspace.test.tsx b/packages/layouts/src/workspace.test.tsx
+index 42afc909..f9ebfb06 100644
+--- a/packages/layouts/src/workspace.test.tsx
++++ b/packages/layouts/src/workspace.test.tsx
+@@ -149,6 +149,58 @@ it('resizes using physical arrow direction, full separator ARIA and explicit Ent
+   fireEvent.keyDown(splitter, { key: 'ArrowLeft', shiftKey: true }); expect(splitter).toHaveAttribute('aria-valuenow', '248'); fireEvent.keyDown(splitter, { key: 'Home' }); expect(splitter).toHaveAttribute('aria-valuenow', '176'); fireEvent.keyDown(splitter, { key: 'End' }); expect(splitter).toHaveAttribute('aria-valuenow', '320');
+   act(() => splitter.focus()); fireEvent.keyDown(splitter, { key: 'Enter' }); expect(screen.queryByRole('separator')).toBeNull(); expect(screen.getByRole('button', { name: '显示课程目录' })).toHaveAttribute('aria-expanded', 'false'); expect(screen.getByRole('button', { name: '显示课程目录' })).toHaveFocus();
+ });
++it('collapses a splitter to compact when its region does not allow hidden', () => {
++  const compactOnly: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, allowedModes: ['expanded', 'compact'], defaultMode: 'expanded', compactWidth: 64 }] };
++  render(<WorkspaceLayout spec={compactOnly} viewportWidth={1200} toolbar={<RegionRestoreTrigger regionId="directory"/>}><RecoverableRegion regionId="directory">目录</RecoverableRegion><PaneSplitter regionId="directory"/></WorkspaceLayout>);
++  const splitter = screen.getByRole('separator'), restore = screen.getByRole('button', { name: '收起课程目录' });
++  act(() => splitter.focus()); fireEvent.keyDown(splitter, { key: 'Enter' });
++  expect(document.querySelector('[data-region-id="directory"]')).toHaveAttribute('data-mode', 'compact');
++  expect(restore).toHaveFocus(); expect(screen.queryByRole('separator')).toBeNull();
++  fireEvent.click(restore);
++  expect(screen.getByRole('separator')).toHaveAttribute('aria-valuenow', '216'); expect(restore).toHaveFocus();
++});
++it('hides and restores a top ribbon that allows full and hidden without tabs', () => {
++  const ribbon: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, side: 'top', allowedModes: ['full', 'hidden'], defaultMode: 'full' }] };
++  render(<WorkspaceLayout spec={ribbon} viewportWidth={1200} toolbar={<RegionRestoreTrigger regionId="directory"/>}><RecoverableRegion regionId="directory"><button>工具动作</button></RecoverableRegion></WorkspaceLayout>);
++  const restore = screen.getByRole('button', { name: /课程目录/ }), body = document.getElementById(restore.getAttribute('aria-controls')!)!;
++  act(() => screen.getByRole('button', { name: '工具动作' }).focus()); fireEvent.click(restore);
++  expect(body).toHaveAttribute('hidden'); expect(body).toHaveAttribute('data-mode', 'hidden'); expect(restore).toHaveFocus();
++  fireEvent.click(restore);
++  expect(body).not.toHaveAttribute('hidden'); expect(body).toHaveAttribute('data-temporary', 'true'); expect(restore).toHaveFocus();
++  fireEvent.click(restore); expect(body).toHaveAttribute('hidden'); expect(restore).toHaveFocus();
++});
++it('keeps resizing and focus usable when an expanded-only region cannot collapse', () => {
++  const expandedOnly: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, allowedModes: ['expanded'], defaultMode: 'expanded' }] };
++  render(<WorkspaceLayout spec={expandedOnly} viewportWidth={1200} toolbar={<RegionRestoreTrigger regionId="directory"/>}><RecoverableRegion regionId="directory">目录</RecoverableRegion><PaneSplitter regionId="directory"/></WorkspaceLayout>);
++  expect(screen.getByRole('button')).toBeDisabled();
++  const splitter = screen.getByRole('separator'); act(() => splitter.focus()); fireEvent.keyDown(splitter, { key: 'Enter' });
++  expect(splitter).toHaveFocus(); expect(splitter).toHaveAttribute('aria-valuenow', '216');
++  fireEvent.keyDown(splitter, { key: 'ArrowRight' }); expect(splitter).toHaveAttribute('aria-valuenow', '226');
++});
++it.each(['full', 'icons', 'tabs', 'hidden'] as const)('disables the restore control for a single top mode: %s', mode => {
++  const ribbon: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, side: 'top', allowedModes: [mode], defaultMode: mode }] };
++  const onStateChange = vi.fn();
++  render(<WorkspaceLayout spec={ribbon} viewportWidth={1200} onStateChange={onStateChange} toolbar={<RegionRestoreTrigger regionId="directory"/>}><RecoverableRegion regionId="directory">工具</RecoverableRegion></WorkspaceLayout>);
++  expect(screen.getByRole('button')).toBeDisabled(); fireEvent.click(screen.getByRole('button'));
++  expect(onStateChange).toHaveBeenCalledTimes(1);
++});
++it('toggles a full/icons-only ribbon with a matching action label', () => {
++  const ribbon: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, side: 'top', allowedModes: ['full', 'icons'], defaultMode: 'full' }] };
++  render(<WorkspaceLayout spec={ribbon} viewportWidth={1200} toolbar={<RegionRestoreTrigger regionId="directory"/>}><RecoverableRegion regionId="directory">工具</RecoverableRegion></WorkspaceLayout>);
++  fireEvent.click(screen.getByRole('button', { name: '收起课程目录' }));
++  const restore = screen.getByRole('button', { name: '展开课程目录' }); expect(restore).toHaveAttribute('data-mode', 'icons');
++  fireEvent.click(restore); expect(restore).toHaveAttribute('data-mode', 'full');
++});
++it.each([
++  { side: 'start', allowedModes: ['compact', 'hidden'], defaultMode: 'compact' },
++  { side: 'top', allowedModes: ['tabs', 'hidden'], defaultMode: 'tabs' },
++] as const)('toggles supported reduced modes without inventing an expanded mode: $side', ({ side, allowedModes, defaultMode }) => {
++  const reduced: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, side, allowedModes, defaultMode, compactWidth: 64 }] };
++  render(<WorkspaceLayout spec={reduced} viewportWidth={1200} toolbar={<RegionRestoreTrigger regionId="directory" intent="peek"/>}><RecoverableRegion regionId="directory">目录</RecoverableRegion></WorkspaceLayout>);
++  const restore = screen.getByRole('button', { name: '隐藏课程目录' }); fireEvent.click(restore);
++  expect(restore).toHaveAttribute('data-mode', 'hidden'); fireEvent.click(restore);
++  expect(restore).toHaveAttribute('data-mode', defaultMode); expect(restore).toHaveAttribute('data-active', 'false');
++});
+ it('sends Escape to the last interacted workspace without closing a separate instance', async () => {
+   render(<><div data-testid="one"><Fixture/></div><div data-testid="two"><Fixture workspace={{ ...two, workspaceKey: 'mock/course/interaction/two' }}/></div></>);
+   const one = within(screen.getByTestId('one')), other = within(screen.getByTestId('two'));
+diff --git a/packages/layouts/src/workspace.tsx b/packages/layouts/src/workspace.tsx
+index 23605dce..e3567154 100644
+--- a/packages/layouts/src/workspace.tsx
++++ b/packages/layouts/src/workspace.tsx
+@@ -171,11 +171,33 @@ export interface RegionRestoreTriggerProps extends ButtonHTMLAttributes<HTMLButt
+ export const RegionRestoreTrigger = forwardRef<HTMLButtonElement, RegionRestoreTriggerProps>(function RegionRestoreTrigger({ regionId, intent = 'toggle', children, className, onClick, onPointerEnter, onPointerLeave, ...props }, ref) {
+   const { context, region, effective } = useRegion(regionId), top = region.side === 'top', temporary = context.state.session.temporary?.regionId === regionId || context.state.session.ribbonTemporary === regionId;
+   const full = effective.mode === 'expanded' || effective.mode === 'full' || effective.mode === 'icons';
+-  const label = temporary ? `关闭临时${region.label}` : effective.mode === 'hidden' ? `显示${region.label}` : effective.mode === 'compact' || effective.mode === 'tabs' ? `展开${region.label}` : top || region.allowedModes.includes('compact') ? `收起${region.label}` : `隐藏${region.label}`;
+-  return <button {...props} type={props.type ?? 'button'} ref={element => { context.registerRestore(regionId, element); if (typeof ref === 'function') ref(element); else if (ref) ref.current = element; }}
++  let action: WorkspaceAction | undefined;
++  if (temporary) action = { type: 'DISMISS_TEMP', reason: 'close' };
++  else if (top) {
++    if (!full && region.allowedModes.some(mode => mode === 'full' || mode === 'icons')) action = { type: 'OPEN_RIBBON_TEMP', regionId };
++    else {
++      const modes: RibbonMode[] = full ? ['tabs', 'hidden', effective.mode === 'full' ? 'icons' : 'full'] : ['tabs', 'hidden'];
++      const mode = modes.find(mode => mode !== effective.mode && region.allowedModes.includes(mode));
++      if (mode) action = { type: 'SET_RIBBON', regionId, mode };
++    }
++  } else if (effective.mode === 'expanded') {
++    if (region.allowedModes.includes('compact')) action = { type: 'TOGGLE_GLOBAL', regionId, viewportWidth: context.viewportWidth };
++    else if (region.allowedModes.includes('hidden')) action = { type: 'HIDE_REGION', regionId };
++  } else if (region.allowedModes.includes('expanded')) {
++    action = intent === 'peek' ? { type: 'PEEK_REGION', regionId, viewportWidth: context.viewportWidth }
++      : { type: region.allowedModes.includes('compact') ? 'TOGGLE_GLOBAL' : 'SHOW_REGION', regionId, viewportWidth: context.viewportWidth };
++  } else {
++    const mode = region.allowedModes.find(mode => mode !== effective.mode);
++    if (mode) action = { type: 'SET_MODE', regionId, mode };
++  }
++  const disabled = props.disabled || !action;
++  const hides = action?.type === 'HIDE_REGION' || ((action?.type === 'SET_RIBBON' || action?.type === 'SET_MODE') && action.mode === 'hidden');
++  const expands = action?.type === 'SET_RIBBON' && action.mode === 'full';
++  const label = temporary ? `关闭临时${region.label}` : !action ? region.label : hides ? `隐藏${region.label}` : effective.mode === 'hidden' ? `显示${region.label}` : expands || effective.mode === 'compact' || effective.mode === 'tabs' ? `展开${region.label}` : `收起${region.label}`;
++  return <button {...props} disabled={disabled} type={props.type ?? 'button'} ref={element => { context.registerRestore(regionId, element); if (typeof ref === 'function') ref(element); else if (ref) ref.current = element; }}
+     className={`rain-workspace__restore ${className ?? ''}`} data-workspace-action="restore" data-mode={effective.mode} data-active={String(temporary)} aria-label={props['aria-label'] ?? label} title={props.title ?? label} aria-controls={context.regionDomId(regionId)} aria-expanded={full || temporary}
+-    onClick={event => { onClick?.(event); if (event.defaultPrevented) return; if (temporary) context.dispatch({ type: 'DISMISS_TEMP', reason: 'close' }); else if (top) context.dispatch(full ? { type: 'SET_RIBBON', regionId, mode: 'tabs' } : { type: 'OPEN_RIBBON_TEMP', regionId }); else if (effective.mode === 'expanded') context.dispatch({ type: region.allowedModes.includes('compact') ? 'TOGGLE_GLOBAL' : 'HIDE_REGION', regionId, viewportWidth: context.viewportWidth }); else if (intent === 'peek') context.dispatch({ type: 'PEEK_REGION', regionId, viewportWidth: context.viewportWidth }); else if (region.allowedModes.includes('compact')) context.dispatch({ type: 'TOGGLE_GLOBAL', regionId, viewportWidth: context.viewportWidth }); else context.dispatch({ type: 'SHOW_REGION', regionId, viewportWidth: context.viewportWidth }); }}
+-    onPointerEnter={event => { if (!top && !full) context.hoverEnter(regionId); onPointerEnter?.(event); }} onPointerLeave={event => { if (!top) context.hoverLeave(regionId); onPointerLeave?.(event); }}>{children ?? label}</button>;
++    onClick={event => { onClick?.(event); if (!event.defaultPrevented && !disabled && action) context.dispatch(action); }}
++    onPointerEnter={event => { if (!disabled && !top && !full && region.allowedModes.includes('expanded')) context.hoverEnter(regionId); onPointerEnter?.(event); }} onPointerLeave={event => { if (!top) context.hoverLeave(regionId); onPointerLeave?.(event); }}>{children ?? label}</button>;
+ });
+ 
+ export interface PaneSplitterProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> { regionId: string }
+@@ -187,7 +209,7 @@ export const PaneSplitter = forwardRef<HTMLDivElement, PaneSplitterProps>(functi
+   const hidden = region.side === 'top' || effective.mode !== 'expanded' || context.state.session.temporary?.regionId === regionId;
+   return <div {...props} ref={ref} role="separator" aria-orientation="vertical" aria-label={props['aria-label'] ?? `调整${region.label}宽度`} aria-controls={context.regionDomId(regionId)} aria-valuemin={region.minWidth} aria-valuemax={max} aria-valuenow={Math.min(preference.expandedWidth, max)} tabIndex={hidden ? -1 : 0} hidden={hidden}
+     className={`rain-workspace__splitter ${className ?? ''}`} style={{ ...style, width: region.boundaryWidth ?? 5, flexBasis: region.boundaryWidth ?? 5 }} data-region-id={regionId}
+-    onKeyDown={event => { onKeyDown?.(event); if (event.defaultPrevented || !['ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter'].includes(event.key)) return; event.preventDefault(); const key = region.side === 'end' && event.key.startsWith('Arrow') ? event.key === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft' : event.key; context.dispatch({ type: 'RESIZE_REGION_KEY', regionId, key: key as ResizeKey, shiftKey: event.shiftKey, viewportWidth: context.viewportWidth }); if (key === 'Enter') context.restoreFocus(regionId); }}
++    onKeyDown={event => { onKeyDown?.(event); if (event.defaultPrevented || !['ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter'].includes(event.key)) return; if (event.key === 'Enter' && !region.allowedModes.some(mode => mode === 'hidden' || mode === 'compact')) return; event.preventDefault(); const key = region.side === 'end' && event.key.startsWith('Arrow') ? event.key === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft' : event.key; context.dispatch({ type: 'RESIZE_REGION_KEY', regionId, key: key as ResizeKey, shiftKey: event.shiftKey, viewportWidth: context.viewportWidth }); if (key === 'Enter') context.restoreFocus(regionId); }}
+     onPointerDown={event => { onPointerDown?.(event); if (event.defaultPrevented || event.button !== 0) return; drag.current = { pointerId: event.pointerId, x: event.clientX, width: preference.expandedWidth }; event.currentTarget.setPointerCapture?.(event.pointerId); event.preventDefault(); }}
+     onPointerMove={event => { onPointerMove?.(event); const active = drag.current; if (!active || active.pointerId !== event.pointerId) return; context.dispatch({ type: 'RESIZE_REGION', regionId, width: active.width + (event.clientX - active.x) * (region.side === 'end' ? -1 : 1), viewportWidth: context.viewportWidth }); }}
+     onPointerUp={event => { onPointerUp?.(event); drag.current = null; if (event.currentTarget.hasPointerCapture?.(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId); }}
+diff --git a/packages/ui/src/input/input.test.tsx b/packages/ui/src/input/input.test.tsx
+index 0938e872..68799050 100644
+--- a/packages/ui/src/input/input.test.tsx
++++ b/packages/ui/src/input/input.test.tsx
+@@ -1,4 +1,4 @@
+-import { fireEvent, render, screen } from "@testing-library/react";
++import { act, fireEvent, render, screen } from "@testing-library/react";
+ import userEvent from "@testing-library/user-event";
+ import { useState } from "react";
+ import { describe, expect, it, vi } from "vitest";
+@@ -93,6 +93,65 @@ describe("Input", () => {
+     );
+   });
+ 
++  it.each(["原值", ""])("resets an uncontrolled field to %j with matching count, clear state and FormData", async (defaultValue) => {
++    const user = userEvent.setup(), changed = vi.fn(), cleared = vi.fn();
++    render(<form aria-label="编辑表单">
++      <Input aria-label="重置名称" name="title" defaultValue={defaultValue} showCount onValueChange={changed} onClear={cleared} />
++      <button type="reset">重置</button>
++    </form>);
++    const control = screen.getByRole("textbox", { name: "重置名称" });
++    const form = screen.getByRole("form", { name: "编辑表单" }) as HTMLFormElement;
++    await user.clear(control);
++    await user.type(control, "修改后的名称");
++    changed.mockClear();
++    await user.click(screen.getByRole("button", { name: "重置" }));
++    expect(control).toHaveValue(defaultValue);
++    expect(inputRoot(control).querySelector('[data-slot="count"]')).toHaveTextContent(String(defaultValue.length));
++    expect(inputRoot(control)).toHaveAttribute("data-state", defaultValue ? "filled" : "empty");
++    expect(Boolean(screen.queryByRole("button", { name: "清除重置名称" }))).toBe(Boolean(defaultValue));
++    expect(new FormData(form).get("title")).toBe(defaultValue);
++    expect(changed).not.toHaveBeenCalled();
++    expect(cleared).not.toHaveBeenCalled();
++  });
++
++  it("restores native FormData immediately for a field associated with an external form", async () => {
++    const user = userEvent.setup();
++    render(<><form id="external-form" aria-label="外部表单" /><Input aria-label="外部名称" form="external-form" name="title" defaultValue="原值" /></>);
++    const control = screen.getByRole("textbox", { name: "外部名称" });
++    const form = screen.getByRole("form", { name: "外部表单" }) as HTMLFormElement;
++    await user.clear(control);
++    await user.type(control, "新值");
++    await act(async () => {
++      form.reset();
++      expect(control).toHaveValue("原值");
++      expect(new FormData(form).get("title")).toBe("原值");
++    });
++    expect(control).toHaveValue("原值");
++    await user.type(control, "二");
++    expect(control).toHaveValue("原值二");
++  });
++
++  it("preserves the edited value when the owner cancels reset", async () => {
++    const user = userEvent.setup();
++    render(<form onReset={(event) => event.preventDefault()}><Input aria-label="取消重置" defaultValue="原值" showCount /><button type="reset">取消的重置</button></form>);
++    const control = screen.getByRole("textbox", { name: "取消重置" });
++    await user.type(control, "新");
++    await user.click(screen.getByRole("button", { name: "取消的重置" }));
++    expect(control).toHaveValue("原值新");
++    expect(inputRoot(control).querySelector('[data-slot="count"]')).toHaveTextContent("3");
++  });
++
++  it("leaves controlled values to their owner during native reset", async () => {
++    const user = userEvent.setup(), changed = vi.fn();
++    const view = render(<form aria-label="受控表单"><Input aria-label="受控重置" name="title" value="当前值" onValueChange={changed} /><button type="reset">受控重置</button></form>);
++    await user.click(screen.getByRole("button", { name: "受控重置" }));
++    expect(screen.getByRole("textbox", { name: "受控重置" })).toHaveValue("当前值");
++    expect(new FormData(screen.getByRole("form", { name: "受控表单" }) as HTMLFormElement).get("title")).toBe("当前值");
++    expect(changed).not.toHaveBeenCalled();
++    view.rerender(<form><Input aria-label="受控重置" name="title" value="宿主重置值" onValueChange={changed} /></form>);
++    expect(screen.getByRole("textbox", { name: "受控重置" })).toHaveValue("宿主重置值");
++  });
++
+   it("clears an editable default-status value and returns focus", async () => {
+     const user = userEvent.setup();
+     const onValueChange = vi.fn();
+diff --git a/packages/ui/src/input/input.tsx b/packages/ui/src/input/input.tsx
+index 6b2d6fea..ab91ead3 100644
+--- a/packages/ui/src/input/input.tsx
++++ b/packages/ui/src/input/input.tsx
+@@ -1,5 +1,5 @@
+ import {
+-  cloneElement, forwardRef, isValidElement, useId, useImperativeHandle, useRef, useState,
++  cloneElement, forwardRef, isValidElement, useId, useImperativeHandle, useLayoutEffect, useRef, useState,
+   type ChangeEvent, type CompositionEvent, type InputHTMLAttributes,
+   type KeyboardEvent, type MouseEvent, type ReactNode, type SyntheticEvent,
+ } from "react";
+@@ -93,10 +93,34 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input({
+   useImperativeHandle(forwardedRef, () => controlRef.current!, []);
+   const composingRef = useRef(false);
+   const compositionBaseline = useRef<string | null>(null);
++  const initialValue = useRef(defaultValue);
+   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
+   const [pointerFocused, setPointerFocused] = useState(false);
+   const isControlled = value !== undefined;
+   const currentValue = value ?? uncontrolledValue;
++  useLayoutEffect(() => {
++    const control = controlRef.current;
++    if (isControlled || !control) return;
++    const root = control.getRootNode();
++    const reset = (event: Event) => {
++      if (event.target !== control.form) return;
++      // React restores value/defaultValue after input events. Prepare the baseline before
++      // the browser resets controls so immediate FormData also sees the initial value.
++      const current = control.value;
++      control.defaultValue = initialValue.current;
++      control.value = current;
++      // Trusted browser events may flush microtasks between listeners; wait until all
++      // reset handlers have had their chance to cancel the default action.
++      setTimeout(() => {
++        if (event.defaultPrevented || controlRef.current !== control) return;
++        composingRef.current = false;
++        compositionBaseline.current = null;
++        setUncontrolledValue(initialValue.current);
++      }, 0);
++    };
++    root.addEventListener("reset", reset, true);
++    return () => root.removeEventListener("reset", reset, true);
++  });
+   const disabled = inputDisabled || Boolean(field?.disabled);
+   const status = field?.status ?? inputStatus;
+   const resolvedSize = size ?? (density === "compact" ? 24 : 32);
+diff --git a/packages/ui/src/styles.css b/packages/ui/src/styles.css
+index b96757f2..2868fd79 100644
+--- a/packages/ui/src/styles.css
++++ b/packages/ui/src/styles.css
+@@ -1144,7 +1144,7 @@ label.rain-selection-card:has(> input:disabled) { color: var(--rain-category-tex
+ .rain-tabs__tab[data-indicator-size="content"] .rain-tabs__item-content { position: relative; }
+ .rain-tabs__tab[data-indicator-size="content"] .rain-tabs__indicator { max-width: var(--tabs-max-indicator); margin-inline: auto; }
+ .rain-tabs__tab[data-position="bottom"] .rain-tabs__indicator { top: 0; bottom: auto; }
+-.rain-tabs__divider { position: absolute; inset: auto 0 0; height: var(--rain-space-1); pointer-events: none; }
++.rain-tabs__divider { position: absolute; inset: auto 0 0; height: var(--rain-line-thickness-1); pointer-events: none; }
+ .rain-tabs__nav[data-position="bottom"] > .rain-tabs__nav-row > .rain-tabs__divider { top: 0; bottom: auto; }
+ .rain-tabs__indicator { z-index: 1; }
+ .rain-tabs__panels { flex: 1; min-width: 0; }
+@@ -1164,8 +1164,8 @@ label.rain-selection-card:has(> input:disabled) { color: var(--rain-category-tex
+ .rain-tabs__tab[data-position="end"] .rain-tabs__indicator { inset: 0 auto 0 0; width: var(--tabs-indicator); height: auto; }
+ .rain-tabs__tab:is([data-position="start"], [data-position="end"])[data-indicator-size="content"] .rain-tabs__item-content { position: static; }
+ .rain-tabs__tab:is([data-position="start"], [data-position="end"])[data-indicator-size="content"] .rain-tabs__indicator { top: 50%; bottom: auto; height: min(var(--tabs-height), var(--tabs-max-indicator)); transform: translateY(-50%); }
+-.rain-tabs__nav[data-position="start"] > .rain-tabs__nav-row > .rain-tabs__divider { inset: 0 0 0 auto; width: var(--rain-space-1); height: auto; }
+-.rain-tabs__nav[data-position="end"] > .rain-tabs__nav-row > .rain-tabs__divider { inset: 0 auto 0 0; width: var(--rain-space-1); height: auto; }
++.rain-tabs__nav[data-position="start"] > .rain-tabs__nav-row > .rain-tabs__divider { inset: 0 0 0 auto; width: var(--rain-line-thickness-1); height: auto; }
++.rain-tabs__nav[data-position="end"] > .rain-tabs__nav-row > .rain-tabs__divider { inset: 0 auto 0 0; width: var(--rain-line-thickness-1); height: auto; }
+ .rain-tabs__measure { position: absolute; left: 0; top: 0; visibility: hidden; pointer-events: none; width: 0; height: 0; overflow: hidden; white-space: nowrap; }
+ .rain-tabs__measure-item { width: max-content; }
+ /* @rain-css-exception tabs-touch-targets: reserve non-overlapping 44px targets while retaining each visual recipe. */
+diff --git a/packages/ui/src/tree/tree.test.tsx b/packages/ui/src/tree/tree.test.tsx
+index 1ebf2df4..ed1c285e 100644
+--- a/packages/ui/src/tree/tree.test.tsx
++++ b/packages/ui/src/tree/tree.test.tsx
+@@ -1,8 +1,9 @@
+ import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+ import userEvent from "@testing-library/user-event";
+ import { describe, expect, it, vi } from "vitest";
+-import { createRef, useState } from "react";
++import { createRef, StrictMode, useState } from "react";
+ import { Tree, type TreeHandle } from "./tree";
++import type { TreeNodeRecord } from "./tree.types";
+ 
+ const data = [{ key: "parent", title: "章节", children: [{ key: "leaf", title: "叶子" }] }];
+ describe("Tree", () => {
+@@ -171,6 +172,54 @@ describe("Tree", () => {
+     await user.click(screen.getByRole("button", { name: "展开远程" }));
+     expect(loadChildren).toHaveBeenCalledTimes(1);
+   });
++
++  it.each(["default", "controlled"] as const)("restarts a pending initial %s expansion under root StrictMode", async (mode) => {
++    type Result = { children: TreeNodeRecord[]; complete: true };
++    const pending: { signal: AbortSignal; requestId: number; resolve: (result: Result) => void }[] = [];
++    const loadChildren = vi.fn((_key, { signal, requestId }) => new Promise<Result>((resolve) => pending.push({ signal, requestId, resolve })));
++    const onChildrenLoaded = vi.fn();
++    const expansion = mode === "default" ? { defaultExpandedKeys: ["lazy"] } : { expandedKeys: ["lazy"], onExpandedKeysChange: vi.fn() };
++    render(<StrictMode><Tree data={[{ key: "lazy", title: "远程", canHaveChildren: true, childrenComplete: false }]}
++      {...expansion} loadChildren={loadChildren} onChildrenLoaded={onChildrenLoaded} /></StrictMode>);
++    expect(pending).toHaveLength(2);
++    expect(pending[0]!.signal.aborted).toBe(true);
++    expect(pending[1]!.signal.aborted).toBe(false);
++    expect(pending[1]!.requestId).not.toBe(pending[0]!.requestId);
++    await act(async () => pending[1]!.resolve({ children: [], complete: true }));
++    expect(onChildrenLoaded).toHaveBeenCalledExactlyOnceWith("lazy", { children: [], complete: true }, expect.objectContaining({ requestId: pending[1]!.requestId }));
++    expect(screen.getByText("等待数据更新…")).toBeInTheDocument();
++    await act(async () => pending[0]!.resolve({ children: [{ key: "old", title: "旧结果" }], complete: true }));
++    expect(onChildrenLoaded).toHaveBeenCalledTimes(1);
++  });
++
++  it("keeps a replacement request registered when the aborted request settles", async () => {
++    type Result = { children: []; complete: true };
++    const pending: { signal: AbortSignal; resolve: (result: Result) => void }[] = [];
++    const loadChildren = vi.fn((_key, { signal }) => new Promise<Result>((resolve) => pending.push({ signal, resolve })));
++    const onChildrenLoaded = vi.fn(), lazy = [{ key: "lazy", title: "版本目录", canHaveChildren: true, childrenComplete: false }];
++    const view = render(<Tree data={lazy} dataRevision="old" defaultExpandedKeys={["lazy"]} loadChildren={loadChildren} onChildrenLoaded={onChildrenLoaded} />);
++    view.rerender(<Tree data={lazy} dataRevision="new" defaultExpandedKeys={["lazy"]} loadChildren={loadChildren} onChildrenLoaded={onChildrenLoaded} />);
++    expect(pending).toHaveLength(2);
++    expect(pending[0]!.signal.aborted).toBe(true);
++    await act(async () => pending[0]!.resolve({ children: [], complete: true }));
++    fireEvent.click(screen.getByRole("button", { name: "收起版本目录" }));
++    fireEvent.click(screen.getByRole("button", { name: "展开版本目录" }));
++    expect(pending).toHaveLength(2);
++    expect(onChildrenLoaded).not.toHaveBeenCalled();
++    await act(async () => pending[1]!.resolve({ children: [], complete: true }));
++    expect(onChildrenLoaded).toHaveBeenCalledExactlyOnceWith("lazy", { children: [], complete: true }, expect.objectContaining({ dataRevision: "new" }));
++  });
++
++  it("aborts a pending branch on unmount and never delivers its late result", async () => {
++    let signal!: AbortSignal, resolve!: (result: { children: []; complete: true }) => void;
++    const loadChildren = vi.fn((_key, context) => { signal = context.signal; return new Promise<{ children: []; complete: true }>((done) => { resolve = done; }); });
++    const onChildrenLoaded = vi.fn();
++    const view = render(<Tree data={[{ key: "lazy", title: "待卸载", canHaveChildren: true, childrenComplete: false }]} defaultExpandedKeys={["lazy"]} loadChildren={loadChildren} onChildrenLoaded={onChildrenLoaded} />);
++    view.unmount();
++    expect(signal.aborted).toBe(true);
++    await act(async () => resolve({ children: [], complete: true }));
++    expect(onChildrenLoaded).not.toHaveBeenCalled();
++  });
+   it("cancels keyboard movement when a filter becomes active", async () => {
+     const user = userEvent.setup(), onMove = vi.fn();
+     const nodes = [{ key: "a", title: "目录 A" }, { key: "b", title: "目录 B" }];
+diff --git a/packages/ui/src/tree/tree.tsx b/packages/ui/src/tree/tree.tsx
+index db81d49f..16d67415 100644
+--- a/packages/ui/src/tree/tree.tsx
++++ b/packages/ui/src/tree/tree.tsx
+@@ -245,7 +245,15 @@ const TreeRoot = forwardRef<TreeHandle, TreeProps<unknown>>(function TreeRoot(pr
+     if (!moveValidation.ok && moveValidation.reason !== "目标子树尚未完整加载") stopDragEffects();
+   }, [moving, moveValidation, index]);
+   useEffect(() => () => {
++    const pendingKeys = [...requests.current.keys()];
+     requests.current.forEach((request) => request.abort.abort());
++    requests.current.clear();
++    // StrictMode replays setup after cleanup; release both tickets and their loading states.
++    if (pendingKeys.length) setLoadStates((current) => {
++      const next = new Map(current);
++      for (const key of pendingKeys) next.delete(key);
++      return next;
++    });
+     if (hoverTimer.current) clearTimeout(hoverTimer.current);
+     if (scrollFrame.current !== null) cancelAnimationFrame(scrollFrame.current);
+   }, []);
+diff --git a/registry/navigation-v042-workspaces.json b/registry/navigation-v042-workspaces.json
+index 7a630109..6b81e100 100644
+--- a/registry/navigation-v042-workspaces.json
++++ b/registry/navigation-v042-workspaces.json
+@@ -61,17 +61,17 @@
+     }
+   ],
+   "sourceSnapshot": {
+-    "recordedAt": "2026-10-04T09:43:03.088338+00:00",
+-    "scope": "Prior G2 candidate13 visual lineage plus the W7 matching-region hover suppression cleanup. CSS/Tokens unchanged. Functional regression reverified separately; G3 pending.",
++    "recordedAt": "2026-10-17",
++    "scope": "Current local maintenance: valid Workspace display-mode subsets and built-in actions. Prior visual acceptance remains scoped to its original evidence; no new Human Gate.",
+     "filesSha256": {
+       "packages/layouts/src/index.ts": "709823a9e5dd352adaa040c9c681ea98098cfe4e13ae4f5ff2f5d6e728014037",
+       "packages/layouts/src/layout.css": "d4b3ad4de114ce0fbfaee57bccf42ee7a5f48b4bd73acfe8626fc98b27d28ed6",
+-      "packages/layouts/src/workspace-state.ts": "f41cde5f5fb26a86517021e862a8c73dc592de9f718829c7ce353c2d22e9dcc5",
++      "packages/layouts/src/workspace-state.ts": "a49d7210d20f527bd5854df5fdfa831b80d9296cfc72eb92eed29acaa912b652",
+       "packages/layouts/src/workspace.css": "f690ced7af96312ab00baf054591bf5ec5b090276e9d01da91672f9237c3d73b",
+       "packages/layouts/src/workspace.css.d.ts": "3423de425b002cb0a5c00f4abd6313d3750f34e9a48e9d19f062459bdb9ec0a7",
+-      "packages/layouts/src/workspace.tsx": "c74c137303b7a283ebfbd3728f60f89ae7d90ea62e3872ce8a64aa5b10bb358c"
++      "packages/layouts/src/workspace.tsx": "baa7cd7a32732ab8e40502cf0ea6e5fcdacc6f4ecc1e6f199d6b56e93cbc333a"
+     },
+-    "reviewRevision": "W7-N06-hover-reentry-behavior-repair",
++    "reviewRevision": "deep-review-R02-functional-maintenance",
+     "review09Scenes": [
+       "R1",
+       "R2",
+@@ -782,5 +782,61 @@
+       "S5",
+       "S6"
+     ]
++  },
++  "priorDeepReviewSourceSnapshot": {
++    "recordedAt": "2026-10-04T09:43:03.088338+00:00",
++    "scope": "Prior G2 candidate13 visual lineage plus the W7 matching-region hover suppression cleanup. CSS/Tokens unchanged. Functional regression reverified separately; G3 pending.",
++    "filesSha256": {
++      "packages/layouts/src/index.ts": "709823a9e5dd352adaa040c9c681ea98098cfe4e13ae4f5ff2f5d6e728014037",
++      "packages/layouts/src/layout.css": "d4b3ad4de114ce0fbfaee57bccf42ee7a5f48b4bd73acfe8626fc98b27d28ed6",
++      "packages/layouts/src/workspace-state.ts": "f41cde5f5fb26a86517021e862a8c73dc592de9f718829c7ce353c2d22e9dcc5",
++      "packages/layouts/src/workspace.css": "f690ced7af96312ab00baf054591bf5ec5b090276e9d01da91672f9237c3d73b",
++      "packages/layouts/src/workspace.css.d.ts": "3423de425b002cb0a5c00f4abd6313d3750f34e9a48e9d19f062459bdb9ec0a7",
++      "packages/layouts/src/workspace.tsx": "c74c137303b7a283ebfbd3728f60f89ae7d90ea62e3872ce8a64aa5b10bb358c"
++    },
++    "reviewRevision": "W7-N06-hover-reentry-behavior-repair",
++    "review09Scenes": [
++      "R1",
++      "R2",
++      "R3",
++      "R4",
++      "R5",
++      "R6",
++      "S1",
++      "S2",
++      "S3",
++      "S4",
++      "S5",
++      "S6"
++    ],
++    "review10Scenes": [
++      "R1",
++      "R2",
++      "R3",
++      "R4",
++      "R5",
++      "R6",
++      "S1",
++      "S2",
++      "S3",
++      "S4",
++      "S5",
++      "S6"
++    ],
++    "review11Scenes": [
++      "R1",
++      "R2",
++      "R3",
++      "R4",
++      "R5",
++      "R6",
++      "S1",
++      "S2",
++      "S3",
++      "S4",
++      "S5",
++      "S6"
++    ],
++    "behaviorRepairEvidence": "evidence/runtime/navigation-v042/w7/n06-behavior-repair.json"
+   }
+ }
+diff --git a/scripts/g1-g6-closeout-governance.test.ts b/scripts/g1-g6-closeout-governance.test.ts
+index c8ea22bc..781f16e8 100644
+--- a/scripts/g1-g6-closeout-governance.test.ts
++++ b/scripts/g1-g6-closeout-governance.test.ts
+@@ -5,6 +5,7 @@ import { expect, it } from "vitest";
+ import { getG6SourceBindings, getG6PreviousSource, getValidatedTailwindB2History, parseYamlSubset, withSourceBindingTraversal } from "./verification-helpers.mjs";
+ import { closeoutBindingsPath, closeoutEvidence, restoreG1G6CloseoutPhase } from "./g1-g6-closeout-governance.mjs";
+ import { githubReviewFixtureFiles } from "./github-review-successor.mjs";
++import { deepReviewFixtureFiles } from "./deep-review-successor.mjs";
+ 
+ it("validates the current G1–G6 sources through the exact later successor without promoting old Gates", () => {
+   const root = process.cwd();
+@@ -36,6 +37,7 @@ it("rejects changed old Gates, unknown phase, runtime drift, rewritten proof, fo
+   const paths = new Set<string>([
+     closeoutBindingsPath, "scripts/g1-g6-closeout-governance.mjs",
+     ...githubReviewFixtureFiles(process.cwd()),
++    ...deepReviewFixtureFiles(process.cwd()),
+     ...Object.keys(record.retainedFiles), ...Object.keys(record.sourceFiles),
+     ...Object.keys(record.projectedFiles).map(file => closeoutEvidence + "predecessor/" + file),
+     ...Object.keys(record.questionnaireFiles).map(file => closeoutEvidence + "questionnaire-predecessor/" + file),
+diff --git a/scripts/g5-color-consumers.mjs b/scripts/g5-color-consumers.mjs
+index a5a396c7..6c3e0619 100644
+--- a/scripts/g5-color-consumers.mjs
++++ b/scripts/g5-color-consumers.mjs
+@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
+ import { join } from "node:path";
+ import { dateTimeOptimizationEvidence, datePickerUxRefinementEvidence, sliderRefinementEvidence, getDateTimeOptimizationSourceBindings, getSliderRefinementSourceBindings, datePickerVisualFeedbackEvidence, getDatePickerVisualFeedbackSourceBindings, datePickerCloseoutEvidence, getDatePickerCloseoutSourceBindings, hasSliderCloseoutAuthorization, parseYamlSubset } from "./verification-helpers.mjs";
+ import { measureColorContrast, resolveColor, resolveColorSurface } from "../packages/foundations/src/color-registry.ts";
++import { getG6SourceBindings } from "./verification-helpers.mjs";
+ 
+ export const g5ColorLedger = "evidence/runtime/g5-components-2026-10-12/color-consumers.json";
+ function getPreviousG5ColorConsumers(root = process.cwd()) {
+@@ -125,8 +126,10 @@ export function getG5ColorConsumers(root = process.cwd()) {
+ 
+ export function verifyG5ColorSources(root = process.cwd()) {
+   const ledger = getG5ColorConsumers(root);
++  const maintenance = getG6SourceBindings(root)?.deepReviewSuccessor?.sourceFiles ?? {};
+   for (const [file, expected] of Object.entries(ledger.sourceFiles)) {
+-    if (createHash("sha256").update(readFileSync(join(root, file))).digest("hex") !== expected) throw new Error(`G5 color source changed: ${file}`);
++    const actual = createHash("sha256").update(readFileSync(join(root, file))).digest("hex"), current = maintenance[file];
++    if (actual !== expected && !(current?.before === expected && current.after === actual)) throw new Error(`G5 color source changed: ${file}`);
+   }
+   return ledger;
+ }
+diff --git a/scripts/github-review-successor.test.ts b/scripts/github-review-successor.test.ts
+index a5441e16..b5b5ee66 100644
+--- a/scripts/github-review-successor.test.ts
++++ b/scripts/github-review-successor.test.ts
+@@ -6,6 +6,7 @@ import { dirname, join } from "node:path";
+ import { expect, it } from "vitest";
+ import { getG6PreviousSource, getG6SourceBindings, parseYamlSubset, withSourceBindingTraversal } from "./verification-helpers.mjs";
+ import { githubReviewBindingsPath, githubReviewEvidence, githubReviewFixtureFiles, githubReviewPhase, verifyGithubReviewGitState } from "./github-review-successor.mjs";
++import { deepReviewFixtureFiles } from "./deep-review-successor.mjs";
+ import { closeoutBindingsPath, readG1G6CloseoutBindings } from "./g1-g6-closeout-governance.mjs";
+ import { readG6SourceBindings } from "./g6-governance.mjs";
+ import { getLibraryPaintObservations, validateRecordedPaintSource } from "./verify-token-foundations.mjs";
+@@ -49,7 +50,7 @@ it("keeps the earlier before-source semantics and returns isolated public record
+ 
+ it("validates a relocated regular-file snapshot and rejects modified authority, proof, source and symlinks", () => {
+   const root = mkdtempSync(join(tmpdir(), "rain-github-review-relocated-"));
+-  const paths = githubReviewFixtureFiles(process.cwd());
++  const paths = [...githubReviewFixtureFiles(process.cwd()), ...deepReviewFixtureFiles(process.cwd())];
+   const put = (file: string, bytes: string | Buffer) => { mkdirSync(dirname(join(root, file)), { recursive: true }); writeFileSync(join(root, file), bytes); };
+   try {
+     for (const file of paths) { mkdirSync(dirname(join(root, file)), { recursive: true }); copyFileSync(file, join(root, file)); }
+@@ -129,7 +130,7 @@ it("records exact imported P5 authored paints without granting runtime contrast
+ it("rechecks a runtime parent directory on every API call after success and after failure", () => {
+   const root = mkdtempSync(join(tmpdir(), "rain-github-review-directory-cache-"));
+   try {
+-    for (const file of githubReviewFixtureFiles(process.cwd())) {
++    for (const file of [...githubReviewFixtureFiles(process.cwd()), ...deepReviewFixtureFiles(process.cwd())]) {
+       mkdirSync(dirname(join(root, file)), { recursive: true });
+       copyFileSync(file, join(root, file));
+     }
+diff --git a/scripts/rn14-starter.mjs b/scripts/rn14-starter.mjs
+index 3178fb11..e66a6951 100644
+--- a/scripts/rn14-starter.mjs
++++ b/scripts/rn14-starter.mjs
+@@ -19,6 +19,19 @@ function filesIn(directory, ignored = new Set()) {
+   });
+ }
+ 
++/** Consumer contracts can be linked or written as literal workspace paths. Historical evidence is not a dependency. */
++function manifestReferences(file, content) {
++  const paths = new Set();
++  for (const match of content.matchAll(/`([^`\n]+)`|\]\(([^)\n]+)\)/g)) {
++    const href = (match[1] ?? match[2]).split("#")[0];
++    if (!href || /^(?:[a-z]+:|#)/i.test(href) || !/\.(?:yaml|json)$/.test(href)) continue;
++    const target = href.startsWith("manifests/") ? resolve(root, href) : resolve(root, dirname(file), href);
++    const path = relative(root, target);
++    if (inside(root, target) && path.startsWith("manifests/")) paths.add(path);
++  }
++  return [...paths].sort();
++}
++
+ const main = `import { StrictMode, useEffect, useState } from "react";
+ import { createRoot } from "react-dom/client";
+ import { DensityProvider } from "@rain-next/foundations";
+@@ -73,8 +86,14 @@ export function exportStarter(destination, { milestone = "M1" } = {}) {
+   }
+   for (const name of milestone === "M2" ? ["bm-a", "bm-b", "bm-c", "bm-d"] : ["bm-a", "bm-b"]) entries.push(...filesIn(join(root, `apps/prototype/src/scenarios/${name}`)).filter(path => !path.includes(".test.")).map(path => relative(root, path)));
+   if (milestone === "M2") entries.push("docs/ai/m2-trial-guide.md", "evidence/runtime/m2/color-consumers.json");
++  if (existsSync(join(root, "docs/ai/composition-recipes.md"))) entries.push("docs/ai/composition-recipes.md");
++  const exampleSource = "apps/playground/src/docs/examples";
++  const examples = existsSync(join(root, exampleSource)) ? filesIn(join(root, exampleSource)).map(path => relative(root, path)) : [];
++  entries.push(...examples);
++  const guides = entries.filter(file => file.startsWith("docs/ai/") && file.endsWith(".md"));
++  for (const guide of guides) entries.push(...manifestReferences(guide, readFileSync(join(root, guide), "utf8")));
+   // ponytail: full existing package sources preserve their export surface; prune only if snapshot size becomes a problem.
+-  for (const file of entries) {
++  for (const file of new Set(entries)) {
+     if (lstatSync(join(root, file)).isSymbolicLink()) throw new Error(`Symbolic link is not allowed: ${file}`);
+     const bytes = readFileSync(join(root, file));
+     sourceFiles[file] = sha(bytes);
+@@ -164,17 +183,42 @@ export function exportStarter(destination, { milestone = "M1" } = {}) {
+   const manifest = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+   manifest.name = "@rain-next/rn14-local-starter";
+   manifest.scripts = { dev: "pnpm --filter @rain-next/prototype dev", build: "pnpm -r build", typecheck: "pnpm -r typecheck" };
+-  const entry = milestone === "M2" ? main
++  let entry = milestone === "M2" ? main
+     .replace('import { TextbookFormScenario } from "./scenarios/bm-b/page";', 'import { TextbookFormScenario } from "./scenarios/bm-b/page";\nimport { GradingWorkbenchScenario } from "./scenarios/bm-c/page";\nimport { LearningReportScenario } from "./scenarios/bm-d/page";')
+     .replace('  const form = route === "#bm-b";', '  if (route === "#bm-c") return <DensityProvider density="default"><GradingWorkbenchScenario /></DensityProvider>;\n  if (route === "#bm-d") return <DensityProvider density="default"><LearningReportScenario /></DensityProvider>;\n  const form = route === "#bm-b";')
+     .replace('<Inline gap={16} align="center"><Button', '<Inline gap={16} align="center"><Button variant="secondary" onClick={() => { location.hash = "bm-c"; }}>作业批改</Button><Button variant="secondary" onClick={() => { location.hash = "bm-d"; }}>学习报告</Button><Button') : main;
++  const combinations = [
++    ["filter-toolbar", "FilterToolbarExample"],
++    ["sectioned-form", "SectionedFormExample"],
++    ["grading-actions", "GradingActionsExample"],
++  ];
++  const hasCombinations = combinations.every(([name]) => examples.includes(`${exampleSource}/${name}.tsx`));
++  if (hasCombinations) {
++    for (const [name] of combinations) {
++      const file = `apps/prototype/src/composition-examples/${name}.tsx`, bytes = readFileSync(join(output, `${exampleSource}/${name}.tsx`));
++      mkdirSync(dirname(join(output, file)), { recursive: true });
++      writeFileSync(join(output, file), bytes);
++      exportedFiles[file] = sha(bytes);
++    }
++    entry = combinations.map(([name, component]) => `import { ${component} } from "./composition-examples/${name}";`).join("\n") + "\n" + entry;
++    entry = entry.replace('  const form = route === "#bm-b";', '  if (route === "#compositions") return <DensityProvider density="default"><main className="rain-prototype"><h1>组合示例</h1><Button variant="secondary" onClick={() => { location.hash = "bm-a"; }}>返回课程资料</Button>' + combinations.map(([, component]) => `<${component} />`).join("") + '</main></DensityProvider>;\n  const form = route === "#bm-b";');
++    entry = entry.replace('<Inline gap={16} align="center"><Button', '<Inline gap={16} align="center"><Button variant="secondary" onClick={() => { location.hash = "compositions"; }}>组合示例</Button><Button');
++  }
+   const instructions = "# Rain Next 本地原型\n\n生成、优化或评审原型界面时，使用 [Rain Designer](.agents/skills/rain-designer/SKILL.md)，并读取 [本库接入说明](docs/ai/prototype-design.md)。先理解当前任务和信息关系，再核对和复用合适能力；历史整页不作为默认模板，示例仅在明确要求参考/还原或核实具体用法时读取。设计方法在 Skill 中维护，品牌、组件 API、真实导出与实现边界按本库说明查找；已读内容可复用，不循环启动。记录依据、选择原因、实际检查与未验证项，局部参数不升级为全库规则，AI 自查不替代用户验收。\n\n默认 Prototype Mode：共享 packages 与锁文件保持只读，优先已有 Variant、页面 Local Recipe、Local Fork。业务状态由页面持有；不扩大旧视觉接受，不自动发布、迁移、写入 Figma 或执行 Git 操作。用户的新任务指令优先。\n";
+   sourceFiles["scripts/rn14-starter.mjs"] = sha(readFileSync(join(root, "scripts/rn14-starter.mjs")));
+-  for (const [file, content] of Object.entries({ "package.json": json(manifest), "apps/prototype/src/main.tsx": entry, "AGENTS.md": instructions })) {
++  for (const [file, content] of Object.entries({ "package.json": json(manifest), "apps/prototype/src/main.tsx": entry, "AGENTS.md": instructions + "\n本包可用指南、推荐合同和组合示例见[便携索引](docs/ai/starter-index.md)；合同清单包含 Markdown 链接与反引号中的显式路径。\n" })) {
+     sourceFiles[file] = sha(readFileSync(join(root, file)));
+     writeFileSync(join(output, file), content);
+     exportedFiles[file] = sha(content);
+   }
++  const contracts = Object.keys(exportedFiles).filter(file => file.startsWith("manifests/")).sort();
++  const link = file => `[${file}](${relative("docs/ai", file)})`;
++  const index = "# Starter 便携索引\n\n本索引按本次实际导出生成。指南推荐的 Manifest 同时从 Markdown 链接和反引号路径收集；选择资产后再读对应合同，不必逐项载入。源码完整附带不等于全部能力已通过人工验收或可发布。\n\n## 使用指南\n\n" + guides.sort().map(file => `- ${link(file)}`).join("\n") + "\n\n## 推荐合同\n\n" + contracts.map(file => `- ${link(file)}`).join("\n") + (examples.length ? "\n\n## 可复制组合\n\n" + examples.map(file => `- ${link(file)}`).join("\n") : "") + (hasCombinations ? "\n\n启动后访问 `#compositions`，可操作三个示例。相同源码复制到 apps/prototype/src/composition-examples，参与本包 typecheck/build；所有导入使用 Rain 公共入口。示例的业务状态和模拟提交属于应用，不进入公共组件。\n" : "") + "\n\n## 追溯边界\n\nManifest 中的 sourceEvidence、examples、历史 Registry 和导航/G6 审阅日志可能指向原工作区追溯材料，本 Starter 未附带。它们不属于本索引的必读文件；不能据此声称已读取或验证，不递归复制审计档案。当前组件 API 以随包 Manifest、源码 README、真实 package exports 和精确锁文件为准。\n";
++  writeFileSync(join(output, "docs/ai/starter-index.md"), index);
++  exportedFiles["docs/ai/starter-index.md"] = sha(index);
++  for (const guide of guides) for (const file of manifestReferences(guide, readFileSync(join(output, guide), "utf8"))) {
++    if (!exportedFiles[file]) throw new Error(`Starter guide requires missing contract: ${guide} -> ${file}`);
++  }
+   const lock = { schemaVersion: "1.0", snapshotId: `rn14-${sha(json(exportedFiles)).slice(0, 16)}`, inputCommit: execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim(), workingTree: "content-addressed-local-snapshot", assetIdentity: "local-experiment", publication: "not-authorized", sourceFiles, files: exportedFiles };
+   writeFileSync(join(output, "source-lock.json"), json(lock));
+   return lock;
+diff --git a/scripts/rn14-starter.test.ts b/scripts/rn14-starter.test.ts
+index 63a3c5b8..6a46f6d6 100644
+--- a/scripts/rn14-starter.test.ts
++++ b/scripts/rn14-starter.test.ts
+@@ -6,9 +6,41 @@ import { dirname, join, resolve } from "node:path";
+ import { fileURLToPath } from "node:url";
+ import { expect, it } from "vitest";
+ import { createHash } from "node:crypto";
+-import { getValidatedTailwindB2History, hasRn14Authorization, parseYamlSubset } from "./verification-helpers.mjs";
++import { getValidatedTailwindB2History, hasRn14Authorization, parseYamlSubset, withSourceBindingTraversal } from "./verification-helpers.mjs";
+ 
+ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
++it.each(["M1", "M2"])("includes manifest paths written as inline code and indexes the portable guide closure in %s", async milestone => {
++  const { exportStarter, verifyStarter } = await import("./rn14-starter.mjs");
++  const temporary = mkdtempSync(join(tmpdir(), "rain-starter-contracts-"));
++  try {
++    const output = join(temporary, "starter"), lock = exportStarter(output, { milestone });
++    const contract = "manifests/ui/resizable.yaml";
++    expect(existsSync(join(output, contract)), "prototype-design requires this inline-code path").toBe(true);
++    expect(readFileSync(join(output, contract))).toEqual(readFileSync(join(root, contract)));
++    const index = readFileSync(join(output, "docs/ai/starter-index.md"), "utf8");
++    expect(index).toContain("../../manifests/ui/resizable.yaml");
++    expect(index).toContain("prototype-design.md");
++    expect(index).toContain("原工作区追溯材料");
++    expect(readFileSync(join(output, "AGENTS.md"), "utf8")).toContain("docs/ai/starter-index.md");
++    expect(lock.files[contract]).toBe(lock.sourceFiles[contract]);
++    expect(verifyStarter(output)).toBe(lock.snapshotId);
++  } finally { rmSync(temporary, { recursive: true, force: true }); }
++});
++it("builds the copyable public-API combinations as a standalone preview route", async () => {
++  const { exportStarter } = await import("./rn14-starter.mjs");
++  const temporary = mkdtempSync(join(tmpdir(), "rain-starter-compositions-"));
++  try {
++    const output = join(temporary, "starter"), lock = exportStarter(output);
++    for (const name of ["filter-toolbar", "sectioned-form", "grading-actions"]) {
++      const source = `apps/playground/src/docs/examples/${name}.tsx`, target = `apps/prototype/src/composition-examples/${name}.tsx`;
++      expect(existsSync(join(output, target)), target).toBe(true);
++      expect(readFileSync(join(output, target))).toEqual(readFileSync(join(root, source)));
++      expect(lock.files[target]).toBe(lock.sourceFiles[source]);
++    }
++    expect(readFileSync(join(output, "apps/prototype/src/main.tsx"), "utf8")).toContain('route === "#compositions"');
++    expect(readFileSync(join(output, "docs/ai/starter-index.md"), "utf8")).toContain("#compositions");
++  } finally { rmSync(temporary, { recursive: true, force: true }); }
++});
+ it("delivers reachable design guidance and locks it with each standalone starter", async () => {
+   const { exportStarter, verifyStarter } = await import("./rn14-starter.mjs");
+   const temporary = mkdtempSync(join(tmpdir(), "rain-design-guidance-"));
+@@ -22,6 +54,9 @@ it("delivers reachable design guidance and locks it with each standalone starter
+         if (visited.has(file)) continue;
+         visited.add(file);
+         const content = readFileSync(join(output, file), "utf8");
++        for (const match of content.matchAll(/`((?:manifests|packages)\/[^`\n]+\.(?:yaml|json|md|ts|tsx|css))`/g)) {
++          expect(existsSync(join(output, match[1]!)), `${file}: required inline path ${match[1]}`).toBe(true);
++        }
+         for (const match of content.matchAll(/\]\(([^)]+)\)/g)) {
+           const href = match[1];
+           if (!href || /^(?:https?:|#)/.test(href)) continue;
+@@ -142,7 +177,8 @@ it("exports a fixed local starter without links to the source workspace and dete
+     expect(verifyStarter(output)).toEqual(lock.snapshotId);
+     const tokens = "packages/foundations/src/tokens.css";
+     expect(readFileSync(join(output, tokens), "utf8")).toBe(readFileSync(join(root, tokens), "utf8"));
+-    expect(existsSync(join(output, "apps/playground"))).toBe(false);
++    expect(existsSync(join(output, "apps/playground/package.json"))).toBe(false);
++    expect(existsSync(join(output, "apps/playground/src/app.tsx"))).toBe(false);
+     expect(existsSync(join(output, "node_modules"))).toBe(false);
+     expect(readFileSync(join(output, "apps/prototype/src/main.tsx"), "utf8")).not.toContain(root);
+     expect(readFileSync(join(output, "pnpm-lock.yaml"), "utf8")).toBe(readFileSync(join(root, "pnpm-lock.yaml"), "utf8"));
+@@ -164,7 +200,7 @@ it("exports a fixed local starter without links to the source workspace and dete
+     expect(() => verifyStarter(output)).toThrow(/Symbolic link|Invalid path/);
+   } finally { rmSync(temporary, { recursive: true, force: true }); }
+ });
+-it("preserves the existing RN14 authorization and frozen B2 history", () => {
++it("preserves the existing RN14 authorization and frozen B2 history", () => withSourceBindingTraversal(root, () => {
+   const phase = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) as any;
+   expect(hasRn14Authorization(phase)).toBe(true);
+   expect(getValidatedTailwindB2History(phase)).toEqual(phase.phaseHistory.tailwindB2);
+@@ -191,4 +227,4 @@ it("preserves the existing RN14 authorization and frozen B2 history", () => {
+     expect(hasRn14Authorization(invalid)).toBe(false);
+     expect(() => getValidatedTailwindB2History(invalid)).toThrow();
+   }
+-});
++}));
+diff --git a/scripts/select-unification-test-fixture.ts b/scripts/select-unification-test-fixture.ts
+index e35983ca..24e95b01 100644
+--- a/scripts/select-unification-test-fixture.ts
++++ b/scripts/select-unification-test-fixture.ts
+@@ -2,6 +2,7 @@ import { dirname, join, relative } from "node:path";
+ import { constants, cpSync, existsSync, mkdirSync, readFileSync } from "node:fs";
+ import { closeoutBindingsPath, closeoutEvidence } from "./g1-g6-closeout-governance.mjs";
+ import { githubReviewEvidence, githubReviewFixtureFiles } from "./github-review-successor.mjs";
++import { deepReviewFixtureFiles } from "./deep-review-successor.mjs";
+ 
+ function copyG1G6CloseoutFixture(copy: (file: string) => void, root = process.cwd()) {
+   if (!existsSync(join(root, closeoutBindingsPath))) return;
+@@ -15,6 +16,7 @@ function copyG1G6CloseoutFixture(copy: (file: string) => void, root = process.cw
+   ]);
+   for (const file of files) copy(file);
+   for (const file of githubReviewFixtureFiles(root)) copy(file);
++  for (const file of deepReviewFixtureFiles(root)) copy(file);
+ }
+ 
+ function copyG6GovernanceFixture(copy: (file: string) => void) {
+diff --git a/scripts/tabs-governance.test.ts b/scripts/tabs-governance.test.ts
+index bc95a7ac..79f8abaf 100644
+--- a/scripts/tabs-governance.test.ts
++++ b/scripts/tabs-governance.test.ts
+@@ -21,7 +21,7 @@ const phase = () => {
+   return status;
+ };
+ 
+-it("admits only the exact Tabs stage without changing frozen history or inventing a Gate", () => {
++it("admits only the exact Tabs stage without changing frozen history or inventing a Gate", () => helpers.withSourceBindingTraversal(process.cwd(), () => {
+   expect(helpers.hasTabsRefinementAuthorization).toBeTypeOf("function");
+   const status = phase();
+   expect(helpers.hasTabsRefinementAuthorization(status)).toBe(true);
+@@ -38,7 +38,7 @@ it("admits only the exact Tabs stage without changing frozen history or inventin
+   }
+   const changed = phase(); changed.phaseHistory.tailwindB2.currentPhase.progress = "changed";
+   expect(() => helpers.validateTokenFoundationsV1Phase(changed)).toThrow();
+-});
++}));
+ 
+ it("preflight permissions cannot authorize public Tabs, another file or another headless module", () => {
+   expect(helpers.getTabsRefinementFiles).toBeTypeOf("function");
+@@ -125,14 +125,9 @@ it("protects only the reviewed Tabs CSS rules, retaining shared Focus and color
+   const contract = helpers.parseYamlSubset(readFileSync('manifests/contracts/tailwind-b2.yaml', 'utf8'));
+   const check = (css: string, authorized = true) => tailwind.validateTabsCssExceptions({ source: css, contract, authorized });
+   expect(check(source)).toEqual([]);
+-  const predecessor = helpers.getG6PreviousSource(resolve('.'), 'packages/ui/src/styles.css');
+-  if (predecessor == null) throw new Error('Tabs synthetic fixture requires the verified G6 predecessor');
+-  const importPrefix = [
+-    '@import "./navigation/navigation.css";', '@import "./navigation/navigation-families.css";',
+-    '@import "./tree/tree.css";', '@import "./item/item.css";', '@import "./progress/progress.css";',
+-  ].join('\n') + '\n';
+-  expect(predecessor.startsWith(importPrefix)).toBe(true);
+-  const mutationSource = predecessor.slice(importPrefix.length);
++  // R01 mutations must exercise the repaired live rules, not the historical
++  // G6 predecessor whose undefined divider token is intentionally preserved.
++  const mutationSource = source;
+   expect(check(mutationSource + '\n.unrelated { display: block; }')).toEqual([]);
+   for (const added of [
+     '.rain-tabs { --tabs-font: 20px; }', '.rain-tabs__tab { color: red; }',
+diff --git a/scripts/verification-helpers.mjs b/scripts/verification-helpers.mjs
+index 17385912..13acd04e 100644
+--- a/scripts/verification-helpers.mjs
++++ b/scripts/verification-helpers.mjs
+@@ -4,6 +4,7 @@ import { join, resolve } from "node:path";
+ import { readG6SourceBindings, g6Evidence } from "./g6-governance.mjs";
+ import { readG1G6CloseoutBindings, restoreG1G6CloseoutPhase } from "./g1-g6-closeout-governance.mjs";
+ import { readGithubReviewBindings } from "./github-review-successor.mjs";
++import { readDeepReviewBindings } from "./deep-review-successor.mjs";
+ 
+ // Preserve RN-06/RN-08 historical hashes while accepting only the exact upstream
+ // width implementation approved on 2026-09-14. See the table-card-parity plan.
+@@ -635,7 +636,11 @@ export function getQuestionnaireCloseoutRoot(root) {
+ // Only scalar/source-byte getters may borrow this verified record inside a
+ // read-only traversal. Public record readers always return an isolated clone.
+ function getG6SourceBindingView(root, status) {
+-  return verifySourceBindingTraversal("getG6SourceBindings", root, status, () => readGithubReviewBindings(root, status, parseYamlSubset, (view, previousStatus, parsePhase) => readG1G6CloseoutBindings(view, previousStatus, parsePhase, readG6SourceBindings)) ?? readG1G6CloseoutBindings(root, status, parseYamlSubset, readG6SourceBindings) ?? readG6SourceBindings(root, status, parseYamlSubset), false);
++  const previous = (view, previousStatus, parsePhase) => readGithubReviewBindings(view, previousStatus, parsePhase,
++    (closeoutView, closeoutStatus, closeoutParser) => readG1G6CloseoutBindings(closeoutView, closeoutStatus, closeoutParser, readG6SourceBindings))
++    ?? readG1G6CloseoutBindings(view, previousStatus, parsePhase, readG6SourceBindings) ?? readG6SourceBindings(view, previousStatus, parsePhase);
++  return verifySourceBindingTraversal("getG6SourceBindings", root, status,
++    () => readDeepReviewBindings(root, status, parseYamlSubset, previous) ?? previous(root, status, parseYamlSubset), false);
+ }
+ 
+ export function getG6SourceBindings(root, status) {
+@@ -3449,7 +3454,7 @@ export function getG4SizingReviewSourceBindings(root, status) {
+   for (const [file, binding] of Object.entries(record.sourceFiles)) if (!exactRecord(binding, { before: baseline.files[file] ?? null, after: hash(file) })) throw new Error(`G4 sizing source successor changed: ${file}`);
+   for (const [file, expected] of Object.entries(record.retainedRecords)) if (expected !== baseline.files[file] || hash(file) !== expected) throw new Error(`G4 sizing retained predecessor or raw token changed: ${file}`);
+   for (const file of ["component-doc", "input-page", "select-page", "input-number-page", "tag-page"].map(name => `apps/playground/src/docs/components/${name}.css`)) {
+-    const failures = validateG4SizingCssSuccessor(file, readFileSync(join(root, beforeRoot, file), "utf8"), readFileSync(join(root, file), "utf8"));
++    const failures = validateG4SizingCssSuccessor(file, readFileSync(join(root, beforeRoot, file), "utf8"), getG6PreviousSource(root, file) ?? readFileSync(join(root, file), "utf8"));
+     if (failures.length) throw new Error(failures.join("; "));
+   }
+   const beforeStatus = parseYamlSubset(readFileSync(join(root, beforeRoot, "status/current-phase.yaml"), "utf8")), current = structuredClone(status);
+@@ -5021,9 +5026,18 @@ export function getRecordedNavigationSourceBindings(root, status) {
+   const successor = JSON.parse(readFileSync(join(root, "evidence/runtime/navigation-playground-refinement-2026-10-09/source-after.json"), "utf8"));
+   if (original.filesSha256[w7Manifest] !== "d4b10b46ffc4dbd923496b8770cff302ddd191091d8e241d535af4f84e3a5070"
+     || !w7Source || createHash("sha256").update(w7Source).digest("hex") !== successor.filesSha256[w7Manifest]) throw new Error("Navigation successor must retain the exact recorded W7 R2 Manifest successor");
++  const maintenanceSources = getG6SourceBindingView(root, status)?.deepReviewSuccessor?.sourceFiles ?? {};
+   for (const [file, binding] of Object.entries(record.sourceFiles)) {
+     const source = readTaskFourFile(root, file, "Navigation successor", [], { binary: true });
+-    if (!source || createHash("sha256").update(source).digest("hex") !== binding.after) throw new Error("Navigation successor source changed: " + file);
++    const maintenance = maintenanceSources[file];
++    const expected = maintenance?.before === binding.after ? maintenance.after : binding.after;
++    if (!source || createHash("sha256").update(source).digest("hex") !== expected) throw new Error("Navigation successor source changed: " + file);
++    if (maintenance?.before === binding.after) record.sourceFiles[file] = { ...binding, after: expected };
++  }
++  const workspaceRegistry = "registry/navigation-v042-workspaces.json", maintenance = maintenanceSources[workspaceRegistry];
++  if (maintenance?.before === "9ed631f4aeb1cfeebda0469cff2f290364af6c8793971eeeb7c88b4eab02bfad") {
++    record.sourceFiles[workspaceRegistry] = { before: maintenance.before, after: maintenance.after };
++    record.registryPredecessors[workspaceRegistry] = maintenance.before;
+   }
+   return record;
+ }
+@@ -5033,12 +5047,14 @@ export function getRecordedChartSourceBindings(root, status) {
+   validateTokenFoundationsV1Phase(status);
+   const record = readLibraryRecordedInventory(root).charts;
+   const successor = getLibraryGovernanceCloseoutSourceBindings(root), sourceFiles = {};
++  const maintenanceSources = getG6SourceBindingView(root, status)?.deepReviewSuccessor?.sourceFiles ?? {};
+   for (const [file, expected] of Object.entries(record.sourceFiles)) {
+     const owned = successor?.sourceFiles[file];
+     if (owned?.before === expected && owned.after === null) continue;
+     const source = readTaskFourFile(root, file, "Chart source", [], { binary: true });
+     const actual = source && createHash("sha256").update(source).digest("hex");
+-    if (actual !== expected && !(owned?.before === expected && owned.after === actual)) throw new Error("Chart source changed: " + file);
++    const maintenance = maintenanceSources[file];
++    if (actual !== expected && !(owned?.before === expected && owned.after === actual) && !(maintenance?.before === expected && maintenance.after === actual)) throw new Error("Chart source changed: " + file);
+     sourceFiles[file] = actual;
+   }
+   for (const [file, binding] of Object.entries(successor?.sourceFiles ?? {})) {
+diff --git a/scripts/verify-boundaries.mjs b/scripts/verify-boundaries.mjs
+index 4e5a6e5c..2b27d75d 100644
+--- a/scripts/verify-boundaries.mjs
++++ b/scripts/verify-boundaries.mjs
+@@ -2468,6 +2468,11 @@ if (isDayThree || isTailwindB2) {
+     expectedScripts["package.json"]["verify:tokens"] = "node scripts/verify-token-foundations.mjs";
+     expectedScripts["package.json"]["verify:governance"] += " && pnpm verify:tokens";
+   }
++  if (g6Bindings?.deepReviewSuccessor) {
++    expectedScripts["package.json"]["verify:css-variables"] = "node scripts/verify-css-variables.mjs";
++    expectedScripts["package.json"]["verify:playground-status"] = "node scripts/playground-status.mjs --check";
++    expectedScripts["package.json"]["verify:governance"] += " && pnpm verify:css-variables && pnpm verify:playground-status";
++  }
+   if (iconFiles.authorized) {
+     const actualScripts = loadPackage("package.json")?.scripts ?? {};
+     for (const [name, command] of Object.entries({
+diff --git a/scripts/verify-tailwind-b2.mjs b/scripts/verify-tailwind-b2.mjs
+index 4874b253..b643508e 100644
+--- a/scripts/verify-tailwind-b2.mjs
++++ b/scripts/verify-tailwind-b2.mjs
+@@ -5504,10 +5504,14 @@ export function validateTabsCssExceptions({ source, contract, authorized, root =
+     if (!generic && !/rain-tabs|ui-tabs|--tabs-/.test(selector + body) && !/\[(?:data-(?:slot|part)|role)\s*[*^$~|]?=\s*["']?tab(?:list)?(?=["'\]\s])/.test(selector)) return [];
+     return [{ scope, selector: selector.replace(/\s+/g, " "), declarations: stripCssComments(body).replace(/\s+/g, " ").trim() }];
+   });
+-  const rules = collect(source);
++  // Inspect the live rules: generic G6 normalization intentionally reads an older
++  // stylesheet and would otherwise hide the R01 divider correction. The full
++  // stylesheet import inventory remains checked by verifyTailwindB2.
++  const rules = collect(source.replace(/^@import\s+[^;]+;\s*$/gm, ""));
+   if (!same(entries.map(({ id }) => id), authorized ? ids : []) || authorized && ids.some(id => !source.includes(`@rain-css-exception ${id}`))) failures.push("Tabs must retain its exact CSS exception inventory and markers");
+   const fingerprint = createHash("sha256").update(JSON.stringify(rules)).digest("hex");
+-  if (authorized ? fingerprint !== "7df7c0763e10aa586c00196860c1fc32edcc81e2943d7a63055bd7745f60fd3c" : rules.length > 0) failures.push("Tabs native CSS changed outside reviewed geometry, target spacing or system-color rules");
++  // R01: three undefined space-1 uses became line-thickness-1; see deep-review-fixes-2026-10-17/css.md.
++  if (authorized ? fingerprint !== "9811e6b76b9df7e453733c45921b5c7dcf71a1ff2e50e57827d76f50a3278625" : rules.length > 0) failures.push(`Tabs native CSS changed outside reviewed geometry, target spacing or system-color rules (${fingerprint})`);
+   return failures;
+ }
+ 
+diff --git a/scripts/verify-token-foundations.mjs b/scripts/verify-token-foundations.mjs
+index ef442912..89a9c539 100644
+--- a/scripts/verify-token-foundations.mjs
++++ b/scripts/verify-token-foundations.mjs
+@@ -85,10 +85,33 @@ export function getLibraryPaintObservations(root = process.cwd()) {
+   const source = readFileSync(join(root, recordedPaintPath), "utf8");
+   if (createHash("sha256").update(source).digest("hex") !== "139f0790547812d8299ba14c6226c46a285ad0c8940163eb8dd29ea60fb9f0e8") throw new Error("Recorded paint roles, values or original thresholds changed");
+   const record = JSON.parse(source);
++  const bindings = getG6SourceBindings(root), maintenance = bindings?.deepReviewSuccessor;
+   for (const file of [...record.localSources, ...record.inlineSources]) {
+-    if (createHash("sha256").update(readFileSync(join(root, file.filePath))).digest("hex") !== file.sha256) throw new Error("Recorded paint source changed: " + file.filePath);
++    const actual = createHash("sha256").update(readFileSync(join(root, file.filePath))).digest("hex");
++    if (actual === file.sha256) continue;
++    const successor = maintenance?.sourceFiles[file.filePath];
++    if (successor?.before !== file.sha256 || successor.after !== actual) throw new Error("Recorded paint source changed: " + file.filePath);
++    // R01 replaces only these undefined color references; preserve the original
++    // pending roles, minimums and unaccepted status while validating current paints.
++    const replacements = {
++      "apps/prototype/src/scenarios/bklit-validation/chart-theme.css": [[".rain-chart :is(button,a,select,summary,[tabindex]):focus-visible", "outline", "2px solid var(--rain-color-focus-control)"]],
++      "apps/prototype/src/scenarios/bklit-validation/page.css": [[".bklit-lab a", "color", "var(--rain-color-text-link)"], [".bklit-lab :is(a, select, summary, [tabindex]):focus-visible", "outline", "2px solid var(--rain-color-focus-control)"]],
++      "apps/prototype/src/scenarios/exam-editor/page.css": [],
++    }[file.filePath];
++    if (!replacements) throw new Error("Unregistered maintenance paint successor: " + file.filePath);
++    for (const [selector, property, value] of replacements) {
++      const rows = file.inventory.filter(row => row.selector === selector && row.property === property && row.value.includes("var(--rain-brand-primary)"));
++      if (rows.length !== 1 || rows[0].acceptedException !== false) throw new Error("Maintenance paint predecessor changed: " + file.filePath);
++      rows[0].value = value;
++    }
++    file.sha256 = actual;
++  }
++  const additions = bindings?.closeoutSuccessor?.paintObservations;
++  for (const file of [...(additions?.localSources ?? []), ...(additions?.inlineSources ?? [])]) {
++    const successor = maintenance?.sourceFiles[file.filePath];
++    // Layout-only changes still have to match every original paint declaration.
++    if (successor?.before === file.sha256) file.sha256 = successor.after;
+   }
+-  const additions = getG6SourceBindings(root)?.closeoutSuccessor?.paintObservations;
+   return additions ? { ...record, localSources: [...record.localSources, ...additions.localSources], inlineSources: [...record.inlineSources, ...additions.inlineSources] } : record;
+ }
+ 
+@@ -215,10 +238,12 @@ function getG123ColorRegistration(root) {
+   const registration = JSON.parse(source);
+   const successor = hasG23FamilyVisualRefinementAuthorization(phase) ? getG23DocumentationSourceBindings(root, phase) : null;
+   const navigation = getRecordedNavigationSourceBindings(root, phase);
++  const maintenance = getG6SourceBindings(root, phase)?.deepReviewSuccessor?.sourceFiles ?? {};
+   for (const [file, expected] of Object.entries(registration.sourceFiles)) {
+     const binding = successor?.sourceFiles[file];
+     const actual = createHash("sha256").update(readFileSync(join(root, file))).digest("hex"), prior = binding?.after ?? expected, next = navigation?.sourceFiles[file];
+-    if (binding && binding.before !== expected || actual !== prior && !(next?.before === prior && next.after === actual)) throw new Error(`G1–G3 color successor source changed: ${file}`);
++    const registered = next?.before === prior ? next.after : prior, current = maintenance[file];
++    if (binding && binding.before !== expected || actual !== registered && !(current?.before === registered && current.after === actual)) throw new Error(`G1–G3 color successor source changed: ${file}`);
+   }
+   if (successor) {
+     const directory = hasSheetTaskRefinementAuthorization(phase) ? phase.componentRefinements.sheetTaskRefinement.feedbackRefinement ? "sheet-feedback-2026-10-09" : "sheet-task-refinement-2026-10-09" : hasG23RemainingVisualRefinementAuthorization(phase) ? "g2-g3-remaining-families-2026-10-08" : "g2-g3-family-refinement-2026-10-08";
+@@ -250,9 +275,11 @@ export function getButtonGroupRepairDocumentationColorConsumers(root = process.c
+     if (createHash("sha256").update(JSON.stringify(projection, null, 2) + "\n").digest("hex") !== "1fc5dd9d316a3b38cae670004c4bd49fc64620c466ef83a1a90aa4b44fc5695f") throw new Error("Button Group sizes must retain the prior paint roles, parent surfaces and thresholds");
+   }
+   const successor = hasG23FamilyVisualRefinementAuthorization(phase) ? getG23DocumentationSourceBindings(root, phase) : null;
++  const maintenance = getG6SourceBindings(root, phase)?.deepReviewSuccessor?.sourceFiles ?? {};
+   for (const [file, expected] of Object.entries(registration.sourceFiles)) {
+     const binding = successor?.sourceFiles[file];
+-    if (binding && binding.before !== expected || createHash("sha256").update(readFileSync(join(root, file))).digest("hex") !== (binding?.after ?? expected)) throw new Error(`Button Group dark documentation source changed: ${file}`);
++    const actual = createHash("sha256").update(readFileSync(join(root, file))).digest("hex"), registered = binding?.after ?? expected, current = maintenance[file];
++    if (binding && binding.before !== expected || actual !== registered && !(current?.before === registered && current.after === actual)) throw new Error(`Button Group dark documentation source changed: ${file}`);
+   }
+   return registration.documentation;
+ }
+@@ -527,8 +554,21 @@ export function validateRegisteredRecipeColors(options) {
+   return withSourceBindingTraversal(options.root ?? process.cwd(), () => validateRegisteredRecipeColorsInTraversal(options));
+ }
+ 
++export function prepareDeepReviewSharedPaintSource(root, source) {
++  const file = "packages/ui/src/styles.css", binding = getG6SourceBindings(root)?.deepReviewSuccessor?.sourceFiles[file];
++  if (!binding || createHash("sha256").update(source).digest("hex") !== binding.after) return source;
++  const before = readFileSync(join(root, binding.beforeSnapshot), "utf8");
++  const rules = before.match(/^.*\.rain-tabs__divider.*var\(--rain-space-1\).*$/gm) ?? [];
++  const projected = rules.reduce((css, rule) => css.replace(rule, rule.replace("var(--rain-space-1)", "var(--rain-line-thickness-1)")), before);
++  if (rules.length !== 3 || projected !== source) throw new Error("Deep review shared paint adaptation requires exactly the three Tabs divider geometry repairs");
++  // Restore only non-paint geometry so the existing Questionnaire verifier can
++  // check its exact predecessor and keep its original pending color findings.
++  return before;
++}
++
+ function validateRegisteredRecipeColorsInTraversal({ filePath, source, outputs = getTokenFoundationOutputs(), root = process.cwd(), pendingContrastFindings = [], pendingEligibilityFindings = [], scopedEligibilityDecisions = [] }) {
+   const failures = [], ranges = [];
++  if (filePath === "packages/ui/src/styles.css") source = prepareDeepReviewSharedPaintSource(root, source);
+   source = prepareQuestionnaireReuseColors(filePath, source, filePath === "packages/ui/src/styles.css" ? getQuestionnaireCloseoutRoot(root) : root, failures, pendingContrastFindings);
+   source = prepareDialogLayoutSource(filePath, source, existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {});
+   source = prepareInputNumberSource(filePath, source, existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {}, failures);
+diff --git a/scripts/verify-workspace.mjs b/scripts/verify-workspace.mjs
+index 9f4dbfdd..7d6dfd22 100644
+--- a/scripts/verify-workspace.mjs
++++ b/scripts/verify-workspace.mjs
+@@ -226,9 +226,13 @@ const expectedScripts = {
+     "verify:tailwind-b2": "node scripts/verify-tailwind-b2.mjs",
+   } : {}),
+   ...(isTokenFoundationsV1 ? { "generate:tokens": "node scripts/generate-token-foundations.mjs", "verify:tokens": "node scripts/verify-token-foundations.mjs" } : {}),
++  ...(g6Bindings?.deepReviewSuccessor ? {
++    "verify:css-variables": "node scripts/verify-css-variables.mjs",
++    "verify:playground-status": "node scripts/playground-status.mjs --check",
++  } : {}),
+   "verify:reuse-audit": "node scripts/verify-rain-classic-reuse-audit.mjs",
+   "verify:governance":
+-    "pnpm verify:lockfile && pnpm verify:workspace && pnpm verify:evidence && pnpm verify:boundaries && pnpm verify:tailwind-b2" + (isTokenFoundationsV1 ? " && pnpm verify:tokens" : ""),
++    "pnpm verify:lockfile && pnpm verify:workspace && pnpm verify:evidence && pnpm verify:boundaries && pnpm verify:tailwind-b2" + (isTokenFoundationsV1 ? " && pnpm verify:tokens" : "") + (g6Bindings?.deepReviewSuccessor ? " && pnpm verify:css-variables && pnpm verify:playground-status" : ""),
+   verify:
+     "pnpm verify:governance && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e",
+ };
+diff --git a/status/current-phase.yaml b/status/current-phase.yaml
+index 317b6de2..1e98dbb7 100644
+--- a/status/current-phase.yaml
++++ b/status/current-phase.yaml
+@@ -3972,3 +3972,25 @@ githubReview20261017:
+   figmaWrite: "not-authorized"
+   businessMigration: "not-authorized"
+   evidence: "evidence/runtime/github-review-successor-2026-10-17/verification.md"
++
++deepReviewMaintenance20261017:
++  authorizedAt: "2026-10-17"
++  decisionSource: "current-user-explicit-instruction"
++  userStatement: "先处理五项优先问题；修正 Playground 的当前状态与可复制示例；补少量高价值组合指引。"
++  workMode: "system-mode-local-maintenance"
++  scope: "R01-R07; delayed-document-focus; three-composition-guides"
++  plan: "docs/plans/2026-10-17-deep-review-fixes.md"
++  evidence: "evidence/runtime/deep-review-fixes-2026-10-17/verification.md"
++  implementation: "completed-local"
++  automatedVerification: "recorded-in-evidence"
++  humanGate: "not-granted-by-this-record"
++  publication: "unpublished"
++  gitFigmaBusinessMigration: "not-performed"
++
++playgroundDeliverySummary:
++  updatedAt: "2026-10-17"
++  title: "本地源码组件库与业务原型"
++  scope: "G1–G6 组件与组合、导航与工作区、图表，以及教材、数据管理、批改和报告原型可体验。"
++  currentWork: "当前维护：消费边界、示例校验与组合指引。"
++  acceptance: "人工确认仅覆盖各自已审阅的局部场景；新组合需独立确认。"
++  limitations: "对比度、Safari、读屏与真实触控仍按资产记录；包与在线 Registry 未发布。"
+diff --git a/tests/e2e/playground-shell.spec.ts b/tests/e2e/playground-shell.spec.ts
+index aa9c82db..6255a3ce 100644
+--- a/tests/e2e/playground-shell.spec.ts
++++ b/tests/e2e/playground-shell.spec.ts
+@@ -1,5 +1,6 @@
+ import { expect, test } from "@playwright/test";
+ 
++import delivery from "../../apps/playground/src/docs/library-status.generated.json" with { type: "json" };
+ import { contrastRatio } from "./color-contrast";
+ 
+ const expectedBenchmarks = [
+@@ -40,15 +41,17 @@ test("the Playground shell exposes a flat, inspectable overview", async ({ page
+ 
+   await expect(page.getByText("尚未实现")).toHaveCount(0);
+   await expect(page.getByLabel("当前阶段")).toContainText(
+-    "第 0/1 批 · 基础能力建设 · 视觉验收待确认",
++    delivery.title,
+   );
+-  await expect(page.getByLabel("当前阶段")).toContainText("token-foundations-v1");
++  await expect(page.getByLabel("当前阶段")).toContainText(delivery.updatedAt);
+   await expect(page.getByLabel("历史基线")).toContainText("Day 3 Core UI 已完成本地实现和自动检查");
+   await expect(page.locator("nav, aside")).toHaveCount(0);
+ 
+   const foundationsEntry = page.getByRole("link", { name: /Foundations/i });
+   const componentsEntry = page.getByRole("link", { name: /^Components/i });
+   await page.keyboard.press("Tab");
++  await expect(page.locator(".overview-history summary")).toBeFocused();
++  await page.keyboard.press("Tab");
+   await expect(foundationsEntry).toBeFocused();
+   await page.keyboard.press("Tab");
+   await expect(componentsEntry).toBeFocused();
+@@ -77,7 +80,7 @@ test("the Playground shell exposes a flat, inspectable overview", async ({ page
+ 
+   const introTextStyles = await page.locator(".intro-copy").evaluate((element) => {
+     const styles = getComputedStyle(element);
+-    const parentStyles = getComputedStyle(element.parentElement as HTMLElement);
++    const parentStyles = getComputedStyle(element.closest(".intro") as HTMLElement);
+     return {
+       backgroundColor: parentStyles.backgroundColor,
+       color: styles.color,

@@ -1,0 +1,129 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-chart-live-line"
+name: "实时折线 LiveLineChart"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "react-only"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/charts/vendor/charts/live-line-chart.tsx"
+styleSourcePath: "packages/ui/src/charts/styles.css"
+sourceVersion: "bklit@5d699897b2dde26374cf15501dbaadbc52cea982/rain-local-2026-10-08"
+description: "图表：即时观测、有界实时数据、暂停恢复和手动追加。"
+useWhen:
+  - "持续追加带Unix秒时间戳的观测，生产者可停止与销毁。"
+doNotUseWhen:
+  - "毫秒时间戳直接传入；无界缓冲；把图表paused当作外部订阅已清理。"
+anatomy:
+  - "宿主标题/单位、原生图形、精确读数/数据表。"
+parts:
+  - "LiveLineChart"
+  - "LiveLine"
+  - "LiveXAxis"
+  - "LiveYAxis"
+  - "ChartTooltip"
+  - "宿主暂停/追加控制与精确表"
+props:
+  - "data为LiveLinePoint[]，time为Unix秒且单调递增，value为最新观测；dataKey与window显式匹配。"
+  - "paused冻结原生时钟；LiveXAxis.formatTime接收毫秒，显示时转换；宿主拥有生产者，减少动效停止自动追加。"
+slots:
+  - "原生children/提示render回调；宿主布局、业务筛选及数据表。"
+variants:
+  - "trend-soft趋势"
+  - "sign动量角色"
+  - "暂停/手动追加"
+states:
+  - "正常、悬停/焦点、更新/重播；动效/减少动效分别检查。"
+  - "0有效；暂停或减少动效手动追加后同步时钟基准；无数据和无效时间拒绝绘图。"
+  - "空/无效状态由宿主先校验并说明，非通用数据适配器。"
+dependencies:
+  - "React/React DOM、Rain Foundations；实际固定npm及类型依赖见registry/charts.json。"
+tokens:
+  - "Rain表面、文字、网格、提示、指示器和Focus角色，公共规则见packages/ui/src/charts/README.md。"
+  - "trend-soft主色线和轻面；sign仅动量up/down/flat明确解释，不等于好坏。"
+layoutConstraints:
+  - "示例300px高、60秒窗口、最多120条；单独挂载当前图型，切换卸载释放资源。"
+  - ".rain-chart为独立样式作用域，需可测量尺寸；不依赖实验页祖先或全局Bklit reset。"
+compositionRules:
+  - "Unix秒有序有限、值有限；宿主有界缓存与计时清理；示例每秒追加一次为mock。"
+  - "保留Bklit原生Parts与默认展示强度；数据/单位/分母与色标、提示和表值一致。"
+allowedModifications:
+  - "通过原生Props/Parts选择已列配方、尺寸、标签、单位及受控状态；宿主拥有数据校验。"
+restrictedModifications:
+  - "不改全局Token、品牌主蓝或偷偷扩大到未支持数据合同；不从vendor私有路径绕过公共入口。"
+accessibility:
+  - "宿主提供标题、单位、文本状态和精确数据表；图例可用renderItem接入button焦点。"
+  - "原生hover不代表所有点键盘可达；真实读屏/物理触屏/完整对比度未登记通过。"
+examples:
+  - "/#chart-live-line"
+  - "apps/playground/src/docs/components/chart-examples.tsx"
+  - "apps/playground/src/docs/components/chart-data.ts"
+  - "apps/playground/src/docs/components/chart-variants/special.tsx"
+  - "apps/prototype/bklit-catalog.html#chart-live-line"
+recipes:
+  - "monochrome-blue"
+  - "trend-soft"
+  - "sign"
+defaultRecipe: "trend-soft"
+antiPatterns:
+  - "毫秒时间戳直接传入；无界缓冲；把图表paused当作外部订阅已清理。"
+relatedComponents:
+  - "ui-chart-line"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Figma MbWg1ft5zk1JRQiQ6dS30e / 2901:130074 图表分类参考；设计稿配色与渐变提炼，不要求逐像素复制。"
+    - "docs/plans/2026-10-07-chart-reference-recipes-design.md"
+  externalReferences:
+    - "https://github.com/bklit/bklit-ui/tree/5d699897b2dde26374cf15501dbaadbc52cea982/packages/ui/src/charts"
+  retainedTraits:
+    - "Bklit原生图形、Compound API、默认运动与交互表现。"
+  redesignedTraits:
+    - "Rain配色/渐变、字体职责、浅辅助文字、Regular图例和必要轴距；源码必要补丁见source-lock。"
+  intentionallyNotInherited:
+    - "Bklit全局reset和默认石灰色组；未复制业务Mock为UI依赖。"
+figmaMapping:
+  status: "reference-only"
+  fileKey: "MbWg1ft5zk1JRQiQ6dS30e"
+  nodeId: "2901:130074"
+  codeConnect: "not-established"
+sourceEvidence:
+  - "packages/ui/src/charts/vendor/source-lock.json"
+  - "evidence/runtime/bklit-rain-catalog/p0/source-audit.md"
+  - "evidence/runtime/bklit-rain-catalog/verification.md"
+migrationNotes:
+  - "本地共享候选；未发布、未写回Figma、未迁移Rain Classic或生产业务。"
+  - "共同安装、数据状态和升级合同见packages/ui/src/charts/README.md；用途选择见docs/ai/charts.md。"
+verification:
+  automated: "scoped-passed"
+  independentReview: "scoped-passed"
+  humanGate: "awaiting-user-review"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/bklit-rain-catalog/verification.md"
+
+variantCoverage:
+  sourceReference: "apps/playground/src/docs/components/chart-variants/reference.json"
+  plan: "docs/plans/2026-10-08-chart-variants-implementation-plan.md"
+  count: 9
+  implementation: "completed"
+  automatedVerification: "scoped-passed-170-directory"
+  evidence: "evidence/runtime/chart-variants/run-_tv8jhva/verification.md"
+  perVariantEvidence: "evidence/runtime/chart-variants/run-_tv8jhva/per-variant-results.json"
+  visualHumanGate: "awaiting-user-review"
+  ids:
+    - "live-line-interactive"
+    - "live-line-default"
+    - "live-line-now-offset"
+    - "live-line-momentum-colors"
+    - "live-line-line-only"
+    - "live-line-pattern-background"
+    - "live-line-dot-grid-background"
+    - "live-line-reference-band"
+    - "live-line-pattern-reference-band"
+  callContract:
+    - "9项生产者有界至120点；单位为Unix秒，各卡单独暂停/恢复/手动追加。"
+    - "离屏、后台、用户暂停或减少动效停止生产和原生时钟；手动追加推进冻结窗口。"
+  limitations:
+    - "浏览器真实RAF/时间控制已测；物理设备节流、Safari/VoiceOver未确认。"

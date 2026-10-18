@@ -1,9 +1,10 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Page } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { measureColorContrast } from "../../packages/foundations/src/color-registry";
 
-const evidence = resolve(process.env.RAIN_SELECTION_PATTERNS_EVIDENCE_DIR ?? "evidence/runtime/selection-patterns");
+const evidence = resolve(process.env.RAIN_SELECTION_PATTERNS_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/selection-patterns"));
 const main = (page: Page) => page.locator('[data-rain-id="selection-patterns-page"]');
 const choose = async (page: Page, name: string) => page.getByRole("radio", { name, exact: true }).locator("..").click();
 test.beforeEach(async ({ page }) => {

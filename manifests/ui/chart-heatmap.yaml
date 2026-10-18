@@ -127,3 +127,23 @@ variantCoverage:
     - "横滚、Sunday/Monday完整周、年度/半年季度标签和精确本地日期一致。"
   limitations:
     - "渐变图例使用现有intensity角色；活跃等级0–4是演示指标，不是颜色对比度认证。"
+
+discovery:
+  version: 1
+  familyId: "charts"
+  taskIds:
+    - "analyze"
+  searchAliases:
+    - "heatmap"
+    - "图表"
+  implementationRole: "root"
+  controlScope: "按周和日期组织的日历强度；有效 0 与缺测分开"
+  stateOwner: "宿主拥有经过校验的数据、单位、分母、稳定身份与精确读数；图表根提供自身系列/轴/图例/提示所需上下文。查询过滤、业务选择与持久化不由图表隐式决定。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-chart-matrix"
+      condition: "任意分类行列关系使用 MatrixChart；Heatmap 的周列与日期序列不应伪造为分类。"
+      evidence:
+        path: "packages/ui/src/charts/vendor/charts/heatmap/heatmap-chart.tsx"
+        symbol: "HeatmapChart"
+        kind: "contract"

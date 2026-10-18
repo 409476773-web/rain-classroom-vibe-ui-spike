@@ -1,9 +1,10 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { contrastRatio } from "./color-contrast";
 
 const url = `${process.env.RAIN_TEACHER_URL ?? "http://127.0.0.1:5369"}/#teacher-grading`;
-const evidence = "evidence/runtime/teacher-grading-annotations/browser-followup";
+const evidence = evidenceOutputPath("evidence/runtime/teacher-grading-annotations/browser-followup");
 test.beforeAll(() => mkdirSync(evidence, { recursive: true }));
 
 test("paper and order tabs preserve drafts; disclosures and rubric support keyboard use", async ({ page }) => {

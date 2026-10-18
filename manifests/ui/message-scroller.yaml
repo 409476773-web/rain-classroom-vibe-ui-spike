@@ -130,3 +130,24 @@ sourceDifferences:
   - "固定shared fade与200/400时序局部移植，reduce/forced-colors回退；不写第二滚动引擎。"
 verificationLimits:
   - "前插/图片高度/resize/折叠保位、初始三位置、自由阅读释放、native搜索/复制、长列表热路径与真实触摸未由jsdom证明。"
+
+discovery:
+  version: 1
+  familyId: "conversation"
+  taskIds:
+    - "read-communicate"
+  searchAliases:
+    - "消息阅读"
+    - "回到最新"
+    - "历史消息"
+  implementationRole: "root"
+  controlScope: "会话视口、阅读锚点和滚动恢复"
+  stateOwner: "MessageScrollerProvider 与 MessageScroller 根及 MessageScrollerViewport/Content/Item/Button 具名导出共享阅读上下文；宿主拥有消息历史、分页和发送，Composer 通过示例组合。"
+  relationships:
+    - type: "exampleUses"
+      targetId: "recipe-conversation-composer"
+      condition: "共享业务宿主组合阅读区与输入区，彼此不拥有对方状态。"
+      evidence:
+        path: "apps/playground/src/docs/components/g6-course-conversation.tsx"
+        symbol: "CourseScene"
+        kind: "render"

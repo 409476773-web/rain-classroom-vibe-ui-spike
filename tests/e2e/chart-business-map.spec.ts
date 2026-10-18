@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
 test.use({ hasTouch: true });
-const evidence = "evidence/runtime/chart-china-selector-feedback-2026-10-10/browser";
+const evidence = evidenceOutputPath("evidence/runtime/chart-china-selector-feedback-2026-10-10/browser");
 const layer = (page: Page) => page.locator("[data-china-layer]");
 const active = (page: Page) => layer(page).locator('[data-map-active="true"]');
 const paths = (page: Page) => active(page).locator("path[data-feature-id]");

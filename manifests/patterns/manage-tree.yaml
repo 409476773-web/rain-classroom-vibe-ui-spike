@@ -104,3 +104,23 @@ toolbarVisualRevision:
   status: "pending-human-review-for-toolbar-revision"
   automated: "29 ManageTree checks and 5 targeted navigation browser checks passed; Playground typecheck/build passed"
   evidence: "evidence/runtime/navigation-v042/review-07/README.md"
+
+discovery:
+  version: 1
+  familyId: "trees"
+  taskIds:
+    - "workbench"
+    - "navigate"
+  searchAliases:
+    - "树管理"
+    - "管理层级"
+  implementationRole: "pattern"
+  controlScope: "在 Tree 上组合搜索、增删、菜单和加载反馈的本地模式"
+  stateOwner: "ManageTree 为源码复制入口；宿主拥有节点 CRUD、权限、加载结果及业务状态，Tree 只管理约定的交互状态。"
+  relationships:
+    - type: "composes"
+      targetId: "ui-tree"
+      evidence:
+        path: "apps/playground/src/patterns/manage-tree/manage-tree.tsx"
+        symbol: "ManageTree"
+        kind: "render"

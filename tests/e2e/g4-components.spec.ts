@@ -1,9 +1,10 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const evidence = process.env.RAIN_G4_EVIDENCE_DIR ? resolve(process.env.RAIN_G4_EVIDENCE_DIR) : fileURLToPath(new URL("../../evidence/runtime/g4-review-sizing-2026-10-11/browser/", import.meta.url));
+const evidence = process.env.RAIN_G4_EVIDENCE_DIR ? resolve(process.env.RAIN_G4_EVIDENCE_DIR) : evidenceOutputPath(fileURLToPath(new URL("../../evidence/runtime/g4-review-sizing-2026-10-11/browser/", import.meta.url)));
 mkdirSync(evidence, { recursive: true });
 const browserErrors = new Map<string, string[]>();
 

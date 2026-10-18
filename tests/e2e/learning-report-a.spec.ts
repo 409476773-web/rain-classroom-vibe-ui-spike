@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { contrastRatio } from "./color-contrast";
 
-const evidence = "evidence/runtime/learning-report-a/v2-feedback";
+const evidence = evidenceOutputPath("evidence/runtime/learning-report-a/v2-feedback");
 test.beforeAll(() => mkdirSync(evidence, { recursive: true }));
 
 test("report V2 preserves filter scope, keyboard readings and recovery", async ({ page }) => {

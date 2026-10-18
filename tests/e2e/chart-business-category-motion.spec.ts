@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 import { makeCategoryFixtures } from "../../apps/playground/src/docs/components/chart-business/comparison-data";
@@ -52,7 +53,7 @@ for (const motion of ["no-preference", "reduce"] as const) {
     await expect(covered).toHaveCount(1);
     await expect(uncovered).toHaveCount(1);
     expect(errors).toEqual([]);
-    const evidence = "evidence/runtime/chart-business-expansion/p3/browser";
+    const evidence = evidenceOutputPath("evidence/runtime/chart-business-expansion/p3/browser");
     await mkdir(evidence, { recursive: true });
     await writeFile(`${evidence}/stack-motion-${motion}.json`, JSON.stringify({ motion, before, middle, after, reorderMiddle, reorderAfter, stableIdentity: true, pageErrors: errors }, null, 2));
   });

@@ -1,0 +1,599 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
+import { test, expect } from '@playwright/test';
+
+test('G1 review-08 rail transitions retain brand nodes and use standard Avatar', async ({page}) => {
+  const {mkdir,writeFile}=await import('node:fs/promises');
+  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/rail` : evidenceOutputPath('evidence/runtime/navigation-v042/review-08/after');
+  await mkdir(evidence,{recursive:true});
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.setViewportSize({width:1157,height:771});
+  await page.goto('/#navigation-v042');
+  const root=page.locator('.nv42-r2'),rail=root.locator('.nv42-rail');
+  const platform=root.locator('[data-region-id="global"]');
+  await expect(rail.locator('.nv42-brand strong')).toHaveCount(1);
+  const avatar=rail.locator('[data-rain-id="ui-avatar"]');
+  await expect(avatar).toHaveCount(1);await expect(avatar).toHaveAttribute('data-size','32');
+  await expect(avatar).toHaveText('');
+  await expect.poll(()=>avatar.locator('[data-slot="fallback"]').evaluate(img=>(img as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+  const trace=()=>rail.evaluate(async el=>{
+    const text=el.querySelector('.nv42-brand strong')!;
+    // Accepted Review11: the region owns 64/208px; its 1px border reduces the inner Sidebar width.
+    const owner=el.closest('[data-region-id="global"]')!;
+    const frames:{time:number;width:number;logoX:number;logoY:number;logoWidth:number;logoHeight:number;opacity:number;display:string}[]=[];
+    const start=performance.now();
+    const sample=()=>{const r=el.querySelector('.nv42-brand > [data-rain-id="icon"]')!.getBoundingClientRect();frames.push({time:performance.now()-start,width:owner.getBoundingClientRect().width,logoX:r.x,logoY:r.y,logoWidth:r.width,logoHeight:r.height,opacity:Number(getComputedStyle(text).opacity),display:getComputedStyle(text).display});};
+    sample();(el.querySelector('.nv42-rail-head button') as HTMLButtonElement).click();
+    while(performance.now()-start<330){await new Promise(requestAnimationFrame);sample();}
+    const box=(selector:string)=>{const {left,top,right,bottom,width,height}=el.querySelector(selector)!.getBoundingClientRect();return{left,top,right,bottom,width,height};};
+    return{frames,retained:text===el.querySelector('.nv42-brand strong'),collapsed:el.getAttribute('data-collapsed'),geometry:{logo:box('.nv42-brand > [data-rain-id="icon"]'),brand:box('.nv42-brand'),head:box('.nv42-rail-head'),toggle:box('.nv42-rail-head button')}};
+  });
+  const opening=await trace();expect(opening.retained).toBe(true);expect(opening.collapsed).toBe('false');
+  expect(opening.frames.at(-1)!.width).toBe(208);
+  expect(opening.frames.filter(f=>f.width>64&&f.width<208).length).toBeGreaterThan(2);
+  expect(opening.frames.at(-1)).toMatchObject({opacity:1,display:'block'});
+  const closing=await trace();expect(closing.retained).toBe(true);expect(closing.frames.at(-1)!.width).toBe(64);
+  expect(closing.frames.filter(f=>f.width>64&&f.width<208).length).toBeGreaterThan(2);
+  // Review11 switches the compact brand to a stacked head, retaining its mounted 23px glyph.
+  expect(closing.frames.at(-1)).toMatchObject({opacity:1,display:'none'});
+  for(const t of [opening,closing])expect(t.frames.every(f=>f.logoWidth===23&&f.logoHeight===23)).toBe(true);
+  // Accepted Review11: expanded brand and toggle share a row; compact toggle precedes the brand with a 10px gap.
+  expect(opening.geometry.logo.left).toBe(opening.geometry.head.left);
+  expect(opening.geometry.toggle.right).toBe(opening.geometry.head.right);
+  expect(opening.geometry.logo.top+opening.geometry.logo.height/2).toBe(opening.geometry.toggle.top+opening.geometry.toggle.height/2);
+  expect(closing.geometry.logo.left+closing.geometry.logo.width/2).toBe(closing.geometry.toggle.left+closing.geometry.toggle.width/2);
+  expect(closing.geometry.brand.top-closing.geometry.toggle.bottom).toBe(10);
+  await rail.getByRole('button',{name:'展开平台导航',exact:true}).click();
+  await expect.poll(()=>platform.evaluate(el=>el.getBoundingClientRect().width)).toBe(208);
+  await rail.screenshot({path:`${evidence}/expanded-rail.png`});
+  await rail.getByRole('button',{name:'收起平台导航',exact:true}).click();
+  await rail.getByRole('button',{name:'展开平台导航',exact:true}).click();
+  await expect.poll(()=>platform.evaluate(el=>el.getBoundingClientRect().width)).toBe(208);
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await expect(root.locator('[data-region-slot="global"]')).toHaveCSS('transition-duration','0s');
+  await rail.getByRole('button',{name:'收起平台导航',exact:true}).click();
+  expect(await platform.evaluate(el=>el.getBoundingClientRect().width)).toBe(64);
+  await rail.screenshot({path:`${evidence}/compact-rail.png`});
+  await page.setViewportSize({width:832,height:771});
+  await rail.getByRole('button',{name:'展开平台导航',exact:true}).click();
+  expect(await platform.evaluate(el=>el.getBoundingClientRect().width)).toBe(208);
+  await expect(rail.getByRole('button',{name:'当前账户：林老师',exact:true})).toBeVisible();
+  await rail.screenshot({path:`${evidence}/expanded-832.png`});
+  await page.setViewportSize({width:1600,height:1000});
+  await root.screenshot({path:`${evidence}/R2-expanded.png`});
+  await writeFile(`${evidence}/motion-facts.json`,JSON.stringify({opening,closing,reducedMotion:'0s',avatarSize:32},null,2));
+});
+
+test('G1 review-07 standard tags, concise toolbar and aligned metadata', async ({page}) => {
+  const {mkdir,writeFile}=await import('node:fs/promises');
+  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/tree` : evidenceOutputPath('evidence/runtime/navigation-v042/review-07/after');
+  await mkdir(evidence,{recursive:true});
+  await page.setViewportSize({width:1600,height:1000});
+  await page.goto('/#navigation-v042');
+  const root=page.locator('.nv42-r2'),tree=root.getByRole('tree',{name:'课程内容编辑树'});
+  const toolbar=root.locator('.rain-manage-tree > [data-slot="toolbar"]');
+  await expect(tree).toBeVisible();
+  await expect(tree.locator('[data-rain-id="ui-tag"]')).toHaveCount(8);
+  await expect(tree.getByRole('treeitem',{name:'第一章 · 函数、极限与连续',exact:true}).locator('[data-slot="leading"]')).toHaveCount(0);
+  await expect(tree.locator('[data-rain-id="ui-tag"]').first()).toHaveAttribute('data-size','20');
+  await expect(toolbar.getByRole('button',{name:'保存草稿',exact:true})).toHaveAttribute('data-variant','primary');
+  await expect(toolbar.getByRole('button',{name:'退出编辑',exact:true})).toHaveAttribute('data-variant','tertiary');
+  const measure=()=>root.evaluate(el=>{
+    const box=(n:Element)=>{const r=n.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,height:r.height};};
+    return {help:box(el.querySelector('.nv42-resource-help')!),toolbar:box(el.querySelector('.rain-manage-tree > [data-slot="toolbar"]')!),
+      sheet:box(el.querySelector('.nv42-resource-manager')!),
+      rows:Array.from(el.querySelectorAll('.rain-tree-row > [data-slot="meta"]')).map(n=>({depth:n.closest('[role="treeitem"]')!.getAttribute('aria-level'),right:n.getBoundingClientRect().right,columns:Array.from(n.querySelectorAll('.nv42-tree-meta > span')).map(c=>c.getBoundingClientRect().right)}))};
+  });
+  const aligned=(facts:Awaited<ReturnType<typeof measure>>)=>{
+    expect(facts.toolbar.y).toBe(facts.help.y);
+    expect(facts.toolbar.right).toBe(facts.sheet.right);
+    expect(new Set(facts.rows.map(r=>r.right)).size).toBe(1);
+    for(let i=0;i<2;i++)expect(new Set(facts.rows.map(r=>r.columns[i])).size).toBe(1);
+  };
+  const full=await measure();aligned(full);
+  await root.screenshot({path:`${evidence}/resource-tree.png`});
+  await page.setViewportSize({width:1129,height:771});
+  const annotatedViewport=await measure();aligned(annotatedViewport);
+  await root.getByRole('button',{name:'内容编辑说明',exact:true}).focus();
+  await expect(page.getByRole('tooltip')).toContainText('统计为已保存内容');
+  await page.screenshot({path:`${evidence}/help-1129.png`});
+  await page.keyboard.press('Escape');await expect(page.getByRole('tooltip')).toHaveCount(0);
+  await root.getByRole('button',{name:'更多班级',exact:true}).click();
+  const dropdown=page.locator('.rain-navigation-scope-dropdown');
+  await expect(dropdown).toBeVisible();
+  const paint=await dropdown.locator('.rain-scope-navigation__result').nth(1).evaluate(el=>({icon:getComputedStyle(el.querySelector('.rain-scope-navigation__result-icon')!).color,background:getComputedStyle(el.querySelector('.rain-scope-navigation__result-icon')!).backgroundColor,text:getComputedStyle(el.querySelector('strong')!).color}));
+  expect(paint.icon).toBe('rgb(184, 194, 216)');expect(paint.background).toBe('rgba(85, 112, 244, 0.06)');expect(paint.text).not.toBe(paint.icon);
+  await page.screenshot({path:`${evidence}/dropdown-1129.png`});
+  await dropdown.getByRole('textbox',{name:'搜索范围',exact:true}).press('Escape');
+  await page.getByRole('combobox',{name:/画板宽度/}).selectOption('1200');
+  const narrower=await measure();aligned(narrower);
+  await page.setViewportSize({width:1400,height:900});
+  await root.screenshot({path:`${evidence}/resource-tree-1200.png`});
+  await root.getByRole('radio',{name:'作业',exact:true}).locator('..').click();
+  await expect(root.getByRole('radio',{name:'作业',exact:true})).toBeChecked();
+  await expect(root.locator('.nv42-resource-help')).toContainText('筛选中不可排序');
+  await root.getByRole('radio',{name:'全部',exact:true}).locator('..').click();
+  await expect(root.getByRole('radio',{name:'全部',exact:true})).toBeChecked();
+  await toolbar.getByRole('button',{name:'退出编辑',exact:true}).click();
+  await expect(toolbar.getByRole('button',{name:'进入编辑',exact:true})).toBeVisible();
+  const view=await measure();aligned(view);
+  await writeFile(`${evidence}/review-07-facts.json`,JSON.stringify({full,annotatedViewport,narrower,view,paint},null,2));
+});
+test('R2 exposes a real shared consumer, scope identity and editor survive layout changes', async ({page}) => {
+  await page.goto('/#navigation-v042');
+  await expect(page.getByRole('heading',{name:'导航组件 · v0.4.2'})).toBeVisible({timeout:4000});
+  const root=page.locator('[data-rain-id="recipe-navigation-r2"]');
+  await expect(root.getByRole('tab',{name:'公共资源包',exact:true})).toHaveAttribute('aria-selected','true');
+  await root.getByRole('button',{name:'更多班级',exact:true}).click();
+  await page.getByRole('textbox',{name:'搜索范围'}).fill('199');
+  await page.getByRole('button',{name:/2026 秋 · 高等数学 199 班/}).click();
+  await expect(root.getByRole('tab',{name:'2026 秋 · 高等数学 199 班',exact:true})).toHaveAttribute('aria-selected','true');
+  await expect(root.locator('[data-slot="scope-path"]')).toContainText('199');
+  await root.getByRole('button',{name:'隐藏课程导航',exact:true}).first().click();
+  await expect(root.getByRole('button',{name:'恢复课程导航',exact:true})).toBeVisible();
+  await root.getByRole('button',{name:'恢复课程导航',exact:true}).click();
+  await expect(root.getByRole('tree')).toBeVisible();
+  await expect(root.locator('[data-slot="scope-path"]')).toContainText('199');
+});
+
+test('A1 uses native links and keeps its 24 by 3 indicator centered on the label with inline counts', async ({page}) => {
+  await page.goto('/#navigation-v042');
+  await page.getByRole('navigation',{name:'导航候选样本'}).getByRole('button',{name:'A1',exact:true}).click();
+  const global=page.getByTestId('candidate-A1');
+  await expect(global.getByRole('link',{name:'课程建设',exact:true})).toHaveAttribute('aria-current','page');
+  await expect(global.getByRole('tablist')).toHaveCount(0);
+  const counted=page.getByRole('tab',{name:'课程交叉分析',exact:true});
+  const facts=await counted.evaluate(tab=>{
+    const label=tab.querySelector<HTMLElement>('[data-part="label"]')!,count=tab.querySelector<HTMLElement>('[data-part="count"]')!;
+    const line=getComputedStyle(label,'::after'),l=label.getBoundingClientRect(),c=count.getBoundingClientRect();
+    return {width:line.width,height:line.height,bottom:line.bottom,transform:line.transform,labelEnd:l.right,countStart:c.left,gap:getComputedStyle(tab.querySelector('.rain-tabs__item-content')!).gap};
+  });
+  expect(facts).toMatchObject({width:'24px',height:'3px',bottom:'0px',gap:'4px'});
+  expect(facts.countStart-facts.labelEnd).toBeCloseTo(4,1);
+  expect(facts.transform).toContain('-12');
+});
+
+test('A4 keeps manual keyboard activation, hover separators and the outlined top accent', async ({page}) => {
+  await page.goto('/#navigation-v042');
+  await page.getByRole('navigation',{name:'导航候选样本'}).getByRole('button',{name:'A4',exact:true}).click();
+  const sample=page.getByTestId('candidate-A4'),tabs=sample.getByRole('tab');
+  await tabs.nth(0).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(tabs.nth(1)).toBeFocused();
+  await expect(tabs.nth(0)).toHaveAttribute('aria-selected','true');
+  await expect(tabs.nth(1)).toHaveAttribute('aria-selected','false');
+  await page.keyboard.press('Enter');
+  await expect(tabs.nth(1)).toHaveAttribute('aria-selected','true');
+  await tabs.nth(0).click();
+  await page.getByRole('heading',{name:'导航组件 · v0.4.2'}).hover();
+  await expect.poll(()=>tabs.nth(1).evaluate(el=>getComputedStyle(el,'::after').opacity)).toBe('0.65');
+  await tabs.nth(2).hover();
+  await expect.poll(()=>tabs.nth(1).evaluate(el=>getComputedStyle(el,'::after').opacity)).toBe('0');
+  await page.getByRole('combobox',{name:/表面/}).selectOption('outlined');
+  expect(await tabs.nth(0).evaluate(el=>({height:getComputedStyle(el,'::before').height,top:getComputedStyle(el,'::before').top,color:getComputedStyle(el,'::before').backgroundColor}))).toEqual({height:'2px',top:'1px',color:'rgb(21, 97, 248)'});
+});
+
+test('R2 range dropdown remains searchable and keyboard operable at 420px viewport height', async ({page}) => {
+  await page.setViewportSize({width:1440,height:420});
+  await page.goto('/#navigation-v042');
+  await page.getByRole('button',{name:'更多班级',exact:true}).click();
+  const dialog=page.getByRole('dialog',{name:'选择课程内容范围'});
+  await expect(dialog).not.toHaveAttribute('aria-modal','true');
+  const search=dialog.getByRole('textbox',{name:'搜索范围'});
+  await expect(search).toBeFocused();
+  await search.fill('200');
+  const result=dialog.getByRole('button',{name:/2026 秋 · 高等数学 200 班/});
+  await expect(result).toBeVisible();
+  await result.focus(); await page.keyboard.press('Enter');
+  await expect(dialog).toHaveCount(0);
+  await expect(page.getByRole('tab',{name:'2026 秋 · 高等数学 200 班',exact:true})).toBeFocused();
+  await page.getByRole('button',{name:'更多班级',exact:true}).click();
+  await dialog.getByRole('button',{name:'关闭范围选择'}).focus(); await page.keyboard.press('Enter');
+  await expect(dialog).toHaveCount(0);
+});
+
+test('scope cap follows the approved 1200 and 1440 viewport width budget', async ({page}) => {
+  await page.goto('/#navigation-v042');
+  const scope=page.getByRole('tablist',{name:'课程内容范围'});
+  await page.getByRole('combobox',{name:/画板宽度/}).selectOption('1200');
+  await expect(scope.getByRole('tab')).toHaveCount(3);
+  await page.getByRole('combobox',{name:/画板宽度/}).selectOption('1440');
+  await expect(scope.getByRole('tab')).toHaveCount(4);
+});
+
+test('independent consumer preserves an editor draft through scope, layout, focus and inner Tabs changes', async ({page}) => {
+  await page.goto('/navigation-v042-consumer.html');
+  await expect(page.getByRole('heading',{name:'导航组件 · v0.4.2'})).toHaveCount(0);
+  const editor=page.getByRole('tablist',{name:'编辑器内部视图'});
+  const draft=page.getByRole('textbox',{name:'教学目标草稿'});
+  const text='独立消费：掌握极限定义，保留正在编辑的教学目标。';
+  await draft.fill(text);
+  const before=await editor.getByRole('tab',{name:'编辑',exact:true}).evaluate(tab=>({height:tab.getBoundingClientRect().height,indicator:getComputedStyle(tab.querySelector('[data-part="indicator"]')!).height,paint:getComputedStyle(tab.querySelector('[data-part="paint"]')!).display}));
+  expect(before).toEqual({height:38,indicator:'3px',paint:'block'});
+  await page.getByRole('button',{name:'更多班级',exact:true}).click();
+  await page.getByRole('textbox',{name:'搜索范围'}).fill('199');
+  await page.getByRole('button',{name:/2026 秋 · 高等数学 199 班/}).click();
+  await expect(draft).toHaveValue(text);
+  await page.getByRole('button',{name:'隐藏课程导航',exact:true}).first().click();
+  await page.getByRole('button',{name:'恢复课程导航',exact:true}).click();
+  await page.getByRole('button',{name:'专注内容',exact:true}).click();
+  await page.getByRole('button',{name:'退出专注',exact:true}).click();
+  await editor.getByRole('tab',{name:'预览',exact:true}).click();
+  await expect(page.getByRole('tabpanel',{name:'预览',exact:true}).getByText(text,{exact:true})).toBeVisible();
+  await editor.getByRole('tab',{name:'编辑',exact:true}).click();
+  await expect(draft).toHaveValue(text);
+  expect(await editor.getByRole('tab',{name:'编辑',exact:true}).evaluate(tab=>({height:tab.getBoundingClientRect().height,indicator:getComputedStyle(tab.querySelector('[data-part="indicator"]')!).height,paint:getComputedStyle(tab.querySelector('[data-part="paint"]')!).display}))).toEqual(before);
+});
+
+test('G1 review keeps R2 alignment, local tokens and real semester/breadcrumb semantics at both artboard widths', async ({page}) => {
+  await page.goto('/#navigation-v042');
+  const root=page.locator('.nv42-r2'),rail=root.getByRole('navigation',{name:'平台导航',exact:true});
+  await rail.getByRole('button',{name:'展开平台导航',exact:true}).click();
+  for (const width of [1440,1200]) {
+    await page.getByRole('combobox',{name:/画板宽度/}).selectOption(String(width));
+    await page.evaluate(()=>document.fonts.ready);
+    await expect.poll(()=>root.locator('.nv42-brand').evaluate(el=>el.getBoundingClientRect().left-el.parentElement!.getBoundingClientRect().left)).toBe(0);
+    const facts=await root.evaluate(root=>{
+      const el=(s:string)=>root.querySelector<HTMLElement>(s)!;
+      const css=(s:string,p:string)=>getComputedStyle(el(s)).getPropertyValue(p);
+      const rect=(s:string)=>el(s).getBoundingClientRect();
+      const head=rect('.nv42-rail-head'),logo=rect('.nv42-brand'),toggle=rect('.nv42-rail-head button');
+      const contextIcon=rect('.nv42-course-links [data-slot="icon"]'),historyIcon=rect('.nv42-history .rain-icon');
+      return { logoLeft:logo.left-head.left,toggleRight:head.right-toggle.right,
+        iconSize:rect('.nv42-rail-head .rain-icon').width,navIcon:rect('.nv42-rail-links .rain-icon').width,
+        navFont:css('.nv42-rail-links [data-slot="item"]','font-size'),activeWeight:css('.nv42-rail-links [data-active]','font-weight'),activeColor:css('.nv42-rail-links [data-active]','color'),
+        contextHead:css('.nv42-context-head','background-color'),contextTitle:css('.nv42-context-head strong','font-size'),
+        backGap:css('.nv42-back','gap'),backIcon:rect('.nv42-back .rain-icon').width,
+        scopeTitle:css('.rain-navigation__identity .rain-tabs__label','font-size'),description:css('.rain-navigation__description','color'),
+        title:css('.nv42-title-row h3','font-size'),subtitle:css('.nv42-title-row p','color'),subtitleGap:css('.nv42-title-row p','margin-top'),stats:css('.nv42-stats','font-size'),
+        mainTop:css('.nv42-main','padding-top'),shell:css('.nv42-workspace-body','background-color'),track:css('.rain-connected-surface','background-color'),
+        historyIcon:historyIcon.width,historyOffset:historyIcon.left-contextIcon.left,historyFont:css('.nv42-history','font-size'),
+        historyLabelOffset:rect('.nv42-history>span:not(.rain-icon)').left-rect('.nv42-course-links [data-slot="label"]').left,
+        accountBeforeUtilities:rect('.nv42-account').right<=rect('.nv42-utilities').left,
+      };
+    });
+    // Accepted Review11/12 platform contract: regular 14px text and 18px glyphs.
+    expect(facts).toMatchObject({logoLeft:0,toggleRight:0,iconSize:16,navIcon:18,navFont:'14px',activeWeight:'400',activeColor:'rgb(15, 85, 223)',contextHead:'rgba(0, 0, 0, 0)',contextTitle:'15px',backGap:'4px',backIcon:16,scopeTitle:'15px',description:'rgb(160, 172, 197)',title:'17px',subtitle:'rgb(160, 172, 197)',subtitleGap:'2px',stats:'14px',mainTop:'8px',track:'rgb(242, 244, 255)',historyIcon:16,historyOffset:0,historyFont:'14px',historyLabelOffset:0,accountBeforeUtilities:true});
+    for (const name of ['工作台','数据面板']) {
+      const item=root.getByRole('link',{name,exact:true}); await item.hover();
+      await expect.poll(()=>item.evaluate(el=>{
+        const color=getComputedStyle(el).backgroundColor,values=color.match(/[\d.]+/g)!.map(Number);
+        return color.startsWith('color(srgb')?values.map((value,i)=>i<3?Math.round(value*255):value):values;
+      })).toEqual(name==='工作台'?[255,255,255,0.51]:[85,112,244,0.06]);
+    }
+    await expect(root.locator('.nv42-account-copy')).toHaveText('林老师教师工作区');
+    expect(await root.locator('.nv42-account-avatar').evaluate(el=>el.getBoundingClientRect().left-el.parentElement!.getBoundingClientRect().left)).toBe(2);
+  }
+  const term=root.getByRole('button',{name:'2026 秋季学期',exact:true});
+  await expect(term.locator('[data-icon="icon/arrow-down"]')).toHaveCount(1);
+  await term.focus(); await page.keyboard.press('Enter');
+  await expect(term).toHaveAttribute('aria-expanded','true');
+  await expect(term.locator('[data-icon="icon/arrow-up"]')).toHaveCount(1);
+  await expect(page.getByRole('menuitem',{name:'2026 秋季学期',exact:true})).toBeVisible();
+  await page.keyboard.press('Escape'); await expect(term).toBeFocused();
+  await expect(term).toHaveAttribute('aria-expanded','false');
+  await root.getByRole('tab',{name:'2026 秋 · 高等数学 1 班',exact:true}).click();
+  await expect(root.getByRole('navigation',{name:'面包屑'}).locator('[aria-current="page"]')).toHaveText('2026 秋 · 高等数学 1 班');
+  await rail.getByRole('button',{name:'收起平台导航',exact:true}).click();
+  await expect(root.locator('.nv42-account-copy')).toBeHidden();
+  await expect(rail.getByRole('button',{name:'当前账户：林老师'})).toBeVisible();
+});
+
+test('G1 review-02 interactive controls expose hover without changing disabled controls', async ({page}) => {
+  const { mkdir, writeFile } = await import('node:fs/promises');
+  const phase=process.env.NAV_REVIEW_PHASE==='before'?'before':'after';
+  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/hover-${phase}` : evidenceOutputPath(`evidence/runtime/navigation-v042/review-07/regression-02-${phase}`);
+  await mkdir(evidence,{recursive:true});
+  const facts: Record<string,unknown>={};
+  await page.goto('/#navigation-v042');
+  const switcher=page.getByRole('navigation',{name:'导航候选样本'});
+  const paint=async (element: ReturnType<typeof page.locator>)=>element.evaluate(async el=>{
+    await Promise.all(el.getAnimations({subtree:true}).map(animation=>animation.finished));
+    const css=getComputedStyle(el),label=el.querySelector('[data-slot="label"]');
+    const descendants=Array.from(el.querySelectorAll('[data-rain-id="ui-avatar"],.rain-avatar__picture,img,.nv42-account-copy strong,.nv42-account-copy small')).map(node=>{
+      const style=getComputedStyle(node);return{part:node.getAttribute('data-slot')??node.className,background:style.backgroundColor,color:style.color,outline:style.outline,opacity:style.opacity,clipPath:style.clipPath};
+    });
+    return {background:css.backgroundColor,color:css.color,shadow:css.boxShadow,border:css.borderColor,before:getComputedStyle(el,'::before').backgroundColor,label:label?getComputedStyle(label).color:null,descendants};
+  });
+  const hover=async (name:string,element:ReturnType<typeof page.locator>,disabled=false)=>{
+    await page.mouse.move(0,0);
+    const before=await paint(element);
+    await element.hover();
+    expect(await element.evaluate(el=>el.matches(':hover')),`${name} receives the real pointer hover`).toBe(true);
+    const after=await paint(element);
+    facts[name]={before,after,disabled};
+    await writeFile(`${evidence}/hover-facts.json`,JSON.stringify(facts,null,2));
+    if(phase==='after') {
+      if(disabled) expect(after,name).toEqual(before);
+      else expect(after,name).not.toEqual(before);
+    }
+  };
+  for(const name of ['A1','A4','Connections','R2']) {
+    await switcher.getByRole('button',{name,exact:true}).click();
+    await page.mouse.move(0,0);
+    await page.getByTestId('candidate-canvas').screenshot({path:`${evidence}/${name}.png`});
+    if(name==='A1') {
+      await page.getByRole('link',{name:'教学工作台',exact:true}).click();
+      const selected=page.getByRole('link',{name:'教学工作台',exact:true});
+      facts.a1=await selected.evaluate(el=>{
+        const label=el.querySelector('.rain-tabs__label')!,line=getComputedStyle(label,'::after');
+        return {lineHeight:line.height,lineWidth:line.width,labelHeight:label.getBoundingClientRect().height,tabHeight:el.getBoundingClientRect().height};
+      });
+      await page.getByTestId('candidate-A1').screenshot({path:`${evidence}/A1-selected.png`});
+      await hover('A1 destination',page.getByRole('link',{name:'课程建设',exact:true}));
+      await hover('A1 counted tab',page.getByRole('tab',{name:'学分结构',exact:true}));
+    }
+    if(name==='A4') {
+      const sample=page.getByTestId('candidate-A4');
+      facts.a4=await sample.locator('.nv42-a4-panel').evaluate(el=>{
+        const title=getComputedStyle(el.querySelector('h3')!),description=getComputedStyle(el.querySelector('p')!);
+        return {title:title.fontSize,description:description.color,gap:description.marginTop};
+      });
+      await hover('A4 unselected tab',sample.getByRole('tab').nth(1));
+      await sample.screenshot({path:`${evidence}/A4-hover.png`});
+      await hover('A4 all classes',sample.getByRole('button',{name:'全部班级',exact:true}));
+    }
+    if(name==='Connections') {
+      for(const label of ['向前浏览','向后浏览','定位当前','全部']) await hover(`Connections ${label}`,page.getByRole('button',{name:label,exact:true}),label.includes('浏览'));
+    }
+    if(name==='R2') {
+      const root=page.locator('.nv42-r2');
+      for(const selector of ['.nv42-icon','.nv42-layout-button','.nv42-back','.nv42-term','[data-rain-id="pattern-manage-tree"] [data-slot="toolbar"] button:last-child','.nv42-action:not([data-variant="primary"])','.nv42-filter label:not([data-state="checked"])','.nv42-account','.nv42-history','.rain-scope-navigation__more']) await hover(`R2 ${selector}`,root.locator(selector).first());
+      await root.getByRole('button',{name:'保存草稿',exact:true}).hover();
+      await root.screenshot({path:`${evidence}/R2-primary-hover.png`});
+      await root.getByRole('button',{name:'更多班级',exact:true}).click();
+      await hover('Scope close',page.getByRole('button',{name:'关闭范围选择'}));
+      await page.getByRole('button',{name:'关闭范围选择'}).focus();
+      await hover('Scope search',page.locator('.rain-navigation-scope-popup [data-rain-id="ui-input"]'));
+      await hover('Scope result',page.locator('.rain-scope-navigation__result').nth(1));
+      await page.getByRole('dialog').screenshot({path:`${evidence}/scope-hover.png`});
+      await page.keyboard.press('Escape');
+      if(phase==='after') {
+        await hover('R2 preview action',root.getByRole('button',{name:'预览学生端',exact:true}));
+        await hover('R2 tree row',root.locator('.rain-tree-node:not([data-selected="true"])>.rain-tree-row').first());
+        await root.getByRole('button',{name:'返回我的课程',exact:true}).click();
+        await hover('R2 toast close',root.getByRole('button',{name:'关闭提示',exact:true}));
+        await root.getByRole('button',{name:'关闭提示',exact:true}).click();
+        await root.locator('.rain-tree-node[data-selected="true"]').hover();
+        await root.locator('.rain-tree-node[data-selected="true"] [data-slot="actions"] button').first().click();
+        await page.getByRole('heading',{name:'编辑内容节点',exact:true}).click();
+        await hover('R2 edit input',page.getByRole('dialog',{name:'编辑内容节点'}).locator('[data-rain-id="ui-input"]'));
+        await page.keyboard.press('Escape');
+      }
+    }
+  }
+  await hover('Review sample control',switcher.getByRole('button',{name:'A1',exact:true}));
+  await hover('Review width select',page.getByRole('combobox',{name:/画板宽度/}));
+  await hover('Review reference link',page.getByRole('link',{name:/打开认可原稿/}));
+  if(phase==='after') {
+    await page.setViewportSize({width:1055,height:770});
+    for(const name of ['A1','A4','R2']) {
+      await switcher.getByRole('button',{name,exact:true}).click();
+      await page.mouse.move(0,0);
+      await page.screenshot({path:`${evidence}/${name}-viewport-1055.png`});
+    }
+  }
+  await writeFile(`${evidence}/hover-facts.json`,JSON.stringify(facts,null,2));
+  if(phase==='after') {
+    expect(facts.a1).toMatchObject({lineHeight:'3px',lineWidth:'24px'});
+    expect(facts.a4).toEqual({title:'16px',description:'rgb(160, 172, 197)',gap:'2px'});
+  }
+});
+
+test('G1 review-03 More reports hidden classes and opens an anchored standard dropdown', async ({page}) => {
+  const {mkdir,writeFile}=await import('node:fs/promises');
+  const phase=process.env.NAV_REVIEW_PHASE==='before'?'before':'after';
+  const dir=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/more-${phase}` : evidenceOutputPath(`evidence/runtime/navigation-v042/review-07/${phase}`);
+  await mkdir(dir,{recursive:true});
+  await page.goto('/#navigation-v042');
+  const root=page.locator('.nv42-r2'),more=root.getByRole('button',{name:'更多班级',exact:true});
+  await root.screenshot({path:`${dir}/R2.png`});
+  await more.click();
+  const popup=page.getByRole('dialog',{name:'选择课程内容范围'});
+  await page.screenshot({path:`${dir}/dropdown-page.png`});
+  if(phase==='before') return;
+  await expect(more).toHaveText(/197/);
+  await expect(more).toHaveAttribute('aria-expanded','true');
+  await expect(popup).not.toHaveAttribute('aria-modal','true');
+  const triggerBox=(await more.boundingBox())!,popupBox=(await popup.boundingBox())!;
+  expect(popupBox.y).toBeGreaterThanOrEqual(triggerBox.y+triggerBox.height);
+  expect(popupBox.y-triggerBox.y-triggerBox.height).toBeLessThanOrEqual(8);
+  expect(Math.abs(popupBox.x+popupBox.width-triggerBox.x-triggerBox.width)).toBeLessThan(2);
+  const paint=await popup.evaluate(el=>({background:getComputedStyle(el).backgroundColor,layer:getComputedStyle(el).backgroundImage,mask:getComputedStyle(el).getPropertyValue('--rain-overlay-separation').trim()}));
+  expect(paint.layer).toBe('none');
+  await expect(popup).toHaveCSS('background-color','rgb(255, 255, 255)');
+  await expect(page.locator('.rain-dialog-backdrop')).toHaveCount(0);
+  const search=popup.getByRole('textbox',{name:'搜索范围'});
+  await expect(search).toBeFocused();
+  await search.fill('不存在的班级');
+  await expect(popup.getByRole('status')).toHaveText('没有匹配的范围');
+  await search.fill('199');
+  await popup.getByRole('button',{name:/2026 秋 · 高等数学 199 班/}).click();
+  await expect(root.getByRole('tab',{name:'2026 秋 · 高等数学 199 班',exact:true})).toBeFocused();
+  await expect(more).toHaveText(/197/);
+  await more.click(); await page.keyboard.press('Escape'); await expect(more).toBeFocused();
+  await more.click(); await root.getByRole('heading',{name:'知识点总览'}).click(); await expect(popup).toHaveCount(0);
+  await page.getByRole('combobox',{name:/画板宽度/}).selectOption('1200');
+  await expect(more).toHaveText(/198/);
+  await page.setViewportSize({width:1055,height:770});
+  await more.scrollIntoViewIfNeeded(); await more.click();
+  await page.screenshot({path:`${dir}/dropdown-1055.png`});
+  await writeFile(`${dir}/facts.json`,JSON.stringify({triggerBox,popupBox,paint,hidden1440:197,hidden1200:198},null,2));
+});
+
+test('G1 review-04 connected tabs keep 8px hover clearance and stable content in both connection modes', async ({page}) => {
+  const {mkdir,writeFile}=await import('node:fs/promises');
+  const dir=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/connected` : evidenceOutputPath(`evidence/runtime/navigation-v042/review-07/regression-04-${process.env.NAV_REVIEW_PHASE==='before'?'before':'after'}`);
+  await mkdir(dir,{recursive:true});
+  await page.goto('/#navigation-v042');
+  const facts=[];
+  for(const sample of ['A4','Connections','R2']) {
+    await page.getByRole('navigation',{name:'导航候选样本'}).getByRole('button',{name:sample,exact:true}).click();
+    const frame=(sample==='R2'?page.locator('.nv42-r2'):page.getByTestId(`candidate-${sample}`)).locator('.rain-connected-surface');
+    const tabs=frame.getByRole('tab');
+    const measure=()=>frame.evaluate(el=>{
+      const r=el.getBoundingClientRect(),panel=el.querySelector('.rain-connected-surface__panel')!.getBoundingClientRect();
+      const path=el.querySelector<SVGPathElement>('.rain-connected-surface__union')!;
+      const seam=panel.top-r.top;
+      const items=[...el.querySelectorAll<HTMLElement>('.rain-connected-surface__row [role="tab"]')].map(tab=>{
+        const t=tab.getBoundingClientRect(),paint=getComputedStyle(tab,'::before');
+        const content=['.rain-tabs__icon','.rain-tabs__label','.rain-navigation__description','.rain-tabs__count'].flatMap(selector=>{
+          const item=tab.querySelector(selector);if(!item) return [];
+          const b=item.getBoundingClientRect();return [{selector,x:b.left-t.left,y:b.top-r.top,height:b.height}];
+        });
+        return {x:t.left-r.left,y:t.top-r.top,width:t.width,height:t.height,bottom:t.bottom-r.top,selected:tab.getAttribute('aria-selected'),content,paint:{bottom:paint.bottom,background:paint.backgroundColor,radius:paint.borderRadius},clearance:panel.top-t.bottom+parseFloat(paint.bottom)};
+      });
+      const more=el.querySelector<HTMLElement>('.rain-scope-navigation__more'),m=more?.getBoundingClientRect();
+      return {seam,items,gaps:items.slice(1).map((t,i)=>t.x-items[i]!.x-items[i]!.width),path:path.getAttribute('d'),
+        corners:{left:path.isPointInFill(new DOMPoint(1,seam+1)),right:path.isPointInFill(new DOMPoint(r.width-1,seam+1))},
+        more:m?{x:m.left-r.left,y:m.top-r.top,height:m.height,gap:m.left-r.left-items.at(-1)!.x-items.at(-1)!.width}:null};
+    });
+    for(const connection of ['inset','merged']) {
+      await page.getByRole('combobox',{name:/连接/}).selectOption(connection);
+      await tabs.nth(0).click();await page.mouse.move(0,0);
+      await expect(frame).toHaveAttribute('data-measured','true');
+      const idle=await measure();
+      await tabs.nth(1).hover();
+      const hover=await measure();
+      await frame.screenshot({path:`${dir}/${sample}-${connection}-hover.png`});
+      await tabs.nth(1).click();
+      await expect.poll(async()=> (await measure()).path).not.toBe(idle.path);
+      const selected=await measure();
+      await frame.screenshot({path:`${dir}/${sample}-${connection}-middle.png`});
+      await tabs.last().click();
+      await expect.poll(async()=> (await measure()).path).not.toBe(selected.path);
+      const last=await measure();
+      await frame.screenshot({path:`${dir}/${sample}-${connection}-last.png`});
+      facts.push({sample,connection,idle,hover,selected,last});
+    }
+  }
+  await writeFile(`${dir}/geometry.json`,JSON.stringify(facts,null,2));
+  for(const {sample,connection,idle,hover,selected,last} of facts) {
+    for(const gap of idle.gaps) expect(gap,`${sample}/${connection} tab gap`).toBeCloseTo(8,1);
+    expect(hover.items[1]!.clearance,`${sample}/${connection} hover clearance`).toBeCloseTo(8,1);
+    expect(hover.items[1]!.paint.background).not.toBe('rgba(0, 0, 0, 0)');
+    expect(hover.path).toBe(idle.path);
+    expect(selected.items[1]!.bottom).toBeCloseTo(selected.seam,1);
+    expect(selected.corners).toEqual({left:false,right:false});
+    expect(last.corners.right).toBe(false); // These samples leave room for More/controls or trailing space.
+    expect(idle.corners).toEqual({left:connection==='merged',right:false});
+    for(let i=0;i<idle.items.length;i++) {
+      expect(hover.items[i]!.content).toEqual(idle.items[i]!.content);
+      expect(selected.items[i]!.content).toEqual(idle.items[i]!.content);
+    }
+    if(idle.more) {
+      expect(idle.more.gap).toBeCloseTo(8,1);
+      expect(idle.more.y).toBe(idle.items[0]!.y);
+      expect(idle.more.height).toBe(idle.items[0]!.height);
+    }
+    const other=facts.find(f=>f.sample===sample&&f.connection!==connection)!;
+    expect(idle.seam).toBe(other.idle.seam);
+    idle.items.forEach((tab,i)=>expect(tab.content).toEqual(other.idle.items[i]!.content));
+  }
+});
+
+
+test('G1 review-05 uses standard Tree geometry and a compact pale More arrow', async ({page}) => {
+  const { mkdir, writeFile } = await import('node:fs/promises');
+  const phase=process.env.NAV_REVIEW_PHASE==='before'?'before':'after';
+  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/tree-${phase}` : evidenceOutputPath(`evidence/runtime/navigation-v042/review-07/${phase}`);
+  await mkdir(evidence,{recursive:true});
+  await page.goto('/#navigation-v042');
+  const root=page.locator('.nv42-r2'), more=root.getByRole('button',{name:'更多班级',exact:true});
+  const tree=root.getByRole('tree',{name:'课程内容编辑树'});
+  const facts=await root.evaluate(root=>{
+    const more=root.querySelector('.rain-scope-navigation__more')!;
+    const rows=[...root.querySelectorAll('.rain-tree-row')];
+    return {gap:getComputedStyle(more).gap,arrow:getComputedStyle(more.querySelector('.rain-icon')!).color,
+      rows:rows.slice(0,3).map(row=>({height:row.getBoundingClientRect().height,inset:getComputedStyle(row).paddingLeft,gap:getComputedStyle(row).gap})),
+      lines:root.querySelectorAll('[data-slot="connector"]').length};
+  });
+  await root.screenshot({path:`${evidence}/R2.png`});
+  await writeFile(`${evidence}/facts.json`,JSON.stringify(facts,null,2));
+  expect(facts.gap).toBe('4px');
+  expect(facts.arrow).toBe('rgb(150, 163, 193)');
+  expect(facts.rows.map(row=>row.height)).toEqual([44,44,44]);
+  expect(parseFloat(facts.rows[1]!.inset)-parseFloat(facts.rows[0]!.inset)).toBe(24);
+  expect(facts.rows.every(row=>row.gap==='4px')).toBe(true);
+  expect(facts.lines).toBeGreaterThan(0);
+  await expect(root.locator('[data-rain-id="pattern-manage-tree"]')).toBeVisible();
+  await expect(tree).toHaveAttribute('data-variant','basic');
+  await more.click();
+  await expect(more.locator('.rain-icon')).toHaveCSS('color','rgb(150, 163, 193)');
+  await page.keyboard.press('Escape');
+  await page.getByRole('combobox',{name:/画板宽度/}).selectOption('1200');
+  await root.screenshot({path:`${evidence}/R2-1200.png`});
+});
+
+
+test('G1 review-05 course resources add, reorder, delete and save through ManageTree without losing hidden draft nodes', async ({page}) => {
+  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/tree` : evidenceOutputPath('evidence/runtime/navigation-v042/review-07/after');
+  await page.goto('/#navigation-v042');
+  const root=page.locator('.nv42-r2'), tree=root.getByRole('tree',{name:'课程内容编辑树'});
+  const row=(name:string)=>tree.getByRole('treeitem',{name,exact:true});
+  const editor=page.getByRole('dialog',{name:'编辑内容节点',exact:true});
+  const rename='1.2 极限与连续（调整）';
+  const target=row('函数的性质');
+  await target.scrollIntoViewIfNeeded();
+  const height=await target.evaluate(node=>node.getBoundingClientRect().height);
+  await row('函数的定义与表示').getByRole('button',{name:'移动函数的定义与表示',exact:true}).dragTo(target,{targetPosition:{x:90,y:height-2}});
+  const pointerOrder=await tree.getByRole('treeitem').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('aria-label')));
+  expect(pointerOrder.indexOf('函数的性质')).toBeLessThan(pointerOrder.indexOf('函数的定义与表示'));
+  await root.screenshot({path:`${evidence}/pointer-sort.png`});
+  await row('1.2 极限与连续').focus(); await page.keyboard.press('F2');
+  await editor.getByRole('textbox',{name:'节点名称',exact:true}).fill('');
+  await editor.getByRole('button',{name:'确认编辑',exact:true}).click();
+  await expect(editor.getByRole('alert')).toHaveText('标题不能为空');
+  await editor.getByRole('textbox',{name:'节点名称',exact:true}).fill(rename);
+  await editor.getByRole('button',{name:'确认编辑',exact:true}).click();
+  await expect(row(rename)).toBeVisible();
+  await row(rename).hover(); await row(rename).getByRole('button',{name:/下添加子级/}).click();
+  await editor.getByRole('textbox',{name:'节点名称',exact:true}).fill('课堂练习');
+  await editor.getByRole('combobox',{name:'内容类型',exact:true}).click();
+  await page.getByRole('option',{name:'作业',exact:true}).click();
+  await editor.screenshot({path:`${evidence}/task-editor.png`});
+  await editor.getByRole('button',{name:'确认编辑',exact:true}).click();
+  await root.getByRole('radio',{name:'作业',exact:true}).locator('..').click();
+  await expect(root.getByRole('radio',{name:'作业',exact:true})).toBeChecked();
+  await expect(row('课堂练习')).toBeVisible();
+  await expect(row('函数的定义与表示')).toHaveCount(0);
+  await expect(tree.locator('[data-slot="drag-handle"]')).toHaveCount(0);
+  await root.getByRole('tab',{name:'2026 秋 · 高等数学 1 班',exact:true}).click();
+  await root.getByRole('button',{name:'隐藏课程导航',exact:true}).first().click();
+  await root.getByRole('button',{name:'恢复课程导航',exact:true}).click();
+  await expect(row('课堂练习')).toBeVisible();
+  await root.getByRole('radio',{name:'全部',exact:true}).locator('..').click();
+  await expect(root.getByRole('radio',{name:'全部',exact:true})).toBeChecked();
+  await expect(row('函数的定义与表示')).toBeVisible();
+  await row('课堂练习').getByRole('button',{name:'移动课堂练习',exact:true}).focus();
+  await page.keyboard.press('Space'); await page.keyboard.press('ArrowUp'); await page.keyboard.press('ArrowRight');
+  await expect(tree.locator('[data-slot="drop-indicator"]')).toHaveAttribute('data-placement','before');
+  await root.screenshot({path:`${evidence}/keyboard-sort.png`});
+  await page.keyboard.press('Enter');
+  await expect(row('课堂练习')).toHaveAttribute('aria-level','3');
+  const order=await tree.getByRole('treeitem').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('aria-label')));
+  expect(order.indexOf('课堂练习')).toBeLessThan(order.indexOf('函数的连续性'));
+  await row('函数的性质').hover(); await row('函数的性质').getByRole('button',{name:'删除函数的性质',exact:true}).click();
+  await page.getByRole('button',{name:'继续编辑',exact:true}).click();
+  await expect(row('函数的性质')).toBeVisible();
+  await row('函数的性质').hover(); await row('函数的性质').getByRole('button',{name:'删除函数的性质',exact:true}).click();
+  await page.getByText('确认删除当前节点及其子节点？',{exact:true}).screenshot({path:`${evidence}/delete-confirmation.png`});
+  await page.getByRole('button',{name:'确认删除',exact:true}).click();
+  await expect(row('函数的性质')).toHaveCount(0);
+  await root.getByRole('button',{name:'保存草稿',exact:true}).click();
+  await expect(root.getByRole('button',{name:'进入编辑',exact:true})).toBeVisible();
+  await expect(root.locator('.nv42-stats')).toHaveText('7 级结构16 个内容节点33 个学习单元');
+  await expect(row('课堂练习')).toBeVisible();
+  await expect(row(rename)).toBeVisible();
+  await root.screenshot({path:`${evidence}/saved.png`});
+  await root.getByRole('button',{name:'进入编辑',exact:true}).click();
+  await root.getByRole('button',{name:'添加根节点',exact:true}).click();
+  await editor.getByRole('button',{name:'取消编辑',exact:true}).click();
+  await expect(row('新知识点')).toHaveCount(0);
+  await row(rename).focus(); await page.keyboard.press('F2');
+  await editor.getByRole('textbox',{name:'节点名称',exact:true}).fill('放弃的改名');
+  await editor.getByRole('button',{name:'确认编辑',exact:true}).click();
+  await root.getByRole('button',{name:'退出编辑',exact:true}).click();
+  await page.getByRole('button',{name:'放弃修改',exact:true}).click();
+  await expect(row(rename)).toBeVisible();
+  await expect(row('放弃的改名')).toHaveCount(0);
+});

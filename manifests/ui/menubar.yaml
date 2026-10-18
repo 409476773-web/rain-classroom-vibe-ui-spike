@@ -102,3 +102,23 @@ visualRefinement:
   evidence: "evidence/runtime/g2-g3-remaining-families-2026-10-08/verification.md"
   runtimeHumanGate: "awaiting-user-review"
   publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "anchored-overlays"
+  taskIds:
+    - "act-feedback"
+  searchAliases:
+    - "菜单栏"
+    - "桌面命令菜单"
+  implementationRole: "root"
+  controlScope: "横向分组的多级命令菜单"
+  stateOwner: "Root 管理菜单栏，Menu 管理各菜单开闭；Positioner 自动 Portal，Popup 仍显式，宿主拥有命令执行和业务状态。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-navigation-menu"
+      condition: "项目是页面目的地而非命令时比较 NavigationMenu，保留真实 href。"
+      evidence:
+        path: "packages/ui/src/menubar/menubar.tsx"
+        symbol: "Menubar"
+        kind: "contract"

@@ -5504,10 +5504,14 @@ export function validateTabsCssExceptions({ source, contract, authorized, root =
     if (!generic && !/rain-tabs|ui-tabs|--tabs-/.test(selector + body) && !/\[(?:data-(?:slot|part)|role)\s*[*^$~|]?=\s*["']?tab(?:list)?(?=["'\]\s])/.test(selector)) return [];
     return [{ scope, selector: selector.replace(/\s+/g, " "), declarations: stripCssComments(body).replace(/\s+/g, " ").trim() }];
   });
-  const rules = collect(source);
+  // Inspect the live rules: generic G6 normalization intentionally reads an older
+  // stylesheet and would otherwise hide the R01 divider correction. The full
+  // stylesheet import inventory remains checked by verifyTailwindB2.
+  const rules = collect(source.replace(/^@import\s+[^;]+;\s*$/gm, ""));
   if (!same(entries.map(({ id }) => id), authorized ? ids : []) || authorized && ids.some(id => !source.includes(`@rain-css-exception ${id}`))) failures.push("Tabs must retain its exact CSS exception inventory and markers");
   const fingerprint = createHash("sha256").update(JSON.stringify(rules)).digest("hex");
-  if (authorized ? fingerprint !== "7df7c0763e10aa586c00196860c1fc32edcc81e2943d7a63055bd7745f60fd3c" : rules.length > 0) failures.push("Tabs native CSS changed outside reviewed geometry, target spacing or system-color rules");
+  // R01: three undefined space-1 uses became line-thickness-1; see deep-review-fixes-2026-10-17/css.md.
+  if (authorized ? fingerprint !== "9811e6b76b9df7e453733c45921b5c7dcf71a1ff2e50e57827d76f50a3278625" : rules.length > 0) failures.push(`Tabs native CSS changed outside reviewed geometry, target spacing or system-color rules (${fingerprint})`);
   return failures;
 }
 

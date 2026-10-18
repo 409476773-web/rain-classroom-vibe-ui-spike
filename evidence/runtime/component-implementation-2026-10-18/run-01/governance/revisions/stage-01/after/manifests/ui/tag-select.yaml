@@ -1,0 +1,142 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-tag-select"
+name: "TagSelect"
+description: "Change one valid current classification through a compact Rain Tag trigger and a finite local option list."
+useWhen:
+  - "A current resource category is always present and users choose one of a finite set."
+doNotUseWhen:
+  - "Use Select for general fields or searchable/multiple values; compose the local management recipe for creation and vocabulary editing."
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/tag/tag-select.tsx"
+styleSourcePath: "packages/ui/src/tag/tag-select.styles.ts"
+sourceVersion: "local-2026-09-09"
+headless: "@base-ui/react/select@1.8.0"
+publication: "unpublished"
+parts:
+  - "root"
+  - "content"
+  - "label"
+  - "leading-icon"
+  - "popup"
+  - "option"
+  - "arrow"
+  - "indicator"
+anatomy:
+  - "Tag-shaped button combobox, finite listbox options and a separate selected indicator."
+  - "Base UI owns positioning, collision handling, outside interaction, keyboard navigation and focus return."
+props:
+  - "options: readonly value string or finite number, label, registered Tag color, optional disabled"
+  - "value with onValueChange, or defaultValue with optional onValueChange; a valid current selection is required"
+  - "open with onOpenChange, or defaultOpen with optional onOpenChange; expansion is independent of selection"
+  - "size 20/24/28 default 24; appearance filled/outlined/solid default filled; disabled; leadingIcon; aria-label or aria-labelledby"
+  - "id; title; aria-describedby; aria-invalid; onFocus; onBlur; forwarded button ref; layout className; named localRecipe"
+slots:
+  - "leadingIcon: existing static Rain icon; labels and option indicators retain their owned semantics."
+variants:
+  - "size: 20, 24, 28; appearance: filled, outlined, solid; registered Tag colors including Neutral and Brand."
+dependencies:
+  - "@base-ui/react/select 1.8.0; React; React DOM peer; @rain-next/foundations; existing TagContent, getTagRecipe and rainCn."
+layoutConstraints:
+  - "Trigger fits within its parent; long current text truncates and the option list exposes the complete text."
+  - "Popup caps at 20rem and Base UI available space with 8px collision padding; enlarged text may grow the trigger beyond its normal size."
+states:
+  - "closed and open"
+  - "default, hover, pressed and focus-visible trigger"
+  - "selected, highlighted and disabled option; activity is independent of selection"
+tokens:
+  - "Trigger reuses getTagRecipe and the existing 20 color profiles plus Neutral and Brand; no duplicated palette."
+  - "20: font 12/14, padding 6, radius 4; 24: font 13/18, padding 8, radius 6; 28: font 13/18, padding 12, radius 6."
+  - "Solid label uses the exact UI 700 allowance; other labels retain UI 400."
+  - "Popup Background/Neutral/1, decorative Border/Neutral/2, Text/Neutral/1, selected Text/Brand/1 and Icon/Brand/1, highlighted Fill/Neutral/Alpha/6."
+  - "Inherited Tag disabled opacity, multiply feedback, existing Space, Radius, Shadow and shared Focus."
+compositionRules:
+  - "Use for changing one finite current category. Zero, empty string and numeric/string identities remain valid and distinct."
+  - "New choice emits once and closes; reselecting the current option only closes. Invalid or removed current values fail explicitly."
+  - "Portal inherits the nearest data-rain-theme, including changes while open."
+  - "The complete local management recipe lives in apps/playground/src/docs/components/tag-management-recipe.tsx and is not a public Pattern."
+allowedModifications:
+  - "Choose a complete size and appearance, options and registered colors."
+  - "Use layout className or a declared Local Recipe for the eight parts."
+restrictedModifications:
+  - "Do not add multi-select, clearing, creation, search, remote states or a second overlay engine to TagSelect."
+  - "Do not rename color identities, change RGBA or infer acceptance of existing Tag contrast findings."
+  - "Do not publish this workspace candidate or infer acceptance from the previous Tag batches."
+accessibility:
+  - "Requires an explicit accessible name; full option text remains available in the popup."
+  - "Keyboard navigation skips disabled options; Escape returns focus, while Tab and outside interaction preserve normal navigation."
+  - "Composing Enter is suppressed before activation; OS IME and assistive technology require actual separate checks."
+  - "Removing or disabling the focused open option restores an enabled option, or the trigger when none remain; external focus is preserved."
+  - "Forced colors preserve popup boundaries, highlighted outlines, selection marks and disabled states."
+visualLineage:
+  rainClassicReferences:
+    - "evidence/rain-classic/interaction-contracts.md: TagSelect"
+    - "docs/plans/2026-09-08-tag-design.md"
+  externalReferences:
+    - "https://base-ui.com/react/components/select"
+    - "docs/adr/0005-headless-base.md"
+  retainedTraits:
+    - "Compact colored Tag trigger and finite category selection."
+  redesignedTraits:
+    - "React state axes and selected Base UI behavior replace the legacy Vue interaction implementation."
+  intentionallyNotInherited:
+    - "Legacy popup internals and the unfinished legacy create/manage flow are not copied."
+recipes:
+  - "Default to the full size, appearance and color recipe. Local changes use the eight named parts."
+antiPatterns:
+  - "Do not choose the first option automatically, conflate 1 with string 1, embed interactive controls in options or use className to replace visual Tokens."
+relatedComponents:
+  - "Tag, CheckableTag, CheckableTagGroup, Select, Input, Button"
+relatedBlocks: []
+figmaMapping:
+  status: "not-written"
+migrationLabel: "rewrite-from-rain"
+migrationNotes:
+  - "Independent Rain Next candidate; no Rain Classic changes, publication or business migration."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  humanGateScope: "tag-batch-three-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/tag-batch-three/verification.md"
+examples:
+  - "#tag"
+
+discovery:
+  version: 1
+  familyId: "tags"
+  taskIds:
+    - "choose"
+    - "identify"
+  searchAliases:
+    - "标签编辑"
+    - "分类单选"
+  implementationRole: "specialization"
+  controlScope: "有限单值分类字段的标签外观"
+  stateOwner: "TagSelect 独立使用候选选择引擎并共享 Tag 表面；宿主拥有当前分类，不是 Select wrapper、任意值创建或多选标签组。"
+  relationships:
+    - type: "sharesPresentation"
+      targetId: "ui-tag"
+      condition: "复用 Tag 配方；有限单值选择有独立实现。"
+      evidence:
+        path: "packages/ui/src/tag/tag-select.tsx"
+        symbol: "TagSelect"
+        kind: "contract"
+    - type: "alternativeWhen"
+      targetId: "ui-select"
+      condition: "标签外观的有限单值编辑用 TagSelect；需要通用单/多值字段时用 Select；共同使用外部引擎不构成 wrapper。"
+      evidence:
+        path: "packages/ui/src/tag/tag-select.tsx"
+        symbol: "TagSelect"
+        kind: "contract"
+    - type: "alternativeWhen"
+      targetId: "ui-checkable-tag-group"
+      condition: "多个分类需同时可见并作单/多选时比较 CheckableTagGroup。"
+      evidence:
+        path: "packages/ui/src/tag/tag-select.tsx"
+        symbol: "TagSelect"
+        kind: "contract"

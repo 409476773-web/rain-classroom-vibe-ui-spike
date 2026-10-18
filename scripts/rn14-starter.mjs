@@ -3,6 +3,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { renderStarterGuideOutputs, starterGuidePaths, starterManifestReferences as manifestReferences, validateStarterRequiredFiles } from "./asset-starter-guide.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const sha = value => createHash("sha256").update(value).digest("hex");
@@ -61,20 +62,29 @@ export function exportStarter(destination, { milestone = "M1" } = {}) {
   const sourceFiles = {};
   /** @type {Record<string, string>} */
   const exportedFiles = {};
+  const generatedGuides = renderStarterGuideOutputs(root);
+  const profile = JSON.parse(generatedGuides[starterGuidePaths.profiles]).profiles.find(item => item.milestone === milestone);
+  const transformations = [];
   const entries = ["pnpm-lock.yaml", "pnpm-workspace.yaml", "tsconfig.base.json", "apps/prototype/package.json", "apps/prototype/tsconfig.json", "apps/prototype/vite.config.ts", "apps/prototype/index.html", "apps/prototype/src/styles.css", "apps/prototype/src/data-table-recipe.tsx", "apps/prototype/src/data-table-recipe.css"];
   entries.push(...filesIn(join(root, ".agents/skills/rain-designer")).map(path => relative(root, path)));
-  entries.push("docs/ai/prototype-design.md", "docs/ai/information-design.md", "docs/ai/form-composition.md", "docs/ai/g4-components.md", "docs/ai/g6-components.md", "manifests/recipes/data-table.yaml", "manifests/recipes/conversation-composer.yaml", "manifests/recipes/attachment-workflow.yaml",
+  entries.push(...profile.files,
     "evidence/runtime/design-knowledge/form-desktop.png", "evidence/runtime/design-knowledge/form-narrow.png",
     "evidence/runtime/bm-b-rn10/section-surfaces-2026-09-15.md", "evidence/runtime/bm-b-rn10/header-hint-2026-09-15.md");
-  for (const name of ["tabs", "radio-group", "checkable-tag-group", "select", "input", "search-input", "button", "dropdown-menu", "icon-button", "form-item", "dialog", "alert-dialog", "textarea", "typography", "item", "progress", "aspect-ratio", "attachment", "direction", "drawer", "input-otp", "carousel", "bubble", "marker", "message", "message-scroller", "questionnaire"]) entries.push(`manifests/ui/${name}.yaml`);
   for (const name of ["foundations", "ui", "layouts"]) {
     entries.push(`packages/${name}/package.json`, `packages/${name}/tsconfig.json`);
     entries.push(...filesIn(join(root, `packages/${name}/src`)).map(path => relative(root, path)));
   }
-  for (const name of milestone === "M2" ? ["bm-a", "bm-b", "bm-c", "bm-d"] : ["bm-a", "bm-b"]) entries.push(...filesIn(join(root, `apps/prototype/src/scenarios/${name}`)).filter(path => !path.includes(".test.")).map(path => relative(root, path)));
+  for (const name of profile.sceneIds) entries.push(...filesIn(join(root, `apps/prototype/src/scenarios/${name}`)).filter(path => !path.includes(".test.")).map(path => relative(root, path)));
   if (milestone === "M2") entries.push("docs/ai/m2-trial-guide.md", "evidence/runtime/m2/color-consumers.json");
+  if (existsSync(join(root, "docs/ai/composition-recipes.md"))) entries.push("docs/ai/composition-recipes.md");
+  const exampleSource = "apps/playground/src/docs/examples";
+  const examples = existsSync(join(root, exampleSource)) ? filesIn(join(root, exampleSource)).map(path => relative(root, path)) : [];
+  entries.push(...examples);
+  const guides = [...new Set(entries.filter(file => file.startsWith("docs/ai/") && file.endsWith(".md")))];
+  for (const guide of guides) entries.push(...manifestReferences(guide, readFileSync(join(root, guide), "utf8")));
+  const suppliedFiles = new Set(entries);
   // ponytail: full existing package sources preserve their export surface; prune only if snapshot size becomes a problem.
-  for (const file of entries) {
+  for (const file of new Set(entries)) {
     if (lstatSync(join(root, file)).isSymbolicLink()) throw new Error(`Symbolic link is not allowed: ${file}`);
     const bytes = readFileSync(join(root, file));
     sourceFiles[file] = sha(bytes);
@@ -95,11 +105,11 @@ export function exportStarter(destination, { milestone = "M1" } = {}) {
       for (const [original, portable] of [
   [
     "依赖与源码见 `registry/g6-assets.json`。",
-    "源码与依赖按本包各 Manifest 的 sourcePath、随包组件 README、packages/ui/package.json、apps/prototype/package.json 及 pnpm-lock.yaml 核对。`registry/g6-assets.json` 是原工作区追溯材料，本 Starter 未附带。"
+    "源码与依赖按本包各 Manifest 的 sourcePath、随包组件 README、packages/ui/package.json、apps/prototype/package.json 及 pnpm-lock.yaml 核对。`registry/g6-assets.json` 随统一模型闭包附带，声明真实入口；原独立消费夹具与运行日志仍未附带。"
   ],
   [
     "Registry每项列出真实来源、Parts、依赖与可获取文件，Manifest不得省略；",
-    "本 Starter 附带12个对应 Manifest、组件源码与 README；按 Manifest 的 sourcePath 定位实现，并按随包 package.json 和 pnpm-lock.yaml 核对依赖。Registry 独立消费及其下游来源闭包未随本包提供；"
+    "本 Starter 附带12个对应 Manifest、组件源码与 README；按 Manifest 的 sourcePath 定位实现，并按随包 package.json 和 pnpm-lock.yaml 核对依赖。Registry、所需来源锁和许可证随模型闭包提供，原独立消费夹具及审阅档案不随包提供；"
   ],
   [
     "Message、Scroller和Questionnaire完整可运行组合见三组独立Playground页面和本轮独立消费夹具。",
@@ -149,6 +159,8 @@ export function exportStarter(destination, { milestone = "M1" } = {}) {
       ];
       for (const link of traces) {
         if (text.split(link).length !== 2) throw new Error(`Starter optional case trace changed: ${link}`);
+        const target = relative(root, resolve(root, dirname(file), link.slice(link.indexOf("](") + 2, -1).split("#")[0]));
+        if (suppliedFiles.has(target)) continue;
         text = text.replace(link, link.slice(1, link.indexOf("]")) + "（原工作区追溯材料；本 Starter 未附带）");
       }
       exported = Buffer.from(text);
@@ -156,26 +168,63 @@ export function exportStarter(destination, { milestone = "M1" } = {}) {
     if (file === "docs/ai/g6-components.md" || file === "packages/ui/src/conversation-composer/README.md") {
       // These current API guides are portable; their original review logs stay in the owning workspace.
       exported = Buffer.from(exported.toString("utf8").replace(/\[([^\]]+)\]\(((?:\.\.\/)+(?:evidence\/runtime|docs\/plans)\/[^)]+)\)/g,
-        (_link, label) => `${label}（原工作区追溯材料；本 Starter 未附带）`));
+        (link, label, href) => suppliedFiles.has(relative(root, resolve(root, dirname(file), href.split("#")[0]))) ? link : `${label}（原工作区追溯材料；本 Starter 未附带）`));
     }
     writeFileSync(join(output, file), exported);
     exportedFiles[file] = sha(exported);
+    if (sha(exported) !== sha(bytes)) transformations.push({ file, sourceSha256: sha(bytes), exportedSha256: sha(exported), reason: "Existing named portable conversion; methods and consumer boundaries retained", removedLinks: [...bytes.toString("utf8").matchAll(/\[([^\]]+)\]\(([^)]+)\)/g)].filter(match => !exported.toString("utf8").includes(match[0])).map(match => ({ label: match[1], target: match[2], role: "trace", resolution: "external-trace" })) });
   }
+  for (const [file, digest] of Object.entries(profile.inputHashes)) {
+    if (sha(readFileSync(join(root, file))) !== digest) throw new Error(`Starter model input changed during export: ${file}`);
+    sourceFiles[file] = digest;
+  }
+  for (const reference of profile.references) if (Object.hasOwn(exportedFiles, reference.target)) reference.resolution = "included";
+  const selectedGuides = { ...generatedGuides, [starterGuidePaths.profiles]: json({ schemaVersion: 1, sourceDigest: profile.sourceDigest, profiles: [profile], availableProfileIds: ["rn14-m1", "rn14-m2"], scope: "Only the selected profile is included in this export" }) };
+  for (const [file, content] of Object.entries({ ...selectedGuides, "docs/ai/starter-profile.json": json({ ...profile, transformations }) })) {
+    mkdirSync(dirname(join(output, file)), { recursive: true }); writeFileSync(join(output, file), content); exportedFiles[file] = sha(content);
+  }
+  guides.push(starterGuidePaths.guide);
+  validateStarterRequiredFiles(profile, Object.keys(exportedFiles));
   const manifest = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
   manifest.name = "@rain-next/rn14-local-starter";
   manifest.scripts = { dev: "pnpm --filter @rain-next/prototype dev", build: "pnpm -r build", typecheck: "pnpm -r typecheck" };
-  const entry = milestone === "M2" ? main
+  let entry = milestone === "M2" ? main
     .replace('import { TextbookFormScenario } from "./scenarios/bm-b/page";', 'import { TextbookFormScenario } from "./scenarios/bm-b/page";\nimport { GradingWorkbenchScenario } from "./scenarios/bm-c/page";\nimport { LearningReportScenario } from "./scenarios/bm-d/page";')
     .replace('  const form = route === "#bm-b";', '  if (route === "#bm-c") return <DensityProvider density="default"><GradingWorkbenchScenario /></DensityProvider>;\n  if (route === "#bm-d") return <DensityProvider density="default"><LearningReportScenario /></DensityProvider>;\n  const form = route === "#bm-b";')
     .replace('<Inline gap={16} align="center"><Button', '<Inline gap={16} align="center"><Button variant="secondary" onClick={() => { location.hash = "bm-c"; }}>作业批改</Button><Button variant="secondary" onClick={() => { location.hash = "bm-d"; }}>学习报告</Button><Button') : main;
+  const combinations = [
+    ["filter-toolbar", "FilterToolbarExample"],
+    ["sectioned-form", "SectionedFormExample"],
+    ["grading-actions", "GradingActionsExample"],
+  ];
+  const hasCombinations = combinations.every(([name]) => examples.includes(`${exampleSource}/${name}.tsx`));
+  if (hasCombinations) {
+    for (const [name] of combinations) {
+      const file = `apps/prototype/src/composition-examples/${name}.tsx`, bytes = readFileSync(join(output, `${exampleSource}/${name}.tsx`));
+      mkdirSync(dirname(join(output, file)), { recursive: true });
+      writeFileSync(join(output, file), bytes);
+      exportedFiles[file] = sha(bytes);
+    }
+    entry = combinations.map(([name, component]) => `import { ${component} } from "./composition-examples/${name}";`).join("\n") + "\n" + entry;
+    entry = entry.replace('  const form = route === "#bm-b";', '  if (route === "#compositions") return <DensityProvider density="default"><main className="rain-prototype"><h1>组合示例</h1><Button variant="secondary" onClick={() => { location.hash = "bm-a"; }}>返回课程资料</Button>' + combinations.map(([, component]) => `<${component} />`).join("") + '</main></DensityProvider>;\n  const form = route === "#bm-b";');
+    entry = entry.replace('<Inline gap={16} align="center"><Button', '<Inline gap={16} align="center"><Button variant="secondary" onClick={() => { location.hash = "compositions"; }}>组合示例</Button><Button');
+  }
   const instructions = "# Rain Next 本地原型\n\n生成、优化或评审原型界面时，使用 [Rain Designer](.agents/skills/rain-designer/SKILL.md)，并读取 [本库接入说明](docs/ai/prototype-design.md)。先理解当前任务和信息关系，再核对和复用合适能力；历史整页不作为默认模板，示例仅在明确要求参考/还原或核实具体用法时读取。设计方法在 Skill 中维护，品牌、组件 API、真实导出与实现边界按本库说明查找；已读内容可复用，不循环启动。记录依据、选择原因、实际检查与未验证项，局部参数不升级为全库规则，AI 自查不替代用户验收。\n\n默认 Prototype Mode：共享 packages 与锁文件保持只读，优先已有 Variant、页面 Local Recipe、Local Fork。业务状态由页面持有；不扩大旧视觉接受，不自动发布、迁移、写入 Figma 或执行 Git 操作。用户的新任务指令优先。\n";
   sourceFiles["scripts/rn14-starter.mjs"] = sha(readFileSync(join(root, "scripts/rn14-starter.mjs")));
-  for (const [file, content] of Object.entries({ "package.json": json(manifest), "apps/prototype/src/main.tsx": entry, "AGENTS.md": instructions })) {
+  for (const [file, content] of Object.entries({ "package.json": json(manifest), "apps/prototype/src/main.tsx": entry, "AGENTS.md": instructions + "\n本包可用指南、推荐合同和组合示例见[便携索引](docs/ai/starter-index.md)；合同清单包含 Markdown 链接与反引号中的显式路径。\n" })) {
     sourceFiles[file] = sha(readFileSync(join(root, file)));
     writeFileSync(join(output, file), content);
     exportedFiles[file] = sha(content);
   }
-  const lock = { schemaVersion: "1.0", snapshotId: `rn14-${sha(json(exportedFiles)).slice(0, 16)}`, inputCommit: execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim(), workingTree: "content-addressed-local-snapshot", assetIdentity: "local-experiment", publication: "not-authorized", sourceFiles, files: exportedFiles };
+  const contracts = Object.keys(exportedFiles).filter(file => file.startsWith("manifests/")).sort();
+  const link = file => `[${file}](${relative("docs/ai", file)})`;
+  const index = "# Starter 便携索引\n\n本索引按本次实际导出生成。指南推荐的 Manifest 同时从 Markdown 链接和反引号路径收集；选择资产后再读对应合同，不必逐项载入。源码完整附带不等于全部能力已通过人工验收或可发布。\n\n## 使用指南\n\n" + guides.sort().map(file => `- ${link(file)}`).join("\n") + "\n\n## 推荐合同\n\n" + contracts.map(file => `- ${link(file)}`).join("\n") + (examples.length ? "\n\n## 可复制组合\n\n" + examples.map(file => `- ${link(file)}`).join("\n") : "") + (hasCombinations ? "\n\n启动后访问 `#compositions`，可操作三个示例。相同源码复制到 apps/prototype/src/composition-examples，参与本包 typecheck/build；所有导入使用 Rain 公共入口。示例的业务状态和模拟提交属于应用，不进入公共组件。\n" : "") + "\n\n## 追溯边界\n\nManifest 中的 sourceEvidence、examples、历史 Registry 和导航/G6 审阅日志可能指向原工作区追溯材料，本 Starter 未附带。它们不属于本索引的必读文件；不能据此声称已读取或验证，不递归复制审计档案。当前组件 API 以随包 Manifest、源码 README、真实 package exports 和精确锁文件为准。\n";
+  writeFileSync(join(output, "docs/ai/starter-index.md"), index);
+  exportedFiles["docs/ai/starter-index.md"] = sha(index);
+  for (const guide of guides) for (const file of manifestReferences(guide, readFileSync(join(output, guide), "utf8"))) {
+    if (!exportedFiles[file]) throw new Error(`Starter guide requires missing contract: ${guide} -> ${file}`);
+  }
+  const lock = { schemaVersion: "1.0", snapshotId: `rn14-${sha(json(exportedFiles)).slice(0, 16)}`, inputCommit: execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim(), workingTree: "content-addressed-local-snapshot", assetIdentity: "local-experiment", publication: "not-authorized", profile: { id: profile.profileId, milestone, sourceDigest: profile.sourceDigest, generatorSha256: profile.inputHashes["scripts/asset-starter-guide.mjs"] }, sourceFiles, files: exportedFiles };
   writeFileSync(join(output, "source-lock.json"), json(lock));
   return lock;
 }
@@ -191,6 +240,13 @@ export function verifyStarter(directory) {
     if (sha(readFileSync(path)) !== expected) throw new Error(`Starter file changed: ${file}`);
   }
   if (lock.snapshotId !== `rn14-${sha(json(lock.files)).slice(0, 16)}`) throw new Error("Snapshot identity changed");
+  if (Object.hasOwn(lock.files, "docs/ai/starter-profile.json")) {
+    if (!lock.profile) throw new Error("Starter profile binding is missing");
+    const profile = JSON.parse(readFileSync(join(output, "docs/ai/starter-profile.json"), "utf8"));
+    const expected = { id: profile.profileId, milestone: profile.milestone, sourceDigest: profile.sourceDigest, generatorSha256: profile.inputHashes["scripts/asset-starter-guide.mjs"] };
+    if (JSON.stringify(lock.profile) !== JSON.stringify(expected) || lock.sourceFiles["scripts/asset-starter-guide.mjs"] !== expected.generatorSha256) throw new Error("Starter profile binding changed");
+    validateStarterRequiredFiles(profile, Object.keys(lock.files));
+  }
   return lock.snapshotId;
 }
 

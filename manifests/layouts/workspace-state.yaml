@@ -91,6 +91,7 @@ layoutConstraints:
   - "Derived space constraints never overwrite requested preferences."
 compositionRules:
   - "Session snapshots and temporary layers never enter persisted layout JSON."
+  - "RESIZE_REGION_KEY Enter selects supported hidden or compact, otherwise leaves state unchanged; explicit unsupported target modes still throw."
 accessibility:
   - "React adapter owns focus and ARIA effects; pure reducer owns no DOM."
 examples:
@@ -155,3 +156,17 @@ priorG2VisualAcceptance12:
   limits: "Runtime visual/composition acceptance only. New R3/S2 follow-up13 is separately verified and pending visual confirmation; G3/W6-W8, broad accessibility/contrast, publication and migration are separate."
   sourcePath: "packages/layouts/src/workspace-state.ts"
   sourceSha256: "f41cde5f5fb26a86517021e862a8c73dc592de9f718829c7ce353c2d22e9dcc5"
+
+discovery:
+  version: 1
+  familyId: "workspaces"
+  taskIds:
+    - "organize"
+    - "workbench"
+  searchAliases:
+    - "工作区状态"
+    - "布局偏好"
+  implementationRole: "helper"
+  controlScope: "requested/effective/session 三层布局计算与偏好校验"
+  stateOwner: "宿主每工作区只有一个 controller；纯函数处理布局模式和预算，session 快照不持久化，业务草稿、当前对象和提交结果不进入布局偏好。"
+  relationships: []

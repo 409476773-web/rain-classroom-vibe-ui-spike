@@ -78,3 +78,30 @@ compositionRules:
   - "Only the owner removes data and restores focus; complex children require removeLabel."
 examples:
   - "#tag"
+
+discovery:
+  version: 1
+  familyId: "tags"
+  taskIds:
+    - "identify"
+  searchAliases:
+    - "标签"
+    - "分类标记"
+  implementationRole: "root"
+  controlScope: "只读分类或可移除标签的表面"
+  stateOwner: "宿主拥有分类与移除结果；Tag 不管理选择值或导航，后者使用具体 LinkTag/CheckableTag/TagSelect。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-link-tag"
+      condition: "分类本身具有真实页面目的地时使用 LinkTag。"
+      evidence:
+        path: "packages/ui/src/tag/tag.tsx"
+        symbol: "Tag"
+        kind: "contract"
+    - type: "alternativeWhen"
+      targetId: "ui-checkable-tag"
+      condition: "分类需要真实 radio/checkbox 选择协议时使用 CheckableTag。"
+      evidence:
+        path: "packages/ui/src/tag/tag.tsx"
+        symbol: "Tag"
+        kind: "contract"

@@ -1,0 +1,110 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-native-select"
+name: "NativeSelect"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/native-select/native-select.tsx"
+styleSourcePath: "packages/ui/src/native-select/native-select.css"
+sourceVersion: "local-2026-10-12"
+description: "兼容保留的原生选择 API；统一 Rain 展开视觉的新业务使用 Select。"
+useWhen:
+  - "仅维护明确依赖原生 select API 的既有调用；新业务选择 Select。"
+doNotUseWhen:
+  - "需要统一 Rain 展开面板的新业务，以及候选搜索、远端状态。"
+anatomy:
+  - "native wrapper / select control / decorative arrow / option / optgroup"
+parts:
+  - "native wrapper / select control / decorative arrow / option / optgroup"
+props:
+  - "Native select属性与ref；size=24|28|32|36；appearance / status；onValueChange(string)。"
+  - "NativeSelectOption / NativeSelectOptGroup保留原生属性。"
+slots: []
+variants:
+  - "Rain local recipe"
+states:
+  - "default"
+  - "disabled"
+  - "focus-visible"
+dependencies:
+  - "react"
+  - "FormItem / fieldFrameRecipe / Input styles"
+  - "Rain arrow-down"
+tokens:
+  - "shared field colors / Focus / InputSize"
+  - "Icon/Neutral/3/5"
+layoutConstraints:
+  - "宽度由宿主提供；保留区域密度与窄屏布局。"
+compositionRules:
+  - "首版验收single；native multiple透传但不属于首版展示与验收。"
+allowedModifications:
+  - "宿主内容、className、既有variant；数据与保存由宿主拥有。"
+restrictedModifications:
+  - "不硬编码颜色或构建第二字段状态/浮层引擎。"
+accessibility:
+  - "原生select键盘、required、name、form与标签反馈关联。"
+  - "forced-colors保留原生箭头；option使用平台Canvas/CanvasText。"
+examples:
+  - "旧 #native-select 链接兼容打开 #select 对应页面；新调用使用 Select。"
+recipes:
+  - "旧调用兼容；G5 表单与独立消费示例已改用 Select。"
+antiPatterns:
+  - "候选搜索、远端状态或统一的展开面板。"
+relatedComponents:
+  - "Select"
+  - "FormItem"
+  - "Input"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Rain字段、菜单、图标与Token体系"
+  externalReferences:
+    - "shadcn Base UI / Nova at locked commit"
+  retainedTraits:
+    - "成熟来源部件与引擎语义/生命周期"
+  redesignedTraits:
+    - "Rain现有Token绑定与局部动效"
+  intentionallyNotInherited:
+    - "上游默认palette与cn"
+figmaMapping:
+  status: "reference-only"
+source:
+  repository: "https://github.com/shadcn-ui/ui"
+  commit: "3ba91b1cc83e1bbe4ab35a422ff2a694849c5048"
+  license: "MIT"
+  evidence: "evidence/runtime/g5-components-2026-10-12/source-lock.json"
+migrationNotes:
+  - "2026-10-13 用户要求跨浏览器统一 Rain 展开视觉；目录与业务示例合并到 Select，保留源码和公共导出，原生 API 行为不变。"
+  - "固定来源适配；未发布候选，人工视觉与对比度验收单独记录。"
+verification:
+  automated: "scoped-passed"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/g5-components-2026-10-12/verification.md"
+
+discovery:
+  version: 1
+  familyId: "candidate-selection"
+  taskIds:
+    - "choose"
+    - "fill-validate"
+  searchAliases:
+    - "原生选择"
+    - "Native Select"
+    - "兼容选择"
+  implementationRole: "compatibility"
+  controlScope: "维护原生 select API 的既有表单字段"
+  stateOwner: "值和业务提交由宿主/原生表单持有，保留真实 select、option 和 optgroup；当前兼容路由复用 Select 说明页不表示运行时同值别名。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-select"
+      evidence:
+        path: "packages/ui/src/native-select/native-select.tsx"
+        kind: "contract"
+        symbol: "NativeSelect"
+      condition: "新业务需要统一 Rain 展开面板时使用 Select；维护明确依赖原生 select API 的既有调用继续 NativeSelect。"

@@ -1,0 +1,43 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ scripts/rn14-starter.test.ts (9 tests | 1 failed) 12719ms
+   × preserves the existing RN14 authorization and frozen B2 history 25ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/rn14-starter.test.ts > preserves the existing RN14 authorization and frozen B2 history
+AssertionError: Deep review current source changed: .deep-review-playwright.config.ts
++ actual - expected
+
++ '66e66712e6aa303d364d43e390bb1ac4823ce5d656019e1f6a8afc4fa0b459b6'
+- '82d3f0612e1ed10d26d74c8b90b969c6bab91b178cbc7fec53accbfc507f9437'
+
+
+Expected: "82d3f0612e1ed10d26d74c8b90b969c6bab91b178cbc7fec53accbfc507f9437"
+Received: "66e66712e6aa303d364d43e390bb1ac4823ce5d656019e1f6a8afc4fa0b459b6"
+
+ ❯ readDeepReviewBindings scripts/deep-review-successor.mjs:133:12
+    131|   for (const [file, binding] of Object.entries(record.sourceFiles)) {
+    132|     assert.deepEqual(Object.keys(binding).sort(), ["before", "after", …
+    133|     assert.equal(sha(bytes(root, file)), binding.after, "Deep review c…
+       |            ^
+    134|     if (binding.before !== null) {
+    135|       assert.equal(binding.beforeSnapshot, deepReviewEvidence + "befor…
+ ❯ scripts/verification-helpers.mjs:643:11
+ ❯ verifySourceBindingTraversal scripts/verification-helpers.mjs:606:75
+ ❯ getG6SourceBindingView scripts/verification-helpers.mjs:642:10
+ ❯ getG6SourceBindings scripts/verification-helpers.mjs:647:26
+ ❯ scripts/verification-helpers.mjs:4144:21
+ ❯ verifySourceBindingTraversal scripts/verification-helpers.mjs:606:75
+ ❯ getValidatedTailwindB2History scripts/verification-helpers.mjs:4143:10
+ ❯ scripts/rn14-starter.test.ts:206:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  23:09:27
+   Duration  13.29s (transform 208ms, setup 165ms, import 308ms, tests 12.72s, environment 0ms)
+

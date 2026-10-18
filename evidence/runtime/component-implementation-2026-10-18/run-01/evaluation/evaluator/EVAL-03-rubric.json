@@ -1,0 +1,59 @@
+{
+  "taskId": "EVAL-03",
+  "focus": "题目/作答/面板/筛选/草稿各自归属；单一 Workspace/controller；真实面板语义；不机械删除现有批准 Tabs 用法，也不将纯筛选无理由变成空 tabpanel。与已有 teacher-grading 相似处可以合理复用，正式题要通过信息关系和复评流程体现新增需求，不能只换标题。",
+  "requiredFlows": [
+    {
+      "id": "EVAL-03-FLOW-01",
+      "criterion": "题目与作答切换时分数/说明草稿按 answerId 隔离",
+      "expectedResult": "满足需求语义；接受不同布局与合法组件组合，不要求唯一 JSX"
+    },
+    {
+      "id": "EVAL-03-FLOW-02",
+      "criterion": "0 分合法，越界/无效分数和空说明给就近错误",
+      "expectedResult": "满足需求语义；接受不同布局与合法组件组合，不要求唯一 JSX"
+    },
+    {
+      "id": "EVAL-03-FLOW-03",
+      "criterion": "指定第一次保存失败保留草稿，重试只更新当前作答",
+      "expectedResult": "满足需求语义；接受不同布局与合法组件组合，不要求唯一 JSX"
+    },
+    {
+      "id": "EVAL-03-FLOW-04",
+      "criterion": "保存成功不无理由跳对象，未处理/全部数量真实",
+      "expectedResult": "满足需求语义；接受不同布局与合法组件组合，不要求唯一 JSX"
+    },
+    {
+      "id": "EVAL-03-FLOW-05",
+      "criterion": "查看评分参考不提交且关闭恢复合理焦点",
+      "expectedResult": "满足需求语义；接受不同布局与合法组件组合，不要求唯一 JSX"
+    },
+    {
+      "id": "EVAL-03-FLOW-06",
+      "criterion": "长作答/窄屏可阅读与评分，当前对象可辨识",
+      "expectedResult": "满足需求语义；接受不同布局与合法组件组合，不要求唯一 JSX"
+    }
+  ],
+  "E1Assertions": [
+    "参考区展开/收起不提交且可返回焦点",
+    "扩大阅读空间保持当前作答实例及草稿",
+    "阅读位置按声明策略保持，另一题目不变"
+  ],
+  "E2Assertions": [
+    "窄屏分步入口焦点进入/返回合理",
+    "宽屏仍可连续处理，0 分/失败重试保持",
+    "按 answerId 草稿不串，未改题目内容保持"
+  ],
+  "allowedAlternatives": [
+    "真实公共 Props/Parts/Slots",
+    "具名 Local Recipe",
+    "有来源与 checksum 的场景 Local Fork",
+    "合同正确的 no-match 与合法本地实现"
+  ],
+  "notAllowed": [
+    "猜测公共 API",
+    "为完成评测改共享包或锁",
+    "复制现有整页只换字段或标题",
+    "改变评分后将原失败改写为成功"
+  ],
+  "humanReview": "awaiting_human，不能由评估者自动接受"
+}

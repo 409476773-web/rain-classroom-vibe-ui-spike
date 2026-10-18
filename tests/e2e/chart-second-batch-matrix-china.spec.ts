@@ -1,9 +1,10 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { makeMatrixFixtures } from "../../apps/playground/src/docs/components/chart-business/matrix-data";
 
-const evidence = "evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/matrix-china";
+const evidence = evidenceOutputPath("evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map/matrix-china");
 const browserErrors = new WeakMap<Page, string[]>();
 const matrix = (page: Page, id: string) => page.locator(`[data-matrix-example="${id}"] [data-rain-id="ui-chart-matrix"]`);
 const cell = (chart: Locator, row: string, column: string) => chart.locator(`[data-slot="cell"][data-row-id="${row}"][data-column-id="${column}"]`);

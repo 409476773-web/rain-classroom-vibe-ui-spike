@@ -1,0 +1,176 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-breadcrumb"
+name: "Breadcrumb"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "rewrite-from-rain"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/breadcrumb/breadcrumb.tsx"
+styleSourcePath: "packages/ui/src/breadcrumb/breadcrumb.css"
+sourceVersion: "local-2026-09-24"
+description: "单档 13px 面包屑：返回上级、整项展开同级菜单、按容器折叠祖先与截断提示。"
+useWhen:
+  - "页面存在真实层级，用户需要定位当前位置和返回上级。"
+  - "同一层级存在可导航的替代分支。"
+doNotUseWhen:
+  - "展示操作历史、步骤进度或页面内分区切换。"
+anatomy:
+  - "root"
+  - "list"
+  - "item"
+  - "link"
+  - "text"
+  - "page"
+  - "separator"
+  - "ellipsis"
+  - "back"
+  - "menu-trigger"
+parts:
+  - "root"
+  - "list"
+  - "item"
+  - "link"
+  - "text"
+  - "page"
+  - "separator"
+  - "ellipsis"
+  - "back"
+  - "menu-trigger"
+props:
+  - "Breadcrumb: items?: readonly BreadcrumbEntry[]，或 compound children，二者互斥。"
+  - "BreadcrumbEntry: id、label、href?、disabled?、siblings?；路径 ID 唯一且名称非空。"
+  - "BreadcrumbDestination: id、label、href?、disabled?；无 href 为静态菜单分组。"
+  - "Link/Back: 原生 anchor 属性及 disabled；禁用时移除 href 并阻止点击。"
+  - "Menu: label、text?、current?、children、disabled?、overflow?；必须置于 Item 中，组合既有 DropdownMenu 内容。"
+slots:
+  - "children: Compound API，支持自定义分隔符与菜单内容。"
+variants:
+  - "唯一尺寸：13px / 18px，Regular 400，22px 视觉底，24px 命中高度。"
+states:
+  - "default"
+  - "hover"
+  - "pressed"
+  - "focus-visible"
+  - "current"
+  - "disabled"
+  - "menu-open"
+  - "truncated"
+  - "collapsed"
+dependencies:
+  - "React"
+  - "DropdownMenu / Base UI 1.8.0"
+  - "Tooltip"
+  - "ArrowDownIcon"
+  - "MoreHorizontalIcon"
+tokens:
+  - "rain-font-ui、rain-font-size-13、rain-line-height-18、rain-font-weight-regular"
+  - "rain-category-text-neutral-4 / neutral-1 / neutral-6"
+  - "rain-category-fill-neutral-alpha-4 / alpha-3、rain-category-icon-neutral-3 / neutral-4"
+  - "rain-radius-6、rain-space-4 / 6 / 24、rain-focus-width / item / offset"
+layoutConstraints:
+  - "items 模式按实际容器宽度折叠；优先根节点 + 省略 + 父级 + 当前页，再省略 + 父级 + 当前页。"
+  - "单行展示，名称超长截断；祖先最大 24ch，父级及当前页最大 32ch。"
+  - "宿主负责提供可用宽度；箭头固定热区不能缩小，超窄到无法容纳固定控件时宿主需调整头部布局。"
+  - "Compound 模式保留宿主列表顺序，不自动推断层级或折叠。"
+compositionRules:
+  - "可下拉项的文字与箭头整项切换菜单；Hover/Pressed/Focus/Open覆盖整项。当前页可为菜单按钮，否则静态。"
+  - "items 的最后一项为当前页；有同级菜单时整项为按钮，否则有 href 的上级为链接、无 href 为静态分组。"
+  - "仅当存在其他有 href 且未禁用的同级目标时显示箭头；当前分支由菜单选中标记提示。"
+  - "菜单展开时抑制该项 Tooltip；省略菜单只列隐藏祖先，不混入同级项。"
+  - "路由、权限、有效新路径及导航后的内容焦点由宿主负责。"
+allowedModifications:
+  - "宿主路径、链接和同级目标"
+  - "Compound 内容及局部布局"
+restrictedModifications:
+  - "未经授权变更 Foundation Token、默认字号或品牌视觉"
+  - "把页面历史作为路径自动拼接"
+accessibility:
+  - "具名 nav、ol/li、当前页 aria-current=page，分隔符 aria-hidden。"
+  - "普通链接或整项下拉按钮分别进入 Tab，菜单支持方向键、Enter、Escape 与关闭后的焦点恢复。"
+  - "截断文本复用 Tooltip；静态当前页仅截断时成为键盘焦点，禁用文本不进入 Tab。"
+  - "缩窄隐藏聚焦祖先时移焦至省略；展开移除聚焦省略时移焦至可用祖先入口。"
+examples:
+  - "apps/playground/src/docs/components/breadcrumb-page.tsx"
+  - "apps/prototype/src/scenarios/token-first-g3/page.tsx"
+recipes:
+  - "页面头部的返回、标题、操作独立于面包屑组合"
+antiPatterns:
+  - "可下拉项拆为文字链接与独立 IconButton"
+  - "切换同级后继续拼接旧详情"
+  - "用禁用色表示没有独立页面的分组"
+relatedComponents:
+  - "ui-dropdown-menu"
+  - "ui-tooltip"
+  - "ui-button"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Figma MbWg1ft5zk1JRQiQ6dS30e / 1:16351、1:16352、1:16391"
+  externalReferences:
+    - "https://ui.shadcn.com/docs/components/base/breadcrumb"
+    - "https://ant.design/components/breadcrumb-cn/"
+    - "https://mui.com/material-ui/react-breadcrumbs/"
+    - "https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/"
+  retainedTraits:
+    - "原稿 13/18、冷蓝灰、当前页深色常规字重、斜线与圆角浅蓝反馈"
+  redesignedTraits:
+    - "24px 整项热区、宽度折叠、截断提示、键盘交互"
+  intentionallyNotInherited:
+    - "外部组件库默认视觉与全量 API"
+figmaMapping:
+  fileKey: "MbWg1ft5zk1JRQiQ6dS30e"
+  nodeId: "1:16351"
+  status: "reference-only-not-written"
+sourceEvidence:
+  - "docs/plans/2026-09-24-breadcrumb-design.md"
+  - "evidence/runtime/breadcrumb/before/packages/ui/src/breadcrumb/breadcrumb.tsx"
+migrationNotes: "保留 G3 Compound 调用方式；更新共享视觉为用户已确认稿件，不改宿主业务路由。"
+humanGate: "accepted"
+humanGateScope: "breadcrumb-single-size-whole-item-menu-runtime-visual-only"
+humanGateDecision:
+  acceptedAt: "2026-09-24"
+  decisionSource: "explicit-user-visual-acceptance"
+  userStatement: "确定。视觉完成验收"
+  scope: "breadcrumb-single-size-whole-item-menu-runtime-visual-only"
+  evidence: "evidence/runtime/breadcrumb/verification.md"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  independentReview: "passed-after-corrections"
+  evidence: "evidence/runtime/breadcrumb/verification.md"
+  humanGate: "accepted"
+  contrastAcceptance: "not-granted"
+
+visualRefinement:
+  id: "g23-remaining-families-2026-10-08"
+  directionApproval: "continue-user-confirmed-family-direction"
+  scope: "existing-playground-composition-only"
+  visualTarget: "evidence/runtime/g2-g3-family-refinement-2026-10-08/approved-visual-target.png"
+  implementation: "completed"
+  evidence: "evidence/runtime/g2-g3-remaining-families-2026-10-08/verification.md"
+  runtimeHumanGate: "awaiting-user-review"
+  publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "navigation"
+  taskIds:
+    - "navigate"
+  searchAliases:
+    - "层级路径"
+    - "面包屑"
+    - "返回上级"
+  implementationRole: "composition"
+  controlScope: "真实页面层级的当前位置与上级/同级目的地"
+  stateOwner: "宿主拥有有效路径、权限和导航后焦点；组件管理局部菜单与空间折叠，不把操作历史当层级。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-navigation-list"
+      evidence:
+        path: "packages/ui/src/breadcrumb/breadcrumb.tsx"
+        kind: "contract"
+        symbol: "Breadcrumb"
+      condition: "持续展示同组页面目的地时比较 NavigationList；Breadcrumb 说明当前真实层级。"

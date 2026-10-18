@@ -127,3 +127,23 @@ variantCoverage:
     - "时间X为Date、Y为非负人数；大小编码人数/区间、渐变和图案使用独立defs。"
   limitations:
     - "气泡大小不是新的分类；不把Date先转为字符串破坏时间尺度。"
+
+discovery:
+  version: 1
+  familyId: "charts"
+  taskIds:
+    - "analyze"
+  searchAliases:
+    - "scatter"
+    - "图表"
+  implementationRole: "root"
+  controlScope: "Date 时间 X 轴上的非负多系列离散观测"
+  stateOwner: "宿主拥有经过校验的数据、单位、分母、稳定身份与精确读数；图表根提供自身系列/轴/图例/提示所需上下文。查询过滤、业务选择与持久化不由图表隐式决定。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-chart-matrix"
+      condition: "X 是任意分类而非 Date 时间时不可直接冒充当前 Scatter 合同；分类行列值可比较 MatrixChart。"
+      evidence:
+        path: "packages/ui/src/charts/vendor/charts/scatter-chart.tsx"
+        symbol: "ScatterChart"
+        kind: "contract"

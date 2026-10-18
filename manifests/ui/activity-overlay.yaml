@@ -103,3 +103,23 @@ verification:
   humanGateScope: "avatar-current-runtime-visual-only"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/avatar/refinement-2026-09-16.md"
+
+discovery:
+  version: 1
+  familyId: "status"
+  taskIds:
+    - "act-feedback"
+    - "identify"
+  searchAliases:
+    - "忙碌覆盖"
+    - "区域忙碌"
+  implementationRole: "helper"
+  controlScope: "局部区域进行中的非业务覆盖呈现"
+  stateOwner: "宿主拥有 busy 和业务可交互性；覆盖层只展示活动，不能当作权限禁用、全局模态或任务队列。"
+  relationships:
+    - type: "composes"
+      targetId: "ui-status-indicator"
+      evidence:
+        path: "packages/ui/src/status-indicator/status-indicator.tsx"
+        symbol: "ActivityOverlay"
+        kind: "render"

@@ -1,0 +1,166 @@
+[WebServer] (node:47766) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:47779) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:48125) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] light Background/1 actual recipe colors and focus matrix (6.6s)
+(node:48940) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] light Background/3 actual recipe colors and focus matrix (6.2s)
+(node:48960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] dark Background/1 actual recipe colors and focus matrix (6.7s)
+(node:50471) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] dark Background/3 actual recipe colors and focus matrix (6.2s)
+
+
+  1) tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] light Background/1 actual recipe colors and focus matrix 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('form', { name: '分区作业设置' }).getByRole('combobox', { name: '所属课程' })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByRole('form', { name: '分区作业设置' }).getByRole('combobox', { name: '所属课程' })
+        14 × locator resolved to <button tabindex="0" type="button" role="combobox" data-placeholder="" data-slot="control" aria-required="true" id="rain-field-_r_b_" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="rain-field-_r_b_-label" class="rain-select__control flex min-w-0 flex-1 items-center gap-rain-4 border-none bg-transparent p-rain-0 text-left text-inherit outline-none cursor-pointer disabled:cursor-not-allowed">…</button>
+           - unexpected value "inactive"
+
+
+       96 |         const before = await focusPaint(target.control);
+       97 |         await target.control.focus(); await page.keyboard.press("Shift+Tab"); await page.keyboard.press("Tab");
+    >  98 |         await expect(target.control).toBeFocused();
+          |                                      ^
+       99 |         const after = await focusPaint(target.control);
+      100 |         expect(after.chain.some(node => node.focusVisible)).toBe(true);
+      101 |         expect(after.chain.some(node => node.outlineStyle !== "none" && parseFloat(node.outlineWidth) > 0 || node.boxShadow !== "none")).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017/tests/e2e/consumption-contrast.spec.ts:98:38
+
+    Error Context: evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/computed-matrix-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--51de8-ipe-colors-and-focus-matrix/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/computed-matrix-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--51de8-ipe-colors-and-focus-matrix/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/computed-matrix-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--51de8-ipe-colors-and-focus-matrix/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] light Background/3 actual recipe colors and focus matrix 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('form', { name: '分区作业设置' }).getByRole('combobox', { name: '所属课程' })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByRole('form', { name: '分区作业设置' }).getByRole('combobox', { name: '所属课程' })
+        14 × locator resolved to <button tabindex="0" type="button" role="combobox" data-placeholder="" data-slot="control" aria-required="true" id="rain-field-_r_b_" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="rain-field-_r_b_-label" class="rain-select__control flex min-w-0 flex-1 items-center gap-rain-4 border-none bg-transparent p-rain-0 text-left text-inherit outline-none cursor-pointer disabled:cursor-not-allowed">…</button>
+           - unexpected value "inactive"
+
+
+       96 |         const before = await focusPaint(target.control);
+       97 |         await target.control.focus(); await page.keyboard.press("Shift+Tab"); await page.keyboard.press("Tab");
+    >  98 |         await expect(target.control).toBeFocused();
+          |                                      ^
+       99 |         const after = await focusPaint(target.control);
+      100 |         expect(after.chain.some(node => node.focusVisible)).toBe(true);
+      101 |         expect(after.chain.some(node => node.outlineStyle !== "none" && parseFloat(node.outlineWidth) > 0 || node.boxShadow !== "none")).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017/tests/e2e/consumption-contrast.spec.ts:98:38
+
+    Error Context: evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/computed-matrix-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--c038f-ipe-colors-and-focus-matrix/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/computed-matrix-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--c038f-ipe-colors-and-focus-matrix/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/computed-matrix-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--c038f-ipe-colors-and-focus-matrix/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] dark Background/1 actual recipe colors and focus matrix 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('form', { name: '分区作业设置' }).getByRole('combobox', { name: '所属课程' })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByRole('form', { name: '分区作业设置' }).getByRole('combobox', { name: '所属课程' })
+        14 × locator resolved to <button tabindex="0" type="button" role="combobox" data-placeholder="" data-slot="control" aria-required="true" id="rain-field-_r_b_" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="rain-field-_r_b_-label" class="rain-select__control flex min-w-0 flex-1 items-center gap-rain-4 border-none bg-transparent p-rain-0 text-left text-inherit outline-none cursor-pointer disabled:cursor-not-allowed">…</button>
+           - unexpected value "inactive"
+
+
+       96 |         const before = await focusPaint(target.control);
+       97 |         await target.control.focus(); await page.keyboard.press("Shift+Tab"); await page.keyboard.press("Tab");
+    >  98 |         await expect(target.control).toBeFocused();
+          |                                      ^
+       99 |         const after = await focusPaint(target.control);
+      100 |         expect(after.chain.some(node => node.focusVisible)).toBe(true);
+      101 |         expect(after.chain.some(node => node.outlineStyle !== "none" && parseFloat(node.outlineWidth) > 0 || node.boxShadow !== "none")).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017/tests/e2e/consumption-contrast.spec.ts:98:38
+
+    Error Context: evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/computed-matrix-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--1cd5f-ipe-colors-and-focus-matrix/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/computed-matrix-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--1cd5f-ipe-colors-and-focus-matrix/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/computed-matrix-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--1cd5f-ipe-colors-and-focus-matrix/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] dark Background/3 actual recipe colors and focus matrix 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('form', { name: '分区作业设置' }).getByRole('combobox', { name: '所属课程' })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByRole('form', { name: '分区作业设置' }).getByRole('combobox', { name: '所属课程' })
+        14 × locator resolved to <button tabindex="0" type="button" role="combobox" data-placeholder="" data-slot="control" aria-required="true" id="rain-field-_r_b_" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="rain-field-_r_b_-label" class="rain-select__control flex min-w-0 flex-1 items-center gap-rain-4 border-none bg-transparent p-rain-0 text-left text-inherit outline-none cursor-pointer disabled:cursor-not-allowed">…</button>
+           - unexpected value "inactive"
+
+
+       96 |         const before = await focusPaint(target.control);
+       97 |         await target.control.focus(); await page.keyboard.press("Shift+Tab"); await page.keyboard.press("Tab");
+    >  98 |         await expect(target.control).toBeFocused();
+          |                                      ^
+       99 |         const after = await focusPaint(target.control);
+      100 |         expect(after.chain.some(node => node.focusVisible)).toBe(true);
+      101 |         expect(after.chain.some(node => node.outlineStyle !== "none" && parseFloat(node.outlineWidth) > 0 || node.boxShadow !== "none")).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017/tests/e2e/consumption-contrast.spec.ts:98:38
+
+    Error Context: evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/computed-matrix-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--87c80-ipe-colors-and-focus-matrix/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/computed-matrix-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--87c80-ipe-colors-and-focus-matrix/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/computed-matrix-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--87c80-ipe-colors-and-focus-matrix/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] light Background/1 actual recipe colors and focus matrix 
+    tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] light Background/3 actual recipe colors and focus matrix 
+    tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] dark Background/1 actual recipe colors and focus matrix 
+    tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] dark Background/3 actual recipe colors and focus matrix 

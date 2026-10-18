@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect, type Page } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -144,7 +145,7 @@ test("refresh disables actions, failure preserves selection, retry and both empt
 });
 
 test("theme, density, keyboard focus and narrow scrolling render using Rain geometry", async ({ page }, info) => {
-  const directory = resolve(process.env.RAIN_TABLE_EVIDENCE_DIR ?? "evidence/runtime/table-rn08", info.project.name);
+  const directory = resolve(process.env.RAIN_TABLE_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/table-rn08"), info.project.name);
   mkdirSync(directory, { recursive: true });
   const measurements = [];
   await page.setViewportSize({ width: 1440, height: 1000 });

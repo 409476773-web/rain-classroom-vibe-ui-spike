@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const evidence = process.env.RAIN_BKLIT_CATALOG_EVIDENCE_DIR ?? "evidence/runtime/chart-mini-refinement/browser/catalog";
+const evidence = process.env.RAIN_BKLIT_CATALOG_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/chart-mini-refinement/browser/catalog");
 const groups = { P1:["area","line","bar","composed"], P2:["pie","ring","radar","scatter","funnel","gauge"], P3:["sankey","sunburst","heatmap","choropleth"], P4:["candlestick","profit-loss","live-line"] };
 
 for (const id of ["line", "area", "bar", "pie", "ring"]) test(`[mini] ${id} switches both sizes, keeps comparison slots and restores standard geometry`, async ({ page }) => {

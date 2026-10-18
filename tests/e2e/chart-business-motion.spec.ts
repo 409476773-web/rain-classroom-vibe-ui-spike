@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test,expect } from '@playwright/test';
 import { mkdir,writeFile } from 'node:fs/promises';
 test('normal bar updates and sorting keep the same keyed geometry and continue through intermediate values',async({page})=>{
@@ -39,7 +40,7 @@ for (const size of ['compact','comfortable']) for (const kind of ['pie','arc']) 
   await page.getByRole('combobox',{name:'业务图表配色'}).selectOption('category-near');
   expect(await path.getAttribute('d')).toBe(end);
   await expect(mini.locator('[data-test-owned-sector="first"]')).toHaveCount(1);
-  const evidence=process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR ? `${process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR}/motion` : 'evidence/runtime/chart-mini-typography-feedback-2026-10-09/browser/motion'; await mkdir(evidence,{recursive:true});
+  const evidence=process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR ? `${process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR}/motion` : evidenceOutputPath('evidence/runtime/chart-mini-typography-feedback-2026-10-09/browser/motion'); await mkdir(evidence,{recursive:true});
   await writeFile(`${evidence}/${kind}-${size}.json`,JSON.stringify({kind,size,elapsedUntilStableMs:elapsedMs,intermediateGeometry:true,mountedPathPreserved:true},null,2));
 });
 

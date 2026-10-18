@@ -133,3 +133,23 @@ variantCoverage:
     - "按互斥类别人数计算扇区；空值/0和长中心标签使用卡内状态控件。"
   limitations:
     - "零值不产生有面积的扇区；总量为0由示例文本和精确表说明。"
+
+discovery:
+  version: 1
+  familyId: "charts"
+  taskIds:
+    - "analyze"
+  searchAliases:
+    - "pie"
+    - "图表"
+  implementationRole: "root"
+  controlScope: "互斥类别占同一总量的饼图或环饼"
+  stateOwner: "宿主拥有经过校验的数据、单位、分母、稳定身份与精确读数；图表根提供自身系列/轴/图例/提示所需上下文。查询过滤、业务选择与持久化不由图表隐式决定。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-chart-ring"
+      condition: "多个目标各有自己的分母时用 Ring；Pie 各类别属于同一总量，环饼外观不改变合同。"
+      evidence:
+        path: "packages/ui/src/charts/vendor/charts/pie-chart.tsx"
+        symbol: "PieChart"
+        kind: "contract"

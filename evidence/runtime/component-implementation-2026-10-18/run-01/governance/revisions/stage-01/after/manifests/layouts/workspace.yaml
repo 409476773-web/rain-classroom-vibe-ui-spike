@@ -1,0 +1,260 @@
+schemaVersion: "1.0"
+kind: "RainLayoutManifest"
+category: "layout"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+publication: "unpublished"
+migrationLabel: "react-only"
+visualBaseline:
+  id: "navigation-approved-v0.4.2"
+  version: "0.4.2-style.1"
+  sha256: "d2574eaae899bb48b7a3201914861d27b23e0bc58a05bf1a75898eba697dd03c"
+  source: "/Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/rain-classroom-vibe-ui-spike/docs/rain-navigation-codex-workpack/reference/approved-v0.4.2.html"
+  runtimeEvidence: "evidence/runtime/navigation-v042/w4/reference/2026-10-01T11-55-02-325Z/"
+  sourceScope: "External frozen workpack reference; not bundled into the copyable recipe payload."
+visualLineage:
+  rainClassicReferences:
+    - "Frozen user-approved HTML; existing Rain assets and Tokens. Classic is unchanged."
+  externalReferences:
+    - "Native React/DOM behavior and existing Rain assets; no external default appearance."
+  retainedTraits:
+    - "Approved R/S region geometry, stable named recovery, overlay without main push, focus snapshot and single split boundary."
+  redesignedTraits:
+    - "Pure requested/effective/session state and React adapter replace prototype globals and DOM patch chains."
+  intentionallyNotInherited:
+    - "Prototype globals, innerHTML replacement, business services and review harness."
+figmaMapping:
+  status: "not-established"
+  codeConnect: "not-established"
+  write: "not-authorized"
+humanGate: "accepted"
+
+verification:
+  automated: "scoped-passed"
+  scope: "W3-W5 aggregate: 87 focused and 100 compatibility unit checks; 58 distinct browser checks; five packages typechecked; Playground build passed. Full test-project typecheck has unchanged prior errors."
+  humanGate: "accepted"
+  independentReview: "scoped-source-review"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/navigation-v042/w5/README.md"
+  independentReviewScope: "Bounded business ownership/instance isolation/copy closure, pure Workspace core (four closed findings), and separately reviewed adapter/S behavior (four closed findings); reviewer-owned implementations are excluded from each independent scope. Full N01-N38/a11y and Human Gates remain open."
+  humanGateScope: "All currently built navigation-v042 runtime visual/composition through candidate13, including previous W3-W5/R1-R6/S1-S6 acceptance and R3/S2 plain-text Primary practice Button and filled/outline star correction."
+  humanGateEvidence: "reports/G2-visual-acceptance-13.md"
+
+aiUsageGuide: "docs/ai/navigation-workspaces-v042.md"
+allowedModifications:
+  - "Recipe region specs, stable instance/context IDs, injected storage and supported controlled preferences."
+restrictedModifications:
+  - "Do not persist session/business drafts, remove external restore paths, change global Tokens, Classic or existing Split defaults."
+migrationNotes:
+  - "New opt-in W4 assets. Existing Stack/Inline/Grid/Split and accepted G1 surface geometry remain compatible."
+sourceVersion: "local-2026-10-04-navigation-v042-W7-hover-reentry"
+stateOwner: "Workspace coordinates layout preference/effective/session only; application owns identity, scores, drafts, files and playback."
+restoreOwner: "Each spec names a validated external stable owner; consumer supplies its actual keyboard-accessible control."
+boundaryOwner: "PaneSplitter owns one adjacent boundary; temporary panel owns its external frame."
+id: "layout-workspace"
+name: "WorkspaceLayout / RecoverableRegion"
+sourcePath: "packages/layouts/src/workspace.tsx"
+styleSourcePath: "packages/layouts/src/workspace.css"
+description: "Recoverable layout regions with one controller, stable recovery, overlay ownership, focus, resize and injected storage."
+useWhen:
+  - "Multiple independently hideable regions or nonmodal temporary panels must preserve business state."
+doNotUseWhen:
+  - "A fixed two-column layout only needs existing Split."
+  - "Business objects, grades, drafts or media data need ownership."
+anatomy:
+  - "Workspace root"
+  - "stable toolbar/ribbon slots"
+  - "horizontal flow"
+  - "single mounted region body"
+  - "external restore control"
+  - "one boundary splitter"
+parts:
+  - "root"
+  - "workspace-flow"
+  - "region-slot"
+  - "region"
+  - "restore"
+  - "splitter"
+props:
+  - "WorkspaceLayout: spec, viewportWidth?, preferences?/onPreferencesChange, storage?/storageKey, hoverPreview=false, toolbar?, ribbon?, children."
+  - "RecoverableRegion: regionId, header?, footer?, children or render({region,effective,temporary,visible}), topHeights?/topTemporaryHeight?."
+  - "RegionRestoreTrigger: regionId, intent=toggle|peek, native button props; supports top Ribbon modes."
+  - "PaneSplitter: regionId and native div props; physical arrow direction for end panes."
+slots:
+  - "toolbar and ribbon stay above the region flow; both can consume useWorkspaceLayout."
+  - "Native caller body can nest region slots, with one Workspace controller for the complete scene."
+variants:
+  - "start/end region; global compact rail; top Ribbon"
+  - "controlled/uncontrolled; storage injected; optional hover"
+states:
+  - "expanded"
+  - "compact"
+  - "hidden"
+  - "temporary"
+  - "pinned"
+  - "forced-space"
+  - "focused"
+  - "controlled-pending"
+dependencies:
+  - "React"
+  - "@rain-next/foundations"
+  - "workspace-state.ts"
+tokens:
+  - "Candidate scoped CSS values matched to approved reference; no new Foundation defaults."
+layoutConstraints:
+  - "Valid restore dependency graph; real host measurement; per-region widths and minimum main budget."
+  - "Temporary panels reserve the previous compact/hidden occupancy; hidden DOM is inert."
+compositionRules:
+  - "One controller per workspace and stable spec key per user/workspace/subscene/instance."
+  - "No style/mode/theme key that remounts business roots."
+  - "Built-in restore controls select only allowedModes; single-mode/no-action controls are disabled."
+accessibility:
+  - "Native named recovery button with aria-controls/expanded; hidden body inert."
+  - "Separator has orientation/name/min/max/current and keyboard operation; Enter chooses hidden, otherwise compact, and returns focus to recovery. Without either mode Enter retains state/focus."
+  - "Existing popup handles Escape before a workspace temporary layer; one active workspace reacts."
+examples:
+  - "#navigation-v042 (R1/R2/R3/S1-S6)"
+recipes:
+  - "recipe-navigation-r1"
+  - "recipe-navigation-r2"
+  - "recipe-navigation-r3"
+relatedAssets:
+  - "layout-workspace-state"
+  - "layout-connected-surface"
+antiPatterns:
+  - "Document-wide independent collapsed booleans or new popup manager."
+  - "Using layout callbacks to save/grade/publish."
+sourceSha256: "1d8677dc534adf4a369ae3c4d380049f0e48a228d4660c3e6bdb35e37da86805"
+sourceSnapshotRecordedAt: "2026-10-03T06:12:50.685Z"
+styleSourceSha256: "f690ced7af96312ab00baf054591bf5ec5b090276e9d01da91672f9237c3d73b"
+nativeCssExceptions:
+  sourcePath: "packages/layouts/src/workspace.css"
+  scope: "navigation-v042-W4-candidate-only; pending-G2"
+  registeredLocalVariables: []
+
+  registeredRawColors:
+    - "#2058b8"
+    - "#2459b0"
+    - "#657186"
+    - "#667184"
+    - "#6d96d6"
+    - "#a8c1ef"
+    - "#c1cbda"
+    - "#cad9f4"
+    - "#d5e1f6"
+    - "#d6deea"
+    - "#e2e6ed"
+    - "#eaf1ff"
+    - "#f5f8ff"
+    - "#fff"
+  registeredRawLengths:
+    - "10px"
+    - "11px"
+    - "12px"
+    - "16px"
+    - "18px"
+    - "1px"
+    - "28px"
+    - "2px"
+    - "30px"
+    - "32px"
+    - "3px"
+    - "4px"
+    - "5px"
+    - "6px"
+    - "8px"
+    - "9px"
+  registeredLiteralPixels:
+    - "10px"
+    - "11px"
+    - "12px"
+    - "16px"
+    - "18px"
+    - "1px"
+    - "28px"
+    - "2px"
+    - "30px"
+    - "32px"
+    - "3px"
+    - "4px"
+    - "5px"
+    - "6px"
+    - "8px"
+    - "9px"
+
+priorReview06CurrentSourceSnapshot:
+  sourcePath: "packages/layouts/src/workspace.tsx"
+  sourceSha256: "1d8677dc534adf4a369ae3c4d380049f0e48a228d4660c3e6bdb35e37da86805"
+  recordedAt: "2026-10-01T15:27:27.875Z"
+  styleSourcePath: "packages/layouts/src/workspace.css"
+  styleSourceSha256: "f690ced7af96312ab00baf054591bf5ec5b090276e9d01da91672f9237c3d73b"
+
+currentFeedbackRevision:
+  id: "G2-composition-candidate-07"
+  recordedAt: "2026-10-03T06:12:50.685Z"
+  scope: "Metadata-only current source check; Workspace controller source and behavior are unchanged."
+  humanGate: "pending-G2"
+  evidence: "evidence/runtime/navigation-v042/w5/review-07-cross-page/metadata-validation.json"
+  runtimeVerification: "See final parent-task evidence; metadata checks do not substitute for runtime, contrast or Human Gate."
+
+g2VisualAcceptance:
+  id: "G2-visual-acceptance-candidate13-2026-10-04"
+  decision: "accepted"
+  confirmedAt: "2026-10-04"
+  recordedAt: "2026-10-04T03:50:43.823Z"
+  decisionSource: "explicit-user-confirmation-after-R3-S2-followup13"
+  userStatement: "确定。完成截至目前建设内容的视觉验收。"
+  scope: "All currently built navigation-v042 runtime visual/composition through candidate13, including previous W3-W5/R1-R6/S1-S6 acceptance and R3/S2 plain-text Primary practice Button and filled/outline star correction."
+  reviewRevision: "G2-composition-candidate-13"
+  sourceSnapshot:
+    path: "evidence/runtime/navigation-v042/g2-acceptance-13/accepted-source-before-status.json"
+    sha256: "219325f6a95383adbf68fb1dff823d8a20243629b889258bbc1825242c0a7f5e"
+    files: 43
+  evidence: "reports/G2-visual-acceptance-13.md"
+  limits: "Visual/composition scope only. G3 and W6-W8 remain separate; no new functional/a11y/contrast/publication/migration acceptance."
+  sourcePath: "packages/layouts/src/workspace.tsx"
+  sourceSha256: "1d8677dc534adf4a369ae3c4d380049f0e48a228d4660c3e6bdb35e37da86805"
+  styleSourcePath: "packages/layouts/src/workspace.css"
+  styleSourceSha256: "f690ced7af96312ab00baf054591bf5ec5b090276e9d01da91672f9237c3d73b"
+
+priorG2VisualAcceptance12:
+  id: "G2-visual-acceptance-2026-10-04"
+  decision: "accepted"
+  confirmedAt: "2026-10-04"
+  recordedAt: "2026-10-04T03:38:05.215Z"
+  decisionSource: "explicit-user-current-built-content-visual-acceptance"
+  userStatement: "确定。完成截至目前建设内容的视觉验收。"
+  scope: "All currently built navigation-v042 samples through candidate12, including W3-W5 R1-R6/S1-S6 local runtime visual and composition; earlier G1 accepted scope retained."
+  reviewRevision: "G2-composition-candidate-12"
+  sourceSnapshot:
+    path: "evidence/runtime/navigation-v042/w5/review-13-r3-actions/accepted-review12-source.json"
+    sha256: "661e58e205530b2eac70e57f9d8fcb846b5e27ac7ea7e2f322755f74f058a899"
+    files: 43
+  evidence: "reports/G2-visual-acceptance.md"
+  limits: "Runtime visual/composition acceptance only. New R3/S2 follow-up13 is separately verified and pending visual confirmation; G3/W6-W8, broad accessibility/contrast, publication and migration are separate."
+  sourcePath: "packages/layouts/src/workspace.tsx"
+  sourceSha256: "1d8677dc534adf4a369ae3c4d380049f0e48a228d4660c3e6bdb35e37da86805"
+  styleSourcePath: "packages/layouts/src/workspace.css"
+  styleSourceSha256: "f690ced7af96312ab00baf054591bf5ec5b090276e9d01da91672f9237c3d73b"
+
+w7BehaviorRepair:
+  id: "N06-hover-reentry"
+  sourceSha256: "c74c137303b7a283ebfbd3728f60f89ae7d90ea62e3872ce8a64aa5b10bb358c"
+  evidence: "evidence/runtime/navigation-v042/w7/n06-behavior-repair.json"
+  scope: "Matching-region hover suppression cleanup only; CSS/Tokens unchanged. Historical G2 visual acceptance preserved, G3 pending."
+
+discovery:
+  version: 1
+  familyId: "workspaces"
+  taskIds:
+    - "organize"
+    - "workbench"
+  searchAliases:
+    - "工作区"
+    - "恢复区域"
+    - "临时面板"
+  implementationRole: "layout"
+  controlScope: "可恢复区域、临时层、焦点和尺寸的工作区布局"
+  stateOwner: "每个 WorkspaceLayout 只建立一个控制器及稳定 spec key；RecoverableRegion/RegionRestoreTrigger/PaneSplitter/useWorkspaceLayout 消费同一上下文，布局变化不重挂业务根。"
+  relationships: []

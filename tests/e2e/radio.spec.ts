@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-const evidence = resolve(process.env.RAIN_RADIO_EVIDENCE_DIR ?? "evidence/runtime/radio");
+const evidence = resolve(process.env.RAIN_RADIO_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/radio"));
 test.beforeEach(async ({ page }) => {
   await page.goto("/#radio");
   await expect(page.getByRole("heading", { name: "Radio 单选框" })).toBeVisible();

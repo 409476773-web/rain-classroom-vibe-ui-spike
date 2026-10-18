@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const evidence = "evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar";
+const evidence = evidenceOutputPath("evidence/runtime/chart-behavior-fixes-2026-10-11/browser/radar");
 const variants = ["radar-default", "radar-triangle", "radar-hexagon", "radar-single-series", "radar-minimal", "radar-grid-only"];
 const hostFor = (page: Page, id: string) => page.locator(id === "default" ? '[data-rain-id="chart-radar"]' : `[data-chart-variant="${id}"]`);
 const actionsFor = (page: Page, id: string) => id === "default" ? page.locator('[data-chart-default-controls]') : hostFor(page, id).locator('.rain-chart-variant__actions');

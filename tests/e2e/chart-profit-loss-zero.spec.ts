@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -5,7 +6,7 @@ import { createRequire } from "node:module";
 import { resolve } from "node:path";
 
 const run = "evidence/runtime/chart-behavior-fixes-2026-10-11";
-const evidence = process.env.RAIN_CHART_PROFIT_LOSS_EVIDENCE_DIR ?? `${run}/browser/profit-loss`;
+const evidence = process.env.RAIN_CHART_PROFIT_LOSS_EVIDENCE_DIR ?? evidenceOutputPath(`${run}/browser/profit-loss`);
 const useBaselineSplitter = process.env.RAIN_CHART_PROFIT_LOSS_BASELINE === "1";
 const ownerPath = "packages/ui/src/charts/vendor/charts/profit-loss-segments.ts";
 const fixtureProfiles = [

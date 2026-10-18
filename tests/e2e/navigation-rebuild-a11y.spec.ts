@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { chooseSelect } from './navigation-rebuild-select';
 import {test,expect} from '@playwright/test';
 import {writeFileSync} from 'node:fs';
@@ -18,7 +19,7 @@ test('scoped rendered token values, required text contrast and target sizes',asy
   });
   for(const row of data){const ratio=contrastRatio(row.color,row.background,row.parentBackground);facts.push({recipe,...row,ratio});expect.soft(ratio,`${recipe} ${row.text}`).toBeGreaterThanOrEqual(row.iconOnly?3:4.5);if(row.interactive){expect.soft(row.width,`${recipe} target width ${row.text}`).toBeGreaterThanOrEqual(24);expect.soft(row.height,`${recipe} target height ${row.text}`).toBeGreaterThanOrEqual(24);}}
  }
- writeFileSync('evidence/runtime/navigation-rebuild-v03/contrast-and-targets.json',JSON.stringify(facts,null,2));
+ writeFileSync(evidenceOutputPath('evidence/runtime/navigation-rebuild-v03/contrast-and-targets.json'),JSON.stringify(facts,null,2));
 });
 
 test('N03 N04 dark popup keyboard focus has 3:1 contrast against its adjacent surface',async({page})=>{
@@ -33,8 +34,8 @@ test('N03 N04 dark popup keyboard focus has 3:1 contrast against its adjacent su
   const colors=await link.evaluate(el=>({outline:getComputedStyle(el).outlineColor,background:getComputedStyle(el.closest('.nr-topnav-popup')!).backgroundColor,width:getComputedStyle(el).outlineWidth,visible:el.matches(':focus-visible')}));
   const ratio=contrastRatio(colors.outline,colors.background,'rgb(255,255,255)');
   facts.push({recipe,...colors,ratio});expect(colors.visible).toBe(true);expect(ratio).toBeGreaterThanOrEqual(3);
-  await page.screenshot({path:`evidence/runtime/navigation-rebuild-v03/${recipe}-dark-focus.png`});
+  await page.screenshot({path:evidenceOutputPath(`evidence/runtime/navigation-rebuild-v03/${recipe}-dark-focus.png`)});
   await page.keyboard.press('Escape');await expect(page.locator('.nr-topnav-popup')).toBeHidden();
  }
- writeFileSync('evidence/runtime/navigation-rebuild-v03/dark-focus-contrast.json',JSON.stringify(facts,null,2));
+ writeFileSync(evidenceOutputPath('evidence/runtime/navigation-rebuild-v03/dark-focus-contrast.json'),JSON.stringify(facts,null,2));
 });

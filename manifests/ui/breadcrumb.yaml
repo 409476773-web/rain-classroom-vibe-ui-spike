@@ -153,3 +153,24 @@ visualRefinement:
   evidence: "evidence/runtime/g2-g3-remaining-families-2026-10-08/verification.md"
   runtimeHumanGate: "awaiting-user-review"
   publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "navigation"
+  taskIds:
+    - "navigate"
+  searchAliases:
+    - "层级路径"
+    - "面包屑"
+    - "返回上级"
+  implementationRole: "composition"
+  controlScope: "真实页面层级的当前位置与上级/同级目的地"
+  stateOwner: "宿主拥有有效路径、权限和导航后焦点；组件管理局部菜单与空间折叠，不把操作历史当层级。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-navigation-list"
+      evidence:
+        path: "packages/ui/src/breadcrumb/breadcrumb.tsx"
+        kind: "contract"
+        symbol: "Breadcrumb"
+      condition: "持续展示同组页面目的地时比较 NavigationList；Breadcrumb 说明当前真实层级。"

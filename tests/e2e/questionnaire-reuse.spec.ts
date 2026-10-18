@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { existsSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -5,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
 const run = resolve(root, "evidence/runtime/questionnaire-reuse-2026-10-16");
-const evidence = resolve(run, "browser");
+const evidence = evidenceOutputPath(resolve(run, "browser"));
 const fixtures = resolve(evidence, "baseline-modules");
 const originals = ["radio/radio.tsx", "checkbox/checkbox.tsx", "selection-card/selection-card.tsx", "questionnaire/questionnaire.tsx"];
 const baselineModules = new Map(originals.map(path => [resolve(root, "packages/ui/src", path), resolve(fixtures, path)]));

@@ -141,3 +141,23 @@ figmaMapping:
   status: "reference-only"
   evidence: "evidence/selection/sc00-preflight.json"
   codeConnect: "not-established"
+
+discovery:
+  version: 1
+  familyId: "selection-inputs"
+  taskIds:
+    - "choose"
+    - "fill-validate"
+  searchAliases:
+    - "复选组"
+    - "多选字段"
+  implementationRole: "composition"
+  controlScope: "一组相关选项的多值字段"
+  stateOwner: "组统一选中值集合、命名和禁用；每个 Checkbox 消费该组绑定，业务全集/跨页选择和统计由宿主另行明确。"
+  relationships:
+    - type: "wraps"
+      targetId: "ui-checkbox"
+      evidence:
+        path: "packages/ui/src/checkbox/checkbox.tsx"
+        symbol: "CheckboxGroup"
+        kind: "render"

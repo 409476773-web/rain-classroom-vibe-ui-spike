@@ -6,9 +6,49 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, it } from "vitest";
 import { createHash } from "node:crypto";
-import { getValidatedTailwindB2History, hasRn14Authorization, parseYamlSubset } from "./verification-helpers.mjs";
+import { getValidatedTailwindB2History, hasRn14Authorization, parseYamlSubset, withSourceBindingTraversal } from "./verification-helpers.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+it.each(["M1", "M2"])("includes manifest paths written as inline code and indexes the portable guide closure in %s", async milestone => {
+  const { exportStarter, verifyStarter } = await import("./rn14-starter.mjs");
+  const temporary = mkdtempSync(join(tmpdir(), "rain-starter-contracts-"));
+  try {
+    const output = join(temporary, "starter"), lock = exportStarter(output, { milestone });
+    const contract = "manifests/ui/resizable.yaml";
+    expect(existsSync(join(output, contract)), "prototype-design requires this inline-code path").toBe(true);
+    expect(readFileSync(join(output, contract))).toEqual(readFileSync(join(root, contract)));
+    const index = readFileSync(join(output, "docs/ai/starter-index.md"), "utf8");
+    expect(index).toContain("../../manifests/ui/resizable.yaml");
+    expect(index).toContain("prototype-design.md");
+    expect(index).toContain("原工作区追溯材料");
+    expect(readFileSync(join(output, "AGENTS.md"), "utf8")).toContain("docs/ai/starter-index.md");
+    expect(lock.files[contract]).toBe(lock.sourceFiles[contract]);
+    const profile = JSON.parse(readFileSync(join(output, "docs/ai/starter-profile.json"), "utf8"));
+    expect(profile.milestone).toBe(milestone);
+    expect(JSON.parse(readFileSync(join(output, "docs/ai/starter-profiles.generated.json"), "utf8")).profiles.map((item: any) => item.milestone)).toEqual([milestone]);
+    expect(profile.recommendedAssets.find((asset: any) => asset.id === "ui-button")).toMatchObject({ assetIdentity: "local-experiment", candidateEligible: false, entry: { importPath: "@rain-next/ui", exportNames: ["Button"] } });
+    expect(profile.recommendedAssets.find((asset: any) => asset.id === "recipe-input-group").entry).toMatchObject({ kind: "usage-reference", exportNames: [] });
+    for (const reference of profile.references.filter((reference: any) => reference.role === "required")) expect(existsSync(join(output, reference.target)), `${reference.from} -> ${reference.target}`).toBe(true);
+    expect(profile.transformations.some((item: any) => item.file === "docs/ai/g6-components.md")).toBe(true);
+    expect(readFileSync(join(output, "docs/ai/starter-assets.generated.md"), "utf8")).toContain("candidate-eligible");
+    expect(verifyStarter(output)).toBe(lock.snapshotId);
+  } finally { rmSync(temporary, { recursive: true, force: true }); }
+});
+it("builds the copyable public-API combinations as a standalone preview route", async () => {
+  const { exportStarter } = await import("./rn14-starter.mjs");
+  const temporary = mkdtempSync(join(tmpdir(), "rain-starter-compositions-"));
+  try {
+    const output = join(temporary, "starter"), lock = exportStarter(output);
+    for (const name of ["filter-toolbar", "sectioned-form", "grading-actions"]) {
+      const source = `apps/playground/src/docs/examples/${name}.tsx`, target = `apps/prototype/src/composition-examples/${name}.tsx`;
+      expect(existsSync(join(output, target)), target).toBe(true);
+      expect(readFileSync(join(output, target))).toEqual(readFileSync(join(root, source)));
+      expect(lock.files[target]).toBe(lock.sourceFiles[source]);
+    }
+    expect(readFileSync(join(output, "apps/prototype/src/main.tsx"), "utf8")).toContain('route === "#compositions"');
+    expect(readFileSync(join(output, "docs/ai/starter-index.md"), "utf8")).toContain("#compositions");
+  } finally { rmSync(temporary, { recursive: true, force: true }); }
+});
 it("delivers reachable design guidance and locks it with each standalone starter", async () => {
   const { exportStarter, verifyStarter } = await import("./rn14-starter.mjs");
   const temporary = mkdtempSync(join(tmpdir(), "rain-design-guidance-"));
@@ -22,6 +62,9 @@ it("delivers reachable design guidance and locks it with each standalone starter
         if (visited.has(file)) continue;
         visited.add(file);
         const content = readFileSync(join(output, file), "utf8");
+        for (const match of content.matchAll(/`((?:manifests|packages)\/[^`\n]+\.(?:yaml|json|md|ts|tsx|css))`/g)) {
+          expect(existsSync(join(output, match[1]!)), `${file}: required inline path ${match[1]}`).toBe(true);
+        }
         for (const match of content.matchAll(/\]\(([^)]+)\)/g)) {
           const href = match[1];
           if (!href || /^(?:https?:|#)/.test(href)) continue;
@@ -41,10 +84,12 @@ it("delivers reachable design guidance and locks it with each standalone starter
         expect(lock.files[file], file).toBe(lock.sourceFiles[file]);
       }
       const portableG6 = readFileSync(join(output, "docs/ai/g6-components.md"), "utf8");
-      expect(portableG6).toContain("registry/g6-assets.json` 是原工作区追溯材料，本 Starter 未附带");
+      expect(portableG6).toContain("registry/g6-assets.json` 随统一模型闭包附带");
       expect(portableG6).toContain("本 Starter 使用 workspace 结构");
       expect(portableG6).toContain("sourceEvidence/examples 是原工作区追溯材料");
-      expect(existsSync(join(output, "registry/g6-assets.json"))).toBe(false);
+      expect(readFileSync(join(output, "registry/g6-assets.json"))).toEqual(readFileSync(join(root, "registry/g6-assets.json")));
+      expect(lock.files["registry/g6-assets.json"]).toBe(lock.sourceFiles["registry/g6-assets.json"]);
+      expect(portableG6).toContain("原独立消费夹具与运行日志仍未附带");
       expect(lock.sourceFiles["docs/ai/g6-components.md"]).toBe(createHash("sha256").update(readFileSync(join(root, "docs/ai/g6-components.md"))).digest("hex"));
       expect(lock.sourceFiles["docs/ai/g6-components.md"]).not.toBe(lock.files["docs/ai/g6-components.md"]);
 
@@ -140,9 +185,15 @@ it("exports a fixed local starter without links to the source workspace and dete
     expect(lock.snapshotId).toMatch(/^rn14-[a-f0-9]{16}$/);
     expect(lock.workingTree).toBe("content-addressed-local-snapshot");
     expect(verifyStarter(output)).toEqual(lock.snapshotId);
+    const lockPath = join(output, "source-lock.json"), lockBytes = readFileSync(lockPath, "utf8");
+    try { writeFileSync(lockPath, JSON.stringify({ ...lock, profile: { ...lock.profile, milestone: "M2" } })); expect(() => verifyStarter(output)).toThrow(/profile binding/); }
+    finally { writeFileSync(lockPath, lockBytes); }
+    try { const { profile: _profile, ...invalid } = lock; writeFileSync(lockPath, JSON.stringify(invalid)); expect(() => verifyStarter(output)).toThrow(/profile binding/); }
+    finally { writeFileSync(lockPath, lockBytes); }
     const tokens = "packages/foundations/src/tokens.css";
     expect(readFileSync(join(output, tokens), "utf8")).toBe(readFileSync(join(root, tokens), "utf8"));
-    expect(existsSync(join(output, "apps/playground"))).toBe(false);
+    expect(existsSync(join(output, "apps/playground/package.json"))).toBe(false);
+    expect(existsSync(join(output, "apps/playground/src/app.tsx"))).toBe(false);
     expect(existsSync(join(output, "node_modules"))).toBe(false);
     expect(readFileSync(join(output, "apps/prototype/src/main.tsx"), "utf8")).not.toContain(root);
     expect(readFileSync(join(output, "pnpm-lock.yaml"), "utf8")).toBe(readFileSync(join(root, "pnpm-lock.yaml"), "utf8"));
@@ -164,7 +215,7 @@ it("exports a fixed local starter without links to the source workspace and dete
     expect(() => verifyStarter(output)).toThrow(/Symbolic link|Invalid path/);
   } finally { rmSync(temporary, { recursive: true, force: true }); }
 });
-it("preserves the existing RN14 authorization and frozen B2 history", () => {
+it("preserves the existing RN14 authorization and frozen B2 history", () => withSourceBindingTraversal(root, () => {
   const phase = parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) as any;
   expect(hasRn14Authorization(phase)).toBe(true);
   expect(getValidatedTailwindB2History(phase)).toEqual(phase.phaseHistory.tailwindB2);
@@ -191,4 +242,4 @@ it("preserves the existing RN14 authorization and frozen B2 history", () => {
     expect(hasRn14Authorization(invalid)).toBe(false);
     expect(() => getValidatedTailwindB2History(invalid)).toThrow();
   }
-});
+}));

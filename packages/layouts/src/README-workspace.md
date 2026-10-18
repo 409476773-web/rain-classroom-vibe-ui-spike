@@ -29,7 +29,7 @@ saveWorkspacePreferences(storage: WorkspaceStorage | undefined, key: string, spe
 
 每次 hide/show/mode/pin 意图同时关闭旧暂态并完成新的操作；不需要先 dismiss 再等第二次点击。`SHOW_REGION` / `PIN_TEMP` 传入 viewportWidth 后，如果不能常驻，保留展开请求并临时显示。peek 不改变主区占位；unpin 恢复进入暂态时的基态，无该 session 记录时退回 hidden（top 优先 tabs）。进入专注只建立一次偏好快照，专注期间 mode/width 改动进入 focusOverrides；退出还原进入前的隐藏状态和宽度、清空暂态，专注内的 pin 不污染原 pin 基态。
 
-Resize 在 recipe 和当前主区预算内 clamp；hidden/compact只加实际占位和剩余空间并扣展开边界，不把保存的展开宽度再算一遍；有限负值按 minWidth clamp，非有限值拒绝。键盘 ArrowLeft/Right 分别调宽 -/+10，Shift 为32，Home 为 min，End 为当前可用 max，Enter 显式隐藏并保留展开宽度。物理拖动方向和 end 边界的键盘方向映射由 Splitter 消费层决定。
+Resize 在 recipe 和当前主区预算内 clamp；hidden/compact只加实际占位和剩余空间并扣展开边界，不把保存的展开宽度再算一遍；有限负值按 minWidth clamp，非有限值拒绝。键盘 ArrowLeft/Right 分别调宽 -/+10，Shift 为32，Home 为 min，End 为当前可用 max。Enter 优先隐藏；不允许 hidden 时退到允许的 compact；均不允许时保持原状态。折叠不改变保存的展开宽度。显式 SET_MODE / HIDE_REGION / SET_RIBBON 等仍拒绝不支持的目标模式。物理拖动方向和 end 边界的键盘方向映射由 Splitter 消费层决定。
 
 ## 存储边界
 

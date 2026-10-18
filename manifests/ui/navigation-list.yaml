@@ -197,9 +197,9 @@ nativeCssExceptions:
 sourceSha256: "74ea3796b3062d546279dc6912b2e67c0ccb148cfcff042fd6c13721bd94c62d"
 styleSourceSha256: "16a0f032e48195ff62aab11d127c98de170eb982209d594bb4ac4aeb084ae64e"
 sourceSnapshotRecordedAt: "2026-10-03T07:49:28.455Z"
-description: "A2 destinations with native links and an application-owned current ID."
+description: "平面分组页面导航：使用真实链接、图标与当前页面标记；不承担 Tree 层级展开。"
 useWhen:
-  - "Function/sidebar/compact destination navigation with a real href."
+  - "需要分组导航、图标侧栏或紧凑页面目的地列表，每项都有真实 href。"
 doNotUseWhen:
   - "Content panel selection, business-object selection or conditions."
 examples:
@@ -254,7 +254,6 @@ tokens:
   - "Existing Foundation spacing/brand/focus are reused; no global reset."
 layoutConstraints:
   - "Native size; host supplies available width; long labels truncate without changing identity."
-  - "A5 cards may shrink to180px only in bounded small samples; default outer width300px."
 compositionRules:
   - "Use stable IDs separate from labels; supplied current IDs are validated against current items."
   - "W1/W2 use conditions; W3 uses existing NavigationTabs plus ConnectedSurface."
@@ -394,3 +393,32 @@ priorG2VisualAcceptance12:
   sourceSha256: "74ea3796b3062d546279dc6912b2e67c0ccb148cfcff042fd6c13721bd94c62d"
   styleSourcePath: "packages/ui/src/navigation/navigation-families.css"
   styleSourceSha256: "16a0f032e48195ff62aab11d127c98de170eb982209d594bb4ac4aeb084ae64e"
+
+discovery:
+  version: 1
+  familyId: "navigation"
+  taskIds:
+    - "navigate"
+  searchAliases:
+    - "分组导航"
+    - "页面导航列表"
+    - "平面分组"
+    - "图标侧栏"
+  implementationRole: "root"
+  controlScope: "页面地址与平面分组目的地"
+  stateOwner: "宿主拥有路由与 activeId；组件提供真实链接、分组和 aria-current，不创建树展开状态。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-tree"
+      evidence:
+        path: "packages/ui/src/navigation/navigation-families.tsx"
+        kind: "contract"
+        symbol: "NavigationList"
+      condition: "需要父子层级、展开或树形勾选时比较 Tree；分组文字不是可展开树节点。"
+    - type: "alternativeWhen"
+      targetId: "ui-object-navigator"
+      evidence:
+        path: "packages/ui/src/navigation/navigation-families.tsx"
+        kind: "contract"
+        symbol: "NavigationList"
+      condition: "切换同一工作区的当前学生、题目等业务对象且不改变页面地址时比较 ObjectNavigator。"

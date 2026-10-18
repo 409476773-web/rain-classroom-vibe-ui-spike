@@ -1,9 +1,10 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 const run = "evidence/runtime/chart-experience-third-batch-2026-10-11/scatter";
-const folder = `${run}/browser/${process.env.RAIN_SCATTER_BROWSER_RUN ?? "after-01"}`;
+const folder = evidenceOutputPath(`${run}/browser/${process.env.RAIN_SCATTER_BROWSER_RUN ?? "after-01"}`);
 const files = ["apps/playground/src/docs/components/chart-point-reading.tsx", "apps/playground/src/docs/components/chart-variants/comparison.tsx", "packages/ui/src/charts/vendor/charts/scatter-chart.tsx", "packages/ui/src/charts/vendor/charts/use-scatter-chart-interaction.ts"];
 const variants = ["scatter-default", "scatter-no-rings", "scatter-small-dots", "scatter-wide-ring-gap", "scatter-left-y-axis", "scatter-dual-y-axis", "scatter-pattern-background", "scatter-dot-grid-background", "scatter-reference-band", "scatter-pattern-reference-band"];
 const status = (host: Locator) => host.locator("[data-point-reading-date], [data-point-reading] > [role=status]");

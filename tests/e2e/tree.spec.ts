@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { readFileSync, writeFileSync } from "node:fs";
 
@@ -25,7 +26,7 @@ test("approved connector geometry and responsive Rich layout", async ({ page }) 
   expect(richGeometry).toEqual({ verticalGap: 4, alignment: 0 });
   await page.setViewportSize({ width: 320, height: 740 });
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await page.screenshot({ path: "evidence/runtime/tree/narrow.png", fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/narrow.png"), fullPage: true });
 });
 
 test("search keeps expansion and ManageTree saves an edited title", async ({ page }) => {
@@ -105,10 +106,10 @@ test("drag hover expands a closed branch with a subtle target behind its content
       behindContent: Number(getComputedStyle(element).zIndex) < Number(getComputedStyle(row.querySelector('[data-slot="content"]')!).zIndex) };
   });
   expect(geometry).toEqual({ contained: true, coversRow: true, behindContent: true });
-  await tree.screenshot({ path: "evidence/runtime/tree/drop-target-light.png" });
+  await tree.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/drop-target-light.png") });
   await page.evaluate(() => document.documentElement.setAttribute("data-rain-theme", "dark"));
   await expect(indicator).toHaveCSS("background-color", "rgba(20, 95, 255, 0.1)");
-  await tree.screenshot({ path: "evidence/runtime/tree/drop-target-dark.png" });
+  await tree.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/drop-target-dark.png") });
   await page.mouse.move(0, 0); await page.mouse.up();
   await expect(tree.locator('[data-slot="drop-indicator"]')).toHaveCount(0);
 });
@@ -160,7 +161,7 @@ test("concurrent loads, checked inheritance, retries and filter/locate dragging"
   await page.getByRole("button", { name: "切换为定位搜索" }).click();
   await expect(tree.getByRole("button", { name: "移动本地课件" })).toBeVisible();
   await expect(tree.getByRole("treeitem", { name: "本地课件" })).toBeVisible();
-  await tree.screenshot({ path: "evidence/runtime/tree/functional-async-move.png" });
+  await tree.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/functional-async-move.png") });
   expect(errors).toEqual([]);
 });
 
@@ -175,7 +176,7 @@ test("large-tree window preserves focus, measures production interactions and co
   const segments = await tenth.locator('[data-slot="connector"], [data-slot="ancestor-line"]').evaluateAll((lines) => lines.map((line) => ({ left: (line as HTMLElement).offsetLeft, height: line.getBoundingClientRect().height })));
   expect(segments.map((line) => line.left).sort((a, b) => a - b)).toEqual(Array.from({ length: 9 }, (_, i) => 16 + 24 * i));
   expect(segments.every((line) => line.height === 36)).toBe(true);
-  await tree.screenshot({ path: "evidence/runtime/tree/continuous-ancestors-top.png" });
+  await tree.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/continuous-ancestors-top.png") });
   const measure = async (name: string) => page.getByRole("button", { name, exact: true }).evaluate((button) => new Promise<number>((resolve) => {
     const start = performance.now(); (button as HTMLButtonElement).click();
     requestAnimationFrame(() => requestAnimationFrame(() => resolve(performance.now() - start)));
@@ -208,7 +209,7 @@ test("large-tree window preserves focus, measures production interactions and co
   await expect(lastDeep.locator('.rain-tree-connector')).toHaveClass(/is-last/);
   const deepEnd = await lastDeep.locator('[data-slot="ancestor-line"]').evaluateAll((lines) => lines.map((line) => line.getBoundingClientRect().height));
   expect(deepEnd).toEqual([36, ...Array(12).fill(18)]);
-  await tree.screenshot({ path: "evidence/runtime/tree/continuous-ancestors-scrolled.png" });
+  await tree.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/continuous-ancestors-scrolled.png") });
   await query.fill("最深节点");
   await tree.evaluate((element) => { element.scrollTop = element.scrollHeight; element.dispatchEvent(new Event("scroll")); });
   await expect(lastDeep.locator('.rain-tree-ancestor-line.is-last')).toHaveCount(13);
@@ -228,8 +229,8 @@ test("large-tree window preserves focus, measures production interactions and co
   const viewport = await tree.boundingBox();
   expect(deepest!.x).toBeGreaterThanOrEqual(viewport!.x);
   expect(deepest!.x + deepest!.width).toBeLessThanOrEqual(viewport!.x + viewport!.width);
-  await tree.screenshot({ path: "evidence/runtime/tree/functional-deep-narrow.png" });
-  writeFileSync("evidence/runtime/tree/functional-scale-facts.json", JSON.stringify({
+  await tree.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/functional-deep-narrow.png") });
+  writeFileSync(evidenceOutputPath("evidence/runtime/tree/functional-scale-facts.json"), JSON.stringify({
     build: process.env.TREE_PREVIEW === "1" ? "production-preview" : "development", browser: browser.version(),
     userAgent: await page.evaluate(() => navigator.userAgent), totalNodes: [1000, 10000], depth: 15, thousandDOM,
     tenThousandDOM: await tree.getByRole("treeitem").count(), timingDefinition: "button action to two animation frames; search includes browser input and assertion round trips; one run, not a latency guarantee",
@@ -280,10 +281,10 @@ test("deep Rich lines stay continuous and label, description and meta follow the
   expect(layout.descriptionX).toBe(layout.titleX);
   expect(layout.metaX).toBeGreaterThanOrEqual(layout.titleRight);
   await expect(discussion.locator('[data-rain-id="ui-tag"]')).toHaveAttribute("data-color", "magenta");
-  await page.screenshot({ path: "evidence/runtime/tree/continuation-tree.png", fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/continuation-tree.png"), fullPage: true });
   await discussion.click();
   await expect(discussion).toHaveAttribute("data-selected", "true");
-  await page.locator(".tree-page__panel--wide").screenshot({ path: "evidence/runtime/tree/continuation-rich-selected.png" });
+  await page.locator(".tree-page__panel--wide").screenshot({ path: evidenceOutputPath("evidence/runtime/tree/continuation-rich-selected.png") });
 });
 
 test("ManageTree keeps edit controls compact and anchors delete confirmation to its icon", async ({ page }) => {
@@ -308,7 +309,7 @@ test("ManageTree keeps edit controls compact and anchors delete confirmation to 
   });
   expect(alignment).toBeLessThanOrEqual(1);
   await expect(row.getByRole("button", { name: "清空标题" })).toHaveCount(0);
-  await page.screenshot({ path: "evidence/runtime/tree/continuation-manage-edit.png", fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/continuation-manage-edit.png"), fullPage: true });
   await row.getByRole("button", { name: "取消标题" }).click();
   const deleteButton = row.getByRole("button", { name: "删除课前学习" });
   await deleteButton.click();
@@ -320,7 +321,7 @@ test("ManageTree keeps edit controls compact and anchors delete confirmation to 
   expect(popupBox!.y - (buttonBox!.y + buttonBox!.height)).toBeGreaterThanOrEqual(0);
   expect(popupBox!.y - (buttonBox!.y + buttonBox!.height)).toBeLessThan(16);
   expect(Math.abs(popupBox!.x + popupBox!.width - (buttonBox!.x + buttonBox!.width))).toBeLessThan(2);
-  await page.screenshot({ path: "evidence/runtime/tree/continuation-manage-delete.png", fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/continuation-manage-delete.png"), fullPage: true });
   await popup.getByRole("button", { name: "确认删除" }).click();
   await expect(page.getByRole("treeitem", { name: "课前学习" })).toHaveCount(0);
 });
@@ -338,7 +339,7 @@ test("domain fields use one explicit dialog buffer and preserve checks and scrol
   await expect(first).not.toContainText("取消的说明");
   await first.hover(); await first.getByRole("button", { name: "编辑知识点 1 · 样本空间" }).click();
   await dialog.getByRole("textbox", { name: "说明", exact: true }).fill("区分必然事件与不可能事件。");
-  await dialog.screenshot({ path: "evidence/runtime/manage-tree/domain-editor.png" });
+  await dialog.screenshot({ path: evidenceOutputPath("evidence/runtime/manage-tree/domain-editor.png") });
   await dialog.getByRole("button", { name: "确认编辑" }).click();
   await expect(first).toContainText("区分必然事件与不可能事件。");
   await example.getByRole("button", { name: "添加根节点" }).click();
@@ -358,7 +359,7 @@ test("domain fields use one explicit dialog buffer and preserve checks and scrol
   await expect(added.getByRole("checkbox")).toBeChecked();
   await expect.poll(async () => tree.getByRole("treeitem", { name: before.name, exact: true }).evaluate((row) => row.getBoundingClientRect().top - row.closest('[role="tree"]')!.getBoundingClientRect().top)).toBeCloseTo(before.offset, 0);
   await expect(example.locator('[data-slot="server-state"]')).toContainText("版本 2");
-  await example.screenshot({ path: "evidence/runtime/manage-tree/domain-saved.png" });
+  await example.screenshot({ path: evidenceOutputPath("evidence/runtime/manage-tree/domain-saved.png") });
   expect(errors).toEqual([]);
 });
 
@@ -383,7 +384,7 @@ test("task-only validation and migration-delete keep server data atomic on save 
   await expect(example.getByRole("status").last()).toContainText("模拟保存失败");
   await expect(example.locator('[data-slot="server-state"]')).toHaveText("已提交版本 1 · 2 个章节");
   await expect(tree.getByRole("treeitem")).toHaveCount(10);
-  await example.screenshot({ path: "evidence/runtime/manage-tree/domain-save-failure.png" });
+  await example.screenshot({ path: evidenceOutputPath("evidence/runtime/manage-tree/domain-save-failure.png") });
   await example.getByRole("button", { name: "保存草稿" }).click();
   await expect(example.getByRole("button", { name: "进入编辑" })).toBeVisible();
   await expect(example.locator('[data-slot="server-state"]')).toHaveText("已提交版本 2 · 1 个章节");
@@ -419,10 +420,10 @@ test("custom actions preserve keyboard ownership and empty actions restore the s
   await expect(video.locator('[data-slot="meta"]')).toHaveText("未加入");
   await video.getByRole("button", { name: "加入清单：课前视频" }).click();
   const example = page.locator("details").filter({ has: page.getByText("06　节点内容随状态变化", { exact: true }) });
-  await example.screenshot({ path: "evidence/runtime/tree/custom-state-v2-wide.png" });
+  await example.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/custom-state-v2-wide.png") });
   await page.setViewportSize({ width: 320, height: 740 });
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await example.screenshot({ path: "evidence/runtime/tree/custom-state-v2-narrow.png" });
+  await example.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/custom-state-v2-narrow.png") });
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.emulateMedia({ forcedColors: "active" });
   await video.getByRole("button").press("Escape");
@@ -432,7 +433,7 @@ test("custom actions preserve keyboard ownership and empty actions restore the s
   await page.keyboard.press("Space");
   await expect(tree.getByRole("checkbox", { name: "勾选延伸阅读" })).toBeChecked();
   await page.emulateMedia({ forcedColors: "none" });
-  await tree.screenshot({ path: "evidence/runtime/tree/custom-state-v2-checked.png" });
+  await tree.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/custom-state-v2-checked.png") });
   const search = page.getByRole("textbox", { name: "搜索自定义示例" });
   await search.fill("没有的材料");
   await expect(tree.getByRole("treeitem")).toHaveCount(0);
@@ -443,7 +444,7 @@ test("custom actions preserve keyboard ownership and empty actions restore the s
   await expect(tree.getByRole("treeitem")).toHaveCount(4);
   await page.getByRole("button", { name: "清空材料" }).click();
   await expect(tree.getByText("还没有课程材料")).toBeVisible();
-  await tree.screenshot({ path: "evidence/runtime/tree/custom-empty-v2.png" });
+  await tree.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/custom-empty-v2.png") });
   await tree.getByRole("button", { name: "恢复课程材料" }).click();
   await expect(search).toBeFocused();
   await expect(tree.getByRole("treeitem", { name: "课程材料", exact: true })).toBeVisible();
@@ -481,7 +482,7 @@ test("repeated subtree moves preserve five-level geometry and last-sibling clear
   await move("第一章　随机事件与概率", "第二章　随机变量", "inside", 2);
   await move("课后练习", "课前学习", "inside", 4);
   await expect(tree.getByRole("treeitem", { name: "古典概型练习" })).toHaveAttribute("aria-level", "5");
-  await tree.screenshot({ path: "evidence/runtime/tree/repeated-deep-move.png" });
+  await tree.screenshot({ path: evidenceOutputPath("evidence/runtime/tree/repeated-deep-move.png") });
   await move("课后练习", "课前学习", "after", 3);
   await move("课后练习", "课前学习", "inside", 4);
   await move("课后练习", "课前学习", "after", 3);
@@ -522,7 +523,7 @@ test("enhances only interacting Tree rows and restores approved pale colors", as
     await page.mouse.move(0, 0);
     await measure(branch, "normal");
     await measure(leaf, "normal-meta");
-    if (surface === 1) await panel.screenshot({ path: `evidence/runtime/tree/closeout/interaction-${theme}-idle.png` });
+    if (surface === 1) await panel.screenshot({ path: evidenceOutputPath(`evidence/runtime/tree/closeout/interaction-${theme}-idle.png`) });
     await branch.focus(); await measure(branch, "keyboard-focus");
     await page.getByRole("textbox", { name: "搜索节点" }).focus();
     await branch.hover(); await measure(branch, "row-hover");
@@ -530,7 +531,7 @@ test("enhances only interacting Tree rows and restores approved pale colors", as
     await branch.getByRole("button").hover(); await measure(branch, "control-hover");
     await branch.locator('[data-slot="title"]').click(); await measure(branch, "selected");
     await branch.getByRole("button").hover(); await measure(branch, "selected-control-hover");
-    if (surface === 1) await panel.screenshot({ path: `evidence/runtime/tree/closeout/interaction-${theme}-active.png` });
+    if (surface === 1) await panel.screenshot({ path: evidenceOutputPath(`evidence/runtime/tree/closeout/interaction-${theme}-active.png`) });
     await page.getByRole("textbox", { name: "搜索节点" }).focus();
     await leaf.hover(); await measure(leaf, "meta-hover");
     await measure(branch, "normal-restored-selected");
@@ -546,14 +547,14 @@ test("enhances only interacting Tree rows and restores approved pale colors", as
     await page.keyboard.press("ArrowLeft");
     await expect(target.locator('[data-slot="drop-indicator"][data-placement="inside"]')).toBeVisible();
     await measure(target, "drop-inside");
-    if (surface === 1) await page.getByRole("tree").screenshot({ path: `evidence/runtime/tree/closeout/interaction-${theme}-drop.png` });
+    if (surface === 1) await page.getByRole("tree").screenshot({ path: evidenceOutputPath(`evidence/runtime/tree/closeout/interaction-${theme}-drop.png`) });
     await page.keyboard.press("Escape");
     await expect(target.locator('[data-slot="drop-indicator"]')).toHaveCount(0);
     await page.mouse.move(0, 0);
     await measure(target, "normal-after-drop-cancel");
     await style.evaluate(node => (node as HTMLElement).remove());
   }
-  writeFileSync("evidence/runtime/tree/interaction-readability-facts.json", JSON.stringify({ scope: "actual shared Tree CSS; light/dark and two surfaces; idle colors retained; active and restored states", findings }, null, 2));
+  writeFileSync(evidenceOutputPath("evidence/runtime/tree/interaction-readability-facts.json"), JSON.stringify({ scope: "actual shared Tree CSS; light/dark and two surfaces; idle colors retained; active and restored states", findings }, null, 2));
   for (const finding of findings.filter(entry => !entry.state.startsWith("normal"))) expect(finding.contrast, JSON.stringify(finding)).toBeGreaterThanOrEqual(["arrow", "handle", "expander", "drag-handle"].includes(finding.part) ? 3 : 4.5);
   for (const finding of findings.filter(entry => entry.state.startsWith("normal"))) {
     const original = approved.find((entry: typeof finding & { candidate: boolean }) => entry.candidate === false && entry.theme === finding.theme && entry.surface === finding.surface && entry.state.startsWith("normal") && (entry.part === finding.part || entry.part === "expander" && finding.part === "drag-handle"))!;

@@ -84,3 +84,31 @@ evidence:
 limits:
   - "仅当前工作区技术候选；人工视觉、真实设备/辅助技术与发布分别登记。"
   - "最小同仓原型不等于独立 Starter 或 BM-A/B/C/D 完成。"
+
+discovery:
+  version: 1
+  familyId: "surfaces"
+  taskIds:
+    - "organize"
+    - "read-communicate"
+  searchAliases:
+    - "内容卡片"
+    - "信息卡"
+  implementationRole: "root"
+  controlScope: "独立内容对象的非交互结构"
+  stateOwner: "Card 根仅提供局部 Recipe 上下文；CardHeader/CardTitle/CardDescription/CardAction/CardContent/CardFooter 具名导出，宿主拥有内容和子动作，不把整卡改为隐式选择控件。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-radio-card"
+      condition: "整个对象是互斥选项时用 RadioCard 保留真实输入协议，不在 Card 根添加 onclick 选择。"
+      evidence:
+        path: "packages/ui/src/card/card.tsx"
+        symbol: "Card"
+        kind: "contract"
+    - type: "alternativeWhen"
+      targetId: "ui-checkbox-card"
+      condition: "整个对象可独立多选时用 CheckboxCard。"
+      evidence:
+        path: "packages/ui/src/card/card.tsx"
+        symbol: "Card"
+        kind: "contract"

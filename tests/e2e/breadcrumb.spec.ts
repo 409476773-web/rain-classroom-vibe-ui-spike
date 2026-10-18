@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { writeFileSync } from "node:fs";
 import { contrastRatio } from "./color-contrast";
@@ -9,7 +10,7 @@ test("whole-item toggle, selected and disabled siblings, Escape and route rebuil
   await expect(nav.getByRole('link', { name: '行政通知' })).toHaveCount(0);
   await arrow.getByText('行政通知', { exact: true }).hover();
   expect(await arrow.evaluate(node => getComputedStyle(node, '::before').backgroundColor)).toBe('rgba(80, 117, 254, 0.12)');
-  await page.getByTestId('siblings').screenshot({ path: 'evidence/runtime/breadcrumb/whole-item-hover.png' });
+  await page.getByTestId('siblings').screenshot({ path: evidenceOutputPath('evidence/runtime/breadcrumb/whole-item-hover.png') });
   await arrow.getByText('行政通知', { exact: true }).click();
   await expect(arrow).toHaveAttribute('aria-expanded', 'true');
   await arrow.getByText('行政通知', { exact: true }).click();
@@ -46,7 +47,7 @@ test("actual truncation, keyboard tooltip, deep folding and narrow geometry", as
   const facts = await link.evaluate(node => { const style = getComputedStyle(node); return { fontFamily: style.fontFamily, fontSize: style.fontSize, lineHeight: style.lineHeight, height: style.height, color: style.color, background: getComputedStyle(node.closest('.breadcrumb-demo__stage')!).backgroundColor }; });
   const ratio = contrastRatio(facts.color, facts.background, 'rgb(255, 255, 255)');
   expect(ratio).toBeGreaterThanOrEqual(4.5);
-  writeFileSync('evidence/runtime/breadcrumb/browser-facts.json', JSON.stringify({ ...facts, textContrast: ratio }, null, 2));
+  writeFileSync(evidenceOutputPath('evidence/runtime/breadcrumb/browser-facts.json'), JSON.stringify({ ...facts, textContrast: ratio }, null, 2));
   await link.hover();
   expect(await link.evaluate(node => getComputedStyle(node, '::before').backgroundColor)).toBe('rgba(80, 117, 254, 0.12)');
   await page.mouse.down();
@@ -59,7 +60,7 @@ test("actual truncation, keyboard tooltip, deep folding and narrow geometry", as
   const longArrow = page.getByRole('navigation', { name: '长名称路径' }).getByRole('button').last();
   await longArrow.click(); await expect(page.getByRole('tooltip')).toHaveCount(0);
   await expect(page.getByRole('menu')).toBeVisible();
-  await page.screenshot({ path: 'evidence/runtime/breadcrumb/menu.png', fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath('evidence/runtime/breadcrumb/menu.png'), fullPage: true });
   await page.keyboard.press('Escape');
   const range = page.getByRole('slider', { name: '路径容器宽度' });
   await range.fill('800');
@@ -78,11 +79,11 @@ test("actual truncation, keyboard tooltip, deep folding and narrow geometry", as
   await expect(deep.getByRole('link', { name: '工作台' })).toBeFocused();
   await range.fill('400');
   await expect(deep.locator('ol')).toHaveAttribute('data-collapse', 'root');
-  await page.screenshot({ path: 'evidence/runtime/breadcrumb/desktop.png', fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath('evidence/runtime/breadcrumb/desktop.png'), fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await expect(deep).toBeVisible();
-  await page.screenshot({ path: 'evidence/runtime/breadcrumb/narrow.png', fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath('evidence/runtime/breadcrumb/narrow.png'), fullPage: true });
   await page.setViewportSize({ width: 320, height: 844 });
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   expect(errors).toEqual([]);

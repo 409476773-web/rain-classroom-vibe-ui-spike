@@ -1,0 +1,127 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-empty"
+name: "Empty"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "rewrite-from-rain"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/empty/empty.tsx"
+sourceVersion: "local-2026-09-14"
+description: "确认没有内容或没有匹配结果时，使用 Rain 原稿插画、轻量图形或纯文字，并按需提供下一步。"
+useWhen:
+  - "数据为空或没有查询结果，需要明确下一步。"
+doNotUseWhen:
+  - "正在加载、请求失败、断网、无权限、等待处理或课程结束。"
+  - "表格单元格缺值；使用字段级缺值标记。"
+anatomy:
+  - "Empty"
+  - "EmptyMedia"
+  - "EmptyTitle"
+  - "EmptyDescription"
+  - "EmptyActions"
+parts:
+  - "Empty"
+  - "EmptyMedia"
+  - "EmptyTitle"
+  - "EmptyDescription"
+  - "EmptyActions"
+props:
+  - "Empty: presentation=illustration|simple|text，默认 illustration；align=center|start，默认 center。"
+  - "EmptyMedia: illustration=empty-box|empty-search|empty-paper|no-one|outer-space|empty-sofa|simple；可通过 children 替换为非交互装饰。"
+  - "EmptyTitle: as=h2|h3|h4|h5|h6|p，默认 h3；保留原生属性与 ref。"
+  - "所有部件保留原生属性、className 和 ref；children 显式组合说明与操作，无 children 时提供默认插画和暂无内容。"
+slots:
+  - "children"
+variants:
+  - "illustration: 标准插画，标题和说明 14/22/400；不因插画放大或加重标题。"
+  - "simple: 原稿简洁图形，标题和说明 14/22/400；保留所有显式说明和操作。"
+  - "text: 无图像，标题和说明 14/22/400；保留所有显式说明和操作。"
+states:
+  - "empty-data"
+  - "no-results"
+dependencies:
+  - "react"
+  - "@rain-next/foundations"
+  - "tailwind-merge"
+tokens:
+  - "Rain UI PingFang SC；14/22/400；Space/4/8/12/16。"
+  - "标题与说明统一 Text/Neutral/3；透明根在 Background/Neutral/1/2/3 上检查两主题。"
+  - "原稿插画颜色保留在源锁定 SVG 内，属于装饰图像，不转成普通 UI 色值或公共 Token。"
+layoutConstraints:
+  - "宿主决定可用宽度、外侧留白与占位高度；根节点无默认背景、边框、padding 或最小高度。"
+  - "标准图像最大宽 280，Simple 最大宽 56，保持原稿比例并随可用宽度收缩。"
+  - "文字自然换行，Actions 自动换行；现有表格消费者的 Empty 仍位于横向滚动区外。"
+compositionRules:
+  - "标题可选；通常仅用 Description 提示，避免重复的暂无内容。保留至少一句可读文案；Media、Actions 均可选。部件作为 Empty 的直接子节点；沿用既有 children 组合。"
+  - "presentation 仅改变装饰和排版，不因轻量形态隐藏说明或操作；text 仅省略 Media。"
+  - "Empty 不拥有请求、权限、筛选、分页、焦点迁移或状态播报；Actions 使用宿主提供的真实控件。"
+  - "展示配方独立于全局密度，动作控件未指定 size 时继续消费父 DensityProvider；推荐配方显式使用 Button mini（28px）及 text compact（24px），不新增公共 size 轴。"
+allowedModifications:
+  - "原生属性、语义内容、公开部件与布局 className。"
+restrictedModifications:
+  - "禁止在 UI 添加业务请求或更改既有品牌、Focus、字体。"
+accessibility:
+  - "至少提供一句可见文案，可仅使用 Description；需要标题时按宿主层级选择真实标题或 p。"
+  - "内置图像 alt 为空，Media aria-hidden；自定义图像仅用于非交互装饰，不承载唯一状态含义。"
+  - "静态 Empty 无默认 live region 或焦点；宿主统一动态播报，避免重复朗读按钮。"
+  - "Actions 保留原生键盘和 Rain Next Focus；不继承 Classic 禁止蓝色 halo 的旧规则。"
+examples:
+  - "#table"
+  - "prototype/#materials"
+recipes:
+  - "empty-illustration"
+  - "empty-simple"
+  - "empty-text"
+antiPatterns:
+  - "用暂无内容掩盖尚未完成的加载、错误或权限问题。"
+  - "为容纳内容继续缩小字号、截断长标题或在轻量形态自动隐藏说明和恢复操作。"
+  - "让整块空状态可点击，或在装饰图像区域放置交互控件。"
+  - "每个空模块都显示大型插画和多个主要按钮。"
+relatedComponents:
+  - "Table"
+  - "Pagination"
+  - "Checkbox"
+  - "DropdownMenu"
+  - "Card"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Classic src/components/Empty/Empty.vue、empty.scss、empty-illustrations.js、docs/components/Empty.design.md 与 2026-08-09 明暗运行截图。"
+    - "七组原稿 Light/Dark SVG 的节点和哈希见 evidence/runtime/empty-refinement/source-lock.json。"
+  externalReferences:
+    - "https://ui.shadcn.com/docs/components/base/empty：参考开放部件组合，无源码复制。"
+    - "https://ant.design/components/empty/：参考标准/简洁展示与内容定制。"
+    - "https://carbondesignsystem.com/patterns/empty-states-pattern/：参考小空间纯文字与减少重复装饰。"
+  retainedTraits:
+    - "旧版冷蓝灰轻量插画及明暗原稿、透明非交互根、可读提示和可选操作。"
+  redesignedTraits:
+    - "已确认的文字层级、独立展示配方、可选标题层级、容器适配和最近主题边界。"
+  intentionallyNotInherited:
+    - "旧版四档固定容器尺寸、Mini 自动隐藏说明/操作、shadcn 默认外观。"
+figmaMapping:
+  status: "reference-only"
+migrationNotes:
+  - "新增候选，不替换 Rain Classic；未发布或迁移。"
+verification:
+  automated: "passed"
+  independentReview: "not-run"
+  humanGate: "accepted"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/empty-refinement/verification.md"
+
+discovery:
+  version: 1
+  familyId: "feedback"
+  taskIds:
+    - "act-feedback"
+    - "read-communicate"
+  searchAliases:
+    - "空状态"
+    - "无结果"
+  implementationRole: "root"
+  controlScope: "无内容或无搜索结果的解释和动作结构"
+  stateOwner: "宿主判断空状态原因、筛选条件与恢复动作；Empty Parts 只组织信息，不发请求或清除筛选。"
+  relationships: []

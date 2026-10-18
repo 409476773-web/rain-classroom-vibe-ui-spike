@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
-const evidenceDir = process.env.RAIN_CHART_EVIDENCE_DIR ?? "evidence/runtime/chart-library-validation";
+const evidenceDir = process.env.RAIN_CHART_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/chart-library-validation");
 
 async function plotRenderCounts(page: Page) {
   return page.locator(".chart-body[data-render-count]").evaluateAll(nodes => nodes.map(node => Number((node as HTMLElement).dataset.renderCount)));

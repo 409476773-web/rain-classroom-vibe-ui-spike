@@ -79,3 +79,29 @@ compositionRules:
   - "Disabled content preserves accessible identity with no href, events or tab stop; anchor ref is null."
 examples:
   - "#tag"
+
+discovery:
+  version: 1
+  familyId: "tags"
+  taskIds:
+    - "navigate"
+    - "identify"
+  searchAliases:
+    - "链接标签"
+  implementationRole: "specialization"
+  controlScope: "具有真实目的地的分类标签"
+  stateOwner: "宿主拥有 href 和路由；LinkTag 组合 Link 并共享 Tag 表面，不是可勾选标签。"
+  relationships:
+    - type: "sharesPresentation"
+      targetId: "ui-tag"
+      condition: "复用 TagContent/getTagRecipe，未渲染通用 Tag。"
+      evidence:
+        path: "packages/ui/src/tag/link-tag.tsx"
+        symbol: "LinkTag"
+        kind: "contract"
+    - type: "composes"
+      targetId: "ui-link"
+      evidence:
+        path: "packages/ui/src/tag/link-tag.tsx"
+        symbol: "LinkTag"
+        kind: "render"

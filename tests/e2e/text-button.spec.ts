@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator } from "@playwright/test";
 
 import { contrastRatio } from "./color-contrast";
@@ -294,7 +295,7 @@ test("focus remains visible in high contrast and motion can be reduced", async (
 
 test("the review page reflows on narrow screens and at enlarged scale", async ({ page }) => {
   if (captureEvidence) {
-    await page.screenshot({ path: "evidence/runtime/day-3/text-button-desktop.png", fullPage: true, animations: "disabled" });
+    await page.screenshot({ path: evidenceOutputPath("evidence/runtime/day-3/text-button-desktop.png"), fullPage: true, animations: "disabled" });
   }
   for (const width of [375, 320]) {
     await page.setViewportSize({ width, height: 900 });
@@ -306,7 +307,7 @@ test("the review page reflows on narrow screens and at enlarged scale", async ({
   }
   await page.setViewportSize({ width: 375, height: 900 });
   if (captureEvidence) {
-    await page.screenshot({ path: "evidence/runtime/day-3/text-button-mobile.png", fullPage: true, animations: "disabled" });
+    await page.screenshot({ path: evidenceOutputPath("evidence/runtime/day-3/text-button-mobile.png"), fullPage: true, animations: "disabled" });
   }
   await page.setViewportSize({ width: 1440, height: 1050 });
   await page.evaluate(() => { document.documentElement.style.zoom = "2"; });

@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import {expect,test,type Locator,type Page} from '@playwright/test';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 
-const evidence=resolve('evidence/runtime/navigation-v042/w5/review-08-r4-details');
+const evidence=evidenceOutputPath(resolve('evidence/runtime/navigation-v042/w5/review-08-r4-details'));
 const capture=process.env.R4_DETAILS_CAPTURE;
 const open=async(page:Page,sample='R4',width=1440,scene='interaction')=>{
   await page.goto(`/?sample=${sample}#navigation-v042`);

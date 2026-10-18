@@ -1,6 +1,7 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect } from "@playwright/test";
 import { mkdir,writeFile } from "node:fs/promises";
-const evidence = process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR ? `${process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR}/embedding` : "evidence/runtime/chart-business-label-color-layout-2026-10-09/browser/embedding";
+const evidence = process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR ? `${process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR}/embedding` : evidenceOutputPath("evidence/runtime/chart-business-label-color-layout-2026-10-09/browser/embedding");
 test("standard bars and mini charts fit real hosts, preserve their scale and expose equivalent readings", async ({ page }) => {
   const errors: string[] = []; page.on("pageerror",error => errors.push(error.message));
   await page.emulateMedia({reducedMotion:"reduce"}); await page.goto("/#chart-business");

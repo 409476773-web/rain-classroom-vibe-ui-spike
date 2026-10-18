@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -423,7 +424,7 @@ test("the Day 3 Core UI page exposes truthful families and real interaction", as
 
   const screenshotPath =
     runtimeEnvironment.RAIN_UPDATE_DAY_3_EVIDENCE === "1"
-      ? "evidence/runtime/day-3/core-ui-page.png"
+      ? evidenceOutputPath("evidence/runtime/day-3/core-ui-page.png")
       : testInfo.outputPath("core-ui-page.png");
   await page.reload();
   const freshPrimaryButton = page.getByRole("button", { name: "创建课程" });

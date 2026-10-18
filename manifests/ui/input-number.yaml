@@ -101,3 +101,23 @@ verification:
   humanGate: "accepted"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/input-number/verification.md"
+
+discovery:
+  version: 1
+  familyId: "fields"
+  taskIds:
+    - "fill-validate"
+  searchAliases:
+    - "数字输入"
+    - "步进数值"
+  implementationRole: "root"
+  controlScope: "可解析数字、文本草稿、步进和提交边界"
+  stateOwner: "宿主拥有已提交数值；组件区分编辑草稿与解析值，保留精度、范围和 blur/提交规则；编号、电话等字符串仍用 Input。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-input"
+      condition: "编号、电话、前导零等不可按数字计算的内容使用 Input，不能通过数值解析丢失文本。"
+      evidence:
+        path: "packages/ui/src/input-number/input-number.tsx"
+        symbol: "InputNumber"
+        kind: "contract"

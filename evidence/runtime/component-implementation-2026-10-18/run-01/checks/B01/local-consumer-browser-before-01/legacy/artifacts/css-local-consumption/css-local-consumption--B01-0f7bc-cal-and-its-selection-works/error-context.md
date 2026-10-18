@@ -1,0 +1,1640 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: css-local-consumption.spec.ts >> [B01-local] exam display-mode width remains local and its selection works
+- Location: tests/e2e/css-local-consumption.spec.ts:39:1
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: '移动到', exact: true }).first()
+    - locator resolved to <button type="button" data-size="mini" data-slot="root" data-tone="default" data-focus="control" data-state="default" data-density="default" data-variant="tertiary" data-rain-id="ui-button" data-local-recipe="exam-move-button" class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button…>…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <header class="em-question-heading">…</header> intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <header class="em-question-heading">…</header> intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    55 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <header class="em-question-heading">…</header> intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+
+```
+
+# Page snapshot
+
+```yaml
+- main [ref=e4]:
+  - complementary "平台导航" [ref=e5]:
+    - generic "雨课堂" [ref=e6]
+    - generic [ref=e8]: 工作台
+    - generic [ref=e11]: 教学管理
+    - generic [ref=e14]: 课程建设
+    - generic [ref=e17]: 平台管理
+    - generic [ref=e20]: 师
+  - generic [ref=e24]:
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - heading "电路原理小作业" [level=1] [ref=e30]
+        - generic [ref=e31]: 计入成绩
+        - button "编辑" [ref=e34] [cursor=pointer]
+      - generic [ref=e38]:
+        - generic [ref=e39]: 已保存
+        - button "保存并预览" [ref=e40] [cursor=pointer]
+        - button "保存" [ref=e42] [cursor=pointer]
+    - generic [ref=e44]:
+      - region "试卷编辑区域" [ref=e45]:
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - checkbox "全选习题" [ref=e49]
+            - strong [ref=e52]:
+              - text: 共
+              - emphasis [ref=e53]: "40"
+              - text: 题，满分 140 分
+            - generic [ref=e54]: （上限500题）
+          - generic [ref=e55]:
+            - button "导入习题" [ref=e56] [cursor=pointer]
+            - button "添加习题" [ref=e62] [cursor=pointer]
+        - generic [ref=e66]:
+          - article "第 1 题 单选题" [ref=e67]:
+            - generic [ref=e68]:
+              - checkbox "选择第 1 题" [ref=e70]
+              - generic [ref=e73]:
+                - heading "1. 单选题" [level=2] [ref=e74]
+                - generic [ref=e75]: 2级
+                - generic [ref=e78]: 应用
+                - generic [ref=e81]: 惯性与牛顿第一定律
+              - generic:
+                - button "移动到"
+                - button "上移第 1 题" [disabled]
+                - button "下移第 1 题"
+                - button "删除第 1 题"
+            - generic [ref=e84]:
+              - paragraph [ref=e85]: 在城市日常出行中，公交车是很多人首选的公共交通工具。早高峰时段，一辆满载乘客的公交车平稳行驶在城市主干道上，遇到路口红灯时驾驶员缓慢踩下刹车，车内站立的乘客身体会不由自主地向前倾斜；为了规避急刹、急加速带来的安全隐患，公交公司也一直提醒乘客抓好扶手、坐稳扶好。结合上述整段乘车场景与基础物理常识，下列四个选项里，属于人们主动利用惯性来实现特定目的的行为是哪一项？
+              - list [ref=e86]:
+                - listitem [ref=e87]:
+                  - generic [ref=e88]: A
+                  - generic [ref=e89]: 公交车急刹车时乘客身体向前倾倒
+                - listitem [ref=e90]:
+                  - generic [ref=e91]: B
+                  - generic [ref=e92]: 短跑运动员在冲刺终点前会提前松开发力的手脚，依靠身体继续向前冲过终点线
+                - listitem [ref=e93]:
+                  - generic [ref=e94]: C
+                  - generic [ref=e95]: 车辆转弯时乘客身体向外侧晃动
+                - listitem [ref=e96]:
+                  - generic [ref=e97]: D
+                  - generic [ref=e98]: 乘车时全程抓好扶手，防止身体倾倒摔倒
+              - generic [ref=e99]:
+                - paragraph [ref=e100]:
+                  - strong [ref=e101]: 正确答案
+                  - generic [ref=e102]: B
+                - group [ref=e103]:
+                  - generic "答案解析" [ref=e104] [cursor=pointer]
+              - generic [ref=e106]:
+                - generic [ref=e107]: 本题分值
+                - spinbutton "第 1 题分值" [ref=e111]: "2"
+                - generic [ref=e112]: 分
+          - article "第 2 题 材料题" [ref=e113]:
+            - generic [ref=e114]:
+              - checkbox "选择第 2 题" [ref=e116]
+              - generic [ref=e119]:
+                - heading "2. 材料题" [level=2] [ref=e120]
+                - generic [ref=e121]: 4级
+                - generic [ref=e124]: 应用
+                - generic [ref=e127]: 电阻分压与负载效应
+              - generic:
+                - button "移动到"
+                - button "上移第 2 题"
+                - button "下移第 2 题"
+                - button "删除第 2 题"
+            - generic [ref=e130]:
+              - paragraph [ref=e131]: 阅读材料，回答下列问题
+              - paragraph [ref=e132]: 某实验小组设计了一个用于研究电阻分压的电路。实验中使用理想直流电源、电阻箱、电压表和开关，电源电压保持 12 V 不变。电阻 R₁ = 10 Ω，电阻 R₂ = 20 Ω，二者串联后接入电源。实验人员首先测量 R₂ 两端的电压，随后将一个阻值为 20 Ω 的负载电阻与 R₂ 并联，再次记录电压表读数。为保证测量结果具有可比性，两次实验使用同一电源，并忽略导线与开关的电阻。请根据上述实验过程，结合串并联电路的基本规律回答问题，并说明接入负载后测量结果发生变化的原因。
+              - generic [ref=e133]:
+                - paragraph [ref=e134]: （1）根据材料中的已知条件，写出分析所需的电路关系式。
+                - paragraph [ref=e135]: （2）给出计算过程，并说明结果的物理意义。
+              - generic [ref=e136]:
+                - paragraph [ref=e137]:
+                  - strong [ref=e138]: 正确答案
+                  - generic [ref=e139]: 结合材料列出关系式，并写出完整计算过程。
+                - group [ref=e140]:
+                  - generic "答案解析" [ref=e141] [cursor=pointer]
+              - generic [ref=e143]:
+                - generic [ref=e144]: 本题分值
+                - spinbutton "第 2 题分值" [ref=e148]: "6"
+                - generic [ref=e149]: 分
+                - generic [ref=e150]: 含 2 道小题 · 整体移动
+          - article "第 3 题 单选题" [ref=e151]:
+            - generic [ref=e152]:
+              - checkbox "选择第 3 题" [ref=e154]
+              - generic [ref=e157]:
+                - heading "3. 单选题" [level=2] [ref=e158]
+                - generic [ref=e159]: 3级
+                - generic [ref=e162]: 应用
+                - generic [ref=e165]: 欧姆定律
+              - generic:
+                - button "移动到"
+                - button "上移第 3 题"
+                - button "下移第 3 题"
+                - button "删除第 3 题"
+            - generic [ref=e168]:
+              - paragraph [ref=e169]: 一个 10 Ω 的电阻两端加上 5 V 的电压，通过该电阻的电流为多少？
+              - list [ref=e170]:
+                - listitem [ref=e171]:
+                  - generic [ref=e172]: A
+                  - generic [ref=e173]: 0.2 A
+                - listitem [ref=e174]:
+                  - generic [ref=e175]: B
+                  - generic [ref=e176]: 0.5 A
+                - listitem [ref=e177]:
+                  - generic [ref=e178]: C
+                  - generic [ref=e179]: 2 A
+                - listitem [ref=e180]:
+                  - generic [ref=e181]: D
+                  - generic [ref=e182]: 50 A
+              - generic [ref=e183]:
+                - paragraph [ref=e184]:
+                  - strong [ref=e185]: 正确答案
+                  - generic [ref=e186]: B
+                - group [ref=e187]:
+                  - generic "答案解析" [ref=e188] [cursor=pointer]
+              - generic [ref=e190]:
+                - generic [ref=e191]: 本题分值
+                - spinbutton "第 3 题分值" [ref=e195]: "2"
+                - generic [ref=e196]: 分
+          - article "第 4 题 多选题" [ref=e197]:
+            - generic [ref=e198]:
+              - checkbox "选择第 4 题" [ref=e200]
+              - generic [ref=e203]:
+                - heading "4. 多选题" [level=2] [ref=e204]
+                - generic [ref=e205]: 2级
+                - generic [ref=e208]: 应用
+                - generic [ref=e211]: 基尔霍夫定律
+              - generic:
+                - button "移动到"
+                - button "上移第 4 题"
+                - button "下移第 4 题"
+                - button "删除第 4 题"
+            - generic [ref=e214]:
+              - paragraph [ref=e215]: 关于基尔霍夫定律，下列说法正确的是哪些？
+              - list [ref=e216]:
+                - listitem [ref=e217]:
+                  - generic [ref=e218]: A
+                  - generic [ref=e219]: KCL 反映电荷守恒
+                - listitem [ref=e220]:
+                  - generic [ref=e221]: B
+                  - generic [ref=e222]: KVL 反映电路中的电压约束
+                - listitem [ref=e223]:
+                  - generic [ref=e224]: C
+                  - generic [ref=e225]: KCL 只适用于串联电路
+                - listitem [ref=e226]:
+                  - generic [ref=e227]: D
+                  - generic [ref=e228]: 列方程前需选定参考方向
+              - generic [ref=e229]:
+                - paragraph [ref=e230]:
+                  - strong [ref=e231]: 正确答案
+                  - generic [ref=e232]: A、B、D
+                - group [ref=e233]:
+                  - generic "答案解析" [ref=e234] [cursor=pointer]
+              - generic [ref=e236]:
+                - generic [ref=e237]: 本题分值
+                - spinbutton "第 4 题分值" [ref=e241]: "4"
+                - generic [ref=e242]: 分
+          - article "第 5 题 主观题" [ref=e243]:
+            - generic [ref=e244]:
+              - checkbox "选择第 5 题" [ref=e246]
+              - generic [ref=e249]:
+                - heading "5. 主观题" [level=2] [ref=e250]
+                - generic [ref=e251]: 3级
+                - generic [ref=e254]: 应用
+                - generic [ref=e257]: 参考方向
+              - generic:
+                - button "移动到"
+                - button "上移第 5 题"
+                - button "下移第 5 题"
+                - button "删除第 5 题"
+            - generic [ref=e260]:
+              - paragraph [ref=e261]: 试说明电压、电流参考方向的含义。采用关联参考方向时，如何通过功率的正负判断元件吸收或发出能量？
+              - generic [ref=e262]:
+                - paragraph [ref=e263]:
+                  - strong [ref=e264]: 正确答案
+                  - generic [ref=e265]: 按关键概念、分析过程和计算结果分别给分。
+                - group [ref=e266]:
+                  - generic "答案解析" [ref=e267] [cursor=pointer]
+              - generic [ref=e269]:
+                - generic [ref=e270]: 本题分值
+                - spinbutton "第 5 题分值" [ref=e274]: "5"
+                - generic [ref=e275]: 分
+          - article "第 6 题 单选题" [ref=e276]:
+            - generic [ref=e277]:
+              - checkbox "选择第 6 题" [ref=e279]
+              - generic [ref=e282]:
+                - heading "6. 单选题" [level=2] [ref=e283]
+                - generic [ref=e284]: 4级
+                - generic [ref=e287]: 应用
+                - generic [ref=e290]: 电阻的串联
+              - generic:
+                - button "移动到"
+                - button "上移第 6 题"
+                - button "下移第 6 题"
+                - button "删除第 6 题"
+            - generic [ref=e293]:
+              - paragraph [ref=e294]: 两个阻值分别为 3 Ω 和 6 Ω 的电阻串联，等效电阻是多少？
+              - list [ref=e295]:
+                - listitem [ref=e296]:
+                  - generic [ref=e297]: A
+                  - generic [ref=e298]: 2 Ω
+                - listitem [ref=e299]:
+                  - generic [ref=e300]: B
+                  - generic [ref=e301]: 3 Ω
+                - listitem [ref=e302]:
+                  - generic [ref=e303]: C
+                  - generic [ref=e304]: 6 Ω
+                - listitem [ref=e305]:
+                  - generic [ref=e306]: D
+                  - generic [ref=e307]: 9 Ω
+              - generic [ref=e308]:
+                - paragraph [ref=e309]:
+                  - strong [ref=e310]: 正确答案
+                  - generic [ref=e311]: D
+                - group [ref=e312]:
+                  - generic "答案解析" [ref=e313] [cursor=pointer]
+              - generic [ref=e315]:
+                - generic [ref=e316]: 本题分值
+                - spinbutton "第 6 题分值" [ref=e320]: "2"
+                - generic [ref=e321]: 分
+          - article "第 7 题 单选题" [ref=e322]:
+            - generic [ref=e323]:
+              - checkbox "选择第 7 题" [ref=e325]
+              - generic [ref=e328]:
+                - heading "7. 单选题" [level=2] [ref=e329]
+                - generic [ref=e330]: 2级
+                - generic [ref=e333]: 应用
+                - generic [ref=e336]: 并联电路
+              - generic:
+                - button "移动到"
+                - button "上移第 7 题"
+                - button "下移第 7 题"
+                - button "删除第 7 题"
+            - generic [ref=e339]:
+              - paragraph [ref=e340]: 在并联电路中，各支路两端的电压满足怎样的关系？
+              - list [ref=e341]:
+                - listitem [ref=e342]:
+                  - generic [ref=e343]: A
+                  - generic [ref=e344]: 各支路电压相等
+                - listitem [ref=e345]:
+                  - generic [ref=e346]: B
+                  - generic [ref=e347]: 电阻大的支路电压大
+                - listitem [ref=e348]:
+                  - generic [ref=e349]: C
+                  - generic [ref=e350]: 电流大的支路电压大
+                - listitem [ref=e351]:
+                  - generic [ref=e352]: D
+                  - generic [ref=e353]: 各支路电压之和等于电源电压
+              - generic [ref=e354]:
+                - paragraph [ref=e355]:
+                  - strong [ref=e356]: 正确答案
+                  - generic [ref=e357]: A
+                - group [ref=e358]:
+                  - generic "答案解析" [ref=e359] [cursor=pointer]
+              - generic [ref=e361]:
+                - generic [ref=e362]: 本题分值
+                - spinbutton "第 7 题分值" [ref=e366]: "2"
+                - generic [ref=e367]: 分
+          - article "第 8 题 单选题" [ref=e368]:
+            - generic [ref=e369]:
+              - checkbox "选择第 8 题" [ref=e371]
+              - generic [ref=e374]:
+                - heading "8. 单选题" [level=2] [ref=e375]
+                - generic [ref=e376]: 3级
+                - generic [ref=e379]: 应用
+                - generic [ref=e382]: 电功率
+              - generic:
+                - button "移动到"
+                - button "上移第 8 题"
+                - button "下移第 8 题"
+                - button "删除第 8 题"
+            - generic [ref=e385]:
+              - paragraph [ref=e386]: 某用电器两端电压为 12 V，通过的电流为 2 A，其消耗的电功率为多少？
+              - list [ref=e387]:
+                - listitem [ref=e388]:
+                  - generic [ref=e389]: A
+                  - generic [ref=e390]: 6 W
+                - listitem [ref=e391]:
+                  - generic [ref=e392]: B
+                  - generic [ref=e393]: 14 W
+                - listitem [ref=e394]:
+                  - generic [ref=e395]: C
+                  - generic [ref=e396]: 24 W
+                - listitem [ref=e397]:
+                  - generic [ref=e398]: D
+                  - generic [ref=e399]: 144 W
+              - generic [ref=e400]:
+                - paragraph [ref=e401]:
+                  - strong [ref=e402]: 正确答案
+                  - generic [ref=e403]: C
+                - group [ref=e404]:
+                  - generic "答案解析" [ref=e405] [cursor=pointer]
+              - generic [ref=e407]:
+                - generic [ref=e408]: 本题分值
+                - spinbutton "第 8 题分值" [ref=e412]: "2"
+                - generic [ref=e413]: 分
+          - article "第 9 题 单选题" [ref=e414]:
+            - generic [ref=e415]:
+              - checkbox "选择第 9 题" [ref=e417]
+              - generic [ref=e420]:
+                - heading "9. 单选题" [level=2] [ref=e421]
+                - generic [ref=e422]: 4级
+                - generic [ref=e425]: 应用
+                - generic [ref=e428]: 电路测量
+              - generic:
+                - button "移动到"
+                - button "上移第 9 题"
+                - button "下移第 9 题"
+                - button "删除第 9 题"
+            - generic [ref=e431]:
+              - paragraph [ref=e432]: 理想电压表接入被测电路时，应采用下列哪种连接方式？
+              - list [ref=e433]:
+                - listitem [ref=e434]:
+                  - generic [ref=e435]: A
+                  - generic [ref=e436]: 与被测元件串联
+                - listitem [ref=e437]:
+                  - generic [ref=e438]: B
+                  - generic [ref=e439]: 与被测元件并联
+                - listitem [ref=e440]:
+                  - generic [ref=e441]: C
+                  - generic [ref=e442]: 直接短接电源
+                - listitem [ref=e443]:
+                  - generic [ref=e444]: D
+                  - generic [ref=e445]: 与电流表串联后接地
+              - generic [ref=e446]:
+                - paragraph [ref=e447]:
+                  - strong [ref=e448]: 正确答案
+                  - generic [ref=e449]: B
+                - group [ref=e450]:
+                  - generic "答案解析" [ref=e451] [cursor=pointer]
+              - generic [ref=e453]:
+                - generic [ref=e454]: 本题分值
+                - spinbutton "第 9 题分值" [ref=e458]: "2"
+                - generic [ref=e459]: 分
+          - article "第 10 题 单选题" [ref=e460]:
+            - generic [ref=e461]:
+              - checkbox "选择第 10 题" [ref=e463]
+              - generic [ref=e466]:
+                - heading "10. 单选题" [level=2] [ref=e467]
+                - generic [ref=e468]: 2级
+                - generic [ref=e471]: 应用
+                - generic [ref=e474]: 电容
+              - generic:
+                - button "移动到"
+                - button "上移第 10 题"
+                - button "下移第 10 题"
+                - button "删除第 10 题"
+            - generic [ref=e477]:
+              - paragraph [ref=e478]: 一个 2 μF 的电容器两端电压为 10 V，其储存的电荷量为多少？
+              - list [ref=e479]:
+                - listitem [ref=e480]:
+                  - generic [ref=e481]: A
+                  - generic [ref=e482]: 0.2 μC
+                - listitem [ref=e483]:
+                  - generic [ref=e484]: B
+                  - generic [ref=e485]: 5 μC
+                - listitem [ref=e486]:
+                  - generic [ref=e487]: C
+                  - generic [ref=e488]: 20 μC
+                - listitem [ref=e489]:
+                  - generic [ref=e490]: D
+                  - generic [ref=e491]: 200 μC
+              - generic [ref=e492]:
+                - paragraph [ref=e493]:
+                  - strong [ref=e494]: 正确答案
+                  - generic [ref=e495]: C
+                - group [ref=e496]:
+                  - generic "答案解析" [ref=e497] [cursor=pointer]
+              - generic [ref=e499]:
+                - generic [ref=e500]: 本题分值
+                - spinbutton "第 10 题分值" [ref=e504]: "2"
+                - generic [ref=e505]: 分
+          - article "第 11 题 单选题" [ref=e506]:
+            - generic [ref=e507]:
+              - checkbox "选择第 11 题" [ref=e509]
+              - generic [ref=e512]:
+                - heading "11. 单选题" [level=2] [ref=e513]
+                - generic [ref=e514]: 3级
+                - generic [ref=e517]: 应用
+                - generic [ref=e520]: 正弦交流电
+              - generic:
+                - button "移动到"
+                - button "上移第 11 题"
+                - button "下移第 11 题"
+                - button "删除第 11 题"
+            - generic [ref=e523]:
+              - paragraph [ref=e524]: 已知正弦交流电的频率为 50 Hz，它的周期为多少？
+              - list [ref=e525]:
+                - listitem [ref=e526]:
+                  - generic [ref=e527]: A
+                  - generic [ref=e528]: 0.01 s
+                - listitem [ref=e529]:
+                  - generic [ref=e530]: B
+                  - generic [ref=e531]: 0.02 s
+                - listitem [ref=e532]:
+                  - generic [ref=e533]: C
+                  - generic [ref=e534]: 0.05 s
+                - listitem [ref=e535]:
+                  - generic [ref=e536]: D
+                  - generic [ref=e537]: 0.1 s
+              - generic [ref=e538]:
+                - paragraph [ref=e539]:
+                  - strong [ref=e540]: 正确答案
+                  - generic [ref=e541]: B
+                - group [ref=e542]:
+                  - generic "答案解析" [ref=e543] [cursor=pointer]
+              - generic [ref=e545]:
+                - generic [ref=e546]: 本题分值
+                - spinbutton "第 11 题分值" [ref=e550]: "2"
+                - generic [ref=e551]: 分
+          - article "第 12 题 单选题" [ref=e552]:
+            - generic [ref=e553]:
+              - checkbox "选择第 12 题" [ref=e555]
+              - generic [ref=e558]:
+                - heading "12. 单选题" [level=2] [ref=e559]
+                - generic [ref=e560]: 4级
+                - generic [ref=e563]: 应用
+                - generic [ref=e566]: 电感
+              - generic:
+                - button "移动到"
+                - button "上移第 12 题"
+                - button "下移第 12 题"
+                - button "删除第 12 题"
+            - generic [ref=e569]:
+              - paragraph [ref=e570]: 理想电感元件在直流稳态电路中可等效为什么？
+              - list [ref=e571]:
+                - listitem [ref=e572]:
+                  - generic [ref=e573]: A
+                  - generic [ref=e574]: 开路
+                - listitem [ref=e575]:
+                  - generic [ref=e576]: B
+                  - generic [ref=e577]: 短路
+                - listitem [ref=e578]:
+                  - generic [ref=e579]: C
+                  - generic [ref=e580]: 恒压源
+                - listitem [ref=e581]:
+                  - generic [ref=e582]: D
+                  - generic [ref=e583]: 恒流源
+              - generic [ref=e584]:
+                - paragraph [ref=e585]:
+                  - strong [ref=e586]: 正确答案
+                  - generic [ref=e587]: B
+                - group [ref=e588]:
+                  - generic "答案解析" [ref=e589] [cursor=pointer]
+              - generic [ref=e591]:
+                - generic [ref=e592]: 本题分值
+                - spinbutton "第 12 题分值" [ref=e596]: "2"
+                - generic [ref=e597]: 分
+          - article "第 13 题 单选题" [ref=e598]:
+            - generic [ref=e599]:
+              - checkbox "选择第 13 题" [ref=e601]
+              - generic [ref=e604]:
+                - heading "13. 单选题" [level=2] [ref=e605]
+                - generic [ref=e606]: 2级
+                - generic [ref=e609]: 应用
+                - generic [ref=e612]: 直流稳态
+              - generic:
+                - button "移动到"
+                - button "上移第 13 题"
+                - button "下移第 13 题"
+                - button "删除第 13 题"
+            - generic [ref=e615]:
+              - paragraph [ref=e616]: 理想电容元件在直流稳态电路中可等效为什么？
+              - list [ref=e617]:
+                - listitem [ref=e618]:
+                  - generic [ref=e619]: A
+                  - generic [ref=e620]: 短路
+                - listitem [ref=e621]:
+                  - generic [ref=e622]: B
+                  - generic [ref=e623]: 导线
+                - listitem [ref=e624]:
+                  - generic [ref=e625]: C
+                  - generic [ref=e626]: 开路
+                - listitem [ref=e627]:
+                  - generic [ref=e628]: D
+                  - generic [ref=e629]: 电阻
+              - generic [ref=e630]:
+                - paragraph [ref=e631]:
+                  - strong [ref=e632]: 正确答案
+                  - generic [ref=e633]: C
+                - group [ref=e634]:
+                  - generic "答案解析" [ref=e635] [cursor=pointer]
+              - generic [ref=e637]:
+                - generic [ref=e638]: 本题分值
+                - spinbutton "第 13 题分值" [ref=e642]: "2"
+                - generic [ref=e643]: 分
+          - article "第 14 题 单选题" [ref=e644]:
+            - generic [ref=e645]:
+              - checkbox "选择第 14 题" [ref=e647]
+              - generic [ref=e650]:
+                - heading "14. 单选题" [level=2] [ref=e651]
+                - generic [ref=e652]: 3级
+                - generic [ref=e655]: 应用
+                - generic [ref=e658]: 基尔霍夫电流定律
+              - generic:
+                - button "移动到"
+                - button "上移第 14 题"
+                - button "下移第 14 题"
+                - button "删除第 14 题"
+            - generic [ref=e661]:
+              - paragraph [ref=e662]: 某节点流入电流分别为 2 A、3 A，只有一条流出支路，该支路电流是多少？
+              - list [ref=e663]:
+                - listitem [ref=e664]:
+                  - generic [ref=e665]: A
+                  - generic [ref=e666]: 1 A
+                - listitem [ref=e667]:
+                  - generic [ref=e668]: B
+                  - generic [ref=e669]: 2 A
+                - listitem [ref=e670]:
+                  - generic [ref=e671]: C
+                  - generic [ref=e672]: 3 A
+                - listitem [ref=e673]:
+                  - generic [ref=e674]: D
+                  - generic [ref=e675]: 5 A
+              - generic [ref=e676]:
+                - paragraph [ref=e677]:
+                  - strong [ref=e678]: 正确答案
+                  - generic [ref=e679]: D
+                - group [ref=e680]:
+                  - generic "答案解析" [ref=e681] [cursor=pointer]
+              - generic [ref=e683]:
+                - generic [ref=e684]: 本题分值
+                - spinbutton "第 14 题分值" [ref=e688]: "2"
+                - generic [ref=e689]: 分
+          - article "第 15 题 单选题" [ref=e690]:
+            - generic [ref=e691]:
+              - checkbox "选择第 15 题" [ref=e693]
+              - generic [ref=e696]:
+                - heading "15. 单选题" [level=2] [ref=e697]
+                - generic [ref=e698]: 4级
+                - generic [ref=e701]: 应用
+                - generic [ref=e704]: 参考方向
+              - generic:
+                - button "移动到"
+                - button "上移第 15 题"
+                - button "下移第 15 题"
+                - button "删除第 15 题"
+            - generic [ref=e707]:
+              - paragraph [ref=e708]: 电阻元件的电压与电流采用关联参考方向时，功率 p = ui 为正，表示什么？
+              - list [ref=e709]:
+                - listitem [ref=e710]:
+                  - generic [ref=e711]: A
+                  - generic [ref=e712]: 元件吸收功率
+                - listitem [ref=e713]:
+                  - generic [ref=e714]: B
+                  - generic [ref=e715]: 元件发出功率
+                - listitem [ref=e716]:
+                  - generic [ref=e717]: C
+                  - generic [ref=e718]: 元件没有能量交换
+                - listitem [ref=e719]:
+                  - generic [ref=e720]: D
+                  - generic [ref=e721]: 电路处于谐振
+              - generic [ref=e722]:
+                - paragraph [ref=e723]:
+                  - strong [ref=e724]: 正确答案
+                  - generic [ref=e725]: A
+                - group [ref=e726]:
+                  - generic "答案解析" [ref=e727] [cursor=pointer]
+              - generic [ref=e729]:
+                - generic [ref=e730]: 本题分值
+                - spinbutton "第 15 题分值" [ref=e734]: "2"
+                - generic [ref=e735]: 分
+          - article "第 16 题 单选题" [ref=e736]:
+            - generic [ref=e737]:
+              - checkbox "选择第 16 题" [ref=e739]
+              - generic [ref=e742]:
+                - heading "16. 单选题" [level=2] [ref=e743]
+                - generic [ref=e744]: 2级
+                - generic [ref=e747]: 应用
+                - generic [ref=e750]: 电阻的并联
+              - generic:
+                - button "移动到"
+                - button "上移第 16 题"
+                - button "下移第 16 题"
+                - button "删除第 16 题"
+            - generic [ref=e753]:
+              - paragraph [ref=e754]: 两个 6 Ω 电阻并联，等效电阻是多少？
+              - list [ref=e755]:
+                - listitem [ref=e756]:
+                  - generic [ref=e757]: A
+                  - generic [ref=e758]: 3 Ω
+                - listitem [ref=e759]:
+                  - generic [ref=e760]: B
+                  - generic [ref=e761]: 6 Ω
+                - listitem [ref=e762]:
+                  - generic [ref=e763]: C
+                  - generic [ref=e764]: 9 Ω
+                - listitem [ref=e765]:
+                  - generic [ref=e766]: D
+                  - generic [ref=e767]: 12 Ω
+              - generic [ref=e768]:
+                - paragraph [ref=e769]:
+                  - strong [ref=e770]: 正确答案
+                  - generic [ref=e771]: A
+                - group [ref=e772]:
+                  - generic "答案解析" [ref=e773] [cursor=pointer]
+              - generic [ref=e775]:
+                - generic [ref=e776]: 本题分值
+                - spinbutton "第 16 题分值" [ref=e780]: "2"
+                - generic [ref=e781]: 分
+          - article "第 17 题 单选题" [ref=e782]:
+            - generic [ref=e783]:
+              - checkbox "选择第 17 题" [ref=e785]
+              - generic [ref=e788]:
+                - heading "17. 单选题" [level=2] [ref=e789]
+                - generic [ref=e790]: 3级
+                - generic [ref=e793]: 应用
+                - generic [ref=e796]: 电功率
+              - generic:
+                - button "移动到"
+                - button "上移第 17 题"
+                - button "下移第 17 题"
+                - button "删除第 17 题"
+            - generic [ref=e799]:
+              - paragraph [ref=e800]: 一个电阻的阻值不变，当两端电压增大为原来的 2 倍时，其功率变为原来的多少倍？
+              - list [ref=e801]:
+                - listitem [ref=e802]:
+                  - generic [ref=e803]: A
+                  - generic [ref=e804]: 1 倍
+                - listitem [ref=e805]:
+                  - generic [ref=e806]: B
+                  - generic [ref=e807]: 2 倍
+                - listitem [ref=e808]:
+                  - generic [ref=e809]: C
+                  - generic [ref=e810]: 4 倍
+                - listitem [ref=e811]:
+                  - generic [ref=e812]: D
+                  - generic [ref=e813]: 8 倍
+              - generic [ref=e814]:
+                - paragraph [ref=e815]:
+                  - strong [ref=e816]: 正确答案
+                  - generic [ref=e817]: C
+                - group [ref=e818]:
+                  - generic "答案解析" [ref=e819] [cursor=pointer]
+              - generic [ref=e821]:
+                - generic [ref=e822]: 本题分值
+                - spinbutton "第 17 题分值" [ref=e826]: "2"
+                - generic [ref=e827]: 分
+          - article "第 18 题 单选题" [ref=e828]:
+            - generic [ref=e829]:
+              - checkbox "选择第 18 题" [ref=e831]
+              - generic [ref=e834]:
+                - heading "18. 单选题" [level=2] [ref=e835]
+                - generic [ref=e836]: 4级
+                - generic [ref=e839]: 应用
+                - generic [ref=e842]: 焦耳定律
+              - generic:
+                - button "移动到"
+                - button "上移第 18 题"
+                - button "下移第 18 题"
+                - button "删除第 18 题"
+            - generic [ref=e845]:
+              - paragraph [ref=e846]: 一只电阻在 2 A 电流下消耗 20 W 功率，电阻值是多少？
+              - list [ref=e847]:
+                - listitem [ref=e848]:
+                  - generic [ref=e849]: A
+                  - generic [ref=e850]: 2 Ω
+                - listitem [ref=e851]:
+                  - generic [ref=e852]: B
+                  - generic [ref=e853]: 5 Ω
+                - listitem [ref=e854]:
+                  - generic [ref=e855]: C
+                  - generic [ref=e856]: 10 Ω
+                - listitem [ref=e857]:
+                  - generic [ref=e858]: D
+                  - generic [ref=e859]: 40 Ω
+              - generic [ref=e860]:
+                - paragraph [ref=e861]:
+                  - strong [ref=e862]: 正确答案
+                  - generic [ref=e863]: B
+                - group [ref=e864]:
+                  - generic "答案解析" [ref=e865] [cursor=pointer]
+              - generic [ref=e867]:
+                - generic [ref=e868]: 本题分值
+                - spinbutton "第 18 题分值" [ref=e872]: "2"
+                - generic [ref=e873]: 分
+          - article "第 19 题 单选题" [ref=e874]:
+            - generic [ref=e875]:
+              - checkbox "选择第 19 题" [ref=e877]
+              - generic [ref=e880]:
+                - heading "19. 单选题" [level=2] [ref=e881]
+                - generic [ref=e882]: 2级
+                - generic [ref=e885]: 应用
+                - generic [ref=e888]: 理想变压器
+              - generic:
+                - button "移动到"
+                - button "上移第 19 题"
+                - button "下移第 19 题"
+                - button "删除第 19 题"
+            - generic [ref=e891]:
+              - paragraph [ref=e892]: 理想变压器原、副边匝数比为 2∶1，原边有效值为 220 V，副边电压有效值是多少？
+              - list [ref=e893]:
+                - listitem [ref=e894]:
+                  - generic [ref=e895]: A
+                  - generic [ref=e896]: 55 V
+                - listitem [ref=e897]:
+                  - generic [ref=e898]: B
+                  - generic [ref=e899]: 110 V
+                - listitem [ref=e900]:
+                  - generic [ref=e901]: C
+                  - generic [ref=e902]: 220 V
+                - listitem [ref=e903]:
+                  - generic [ref=e904]: D
+                  - generic [ref=e905]: 440 V
+              - generic [ref=e906]:
+                - paragraph [ref=e907]:
+                  - strong [ref=e908]: 正确答案
+                  - generic [ref=e909]: B
+                - group [ref=e910]:
+                  - generic "答案解析" [ref=e911] [cursor=pointer]
+              - generic [ref=e913]:
+                - generic [ref=e914]: 本题分值
+                - spinbutton "第 19 题分值" [ref=e918]: "2"
+                - generic [ref=e919]: 分
+          - article "第 20 题 单选题" [ref=e920]:
+            - generic [ref=e921]:
+              - checkbox "选择第 20 题" [ref=e923]
+              - generic [ref=e926]:
+                - heading "20. 单选题" [level=2] [ref=e927]
+                - generic [ref=e928]: 3级
+                - generic [ref=e931]: 应用
+                - generic [ref=e934]: 串联谐振
+              - generic:
+                - button "移动到"
+                - button "上移第 20 题"
+                - button "下移第 20 题"
+                - button "删除第 20 题"
+            - generic [ref=e937]:
+              - paragraph [ref=e938]: RLC 串联电路发生谐振时，电路的总阻抗表现为何种性质？
+              - list [ref=e939]:
+                - listitem [ref=e940]:
+                  - generic [ref=e941]: A
+                  - generic [ref=e942]: 纯电阻性
+                - listitem [ref=e943]:
+                  - generic [ref=e944]: B
+                  - generic [ref=e945]: 纯电感性
+                - listitem [ref=e946]:
+                  - generic [ref=e947]: C
+                  - generic [ref=e948]: 纯电容性
+                - listitem [ref=e949]:
+                  - generic [ref=e950]: D
+                  - generic [ref=e951]: 无限大
+              - generic [ref=e952]:
+                - paragraph [ref=e953]:
+                  - strong [ref=e954]: 正确答案
+                  - generic [ref=e955]: A
+                - group [ref=e956]:
+                  - generic "答案解析" [ref=e957] [cursor=pointer]
+              - generic [ref=e959]:
+                - generic [ref=e960]: 本题分值
+                - spinbutton "第 20 题分值" [ref=e964]: "2"
+                - generic [ref=e965]: 分
+          - article "第 21 题 单选题" [ref=e966]:
+            - generic [ref=e967]:
+              - checkbox "选择第 21 题" [ref=e969]
+              - generic [ref=e972]:
+                - heading "21. 单选题" [level=2] [ref=e973]
+                - generic [ref=e974]: 4级
+                - generic [ref=e977]: 应用
+                - generic [ref=e980]: 一阶电路
+              - generic:
+                - button "移动到"
+                - button "上移第 21 题"
+                - button "下移第 21 题"
+                - button "删除第 21 题"
+            - generic [ref=e983]:
+              - paragraph [ref=e984]: 电容为 C、串联电阻为 R 的一阶 RC 电路，其时间常数为多少？
+              - list [ref=e985]:
+                - listitem [ref=e986]:
+                  - generic [ref=e987]: A
+                  - generic [ref=e988]: R/C
+                - listitem [ref=e989]:
+                  - generic [ref=e990]: B
+                  - generic [ref=e991]: C/R
+                - listitem [ref=e992]:
+                  - generic [ref=e993]: C
+                  - generic [ref=e994]: RC
+                - listitem [ref=e995]:
+                  - generic [ref=e996]: D
+                  - generic [ref=e997]: 1/RC
+              - generic [ref=e998]:
+                - paragraph [ref=e999]:
+                  - strong [ref=e1000]: 正确答案
+                  - generic [ref=e1001]: C
+                - group [ref=e1002]:
+                  - generic "答案解析" [ref=e1003] [cursor=pointer]
+              - generic [ref=e1005]:
+                - generic [ref=e1006]: 本题分值
+                - spinbutton "第 21 题分值" [ref=e1010]: "2"
+                - generic [ref=e1011]: 分
+          - article "第 22 题 单选题" [ref=e1012]:
+            - generic [ref=e1013]:
+              - checkbox "选择第 22 题" [ref=e1015]
+              - generic [ref=e1018]:
+                - heading "22. 单选题" [level=2] [ref=e1019]
+                - generic [ref=e1020]: 2级
+                - generic [ref=e1023]: 应用
+                - generic [ref=e1026]: 叠加定理
+              - generic:
+                - button "移动到"
+                - button "上移第 22 题"
+                - button "下移第 22 题"
+                - button "删除第 22 题"
+            - generic [ref=e1029]:
+              - paragraph [ref=e1030]: 叠加定理可以直接用于计算线性电路中的哪个量？
+              - list [ref=e1031]:
+                - listitem [ref=e1032]:
+                  - generic [ref=e1033]: A
+                  - generic [ref=e1034]: 电阻消耗的功率
+                - listitem [ref=e1035]:
+                  - generic [ref=e1036]: B
+                  - generic [ref=e1037]: 支路电流
+                - listitem [ref=e1038]:
+                  - generic [ref=e1039]: C
+                  - generic [ref=e1040]: 电阻的温升
+                - listitem [ref=e1041]:
+                  - generic [ref=e1042]: D
+                  - generic [ref=e1043]: 所有元件的非线性响应
+              - generic [ref=e1044]:
+                - paragraph [ref=e1045]:
+                  - strong [ref=e1046]: 正确答案
+                  - generic [ref=e1047]: B
+                - group [ref=e1048]:
+                  - generic "答案解析" [ref=e1049] [cursor=pointer]
+              - generic [ref=e1051]:
+                - generic [ref=e1052]: 本题分值
+                - spinbutton "第 22 题分值" [ref=e1056]: "2"
+                - generic [ref=e1057]: 分
+          - article "第 23 题 单选题" [ref=e1058]:
+            - generic [ref=e1059]:
+              - checkbox "选择第 23 题" [ref=e1061]
+              - generic [ref=e1064]:
+                - heading "23. 单选题" [level=2] [ref=e1065]
+                - generic [ref=e1066]: 3级
+                - generic [ref=e1069]: 应用
+                - generic [ref=e1072]: 最大功率传输
+              - generic:
+                - button "移动到"
+                - button "上移第 23 题"
+                - button "下移第 23 题"
+                - button "删除第 23 题"
+            - generic [ref=e1075]:
+              - paragraph [ref=e1076]: 最大功率传输条件下，纯电阻负载的阻值与戴维南等效电阻之间满足什么关系？
+              - list [ref=e1077]:
+                - listitem [ref=e1078]:
+                  - generic [ref=e1079]: A
+                  - generic [ref=e1080]: 负载电阻等于等效电阻
+                - listitem [ref=e1081]:
+                  - generic [ref=e1082]: B
+                  - generic [ref=e1083]: 负载电阻为零
+                - listitem [ref=e1084]:
+                  - generic [ref=e1085]: C
+                  - generic [ref=e1086]: 负载电阻无限大
+                - listitem [ref=e1087]:
+                  - generic [ref=e1088]: D
+                  - generic [ref=e1089]: 负载电阻为等效电阻的两倍
+              - generic [ref=e1090]:
+                - paragraph [ref=e1091]:
+                  - strong [ref=e1092]: 正确答案
+                  - generic [ref=e1093]: A
+                - group [ref=e1094]:
+                  - generic "答案解析" [ref=e1095] [cursor=pointer]
+              - generic [ref=e1097]:
+                - generic [ref=e1098]: 本题分值
+                - spinbutton "第 23 题分值" [ref=e1102]: "2"
+                - generic [ref=e1103]: 分
+          - article "第 24 题 多选题" [ref=e1104]:
+            - generic [ref=e1105]:
+              - checkbox "选择第 24 题" [ref=e1107]
+              - generic [ref=e1110]:
+                - heading "24. 多选题" [level=2] [ref=e1111]
+                - generic [ref=e1112]: 3级
+                - generic [ref=e1115]: 应用
+                - generic [ref=e1118]: 储能元件
+              - generic:
+                - button "移动到"
+                - button "上移第 24 题"
+                - button "下移第 24 题"
+                - button "删除第 24 题"
+            - generic [ref=e1121]:
+              - paragraph [ref=e1122]: 下列哪些元件在理想模型下属于储能元件？
+              - list [ref=e1123]:
+                - listitem [ref=e1124]:
+                  - generic [ref=e1125]: A
+                  - generic [ref=e1126]: 电阻
+                - listitem [ref=e1127]:
+                  - generic [ref=e1128]: B
+                  - generic [ref=e1129]: 电容
+                - listitem [ref=e1130]:
+                  - generic [ref=e1131]: C
+                  - generic [ref=e1132]: 电感
+                - listitem [ref=e1133]:
+                  - generic [ref=e1134]: D
+                  - generic [ref=e1135]: 理想导线
+              - generic [ref=e1136]:
+                - paragraph [ref=e1137]:
+                  - strong [ref=e1138]: 正确答案
+                  - generic [ref=e1139]: B、C
+                - group [ref=e1140]:
+                  - generic "答案解析" [ref=e1141] [cursor=pointer]
+              - generic [ref=e1143]:
+                - generic [ref=e1144]: 本题分值
+                - spinbutton "第 24 题分值" [ref=e1148]: "4"
+                - generic [ref=e1149]: 分
+          - article "第 25 题 多选题" [ref=e1150]:
+            - generic [ref=e1151]:
+              - checkbox "选择第 25 题" [ref=e1153]
+              - generic [ref=e1156]:
+                - heading "25. 多选题" [level=2] [ref=e1157]
+                - generic [ref=e1158]: 4级
+                - generic [ref=e1161]: 应用
+                - generic [ref=e1164]: 叠加定理
+              - generic:
+                - button "移动到"
+                - button "上移第 25 题"
+                - button "下移第 25 题"
+                - button "删除第 25 题"
+            - generic [ref=e1167]:
+              - paragraph [ref=e1168]: 使用叠加定理分析线性电路时，下列操作正确的是哪些？
+              - list [ref=e1169]:
+                - listitem [ref=e1170]:
+                  - generic [ref=e1171]: A
+                  - generic [ref=e1172]: 独立电压源置零后短路
+                - listitem [ref=e1173]:
+                  - generic [ref=e1174]: B
+                  - generic [ref=e1175]: 独立电流源置零后开路
+                - listitem [ref=e1176]:
+                  - generic [ref=e1177]: C
+                  - generic [ref=e1178]: 受控源始终保留
+                - listitem [ref=e1179]:
+                  - generic [ref=e1180]: D
+                  - generic [ref=e1181]: 分别计算功率后直接相加
+              - generic [ref=e1182]:
+                - paragraph [ref=e1183]:
+                  - strong [ref=e1184]: 正确答案
+                  - generic [ref=e1185]: A、B、C
+                - group [ref=e1186]:
+                  - generic "答案解析" [ref=e1187] [cursor=pointer]
+              - generic [ref=e1189]:
+                - generic [ref=e1190]: 本题分值
+                - spinbutton "第 25 题分值" [ref=e1194]: "4"
+                - generic [ref=e1195]: 分
+          - article "第 26 题 多选题" [ref=e1196]:
+            - generic [ref=e1197]:
+              - checkbox "选择第 26 题" [ref=e1199]
+              - generic [ref=e1202]:
+                - heading "26. 多选题" [level=2] [ref=e1203]
+                - generic [ref=e1204]: 2级
+                - generic [ref=e1207]: 应用
+                - generic [ref=e1210]: 交流电有效值
+              - generic:
+                - button "移动到"
+                - button "上移第 26 题"
+                - button "下移第 26 题"
+                - button "删除第 26 题"
+            - generic [ref=e1213]:
+              - paragraph [ref=e1214]: 关于正弦交流电的有效值，下列说法正确的是哪些？
+              - list [ref=e1215]:
+                - listitem [ref=e1216]:
+                  - generic [ref=e1217]: A
+                  - generic [ref=e1218]: 有效值与热效应有关
+                - listitem [ref=e1219]:
+                  - generic [ref=e1220]: B
+                  - generic [ref=e1221]: 正弦电流有效值等于幅值除以根号 2
+                - listitem [ref=e1222]:
+                  - generic [ref=e1223]: C
+                  - generic [ref=e1224]: 有效值总等于瞬时值
+                - listitem [ref=e1225]:
+                  - generic [ref=e1226]: D
+                  - generic [ref=e1227]: 有效值可以用来计算电阻平均功率
+              - generic [ref=e1228]:
+                - paragraph [ref=e1229]:
+                  - strong [ref=e1230]: 正确答案
+                  - generic [ref=e1231]: A、B、D
+                - group [ref=e1232]:
+                  - generic "答案解析" [ref=e1233] [cursor=pointer]
+              - generic [ref=e1235]:
+                - generic [ref=e1236]: 本题分值
+                - spinbutton "第 26 题分值" [ref=e1240]: "4"
+                - generic [ref=e1241]: 分
+          - article "第 27 题 多选题" [ref=e1242]:
+            - generic [ref=e1243]:
+              - checkbox "选择第 27 题" [ref=e1245]
+              - generic [ref=e1248]:
+                - heading "27. 多选题" [level=2] [ref=e1249]
+                - generic [ref=e1250]: 3级
+                - generic [ref=e1253]: 应用
+                - generic [ref=e1256]: 谐振电路
+              - generic:
+                - button "移动到"
+                - button "上移第 27 题"
+                - button "下移第 27 题"
+                - button "删除第 27 题"
+            - generic [ref=e1259]:
+              - paragraph [ref=e1260]: 下列哪些措施能够改变串联 RLC 电路的谐振频率？
+              - list [ref=e1261]:
+                - listitem [ref=e1262]:
+                  - generic [ref=e1263]: A
+                  - generic [ref=e1264]: 改变电感 L
+                - listitem [ref=e1265]:
+                  - generic [ref=e1266]: B
+                  - generic [ref=e1267]: 改变电容 C
+                - listitem [ref=e1268]:
+                  - generic [ref=e1269]: C
+                  - generic [ref=e1270]: 只改变电源幅值
+                - listitem [ref=e1271]:
+                  - generic [ref=e1272]: D
+                  - generic [ref=e1273]: 只改变电阻 R
+              - generic [ref=e1274]:
+                - paragraph [ref=e1275]:
+                  - strong [ref=e1276]: 正确答案
+                  - generic [ref=e1277]: A、B
+                - group [ref=e1278]:
+                  - generic "答案解析" [ref=e1279] [cursor=pointer]
+              - generic [ref=e1281]:
+                - generic [ref=e1282]: 本题分值
+                - spinbutton "第 27 题分值" [ref=e1286]: "4"
+                - generic [ref=e1287]: 分
+          - article "第 28 题 主观题" [ref=e1288]:
+            - generic [ref=e1289]:
+              - checkbox "选择第 28 题" [ref=e1291]
+              - generic [ref=e1294]:
+                - heading "28. 主观题" [level=2] [ref=e1295]
+                - generic [ref=e1296]: 3级
+                - generic [ref=e1299]: 应用
+                - generic [ref=e1302]: 全电路欧姆定律
+              - generic:
+                - button "移动到"
+                - button "上移第 28 题"
+                - button "下移第 28 题"
+                - button "删除第 28 题"
+            - generic [ref=e1305]:
+              - paragraph [ref=e1306]: 电源电动势为 12 V，内阻为 1 Ω，外接 5 Ω 电阻。求回路电流、路端电压和电源内部消耗的功率，写出计算过程。
+              - generic [ref=e1307]:
+                - paragraph [ref=e1308]:
+                  - strong [ref=e1309]: 正确答案
+                  - generic [ref=e1310]: 按关键概念、分析过程和计算结果分别给分。
+                - group [ref=e1311]:
+                  - generic "答案解析" [ref=e1312] [cursor=pointer]
+              - generic [ref=e1314]:
+                - generic [ref=e1315]: 本题分值
+                - spinbutton "第 28 题分值" [ref=e1319]: "5"
+                - generic [ref=e1320]: 分
+          - article "第 29 题 主观题" [ref=e1321]:
+            - generic [ref=e1322]:
+              - checkbox "选择第 29 题" [ref=e1324]
+              - generic [ref=e1327]:
+                - heading "29. 主观题" [level=2] [ref=e1328]
+                - generic [ref=e1329]: 3级
+                - generic [ref=e1332]: 应用
+                - generic [ref=e1335]: 电阻的并联
+              - generic:
+                - button "移动到"
+                - button "上移第 29 题"
+                - button "下移第 29 题"
+                - button "删除第 29 题"
+            - generic [ref=e1338]:
+              - paragraph [ref=e1339]: 请推导两个电阻并联时的等效电阻公式，并解释为什么等效电阻小于任一支路电阻。
+              - generic [ref=e1340]:
+                - paragraph [ref=e1341]:
+                  - strong [ref=e1342]: 正确答案
+                  - generic [ref=e1343]: 按关键概念、分析过程和计算结果分别给分。
+                - group [ref=e1344]:
+                  - generic "答案解析" [ref=e1345] [cursor=pointer]
+              - generic [ref=e1347]:
+                - generic [ref=e1348]: 本题分值
+                - spinbutton "第 29 题分值" [ref=e1352]: "5"
+                - generic [ref=e1353]: 分
+          - article "第 30 题 主观题" [ref=e1354]:
+            - generic [ref=e1355]:
+              - checkbox "选择第 30 题" [ref=e1357]
+              - generic [ref=e1360]:
+                - heading "30. 主观题" [level=2] [ref=e1361]
+                - generic [ref=e1362]: 3级
+                - generic [ref=e1365]: 应用
+                - generic [ref=e1368]: 戴维南定理
+              - generic:
+                - button "移动到"
+                - button "上移第 30 题"
+                - button "下移第 30 题"
+                - button "删除第 30 题"
+            - generic [ref=e1371]:
+              - paragraph [ref=e1372]: 请用自己的语言说明戴维南定理，并列出求取等效电压源与等效电阻的基本步骤。
+              - generic [ref=e1373]:
+                - paragraph [ref=e1374]:
+                  - strong [ref=e1375]: 正确答案
+                  - generic [ref=e1376]: 按关键概念、分析过程和计算结果分别给分。
+                - group [ref=e1377]:
+                  - generic "答案解析" [ref=e1378] [cursor=pointer]
+              - generic [ref=e1380]:
+                - generic [ref=e1381]: 本题分值
+                - spinbutton "第 30 题分值" [ref=e1385]: "5"
+                - generic [ref=e1386]: 分
+          - article "第 31 题 主观题" [ref=e1387]:
+            - generic [ref=e1388]:
+              - checkbox "选择第 31 题" [ref=e1390]
+              - generic [ref=e1393]:
+                - heading "31. 主观题" [level=2] [ref=e1394]
+                - generic [ref=e1395]: 3级
+                - generic [ref=e1398]: 应用
+                - generic [ref=e1401]: 一阶 RC 电路
+              - generic:
+                - button "移动到"
+                - button "上移第 31 题"
+                - button "下移第 31 题"
+                - button "删除第 31 题"
+            - generic [ref=e1404]:
+              - paragraph [ref=e1405]: 一个初始电压为零的电容，经电阻与直流电源接通。请描述充电过程中电容电压与回路电流的变化规律。
+              - generic [ref=e1406]:
+                - paragraph [ref=e1407]:
+                  - strong [ref=e1408]: 正确答案
+                  - generic [ref=e1409]: 按关键概念、分析过程和计算结果分别给分。
+                - group [ref=e1410]:
+                  - generic "答案解析" [ref=e1411] [cursor=pointer]
+              - generic [ref=e1413]:
+                - generic [ref=e1414]: 本题分值
+                - spinbutton "第 31 题分值" [ref=e1418]: "5"
+                - generic [ref=e1419]: 分
+          - article "第 32 题 主观题" [ref=e1420]:
+            - generic [ref=e1421]:
+              - checkbox "选择第 32 题" [ref=e1423]
+              - generic [ref=e1426]:
+                - heading "32. 主观题" [level=2] [ref=e1427]
+                - generic [ref=e1428]: 3级
+                - generic [ref=e1431]: 应用
+                - generic [ref=e1434]: 动态元件
+              - generic:
+                - button "移动到"
+                - button "上移第 32 题"
+                - button "下移第 32 题"
+                - button "删除第 32 题"
+            - generic [ref=e1437]:
+              - paragraph [ref=e1438]: 比较电感与电容在直流稳态和正弦稳态下的特性，说明频率变化如何影响它们的阻抗。
+              - generic [ref=e1439]:
+                - paragraph [ref=e1440]:
+                  - strong [ref=e1441]: 正确答案
+                  - generic [ref=e1442]: 按关键概念、分析过程和计算结果分别给分。
+                - group [ref=e1443]:
+                  - generic "答案解析" [ref=e1444] [cursor=pointer]
+              - generic [ref=e1446]:
+                - generic [ref=e1447]: 本题分值
+                - spinbutton "第 32 题分值" [ref=e1451]: "5"
+                - generic [ref=e1452]: 分
+          - article "第 33 题 主观题" [ref=e1453]:
+            - generic [ref=e1454]:
+              - checkbox "选择第 33 题" [ref=e1456]
+              - generic [ref=e1459]:
+                - heading "33. 主观题" [level=2] [ref=e1460]
+                - generic [ref=e1461]: 3级
+                - generic [ref=e1464]: 应用
+                - generic [ref=e1467]: 交流功率
+              - generic:
+                - button "移动到"
+                - button "上移第 33 题"
+                - button "下移第 33 题"
+                - button "删除第 33 题"
+            - generic [ref=e1470]:
+              - paragraph [ref=e1471]: 请分别写出有功功率、无功功率和视在功率的定义，说明功率因数在工程中的意义。
+              - generic [ref=e1472]:
+                - paragraph [ref=e1473]:
+                  - strong [ref=e1474]: 正确答案
+                  - generic [ref=e1475]: 按关键概念、分析过程和计算结果分别给分。
+                - group [ref=e1476]:
+                  - generic "答案解析" [ref=e1477] [cursor=pointer]
+              - generic [ref=e1479]:
+                - generic [ref=e1480]: 本题分值
+                - spinbutton "第 33 题分值" [ref=e1484]: "5"
+                - generic [ref=e1485]: 分
+          - article "第 34 题 主观题" [ref=e1486]:
+            - generic [ref=e1487]:
+              - checkbox "选择第 34 题" [ref=e1489]
+              - generic [ref=e1492]:
+                - heading "34. 主观题" [level=2] [ref=e1493]
+                - generic [ref=e1494]: 3级
+                - generic [ref=e1497]: 应用
+                - generic [ref=e1500]: 电路测量
+              - generic:
+                - button "移动到"
+                - button "上移第 34 题"
+                - button "下移第 34 题"
+                - button "删除第 34 题"
+            - generic [ref=e1503]:
+              - paragraph [ref=e1504]: 为什么理想电流表的内阻应尽可能小、理想电压表的内阻应尽可能大？请从测量误差角度说明。
+              - generic [ref=e1505]:
+                - paragraph [ref=e1506]:
+                  - strong [ref=e1507]: 正确答案
+                  - generic [ref=e1508]: 按关键概念、分析过程和计算结果分别给分。
+                - group [ref=e1509]:
+                  - generic "答案解析" [ref=e1510] [cursor=pointer]
+              - generic [ref=e1512]:
+                - generic [ref=e1513]: 本题分值
+                - spinbutton "第 34 题分值" [ref=e1517]: "5"
+                - generic [ref=e1518]: 分
+          - article "第 35 题 主观题" [ref=e1519]:
+            - generic [ref=e1520]:
+              - checkbox "选择第 35 题" [ref=e1522]
+              - generic [ref=e1525]:
+                - heading "35. 主观题" [level=2] [ref=e1526]
+                - generic [ref=e1527]: 3级
+                - generic [ref=e1530]: 应用
+                - generic [ref=e1533]: 串联谐振
+              - generic:
+                - button "移动到"
+                - button "上移第 35 题"
+                - button "下移第 35 题"
+                - button "删除第 35 题"
+            - generic [ref=e1536]:
+              - paragraph [ref=e1537]: 试分析串联 RLC 电路谐振时电流与电源电压的相位关系，并说明电感、电容上的电压是否一定很小。
+              - generic [ref=e1538]:
+                - paragraph [ref=e1539]:
+                  - strong [ref=e1540]: 正确答案
+                  - generic [ref=e1541]: 按关键概念、分析过程和计算结果分别给分。
+                - group [ref=e1542]:
+                  - generic "答案解析" [ref=e1543] [cursor=pointer]
+              - generic [ref=e1545]:
+                - generic [ref=e1546]: 本题分值
+                - spinbutton "第 35 题分值" [ref=e1550]: "5"
+                - generic [ref=e1551]: 分
+          - article "第 36 题 主观题" [ref=e1552]:
+            - generic [ref=e1553]:
+              - checkbox "选择第 36 题" [ref=e1555]
+              - generic [ref=e1558]:
+                - heading "36. 主观题" [level=2] [ref=e1559]
+                - generic [ref=e1560]: 3级
+                - generic [ref=e1563]: 应用
+                - generic [ref=e1566]: 一阶电路响应
+              - generic:
+                - button "移动到"
+                - button "上移第 36 题"
+                - button "下移第 36 题"
+                - button "删除第 36 题"
+            - generic [ref=e1569]:
+              - paragraph [ref=e1570]: 简述一阶电路的零输入响应与零状态响应，并说明全响应与两者之间的关系。
+              - generic [ref=e1571]:
+                - paragraph [ref=e1572]:
+                  - strong [ref=e1573]: 正确答案
+                  - generic [ref=e1574]: 按关键概念、分析过程和计算结果分别给分。
+                - group [ref=e1575]:
+                  - generic "答案解析" [ref=e1576] [cursor=pointer]
+              - generic [ref=e1578]:
+                - generic [ref=e1579]: 本题分值
+                - spinbutton "第 36 题分值" [ref=e1583]: "5"
+                - generic [ref=e1584]: 分
+          - article "第 37 题 材料题" [ref=e1585]:
+            - generic [ref=e1586]:
+              - checkbox "选择第 37 题" [ref=e1588]
+              - generic [ref=e1591]:
+                - heading "37. 材料题" [level=2] [ref=e1592]
+                - generic [ref=e1593]: 4级
+                - generic [ref=e1596]: 应用
+                - generic [ref=e1599]: 并联电路与能耗
+              - generic:
+                - button "移动到"
+                - button "上移第 37 题"
+                - button "下移第 37 题"
+                - button "删除第 37 题"
+            - generic [ref=e1602]:
+              - paragraph [ref=e1603]: 阅读材料，回答下列问题
+              - paragraph [ref=e1604]: 某校园照明系统采用 24 V 直流供电。两组灯具等效电阻分别为 12 Ω 和 24 Ω，两支路并联接入电源。技术人员需要评估系统的总电流及日常运行能耗。假设电源理想、导线电阻忽略不计，两组灯具每天同时工作 5 小时。请先分别计算各支路电流，再求系统的总功率，并讨论若其中一个支路断开，另一个支路的工作状态是否会变化。所有计算应标明单位和使用的物理关系。
+              - generic [ref=e1605]:
+                - paragraph [ref=e1606]: （1）根据材料中的已知条件，写出分析所需的电路关系式。
+                - paragraph [ref=e1607]: （2）给出计算过程，并说明结果的物理意义。
+              - generic [ref=e1608]:
+                - paragraph [ref=e1609]:
+                  - strong [ref=e1610]: 正确答案
+                  - generic [ref=e1611]: 结合材料列出关系式，并写出完整计算过程。
+                - group [ref=e1612]:
+                  - generic "答案解析" [ref=e1613] [cursor=pointer]
+              - generic [ref=e1615]:
+                - generic [ref=e1616]: 本题分值
+                - spinbutton "第 37 题分值" [ref=e1620]: "6"
+                - generic [ref=e1621]: 分
+                - generic [ref=e1622]: 含 2 道小题 · 整体移动
+          - article "第 38 题 材料题" [ref=e1623]:
+            - generic [ref=e1624]:
+              - checkbox "选择第 38 题" [ref=e1626]
+              - generic [ref=e1629]:
+                - heading "38. 材料题" [level=2] [ref=e1630]
+                - generic [ref=e1631]: 4级
+                - generic [ref=e1634]: 应用
+                - generic [ref=e1637]: RC 充电响应
+              - generic:
+                - button "移动到"
+                - button "上移第 38 题"
+                - button "下移第 38 题"
+                - button "删除第 38 题"
+            - generic [ref=e1640]:
+              - paragraph [ref=e1641]: 阅读材料，回答下列问题
+              - paragraph [ref=e1642]: 实验室利用一阶 RC 电路模拟传感器的信号响应。电阻 R = 10 kΩ，电容 C = 100 μF，电容初始未充电。t = 0 时接入 5 V 理想直流电源。示波器记录电容电压从零逐渐上升的过程。请计算电路的时间常数，写出电容电压随时间变化的表达式，并估算电压达到稳态值约 63.2% 所需的时间。进一步解释若将电容增大一倍，响应速度将发生什么变化。
+              - generic [ref=e1643]:
+                - paragraph [ref=e1644]: （1）根据材料中的已知条件，写出分析所需的电路关系式。
+                - paragraph [ref=e1645]: （2）给出计算过程，并说明结果的物理意义。
+              - generic [ref=e1646]:
+                - paragraph [ref=e1647]:
+                  - strong [ref=e1648]: 正确答案
+                  - generic [ref=e1649]: 结合材料列出关系式，并写出完整计算过程。
+                - group [ref=e1650]:
+                  - generic "答案解析" [ref=e1651] [cursor=pointer]
+              - generic [ref=e1653]:
+                - generic [ref=e1654]: 本题分值
+                - spinbutton "第 38 题分值" [ref=e1658]: "6"
+                - generic [ref=e1659]: 分
+                - generic [ref=e1660]: 含 2 道小题 · 整体移动
+          - article "第 39 题 材料题" [ref=e1661]:
+            - generic [ref=e1662]:
+              - checkbox "选择第 39 题" [ref=e1664]
+              - generic [ref=e1667]:
+                - heading "39. 材料题" [level=2] [ref=e1668]
+                - generic [ref=e1669]: 4级
+                - generic [ref=e1672]: 应用
+                - generic [ref=e1675]: 功率因数补偿
+              - generic:
+                - button "移动到"
+                - button "上移第 39 题"
+                - button "下移第 39 题"
+                - button "删除第 39 题"
+            - generic [ref=e1678]:
+              - paragraph [ref=e1679]: 阅读材料，回答下列问题
+              - paragraph [ref=e1680]: 某设备可以等效为一个正弦交流负载，电源电压有效值为 220 V，电流有效值为 5 A，电流滞后于电压，功率因数为 0.8。工程师希望通过并联电容改善设备的功率因数。请先计算负载的有功功率、视在功率与无功功率，再说明并联电容能够降低电源输出电流的原因。分析时假设电源电压保持不变，负载自身的有功功率不变，暂不考虑电容与导线的损耗。
+              - generic [ref=e1681]:
+                - paragraph [ref=e1682]: （1）根据材料中的已知条件，写出分析所需的电路关系式。
+                - paragraph [ref=e1683]: （2）给出计算过程，并说明结果的物理意义。
+              - generic [ref=e1684]:
+                - paragraph [ref=e1685]:
+                  - strong [ref=e1686]: 正确答案
+                  - generic [ref=e1687]: 结合材料列出关系式，并写出完整计算过程。
+                - group [ref=e1688]:
+                  - generic "答案解析" [ref=e1689] [cursor=pointer]
+              - generic [ref=e1691]:
+                - generic [ref=e1692]: 本题分值
+                - spinbutton "第 39 题分值" [ref=e1696]: "6"
+                - generic [ref=e1697]: 分
+                - generic [ref=e1698]: 含 2 道小题 · 整体移动
+          - article "第 40 题 材料题" [ref=e1699]:
+            - generic [ref=e1700]:
+              - checkbox "选择第 40 题" [ref=e1702]
+              - generic [ref=e1705]:
+                - heading "40. 材料题" [level=2] [ref=e1706]
+                - generic [ref=e1707]: 4级
+                - generic [ref=e1710]: 应用
+                - generic [ref=e1713]: 戴维南等效与功率
+              - generic:
+                - button "移动到"
+                - button "上移第 40 题"
+                - button "下移第 40 题" [disabled]
+                - button "删除第 40 题"
+            - generic [ref=e1716]:
+              - paragraph [ref=e1717]: 阅读材料，回答下列问题
+              - paragraph [ref=e1718]: 某无源二端网络由电阻和理想独立电源组成。在输出端开路时，测得端口电压为 18 V；接入 6 Ω 的负载后，端口电压降为 12 V。现计划更换不同阻值的负载以研究输出功率的变化。请根据两次测量结果求网络的戴维南等效电路，确定负载获得最大功率时的电阻值，并计算该最大功率。最后说明最大功率传输条件是否同时意味着最高效率。
+              - generic [ref=e1719]:
+                - paragraph [ref=e1720]: （1）根据材料中的已知条件，写出分析所需的电路关系式。
+                - paragraph [ref=e1721]: （2）给出计算过程，并说明结果的物理意义。
+              - generic [ref=e1722]:
+                - paragraph [ref=e1723]:
+                  - strong [ref=e1724]: 正确答案
+                  - generic [ref=e1725]: 结合材料列出关系式，并写出完整计算过程。
+                - group [ref=e1726]:
+                  - generic "答案解析" [ref=e1727] [cursor=pointer]
+              - generic [ref=e1729]:
+                - generic [ref=e1730]: 本题分值
+                - spinbutton "第 40 题分值" [ref=e1734]: "6"
+                - generic [ref=e1735]: 分
+                - generic [ref=e1736]: 含 2 道小题 · 整体移动
+      - complementary "习题列表" [ref=e1737]:
+        - heading "习题列表" [level=2] [ref=e1738]
+        - generic [ref=e1739]:
+          - generic [ref=e1740]:
+            - heading "单选题" [level=3] [ref=e1741]
+            - generic [ref=e1742]:
+              - generic [ref=e1743]:
+                - generic [ref=e1744]: 每题
+                - spinbutton "单选题每题分值" [ref=e1748]: "2"
+                - generic [ref=e1749]: 分
+              - generic [ref=e1750]: 20 题
+              - generic [ref=e1751]: 40 分
+            - generic [ref=e1752]:
+              - button "定位到第 1 题" [ref=e1753] [cursor=pointer]:
+                - generic [ref=e1754]: "1"
+              - button "定位到第 3 题" [ref=e1756] [cursor=pointer]:
+                - generic [ref=e1757]: "3"
+              - button "定位到第 6 题" [ref=e1759] [cursor=pointer]:
+                - generic [ref=e1760]: "6"
+              - button "定位到第 7 题" [ref=e1762] [cursor=pointer]:
+                - generic [ref=e1763]: "7"
+              - button "定位到第 8 题" [ref=e1765] [cursor=pointer]:
+                - generic [ref=e1766]: "8"
+              - button "定位到第 9 题" [ref=e1768] [cursor=pointer]:
+                - generic [ref=e1769]: "9"
+              - button "定位到第 10 题" [ref=e1771] [cursor=pointer]:
+                - generic [ref=e1772]: "10"
+              - button "定位到第 11 题" [ref=e1774] [cursor=pointer]:
+                - generic [ref=e1775]: "11"
+              - button "定位到第 12 题" [ref=e1777] [cursor=pointer]:
+                - generic [ref=e1778]: "12"
+              - button "定位到第 13 题" [ref=e1780] [cursor=pointer]:
+                - generic [ref=e1781]: "13"
+              - button "定位到第 14 题" [ref=e1783] [cursor=pointer]:
+                - generic [ref=e1784]: "14"
+              - button "定位到第 15 题" [ref=e1786] [cursor=pointer]:
+                - generic [ref=e1787]: "15"
+              - button "定位到第 16 题" [ref=e1789] [cursor=pointer]:
+                - generic [ref=e1790]: "16"
+              - button "定位到第 17 题" [ref=e1792] [cursor=pointer]:
+                - generic [ref=e1793]: "17"
+              - button "定位到第 18 题" [ref=e1795] [cursor=pointer]:
+                - generic [ref=e1796]: "18"
+              - button "定位到第 19 题" [ref=e1798] [cursor=pointer]:
+                - generic [ref=e1799]: "19"
+              - button "定位到第 20 题" [ref=e1801] [cursor=pointer]:
+                - generic [ref=e1802]: "20"
+              - button "定位到第 21 题" [ref=e1804] [cursor=pointer]:
+                - generic [ref=e1805]: "21"
+              - button "定位到第 22 题" [ref=e1807] [cursor=pointer]:
+                - generic [ref=e1808]: "22"
+              - button "定位到第 23 题" [ref=e1810] [cursor=pointer]:
+                - generic [ref=e1811]: "23"
+          - generic [ref=e1813]:
+            - heading "多选题" [level=3] [ref=e1814]
+            - generic [ref=e1815]:
+              - generic [ref=e1816]:
+                - generic [ref=e1817]: 每题
+                - spinbutton "多选题每题分值" [ref=e1821]: "4"
+                - generic [ref=e1822]: 分
+              - generic [ref=e1823]: 5 题
+              - generic [ref=e1824]: 20 分
+            - generic [ref=e1825]:
+              - button "定位到第 4 题" [ref=e1826] [cursor=pointer]:
+                - generic [ref=e1827]: "4"
+              - button "定位到第 24 题" [ref=e1829] [cursor=pointer]:
+                - generic [ref=e1830]: "24"
+              - button "定位到第 25 题" [ref=e1832] [cursor=pointer]:
+                - generic [ref=e1833]: "25"
+              - button "定位到第 26 题" [ref=e1835] [cursor=pointer]:
+                - generic [ref=e1836]: "26"
+              - button "定位到第 27 题" [ref=e1838] [cursor=pointer]:
+                - generic [ref=e1839]: "27"
+          - generic [ref=e1841]:
+            - heading "主观题" [level=3] [ref=e1842]
+            - generic [ref=e1843]:
+              - generic [ref=e1844]:
+                - generic [ref=e1845]: 每题
+                - spinbutton "主观题每题分值" [ref=e1849]: "5"
+                - generic [ref=e1850]: 分
+              - generic [ref=e1851]: 10 题
+              - generic [ref=e1852]: 50 分
+            - generic [ref=e1853]:
+              - button "定位到第 5 题" [ref=e1854] [cursor=pointer]:
+                - generic [ref=e1855]: "5"
+              - button "定位到第 28 题" [ref=e1857] [cursor=pointer]:
+                - generic [ref=e1858]: "28"
+              - button "定位到第 29 题" [ref=e1860] [cursor=pointer]:
+                - generic [ref=e1861]: "29"
+              - button "定位到第 30 题" [ref=e1863] [cursor=pointer]:
+                - generic [ref=e1864]: "30"
+              - button "定位到第 31 题" [ref=e1866] [cursor=pointer]:
+                - generic [ref=e1867]: "31"
+              - button "定位到第 32 题" [ref=e1869] [cursor=pointer]:
+                - generic [ref=e1870]: "32"
+              - button "定位到第 33 题" [ref=e1872] [cursor=pointer]:
+                - generic [ref=e1873]: "33"
+              - button "定位到第 34 题" [ref=e1875] [cursor=pointer]:
+                - generic [ref=e1876]: "34"
+              - button "定位到第 35 题" [ref=e1878] [cursor=pointer]:
+                - generic [ref=e1879]: "35"
+              - button "定位到第 36 题" [ref=e1881] [cursor=pointer]:
+                - generic [ref=e1882]: "36"
+          - generic [ref=e1884]:
+            - heading "材料题" [level=3] [ref=e1885]
+            - generic [ref=e1886]:
+              - generic [ref=e1887]:
+                - generic [ref=e1888]: 每题
+                - spinbutton "材料题每题分值" [ref=e1892]: "6"
+                - generic [ref=e1893]: 分
+              - generic [ref=e1894]: 5 题
+              - generic [ref=e1895]: 30 分
+            - generic [ref=e1896]:
+              - button "定位到第 2 题" [ref=e1897] [cursor=pointer]:
+                - generic [ref=e1898]: "2"
+              - button "定位到第 37 题" [ref=e1900] [cursor=pointer]:
+                - generic [ref=e1901]: "37"
+              - button "定位到第 38 题" [ref=e1903] [cursor=pointer]:
+                - generic [ref=e1904]: "38"
+              - button "定位到第 39 题" [ref=e1906] [cursor=pointer]:
+                - generic [ref=e1907]: "39"
+              - button "定位到第 40 题" [ref=e1909] [cursor=pointer]:
+                - generic [ref=e1910]: "40"
+        - paragraph [ref=e1912]: 交互原型 · 示例数据 · 刷新后重置
+```
+
+# Test source
+
+```ts
+  1  | import { writeFileSync } from "node:fs";
+  2  | import { expect, test, type Locator, type TestInfo } from "@playwright/test";
+  3  | 
+  4  | async function attachJson(info: TestInfo, name: string, value: unknown) {
+  5  |   const path = info.outputPath(`${name}.json`);
+  6  |   writeFileSync(path, JSON.stringify(value, null, 2));
+  7  |   await info.attach(name, { path, contentType: "application/json" });
+  8  | }
+  9  | const playground = "http://127.0.0.1:5392", prototype = "http://127.0.0.1:5393";
+  10 | async function tokenConsumption(locator: Locator, property: string, variable: string) {
+  11 |   await expect(locator).toBeVisible();
+  12 |   const result = await locator.evaluate((node, { property, variable }) => {
+  13 |     const current = getComputedStyle(node), probe = document.createElement("span");
+  14 |     probe.style.cssText = "position:fixed;visibility:hidden;pointer-events:none";
+  15 |     probe.style.setProperty(property, `var(${variable})`); node.append(probe);
+  16 |     const result = { property, variable, actual: current.getPropertyValue(property), token: current.getPropertyValue(variable).trim(), resolved: getComputedStyle(probe).getPropertyValue(property) };
+  17 |     probe.remove(); return result;
+  18 |   }, { property, variable });
+  19 |   expect(result.token).not.toBe(""); expect(result.actual).toBe(result.resolved); return result;
+  20 | }
+  21 | test.afterEach(async ({ page }) => expect((await page.pageErrors()).map(error => error.message)).toEqual([]));
+  22 | 
+  23 | test("[B01-local] spinner and menu labels use the registered semibold role", async ({ page }, info) => {
+  24 |   await page.goto(`${playground}/#spinner`);
+  25 |   const spinner = await tokenConsumption(page.locator(".component-doc__loading-result strong"), "font-weight", "--rain-font-weight-semibold");
+  26 |   await page.locator(".component-doc__loading-result").screenshot({ path: info.outputPath("spinner-role.png") });
+  27 |   await page.goto(`${playground}/#navigation-menu`); await page.getByRole("button", { name: "教学空间", exact: true }).click();
+  28 |   const menu = await tokenConsumption(page.locator(".g3-doc-nav-link strong").first(), "font-weight", "--rain-font-weight-semibold");
+  29 |   await page.locator(".rain-navigation-menu-content").screenshot({ path: info.outputPath("navigation-label.png") });
+  30 |   await attachJson(info, "computed-typography", { spinner, menu });
+  31 | });
+  32 | 
+  33 | test("[B01-local] slider label and output roles and task pagination width are computed", async ({ page }, info) => {
+  34 |   await page.goto(`${playground}/#slider`);
+  35 |   const label = await tokenConsumption(page.locator(".slider-example__heading > label").first(), "font-weight", "--rain-font-weight-semibold");
+  36 |   const output = await tokenConsumption(page.locator(".slider-example__heading > output").first(), "font-weight", "--rain-font-weight-semibold");
+  37 |   await page.locator(".slider-example__heading").first().screenshot({ path: info.outputPath("slider-label-output.png") });
+  38 |   await page.goto(`${playground}/#drawer`); await page.getByRole("button", { name: /^查看任务：/ }).first().click();
+  39 |   const position = page.locator(".g6-task-details-position"); await expect(position).toBeVisible(); await expect(position).toHaveCSS("min-width", "48px");
+> 40 |   const width = (await position.boundingBox())!.width; expect(width).toBeGreaterThanOrEqual(48);
+     |                                                                                                                      ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  41 |   await page.locator(".g6-task-details-footer").screenshot({ path: info.outputPath("task-pagination.png") });
+  42 |   await attachJson(info, "computed-local-roles", { label, output, pagination: { minWidth: "48px", width } });
+  43 | });
+  44 | 
+  45 | test("[B01-local] exam display-mode width remains local and its selection works", async ({ page }, info) => {
+  46 |   await page.goto(`${prototype}/#exam-editor`); await page.getByRole("button", { name: "移动到", exact: true }).first().click();
+  47 |   const modes = page.locator(".em-display-modes"); await expect(modes).toBeVisible(); await expect(modes).toHaveCSS("width", "240px");
+  48 |   await modes.getByRole("tab", { name: "紧凑", exact: true }).click(); await expect(modes.getByRole("tab", { name: "紧凑", exact: true })).toHaveAttribute("aria-selected", "true");
+  49 |   await expect(modes).toHaveCSS("width", "240px"); await page.locator(".em-target-toolbar").screenshot({ path: info.outputPath("exam-display-modes.png") });
+  50 | });
+  51 | 
+  52 | test("[B01-local] Bklit real link and both focus surfaces resolve semantic roles", async ({ page }, info) => {
+  53 |   await page.goto(`${prototype}/bklit-validation.html`);
+  54 |   const link = page.getByRole("link", { name: "查看 G2 实验 ↗" });
+  55 |   const linkColor = await tokenConsumption(link, "color", "--rain-color-text-link");
+  56 |   await page.keyboard.press("Tab"); await link.focus(); await expect(link).toHaveCSS("outline-width", "2px");
+  57 |   const linkFocus = await tokenConsumption(link, "outline-color", "--rain-color-focus-control");
+  58 |   await page.locator(".bklit-page-heading").screenshot({ path: info.outputPath("bklit-link-focus.png") });
+  59 |   const summary = page.locator(".rain-chart summary").first(); await summary.focus(); await expect(summary).toHaveCSS("outline-width", "2px");
+  60 |   const chartFocus = await tokenConsumption(summary, "outline-color", "--rain-color-focus-control");
+  61 |   await summary.screenshot({ path: info.outputPath("bklit-chart-focus.png") });
+  62 |   await attachJson(info, "computed-color-roles", { linkColor, linkFocus, chartFocus });
+  63 | });
+  64 | 
+  65 | for (const entry of [
+  66 |   { name: "drawer", url: `${playground}/drawer-refinement-consumer.html`, selector: "button" },
+  67 |   { name: "bklit-validation", url: `${prototype}/bklit-validation.html`, selector: ".bklit-lab" },
+  68 |   { name: "bklit-catalog", url: `${prototype}/bklit-catalog.html`, selector: ".rain-chart-catalog" },
+  69 | ]) test(`[B01-entry] ${entry.name} loads its declared Foundation motion dependency`, async ({ page }, info) => {
+  70 |   await page.goto(entry.url); const consumer = page.locator(entry.selector).first(); await expect(consumer).toBeVisible();
+  71 |   const fact = await consumer.evaluate(node => ({ feedback: getComputedStyle(node).getPropertyValue("--rain-motion-feedback-duration").trim(), overlay: getComputedStyle(node).getPropertyValue("--rain-motion-overlay-duration").trim(), region: getComputedStyle(node).getPropertyValue("--rain-motion-region-duration").trim(), ease: getComputedStyle(node).getPropertyValue("--rain-motion-ease-out").trim(), uiButtonCount: document.querySelectorAll(".rain-button").length, inputNumberCount: document.querySelectorAll('[data-rain-id="ui-input-number"]').length }));
+  72 |   await attachJson(info, "entry-computed-dependencies", fact);
+  73 |   await page.screenshot({ path: info.outputPath(`${entry.name}-entry.png`), fullPage: false });
+  74 |   expect(fact.feedback).not.toBe(""); expect(fact.overlay).not.toBe(""); expect(fact.region).not.toBe(""); expect(fact.ease).not.toBe("");
+  75 | });
+  76 | 
+```

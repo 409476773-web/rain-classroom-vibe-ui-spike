@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ apps/playground/src/docs/examples/composition-async.test.tsx (2 tests | 1 failed) 184ms
+   × saves zero only after completion, keeps failed ID draft, and blocks navigation during save 48ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/examples/composition-async.test.tsx > saves zero only after completion, keeps failed ID draft, and blocks navigation during save
+Error: expect(element).toHaveValue(0)
+
+Expected the element to have value:
+  0 (number)
+Received:
+  0 (string)
+ ❯ apps/playground/src/docs/examples/composition-async.test.tsx:30:109
+     28|   expect(screen.getByRole("button", { name: "下一份" })).toBeDisabled();
+     29|   await act(async () => first.reject(new Error("offline")));
+     30|   expect(screen.getByRole("alert")).toHaveTextContent("保存失败"); expect(…
+       |                                                                                                             ^
+     31|   fireEvent.submit(form); await screen.findByRole("form", { name: "学生乙…
+     32|   fireEvent.click(screen.getByRole("button", { name: "上一份" }));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  13:52:54
+   Duration  4.07s (transform 917ms, setup 96ms, import 3.34s, tests 184ms, environment 364ms)
+

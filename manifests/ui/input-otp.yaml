@@ -115,3 +115,16 @@ sourceDifferences:
   - "以现有Field/Focus Token转译Nova，不重写粘贴/选区/密码管理器状态机。"
 verificationLimits:
   - "短信自动填充/密码管理器、真实移动键盘、选区复制剪切、RTL、读屏与物理IME未由jsdom证明。"
+
+discovery:
+  version: 1
+  familyId: "fields"
+  taskIds:
+    - "fill-validate"
+  searchAliases:
+    - "验证码"
+    - "一次性口令"
+  implementationRole: "root"
+  controlScope: "一个一次性口令值的分格呈现"
+  stateOwner: "InputOTP 是唯一真实输入 owner；InputOTPGroup/Slot/Separator 在同一根内展示该值，宿主控制验证请求和提交，不能每格另设输入。"
+  relationships: []

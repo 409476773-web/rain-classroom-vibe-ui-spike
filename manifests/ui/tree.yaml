@@ -69,6 +69,7 @@ layoutConstraints:
   - "常态保留浅色；悬停、焦点所在行和有效拖拽目标增强说明／辅助文字及操作图标，离开后恢复。"
 compositionRules:
   - "宿主拥有权威数据和异步结果回写；Tree 仅提出移动及状态变更。"
+  - "根 StrictMode 的 effect 重放取消并释放初始展开分支的旧请求，再启动有效请求；卸载与版本切换忽略过期响应，旧请求完成不得删除新请求。"
   - "勾选背景与行选中独立；不参与勾选隐藏复选框，受限时显示禁用态。"
 allowedModifications:
   - "业务字段适配、节点渲染、状态受控与既有视觉变体。"
@@ -124,3 +125,18 @@ verification:
     userStatement: "如果是这样的话，现在这个Tree视觉我已经人工检验通过，可以算作tree组件基础建设已完成。"
     scope: "tree-web-high-fidelity-prototype-foundation"
     evidence: "evidence/runtime/tree/closeout/verification.md"
+
+discovery:
+  version: 1
+  familyId: "trees"
+  taskIds:
+    - "navigate"
+    - "choose"
+    - "workbench"
+  searchAliases:
+    - "层级树"
+    - "树形选择"
+  implementationRole: "root"
+  controlScope: "有层级关系的展开、定位、勾选及异步加载"
+  stateOwner: "宿主拥有树数据及异步结果写回；expandedKeys/selectedKeys/checkedKeys/focusedKey 按各自合同管理，不互相代替，单一选中 owner 与 StrictMode 行为保持。"
+  relationships: []

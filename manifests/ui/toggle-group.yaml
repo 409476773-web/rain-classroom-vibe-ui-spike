@@ -99,3 +99,33 @@ visualRefinement:
   evidence: "evidence/runtime/g2-g3-family-refinement-2026-10-08/verification.md"
   runtimeHumanGate: "awaiting-user-review"
   publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "actions"
+  taskIds:
+    - "act-feedback"
+    - "choose"
+  searchAliases:
+    - "工具组"
+    - "可取消单选"
+    - "多选工具"
+    - "按下状态数组"
+  implementationRole: "composition"
+  controlScope: "一组工具的可空单选或多选按下状态"
+  stateOwner: "Base UI ToggleGroup 管数组 value 与 roving focus；宿主拥有受控选择，单选也保留数组合同和可空含义，业务保存不属于组。"
+  relationships:
+    - type: "sharesPresentation"
+      targetId: "ui-toggle"
+      evidence:
+        path: "packages/ui/src/toggle-group/toggle-group.tsx"
+        kind: "contract"
+        symbol: "ToggleGroupItem"
+      condition: "复用 toggleVariants 外观；组内项使用 Base UI Toggle，不宣称是 Rain Toggle 的 wrapper。"
+    - type: "alternativeWhen"
+      targetId: "ui-radio-group"
+      evidence:
+        path: "packages/ui/src/toggle-group/toggle-group.tsx"
+        kind: "contract"
+        symbol: "ToggleGroup"
+      condition: "表单字段需要 name/form、原生 radio 与 string/null 选择时比较 RadioGroup。"

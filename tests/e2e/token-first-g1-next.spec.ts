@@ -1,9 +1,10 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { contrastRatio } from "./color-contrast";
 
 const url = process.env.RAIN_V12_NEXT_URL ?? "http://127.0.0.1:5371";
-const evidence = "evidence/runtime/tooltip-classic/browser";
+const evidence = evidenceOutputPath("evidence/runtime/tooltip-classic/browser");
 test.beforeAll(() => mkdirSync(evidence, { recursive: true }));
 test.beforeEach(async ({ page }) => {
   await page.goto(`${url}/#token-first-g1-next`);

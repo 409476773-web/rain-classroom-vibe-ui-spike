@@ -1,0 +1,82 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-group-type-tag"
+name: "GroupTypeTag"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/tag/domain-tags.tsx"
+styleSourcePath: "packages/ui/src/tag/domain-tags.styles.ts"
+sourceVersion: "local-2026-09-09"
+publication: "unpublished"
+description: "Rain learning and status display with fixed meaning and complete shape."
+useWhen:
+  - "展示分组方式：学生自由分组、老师指定分组、随机分组或自选分组。"
+doNotUseWhen:
+  - "需要执行分组、选择分组方式或显示任意分组名称；操作与业务状态留在宿主。"
+anatomy:
+  - "Static native span with named label and optional display parts."
+parts:
+  - "root"
+  - "label"
+props:
+  - "type: 学生自由分组/老师指定分组/随机分组/自选分组."
+  - "size 20/24/28; appearance filled/outlined/solid."
+  - "Native span attributes and ref; className is for layout. No onClick, style, arbitrary colors or custom badge strings."
+states:
+  - "static; reminder or scored when relevant; no independent click, hover, selection or disabled state."
+tokens:
+  - "Existing Tag palette and dedicated status colors; Solid uses OnColor across text and icons."
+  - "Complete tagShapeRecipes, Space/Radius/Line/Typography; score badge 10/12 with 600 weight."
+  - "Neutral and ended Solid use existing Slate; source RGBA remains preserved."
+compositionRules:
+  - "Default to the complete recipe; fixed shape rejects inapplicable size/layout/appearance."
+  - "Use a real surrounding control for navigation or interaction. Do not nest independent actions."
+allowedModifications:
+  - "Choose registered semantic values, complete appearance and size; native layout className."
+restrictedModifications:
+  - "No arbitrary profile values, raw colors, public state inference, interactive behavior or badge text customization."
+accessibility:
+  - "Keep visible business labels and native id/ref. Reminder meaning is text, decorative shapes are hidden."
+  - "Text enlargement grows intrinsic frames; internal score layout keeps the body centered."
+  - "System icons are redundant with text; reduced motion stops processing rotation."
+examples:
+  - "#tag"
+visualLineage:
+  rainClassicReferences:
+    - "src/components/Tag/GroupTypeTag.vue and tag.utils.js/tag.scss in the read-only Rain Classic repository."
+    - "docs/plans/2026-09-08-tag-design.md sections 13 and 14."
+  retainedTraits:
+    - "Exact business mapping, dedicated shape identity, original profile colors."
+  redesignedTraits:
+    - "All Solid foregrounds use white; equal-font open assignment and fully internal, intrinsically balanced score layout."
+  externalReferences:
+    - "Existing design comparison in docs/plans/2026-09-08-tag-design.md."
+  intentionallyNotInherited:
+    - "Vue implementation, invalid-value assignment fallback, mixed 8px score badge typography."
+verification:
+  automated: "passed"
+  independentReview: "findings"
+  humanGate: "accepted"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/tag-batch-two/verification.md"
+
+discovery:
+  version: 1
+  familyId: "tags"
+  taskIds:
+    - "identify"
+  searchAliases:
+    - "分组类型"
+  implementationRole: "specialization"
+  controlScope: "既定分组类型标记"
+  stateOwner: "宿主提供已定义业务枚举；DomainRoot 与 Tag 配方共享表面，不包装通用 Tag，不推导请求、通知、重试或任意工作流状态。"
+  relationships:
+    - type: "sharesPresentation"
+      targetId: "ui-tag"
+      condition: "使用 DomainRoot/getTagRecipe 共享 Tag 表面，不是 Tag wrapper。"
+      evidence:
+        path: "packages/ui/src/tag/domain-tags.tsx"
+        symbol: "GroupTypeTag"
+        kind: "contract"

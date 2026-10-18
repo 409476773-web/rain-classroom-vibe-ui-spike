@@ -1,0 +1,72 @@
+
+Running 3 tests using 1 worker
+
+(node:74225) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/deep-review-focus.spec.ts:7:3 › first keyboard navigation focuses slider after its delayed document loads (7.4s)
+(node:74230) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/deep-review-focus.spec.ts:7:3 › first keyboard navigation focuses drawer after its delayed document loads (6.4s)
+(node:75472) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 tests/e2e/deep-review-focus.spec.ts:21:1 › a late document does not steal focus after leaving its route (1.7s)
+
+
+  1) tests/e2e/deep-review-focus.spec.ts:7:3 › first keyboard navigation focuses slider after its delayed document loads 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  locator('#slider-title')
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for locator('#slider-title')
+        12 × locator resolved to <h1 tabindex="-1" id="slider-title">Slider 数值滑块</h1>
+           - unexpected value "inactive"
+
+
+      15 |     try { await expect(page.getByRole("status").filter({ hasText: loading })).toBeVisible(); }
+      16 |     finally { release(); }
+    > 17 |     await expect(page.locator(`#${id}-title`)).toBeFocused();
+         |                                                ^
+      18 |   });
+      19 | }
+      20 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017/tests/e2e/deep-review-focus.spec.ts:17:48
+
+    Error Context: ../../../../../../tmp/rain-deep-review-focus/deep-review-focus-first-ke-692d4--its-delayed-document-loads/error-context.md
+
+  2) tests/e2e/deep-review-focus.spec.ts:7:3 › first keyboard navigation focuses drawer after its delayed document loads 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  locator('#drawer-title')
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for locator('#drawer-title')
+        12 × locator resolved to <h1 tabindex="-1" id="drawer-title">Drawer 抽屉</h1>
+           - unexpected value "inactive"
+
+
+      15 |     try { await expect(page.getByRole("status").filter({ hasText: loading })).toBeVisible(); }
+      16 |     finally { release(); }
+    > 17 |     await expect(page.locator(`#${id}-title`)).toBeFocused();
+         |                                                ^
+      18 |   });
+      19 | }
+      20 |
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017/tests/e2e/deep-review-focus.spec.ts:17:48
+
+    Error Context: ../../../../../../tmp/rain-deep-review-focus/deep-review-focus-first-ke-76a67--its-delayed-document-loads/error-context.md
+
+  2 failed
+    tests/e2e/deep-review-focus.spec.ts:7:3 › first keyboard navigation focuses slider after its delayed document loads 
+    tests/e2e/deep-review-focus.spec.ts:7:3 › first keyboard navigation focuses drawer after its delayed document loads 
+  1 passed (16.9s)

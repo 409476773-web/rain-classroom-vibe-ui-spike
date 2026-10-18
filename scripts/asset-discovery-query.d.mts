@@ -1,0 +1,3 @@
+type SearchEntry = { id: string; label: string; searchAliases?: readonly string[] };
+type SearchAsset = { id: string; name: string; description: string; candidateEligible?: boolean; taskIds: readonly string[]; familyId: string | null; useWhen: readonly string[]; searchAliases: readonly string[]; entry: { exportNames?: readonly string[] }; api: { members: readonly { reference: string }[] }; documentation: readonly { href: string }[] };
+export function queryAssetCatalog<T extends SearchAsset>(catalog: { assets: readonly T[]; vocabulary: { tasks: readonly SearchEntry[]; families: readonly SearchEntry[] } }, options?: { query?: string; task?: string; family?: string; includeLocal?: boolean }): T[];

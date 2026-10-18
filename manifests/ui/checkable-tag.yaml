@@ -79,3 +79,31 @@ compositionRules:
   - "Enter activates once without submitting; selected mark follows text without an empty placeholder."
 examples:
   - "#tag"
+
+discovery:
+  version: 1
+  familyId: "tags"
+  taskIds:
+    - "choose"
+    - "identify"
+  searchAliases:
+    - "可选标签"
+    - "勾选标签"
+  implementationRole: "specialization"
+  controlScope: "保留原生 checkbox 或 radio 语义的分类选择"
+  stateOwner: "必须由宿主提供 checked/onCheckedChange；radio 模式还需同组 name。共享 Tag 配方，不渲染通用 Tag owner，不支持 defaultChecked 非受控入口。"
+  relationships:
+    - type: "sharesPresentation"
+      targetId: "ui-tag"
+      condition: "复用 TagContent/getTagRecipe；真实输入由 CheckableTag 自己拥有。"
+      evidence:
+        path: "packages/ui/src/tag/checkable-tag.tsx"
+        symbol: "CheckableTag"
+        kind: "contract"
+    - type: "alternativeWhen"
+      targetId: "ui-tag-select"
+      condition: "以紧凑单值字段打开候选面板时比较 TagSelect；输入基数与提交方式不同。"
+      evidence:
+        path: "packages/ui/src/tag/checkable-tag.tsx"
+        symbol: "CheckableTag"
+        kind: "contract"

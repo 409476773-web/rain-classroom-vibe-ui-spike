@@ -1,0 +1,49 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ packages/ui/src/input/input.test.tsx (34 tests | 2 failed) 567ms
+     × clears an interrupted composition baseline on reset and permits subsequent editing and clearing 11ms
+     × restores an over-limit mounted value without truncating its count or overflow feedback 12ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui/src/input/input.test.tsx > Input > clears an interrupted composition baseline on reset and permits subsequent editing and clearing
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  2
+Received:
+  4/3
+ ❯ packages/ui/src/input/input.test.tsx:219:67
+    217|     await act(async () => (screen.getByRole("form", { name: "组字重置" }) …
+    218|     await waitFor(() => expect(field).toHaveValue("AB"));
+    219|     expect(inputRoot(field).querySelector('[data-slot="count"]')).toHa…
+       |                                                                   ^
+    220|     expect(changed).not.toHaveBeenCalled(); expect(cleared).not.toHave…
+    221|     fireEvent.compositionEnd(field);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/ui/src/input/input.test.tsx > Input > restores an over-limit mounted value without truncating its count or overflow feedback
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  5 / 3
+Received:
+  5/3
+ ❯ packages/ui/src/input/input.test.tsx:234:67
+    232|     await userEvent.click(screen.getByRole("button", { name: "恢复超限初值" …
+    233|     await waitFor(() => expect(field).toHaveValue("原始长标题"));
+    234|     expect(inputRoot(field).querySelector('[data-slot="count"]')).toHa…
+       |                                                                   ^
+    235|     expect(field).toHaveAccessibleDescription(/超出/);
+    236|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  2 failed | 47 passed (49)
+   Start at  13:31:57
+   Duration  2.04s (transform 265ms, setup 398ms, import 423ms, tests 1.00s, environment 1.51s)
+

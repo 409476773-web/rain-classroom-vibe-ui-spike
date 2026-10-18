@@ -1,3 +1,4 @@
+import { componentImplementationFixtureFiles } from "./component-implementation-successor.mjs";
 import { createHash } from "node:crypto";
 import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
@@ -6,6 +7,7 @@ import { dirname, join } from "node:path";
 import { expect, it } from "vitest";
 import { getG6PreviousSource, getG6SourceBindings, parseYamlSubset, withSourceBindingTraversal } from "./verification-helpers.mjs";
 import { githubReviewBindingsPath, githubReviewEvidence, githubReviewFixtureFiles, githubReviewPhase, verifyGithubReviewGitState } from "./github-review-successor.mjs";
+import { deepReviewFixtureFiles } from "./deep-review-successor.mjs";
 import { closeoutBindingsPath, readG1G6CloseoutBindings } from "./g1-g6-closeout-governance.mjs";
 import { readG6SourceBindings } from "./g6-governance.mjs";
 import { getLibraryPaintObservations, validateRecordedPaintSource } from "./verify-token-foundations.mjs";
@@ -49,7 +51,7 @@ it("keeps the earlier before-source semantics and returns isolated public record
 
 it("validates a relocated regular-file snapshot and rejects modified authority, proof, source and symlinks", () => {
   const root = mkdtempSync(join(tmpdir(), "rain-github-review-relocated-"));
-  const paths = githubReviewFixtureFiles(process.cwd());
+  const paths = [...githubReviewFixtureFiles(process.cwd()), ...deepReviewFixtureFiles(process.cwd()), ...componentImplementationFixtureFiles(process.cwd())];
   const put = (file: string, bytes: string | Buffer) => { mkdirSync(dirname(join(root, file)), { recursive: true }); writeFileSync(join(root, file), bytes); };
   try {
     for (const file of paths) { mkdirSync(dirname(join(root, file)), { recursive: true }); copyFileSync(file, join(root, file)); }
@@ -129,7 +131,7 @@ it("records exact imported P5 authored paints without granting runtime contrast 
 it("rechecks a runtime parent directory on every API call after success and after failure", () => {
   const root = mkdtempSync(join(tmpdir(), "rain-github-review-directory-cache-"));
   try {
-    for (const file of githubReviewFixtureFiles(process.cwd())) {
+    for (const file of [...githubReviewFixtureFiles(process.cwd()), ...deepReviewFixtureFiles(process.cwd()), ...componentImplementationFixtureFiles(process.cwd())]) {
       mkdirSync(dirname(join(root, file)), { recursive: true });
       copyFileSync(file, join(root, file));
     }

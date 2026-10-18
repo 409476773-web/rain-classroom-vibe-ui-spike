@@ -1,0 +1,121 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-popover"
+name: "Popover"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/popover/popover.tsx"
+styleSourcePath: "packages/ui/src/dropdown-menu/dropdown-menu.css"
+sourceVersion: "local-2026-09-10"
+publication: "unpublished"
+description: "具名的局部浮层任务面板；适合包含独立字段、筛选、搜索、预览或确认操作的内容。"
+useWhen:
+  - "浮层中包含需要正常表单语义的独立控件；字段值、异步请求、失败恢复和关闭时机由宿主拥有。"
+  - "Use a local task with search, filters, preview, independent actions or a confirmation footer."
+doNotUseWhen:
+  - "Use DropdownMenu for single-target menu rows; use a larger task surface when task duration or available space warrants it."
+anatomy:
+  - "Root, Trigger, portaled Content, Title, Description and Close. Header/body/footer are ordinary caller content."
+parts:
+  - "content"
+props:
+  - "Root preserves Base UI controlled/default open, reasons, cancellation, trigger IDs and modal=false default."
+  - "Content width is a finite positive number, default 320px; Base UI available width and height constrain it."
+  - "Content exposes Base UI popup props except inline style; positionerProps exposes placement and string className, excluding inline style."
+  - "String className changes layout; named Local Recipe changes declared visual parts. Trigger render composes Button/IconButton and forwards its own ref."
+  - "Title/Description connect the accessible panel name and description. Content may instead supply aria-label/aria-labelledby explicitly."
+  - "Popover Content accepts its localRecipe; the caller owns form values, async status, retry and successful close."
+slots:
+  - "Trigger render"
+  - "Content children"
+variants:
+  - "Complete default recipe, named feature Local Recipe and ordinary children composition."
+states:
+  - "open"
+  - "closed"
+  - "focus-visible"
+  - "pending-content"
+  - "error-content"
+  - "empty-content"
+dependencies:
+  - "react"
+  - "@rain-next/foundations"
+  - "@base-ui/react@1.8.0"
+  - "tailwind-merge"
+tokens:
+  - "Content Typography 15/22/400, Title 15/22/600 and Description 13/18/400; Description margin Space/4."
+  - "Background/Neutral/1, Border/Neutral/3 and inherited Text/Neutral/3; child controls retain their own Token contracts."
+  - "Content padding Space/12, Radius/10, Line/Thickness/1 and Shadow/overlay; default placement uses a 6px side offset and 8px collision padding."
+  - "Trigger uses shared control Focus; nearest theme and anchor density bridge across portals; child controls default to compact. No new Foundation values."
+layoutConstraints:
+  - "Panel width defaults to 320px; the template-panel recipe uses 360px. Content is a vertical flex container with 12px padding."
+  - "Title and Description do not impose a line clamp. The caller owns content wrapping, layout, form labels and complete critical reasons."
+  - "Viewport width/height constrain content; a template recipe scrolls its body while keeping a normal footer."
+compositionRules:
+  - "Pure dismissal uses a top-right IconButton, never a secondary footer close button. Cancellation and confirmation retain their action semantics."
+  - "Use the complete example first; change an existing variant, then a local recipe, then a local fork only if internal behavior changes."
+  - "Base UI exclusively owns open, positioning, focus and dismissal. The shared private bridge carries visual context only."
+  - "Content children default to the existing compact DensityProvider: Input uses 24px and Button uses small unless explicitly sized; an inner DensityProvider may override. The trigger retains the page density."
+  - "Popover content uses native Checkbox/RadioGroup and independent IconButton siblings. Search, categories, selection, retry and footer stay in the example."
+  - "Base UI owns Escape, outside dismissal and normal focus navigation. Popover has no menu arrow navigation, typeahead, selection rows, submenu or closeOnAction API."
+  - "A controlled owner accepts or cancels open changes. Async submit state and closing after success belong to the caller; selecting a child input does not add a menu action-close policy."
+  - "When the originating trigger unmounts, the caller supplies finalFocus to a remaining logical target."
+allowedModifications:
+  - "Title, description, trigger composition, panel width/placement, local classes and feature-owned content."
+  - "Existing fields, compact Tabs categories, thumbnails and independent actions inside Popover with normal semantics."
+restrictedModifications:
+  - "No extra overlay controller, shared business mode switches, new color values or menu semantics imposed on ordinary panel content."
+  - "Do not weaken critical text roles or interpret pending contrast findings as accepted exceptions."
+accessibility:
+  - "Default content is a named dialog panel with modal=false; focus uses normal Tab navigation and each child control's own native keyboard behavior."
+  - "Portaled panel must be named; form inputs preserve native labels, focus and group ownership."
+  - "Focus returns to the appropriate trigger or caller-supplied target; nearest theme is synchronized while open; panel children keep their compact default."
+  - "Forced-colors checks preserve meaningful markers and keyboard outline. Real screen reader, OS IME and physical touch remain separate checks."
+examples:
+  - "#dropdown"
+recipes:
+  - "Table view settings native panel"
+  - "Learning unit template panel with search, categories, preview, independent favorite and footer actions"
+antiPatterns:
+  - "Using menu semantics for a row with several actions."
+  - "Forking the Master for search/category/favorite content."
+  - "Closing on request before async failure can be shown."
+relatedComponents:
+  - "Button"
+  - "IconButton"
+  - "Checkbox"
+  - "RadioGroup"
+  - "Input"
+  - "Select"
+  - "Tabs"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Rain Classic internal Popup/Popover contract reviewed; Figma dropdown source 2255:26-29 and 2280:618-620 recorded in the construction plan."
+  externalReferences:
+    - "https://base-ui.com/react/components/popover"
+  retainedTraits:
+    - "Compact Rain task surface, 600/400 title-description hierarchy and complete critical information."
+  redesignedTraits:
+    - "Base UI behavior, open React composition and current theme/density Token consumption."
+  intentionallyNotInherited:
+    - "Old fixed white surface, private color values and menu-row keyboard/selection semantics; source menu padding remains comparison-only."
+figmaMapping:
+  status: "reference-only"
+  evidence: "docs/plans/2026-09-09-dropdown-family-construction-plan.md"
+  codeConnect: "not-established"
+sourceEvidence:
+  - "docs/adr/0005-headless-base.md"
+  - "docs/plans/2026-09-09-dropdown-family-construction-plan.md"
+  - "evidence/runtime/dropdown/verification.md"
+migrationNotes:
+  - "New independent candidate, no existing Select/Dialog/choice-control migration or publication."
+verification:
+  automated: "passed"
+  independentReview: "findings"
+  humanGate: "accepted"
+  humanGateScope: "dropdown-menu-popover-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/dropdown/verification.md"

@@ -1,5 +1,5 @@
 import {
-  cloneElement, forwardRef, isValidElement, useId, useImperativeHandle, useRef, useState,
+  cloneElement, forwardRef, isValidElement, useId, useImperativeHandle, useLayoutEffect, useRef, useState,
   type ChangeEvent, type CompositionEvent, type InputHTMLAttributes,
   type KeyboardEvent, type MouseEvent, type ReactNode, type SyntheticEvent,
 } from "react";
@@ -93,10 +93,34 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input({
   useImperativeHandle(forwardedRef, () => controlRef.current!, []);
   const composingRef = useRef(false);
   const compositionBaseline = useRef<string | null>(null);
+  const initialValue = useRef(defaultValue);
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
   const [pointerFocused, setPointerFocused] = useState(false);
   const isControlled = value !== undefined;
   const currentValue = value ?? uncontrolledValue;
+  useLayoutEffect(() => {
+    const control = controlRef.current;
+    if (isControlled || !control) return;
+    const root = control.getRootNode();
+    const reset = (event: Event) => {
+      if (event.target !== control.form) return;
+      // React restores value/defaultValue after input events. Prepare the baseline before
+      // the browser resets controls so immediate FormData also sees the initial value.
+      const current = control.value;
+      control.defaultValue = initialValue.current;
+      control.value = current;
+      // Trusted browser events may flush microtasks between listeners; wait until all
+      // reset handlers have had their chance to cancel the default action.
+      setTimeout(() => {
+        if (event.defaultPrevented || controlRef.current !== control) return;
+        composingRef.current = false;
+        compositionBaseline.current = null;
+        setUncontrolledValue(initialValue.current);
+      }, 0);
+    };
+    root.addEventListener("reset", reset, true);
+    return () => root.removeEventListener("reset", reset, true);
+  });
   const disabled = inputDisabled || Boolean(field?.disabled);
   const status = field?.status ?? inputStatus;
   const resolvedSize = size ?? (density === "compact" ? 24 : 32);

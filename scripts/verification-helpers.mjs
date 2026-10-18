@@ -4,6 +4,8 @@ import { join, resolve } from "node:path";
 import { readG6SourceBindings, g6Evidence } from "./g6-governance.mjs";
 import { readG1G6CloseoutBindings, restoreG1G6CloseoutPhase } from "./g1-g6-closeout-governance.mjs";
 import { readGithubReviewBindings } from "./github-review-successor.mjs";
+import { readDeepReviewBindings } from "./deep-review-successor.mjs";
+import { readComponentImplementationBindings } from "./component-implementation-successor.mjs";
 
 // Preserve RN-06/RN-08 historical hashes while accepting only the exact upstream
 // width implementation approved on 2026-09-14. See the table-card-parity plan.
@@ -635,7 +637,12 @@ export function getQuestionnaireCloseoutRoot(root) {
 // Only scalar/source-byte getters may borrow this verified record inside a
 // read-only traversal. Public record readers always return an isolated clone.
 function getG6SourceBindingView(root, status) {
-  return verifySourceBindingTraversal("getG6SourceBindings", root, status, () => readGithubReviewBindings(root, status, parseYamlSubset, (view, previousStatus, parsePhase) => readG1G6CloseoutBindings(view, previousStatus, parsePhase, readG6SourceBindings)) ?? readG1G6CloseoutBindings(root, status, parseYamlSubset, readG6SourceBindings) ?? readG6SourceBindings(root, status, parseYamlSubset), false);
+  const previous = (view, previousStatus, parsePhase) => readGithubReviewBindings(view, previousStatus, parsePhase,
+    (closeoutView, closeoutStatus, closeoutParser) => readG1G6CloseoutBindings(closeoutView, closeoutStatus, closeoutParser, readG6SourceBindings))
+    ?? readG1G6CloseoutBindings(view, previousStatus, parsePhase, readG6SourceBindings) ?? readG6SourceBindings(view, previousStatus, parsePhase);
+  const throughDeepReview = (view, phase, parser) => readDeepReviewBindings(view, phase, parser, previous) ?? previous(view, phase, parser);
+  return verifySourceBindingTraversal("getG6SourceBindings", root, status,
+    () => readComponentImplementationBindings(root, status, parseYamlSubset, throughDeepReview) ?? throughDeepReview(root, status, parseYamlSubset), false);
 }
 
 export function getG6SourceBindings(root, status) {
@@ -3449,7 +3456,7 @@ export function getG4SizingReviewSourceBindings(root, status) {
   for (const [file, binding] of Object.entries(record.sourceFiles)) if (!exactRecord(binding, { before: baseline.files[file] ?? null, after: hash(file) })) throw new Error(`G4 sizing source successor changed: ${file}`);
   for (const [file, expected] of Object.entries(record.retainedRecords)) if (expected !== baseline.files[file] || hash(file) !== expected) throw new Error(`G4 sizing retained predecessor or raw token changed: ${file}`);
   for (const file of ["component-doc", "input-page", "select-page", "input-number-page", "tag-page"].map(name => `apps/playground/src/docs/components/${name}.css`)) {
-    const failures = validateG4SizingCssSuccessor(file, readFileSync(join(root, beforeRoot, file), "utf8"), readFileSync(join(root, file), "utf8"));
+    const failures = validateG4SizingCssSuccessor(file, readFileSync(join(root, beforeRoot, file), "utf8"), getG6PreviousSource(root, file) ?? readFileSync(join(root, file), "utf8"));
     if (failures.length) throw new Error(failures.join("; "));
   }
   const beforeStatus = parseYamlSubset(readFileSync(join(root, beforeRoot, "status/current-phase.yaml"), "utf8")), current = structuredClone(status);
@@ -5021,9 +5028,22 @@ export function getRecordedNavigationSourceBindings(root, status) {
   const successor = JSON.parse(readFileSync(join(root, "evidence/runtime/navigation-playground-refinement-2026-10-09/source-after.json"), "utf8"));
   if (original.filesSha256[w7Manifest] !== "d4b10b46ffc4dbd923496b8770cff302ddd191091d8e241d535af4f84e3a5070"
     || !w7Source || createHash("sha256").update(w7Source).digest("hex") !== successor.filesSha256[w7Manifest]) throw new Error("Navigation successor must retain the exact recorded W7 R2 Manifest successor");
+  const maintenanceView = getG6SourceBindingView(root, status);
+  const maintenanceSources = maintenanceView?.deepReviewSuccessor?.sourceFiles ?? {};
+  const implementationSources = maintenanceView?.componentImplementationSuccessor?.sourceFiles ?? {};
   for (const [file, binding] of Object.entries(record.sourceFiles)) {
     const source = readTaskFourFile(root, file, "Navigation successor", [], { binary: true });
-    if (!source || createHash("sha256").update(source).digest("hex") !== binding.after) throw new Error("Navigation successor source changed: " + file);
+    const maintenance = maintenanceSources[file];
+    const maintained = maintenance?.before === binding.after ? maintenance.after : binding.after;
+    const implementation = implementationSources[file];
+    const expected = implementation?.before === maintained ? implementation.after : maintained;
+    if (!source || createHash("sha256").update(source).digest("hex") !== expected) throw new Error("Navigation successor source changed: " + file);
+    if (expected !== binding.after) record.sourceFiles[file] = { ...binding, after: expected };
+  }
+  const workspaceRegistry = "registry/navigation-v042-workspaces.json", maintenance = maintenanceSources[workspaceRegistry];
+  if (maintenance?.before === "9ed631f4aeb1cfeebda0469cff2f290364af6c8793971eeeb7c88b4eab02bfad") {
+    record.sourceFiles[workspaceRegistry] = { before: maintenance.before, after: maintenance.after };
+    record.registryPredecessors[workspaceRegistry] = maintenance.before;
   }
   return record;
 }
@@ -5033,12 +5053,18 @@ export function getRecordedChartSourceBindings(root, status) {
   validateTokenFoundationsV1Phase(status);
   const record = readLibraryRecordedInventory(root).charts;
   const successor = getLibraryGovernanceCloseoutSourceBindings(root), sourceFiles = {};
+  const maintenanceView = getG6SourceBindingView(root, status);
+  const maintenanceSources = maintenanceView?.deepReviewSuccessor?.sourceFiles ?? {};
+  const implementationSources = maintenanceView?.componentImplementationSuccessor?.sourceFiles ?? {};
   for (const [file, expected] of Object.entries(record.sourceFiles)) {
     const owned = successor?.sourceFiles[file];
     if (owned?.before === expected && owned.after === null) continue;
     const source = readTaskFourFile(root, file, "Chart source", [], { binary: true });
     const actual = source && createHash("sha256").update(source).digest("hex");
-    if (actual !== expected && !(owned?.before === expected && owned.after === actual)) throw new Error("Chart source changed: " + file);
+    const maintenance = maintenanceSources[file];
+    const maintained = maintenance?.before === expected ? maintenance.after : expected;
+    const implementation = implementationSources[file];
+    if (actual !== expected && !(owned?.before === expected && owned.after === actual) && !(maintenance?.before === expected && maintenance.after === actual) && !(implementation?.before === maintained && implementation.after === actual)) throw new Error("Chart source changed: " + file);
     sourceFiles[file] = actual;
   }
   for (const [file, binding] of Object.entries(successor?.sourceFiles ?? {})) {

@@ -1,0 +1,108 @@
+schemaVersion: "1.0"
+kind: "RainRecipeManifest"
+category: "recipe"
+id: "recipe-input-group"
+name: "Input Group 输入组合"
+assetIdentity: "local-experiment"
+maturity: "local-experiment"
+migrationLabel: "rewrite-from-rain"
+modificationMode: "forkable"
+publication: "unpublished"
+sourcePath: "apps/playground/src/docs/components/g5-component-pages.tsx"
+styleSourcePath: "apps/playground/src/docs/components/g5-component-pages.css"
+sourceVersion: "local-2026-10-12"
+description: "Input Group组合使用合同：行内沿用Input/SearchInput/InputNumber，多行使用Textarea上下附加区；不是新增公开组件。"
+useWhen:
+  - "单个文本字段需要前后缀、图标、单位或就近操作。"
+  - "多行评语需要顶部提示、正文、字数和底部动作共享一个外框。"
+doNotUseWhen:
+  - "多个独立字段需要共用一个外框或同一个FormItem标签身份。"
+  - "需要富文本、附件管理、自动增高或第二套表单状态系统。"
+anatomy:
+  - "一个FormItem与一个逻辑字段；附加信息和操作围绕原生control。"
+  - "多行：blockStart / native textarea / blockEnd，共享已有field frame。"
+parts:
+  - "Input existing addon slots"
+  - "Textarea root / control / input-group-addon with block-start or block-end alignment"
+props:
+  - "Input用于普通文本附加区；SearchInput保留Enter/按钮搜索；InputNumber保留数值解析、步进和提交合同。"
+  - "Textarea value/defaultValue、onChange/onValueChange、rows、maxLength、name/form和HTMLTextAreaElement ref沿原生合同。"
+slots:
+  - "Input：leadingIcon / prefix / prefixText / suffixText / suffix / trailingIcon / trailingAction。"
+  - "Textarea：blockStart / blockEnd为ReactNode。"
+  - "blockStartChangesValue / blockEndChangesValue默认true；纯查看或复制动作可显式false。"
+variants:
+  - "沿用既有outlined / filled / underlined及各控件尺寸；不增加InputGroup尺寸或外观API。"
+states:
+  - "editable / readonly / disabled / warning / error / focus-visible"
+dependencies:
+  - "manifests/ui/input.yaml"
+  - "manifests/ui/search-input.yaml"
+  - "manifests/ui/input-number.yaml"
+  - "manifests/ui/textarea.yaml"
+  - "manifests/ui/form-item.yaml"
+  - "manifests/ui/button.yaml"
+  - "manifests/ui/icon-button.yaml"
+tokens:
+  - "现有field frame、Input尺寸、Reading/Small和140ms反馈Token；不增加公共Token。"
+layoutConstraints:
+  - "宽度由宿主布局决定；保留原生rows、maxLength、resize及单一textarea控制节点。"
+compositionRules:
+  - "从@rain-next/ui导入现有控件；不存在InputGroup公开导出，也不计为第六个G5组件资产。"
+  - "每个FormItem只对应一个逻辑字段；多字段布局用Stack/Inline/Grid分别组织。"
+  - "附加区装饰空白可聚焦原textarea；真正按钮、链接和可编辑内容保留自己的焦点。"
+  - "readonly阻止修改值的附加动作；显式ChangesValue=false只用于查看或复制。disabled阻止所有附加动作。"
+  - "字数、清空、提交、复制及保存结果由宿主处理；布局与焦点变化不触发业务提交。"
+allowedModifications:
+  - "宿主文案、附加内容、回调、既有appearance和布局宽度。"
+restrictedModifications:
+  - "不复制数值、搜索、校验或字段状态引擎；不把多个独立控件塞进同一标签身份。"
+accessibility:
+  - "Textarea使用可见FormItem顶标签或明确可访问名称，保留原生多行键盘与ref。"
+  - "动作使用真实Button/IconButton并提供名称；示例动作默认type=button，提交由宿主显式决定。"
+examples:
+  - "#input-group"
+  - "apps/playground/src/docs/components/g5-component-pages.tsx#InputGroupExamples"
+relatedComponents:
+  - "ui-input"
+  - "ui-search-input"
+  - "ui-input-number"
+  - "ui-textarea"
+  - "ui-form-item"
+aiUsageGuide: "docs/ai/g5-components.md"
+sourceEvidence:
+  - "evidence/runtime/g5-components-2026-10-12/source-lock.json"
+verification:
+  automated: "scoped-passed"
+  scope: "现有控件组合与Textarea上下附加区专项测试；不是独立组件或可安装资产。"
+  independentReview: "scoped-source-review"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/g5-components-2026-10-12/verification.md"
+
+discovery:
+  version: 1
+  familyId: "fields"
+  taskIds:
+    - "fill-validate"
+  searchAliases:
+    - "InputGroup"
+    - "输入组合"
+    - "前后缀输入"
+    - "附加动作"
+  implementationRole: "usage-reference"
+  controlScope: "现有输入控件的附加内容与组合呈现"
+  stateOwner: "每个逻辑字段由现有 Input/SearchInput/InputNumber/Textarea 与宿主值 owner 管理；附加操作不创建新输入引擎，不存在 InputGroup 公共导出。"
+  relationships:
+    - type: "exampleUses"
+      targetId: "ui-input"
+      evidence:
+        path: "apps/playground/src/docs/components/g5-component-pages.tsx"
+        symbol: "InputGroupExamples"
+        kind: "render"
+    - type: "exampleUses"
+      targetId: "ui-textarea"
+      evidence:
+        path: "apps/playground/src/docs/components/g5-component-pages.tsx"
+        symbol: "InputGroupExamples"
+        kind: "render"

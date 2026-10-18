@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 import CHART_VARIANT_REFERENCE from "../../apps/playground/src/docs/components/chart-variants/reference.json" with { type: "json" };
 
-const evidence = process.env.RAIN_CHART_VARIANTS_EVIDENCE_DIR ?? "evidence/runtime/chart-variants/current";
+const evidence = process.env.RAIN_CHART_VARIANTS_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/chart-variants/current");
 
 test("[T01] variants remain on one page, local updates stay isolated and group navigation preserves the route", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });

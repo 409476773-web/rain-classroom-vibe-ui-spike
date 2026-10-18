@@ -117,3 +117,26 @@ variantCoverage:
     - "保留唯一line-profit-loss来源项、原零线与跨零分段/语义色/精确读数。"
   limitations:
     - "属于Line来源家族，仍保留现有独立Rain入口；不是新Registry资产。"
+
+discovery:
+  version: 1
+  familyId: "charts"
+  taskIds:
+    - "analyze"
+  searchAliases:
+    - "profit-loss"
+    - "图表"
+  implementationRole: "specialization"
+  controlScope: "同一线图上下文中的过零正负线条"
+  stateOwner: "ProfitLossLine 读取 LineChart 上下文；同 dataKey 的 Line 负责注册 domain。自身不创建数据根，宿主声明零基准、数值和正负含义。"
+  relationships:
+    - type: "requiresContext"
+      targetId: "ui-chart-line"
+      condition: "必须处于 LineChart 内，并由同 dataKey 的 Line 注册 y domain；不是可独立提供 data 的图表根。"
+      requiredExports:
+        - "LineChart"
+        - "Line"
+      evidence:
+        path: "packages/ui/src/charts/vendor/charts/profit-loss-line.tsx"
+        symbol: "ProfitLossLine"
+        kind: "contract"

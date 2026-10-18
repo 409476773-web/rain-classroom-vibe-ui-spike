@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
 import { verifyConversationReading } from './helpers/conversation-scrolling';
-const evidence=process.env.COMPOSER_EVIDENCE_DIR??'evidence/runtime/conversation-composer-2026-10-15/run-01/browser/'+(process.env.COMPOSER_BROWSER_RUN??'final');
+const evidence=process.env.COMPOSER_EVIDENCE_DIR??evidenceOutputPath('evidence/runtime/conversation-composer-2026-10-15/run-01/browser/'+(process.env.COMPOSER_BROWSER_RUN??'final'));
 mkdirSync(evidence,{recursive:true});
 test.beforeEach(({page})=>page.on('pageerror',error=>{throw error;}));
 test('manual layout changes animate height continuously while typing and reduced motion stay immediate',async({page},info)=>{

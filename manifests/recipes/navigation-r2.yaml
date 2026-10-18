@@ -1259,3 +1259,25 @@ playgroundRefinement:
   scope: "R2 consumes the scoped ScopeNavigation CSS recipe; content, recovery behavior and public APIs unchanged."
   humanGate: "awaiting-user-review"
   evidence: "evidence/runtime/navigation-playground-refinement-2026-10-09/verification.md"
+
+discovery:
+  version: 1
+  familyId: "workspaces"
+  taskIds:
+    - "workbench"
+    - "navigate"
+    - "organize"
+  searchAliases:
+    - "R2"
+    - "范围工作区"
+  implementationRole: "recipe"
+  controlScope: "范围切换与工作面的导航样板"
+  stateOwner: "本地源码复制完整依赖；宿主拥有稳定业务 ID、当前对象、草稿及动作结果，Workspace 唯一控制器拥有布局偏好，样式/模式切换不提交业务或丢弃草稿。"
+  relationships:
+    - type: "composes"
+      targetId: "layout-workspace"
+      condition: "配方宿主组合一个 WorkspaceLayout；不改变内部业务状态 owner。"
+      evidence:
+        path: "apps/playground/src/recipes/navigation-v042/r2.tsx"
+        symbol: "R2Recipe"
+        kind: "render"

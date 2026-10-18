@@ -115,3 +115,23 @@ verification:
   humanGate: "awaiting-user-review"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/chart-matrix-sticky-layout-2026-10-09/verification.md"
+
+discovery:
+  version: 1
+  familyId: "charts"
+  taskIds:
+    - "analyze"
+  searchAliases:
+    - "matrix"
+    - "图表"
+  implementationRole: "root"
+  controlScope: "任意分类行列矩阵；有效 0、缺测与不适用分开"
+  stateOwner: "宿主拥有经过校验的数据、单位、分母、稳定身份与精确读数；图表根提供自身系列/轴/图例/提示所需上下文。查询过滤、业务选择与持久化不由图表隐式决定。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-chart-heatmap"
+      condition: "真实日历逐日强度使用 Heatmap；保持有效 0 与缺测语义。"
+      evidence:
+        path: "packages/ui/src/charts/matrix/matrix-chart.tsx"
+        symbol: "MatrixChart"
+        kind: "contract"

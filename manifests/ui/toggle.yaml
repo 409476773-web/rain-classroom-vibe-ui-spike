@@ -95,3 +95,24 @@ visualRefinement:
   evidence: "evidence/runtime/g2-g3-family-refinement-2026-10-08/verification.md"
   runtimeHumanGate: "awaiting-user-review"
   publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "actions"
+  taskIds:
+    - "act-feedback"
+  searchAliases:
+    - "按下按钮"
+    - "工具开关"
+    - "独立显示状态"
+  implementationRole: "root"
+  controlScope: "一个独立工具或显示开关的按下状态"
+  stateOwner: "受控 pressed 由宿主决定，非受控由底层 Toggle 行为管理；业务持久化与命令结果留在宿主。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-toggle-group"
+      evidence:
+        path: "packages/ui/src/toggle/toggle.tsx"
+        kind: "contract"
+        symbol: "Toggle"
+      condition: "相关工具需要组成同一选择集合时比较 ToggleGroup。"

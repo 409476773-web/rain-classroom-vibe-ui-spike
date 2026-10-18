@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const evidence = process.env.RAIN_BKLIT_EVIDENCE_DIR ?? "evidence/runtime/bklit-rain-validation";
+const evidence = process.env.RAIN_BKLIT_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/bklit-rain-validation");
 
 test("four real Bklit pairs render without browser errors", async ({ page }) => {
   const errors: string[] = [];

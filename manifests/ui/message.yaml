@@ -121,3 +121,31 @@ sourceDifferences:
   - "32px上移仍来源基线，没有测量observer或额外消息wrapper。"
 verificationLimits:
   - "两行Footer/不同按钮尺寸对齐、无头像/长文本/附件、RTL与动作焦点待浏览器核验。"
+
+discovery:
+  version: 1
+  familyId: "conversation"
+  taskIds:
+    - "read-communicate"
+  searchAliases:
+    - "会话消息"
+    - "作者消息"
+    - "消息结构"
+  implementationRole: "root"
+  controlScope: "作者、头像、正文和附属信息的会话消息结构"
+  stateOwner: "宿主拥有消息身份、发送状态和排序；Message Parts 只组织一条消息，Bubble 作为可选表面通过示例组合，不是内部依赖。"
+  relationships:
+    - type: "exampleUses"
+      targetId: "ui-bubble"
+      condition: "课程会话示例把 Bubble 作为消息表面；Message 实现没有包裹 Bubble。"
+      evidence:
+        path: "apps/playground/src/docs/components/g6-course-conversation.tsx"
+        symbol: "AnswerMessage"
+        kind: "render"
+    - type: "alternativeWhen"
+      targetId: "ui-toast"
+      condition: "保存成功等短时操作通知用 Toast；Message 是会话结构。"
+      evidence:
+        path: "packages/ui/src/message/message.tsx"
+        symbol: "Message"
+        kind: "contract"

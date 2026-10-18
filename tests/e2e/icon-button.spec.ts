@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 // Resolve the named Foundation color in the real component's theme scope.
@@ -150,7 +151,7 @@ for (const theme of ["light", "dark"] as const) {
     await blockedEmphasis.hover({ force: true });
     await expectToken(blockedEmphasis, "color", "--rain-category-icon-neutral-5");
     await page.mouse.move(0, 0);
-    await page.screenshot({ path: `evidence/runtime/icon-button/${theme}.png`, fullPage: true, animations: "disabled" });
+    await page.screenshot({ path: evidenceOutputPath(`evidence/runtime/icon-button/${theme}.png`), fullPage: true, animations: "disabled" });
   });
 }
 

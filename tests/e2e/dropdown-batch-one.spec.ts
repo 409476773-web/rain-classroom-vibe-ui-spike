@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Page } from "@playwright/test";
 
 async function openReview(page: Page, candidate: "base" | "radix" = "base") {
@@ -189,7 +190,7 @@ for (const candidate of ["base", "radix"] as const) {
       expect(panelBounds!.x).toBeGreaterThanOrEqual(7);
       expect(panelBounds!.x + panelBounds!.width).toBeLessThanOrEqual(353);
       await expect(panel).toHaveCSS("background-color", "rgb(30, 36, 59)");
-      await page.screenshot({ path: `evidence/runtime/dropdown-batch-one/${candidate}-dark-narrow-panel.png` });
+      await page.screenshot({ path: evidenceOutputPath(`evidence/runtime/dropdown-batch-one/${candidate}-dark-narrow-panel.png`) });
     });
   });
 }
@@ -222,7 +223,7 @@ test("selected leading and submenu icons follow the theme and restore their unse
       await item.click();
       await expect(icon).toHaveCSS("color", flavor === "source" ? "rgb(15, 85, 223)" : brand);
       await expect(item.locator("[data-slot=label]")).toHaveCSS("font-weight", "600");
-      await item.screenshot({ path: `evidence/runtime/dropdown-batch-one/${theme === "浅色" ? "light" : "dark"}-${flavor}-${sample}-selected.png` });
+      await item.screenshot({ path: evidenceOutputPath(`evidence/runtime/dropdown-batch-one/${theme === "浅色" ? "light" : "dark"}-${flavor}-${sample}-selected.png`) });
       await item.click();
       await expect(icon).toHaveCSS("color", original);
     }
@@ -258,15 +259,15 @@ test("geometry candidates and combined selection, press and keyboard focus remai
     await expect(checked).toHaveCSS("outline-width", "1px");
     await expect(checked).not.toHaveCSS("box-shadow", "none");
     await expect(checked.locator("[data-slot=label]")).toHaveCSS("font-weight", "600");
-    await checked.screenshot({ path: `evidence/runtime/dropdown-batch-one/${theme}-checked-focus.png` });
+    await checked.screenshot({ path: evidenceOutputPath(`evidence/runtime/dropdown-batch-one/${theme}-checked-focus.png`) });
     const danger = page.getByTestId("token-danger");
     await danger.focus();
     await page.keyboard.down("Space");
     await expect(danger).toHaveCSS("outline-width", "1px");
     await expect(danger).not.toHaveCSS("box-shadow", "none");
-    await danger.screenshot({ path: `evidence/runtime/dropdown-batch-one/${theme}-danger-pressed-focus.png` });
+    await danger.screenshot({ path: evidenceOutputPath(`evidence/runtime/dropdown-batch-one/${theme}-danger-pressed-focus.png`) });
     await page.keyboard.up("Space");
     await page.keyboard.press("Space");
-    await page.screenshot({ path: `evidence/runtime/dropdown-batch-one/${theme}-full-review.png`, fullPage: true });
+    await page.screenshot({ path: evidenceOutputPath(`evidence/runtime/dropdown-batch-one/${theme}-full-review.png`), fullPage: true });
   }
 });

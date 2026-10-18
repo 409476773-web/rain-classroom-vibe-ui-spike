@@ -1,6 +1,7 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdirSync } from "node:fs";
-const evidence = process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR ? `${process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR}/structure` : "evidence/runtime/chart-variants/feedback-2026-10-08/structure";
+const evidence = process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR ? `${process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR}/structure` : evidenceOutputPath("evidence/runtime/chart-variants/feedback-2026-10-08/structure");
 test.beforeAll(() => mkdirSync(evidence, { recursive: true }));
 test.beforeEach(async ({ page }) => { await page.emulateMedia({ reducedMotion: "reduce" }); });
 

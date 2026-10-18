@@ -94,3 +94,23 @@ visualRefinement:
   evidence: "evidence/runtime/g2-g3-remaining-families-2026-10-08/verification.md"
   runtimeHumanGate: "awaiting-user-review"
   publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "anchored-overlays"
+  taskIds:
+    - "read-communicate"
+  searchAliases:
+    - "预览卡"
+    - "悬停预览"
+  implementationRole: "root"
+  controlScope: "对象入口的补充预览"
+  stateOwner: "Root 统一打开及触发器；Portal、Positioner、Popup 显式组合，宿主拥有预览数据与访问操作，不假设有 Content。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-popover"
+      condition: "需要显式点击、编辑或持续操作的面板时比较 Popover。"
+      evidence:
+        path: "packages/ui/src/hover-card/hover-card.tsx"
+        symbol: "HoverCard"
+        kind: "contract"

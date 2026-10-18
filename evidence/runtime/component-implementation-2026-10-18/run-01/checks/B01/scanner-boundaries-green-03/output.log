@@ -1,0 +1,38 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ scripts/verify-css-variables.test.ts (10 tests | 1 failed) 1174ms
+   × resolves static Rain variables across the actual public CSS and live examples 1143ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-css-variables.test.ts > resolves static Rain variables across the actual public CSS and live examples
+AssertionError: expected [ …(4) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "packages/ui/src/tree/tree.css:6: not reachable from entry public-layouts-declared-bundle: --rain-tree-rich-spacing; definitions: packages/ui/src/tree/tree.tsx",
++   "packages/ui/src/tree/tree.css:49: not reachable from entry public-layouts-declared-bundle: --rain-tree-anchor; definitions: packages/ui/src/tree/tree.tsx",
++   "packages/ui/src/tree/tree.css:50: not reachable from entry public-layouts-declared-bundle: --rain-tree-anchor; definitions: packages/ui/src/tree/tree.tsx",
++   "packages/ui/src/tree/tree.css:52: not reachable from entry public-layouts-declared-bundle: --rain-tree-anchor; definitions: packages/ui/src/tree/tree.tsx",
++ ]
+
+ ❯ scripts/verify-css-variables.test.ts:21:41
+     19|
+     20| it("resolves static Rain variables across the actual public CSS and li…
+     21|   expect(verifyCssVariables().failures).toEqual([]);
+       |                                         ^
+     22| });
+     23|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  13:50:35
+   Duration  2.47s (transform 375ms, setup 97ms, import 496ms, tests 1.17s, environment 602ms)
+

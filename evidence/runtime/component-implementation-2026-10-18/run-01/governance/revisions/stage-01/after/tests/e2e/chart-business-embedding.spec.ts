@@ -1,0 +1,135 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
+import { test, expect } from "@playwright/test";
+import { mkdir,writeFile } from "node:fs/promises";
+const evidence = process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR ? `${process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR}/embedding` : evidenceOutputPath("evidence/runtime/chart-business-label-color-layout-2026-10-09/browser/embedding");
+test("standard bars and mini charts fit real hosts, preserve their scale and expose equivalent readings", async ({ page }) => {
+  const errors: string[] = []; page.on("pageerror",error => errors.push(error.message));
+  await page.emulateMedia({reducedMotion:"reduce"}); await page.goto("/#chart-business");
+  const bars=page.locator('[data-business="horizontal"] g[class^="bar-series-"] rect'); await expect(bars).toHaveCount(5);
+  const widths=await bars.evaluateAll(nodes => nodes.map(node => Number(node.getAttribute("width"))));
+  expect(widths[0]!/widths[2]!).toBeCloseTo(.25,2); expect(widths[1]!/widths[2]!).toBeCloseTo(.5,2);
+  const first=page.locator('.rain-business-table tbody tr[data-row-id="college-1"]');
+  await expect(first.locator('.rain-data-bar')).toHaveAttribute("data-fraction","0.25");
+  await page.getByRole("button",{name:"只看50人以上"}).click();
+  await expect(page.locator('.rain-business-table tbody tr')).toHaveCount(3);
+  await expect(page.locator('.rain-business-table tbody tr[data-row-id="college-2"] .rain-data-bar')).toHaveAttribute("data-fraction","0.5");
+  await page.getByRole("button",{name:"只看50人以上"}).click();
+  await first.getByRole("button").click(); await expect(page.locator('.rain-business-detail')).toContainText("每日读数");
+  await page.getByRole("button",{name:"按数量排序"}).click();
+  await expect(page.locator('.rain-business-table tbody tr').first()).toHaveAttribute("data-row-id","college-3");
+  await page.getByRole("combobox",{name:"业务数据状态"}).selectOption("missing"); await expect(page.locator('.rain-business-table .rain-data-bar[data-state="missing"]').first()).toBeVisible();
+  await page.getByRole("combobox",{name:"业务数据状态"}).selectOption("zero"); await expect(page.locator('.rain-business-table')).toContainText("不适用");
+  await page.getByRole("combobox",{name:"业务数据状态"}).selectOption("invalid"); await expect(page.getByRole("alert")).toContainText("无效数据"); expect(await page.locator('.rain-chart svg').count()).toBe(0);
+  await page.getByRole("combobox",{name:"业务数据状态"}).selectOption("long"); await page.setViewportSize({width:390,height:1000});
+  await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  await mkdir(evidence,{recursive:true}); await page.screenshot({path:`${evidence}/narrow-long.png`,fullPage:true});
+  await page.setViewportSize({width:1440,height:1000}); await page.getByRole("combobox",{name:"业务数据状态"}).selectOption("normal");
+  await page.screenshot({path:`${evidence}/desktop.png`,fullPage:true});
+  await page.locator('.rain-business-bars').first().screenshot({path:`${evidence}/label-comparison.png`});
+  const geometry=await page.locator('svg path').evaluateAll(paths=>paths.filter(path=>/NaN|Infinity|undefined/.test(path.getAttribute('d')??'')).length); expect(geometry).toBe(0); expect(errors).toEqual([]);
+});
+test("40-row updates preserve SVG IDs and portal tooltip escapes the scrolling table", async ({page}) => {
+  await page.emulateMedia({reducedMotion:"reduce"}); await page.goto("/#chart-business"); await page.getByRole("button",{name:"40行场景"}).click();
+  await expect(page.locator('.rain-business-table tbody tr')).toHaveCount(40);
+  const target=page.locator('.rain-business-table tbody tr').first().getByRole('button'); await target.scrollIntoViewIfNeeded(); await target.hover();
+  const initialInstances = await page.locator('.rain-business-table [data-mini-kind] svg').count();
+  const initiallyVisible = await page.locator('.rain-business-table tbody tr').evaluateAll(nodes => nodes.filter(node => {
+    const row = node.getBoundingClientRect(), region = node.closest('.rain-business-table-scroll')!.getBoundingClientRect();
+    return row.bottom > region.top && row.top < region.bottom;
+  }).length);
+  expect(initialInstances).toBeGreaterThan(0);
+  expect(initialInstances).toBeLessThanOrEqual(initiallyVisible * 4);
+  const tooltip=page.getByRole('tooltip'); await expect(tooltip).toBeVisible();
+  expect(await tooltip.evaluate(node=>node.closest('.rain-business-table-scroll')===null)).toBe(true);
+  await page.getByRole('button',{name:'更新数据',exact:true}).click();
+  await expect(page.locator('.rain-business-table tbody tr').first().locator('.rain-data-bar')).toHaveAttribute('data-fraction','0.75');
+  await page.locator('.rain-business-table tbody tr[data-row-id="college-1-0"]').evaluate(node=>node.setAttribute('data-test-owned-row','first'));
+  await page.getByRole('button',{name:'按数量排序'}).click();
+  await expect(page.locator('.rain-business-table tbody tr[data-row-id="college-1-0"]')).toHaveAttribute('data-test-owned-row','first');
+  const ids=await page.locator('svg [id]').evaluateAll(nodes=>nodes.map(node=>node.id)); expect(new Set(ids).size).toBe(ids.length);
+  const scroll=page.getByRole('region',{name:'学院数据与迷你图表'}); await scroll.evaluate(node=>{node.scrollTop=node.scrollHeight;});
+  await page.locator('.rain-business-table tbody tr').last().scrollIntoViewIfNeeded();
+  await expect(page.locator('.rain-business-table tbody tr').last().locator('[data-mini-kind="columns"] svg')).toBeVisible();
+  const finalRow = page.locator('.rain-business-table tbody tr').last();
+  await finalRow.getByRole('button').click();
+  await expect(page.locator('.rain-business-detail')).toContainText(await finalRow.getByRole('button').innerText());
+  await expect(finalRow.locator('[data-mini-kind="columns"]')).toHaveAttribute('data-size','compact');
+  await mkdir(evidence,{recursive:true}); await writeFile(`${evidence}/batch-facts.json`,JSON.stringify({rows:40,initiallyVisible,initialInstances,svgIds:ids.length,duplicates:ids.length-new Set(ids).size,tooltipPortal:true},null,2));
+});
+test('stationary hover does not retain stale values after a host update',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'}); await page.goto('/#chart-business');
+  const plot=page.locator('[data-business="horizontal"]'); const bar=plot.locator('g[class^="bar-series-"] rect').first(); await expect(bar).toBeVisible();
+  const box=(await bar.boundingBox())!; await page.mouse.move(box.x+box.width/2,box.y+box.height/2);
+  await expect(plot.locator('.rain-chart-tooltip')).toContainText('25');
+  await page.getByRole('button',{name:'更新数据',exact:true}).evaluate(node=>(node as HTMLButtonElement).click());
+  await expect(plot.locator('.rain-chart-tooltip')).toHaveCount(0);
+  await page.mouse.move(box.x+box.width/2+1,box.y+box.height/2);
+  await expect(plot.locator('.rain-chart-tooltip')).toContainText('75');
+});
+
+test('mini domains stay fixed through filtering and previously viewed rows refresh after scrolling',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'}); await page.goto('/#chart-business');
+  const second=page.locator('.rain-business-table tbody tr[data-row-id="college-2"]');
+  await second.scrollIntoViewIfNeeded();
+  const columns=second.locator('[data-mini-kind="columns"] svg'); await expect(columns).toBeVisible();
+  const geometry=()=>columns.locator('rect').evaluateAll(nodes=>nodes.map(node=>[node.getAttribute('y'),node.getAttribute('height')]));
+  const before=await geometry();
+  await page.getByRole('button',{name:'只看50人以上'}).evaluate(node=>(node as HTMLButtonElement).click());
+  expect(await geometry()).toEqual(before);
+  await page.getByRole('button',{name:'只看50人以上'}).evaluate(node=>(node as HTMLButtonElement).click());
+  await page.getByRole('button',{name:'40行场景'}).evaluate(node=>(node as HTMLButtonElement).click());
+  const first=page.locator('.rain-business-table tbody tr[data-row-id="college-1-0"]');
+  await first.scrollIntoViewIfNeeded(); await expect(first.locator('[data-mini-kind="area"] svg')).toBeVisible();
+  await first.locator('[data-mini-kind="area"]').evaluate(node=>node.setAttribute('data-test-stable-trend','true'));
+  const scroll=page.getByRole('region',{name:'学院数据与迷你图表'});
+  await scroll.evaluate(node=>{node.scrollTop=node.scrollHeight;});
+  await page.getByRole('button',{name:'更新数据',exact:true}).evaluate(node=>(node as HTMLButtonElement).click());
+  await page.getByRole('combobox',{name:'业务数据状态'}).selectOption('zero');
+  await expect(first.locator('[data-mini-kind="area"]')).toHaveAttribute('data-mini-state','offscreen');
+  await expect(first.locator('[data-mini-kind="area"] svg')).toHaveCount(0);
+  await first.scrollIntoViewIfNeeded();
+  await expect(first.locator('[data-mini-kind="area"]')).toHaveAttribute('data-mini-state','zero');
+  await expect(first.locator('[data-reading="count"]')).toHaveText('0 人');
+  await page.getByRole('combobox',{name:'业务数据状态'}).selectOption('normal');
+  await expect(first.locator('[data-reading="count"]')).toHaveText('75 人');
+  await expect(first.locator('.rain-data-bar')).toHaveAttribute('data-fraction','0.75');
+  await first.getByRole('button').hover(); await expect(page.getByRole('tooltip')).toContainText('75 人');
+  await first.locator('[data-mini-kind="area"]').evaluate(node=>node.setAttribute('data-test-stable-trend','true'));
+  await page.getByRole('button',{name:'按数量排序'}).evaluate(node=>(node as HTMLButtonElement).click());
+  await expect(first.locator('[data-mini-kind="area"]')).toHaveAttribute('data-test-stable-trend','true');
+  await first.scrollIntoViewIfNeeded();
+  const firstTrend=await first.locator('[data-mini-kind="area"] path[d]').first().getAttribute('d');
+  const peer=page.locator('.rain-business-table tbody tr[data-row-id="college-1-35"]');
+  await peer.scrollIntoViewIfNeeded(); await expect(peer.locator('[data-mini-kind="area"] svg')).toBeVisible();
+  await expect(peer.locator('[data-mini-kind="area"] path[d]').first()).toHaveAttribute('d',firstTrend!);
+});
+
+test('five and forty row updates record frame intervals and long tasks in the same browser',async({page})=>{
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  const facts=[];
+  for(const many of [false,true]) {
+    await page.goto('/#chart-business');
+    if(many)await page.getByRole('button',{name:'40行场景'}).click();
+    await page.locator('.rain-business-table tbody tr').first().scrollIntoViewIfNeeded();
+    await page.waitForTimeout(800);
+    const sample=await page.evaluate(async()=>{
+      const intervals:number[]=[], longTasks:number[]=[];
+      const supported=PerformanceObserver.supportedEntryTypes.includes('longtask');
+      const observer=supported ? new PerformanceObserver(list=>longTasks.push(...list.getEntries().map(entry=>entry.duration))) : null;
+      observer?.observe({type:'longtask'});
+      const start=performance.now(); let previous=0;
+      const button=[...document.querySelectorAll<HTMLButtonElement>('.rain-business-controls button')].find(node=>node.textContent==='更新数据')!;
+      button.click();
+      await new Promise<void>(resolve=>{
+        const frame=(time:number)=>{if(previous)intervals.push(time-previous);previous=time;if(time-start<900)requestAnimationFrame(frame);else resolve();};
+        requestAnimationFrame(frame);
+      });
+      observer?.disconnect(); intervals.sort((a,b)=>a-b);
+      return {frames:intervals.length,longTaskSupported:supported,longTasks,medianMs:intervals[Math.floor(intervals.length*.5)],p95Ms:intervals[Math.floor(intervals.length*.95)],maxMs:intervals.at(-1),userAgent:navigator.userAgent};
+    });
+    expect(sample.frames).toBeGreaterThan(1);
+    expect(Number.isFinite(sample.medianMs)&&Number.isFinite(sample.p95Ms)).toBe(true);
+    facts.push({rows:many ? 40 : 5,...sample,svgInstances:await page.locator('.rain-business-table svg').count()});
+  }
+  await mkdir(evidence,{recursive:true}); await writeFile(`${evidence}/performance.json`,JSON.stringify({scope:'Chromium local update sample; no sustained 60fps claim',facts},null,2));
+});

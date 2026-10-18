@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect } from '@playwright/test';
 
 test('G1 review-08 rail transitions retain brand nodes and use standard Avatar', async ({page}) => {
   const {mkdir,writeFile}=await import('node:fs/promises');
-  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/rail` : 'evidence/runtime/navigation-v042/review-08/after';
+  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/rail` : evidenceOutputPath('evidence/runtime/navigation-v042/review-08/after');
   await mkdir(evidence,{recursive:true});
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.setViewportSize({width:1157,height:771});
@@ -64,7 +65,7 @@ test('G1 review-08 rail transitions retain brand nodes and use standard Avatar',
 
 test('G1 review-07 standard tags, concise toolbar and aligned metadata', async ({page}) => {
   const {mkdir,writeFile}=await import('node:fs/promises');
-  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/tree` : 'evidence/runtime/navigation-v042/review-07/after';
+  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/tree` : evidenceOutputPath('evidence/runtime/navigation-v042/review-07/after');
   await mkdir(evidence,{recursive:true});
   await page.setViewportSize({width:1600,height:1000});
   await page.goto('/#navigation-v042');
@@ -280,7 +281,7 @@ test('G1 review keeps R2 alignment, local tokens and real semester/breadcrumb se
 test('G1 review-02 interactive controls expose hover without changing disabled controls', async ({page}) => {
   const { mkdir, writeFile } = await import('node:fs/promises');
   const phase=process.env.NAV_REVIEW_PHASE==='before'?'before':'after';
-  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/hover-${phase}` : `evidence/runtime/navigation-v042/review-07/regression-02-${phase}`;
+  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/hover-${phase}` : evidenceOutputPath(`evidence/runtime/navigation-v042/review-07/regression-02-${phase}`);
   await mkdir(evidence,{recursive:true});
   const facts: Record<string,unknown>={};
   await page.goto('/#navigation-v042');
@@ -381,7 +382,7 @@ test('G1 review-02 interactive controls expose hover without changing disabled c
 test('G1 review-03 More reports hidden classes and opens an anchored standard dropdown', async ({page}) => {
   const {mkdir,writeFile}=await import('node:fs/promises');
   const phase=process.env.NAV_REVIEW_PHASE==='before'?'before':'after';
-  const dir=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/more-${phase}` : `evidence/runtime/navigation-v042/review-07/${phase}`;
+  const dir=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/more-${phase}` : evidenceOutputPath(`evidence/runtime/navigation-v042/review-07/${phase}`);
   await mkdir(dir,{recursive:true});
   await page.goto('/#navigation-v042');
   const root=page.locator('.nv42-r2'),more=root.getByRole('button',{name:'更多班级',exact:true});
@@ -421,7 +422,7 @@ test('G1 review-03 More reports hidden classes and opens an anchored standard dr
 
 test('G1 review-04 connected tabs keep 8px hover clearance and stable content in both connection modes', async ({page}) => {
   const {mkdir,writeFile}=await import('node:fs/promises');
-  const dir=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/connected` : `evidence/runtime/navigation-v042/review-07/regression-04-${process.env.NAV_REVIEW_PHASE==='before'?'before':'after'}`;
+  const dir=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/connected` : evidenceOutputPath(`evidence/runtime/navigation-v042/review-07/regression-04-${process.env.NAV_REVIEW_PHASE==='before'?'before':'after'}`);
   await mkdir(dir,{recursive:true});
   await page.goto('/#navigation-v042');
   const facts=[];
@@ -494,7 +495,7 @@ test('G1 review-04 connected tabs keep 8px hover clearance and stable content in
 test('G1 review-05 uses standard Tree geometry and a compact pale More arrow', async ({page}) => {
   const { mkdir, writeFile } = await import('node:fs/promises');
   const phase=process.env.NAV_REVIEW_PHASE==='before'?'before':'after';
-  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/tree-${phase}` : `evidence/runtime/navigation-v042/review-07/${phase}`;
+  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/tree-${phase}` : evidenceOutputPath(`evidence/runtime/navigation-v042/review-07/${phase}`);
   await mkdir(evidence,{recursive:true});
   await page.goto('/#navigation-v042');
   const root=page.locator('.nv42-r2'), more=root.getByRole('button',{name:'更多班级',exact:true});
@@ -525,7 +526,7 @@ test('G1 review-05 uses standard Tree geometry and a compact pale More arrow', a
 
 
 test('G1 review-05 course resources add, reorder, delete and save through ManageTree without losing hidden draft nodes', async ({page}) => {
-  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/tree` : 'evidence/runtime/navigation-v042/review-07/after';
+  const evidence=process.env.RAIN_NAVIGATION_EVIDENCE_DIR ? `${process.env.RAIN_NAVIGATION_EVIDENCE_DIR}/g1/tree` : evidenceOutputPath('evidence/runtime/navigation-v042/review-07/after');
   await page.goto('/#navigation-v042');
   const root=page.locator('.nv42-r2'), tree=root.getByRole('tree',{name:'课程内容编辑树'});
   const row=(name:string)=>tree.getByRole('treeitem',{name,exact:true});

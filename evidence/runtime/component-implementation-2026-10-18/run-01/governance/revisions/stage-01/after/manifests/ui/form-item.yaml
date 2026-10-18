@@ -1,0 +1,123 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-form-item"
+name: "FormItem"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/input/form-item.tsx"
+styleSourcePath: "packages/ui/src/input/form-item.tsx"
+sourceVersion: "local-2026-09-08"
+publication: "unpublished"
+description: "Shared label, help and validation for Input, SearchInput, Select and Textarea; fixed inside labels remain limited to single-line controls."
+useWhen:
+  - "A single field control needs a visible label and associated feedback."
+doNotUseWhen:
+  - "A form store, validation engine or multiple field controls are required."
+  - "Inside label placement is requested for Textarea or another child that does not consume the fixed inside-label helper; use the default top label."
+anatomy:
+  - "Root"
+  - "Label"
+  - "Required"
+  - "Help"
+  - "Message"
+parts:
+  - "root"
+  - "label"
+  - "required"
+  - "help"
+  - "message"
+props:
+  - "children: one Input, SearchInput, Select or Textarea; Textarea uses a top label"
+  - "label"
+  - "labelPosition: top by default; inside for a fixed single-line label within Input, SearchInput or Select"
+  - "id"
+  - "help"
+  - "message"
+  - "status"
+  - "required"
+  - "disabled"
+  - "className: layout only"
+variants:
+  - "default"
+states:
+  - "default"
+  - "warning"
+  - "error"
+  - "disabled"
+tokens:
+  - "Typography/UI/Default"
+  - "Space/4"
+  - "Space/8"
+  - "FontSize/14, FontWeight/Semibold"
+  - "Text/Neutral/1,3"
+  - "Text/Red/1"
+  - "Text/Orange/1"
+compositionRules:
+  - "Top labels use 14px semibold text and an 8px gap to the control (4px label margin plus 4px field gap); input values retain regular weight. Help/message gaps and inside labels retain their existing styles."
+  - "Use a column flex layout: labels and feedback retain natural height; Textarea fills the remaining height of a stretched row so sibling textareas follow its tallest item."
+  - "Own one shared validation presentation; the host owns rules and timing."
+  - "Resolve id from FormItem, direct child or useId; associate the same label and description IDs."
+  - "Field status controls the Input, Select or Textarea frame and message consistently."
+  - "Required and disabled inherit additively; no value state or validation execution."
+  - "Inside labels use the same field ID, label ID and context; they remain visible after editing, selection or clearing. Top labels remain the default."
+  - "Inside labels occupy at most half the field, truncate visually and retain the complete accessible name; labels are not placeholders or editable values."
+  - "Inside labels are available only to Input, SearchInput and Select; existing field appearances and sizes remain independent."
+  - "Inside required markers inherit the label color, including disabled inheritance; the shape and native required semantics remain intact. Top-label required markers retain the prior red color."
+allowedModifications:
+  - "Provide field labels and help/message content."
+restrictedModifications:
+  - "Do not embed a form state engine or infer validation from values."
+accessibility:
+  - "Label click focuses the input or Select trigger; descriptions are merged and deduplicated."
+  - "Warning messages use Orange1 and error messages Red1; contrast findings remain pending independently. Required marker is decorative and native required or Select aria-required carries semantics."
+visualLineage:
+  rainClassicReferences:
+    - "Rain Classic FormItem external label and message"
+  externalReferences:
+    - "https://ui.shadcn.com/docs/components/radix/field"
+    - "https://mui.com/material-ui/react-text-field/"
+  retainedTraits:
+    - "External label and help"
+  redesignedTraits:
+    - "Shared lightweight field context and optional fixed inside label"
+  intentionallyNotInherited:
+    - "Form store and floating labels"
+examples:
+  - "#input"
+  - "#select"
+verification:
+  automated: "passed"
+  independentReview: "findings"
+  humanGate: "accepted"
+  humanGateScope: "input-search-input-form-item-runtime-visual-only"
+  evidence: "evidence/runtime/input/verification.md"
+
+insideFieldLabels:
+  implementation: "completed"
+  automated: "passed"
+  independentReview: "findings"
+  plan: "docs/plans/2026-09-14-inside-field-labels.md"
+  evidence: "evidence/runtime/inside-field-labels/verification.md"
+  labelPosition: "optional-inside-default-top"
+  humanGate: "accepted"
+  humanGateScope: "input-search-input-select-inside-labels-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  publication: "not-authorized"
+
+discovery:
+  version: 1
+  familyId: "fields"
+  taskIds:
+    - "fill-validate"
+  searchAliases:
+    - "Label"
+    - "Field"
+    - "表单项"
+    - "字段标签"
+    - "错误说明"
+  implementationRole: "root"
+  controlScope: "标签、说明、错误及控件关联"
+  stateOwner: "FormItem 通过 label/help/message/status 与唯一 children 输入建立关联；这些是属性与样式 Parts，不存在 FormItem.Root/Label 等公开成员。字段值、校验时机与错误由宿主拥有。"
+  relationships: []

@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 
 const url = process.env.RAIN_V12_G2_URL ?? "http://127.0.0.1:5372";
-const evidence = "evidence/runtime/token-first-v12-g2/browser";
+const evidence = evidenceOutputPath("evidence/runtime/token-first-v12-g2/browser");
 test.beforeAll(() => mkdirSync(evidence, { recursive: true }));
 test.beforeEach(async ({ page }) => {
   await page.goto(`${url}/#token-first-g2`);

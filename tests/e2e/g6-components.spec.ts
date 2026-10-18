@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect, type Page } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { verifyConversationReading } from "./helpers/conversation-scrolling";
-const evidence=resolve(process.env.G6_EVIDENCE_DIR??`evidence/runtime/g6-components-current/${new Date().toISOString().replace(/[:.]/g,"-")}`);
+const evidence=resolve(process.env.G6_EVIDENCE_DIR??evidenceOutputPath(`evidence/runtime/g6-components-current/${new Date().toISOString().replace(/[:.]/g,"-")}`));
 mkdirSync(evidence,{recursive:true});
 async function open(page:Page,id:string){await page.goto(`/#${id}`);await expect(page.locator(`#${id}-title`)).toBeVisible();}
 const ids=["data-table","aspect-ratio","attachment","direction","drawer","input-otp","carousel","bubble","marker","message","message-scroller","questionnaire"];

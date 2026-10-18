@@ -180,3 +180,31 @@ controlReuse:
   humanGate: "awaiting_human"
   contrastAcceptance: "not-granted"
   publicContract: "唯一新增input-wrapper Part；Choice label/render/ref、ReactNode children及Input原生size/maxLength/type/form/name/reset保留。"
+
+discovery:
+  version: 1
+  familyId: "questions"
+  taskIds:
+    - "fill-validate"
+    - "workbench"
+  searchAliases:
+    - "逐题作答"
+    - "问卷流程"
+  implementationRole: "root"
+  controlScope: "逐题呈现、答案、校验和前后导航"
+  stateOwner: "Questionnaire Primitive 是真实答案和步骤 owner；Rain Input/Choice 适配器复用表面而不嵌套第二个 Input/Radio。公开 Parts 同根组合，业务提交和持久化由宿主完成。"
+  relationships:
+    - type: "sharesPresentation"
+      targetId: "ui-input"
+      condition: "Primitive.Input 拥有真实答案；仅复用字段/输入表面，不嵌套 Rain Input。"
+      evidence:
+        path: "packages/ui/src/questionnaire/questionnaire-input-adapter.tsx"
+        symbol: "QuestionnaireInputAdapter"
+        kind: "contract"
+    - type: "sharesPresentation"
+      targetId: "ui-radio-card"
+      condition: "Primitive.Choice 拥有答案；选择控件与 CardSurface 复用呈现，不嵌套 RadioCard owner。"
+      evidence:
+        path: "packages/ui/src/questionnaire/questionnaire-choice-adapter.tsx"
+        symbol: "QuestionnaireChoiceAdapter"
+        kind: "contract"

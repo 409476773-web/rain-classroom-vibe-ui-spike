@@ -102,3 +102,23 @@ visualRefinement:
   evidence: "evidence/runtime/g2-g3-remaining-families-2026-10-08/verification.md"
   runtimeHumanGate: "awaiting-user-review"
   publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "navigation"
+  taskIds:
+    - "navigate"
+  searchAliases:
+    - "展开导航"
+    - "站点导航"
+  implementationRole: "root"
+  controlScope: "带展开面板的真实页面链接导航"
+  stateOwner: "Root 管理展开组 value；Link 当前地址由宿主路由决定，两者不是同一值。List/Item/Trigger/Content 与显式浮层 Parts 按该根组合。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-menubar"
+      condition: "项目执行应用命令而非导航时比较 Menubar；展开组不是当前路由。"
+      evidence:
+        path: "packages/ui/src/navigation-menu/navigation-menu.tsx"
+        symbol: "NavigationMenu"
+        kind: "contract"

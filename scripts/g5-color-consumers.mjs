@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { dateTimeOptimizationEvidence, datePickerUxRefinementEvidence, sliderRefinementEvidence, getDateTimeOptimizationSourceBindings, getSliderRefinementSourceBindings, datePickerVisualFeedbackEvidence, getDatePickerVisualFeedbackSourceBindings, datePickerCloseoutEvidence, getDatePickerCloseoutSourceBindings, hasSliderCloseoutAuthorization, parseYamlSubset } from "./verification-helpers.mjs";
 import { measureColorContrast, resolveColor, resolveColorSurface } from "../packages/foundations/src/color-registry.ts";
+import { getG6SourceBindings } from "./verification-helpers.mjs";
 
 export const g5ColorLedger = "evidence/runtime/g5-components-2026-10-12/color-consumers.json";
 function getPreviousG5ColorConsumers(root = process.cwd()) {
@@ -125,8 +126,10 @@ export function getG5ColorConsumers(root = process.cwd()) {
 
 export function verifyG5ColorSources(root = process.cwd()) {
   const ledger = getG5ColorConsumers(root);
+  const maintenance = getG6SourceBindings(root)?.deepReviewSuccessor?.sourceFiles ?? {};
   for (const [file, expected] of Object.entries(ledger.sourceFiles)) {
-    if (createHash("sha256").update(readFileSync(join(root, file))).digest("hex") !== expected) throw new Error(`G5 color source changed: ${file}`);
+    const actual = createHash("sha256").update(readFileSync(join(root, file))).digest("hex"), current = maintenance[file];
+    if (actual !== expected && !(current?.before === expected && current.after === actual)) throw new Error(`G5 color source changed: ${file}`);
   }
   return ledger;
 }

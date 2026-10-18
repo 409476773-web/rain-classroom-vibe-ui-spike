@@ -1,3 +1,13 @@
+import documentationRoutes from "../../../../config/asset-documentation-routes.json";
+import type { ComponentDocId } from "../docs/components/component-catalog";
+
+export type AppRoute = {
+  componentId?: ComponentDocId;
+  focusTargetId: string;
+  view: "compositions" | "component-asset" | "navigation-v042" | "tree" | "manage-tree" | "breadcrumb" | "alert" | "input-number" | "avatar" | "table" | "layouts" | "dialog" | "card" | "tabs" | "components" | "foundations" | "token-foundations" | "icons" | "overview" | "text-button" | "text-button-help" | "button-tokens" | "icon-button" | "question-number" | "option-button" | "input" | "select" | "dropdown" | "tag" | "checkbox" | "radio" | "selection-cards" | "selection-patterns" | "selection-playground";
+};
+
+
 export type OverviewRoute = {
   id: "foundations" | "components" | "icons" | "benchmarks";
   label: "Foundations" | "Components" | "Icons" | "Benchmarks";
@@ -18,15 +28,15 @@ export const overviewRoutes: readonly OverviewRoute[] = [
     id: "components",
     label: "Components",
     href: "#components",
-    description: "检查 Button、Input、Select、Tabs、Dropdown/Popover、Tag/Badge 与 Surface/Card，查看完整组件用法。",
+    description: "按用途查看基础控件、表单、导航、工作区、图表与会话组合的用法。",
     meta: "组件与组合入口",
   },
   {
     id: "benchmarks",
     label: "Benchmarks",
     href: "#benchmarks",
-    description: "四类真实业务切片已登记，目前仅提供验证入口。",
-    meta: "4 个已登记",
+    description: "查看数据管理、大表单、批改工作台与报告切片的当前实现与独立验收状态。",
+    meta: "4 类业务切片",
   },
   {
     id: "icons",
@@ -36,3 +46,15 @@ export const overviewRoutes: readonly OverviewRoute[] = [
     meta: "雨课堂完整图标目录",
   },
 ];
+
+/** Shared explicit routes preserve legacy hashes and their destination/focus contract. */
+export function resolveAppRoute(hash: string): AppRoute {
+  const pathname = hash.split("?")[0] ?? "";
+  const binding = documentationRoutes.routes.find(route => route.href === pathname);
+  if (!binding) return { focusTargetId: "overview-title", view: "overview" };
+  return {
+    focusTargetId: binding.focusTargetId,
+    view: binding.pageKey as AppRoute["view"],
+    ...(binding.componentId ? { componentId: binding.componentId as ComponentDocId } : {}),
+  };
+}

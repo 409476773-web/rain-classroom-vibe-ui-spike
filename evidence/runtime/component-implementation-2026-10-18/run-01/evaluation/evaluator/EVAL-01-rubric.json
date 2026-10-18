@@ -1,0 +1,59 @@
+{
+  "taskId": "EVAL-01",
+  "focus": "单元/资源/草稿/检查结果的 ID 与归属清晰；表单关联和首错定位；附件只有一份队列；预览独立；窄屏焦点与返回；只针对选定单元保存。不能仅换 BM-B 字段名复刻其信息结构。",
+  "requiredFlows": [
+    {
+      "id": "EVAL-01-FLOW-01",
+      "criterion": "切换 unit-ready/unit-needs/unit-long 并展示所属资源",
+      "expectedResult": "满足需求语义；接受不同布局与合法组件组合，不要求唯一 JSX"
+    },
+    {
+      "id": "EVAL-01-FLOW-02",
+      "criterion": "缺说明/附件时检查失败并定位对应资源字段",
+      "expectedResult": "满足需求语义；接受不同布局与合法组件组合，不要求唯一 JSX"
+    },
+    {
+      "id": "EVAL-01-FLOW-03",
+      "criterion": "修复后当前单元可以保存，首次指定保存失败保留草稿，重试更新快照",
+      "expectedResult": "满足需求语义；接受不同布局与合法组件组合，不要求唯一 JSX"
+    },
+    {
+      "id": "EVAL-01-FLOW-04",
+      "criterion": "unit-needs 草稿切至其他单元再回来仍存在",
+      "expectedResult": "满足需求语义；接受不同布局与合法组件组合，不要求唯一 JSX"
+    },
+    {
+      "id": "EVAL-01-FLOW-05",
+      "criterion": "独立预览资源不改当前编辑选择且不提交",
+      "expectedResult": "满足需求语义；接受不同布局与合法组件组合，不要求唯一 JSX"
+    },
+    {
+      "id": "EVAL-01-FLOW-06",
+      "criterion": "宽屏/窄屏长标题可读，关键检查与保存可达",
+      "expectedResult": "满足需求语义；接受不同布局与合法组件组合，不要求唯一 JSX"
+    }
+  ],
+  "E1Assertions": [
+    "检查侧区/窄屏临时入口显示同一派生结果",
+    "定位修复后焦点回原字段或合理后继",
+    "另一单元草稿与未改资源不变"
+  ],
+  "E2Assertions": [
+    "收拢后的预览仍独立且不改选择",
+    "已保存信息与变更可比较",
+    "保存失败重试与另一单元草稿保持"
+  ],
+  "allowedAlternatives": [
+    "真实公共 Props/Parts/Slots",
+    "具名 Local Recipe",
+    "有来源与 checksum 的场景 Local Fork",
+    "合同正确的 no-match 与合法本地实现"
+  ],
+  "notAllowed": [
+    "猜测公共 API",
+    "为完成评测改共享包或锁",
+    "复制现有整页只换字段或标题",
+    "改变评分后将原失败改写为成功"
+  ],
+  "humanReview": "awaiting_human，不能由评估者自动接受"
+}

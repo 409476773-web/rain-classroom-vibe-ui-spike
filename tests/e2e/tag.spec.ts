@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { writeFileSync } from "node:fs";
 import { expect, test, type Locator } from "@playwright/test";
 import { resolveColor, tagColorProfiles, type ColorTheme } from "../../packages/foundations/src/index";
@@ -54,7 +55,7 @@ test("Tag compound paint matches real browser pixels across appearances and acti
     }
     await page.mouse.move(0, 0); await page.mouse.up();
   }
-  if (saveEvidence) writeFileSync("evidence/runtime/tag-batch-one/paint-samples.json", JSON.stringify({ source: "Chromium screenshot pixels from the actual #tag page", tolerance: 2, samples }, null, 2) + "\n");
+  if (saveEvidence) writeFileSync(evidenceOutputPath("evidence/runtime/tag-batch-one/paint-samples.json"), JSON.stringify({ source: "Chromium screenshot pixels from the actual #tag page", tolerance: 2, samples }, null, 2) + "\n");
 });
 
 test("Tag paints all source profiles, complete sizes and an isolated Light scope", async ({ page }, testInfo) => {
@@ -82,7 +83,7 @@ test("Tag paints all source profiles, complete sizes and an isolated Light scope
       }
     }
     await page.getByRole("combobox", { name: "标签所在底色" }).selectOption("1");
-    await page.screenshot({ fullPage: true, path: saveEvidence ? `evidence/runtime/tag-batch-one/${theme}.png` : testInfo.outputPath(`${theme}.png`) });
+    await page.screenshot({ fullPage: true, path: saveEvidence ? evidenceOutputPath(`evidence/runtime/tag-batch-one/${theme}.png`) : testInfo.outputPath(`${theme}.png`) });
   }
   const island = page.getByTestId("tag-light-island").locator('[data-rain-id="ui-tag"][data-appearance="filled"]');
   expect(rgba(await island.evaluate((element) => getComputedStyle(element).color))).toEqual(resolveColor("Text/TagPaper/1", "light"));
@@ -225,6 +226,6 @@ test.describe("touch", () => {
       const a = targets[i]!, b = targets[j]!;
       expect(a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height).toBe(false);
     }
-    await page.screenshot({ fullPage: true, path: saveEvidence ? "evidence/runtime/tag-batch-one/compact.png" : testInfo.outputPath("compact.png") });
+    await page.screenshot({ fullPage: true, path: saveEvidence ? evidenceOutputPath("evidence/runtime/tag-batch-one/compact.png") : testInfo.outputPath("compact.png") });
   });
 });

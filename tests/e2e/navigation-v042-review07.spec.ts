@@ -1,5 +1,6 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import {test,expect,type Locator} from '@playwright/test';
-const evidence=process.env.NAVIGATION_PLATFORM_EVIDENCE_DIR??'evidence/runtime/navigation-v042/w5/review-07-cross-page/platform-final';
+const evidence=process.env.NAVIGATION_PLATFORM_EVIDENCE_DIR??evidenceOutputPath('evidence/runtime/navigation-v042/w5/review-07-cross-page/platform-final');
 // Review07 behavior is retained against the accepted Review11/12 successor:
 // w5/review-11-annotations-navigation/scope.md, w5/review-12-pale-splitters/scope.md;
 // owning source is frozen by g2-acceptance-13/accepted-source-before-status.json.

@@ -109,3 +109,22 @@ verification:
   humanGateScope: "avatar-current-runtime-visual-only"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/avatar/refinement-2026-09-16.md"
+
+discovery:
+  version: 1
+  familyId: "avatars"
+  taskIds:
+    - "identify"
+  searchAliases:
+    - "群组头像"
+    - "成员溢出"
+  implementationRole: "composition"
+  controlScope: "一组人物头像及溢出成员入口"
+  stateOwner: "宿主拥有成员列表与成员动作；组件计算可见与溢出展示，不改变成员集合。"
+  relationships:
+    - type: "composes"
+      targetId: "ui-avatar"
+      evidence:
+        path: "packages/ui/src/avatar/avatar-group.tsx"
+        symbol: "AvatarGroup"
+        kind: "render"

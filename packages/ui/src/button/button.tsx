@@ -30,6 +30,8 @@ export type ButtonTextSize = "small" | "compact" | "regular";
 export type ButtonPart = ButtonStylePart;
 
 interface ButtonSharedProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Only variant=text guards aria-disabled activation; other variants use disabled or loading. */
+  "aria-disabled"?: ButtonHTMLAttributes<HTMLButtonElement>["aria-disabled"];
   children: ReactNode;
   /** Layout-only host classes. Visual changes belong in a named Local Recipe. */
   className?: string;

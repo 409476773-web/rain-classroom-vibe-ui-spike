@@ -1,0 +1,31 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ apps/playground/src/docs/components/g5-component-pages.test.tsx (15 tests | 1 failed | 14 skipped) 180ms
+   × keeps unresolved field errors when another field is edited 179ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/playground/src/docs/components/g5-component-pages.test.tsx > keeps unresolved field errors when another field is edited
+Error: expect(element).toHaveAccessibleDescription()
+
+Expected element to have accessible description:
+  请选择所属课程。
+Received:
+
+ ❯ apps/playground/src/docs/components/g5-component-pages.test.tsx:84:18
+     82|   fireEvent.change(within(form).getByRole("textbox", { name: "作业说明" })…
+     83|   expect(title).not.toHaveAttribute("aria-invalid", "true");
+     84|   expect(course).toHaveAccessibleDescription("请选择所属课程。");
+       |                  ^
+     85|   expect(points).toHaveAccessibleDescription(/请输入 1–200 之间的整数满分。/);
+     86|   fireEvent.change(points, { target: { value: "80" } });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 skipped (15)
+   Start at  23:13:52
+   Duration  4.69s (transform 1.31s, setup 106ms, import 3.94s, tests 180ms, environment 378ms)
+

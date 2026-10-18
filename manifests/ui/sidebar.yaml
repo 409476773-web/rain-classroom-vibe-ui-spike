@@ -94,3 +94,25 @@ visualRefinement:
   evidence: "evidence/runtime/g2-g3-family-refinement-2026-10-08/verification.md"
   runtimeHumanGate: "awaiting-user-review"
   publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "navigation"
+  taskIds:
+    - "navigate"
+    - "organize"
+  searchAliases:
+    - "可折叠侧栏"
+    - "导航容器"
+    - "侧栏分区"
+  implementationRole: "composition"
+  controlScope: "可折叠导航容器的几何和分区"
+  stateOwner: "Sidebar 自身或宿主二选一拥有 collapsed；接入 Workspace 时由单一上层 owner 协调几何，路径/对象/草稿状态由宿主分别持有。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-navigation-list"
+      evidence:
+        path: "packages/ui/src/sidebar/sidebar.tsx"
+        kind: "contract"
+        symbol: "Sidebar"
+      condition: "只需要现成平面分组目的地列表时比较 NavigationList；Sidebar 是可组合容器。"

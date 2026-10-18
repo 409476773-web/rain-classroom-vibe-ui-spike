@@ -1,3 +1,4 @@
+import { componentImplementationFixtureFiles } from "./component-implementation-successor.mjs";
 import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -5,6 +6,7 @@ import { expect, it } from "vitest";
 import { getG6SourceBindings, getG6PreviousSource, getValidatedTailwindB2History, parseYamlSubset, withSourceBindingTraversal } from "./verification-helpers.mjs";
 import { closeoutBindingsPath, closeoutEvidence, restoreG1G6CloseoutPhase } from "./g1-g6-closeout-governance.mjs";
 import { githubReviewFixtureFiles } from "./github-review-successor.mjs";
+import { deepReviewFixtureFiles } from "./deep-review-successor.mjs";
 
 it("validates the current G1–G6 sources through the exact later successor without promoting old Gates", () => {
   const root = process.cwd();
@@ -36,6 +38,7 @@ it("rejects changed old Gates, unknown phase, runtime drift, rewritten proof, fo
   const paths = new Set<string>([
     closeoutBindingsPath, "scripts/g1-g6-closeout-governance.mjs",
     ...githubReviewFixtureFiles(process.cwd()),
+    ...deepReviewFixtureFiles(process.cwd()), ...componentImplementationFixtureFiles(process.cwd()),
     ...Object.keys(record.retainedFiles), ...Object.keys(record.sourceFiles),
     ...Object.keys(record.projectedFiles).map(file => closeoutEvidence + "predecessor/" + file),
     ...Object.keys(record.questionnaireFiles).map(file => closeoutEvidence + "questionnaire-predecessor/" + file),

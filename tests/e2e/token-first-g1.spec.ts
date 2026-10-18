@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { contrastRatio } from "./color-contrast";
 const url = process.env.RAIN_V12_URL ?? "http://127.0.0.1:5369";
-const evidence = `evidence/runtime/token-first-v12-g1/browser-${process.env.RAIN_V12_RUN ?? Date.now()}`;
+const evidence = evidenceOutputPath(`evidence/runtime/token-first-v12-g1/browser-${process.env.RAIN_V12_RUN ?? Date.now()}`);
 test.beforeAll(() => mkdirSync(evidence, { recursive: true }));
 
 test("G1 folding panels interpolate height on both opening and closing", async ({ page }) => {

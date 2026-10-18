@@ -21,7 +21,7 @@ const phase = () => {
   return status;
 };
 
-it("admits only the exact Tabs stage without changing frozen history or inventing a Gate", () => {
+it("admits only the exact Tabs stage without changing frozen history or inventing a Gate", () => helpers.withSourceBindingTraversal(process.cwd(), () => {
   expect(helpers.hasTabsRefinementAuthorization).toBeTypeOf("function");
   const status = phase();
   expect(helpers.hasTabsRefinementAuthorization(status)).toBe(true);
@@ -38,7 +38,7 @@ it("admits only the exact Tabs stage without changing frozen history or inventin
   }
   const changed = phase(); changed.phaseHistory.tailwindB2.currentPhase.progress = "changed";
   expect(() => helpers.validateTokenFoundationsV1Phase(changed)).toThrow();
-});
+}));
 
 it("preflight permissions cannot authorize public Tabs, another file or another headless module", () => {
   expect(helpers.getTabsRefinementFiles).toBeTypeOf("function");
@@ -125,14 +125,9 @@ it("protects only the reviewed Tabs CSS rules, retaining shared Focus and color 
   const contract = helpers.parseYamlSubset(readFileSync('manifests/contracts/tailwind-b2.yaml', 'utf8'));
   const check = (css: string, authorized = true) => tailwind.validateTabsCssExceptions({ source: css, contract, authorized });
   expect(check(source)).toEqual([]);
-  const predecessor = helpers.getG6PreviousSource(resolve('.'), 'packages/ui/src/styles.css');
-  if (predecessor == null) throw new Error('Tabs synthetic fixture requires the verified G6 predecessor');
-  const importPrefix = [
-    '@import "./navigation/navigation.css";', '@import "./navigation/navigation-families.css";',
-    '@import "./tree/tree.css";', '@import "./item/item.css";', '@import "./progress/progress.css";',
-  ].join('\n') + '\n';
-  expect(predecessor.startsWith(importPrefix)).toBe(true);
-  const mutationSource = predecessor.slice(importPrefix.length);
+  // R01 mutations must exercise the repaired live rules, not the historical
+  // G6 predecessor whose undefined divider token is intentionally preserved.
+  const mutationSource = source;
   expect(check(mutationSource + '\n.unrelated { display: block; }')).toEqual([]);
   for (const added of [
     '.rain-tabs { --tabs-font: 20px; }', '.rain-tabs__tab { color: red; }',

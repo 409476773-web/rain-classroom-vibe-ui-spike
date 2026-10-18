@@ -148,3 +148,24 @@ taskRefinement:
     scope: "presented-right-detail-visual-and-information-layout"
     evidence: "evidence/runtime/sheet-task-refinement-2026-10-09/visual-acceptance.json"
   publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "dialogs-panels"
+  taskIds:
+    - "organize"
+    - "act-feedback"
+  searchAliases:
+    - "侧面板"
+    - "边缘面板"
+  implementationRole: "root"
+  controlScope: "四方向边缘面板的显式 Parts 组合"
+  stateOwner: "Sheet.Root 透传 Base Drawer 能力；宿主在同一 Root 下显式组合 Portal、Backdrop、Content，统一 open 和业务草稿，保留焦点及嵌套合同。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-drawer"
+      condition: "需要现成自动组装的内容入口时比较 Drawer；不能只按移动端/桌面端或是否有手势区分。"
+      evidence:
+        path: "packages/ui/src/sheet/sheet.tsx"
+        symbol: "Sheet"
+        kind: "contract"

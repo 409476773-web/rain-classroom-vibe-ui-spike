@@ -122,3 +122,23 @@ verification:
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/date-picker-closeout-2026-10-13/verification.md"
   previousVisualAcceptance: "evidence/runtime/date-picker-visual-feedback-2026-10-13/acceptance.json"
+
+discovery:
+  version: 1
+  familyId: "dates"
+  taskIds:
+    - "fill-validate"
+    - "choose"
+  searchAliases:
+    - "日期选择器"
+    - "日期时间字段"
+  implementationRole: "composition"
+  controlScope: "日期字段入口、浮层、日期范围和可选时间"
+  stateOwner: "宿主拥有最终值与字段关联；DatePicker 维护打开、面板草稿及明确提交，内部 Calendar 不成为第二个业务日期 owner。"
+  relationships:
+    - type: "composes"
+      targetId: "ui-calendar"
+      evidence:
+        path: "packages/ui/src/date-picker/date-picker.tsx"
+        symbol: "DatePicker"
+        kind: "render"

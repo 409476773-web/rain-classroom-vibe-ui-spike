@@ -99,6 +99,7 @@ layoutConstraints:
   - "Extra operations remain outside More. Tall operations align with the Panel-facing edge; page layout can move operations to a separate narrow-screen row."
   - "Coarse-pointer rules reserve non-overlapping 44px effective targets without changing the visual recipe or its font."
 compositionRules:
+  - "已接受的 teacher-grading 按题/按人和 A/B 卷切换关联真实面板，保留 Tabs；草稿、评分、筛选与对象身份由页面持有，不因一般筛选建议机械替换。来源：apps/prototype/src/scenarios/teacher-grading/README.md 与 page.tsx。"
   - "Use complete Tabs first. Explicit layout changes use one synchronously present Nav and one Panels beneath the same Root. Suspense belongs inside item.content."
   - "Manual mode only moves focus with arrows; Enter or Space accepts. Automatic mode applies only actual Tab focus, never browsing More."
   - "Controlled requests do not mount content or change selected state before host acceptance; delayed acceptance cannot steal external focus."
@@ -189,3 +190,41 @@ evidence:
   - "evidence/runtime/tabs-visual-refinement/indicator-facts.json"
   - "evidence/runtime/tabs-visual-refinement/indicator-light.png"
   - "evidence/runtime/tabs-visual-refinement/indicator-dark.png"
+
+discovery:
+  version: 1
+  familyId: "navigation"
+  taskIds:
+    - "navigate"
+  searchAliases:
+    - "页签"
+    - "内容分区"
+    - "内容面板"
+    - "按题按人面板"
+    - "teacher-grading"
+    - "A/B卷真实面板"
+  implementationRole: "root"
+  controlScope: "同一页面或对象内具有真实关联面板的同级内容"
+  stateOwner: "受控 value 由宿主接受；Tabs 统一管理 Nav/Panels、焦点与面板生命周期；业务草稿、请求与持久化仍由宿主持有。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-navigation-tabs"
+      evidence:
+        path: "packages/ui/src/tabs/tabs.tsx"
+        kind: "contract"
+        symbol: "Tabs"
+      condition: "需要已核对的导航视觉外观且仍是同级内容面板时比较 NavigationTabs。"
+    - type: "alternativeWhen"
+      targetId: "ui-segmented-control"
+      evidence:
+        path: "packages/ui/src/tabs/tabs.tsx"
+        kind: "contract"
+        symbol: "Tabs"
+      condition: "仅过滤同一数据集或切换同一内容呈现模式时比较 SegmentedControl；不自动改写既有真实面板合同。"
+    - type: "alternativeWhen"
+      targetId: "ui-navigation-bar"
+      evidence:
+        path: "packages/ui/src/tabs/tabs.tsx"
+        kind: "contract"
+        symbol: "Tabs"
+      condition: "改变页面地址且有真实 href 时使用 NavigationBar 或其他链接导航。"

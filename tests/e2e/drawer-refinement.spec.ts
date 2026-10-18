@@ -1,6 +1,7 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect, type Page } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
-const evidence = "evidence/runtime/drawer-refinement-2026-10-14/browser";
+const evidence = evidenceOutputPath("evidence/runtime/drawer-refinement-2026-10-14/browser");
 mkdirSync(evidence, { recursive: true });
 async function settle(page: Page) {
   await page.locator('[data-slot="drawer-popup"]').evaluate(async node => {

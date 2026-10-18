@@ -1,0 +1,61 @@
+[WebServer] (node:52761) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:52776) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:52782) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] light Background/1 actual recipe colors and focus matrix (6.5s)
+
+
+  1) tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] light Background/1 actual recipe colors and focus matrix 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('form', { name: '分区作业设置' }).getByRole('combobox', { name: '所属课程' })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByRole('form', { name: '分区作业设置' }).getByRole('combobox', { name: '所属课程' })
+        14 × locator resolved to <button tabindex="0" type="button" role="combobox" data-placeholder="" data-slot="control" aria-required="true" id="rain-field-_r_b_" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="rain-field-_r_b_-label" class="rain-select__control flex min-w-0 flex-1 items-center gap-rain-4 border-none bg-transparent p-rain-0 text-left text-inherit outline-none cursor-pointer disabled:cursor-not-allowed">…</button>
+           - unexpected value "inactive"
+
+
+      103 |         tabPath.push({ phase: "forward", active: await page.evaluate(() => ({ tag: document.activeElement?.tagName, id: document.activeElement?.id })) });
+      104 |         await json(info, `${target.name}-${forced}-tab-path`, tabPath);
+    > 105 |         await expect(target.control).toBeFocused();
+          |                                      ^
+      106 |         const after = await focusPaint(target.control);
+      107 |         expect(after.chain.some(node => node.focusVisible)).toBe(true);
+      108 |         expect(after.chain.some(node => node.outlineStyle !== "none" && parseFloat(node.outlineWidth) > 0 || node.boxShadow !== "none")).toBe(true);
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017/tests/e2e/consumption-contrast.spec.ts:105:38
+
+    attachment #1: initial-colors (application/json) ───────────────────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/tab-path-diagnostic-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--51de8-ipe-colors-and-focus-matrix/attachments/initial-colors-2d582a58b91f5f37c0477dc119144253a06066ab.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: filter-input-false-tab-path (application/json) ──────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/tab-path-diagnostic-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--51de8-ipe-colors-and-focus-matrix/attachments/filter-input-false-tab-path-3c6d6e29e757a4dd52c831f434304fe2fa3da2f0.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: form-select-false-tab-path (application/json) ───────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/tab-path-diagnostic-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--51de8-ipe-colors-and-focus-matrix/attachments/form-select-false-tab-path-aadcbe85fd3d724ee45dd6415aa2b9002e9500bd.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/tab-path-diagnostic-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--51de8-ipe-colors-and-focus-matrix/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/tab-path-diagnostic-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--51de8-ipe-colors-and-focus-matrix/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/component-implementation-2026-10-18/run-01/checks/C02/tab-path-diagnostic-01/legacy/artifacts/consumption-contrast/consumption-contrast--C02--51de8-ipe-colors-and-focus-matrix/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/consumption-contrast.spec.ts:73:3 › [C02] light Background/1 actual recipe colors and focus matrix 

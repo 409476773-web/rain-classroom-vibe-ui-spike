@@ -1,6 +1,7 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import {test,expect} from '@playwright/test';
 const url='http://127.0.0.1:4174/#token-first-g3?rebuild=1';
-const e='evidence/runtime/navigation-rebuild-v03';
+const e=evidenceOutputPath('evidence/runtime/navigation-rebuild-v03');
 test('E08 E12: unfamiliar lab composition, actual booking and A/B styles/portal isolated',async({page})=>{
  await page.setViewportSize({width:1440,height:900});await page.goto(url+'&view=isolation');
  const a=page.getByRole('region',{name:'设备预约工作台 A'}),b=page.getByRole('region',{name:'设备预约工作台 B'});

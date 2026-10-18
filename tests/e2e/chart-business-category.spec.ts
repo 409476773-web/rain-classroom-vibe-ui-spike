@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 import { makeCategoryFixtures } from "../../apps/playground/src/docs/components/chart-business/comparison-data";
 
-const evidence = process.env.RAIN_CHART_CATEGORY_EVIDENCE_DIR ?? "evidence/runtime/chart-business-expansion/p3/browser";
+const evidence = process.env.RAIN_CHART_CATEGORY_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/chart-business-expansion/p3/browser");
 
 for (const motion of ["reduce", "no-preference"] as const) {
   test(`${motion}: category business examples keep identity, units and original period dates`, async ({ page }) => {

@@ -85,10 +85,33 @@ export function getLibraryPaintObservations(root = process.cwd()) {
   const source = readFileSync(join(root, recordedPaintPath), "utf8");
   if (createHash("sha256").update(source).digest("hex") !== "139f0790547812d8299ba14c6226c46a285ad0c8940163eb8dd29ea60fb9f0e8") throw new Error("Recorded paint roles, values or original thresholds changed");
   const record = JSON.parse(source);
+  const bindings = getG6SourceBindings(root), maintenance = bindings?.deepReviewSuccessor;
   for (const file of [...record.localSources, ...record.inlineSources]) {
-    if (createHash("sha256").update(readFileSync(join(root, file.filePath))).digest("hex") !== file.sha256) throw new Error("Recorded paint source changed: " + file.filePath);
+    const actual = createHash("sha256").update(readFileSync(join(root, file.filePath))).digest("hex");
+    if (actual === file.sha256) continue;
+    const successor = maintenance?.sourceFiles[file.filePath];
+    if (successor?.before !== file.sha256 || successor.after !== actual) throw new Error("Recorded paint source changed: " + file.filePath);
+    // R01 replaces only these undefined color references; preserve the original
+    // pending roles, minimums and unaccepted status while validating current paints.
+    const replacements = {
+      "apps/prototype/src/scenarios/bklit-validation/chart-theme.css": [[".rain-chart :is(button,a,select,summary,[tabindex]):focus-visible", "outline", "2px solid var(--rain-color-focus-control)"]],
+      "apps/prototype/src/scenarios/bklit-validation/page.css": [[".bklit-lab a", "color", "var(--rain-color-text-link)"], [".bklit-lab :is(a, select, summary, [tabindex]):focus-visible", "outline", "2px solid var(--rain-color-focus-control)"]],
+      "apps/prototype/src/scenarios/exam-editor/page.css": [],
+    }[file.filePath];
+    if (!replacements) throw new Error("Unregistered maintenance paint successor: " + file.filePath);
+    for (const [selector, property, value] of replacements) {
+      const rows = file.inventory.filter(row => row.selector === selector && row.property === property && row.value.includes("var(--rain-brand-primary)"));
+      if (rows.length !== 1 || rows[0].acceptedException !== false) throw new Error("Maintenance paint predecessor changed: " + file.filePath);
+      rows[0].value = value;
+    }
+    file.sha256 = actual;
   }
-  const additions = getG6SourceBindings(root)?.closeoutSuccessor?.paintObservations;
+  const additions = bindings?.closeoutSuccessor?.paintObservations;
+  for (const file of [...(additions?.localSources ?? []), ...(additions?.inlineSources ?? [])]) {
+    const successor = maintenance?.sourceFiles[file.filePath];
+    // Layout-only changes still have to match every original paint declaration.
+    if (successor?.before === file.sha256) file.sha256 = successor.after;
+  }
   return additions ? { ...record, localSources: [...record.localSources, ...additions.localSources], inlineSources: [...record.inlineSources, ...additions.inlineSources] } : record;
 }
 
@@ -215,10 +238,12 @@ function getG123ColorRegistration(root) {
   const registration = JSON.parse(source);
   const successor = hasG23FamilyVisualRefinementAuthorization(phase) ? getG23DocumentationSourceBindings(root, phase) : null;
   const navigation = getRecordedNavigationSourceBindings(root, phase);
+  const maintenance = getG6SourceBindings(root, phase)?.deepReviewSuccessor?.sourceFiles ?? {};
   for (const [file, expected] of Object.entries(registration.sourceFiles)) {
     const binding = successor?.sourceFiles[file];
     const actual = createHash("sha256").update(readFileSync(join(root, file))).digest("hex"), prior = binding?.after ?? expected, next = navigation?.sourceFiles[file];
-    if (binding && binding.before !== expected || actual !== prior && !(next?.before === prior && next.after === actual)) throw new Error(`G1–G3 color successor source changed: ${file}`);
+    const registered = next?.before === prior ? next.after : prior, current = maintenance[file];
+    if (binding && binding.before !== expected || actual !== registered && !(current?.before === registered && current.after === actual)) throw new Error(`G1–G3 color successor source changed: ${file}`);
   }
   if (successor) {
     const directory = hasSheetTaskRefinementAuthorization(phase) ? phase.componentRefinements.sheetTaskRefinement.feedbackRefinement ? "sheet-feedback-2026-10-09" : "sheet-task-refinement-2026-10-09" : hasG23RemainingVisualRefinementAuthorization(phase) ? "g2-g3-remaining-families-2026-10-08" : "g2-g3-family-refinement-2026-10-08";
@@ -250,9 +275,11 @@ export function getButtonGroupRepairDocumentationColorConsumers(root = process.c
     if (createHash("sha256").update(JSON.stringify(projection, null, 2) + "\n").digest("hex") !== "1fc5dd9d316a3b38cae670004c4bd49fc64620c466ef83a1a90aa4b44fc5695f") throw new Error("Button Group sizes must retain the prior paint roles, parent surfaces and thresholds");
   }
   const successor = hasG23FamilyVisualRefinementAuthorization(phase) ? getG23DocumentationSourceBindings(root, phase) : null;
+  const maintenance = getG6SourceBindings(root, phase)?.deepReviewSuccessor?.sourceFiles ?? {};
   for (const [file, expected] of Object.entries(registration.sourceFiles)) {
     const binding = successor?.sourceFiles[file];
-    if (binding && binding.before !== expected || createHash("sha256").update(readFileSync(join(root, file))).digest("hex") !== (binding?.after ?? expected)) throw new Error(`Button Group dark documentation source changed: ${file}`);
+    const actual = createHash("sha256").update(readFileSync(join(root, file))).digest("hex"), registered = binding?.after ?? expected, current = maintenance[file];
+    if (binding && binding.before !== expected || actual !== registered && !(current?.before === registered && current.after === actual)) throw new Error(`Button Group dark documentation source changed: ${file}`);
   }
   return registration.documentation;
 }
@@ -527,8 +554,21 @@ export function validateRegisteredRecipeColors(options) {
   return withSourceBindingTraversal(options.root ?? process.cwd(), () => validateRegisteredRecipeColorsInTraversal(options));
 }
 
+export function prepareDeepReviewSharedPaintSource(root, source) {
+  const file = "packages/ui/src/styles.css", binding = getG6SourceBindings(root)?.deepReviewSuccessor?.sourceFiles[file];
+  if (!binding || createHash("sha256").update(source).digest("hex") !== binding.after) return source;
+  const before = readFileSync(join(root, binding.beforeSnapshot), "utf8");
+  const rules = before.match(/^.*\.rain-tabs__divider.*var\(--rain-space-1\).*$/gm) ?? [];
+  const projected = rules.reduce((css, rule) => css.replace(rule, rule.replace("var(--rain-space-1)", "var(--rain-line-thickness-1)")), before);
+  if (rules.length !== 3 || projected !== source) throw new Error("Deep review shared paint adaptation requires exactly the three Tabs divider geometry repairs");
+  // Restore only non-paint geometry so the existing Questionnaire verifier can
+  // check its exact predecessor and keep its original pending color findings.
+  return before;
+}
+
 function validateRegisteredRecipeColorsInTraversal({ filePath, source, outputs = getTokenFoundationOutputs(), root = process.cwd(), pendingContrastFindings = [], pendingEligibilityFindings = [], scopedEligibilityDecisions = [] }) {
   const failures = [], ranges = [];
+  if (filePath === "packages/ui/src/styles.css") source = prepareDeepReviewSharedPaintSource(root, source);
   source = prepareQuestionnaireReuseColors(filePath, source, filePath === "packages/ui/src/styles.css" ? getQuestionnaireCloseoutRoot(root) : root, failures, pendingContrastFindings);
   source = prepareDialogLayoutSource(filePath, source, existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {});
   source = prepareInputNumberSource(filePath, source, existsSync(join(root, "status/current-phase.yaml")) ? parseYamlSubset(readFileSync(join(root, "status/current-phase.yaml"), "utf8")) : {}, failures);

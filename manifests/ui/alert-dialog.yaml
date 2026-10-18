@@ -124,3 +124,30 @@ verification:
   visualEvidence: "evidence/runtime/dialog-bm-b-visual-2026-09-15/verification.md"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/dialog-refinement-2026-09-15/verification.md"
+
+discovery:
+  version: 1
+  familyId: "dialogs-panels"
+  taskIds:
+    - "act-feedback"
+  searchAliases:
+    - "确认对话框"
+    - "危险确认"
+  implementationRole: "specialization"
+  controlScope: "要求明确确认或取消的 alertdialog 语义"
+  stateOwner: "AlertDialog Root/Trigger 使用独立确认语义，其他当前 Parts 共享 Dialog 实现；宿主决定确认结果，不把整个对象当作 Dialog 别名。"
+  relationships:
+    - type: "sharesPresentation"
+      targetId: "ui-dialog"
+      condition: "对象展开复用 Content/Header/Body/Footer/Title/Description/Close；Root 与 Trigger 被专用实现覆盖，不是整体别名。"
+      evidence:
+        path: "packages/ui/src/dialog/dialog.tsx"
+        symbol: "AlertDialog"
+        kind: "assignment"
+    - type: "alternativeWhen"
+      targetId: "ui-dialog"
+      condition: "普通表单或非警示任务使用 Dialog；确认语义不能仅从视觉外观决定。"
+      evidence:
+        path: "packages/ui/src/dialog/dialog.tsx"
+        symbol: "AlertDialog"
+        kind: "contract"

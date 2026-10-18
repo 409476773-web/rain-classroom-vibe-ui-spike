@@ -78,3 +78,22 @@ compositionRules:
   - "Option values are unique; empty options are valid; selecting a checked radio does not clear."
 examples:
   - "#tag"
+
+discovery:
+  version: 1
+  familyId: "tags"
+  taskIds:
+    - "choose"
+  searchAliases:
+    - "标签多选"
+    - "分类筛选"
+  implementationRole: "composition"
+  controlScope: "一组分类标签的单选或多选"
+  stateOwner: "CheckableTagGroup 组合 CheckableTag；宿主受控 single 为 string|null、multiple 为数组，clearable 清空依模式回调，业务筛选和提交另由宿主拥有。"
+  relationships:
+    - type: "composes"
+      targetId: "ui-checkable-tag"
+      evidence:
+        path: "packages/ui/src/tag/checkable-tag.tsx"
+        symbol: "CheckableTagGroup"
+        kind: "render"

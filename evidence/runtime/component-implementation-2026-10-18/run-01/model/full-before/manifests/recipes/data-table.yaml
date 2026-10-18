@@ -1,0 +1,150 @@
+schemaVersion: "1.0"
+kind: "RainRecipeManifest"
+id: "recipe-data-table"
+name: "Data Table"
+category: "recipe"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "forkable"
+publication: "unpublished"
+sourcePath: "apps/prototype/src/data-table-recipe.tsx"
+sourceVersion: "existing Rain RN-08 DataTableRecipe; @tanstack/react-table@8.21.3; G6 documentation/entry registration only"
+description: "资料数据表配方：排序、筛选、稳定ID选择、列显隐、分页和异步状态。"
+useWhen:
+  - "课程资料等结构化对象需要客户端筛选、排序、稳定ID选择、分页和列显隐。"
+  - "复制已有13条虚构资料配方，按业务修改Material、ColumnDef和动作。"
+doNotUseWhen:
+  - "需要任意data/columns公共Props的DataGrid；当前仅公开loadRecords。"
+  - "服务器全集全选、远程排序/分页、虚拟化、树或透视；当前配方没有这些能力。"
+anatomy:
+  - "root"
+  - "toolbar"
+  - "query"
+  - "view-switch"
+  - "sorting"
+  - "column-visibility"
+  - "selection"
+  - "table"
+  - "card-grid"
+  - "row-actions"
+  - "pagination"
+  - "feedback"
+  - "empty-state"
+parts:
+  - "root"
+  - "toolbar"
+  - "query"
+  - "view-switch"
+  - "sorting"
+  - "column-visibility"
+  - "selection"
+  - "table"
+  - "card-grid"
+  - "row-actions"
+  - "pagination"
+  - "feedback"
+  - "empty-state"
+props:
+  - "DataTableRecipe({ loadRecords? })；loadRecords(current: readonly Material[], signal: AbortSignal): Promise<Material[]>。"
+  - "Material为导出的本地资料类型：id/name/kind/status(ready|draft)/updated/locked；模型和列定义在复制的文件内修改。"
+  - "没有data、columns、selection或onSort公共Props；query/sort/page/column visibility/selection均为配方内的客户端状态。"
+slots:
+  - "DataTableRecipe"
+variants:
+  - "table/cards视图共用同一TanStack模型；分页容量5/10/20。"
+states:
+  - "refresh loading/error/empty/ready；失败保留当前资料；稳定ID选择跨页/排序/视图保持。"
+  - "当前页全选只作用于可操作资料；locked项不参与批量操作。"
+dependencies:
+  - "React19.2.8；@tanstack/react-table8.21.3保留在应用层。"
+  - "Rain UI/Foundations/Layouts工作区包；Card/Checkbox/Tag/Select/Popover/Table/Pagination/Empty与10个图标见本项Registry。"
+tokens:
+  - "沿已有Table/Card/Tag/Field/Button/Checkbox/Pagination视觉合同，不新建表格色板。"
+  - "Root与结果区用既有中性表面、边框和文字；选择/操作复用已有品牌/状态角色及具名Local Recipe。"
+layoutConstraints:
+  - "窄屏在TableScrollArea横滚；分页属于配方下方独立区域。"
+  - "Card/Grid/Stack/Inline组合与列宽由配方CSS拥有；复制时同时带CSS和layouts依赖。"
+compositionRules:
+  - "公共Table保持原生表格；TanStack8.21.3只留应用层。"
+  - "搜索提交/筛选重置页码；批量动作仅内存演示，权限与真实操作由宿主实现。"
+allowedModifications:
+  - "复制配方后修改Material/列/动作；保留原生Table与稳定ID/请求取消合同。"
+  - "视觉用既有Rain Token/具名局部方案；已登记源几何/动效差额不升级全局Foundation。"
+restrictedModifications:
+  - "不得移除原生语义/焦点/生命周期、重复行为引擎或扩大人工/发布接受。"
+accessibility:
+  - "表头按排序提供aria-sort；选择与更多动作含资料名称，只读原因通过description关联。"
+  - "视图切换为有名group和aria-pressed；刷新aria-busy/status反馈，失败有重试。"
+examples:
+  - "apps/playground/src/docs/components/g6-media-pages.tsx"
+recipes:
+  - "复制本地配方+CSS+layouts，在文件内修改模型/列/动作；没有公共data/columns入口。"
+antiPatterns:
+  - "需要任意data/columns公共Props的DataGrid；当前仅公开loadRecords。"
+  - "服务器全集全选、远程排序/分页、虚拟化、树或透视；当前配方没有这些能力。"
+relatedComponents:
+  - "ui-table"
+  - "ui-pagination"
+  - "ui-empty"
+  - "ui-card"
+  - "ui-checkbox"
+  - "ui-tag"
+  - "ui-select"
+  - "ui-search-input"
+  - "ui-dropdown-menu"
+  - "layout-stack"
+  - "layout-inline"
+  - "layout-grid"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "沿已有Table/Card/Tag/Field/Button/Checkbox/Pagination视觉合同，不新建表格色板。"
+    - "Root与结果区用既有中性表面、边框和文字；选择/操作复用已有品牌/状态角色及具名Local Recipe。"
+  externalReferences:
+    - "已有Rain RN-08本地配方与TanStack8.21.3；固定shadcn v9文档只研究组合，不是运行来源。"
+  retainedTraits:
+    - "root"
+    - "toolbar"
+    - "query"
+    - "view-switch"
+    - "sorting"
+    - "column-visibility"
+    - "selection"
+    - "table"
+    - "card-grid"
+    - "row-actions"
+    - "pagination"
+    - "feedback"
+    - "empty-state"
+  redesignedTraits:
+    - "本轮保留已有Rain配方原文，没有把它伪称为新抄shadcn组件。"
+    - "上游固定Data Table文档已用TanStack v9；只借鉴组合思路，本地仍8.21.3且原loadRecords接口不变。"
+    - "增加独立recipe合同、#data-table入口和可检索候选；原DOM local-experiment标记不代表公共DataGrid。"
+  intentionallyNotInherited:
+    - "需要任意data/columns公共Props的DataGrid；当前仅公开loadRecords。"
+    - "服务器全集全选、远程排序/分页、虚拟化、树或透视；当前配方没有这些能力。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/g6-components-2026-10-14/source-lock.json"
+  - "evidence/runtime/g6-research-2026-10-14/source-supplement.json"
+migrationNotes: "2026-10-14用户授权完整G6建设；人工视觉、对比度、发布与生产采用分别记录。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  evidence: "evidence/runtime/g6-components-2026-10-14/verification.md"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+styleSourcePath: "apps/prototype/src/data-table-recipe.css"
+density:
+  - "默认field size32、紧凑28；刷新IconButton32/16→28/16，动作Button small→mini。"
+  - "表格/卡片正文与metadata沿已有CSS，不因新登记再次调整旧运行视觉。"
+sourceDifferences:
+  - "本轮保留已有Rain配方原文，没有把它伪称为新抄shadcn组件。"
+  - "上游固定Data Table文档已用TanStack v9；只借鉴组合思路，本地仍8.21.3且原loadRecords接口不变。"
+  - "增加独立recipe合同、#data-table入口和可检索候选；原DOM local-experiment标记不代表公共DataGrid。"
+verificationLimits:
+  - "真实服务、权限、服务器分页、生产规模/性能与真实设备未验证。"
+  - "复制后的列/业务动作、跨浏览器、读屏与人工视觉/对比度需各自验证。"

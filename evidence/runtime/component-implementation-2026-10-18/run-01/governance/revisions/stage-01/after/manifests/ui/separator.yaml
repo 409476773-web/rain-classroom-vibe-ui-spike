@@ -1,0 +1,100 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-separator"
+name: "Separator"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/separator/separator.tsx"
+styleSourcePath: "packages/ui/src/separator/separator.css"
+sourceVersion: "local-2026-09-13"
+description: "内容组的横向或纵向非交互分隔。"
+useWhen:
+  - "相邻内容组需要明确的分隔线。"
+doNotUseWhen:
+  - "已有留白足以表达层次；可拖动分栏属于Layout。"
+anatomy:
+  - "单个Root"
+parts:
+  - "root"
+props:
+  - "orientation=horizontal|vertical，默认horizontal；decorative=false默认保留语义，true设置presentation及aria-hidden；保留原生属性、ref和render。"
+slots:
+  - "Base UI render"
+variants:
+  - "horizontal"
+  - "vertical"
+states:
+  - "static"
+  - "decorative"
+dependencies:
+  - "react"
+  - "@base-ui/react@1.8.0"
+  - "tailwind-merge"
+tokens:
+  - "Border/Neutral/4，Line/Thickness/1；分隔只作视觉结构，使用浅色边界，不要求交互边界对比度。"
+layoutConstraints:
+  - "horizontal占父宽；vertical拉伸至父容器交叉轴高度；宿主提供内容高度。"
+compositionRules:
+  - "不产生焦点停点、不响应拖动、不包含内容；重复装饰边界设置decorative。"
+allowedModifications:
+  - "方向、布局className、语义或装饰状态"
+restrictedModifications:
+  - "禁止作为Split控制器、Tab停点或业务状态组件"
+nativeCssExceptions:
+  - "separator.css components layer按Base UI方向属性映射宽高，forced-colors使用CanvasText。"
+accessibility:
+  - "role=separator与aria-orientation对应；decorative对辅助技术隐藏。"
+examples:
+  - "#dialog"
+recipes:
+  - "编辑课程资料的内容组分隔"
+antiPatterns:
+  - "用分隔线替代有名称的分组"
+  - "将装饰线变为可聚焦元素"
+relatedComponents:
+  - "Dialog"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Rain轻边界与Line Foundation"
+  externalReferences:
+    - "shadcn-ui/ui base Separator"
+    - "https://base-ui.com/react/components/separator"
+  retainedTraits:
+    - "Rain轻量边界"
+  redesignedTraits:
+    - "公开横纵与装饰语义"
+  intentionallyNotInherited:
+    - "上游默认bg-border、h-px工具类及cn依赖"
+figmaMapping:
+  status: "reference-only"
+source:
+  repository: "https://github.com/shadcn-ui/ui"
+  commit: "3ba91b1cc83e1bbe4ab35a422ff2a694849c5048"
+  license: "MIT"
+  evidence: "evidence/runtime/dialog-v2/source-lock.json"
+migrationNotes:
+  - "公共独立候选，不替换DropdownMenu.Separator的菜单语义。"
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/dialog-v2/verification.md"
+
+discovery:
+  version: 1
+  familyId: "arrangement"
+  taskIds:
+    - "organize"
+  searchAliases:
+    - "分隔线"
+    - "内容分隔"
+  implementationRole: "helper"
+  controlScope: "语义或装饰性的横向/纵向分隔"
+  stateOwner: "宿主声明方向与 decorative 语义；Separator 不拥有分区数据或布局尺寸。"
+  relationships: []

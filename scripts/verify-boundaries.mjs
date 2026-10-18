@@ -2468,6 +2468,11 @@ if (isDayThree || isTailwindB2) {
     expectedScripts["package.json"]["verify:tokens"] = "node scripts/verify-token-foundations.mjs";
     expectedScripts["package.json"]["verify:governance"] += " && pnpm verify:tokens";
   }
+  if (g6Bindings?.deepReviewSuccessor) {
+    expectedScripts["package.json"]["verify:css-variables"] = "node scripts/verify-css-variables.mjs";
+    expectedScripts["package.json"]["verify:playground-status"] = "node scripts/playground-status.mjs --check";
+    expectedScripts["package.json"]["verify:governance"] += " && pnpm verify:css-variables && pnpm verify:playground-status";
+  }
   if (iconFiles.authorized) {
     const actualScripts = loadPackage("package.json")?.scripts ?? {};
     for (const [name, command] of Object.entries({

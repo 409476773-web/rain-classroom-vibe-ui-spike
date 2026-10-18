@@ -69,3 +69,23 @@ verification:
   humanGate: "not-evaluated"
   contrastAcceptance: "not-granted"
   evidence: "docs/audits/2026-09-12-core-ui-contracts.md"
+
+discovery:
+  version: 1
+  familyId: "surfaces"
+  taskIds:
+    - "organize"
+  searchAliases:
+    - "表面"
+    - "页面背景"
+  implementationRole: "root"
+  controlScope: "既有原型的被动背景和边界容器"
+  stateOwner: "宿主拥有几何、滚动、业务状态及语义元素；Surface 不接管布局，也不表示可选择 Card。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-card"
+      condition: "需要独立内容对象的标题、说明和动作结构时使用 Card；Surface 只提供被动表面。"
+      evidence:
+        path: "packages/ui/src/surface/surface.tsx"
+        symbol: "Surface"
+        kind: "contract"

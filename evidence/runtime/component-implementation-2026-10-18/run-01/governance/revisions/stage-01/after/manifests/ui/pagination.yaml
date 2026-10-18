@@ -1,0 +1,164 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-pagination"
+name: "Pagination"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "managed"
+migrationLabel: "rewrite-from-rain"
+sourcePath: "packages/ui/src/pagination/pagination.tsx"
+styleSourcePath: "packages/ui/src/pagination/pagination.styles.ts"
+sourceVersion: "local-2026-09-14"
+publication: "unpublished"
+description: "Rain numbered, data and simple pagination with atomic page/page-size proposals and container-responsive presentation."
+useWhen:
+  - "A list or collection is split into pages, with known total or explicit next-page availability."
+doNotUseWhen:
+  - "Infinite scrolling, virtual rows, query orchestration or business selection are required."
+anatomy:
+  - "Root"
+  - "Summary"
+  - "PageSize"
+  - "Navigation"
+  - "PageItem"
+  - "Jumper"
+  - "SettingsPopover"
+parts:
+  - "root"
+  - "summary"
+  - "total"
+  - "page-size"
+  - "page-size-value"
+  - "page-size-unit"
+  - "settings-trigger"
+  - "settings"
+  - "actions"
+  - "navigation"
+  - "page"
+  - "ellipsis"
+  - "previous"
+  - "next"
+  - "current-status"
+  - "jumper"
+  - "jump-input"
+  - "jump-submit"
+  - "jump-error"
+props:
+  - "Known total: total; unknown total: omit total and provide hasNextPage."
+  - "page / defaultPage: 1-based; pageSize / defaultPageSize: default 20."
+  - "onChange({ page, pageSize, reason }): one atomic proposal per activation."
+  - "variant: basic | data | simple; basic is default. Data enables total and page-size controls by default."
+  - "size: 24 | 28 | 32; Compact defaults to 24, Default to 32."
+  - "showTotal: boolean | range; showPageSize; pageSizeOptions: default 10/20/50/100."
+  - "showJumper: default true inside settings for known totals; hideOnSinglePage hides navigation only."
+  - "pageSizePlacement: settings (default) | inline; inline uses a compact, split-tone trigger for the same settings popup."
+  - "align: start | center | end; responsive; showLessItems; disabled; loading."
+  - "getPageHref: native links; renderPage: page-label content only."
+  - "Root ref, ARIA name, layout className and named localRecipe."
+slots:
+  - "renderPage content must not contain another interactive control."
+variants:
+  - "basic"
+  - "data"
+  - "simple"
+states:
+  - "default"
+  - "current"
+  - "hover"
+  - "pressed"
+  - "focus-visible"
+  - "disabled"
+  - "loading"
+  - "empty"
+  - "unknown-total"
+density: "Region controls default size; explicit size remains stable when density or container width changes."
+dependencies:
+  - "Rain Input / Popover / Button / IconButton and formal icon assets"
+  - "Rain Foundations typography / spacing / category colors / focus"
+  - "Native buttons and anchors; Popover owns portal, collision handling and focus restoration."
+tokens:
+  - "Input heights 24/28/32"
+  - "Typography/UI/Compact and Typography/UI/Default"
+  - "Radius/6 and Space/4/8/12/16"
+  - "Existing Text/Neutral, Text/Brand, Fill/Brand/Alpha and shared Focus"
+layoutConstraints:
+  - "Page targets have a size-based minimum width and can expand for long numbers."
+  - "The entire bar stays on one line; available width includes navigation, summary and settings trigger. Reduce page items, then use current/total, then move the total into settings."
+  - "Inline page size collapses into the more icon when needed; explicit control height never shrinks."
+compositionRules:
+  - "Each instance owns independent local state or consumes host-controlled state."
+  - "A size change preserves the first visible record's new page and emits a single complete proposal."
+  - "Controlled state remains owned by the host; requests, loading, failures, filters and retry live in the application."
+  - "Unknown totals never synthesize a last page, total count or unverified end-of-range."
+  - "Internal fields do not inherit unrelated FormItem IDs or validation state."
+allowedModifications:
+  - "Select a supported composition, size, visibility and alignment, or a feature-scoped named recipe."
+restrictedModifications:
+  - "Do not copy a private overlay, add a second state owner or hardcode visual values."
+accessibility:
+  - "Named navigation; aria-current=page; native button or real link semantics."
+  - "Modifier-key link activation preserves native navigation and does not change local state."
+  - "No activation while disabled/loading; current-page identity remains visible."
+  - "IME-safe explicit jump submission, visible feedback and no blur submission."
+  - "The 180px settings popup omits repeated page counts; Enter or the input's trailing brand text button submits. Errors show the valid range. Escape restores trigger focus."
+  - "Retain surviving activated controls; use a deterministic current-page or simple-mode focus fallback without stealing outside focus."
+  - "Keyboard focus, reduced motion and forced colors use existing Rain rules."
+examples:
+  - "#table"
+recipes:
+  - "Data list: local Mock records, retained result on failure, explicit retry and stale-response rejection."
+  - "Basic numbered navigation and simple page text."
+antiPatterns:
+  - "Assuming a total from current page length."
+  - "Making requests from Pagination or changing controlled state before the host accepts it."
+relatedComponents:
+  - "Input"
+  - "Popover"
+  - "Button"
+  - "IconButton"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "evidence/rain-classic/reuse-matrix.yaml#rain-classic/ui/pagination"
+    - "Rain Classic src/components/Pagination/Pagination.vue and pagination.scss; read-only current source review."
+  externalReferences:
+    - "https://ui.shadcn.com/docs/components/base/pagination"
+    - "https://ant.design/components/pagination/"
+    - "https://mui.com/material-ui/react-pagination/"
+    - "https://www.chakra-ui.com/docs/components/pagination"
+  retainedTraits:
+    - "Lightweight numbers, soft brand current page, small rounded corners and compact arrows."
+  redesignedTraits:
+    - "Single-line progressive disclosure, lighter navigation icons, primary capacity number with compact units, 24/28/32 recipes and popup-local jump feedback."
+  intentionallyNotInherited:
+    - "Vue state/composable code, private size popup, old raw colors, 30px large axis and hover-only focus treatment."
+figmaMapping: "not-established"
+migrationNotes: "RN-08 Pagination slice only; Table, Empty and BM-A completion are separate. No upstream code copied."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  humanGateScope: "pagination-current-runtime-visual-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/table-pagination-replacement/upstream-verification.md"
+compactRefinement:
+  implementation: "completed"
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  contrastAcceptance: "not-granted"
+
+discovery:
+  version: 1
+  familyId: "tables"
+  taskIds:
+    - "navigate"
+    - "analyze"
+  searchAliases:
+    - "分页"
+    - "页码"
+  implementationRole: "root"
+  controlScope: "已知分页范围中的当前页导航"
+  stateOwner: "宿主拥有 page、total 与数据请求；组件只提出页码/大小变更，筛选和选择保留规则由宿主决定。"
+  relationships: []

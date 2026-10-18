@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator } from "@playwright/test";
 
 async function tokenColor(control: Locator, token: string) {
@@ -81,7 +82,7 @@ for (const theme of ["light", "dark"]) {
     await expect(wrong.locator('[data-slot="label"]')).toHaveCSS("font-weight", "700");
     await expect(wrong.locator('[data-icon="icon/close-bold"]')).toBeVisible();
     await expect(wrong).toHaveCSS("outline-style", "none");
-    await page.screenshot({ path: `evidence/runtime/question-number/${theme}.png`, fullPage: true });
+    await page.screenshot({ path: evidenceOutputPath(`evidence/runtime/question-number/${theme}.png`), fullPage: true });
   });
 }
 
@@ -126,7 +127,7 @@ test("compact viewport keeps child markers and forced-color state cues visible",
   await child.click();
   await expect(child).toHaveAttribute("aria-current", "step");
   await expect(child.locator('[data-slot="feedback"]')).toBeVisible();
-  await page.screenshot({ path: "evidence/runtime/question-number/compact.png", fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath("evidence/runtime/question-number/compact.png"), fullPage: true });
   await page.emulateMedia({ forcedColors: "active" });
   await page.keyboard.press("Tab");
   await child.focus();

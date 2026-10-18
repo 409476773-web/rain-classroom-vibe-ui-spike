@@ -156,3 +156,25 @@ verificationLimits:
   - "服务URL的正确响应与访问控制归服务；协议过滤不是内容信任。默认远程下载全量读取内存。"
   - "前端download=false不提供防复制能力；相应PDF/视频不嵌原生查看器，open仍是独立权限。"
   - "功能检查不代表视觉/交互、对比度、发布、Figma或业务迁移接受。"
+
+discovery:
+  version: 1
+  familyId: "attachments"
+  taskIds:
+    - "fill-validate"
+    - "read-communicate"
+  searchAliases:
+    - "附件上传"
+    - "文件选择"
+    - "上传队列"
+    - "重试取消"
+  implementationRole: "recipe"
+  controlScope: "附件选择、校验、上传、列表和预览的共享流程"
+  stateOwner: "宿主接入唯一 useAttachmentUpload 队列与上传器，管理服务结果和持久化；显示组件读取任务状态，取消/重试/移除不另建队列。"
+  relationships:
+    - type: "composes"
+      targetId: "ui-attachment"
+      evidence:
+        path: "packages/ui/src/attachment-workflow/attachment-list.tsx"
+        symbol: "AttachmentRow"
+        kind: "render"

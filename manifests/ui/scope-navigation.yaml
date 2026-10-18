@@ -274,3 +274,44 @@ currentPlaygroundStyleSourceSnapshot:
   scope: "Shared stylesheet successor: dark portaled Scope dropdown maps existing local variables to semantic theme tokens. API, light defaults and historical visual acceptance unchanged."
   humanGate: "awaiting-user-review"
   evidence: "evidence/runtime/navigation-playground-refinement-2026-10-09/verification.md"
+
+discovery:
+  version: 1
+  familyId: "navigation"
+  taskIds:
+    - "navigate"
+    - "workbench"
+  searchAliases:
+    - "教学范围"
+    - "班级切换"
+    - "公共资源包"
+    - "更多班级"
+  implementationRole: "composition"
+  controlScope: "公共资源与教学班的业务范围"
+  stateOwner: "宿主拥有 scope、业务请求防过期、每个范围的草稿/发布/同步；组件拥有 More 打开与搜索草稿，共享编辑内容实例不重建第二套业务状态。"
+  relationships:
+    - type: "composes"
+      targetId: "ui-navigation-tabs"
+      evidence:
+        path: "packages/ui/src/navigation/navigation.tsx"
+        kind: "render"
+        symbol: "ScopeNavigation"
+    - type: "composes"
+      targetId: "ui-popover"
+      evidence:
+        path: "packages/ui/src/navigation/navigation.tsx"
+        kind: "render"
+        symbol: "ScopeNavigation"
+    - type: "composes"
+      targetId: "ui-search-input"
+      evidence:
+        path: "packages/ui/src/navigation/navigation.tsx"
+        kind: "render"
+        symbol: "ScopeNavigation"
+    - type: "alternativeWhen"
+      targetId: "layout-connected-surface"
+      evidence:
+        path: "packages/ui/src/navigation/navigation.tsx"
+        kind: "contract"
+        symbol: "ScopeNavigation"
+      condition: "需要导航与编辑区几何接续时由宿主通过 renderSurface 组合 ConnectedSurface；Layout 只管几何，不取得范围/草稿 owner。"

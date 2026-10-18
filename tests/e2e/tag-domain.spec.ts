@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 
-const evidenceDir = "evidence/runtime/tag-batch-two";
+const evidenceDir = evidenceOutputPath("evidence/runtime/tag-batch-two");
 const saveEvidence = process.env.RAIN_UPDATE_TAG_DOMAIN_EVIDENCE === "1";
 
 test("domain shapes retain complete geometry and centered internal badges in both themes", async ({ page }) => {

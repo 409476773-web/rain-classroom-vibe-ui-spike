@@ -1,0 +1,135 @@
+id: "pattern-independent-preview"
+name: "IndependentPreview"
+schemaVersion: "1.0"
+kind: "RainPatternManifest"
+category: "pattern"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "forkable"
+sourcePath: "apps/playground/src/patterns/selection-patterns.tsx"
+styleSourcePath: "apps/playground/src/patterns/selection-patterns.css"
+sourceVersion: "local-2026-09-10"
+sourceCommit: null
+publication: "unpublished"
+migrationLabel: "rewrite-from-rain"
+variants:
+  - "No new control variants; use accepted card/native control recipes and inherited Density."
+tokens:
+  - "Existing Rain spacing, Radius/10, Shadow/dialog and Font/UI; no new values."
+  - "Background/Neutral/1, Text/Neutral/1 and 3, Border/Neutral/3; modal backdrop Fill/Neutral/Alpha/1."
+  - "Existing native selection and Input/Button Focus contracts; Dark selected-card Focus remains below 3:1, not waived."
+allowedModifications:
+  - "Replace fictional example data and content."
+  - "Change application-owned page filtering, active-branch fields and explicit payload policy while retaining these invariants."
+restrictedModifications:
+  - "Do not add selection handlers to card shells or nest independent buttons/inputs inside selection labels."
+  - "Do not claim publication, production adoption, assistive-technology testing or a contrast waiver."
+examples:
+  - "apps/playground/src/docs/components/selection-patterns-page.tsx"
+relatedComponents:
+  - "ui-checkbox"
+  - "ui-checkbox-group"
+  - "ui-radio-group"
+  - "ui-checkbox-card"
+  - "ui-radio-card"
+  - "ui-button"
+  - "ui-form-item"
+  - "ui-input"
+relatedBlocks: []
+recipes:
+  - "recipe-radio-card-with-preview"
+  - "recipe-checkbox-object-card"
+visualLineage:
+  rainClassicReferences:
+    - "docs/audits/2026-09-09-selection-sc00-preflight.md"
+  externalReferences:
+    - "docs/adr/0005-headless-base.md"
+  retainedTraits:
+    - "Native selection semantics, V0.3 card structure and established Rain Tokens."
+  redesignedTraits:
+    - "Explicit independent state ownership and active payload example."
+  intentionallyNotInherited:
+    - "Universal card click targets, CSS-only submission filtering and server-wide select-all."
+figmaMapping:
+  fileKey: "olqwu95QD6n4Y3IAwUdgF4"
+  referenceNodeIds:
+    - "2346:1980"
+    - "2346:2071"
+    - "2346:2151"
+  status: "composition-reference-only"
+  codeConnectEstablished: false
+migrationNotes:
+  - "No Rain Classic modification, new package or dependency. Copyable local Pattern source, not a published installer."
+  - "SC-02 visual acceptance remains separate; SC-03 runtime visual and interaction acceptance is recorded on 2026-09-10."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  humanGateScope: "selection-patterns-sc03-runtime-visual-interaction-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/selection-patterns/verification.md"
+  sc04PreviewHeadingRepair:
+    scope: "wrap-and-scroll-overlong-preview-heading"
+    humanGate: "accepted"
+    phaseRef: "status/current-phase.yaml#componentRefinements.selectionPlaygroundSc04"
+    evidence: "evidence/runtime/selection-playground/verification.md"
+    humanGateScope: "selection-playground-sc04-edit-classify-preview-close-runtime-visual-interaction-only"
+    acceptedAt: "2026-09-12"
+description: "Independent modal presentation for an unselected or disabled choice; selected value remains owned by the group."
+useWhen:
+  - "An auxiliary action previews a choice before selection."
+doNotUseWhen:
+  - "Preview means saving or changing the choice."
+  - "A public general-purpose Dialog component is needed."
+anatomy:
+  - "Base UI Root/Portal/Backdrop/Popup; title, description, body and close action."
+parts:
+  - "root: pattern-independent-preview"
+  - "header, title, description, body, actions: data-slot markers"
+props:
+  - "open, onClose, title, description, children, returnFocusRef, fallbackFocusRef, theme"
+slots:
+  - "children: preview content, may contain normal independent controls."
+states:
+  - "closed"
+  - "open"
+  - "trigger-removed-fallback"
+dependencies:
+  - "@base-ui/react/dialog 1.8.0"
+  - "@rain-next/ui Button"
+  - "@rain-next/foundations useDensity"
+layoutConstraints:
+  - "560px example width, bounded by viewport minus Space/16 on each side; body scrolls and an overlong header can shrink and scroll independently."
+  - "Portal explicitly carries current Light/Dark and inherited density."
+compositionRules:
+  - "The host owns previewTarget separately from group value."
+  - "Capture the actual trigger from onPreview(event).currentTarget; provide a connected focusable fallback."
+  - "Use normal button/fields outside selection labels; no competing key/focus controller."
+accessibility:
+  - "Base UI owns modal focus containment, Escape/backdrop closing and page scroll lock."
+  - "Initial focus goes to the dialog title; final focus goes to an available actual trigger or provided fallback."
+  - "Close and auxiliary buttons have type=button, never a save action."
+antiPatterns:
+  - "Opening a preview selects that item."
+  - "Returning focus to a stale removed trigger."
+acceptanceCaseIds:
+  - "SEL-010"
+  - "SEL-011"
+  - "SEL-012"
+  - "SEL-013"
+  - "SEL-014"
+  - "SEL-016"
+  - "SEL-035"
+
+discovery:
+  version: 1
+  familyId: "selection-patterns"
+  taskIds:
+    - "choose"
+    - "workbench"
+  searchAliases:
+    - "独立预览模式"
+  implementationRole: "pattern"
+  controlScope: "选择和预览两个彼此独立的用户意图"
+  stateOwner: "复制本地模式后分别拥有 selected 与 preview；打开/关闭预览不得隐式修改选择，保留键盘和焦点返回。"
+  relationships: []

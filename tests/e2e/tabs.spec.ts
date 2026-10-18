@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { getTabsColorConsumers } from "../../scripts/token-foundation-outputs.mjs";
@@ -401,7 +402,7 @@ async function readTabsFacts(tab: Locator) {
 test('72 complete recipes expose twelve real browser states with measured color and geometry', async ({ page }) => {
   test.setTimeout(600_000);
   const pilot = process.env.RAIN_TABS_MATRIX_PILOT === '1';
-  const output = resolve(process.env.RAIN_TABS_EVIDENCE_DIR ?? 'evidence/runtime/tabs-visual-refinement'); mkdirSync(output, { recursive: true });
+  const output = evidenceOutputPath(process.env.RAIN_TABS_EVIDENCE_DIR || 'evidence/runtime/tabs-visual-refinement'); mkdirSync(output, { recursive: true });
   await page.evaluate(() => document.fonts.ready);
   const recipes = getTabsColorConsumers()[0]!.recipes;
   const samples: object[] = [], findings: object[] = [], screenshots: string[] = [];
@@ -579,7 +580,7 @@ test('coarse-pointer targets reach 44px without overlapping or changing the 36 v
   const more = page.locator('[data-public-tabs="overflow"]').getByRole('button', { name: '更多分区' }); await more.scrollIntoViewIfNeeded();
   const box = await more.boundingBox(); await page.touchscreen.tap(box!.x + box!.width / 2, box!.y - 2);
   await expect(page.getByRole('menu')).toBeVisible();
-  await page.screenshot({ path: 'evidence/runtime/tabs-visual-refinement/coarse-pointer.png' });
+  await page.screenshot({ path: evidenceOutputPath('evidence/runtime/tabs-visual-refinement/coarse-pointer.png') });
   expect((await page.pageErrors()).map(error => error.message)).toEqual([]); await context.close();
 });
 
@@ -603,7 +604,7 @@ test('forced colors keep selected boundaries and global Focus separately visible
     expect(clipping).toBe(false);
     expect(await target.evaluate(node => getComputedStyle(node).transitionDuration)).toBe('0s');
   }
-  await page.screenshot({ path: 'evidence/runtime/tabs-visual-refinement/forced-colors.png' });
+  await page.screenshot({ path: evidenceOutputPath('evidence/runtime/tabs-visual-refinement/forced-colors.png') });
 });
 
 test('360px layout separates operations from More and 200 percent zoom preserves the recipe', async ({ page }) => {
@@ -615,7 +616,7 @@ test('360px layout separates operations from More and 200 percent zoom preserves
   expect((await page.getByRole('menuitemradio').allTextContents()).some(label => label.includes('导出'))).toBe(false);
   await page.keyboard.press('Escape');
   await page.locator('[data-tabs-verification] > summary').click();
-  await course.scrollIntoViewIfNeeded(); await page.screenshot({ path: 'evidence/runtime/tabs-visual-refinement/narrow-360.png' });
+  await course.scrollIntoViewIfNeeded(); await page.screenshot({ path: evidenceOutputPath('evidence/runtime/tabs-visual-refinement/narrow-360.png') });
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
   await page.setViewportSize({ width: 1280, height: 1000 });
   await page.evaluate(() => { document.body.style.zoom = '2'; });
@@ -633,7 +634,7 @@ test('360px layout separates operations from More and 200 percent zoom preserves
   for (const target of await nav.locator('.rain-tabs__tab:not([hidden]), .rain-tabs__more').all()) {
     const box = await target.boundingBox(); expect(box!.x + box!.width).toBeLessThanOrEqual(extraBox!.x);
   }
-  await page.screenshot({ path: 'evidence/runtime/tabs-visual-refinement/zoom-200.png' });
+  await page.screenshot({ path: evidenceOutputPath('evidence/runtime/tabs-visual-refinement/zoom-200.png') });
   await page.evaluate(() => document.body.style.removeProperty('zoom'));
 });
 
@@ -641,11 +642,11 @@ test('real More screenshots preserve counts, the full selected name and retained
   const scope = page.locator('[data-public-tabs="overflow"]');
   await scope.getByRole('button', { name: '更多分区' }).click();
   await expect(page.getByRole('menuitemradio', { name: '学生', exact: true })).toHaveAccessibleDescription('数量 0');
-  await page.screenshot({ path: 'evidence/runtime/tabs-visual-refinement/more-open.png' });
+  await page.screenshot({ path: evidenceOutputPath('evidence/runtime/tabs-visual-refinement/more-open.png') });
   await page.getByRole('menuitemradio', { name: '完整课堂记录与课后练习资料', exact: true }).click();
   await expect(scope.getByRole('tab', { name: '完整课堂记录与课后练习资料', exact: true })).toBeFocused();
   await scope.getByRole('textbox').fill('切换后保留的课程记录');
-  await page.screenshot({ path: 'evidence/runtime/tabs-visual-refinement/more-selected.png' });
+  await page.screenshot({ path: evidenceOutputPath('evidence/runtime/tabs-visual-refinement/more-selected.png') });
 });
 
 test('local dark theme reaches the full-name portal and the four content combinations retain their real fonts', async ({ page }) => {
@@ -667,7 +668,7 @@ test('local dark theme reaches the full-name portal and the four content combina
   const { nodeId } = await session.send('DOM.querySelector', { nodeId: root.nodeId, selector: '[aria-label="课程内容"] [role="tab"][aria-label="学生"] [data-part="count"]' });
   const { fonts } = await session.send('CSS.getPlatformFontsForNode', { nodeId });
   expect(fonts.some(font => font.glyphCount > 0 && font.familyName.includes('PingFang'))).toBe(true);
-  writeFileSync('evidence/runtime/tabs-visual-refinement/supplemental-facts.json', JSON.stringify({ capturedAt: new Date().toISOString(), scope: 'local dark Tooltip and actual Count platform font', colors, fonts, fontEventCheck: 'synthetic loadingdone; real document.fonts.ready awaited in matrix', zoomCheck: 'CSS zoom=2 in Chromium; not operating-system zoom or browser UI zoom' }, null, 2) + '\n');
+  writeFileSync(evidenceOutputPath('evidence/runtime/tabs-visual-refinement/supplemental-facts.json'), JSON.stringify({ capturedAt: new Date().toISOString(), scope: 'local dark Tooltip and actual Count platform font', colors, fonts, fontEventCheck: 'synthetic loadingdone; real document.fonts.ready awaited in matrix', zoomCheck: 'CSS zoom=2 in Chromium; not operating-system zoom or browser UI zoom' }, null, 2) + '\n');
   await page.keyboard.press('Escape'); await expect(tooltip).toHaveCount(0); await session.detach();
 });
 
@@ -689,7 +690,7 @@ test('Soft More keeps its own neutral text and icon in both themes without borro
       facts.push({ theme, ...sample, labelToken: 'Text/Neutral/3', iconToken: 'Icon/Neutral/3' });
     }
   }
-  const path = 'evidence/runtime/tabs-visual-refinement/supplemental-facts.json';
+  const path = evidenceOutputPath('evidence/runtime/tabs-visual-refinement/supplemental-facts.json');
   const previous = JSON.parse(readFileSync(path, 'utf8'));
   writeFileSync(path, JSON.stringify({ ...previous, more: facts }, null, 2) + '\n');
 });

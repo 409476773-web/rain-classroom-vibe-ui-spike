@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const evidence = process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR ? `${process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR}/sizes` : "evidence/runtime/chart-business-label-color-layout-2026-10-09/browser/sizes";
+const evidence = process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR ? `${process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR}/sizes` : evidenceOutputPath("evidence/runtime/chart-business-label-color-layout-2026-10-09/browser/sizes");
 const kinds = ["quantity", "segments", "columns", "pie", "donut", "ring", "arc", "line", "area"];
 const sizes = ["compact", "comfortable"] as const;
 const frames = {

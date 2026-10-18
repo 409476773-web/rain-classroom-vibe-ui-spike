@@ -177,3 +177,31 @@ verificationLimits:
   - "录音Blob只保存在实例内存；刷新/卸载/切会话后的持久恢复未实现。"
   - "当前本地版本整体已获用户明确验收；真实Safari、VoiceOver、触摸、软键盘与物理麦克风设备仍需独立验证。"
   - "自动化通过不授予对比度、Figma、发布、生产或业务迁移接受。"
+
+discovery:
+  version: 1
+  familyId: "conversation"
+  taskIds:
+    - "read-communicate"
+    - "fill-validate"
+  searchAliases:
+    - "会话输入"
+    - "发送消息"
+    - "AI输入框"
+  implementationRole: "recipe"
+  controlScope: "会话文字、引用、附件、语音和发送入口"
+  stateOwner: "宿主提供 conversationId、draft/draftRevision、附件适配器、submission 与 generation；Composer 仅持有局部展示/焦点/预览状态，上传沿宿主唯一队列，消息持久化与发送由宿主处理。"
+  relationships:
+    - type: "composes"
+      targetId: "ui-attachment"
+      evidence:
+        path: "packages/ui/src/conversation-composer/conversation-composer.tsx"
+        symbol: "ConversationComposer"
+        kind: "render"
+    - type: "composes"
+      targetId: "recipe-attachment-workflow"
+      condition: "仅组合 AttachmentPreview 展示；上传队列由宿主注入，不从这条关系推导内部拥有上传。"
+      evidence:
+        path: "packages/ui/src/conversation-composer/conversation-composer.tsx"
+        symbol: "ConversationComposer"
+        kind: "render"

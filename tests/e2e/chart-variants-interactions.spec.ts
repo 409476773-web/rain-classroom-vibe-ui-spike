@@ -1,6 +1,7 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
-const evidence = process.env.RAIN_CHART_VARIANTS_EVIDENCE_DIR ?? "evidence/runtime/chart-variants/interactions";
+const evidence = process.env.RAIN_CHART_VARIANTS_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/chart-variants/interactions");
 
 test("six curves repaint actual geometry and the downloaded call stays synchronized", async ({page}) => {
   await page.emulateMedia({reducedMotion:"reduce"});

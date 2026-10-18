@@ -732,3 +732,25 @@ priorReview13PreAcceptanceFeedback:
   visualReview: "pending-local-R3-S2-followup13"
   acceptedBaseline: "G2-visual-acceptance-2026-10-04"
   evidence: "evidence/runtime/navigation-v042/w5/review-13-r3-actions/review-evidence-index.json"
+
+discovery:
+  version: 1
+  familyId: "workspaces"
+  taskIds:
+    - "workbench"
+    - "navigate"
+    - "organize"
+  searchAliases:
+    - "R1"
+    - "列表详情工作区"
+  implementationRole: "recipe"
+  controlScope: "专业建设、培养方案分析与产业调研的导航工作区样板"
+  stateOwner: "本地源码复制完整依赖；宿主拥有稳定业务 ID、当前对象、草稿及动作结果，Workspace 唯一控制器拥有布局偏好，样式/模式切换不提交业务或丢弃草稿。"
+  relationships:
+    - type: "composes"
+      targetId: "layout-workspace"
+      condition: "配方宿主组合一个 WorkspaceLayout；不改变内部业务状态 owner。"
+      evidence:
+        path: "apps/playground/src/recipes/navigation-v042/r1-r3.tsx"
+        symbol: "RecipeFrame"
+        kind: "render"

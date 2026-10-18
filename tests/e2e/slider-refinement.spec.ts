@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-const evidence = fileURLToPath(new URL("../../evidence/runtime/slider-experience-2026-10-13/browser/", import.meta.url));
+const evidence = evidenceOutputPath(fileURLToPath(new URL("../../evidence/runtime/slider-experience-2026-10-13/browser/", import.meta.url)));
 mkdirSync(evidence, { recursive: true });
 test.beforeEach(async ({ page }) => {
   page.on("pageerror", error => { throw error; });

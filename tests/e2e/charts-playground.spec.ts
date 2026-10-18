@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect, type Locator, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 import { CHART_ENTRIES } from "../../apps/playground/src/docs/components/chart-catalog";
 
-const evidence = process.env.RAIN_CHART_PLAYGROUND_EVIDENCE_DIR ?? "evidence/runtime/bklit-rain-catalog/playground";
+const evidence = process.env.RAIN_CHART_PLAYGROUND_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/bklit-rain-catalog/playground");
 
 async function hoverDefaultDate(page: Page, host: Locator, index: number, composed = false) {
   const svg = host.locator(".rain-chart-plot svg").first();

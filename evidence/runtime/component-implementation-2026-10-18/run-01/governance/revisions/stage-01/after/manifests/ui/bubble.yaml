@@ -1,0 +1,130 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-bubble"
+name: "Bubble"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/bubble/bubble.tsx"
+sourceVersion: "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; rain-adaptation-2026-10-14"
+description: "会话内容表面、连续气泡与独立反应位置。"
+useWhen:
+  - "会话回复需要明确内容表面和可组合反应。"
+  - "需普通文本、富内容、真正button/link或折叠长回复。"
+doNotUseWhen:
+  - "把Bubble当发送请求/流式状态引擎或role自动映射。"
+  - "只做蓝白两种表面而省略固定源码七variants。"
+anatomy:
+  - "root"
+  - "group"
+  - "content"
+  - "reactions"
+parts:
+  - "root"
+  - "group"
+  - "content"
+  - "reactions"
+props:
+  - "Root原生div + variant(default默认|secondary|muted|tinted|outline|ghost|destructive)、align(start默认|end)、localRecipe。"
+  - "Content为Base UI useRender.ComponentProps<div>，保留元素/函数render、ref/事件；Group为原生div。"
+  - "Reactions为原生div + side(bottom默认|top)、align(end默认|start)；子Part可显式localRecipe。"
+slots:
+  - "Bubble"
+  - "BubbleGroup"
+  - "BubbleContent"
+  - "BubbleReactions"
+variants:
+  - "完整七表面；ghost放开到全宽，其余最高80%。"
+states:
+  - "无网络/typing内置状态；实际button/a支持hover/focus/原生disabled。"
+dependencies:
+  - "React19.2.8与Rain Foundations；rainCn依赖既有tailwind-merge3.6.0。"
+  - "本项实际源码/内部helper/被动视觉依赖在Registry登记；消费仍为managed @rain-next/ui。"
+tokens:
+  - "default Fill/Brand/Solid/2+OnColor/1；secondary Background/Neutral/2、muted Fill/Neutral/Solid/5。"
+  - "tinted Fill/Brand/Solid/4+Text/Brand/1；outline中性表面/边界；destructive Red浅表面+Text/Red/1。"
+  - "正文Reading14/24，Radius12；reactions中性底/外环和Font UI14/22。"
+layoutConstraints:
+  - "内容w-fit/max-width80%，ghost100%；Reactions top/bottom向外75%，宿主留叠层空间。"
+  - "Reaction start/end用logical inset；Group纵排，不根据sender数据自动分组。"
+compositionRules:
+  - "姓名/时间/头像/动作由Message组合，等待由Marker，滚动由Scroller；Collapsible长回复沿已有资产。"
+  - "Root/Content/Reactions的具名Local Recipe隔离相邻和嵌套气泡。"
+allowedModifications:
+  - "使用本条列出的真实Props/ref/className/style；仅source已提供的Parts支持render/localRecipe，不把通用模板当API。"
+  - "视觉用既有Rain Token/具名局部方案；已登记源几何/动效差额不升级全局Foundation。"
+restrictedModifications:
+  - "不得移除原生语义/焦点/生命周期、重复行为引擎或扩大人工/发布接受。"
+accessibility:
+  - "可操作Content使用真实button/a和名称；reaction动作各自命名，静态emoji可一次性描述。"
+  - "失败同时提供错误文字；reduce关闭颜色过渡，forced-colors保留边界/Focus。"
+examples:
+  - "apps/playground/src/docs/components/g6-conversation-pages.tsx"
+recipes:
+  - "默认与有名局改只作用该实例；原生组合接缝及未改兄弟需保持。"
+antiPatterns:
+  - "把Bubble当发送请求/流式状态引擎或role自动映射。"
+  - "只做蓝白两种表面而省略固定源码七variants。"
+relatedComponents:
+  - "ui-message"
+  - "ui-marker"
+  - "ui-message-scroller"
+  - "ui-collapsible"
+  - "ui-button"
+  - "ui-icon-button"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "default Fill/Brand/Solid/2+OnColor/1；secondary Background/Neutral/2、muted Fill/Neutral/Solid/5。"
+    - "tinted Fill/Brand/Solid/4+Text/Brand/1；outline中性表面/边界；destructive Red浅表面+Text/Red/1。"
+    - "正文Reading14/24，Radius12；reactions中性底/外环和Font UI14/22。"
+  externalReferences:
+    - "固定shadcn Base UI TSX及同版Nova；sharedCSS仅在本条source差额列明时转译。"
+  retainedTraits:
+    - "root"
+    - "group"
+    - "content"
+    - "reactions"
+  redesignedTraits:
+    - "保留七表面与外叠几何；物理left/right转logical，源码圆角/字阶映射已有Rain。"
+    - "不增加Ant typing SDK/状态引擎；完整render/事件/ref接缝保留。"
+  intentionallyNotInherited:
+    - "把Bubble当发送请求/流式状态引擎或role自动映射。"
+    - "只做蓝白两种表面而省略固定源码七variants。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/g6-components-2026-10-14/source-lock.json"
+  - "evidence/runtime/g6-research-2026-10-14/source-supplement.json"
+migrationNotes: "2026-10-14用户授权完整G6建设；人工视觉、对比度、发布与生产采用分别记录。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  evidence: "evidence/runtime/g6-components-2026-10-14/verification.md"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+styleSourcePath: "packages/ui/src/bubble/bubble.css"
+density:
+  - "compact仅Content竖padding8→6；Reading14/24不缩小，ghost仍0 padding。"
+sourceDifferences:
+  - "保留七表面与外叠几何；物理left/right转logical，源码圆角/字阶映射已有Rain。"
+  - "不增加Ant typing SDK/状态引擎；完整render/事件/ref接缝保留。"
+verificationLimits:
+  - "长URL/富内容、叠层空间、反应焦点、两密度/RTL、嵌套主题和组合实际对比度需浏览器验证。"
+
+discovery:
+  version: 1
+  familyId: "conversation"
+  taskIds:
+    - "read-communicate"
+  searchAliases:
+    - "气泡"
+    - "消息表面"
+  implementationRole: "root"
+  controlScope: "会话内容的气泡表面和反应区"
+  stateOwner: "宿主拥有消息、反应和发送状态；BubbleGroup/Content/Reactions 组织表面，不拥有会话列表或发送任务。"
+  relationships: []

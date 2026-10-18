@@ -105,3 +105,38 @@ verification:
   evidence: "evidence/runtime/tag-batch-three/verification.md"
 examples:
   - "#tag"
+
+discovery:
+  version: 1
+  familyId: "tags"
+  taskIds:
+    - "choose"
+    - "identify"
+  searchAliases:
+    - "标签编辑"
+    - "分类单选"
+  implementationRole: "specialization"
+  controlScope: "有限单值分类字段的标签外观"
+  stateOwner: "TagSelect 独立使用候选选择引擎并共享 Tag 表面；宿主拥有当前分类，不是 Select wrapper、任意值创建或多选标签组。"
+  relationships:
+    - type: "sharesPresentation"
+      targetId: "ui-tag"
+      condition: "复用 Tag 配方；有限单值选择有独立实现。"
+      evidence:
+        path: "packages/ui/src/tag/tag-select.tsx"
+        symbol: "TagSelect"
+        kind: "contract"
+    - type: "alternativeWhen"
+      targetId: "ui-select"
+      condition: "标签外观的有限单值编辑用 TagSelect；需要通用单/多值字段时用 Select；共同使用外部引擎不构成 wrapper。"
+      evidence:
+        path: "packages/ui/src/tag/tag-select.tsx"
+        symbol: "TagSelect"
+        kind: "contract"
+    - type: "alternativeWhen"
+      targetId: "ui-checkable-tag-group"
+      condition: "多个分类需同时可见并作单/多选时比较 CheckableTagGroup。"
+      evidence:
+        path: "packages/ui/src/tag/tag-select.tsx"
+        symbol: "TagSelect"
+        kind: "contract"

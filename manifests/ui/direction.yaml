@@ -95,3 +95,17 @@ sourceDifferences:
   - "作者两入口直接复用，文件为.ts并增加类型重导出；没有新包装DOM或主题引擎。"
 verificationLimits:
   - "旧Select/Tooltip/Table等局部Portal与全库RTL未覆盖；方向岛/嵌套/浏览器需按消费者验证。"
+
+discovery:
+  version: 1
+  familyId: "arrangement"
+  taskIds:
+    - "organize"
+  searchAliases:
+    - "RTL"
+    - "LTR"
+    - "阅读方向"
+  implementationRole: "helper"
+  controlScope: "子树的排版与键盘方向上下文"
+  stateOwner: "DirectionProvider 提供单一方向值，useDirection 读取；它不是视觉容器，不改变业务语义或文字内容。"
+  relationships: []

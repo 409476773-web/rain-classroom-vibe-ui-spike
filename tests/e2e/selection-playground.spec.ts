@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-const evidence = resolve(process.env.RAIN_SELECTION_PLAYGROUND_EVIDENCE_DIR ?? "evidence/runtime/selection-playground");
+const evidence = resolve(process.env.RAIN_SELECTION_PLAYGROUND_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/selection-playground"));
 test.beforeEach(async ({ page }) => {
   mkdirSync(evidence, { recursive: true });
   await page.goto("/#selection-playground");

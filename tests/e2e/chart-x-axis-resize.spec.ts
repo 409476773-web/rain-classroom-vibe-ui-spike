@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Page } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
@@ -6,7 +7,7 @@ import { resolve } from "node:path";
 
 const run = "evidence/runtime/chart-behavior-fixes-2026-10-11";
 const runName = process.env.RAIN_CHART_AXIS_RUN ?? "after-01";
-const evidence = `${run}/browser/x-axis/${runName}`;
+const evidence = evidenceOutputPath(`${run}/browser/x-axis/${runName}`);
 const baseline = process.env.RAIN_CHART_AXIS_BASELINE === "1";
 const sourcePath = resolve("packages/ui/src/charts/vendor/charts/x-axis.tsx");
 const beforeSource = await readFile(`${run}/before/packages/ui/src/charts/vendor/charts/x-axis.tsx`, "utf8");

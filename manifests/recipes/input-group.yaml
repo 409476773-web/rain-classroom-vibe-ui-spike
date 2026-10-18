@@ -79,3 +79,30 @@ verification:
   humanGate: "awaiting_human"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/g5-components-2026-10-12/verification.md"
+
+discovery:
+  version: 1
+  familyId: "fields"
+  taskIds:
+    - "fill-validate"
+  searchAliases:
+    - "InputGroup"
+    - "输入组合"
+    - "前后缀输入"
+    - "附加动作"
+  implementationRole: "usage-reference"
+  controlScope: "现有输入控件的附加内容与组合呈现"
+  stateOwner: "每个逻辑字段由现有 Input/SearchInput/InputNumber/Textarea 与宿主值 owner 管理；附加操作不创建新输入引擎，不存在 InputGroup 公共导出。"
+  relationships:
+    - type: "exampleUses"
+      targetId: "ui-input"
+      evidence:
+        path: "apps/playground/src/docs/components/g5-component-pages.tsx"
+        symbol: "InputGroupExamples"
+        kind: "render"
+    - type: "exampleUses"
+      targetId: "ui-textarea"
+      evidence:
+        path: "apps/playground/src/docs/components/g5-component-pages.tsx"
+        symbol: "InputGroupExamples"
+        kind: "render"

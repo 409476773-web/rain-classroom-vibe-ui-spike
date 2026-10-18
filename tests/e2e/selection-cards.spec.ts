@@ -1,9 +1,10 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { measureColorContrast } from "../../packages/foundations/src/color-registry";
 
-const evidence = resolve(process.env.RAIN_SELECTION_CARDS_EVIDENCE_DIR ?? "evidence/runtime/selection-cards");
+const evidence = resolve(process.env.RAIN_SELECTION_CARDS_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/selection-cards"));
 const color = (value: string) => {
   const n = value.match(/[\d.]+/g)!.map(Number), scale = value.startsWith("color(srgb") ? 255 : 1;
   return { rgb: [n[0]! * scale, n[1]! * scale, n[2]! * scale] as const, alpha: (n[3] ?? 1) / (value.includes("%") ? 100 : 1) };

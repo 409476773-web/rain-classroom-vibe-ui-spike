@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 
-const evidence = "evidence/runtime/select-unification-2026-10-13/browser";
+const evidence = evidenceOutputPath("evidence/runtime/select-unification-2026-10-13/browser");
 mkdirSync(evidence, { recursive: true });
 test.beforeEach(({ page }) => { page.on("pageerror", error => { throw error; }); });
 

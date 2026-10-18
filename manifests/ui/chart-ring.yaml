@@ -132,3 +132,23 @@ variantCoverage:
     - "6项保留原生环形/中心Parts；进度值、单位和数据表对应。"
   limitations:
     - "环层表示独立完成率，不将环面积当作人数比例。"
+
+discovery:
+  version: 1
+  familyId: "charts"
+  taskIds:
+    - "analyze"
+  searchAliases:
+    - "ring"
+    - "图表"
+  implementationRole: "root"
+  controlScope: "多个各自拥有 maxValue 的独立目标进度"
+  stateOwner: "宿主拥有经过校验的数据、单位、分母、稳定身份与精确读数；图表根提供自身系列/轴/图例/提示所需上下文。查询过滤、业务选择与持久化不由图表隐式决定。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-chart-pie"
+      condition: "互斥类别占同一总量时用 PieChart 的饼/环饼形态，不把独立目标进度相加。"
+      evidence:
+        path: "packages/ui/src/charts/vendor/charts/ring-chart.tsx"
+        symbol: "RingChart"
+        kind: "contract"

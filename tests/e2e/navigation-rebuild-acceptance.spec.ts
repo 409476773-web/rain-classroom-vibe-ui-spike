@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { chooseSelect } from './navigation-rebuild-select';
 import {test,expect} from '@playwright/test';
 import {contrastRatio} from './color-contrast';
 const url='http://127.0.0.1:4174/#token-first-g3?rebuild=1';
-const evidence='evidence/runtime/navigation-rebuild-v03';
+const evidence=evidenceOutputPath('evidence/runtime/navigation-rebuild-v03');
 for(const surface of ['dark','light']) test(`V-S01-01..04 V-S02-01..04 E01 ${surface}: current hover focus text targets and scroll owners`,async({page})=>{
  await page.setViewportSize({width:1200,height:650});await page.goto(url);await chooseSelect(page,'导航表面',surface==='dark'?'深色':'浅色');
  const nav=page.getByRole('navigation',{name:'全局导航',exact:true});const current=nav.getByRole('link',{name:'考试管理',exact:true});const ordinary=nav.getByRole('link',{name:'资源中心',exact:true});
@@ -20,7 +21,7 @@ test('V-S04-01..04 E11: icon submenu by keyboard, hidden recovery and short rail
  await nav.getByRole('button',{name:'展开课程建设',exact:true}).focus();await page.keyboard.press('Enter');const popup=page.getByRole('navigation',{name:'课程建设子入口'});await expect(popup.getByRole('link',{name:'课程内容',exact:true})).toBeVisible();await page.keyboard.press('Escape');await expect(nav.getByRole('button',{name:'展开课程建设',exact:true})).toBeFocused();
  await chooseSelect(page,'导航形态','图标＋短文字');expect(await nav.locator('.nr-link').evaluateAll(els=>els.map(e=>e.getAttribute('href')))).toEqual(before);await expect(nav.getByRole('link',{name:'考试管理',exact:true})).toContainText('考试');
  const width=(await page.locator('.nr-workspace').boundingBox())!.width;await page.getByRole('button',{name:'隐藏全局导航',exact:true}).click();expect((await page.locator('.nr-workspace').boundingBox())!.width).toBeGreaterThan(width);await expect(page.getByRole('button',{name:'恢复全局导航',exact:true})).toBeFocused();await page.getByRole('button',{name:'恢复全局导航',exact:true}).click();await expect(nav).toBeVisible();
- await page.screenshot({path:`evidence/runtime/navigation-rebuild-v03/short-rail.png`});
+ await page.screenshot({path:evidenceOutputPath(`evidence/runtime/navigation-rebuild-v03/short-rail.png`)});
 });
 test('V-S05-01..04 V-S08-01..04 E02: scopes, independent parents, long course identity and width release',async({page})=>{
  await page.goto(url+'&scene=course&recipe=S05&page=course-content');const global=page.getByRole('navigation',{name:'全局导航',exact:true}),context=page.getByRole('navigation',{name:'课程导航',exact:true});

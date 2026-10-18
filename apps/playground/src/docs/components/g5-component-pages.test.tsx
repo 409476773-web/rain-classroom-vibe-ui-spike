@@ -2,6 +2,7 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, expect, it } from "vitest";
 import { parseSync } from "vite";
 import { App } from "../../app";
+import { AssignmentSettingsExample } from "./g5-component-pages";
 import { ComponentCatalog } from "./component-catalog";
 
 afterEach(() => { window.location.hash = ""; });
@@ -32,7 +33,7 @@ it("opens the existing Select for legacy native links and removes the duplicate 
 
 it("validates and saves the host form while preserving the edited fields", async () => {
   window.location.hash = "#field";
-  render(<App />);
+  render(<AssignmentSettingsExample />);
   const form = await screen.findByRole("form", { name: "作业发布设置" });
   expect(within(form).getByRole("combobox", { name: "作业类型" }).tagName).toBe("BUTTON");
   const title = within(form).getByRole("textbox", { name: "作业名称" });
@@ -44,6 +45,62 @@ it("validates and saves the host form while preserving the edited fields", async
   fireEvent.submit(form);
   expect(within(form).getByRole("status", { name: "作业保存结果" })).toHaveTextContent("第六讲课堂练习");
   expect(title).toHaveValue("第六讲课堂练习");
+});
+
+it("associates course and points errors with each field and focuses the first invalid field", async () => {
+  window.location.hash = "#field";
+  render(<AssignmentSettingsExample />);
+  const form = await screen.findByRole("form", { name: "作业发布设置" });
+  const course = within(form).getByRole("combobox", { name: "所属课程" });
+  const points = within(form).getByRole("spinbutton", { name: "满分" });
+  fireEvent.click(within(form).getByRole("button", { name: "清除所属课程" }));
+  fireEvent.change(points, { target: { value: "" } });
+  fireEvent.submit(form);
+  expect(course).toHaveAttribute("aria-invalid", "true");
+  expect(course).toHaveAccessibleDescription("请选择所属课程。");
+  expect(points).toHaveAttribute("aria-invalid", "true");
+  expect(points).toHaveAccessibleDescription(/请输入 1–200 之间的整数满分。/);
+  expect(course).toHaveFocus();
+  const title = within(form).getByRole("textbox", { name: "作业名称" });
+  fireEvent.change(title, { target: { value: "" } });
+  fireEvent.submit(form);
+  expect(title).toHaveFocus();
+  expect(within(form).getByRole("status", { name: "作业保存结果" })).not.toHaveTextContent("设置已保存");
+});
+
+it("keeps unresolved field errors when another field is edited", () => {
+  render(<AssignmentSettingsExample />);
+  const form = screen.getByRole("form", { name: "作业发布设置" });
+  const title = within(form).getByRole("textbox", { name: "作业名称" });
+  const course = within(form).getByRole("combobox", { name: "所属课程" });
+  const points = within(form).getByRole("spinbutton", { name: "满分" });
+  fireEvent.change(title, { target: { value: "" } });
+  fireEvent.click(within(form).getByRole("button", { name: "清除所属课程" }));
+  fireEvent.change(points, { target: { value: "" } });
+  fireEvent.submit(form);
+  fireEvent.change(title, { target: { value: "修正后的作业名称" } });
+  fireEvent.change(within(form).getByRole("textbox", { name: "作业说明" }), { target: { value: "补充说明" } });
+  expect(title).not.toHaveAttribute("aria-invalid", "true");
+  expect(course).toHaveAccessibleDescription("请选择所属课程。");
+  expect(points).toHaveAccessibleDescription(/请输入 1–200 之间的整数满分。/);
+  fireEvent.change(points, { target: { value: "80" } });
+  expect(points).not.toHaveAttribute("aria-invalid", "true");
+  expect(course).toHaveAttribute("aria-invalid", "true");
+  fireEvent.submit(form);
+  expect(course).toHaveFocus();
+  expect(points).toHaveValue("80");
+});
+
+it.each(["", "0", "201", "1.5"])("focuses the invalid points value %s before later fields", async value => {
+  window.location.hash = "#field";
+  render(<AssignmentSettingsExample />);
+  const form = await screen.findByRole("form", { name: "作业发布设置" });
+  const points = within(form).getByRole("spinbutton", { name: "满分" });
+  fireEvent.change(points, { target: { value } });
+  fireEvent.submit(form);
+  expect(points).toHaveFocus();
+  expect(points).toHaveAttribute("aria-invalid", "true");
+  expect(points).toHaveAccessibleDescription(/请输入 1–200 之间的整数满分。/);
 });
 
 it("submits multiline feedback through the attached action and keeps a sibling unchanged", async () => {

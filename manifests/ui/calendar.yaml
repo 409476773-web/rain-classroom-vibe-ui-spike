@@ -95,3 +95,24 @@ verification:
   humanGate: "awaiting_human"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/date-time-optimization-2026-10-12/verification.md"
+
+discovery:
+  version: 1
+  familyId: "dates"
+  taskIds:
+    - "choose"
+    - "fill-validate"
+  searchAliases:
+    - "日历"
+    - "日期范围"
+  implementationRole: "root"
+  controlScope: "日期视图与日期或范围的选择"
+  stateOwner: "宿主通过 selected/onSelect 提供日期或范围，并显式选择 single/range 模式；Calendar 转交 DayPicker 的视图与聚焦协议。日期字段、显示格式与业务提交由宿主负责。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-date-picker"
+      condition: "需要字段入口、格式显示和浮层确认时比较 DatePicker。"
+      evidence:
+        path: "packages/ui/src/calendar/calendar.tsx"
+        symbol: "Calendar"
+        kind: "contract"

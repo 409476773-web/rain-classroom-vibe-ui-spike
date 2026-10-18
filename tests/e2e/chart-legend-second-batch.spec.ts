@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -91,7 +92,7 @@ for (const width of [1440, 390]) for (const motion of ["no-preference", "reduce"
     expect(errors).toEqual([]);
     const after = await sources();
     expect(after).toEqual(before);
-    const folder = `${run}/legend-browser`;
+    const folder = evidenceOutputPath(`${run}/legend-browser`);
     await mkdir(folder, { recursive: true });
     await writeFile(`${folder}/${width}-${motion}.json`, JSON.stringify({ checks, errors, sourcesBefore: before, sourcesAfter: after, sourceFrozen: true }, null, 2));
   });

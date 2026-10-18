@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 
+import delivery from "../../apps/playground/src/docs/library-status.generated.json" with { type: "json" };
 import { contrastRatio } from "./color-contrast";
 
 const expectedBenchmarks = [
@@ -40,14 +41,16 @@ test("the Playground shell exposes a flat, inspectable overview", async ({ page 
 
   await expect(page.getByText("尚未实现")).toHaveCount(0);
   await expect(page.getByLabel("当前阶段")).toContainText(
-    "第 0/1 批 · 基础能力建设 · 视觉验收待确认",
+    delivery.title,
   );
-  await expect(page.getByLabel("当前阶段")).toContainText("token-foundations-v1");
+  await expect(page.getByLabel("当前阶段")).toContainText(delivery.updatedAt);
   await expect(page.getByLabel("历史基线")).toContainText("Day 3 Core UI 已完成本地实现和自动检查");
   await expect(page.locator("nav, aside")).toHaveCount(0);
 
   const foundationsEntry = page.getByRole("link", { name: /Foundations/i });
   const componentsEntry = page.getByRole("link", { name: /^Components/i });
+  await page.keyboard.press("Tab");
+  await expect(page.locator(".overview-history summary")).toBeFocused();
   await page.keyboard.press("Tab");
   await expect(foundationsEntry).toBeFocused();
   await page.keyboard.press("Tab");
@@ -77,7 +80,7 @@ test("the Playground shell exposes a flat, inspectable overview", async ({ page 
 
   const introTextStyles = await page.locator(".intro-copy").evaluate((element) => {
     const styles = getComputedStyle(element);
-    const parentStyles = getComputedStyle(element.parentElement as HTMLElement);
+    const parentStyles = getComputedStyle(element.closest(".intro") as HTMLElement);
     return {
       backgroundColor: parentStyles.backgroundColor,
       color: styles.color,

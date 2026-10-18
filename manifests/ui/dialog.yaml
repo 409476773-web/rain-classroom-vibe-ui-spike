@@ -125,3 +125,24 @@ verification:
   visualEvidence: "evidence/runtime/dialog-bm-b-visual-2026-09-15/verification.md"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/dialog-refinement-2026-09-15/verification.md"
+
+discovery:
+  version: 1
+  familyId: "dialogs-panels"
+  taskIds:
+    - "act-feedback"
+    - "organize"
+  searchAliases:
+    - "模态框"
+    - "对话框"
+  implementationRole: "root"
+  controlScope: "阻断式任务对话和必要的交互上下文"
+  stateOwner: "Root 统一 open 与焦点生命周期；Content 自动组装所需容器，Title/Description 提供命名；宿主保存表单草稿和业务提交状态。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-alert-dialog"
+      condition: "需要必须明确确认或取消的警示语义时比较 AlertDialog。"
+      evidence:
+        path: "packages/ui/src/dialog/dialog.tsx"
+        symbol: "Dialog"
+        kind: "contract"

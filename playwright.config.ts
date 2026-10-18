@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { resolve } from "node:path";
 
 // These scenarios belong to the prototype server started by this configuration.
 for (const name of ["RAIN_TABLE_PROTOTYPE_URL", "RAIN_V12_URL", "RAIN_V12_NEXT_URL", "RAIN_V12_G2_URL", "RAIN_V12_G3_URL", "RAIN_TEACHER_URL"]) {
@@ -11,6 +12,7 @@ export default defineConfig({
   fullyParallel: false,
   forbidOnly: true,
   retries: 0,
+  outputDir: resolve(process.env.RAIN_IMPLEMENTATION_EVIDENCE_DIR || "artifacts/e2e", "results"),
   reporter: "list",
   use: {
     baseURL: "http://127.0.0.1:4173",
@@ -19,7 +21,7 @@ export default defineConfig({
   },
   webServer: [{
     command:
-      "pnpm --filter @rain-next/playground exec vite --host 127.0.0.1 --port 4173",
+      "pnpm --filter @rain-next/playground exec vite --host 127.0.0.1 --port 4173 --strictPort",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: false,
     timeout: 120_000,

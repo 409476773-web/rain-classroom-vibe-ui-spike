@@ -1,0 +1,110 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ scripts/verify-css-variables.test.ts (9 tests | 6 failed) 66ms
+   × recognizes local CSS, inline styles and literal runtime writers without accepting a prefix 3ms
+   × resolves static Rain variables across the actual public CSS and live examples 50ms
+   × does not let an isolated definition satisfy an entry that never imports it 0ms
+   × follows real static exports and CSS imports while reporting lazy-only definitions as pending 0ms
+   × ignores comments without deleting comment-like strings or accepting commented imports 0ms
+   × reports unresolved local entry dependencies instead of claiming reachability 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/verify-css-variables.test.ts > recognizes local CSS, inline styles and literal runtime writers without accepting a prefix
+TypeError: Cannot read properties of undefined (reading 'Latest')
+ ❯ withoutComments scripts/verify-css-variables.mjs:37:52
+     35| function withoutComments(file, source) {
+     36|   if (file.endsWith(".css")) return source.replace(/\/\*[\s\S]*?\*\//g…
+     37|   const scanner = ts.createScanner(ts.ScriptTarget.Latest, false, ts.L…
+       |                                                    ^
+     38|   const ranges = [];
+     39|   for (let token = scanner.scan(); token !== ts.SyntaxKind.EndOfFileTo…
+ ❯ scripts/verify-css-variables.mjs:87:71
+ ❯ checkCssVariables scripts/verify-css-variables.mjs:87:40
+ ❯ scripts/verify-css-variables.test.ts:12:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  scripts/verify-css-variables.test.ts > resolves static Rain variables across the actual public CSS and live examples
+TypeError: Cannot read properties of undefined (reading 'Latest')
+ ❯ withoutComments scripts/verify-css-variables.mjs:37:52
+     35| function withoutComments(file, source) {
+     36|   if (file.endsWith(".css")) return source.replace(/\/\*[\s\S]*?\*\//g…
+     37|   const scanner = ts.createScanner(ts.ScriptTarget.Latest, false, ts.L…
+       |                                                    ^
+     38|   const ranges = [];
+     39|   for (let token = scanner.scan(); token !== ts.SyntaxKind.EndOfFileTo…
+ ❯ scripts/verify-css-variables.mjs:87:71
+ ❯ checkCssVariables scripts/verify-css-variables.mjs:87:40
+ ❯ verifyCssVariables scripts/verify-css-variables.mjs:166:10
+ ❯ scripts/verify-css-variables.test.ts:21:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  scripts/verify-css-variables.test.ts > does not let an isolated definition satisfy an entry that never imports it
+TypeError: Cannot read properties of undefined (reading 'Latest')
+ ❯ withoutComments scripts/verify-css-variables.mjs:37:52
+     35| function withoutComments(file, source) {
+     36|   if (file.endsWith(".css")) return source.replace(/\/\*[\s\S]*?\*\//g…
+     37|   const scanner = ts.createScanner(ts.ScriptTarget.Latest, false, ts.L…
+       |                                                    ^
+     38|   const ranges = [];
+     39|   for (let token = scanner.scan(); token !== ts.SyntaxKind.EndOfFileTo…
+ ❯ scripts/verify-css-variables.mjs:87:71
+ ❯ checkCssVariables scripts/verify-css-variables.mjs:87:40
+ ❯ scripts/verify-css-variables.test.ts:33:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  scripts/verify-css-variables.test.ts > follows real static exports and CSS imports while reporting lazy-only definitions as pending
+TypeError: Cannot read properties of undefined (reading 'Latest')
+ ❯ withoutComments scripts/verify-css-variables.mjs:37:52
+     35| function withoutComments(file, source) {
+     36|   if (file.endsWith(".css")) return source.replace(/\/\*[\s\S]*?\*\//g…
+     37|   const scanner = ts.createScanner(ts.ScriptTarget.Latest, false, ts.L…
+       |                                                    ^
+     38|   const ranges = [];
+     39|   for (let token = scanner.scan(); token !== ts.SyntaxKind.EndOfFileTo…
+ ❯ scripts/verify-css-variables.mjs:87:71
+ ❯ checkCssVariables scripts/verify-css-variables.mjs:87:40
+ ❯ scripts/verify-css-variables.test.ts:42:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  scripts/verify-css-variables.test.ts > ignores comments without deleting comment-like strings or accepting commented imports
+TypeError: Cannot read properties of undefined (reading 'Latest')
+ ❯ withoutComments scripts/verify-css-variables.mjs:37:52
+     35| function withoutComments(file, source) {
+     36|   if (file.endsWith(".css")) return source.replace(/\/\*[\s\S]*?\*\//g…
+     37|   const scanner = ts.createScanner(ts.ScriptTarget.Latest, false, ts.L…
+       |                                                    ^
+     38|   const ranges = [];
+     39|   for (let token = scanner.scan(); token !== ts.SyntaxKind.EndOfFileTo…
+ ❯ scripts/verify-css-variables.mjs:87:71
+ ❯ checkCssVariables scripts/verify-css-variables.mjs:87:40
+ ❯ scripts/verify-css-variables.test.ts:56:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  scripts/verify-css-variables.test.ts > reports unresolved local entry dependencies instead of claiming reachability
+TypeError: Cannot read properties of undefined (reading 'Latest')
+ ❯ withoutComments scripts/verify-css-variables.mjs:37:52
+     35| function withoutComments(file, source) {
+     36|   if (file.endsWith(".css")) return source.replace(/\/\*[\s\S]*?\*\//g…
+     37|   const scanner = ts.createScanner(ts.ScriptTarget.Latest, false, ts.L…
+       |                                                    ^
+     38|   const ranges = [];
+     39|   for (let token = scanner.scan(); token !== ts.SyntaxKind.EndOfFileTo…
+ ❯ scripts/verify-css-variables.mjs:87:71
+ ❯ checkCssVariables scripts/verify-css-variables.mjs:87:40
+ ❯ scripts/verify-css-variables.test.ts:78:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed | 3 passed (9)
+   Start at  13:43:14
+   Duration  1.11s (transform 367ms, setup 100ms, import 483ms, tests 66ms, environment 368ms)
+

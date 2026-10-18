@@ -1,0 +1,63 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ scripts/g1-g6-closeout-governance.test.ts (6 tests | 1 failed) 119993ms
+   × rejects changed old Gates, unknown phase, runtime drift, rewritten proof, forged bindings and symlinks 80586ms
+ ❯ scripts/deep-review-successor.test.ts (3 tests | 1 failed) 54452ms
+   × checks the current corrected paints while retaining pending contrast findings 13275ms
+ ❯ scripts/github-review-successor.test.ts (7 tests | 1 failed) 176488ms
+   × validates a relocated regular-file snapshot and rejects modified authority, proof, source and symlinks 75397ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/deep-review-successor.test.ts > checks the current corrected paints while retaining pending contrast findings
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ scripts/deep-review-successor.test.ts:24:82
+     22|     const source = readFileSync(filePath, "utf8");
+     23|     expect(validateRecordedPaintSource(entry, source), filePath).toEqu…
+     24|     expect(entry.inventory.every((row: any) => row.acceptedException =…
+       |                                                                                  ^
+     25|     expect(validateRecordedPaintSource(entry, source + "\n.unrelated {…
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  scripts/g1-g6-closeout-governance.test.ts > rejects changed old Gates, unknown phase, runtime drift, rewritten proof, forged bindings and symlinks
+Error: Test timed out in 60000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/g1-g6-closeout-governance.test.ts:33:1
+     31| });
+     32|
+     33| it("rejects changed old Gates, unknown phase, runtime drift, rewritten…
+       | ^
+     34|   const root = mkdtempSync(join(tmpdir(), "rain-g1-g6-closeout-"));
+     35|   const record = JSON.parse(readFileSync(closeoutBindingsPath, "utf8")…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  scripts/github-review-successor.test.ts > validates a relocated regular-file snapshot and rejects modified authority, proof, source and symlinks
+Error: Test timed out in 60000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/github-review-successor.test.ts:51:1
+     49| });
+     50|
+     51| it("validates a relocated regular-file snapshot and rejects modified a…
+       | ^
+     52|   const root = mkdtempSync(join(tmpdir(), "rain-github-review-relocate…
+     53|   const paths = [...githubReviewFixtureFiles(process.cwd()), ...deepRe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  3 failed | 13 passed (16)
+   Start at  23:17:10
+   Duration  178.33s (transform 1.09s, setup 484ms, import 1.70s, tests 350.93s, environment 1.49s)
+

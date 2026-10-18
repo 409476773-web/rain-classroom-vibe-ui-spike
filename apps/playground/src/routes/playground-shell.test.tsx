@@ -6,6 +6,7 @@ import {
   benchmarkIndex,
   type BenchmarkIndexEntry,
 } from "../docs/benchmark-index";
+import delivery from "../docs/library-status.generated.json";
 import { OverviewPage } from "./overview-page";
 
 describe("playground-shell", () => {
@@ -95,13 +96,15 @@ describe("playground-shell", () => {
     expect(screen.queryByText("尚未实现")).not.toBeInTheDocument();
   });
 
-  it("separates the current B2 entry from the completed historical baseline", () => {
+  it("renders the current delivery summary separately from historical evidence", () => {
     render(<App />);
 
     expect(screen.getByLabelText("当前阶段")).toHaveTextContent(
-      "第 0/1 批 · 基础能力建设 · 视觉验收待确认",
+      delivery.title,
     );
-    expect(screen.getByLabelText("当前阶段")).toHaveTextContent("token-foundations-v1");
+    expect(screen.getByLabelText("当前阶段")).toHaveTextContent(delivery.updatedAt);
+    expect(screen.getByLabelText("资产范围")).toHaveTextContent(`${delivery.contracts} 份资产合同`);
+    expect(screen.getByText(delivery.limitations)).toBeVisible();
     expect(screen.getByLabelText("历史基线")).toHaveTextContent("Day 3 Core UI 已完成本地实现和自动检查");
     expect(screen.getByLabelText("历史基线")).toHaveTextContent("图标库继续复用");
   });

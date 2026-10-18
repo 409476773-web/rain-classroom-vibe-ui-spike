@@ -1,0 +1,116 @@
+schemaVersion: "1.0"
+kind: "RainLayoutManifest"
+id: "layout-inline"
+name: "Inline"
+category: "layout"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "react-only"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/layouts/src/layout.tsx"
+styleSourcePath: "packages/layouts/src/layout.css"
+sourceVersion: "local-2026-09-13"
+description: "水平排列与整组换行"
+useWhen:
+  - "查询条、标签组、动作组的横向排列"
+doNotUseWhen:
+  - "需要改变公共UI内部外观或业务查询/选择/评分状态时。"
+anatomy:
+  - "原生div根节点与children"
+parts:
+  - "root"
+props:
+  - "gap默认0；align默认center，支持start/center/end/stretch/baseline。"
+  - "justify默认start，支持start/center/end/between；wrap默认true，false可保持动作组同排；原生div属性/ref。"
+slots:
+  - "children"
+variants:
+  - "已登记的有限布局属性"
+states:
+  - "静态组合"
+  - "容器收缩"
+dependencies:
+  - "react"
+  - "@rain-next/foundations"
+tokens:
+  - "现有CompositionSpaceTokenName：0/2/4/6/8/10/12/14/16/18/20/24/28/32/36/40。"
+  - "没有新的颜色、表面、排版或Density Token。"
+layoutConstraints:
+  - "宿主对必须一起换行的动作嵌套Inline wrap=false。"
+  - "不自动压缩控件尺寸；超长单个元素需宿主处理文本或约束列宽。"
+compositionRules:
+  - "父布局拥有组间gap，Field拥有内部排布，容器拥有自己的内容边线。"
+  - "同一语义容器、同一方向：边缘留白≥分区间距≥信息间距；现有Space自由选值且允许相等，页面/Card/Pane各有可调整的局部配方。"
+  - "共享defineLayoutSpacing及LayoutSpacing仅校验声明的三元组；宿主显式应用inset与gap并测量累计距离，不按DOM嵌套自动递减，不缩放控件内部尺寸。"
+  - "gap/列数/区域宽度由显式Props拥有；className仅用于其他宿主布局，不追加冲突gap或覆盖本包运行时几何变量。"
+  - "Layout不复制UI的内部方案，不创建新的DensityProvider；现有显式Size优先。"
+allowedModifications:
+  - "原生语义属性、children、已列Props、宿主外部几何和组成内容。"
+restrictedModifications:
+  - "不硬编码品牌、字体或Focus，不修改受保护Foundation/UI，不建立业务状态平台。"
+nativeCssExceptions:
+  - "layout.css：Grid minmax/min/max计算与Split受控区域/隐藏/堆叠；所有CSS变量仅本包节点几何，间距值来自Foundation。"
+accessibility:
+  - "保持DOM与视觉顺序，语义名称由宿主提供；布局不创建额外Tab停点。"
+  - "独立滚动区域由宿主提供可读名称、tabIndex和现有data-focus语义；Split收起须保留可见恢复控件并先关闭所属Portal。"
+examples:
+  - "#layouts"
+  - "apps/prototype/src/layout-recipes.tsx"
+recipes:
+  - "设置表单"
+  - "查询与动作组"
+  - "课程资料主从预览"
+antiPatterns:
+  - "批量替换所有Card/Dialog内部Parts"
+  - "父gap与子margin重复补同一段距离"
+  - "只靠hidden隐藏外部Portal"
+  - "让布局拥有业务查询或表单草稿"
+relatedComponents:
+  - "Card"
+  - "Dialog"
+  - "FormItem"
+  - "Input"
+  - "Select"
+  - "Button"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "VE-009 主从预览/独立Inspector"
+    - "VE-012 主从职责"
+    - "VE-014 双列表单和长内容"
+  externalReferences: []
+  retainedTraits:
+    - "主从分区、明确的间距和对齐、UI/布局职责分开"
+  redesignedTraits:
+    - "React有限布局API、容器自适应、保留挂载与受控焦点恢复"
+  intentionallyNotInherited:
+    - "Classic Template样式、任意多Pane、拖拽与持久化"
+figmaMapping:
+  status: "reference-only"
+  evidence: "VE-009 / VE-012 / VE-014"
+migrationNotes:
+  - "RN-06新React源码；不是Classic布局组件的代码迁移，未改旧Card/Dialog实现。"
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "awaiting_human"
+  spacingHierarchy:
+    humanGate: "accepted"
+    humanGateScope: "layouts-spacing-runtime-visual-only"
+    evidence: "evidence/runtime/spacing-hierarchy/outer-cards/visual-acceptance.md"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/spacing-hierarchy/outer-cards/verification.md"
+
+discovery:
+  version: 1
+  familyId: "arrangement"
+  taskIds:
+    - "organize"
+  searchAliases:
+    - "inline"
+    - "布局"
+  implementationRole: "layout"
+  controlScope: "横向排列和整组换行"
+  stateOwner: "宿主拥有 gap、inset、列数或区域尺寸，布局只处理几何与对应交互；不接管子字段值、业务选择或新增 Density owner。"
+  relationships: []

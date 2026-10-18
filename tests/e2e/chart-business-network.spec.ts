@@ -1,9 +1,10 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 import { makeNetworkFixtures } from "../../apps/playground/src/docs/components/chart-business/network-data";
 import { measureColorContrast, type ColorValue } from "../../packages/foundations/src/color-registry";
 
-const evidence = "evidence/runtime/chart-network-experience-2026-10-10/browser";
+const evidence = evidenceOutputPath("evidence/runtime/chart-network-experience-2026-10-10/browser");
 const fixtures = makeNetworkFixtures();
 test.beforeEach(async () => { await mkdir(evidence, { recursive: true }); });
 

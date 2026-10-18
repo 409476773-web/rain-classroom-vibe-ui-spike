@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from '@playwright/test';
 
 const url = '/#token-first-g3?rebuild=1';
-const evidence = 'evidence/runtime/navigation-rebuild-v03';
+const evidence = evidenceOutputPath('evidence/runtime/navigation-rebuild-v03');
 
 test('closure S04: keyboard and pointer follow the icon child destination', async ({ page }) => {
   for (const method of ['keyboard', 'pointer']) {

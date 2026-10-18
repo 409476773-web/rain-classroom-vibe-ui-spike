@@ -1,10 +1,11 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 const base = "evidence/runtime/chart-experience-third-batch-2026-10-11/candle-live/candle-browser";
 const run = process.env.RAIN_CANDLE_BROWSER_RUN ?? "after-01";
-const folder = `${base}/${run}`;
+const folder = evidenceOutputPath(`${base}/${run}`);
 const variants = ["candlestick-tooltip-line-default", "candlestick-tooltip-line-gradient", "candlestick-chart-1-3", "candlestick-lime-emerald-yellow-red", "candlestick-solid-colors", "candlestick-pattern", "candlestick-tooltip-only", "candlestick-pattern-background", "candlestick-dot-grid-background", "candlestick-reference-band", "candlestick-pattern-reference-band"];
 const files = [
   "apps/playground/src/docs/components/chart-variants/special.tsx", "apps/playground/src/docs/components/chart-examples.tsx",

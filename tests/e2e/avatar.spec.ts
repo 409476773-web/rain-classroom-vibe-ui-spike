@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 
-const evidence = "evidence/runtime/avatar";
+const evidence = evidenceOutputPath("evidence/runtime/avatar");
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/#avatar");

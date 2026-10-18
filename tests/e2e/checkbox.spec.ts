@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-const evidence = resolve(process.env.RAIN_CHECKBOX_EVIDENCE_DIR ?? "evidence/runtime/checkbox");
+const evidence = resolve(process.env.RAIN_CHECKBOX_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/checkbox"));
 test.beforeEach(async ({ page }) => {
   await page.goto("/#checkbox");
   await expect(page.getByRole("heading", { name: "Checkbox 多选框" })).toBeVisible();

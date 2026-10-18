@@ -144,3 +144,24 @@ controlReuse:
   humanGate: "awaiting_human"
   contrastAcceptance: "not-granted"
   publicContract: "既有 Props、回调、input ref、默认值与 reset 合同保留；内部共享层不从根入口导出。"
+
+discovery:
+  version: 1
+  familyId: "selection-inputs"
+  taskIds:
+    - "choose"
+    - "fill-validate"
+  searchAliases:
+    - "单选卡片"
+  implementationRole: "specialization"
+  controlScope: "带结构化内容的单选输入表面"
+  stateOwner: "复用内部 RadioControl；同组 name/value 和组 owner 与 RadioGroup 保持一致，卡片自身不增加第二个选中值。"
+  relationships:
+    - type: "usesBehavior"
+      targetId: "ui-radio"
+      condition: "复用非公共 RadioControl seam，公开消费仍使用 RadioCard。"
+      evidence:
+        path: "packages/ui/src/selection-card/selection-card.tsx"
+        symbol: "RadioCard"
+        kind: "render"
+        targetSymbol: "RadioControl"

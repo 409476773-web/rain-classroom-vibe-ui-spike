@@ -98,3 +98,23 @@ insideFieldLabels:
   humanGateScope: "input-search-input-select-inside-labels-runtime-visual-only"
   contrastAcceptance: "not-granted"
   publication: "not-authorized"
+
+discovery:
+  version: 1
+  familyId: "fields"
+  taskIds:
+    - "choose"
+    - "fill-validate"
+  searchAliases:
+    - "搜索框"
+    - "查询输入"
+  implementationRole: "specialization"
+  controlScope: "带搜索和清除入口的 Input 用法"
+  stateOwner: "输入值仍沿 Input 的受控/非受控与原生 reset 协议；宿主拥有查询结果、请求取消与搜索提交，清除不等同取消后台请求。"
+  relationships:
+    - type: "wraps"
+      targetId: "ui-input"
+      evidence:
+        path: "packages/ui/src/input/search-input.tsx"
+        symbol: "SearchInput"
+        kind: "render"

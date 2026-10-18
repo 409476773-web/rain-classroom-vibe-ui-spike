@@ -1,0 +1,161 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-drawer"
+name: "Drawer"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/drawer/drawer.tsx"
+sourceVersion: "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; rain-adaptation-2026-10-14"
+description: "可拖动、吸附与嵌套的四方向临时任务面板。"
+useWhen:
+  - "临时任务面板需要真实滑动、吸附高度或嵌套叠层。"
+  - "底部课程资源/填写任务，也需同实现支持上/左/右。"
+doNotUseWhen:
+  - "用既有Sheet别名伪装为有手势跟随的Drawer。"
+  - "公共组件直接管理草稿、保存网络或dirty业务状态。"
+anatomy:
+  - "root"
+  - "trigger"
+  - "portal"
+  - "overlay"
+  - "swipe-handle"
+  - "content"
+  - "header"
+  - "body"
+  - "footer"
+  - "title"
+  - "description"
+  - "close"
+parts:
+  - "root"
+  - "trigger"
+  - "portal"
+  - "overlay"
+  - "swipe-handle"
+  - "content"
+  - "header"
+  - "body"
+  - "footer"
+  - "title"
+  - "description"
+  - "close"
+props:
+  - "DrawerRootProps=BaseDrawer.Root.Props + showSwipeHandle?:boolean(默认false)；modal默认true，swipeDirection默认down。"
+  - "保留open/defaultOpen/onOpenChange/onOpenChangeComplete、disablePointerDismissal、actionsRef、handle/triggerId/defaultTriggerId及snapPoints/snapPoint/defaultSnapPoint/onSnapPointChange/snapToSequentialPoints。"
+  - "Content为BaseDrawer.Popup.Props，含ref/render/initialFocus/finalFocus及className/style状态函数。"
+  - "Portal保留container/keepMounted；Overlay为Backdrop Props；Trigger/Close保留原生按钮/render/ref/事件，Title/Description由原引擎关联。"
+  - "Header/Footer/SwipeHandle为原生div属性；SwipeHandle装饰aria-hidden。"
+  - "Body为原生div属性/ref/onScroll，提供独立滚动区域；业务状态与滚动边界提示留在宿主。"
+slots:
+  - "Drawer"
+  - "DrawerPortal"
+  - "DrawerOverlay"
+  - "DrawerSwipeHandle"
+  - "DrawerTrigger"
+  - "DrawerClose"
+  - "DrawerContent"
+  - "DrawerHeader"
+  - "DrawerBody"
+  - "DrawerFooter"
+  - "DrawerTitle"
+  - "DrawerDescription"
+variants:
+  - "down/up/left/right；modal=true/false/trap-focus；纵向snap与嵌套沿原引擎。"
+states:
+  - "starting/ending/swiping/nested-open/nested-swiping与snap offset/释放强度由Base UI拥有。"
+dependencies:
+  - "React19.2.8与Rain Foundations；rainCn依赖既有tailwind-merge3.6.0。"
+  - "本项实际源码/内部helper/被动视觉依赖在Registry登记；消费仍为managed @rain-next/ui。"
+tokens:
+  - "Background/Neutral/1、Text/Neutral/1/2/3、Border/Neutral/3、Radius12；Header/Body/Footer桌面横24、窄屏横16，gap4/12。"
+  - "Overlay采用已有rain-overlay-focus，与modal独立；handle为中性填充及全圆角。"
+  - "Popup/Overlay z31/30桥接已有浮层体系；原450/400/200/300ms和手势stack参数为局部来源几何。"
+layoutConstraints:
+  - "Content内部Portal→可选Overlay→Viewport→Popup→Base Content；Body min-height:0/flex:1/overflow:auto，Header/Footer不收缩。"
+  - "纵向最大100dvh−24px，宽min(100%,680px)贴边居中；snap按来源视口高度并在公共配方扣可见偏移与把手空间；侧向75%，≥640px为24rem。"
+  - "Handle40×4或4×40，纵向提示区域24，横向12；nested peek16/bleed48/scale-step.05。"
+compositionRules:
+  - "未保存关闭由onOpenChange的details.cancel()拦截，宿主决定保存/放弃；组件不新增dirty Props。"
+  - "Base UI1.8按data-base-ui-swipe-ignore属性存在忽略整个区域，不解析轴值；输入场景按需组合现有VirtualKeyboardProvider。"
+  - "同一Root的受控snapPoint不能切换为undefined；切换snap模式只重建内部Backdrop清除来源残留progress，Popup保持同一层。极短屏宿主可采用整内容滚动，保证操作不裁切。"
+  - "普通关闭放Header右上角，DrawerClose组合既有36/20 IconButton与CloseIcon；Footer仅承载取消/保存等任务操作。"
+  - "iOS绝对定位backdrop需要宿主body position:relative；Footer带safe-area。"
+allowedModifications:
+  - "使用本条列出的真实Props/ref/className/style；仅source已提供的Parts支持render/localRecipe，不把通用模板当API。"
+  - "视觉用既有Rain Token/具名局部方案；已登记源几何/动效差额不升级全局Foundation。"
+restrictedModifications:
+  - "不得移除原生语义/焦点/生命周期、重复行为引擎或扩大人工/发布接受。"
+accessibility:
+  - "Title/Description形成原生dialog名称和描述；焦点交Base UI，关闭回正确Trigger。"
+  - "提供键盘Close/吸附按钮，不把装饰Handle伪装Slider；三种modal语义分别保持。"
+  - "非模态Popup明确pointer-events:auto；reduce禁非必要进出/回弹过渡，保留即时手势。"
+examples:
+  - "apps/playground/src/docs/components/g6-interaction-pages.tsx"
+recipes:
+  - "通过真实Popup className/style状态函数与宿主样式组合具名局改；没有localRecipe属性。"
+antiPatterns:
+  - "用既有Sheet别名伪装为有手势跟随的Drawer。"
+  - "公共组件直接管理草稿、保存网络或dirty业务状态。"
+relatedComponents:
+  - "ui-sheet"
+  - "ui-carousel"
+  - "ui-alert-dialog"
+  - "ui-button"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "Background/Neutral/1、Text/Neutral/1/2/3、Border/Neutral/3、Radius12；Header/Footer Space16，gap2/8。"
+    - "Overlay采用已有rain-overlay-focus，与modal独立；handle为中性填充及全圆角。"
+    - "Popup/Overlay z31/30桥接已有浮层体系；原450/400/200/300ms和手势stack参数为局部来源几何。"
+  externalReferences:
+    - "固定shadcn Base UI TSX及同版Nova；sharedCSS仅在本条source差额列明时转译。"
+  retainedTraits:
+    - "root"
+    - "trigger"
+    - "portal"
+    - "overlay"
+    - "swipe-handle"
+    - "content"
+    - "header"
+    - "footer"
+    - "title"
+    - "description"
+    - "close"
+  redesignedTraits:
+    - "复用原TSX四方向与movement/snap/stack公式，仅桥主题/密度/dir、Rain表面及浮层z-index。"
+    - "只转译可达Base UI selectors，不纳入Nova旧Vaul残留规则；不加第二动画/手势引擎。"
+  intentionallyNotInherited:
+    - "用既有Sheet别名伪装为有手势跟随的Drawer。"
+    - "公共组件直接管理草稿、保存网络或dirty业务状态。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/g6-components-2026-10-14/source-lock.json"
+  - "evidence/runtime/g6-research-2026-10-14/source-supplement.json"
+migrationNotes: "2026-10-14用户授权完整G6建设；人工视觉、对比度、发布与生产采用分别记录。"
+humanGate: "awaiting_human"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  evidence: "evidence/runtime/g6-components-2026-10-14/verification.md"
+  independentReview: "passed-scoped"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+styleSourcePath: "packages/ui/src/drawer/drawer.css"
+density:
+  - "Trigger主题/密度通过PopupProvider与DensityProvider跨Portal；不机械缩放手势几何，子house控件响应密度。"
+sourceDifferences:
+  - "2026-10-14视觉方案确认后新增原生DrawerBody；统一首尾/正文对齐、纵向680px几何、40px把手与公共snap可见区域，普通遮罩不再模糊。"
+  - "复用原TSX四方向与movement/snap/stack公式，仅桥主题/密度/dir、Rain表面及浮层z-index。"
+  - "只转译可达Base UI selectors，不纳入Nova旧Vaul残留规则；不加第二动画/手势引擎。"
+verificationLimits:
+  - "真实拖动/滚动仲裁、嵌套/多snap、输入键盘、短屏200%缩放、Safari/VoiceOver/物理触摸仍需独立检查。"
+refinementVerification:
+  evidence: "evidence/runtime/drawer-refinement-2026-10-14/verification.md"
+  scope: "drawer-container-and-task-examples-only"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  publication: "unpublished"

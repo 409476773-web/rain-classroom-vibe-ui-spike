@@ -131,3 +131,38 @@ parts:
   - "help"
   - "items"
   - "message"
+
+discovery:
+  version: 1
+  familyId: "selection-inputs"
+  taskIds:
+    - "choose"
+    - "fill-validate"
+  searchAliases:
+    - "单选组"
+    - "单选筛选"
+    - "互斥字段"
+  implementationRole: "composition"
+  controlScope: "同一表单字段或互斥选择条件"
+  stateOwner: "受控 string/null 值由宿主拥有，非受控默认值与 reset 由 RadioGroup 管理；renderOption 只换呈现，保留 supplied checked/name/form/disabled/callback。"
+  relationships:
+    - type: "wraps"
+      targetId: "ui-radio"
+      evidence:
+        path: "packages/ui/src/radio/radio.tsx"
+        kind: "render"
+        symbol: "RadioGroup"
+    - type: "alternativeWhen"
+      targetId: "ui-segmented-control"
+      evidence:
+        path: "packages/ui/src/radio/radio.tsx"
+        kind: "contract"
+        symbol: "RadioGroup"
+      condition: "需要分段、white-line 或 white-soft 外观且保留单选表单协议时比较 SegmentedControl。"
+    - type: "alternativeWhen"
+      targetId: "ui-toggle-group"
+      evidence:
+        path: "packages/ui/src/radio/radio.tsx"
+        kind: "contract"
+        symbol: "RadioGroup"
+      condition: "工具组按下状态需要数组值、可取消或多选时比较 ToggleGroup；不要混同必选字段。"

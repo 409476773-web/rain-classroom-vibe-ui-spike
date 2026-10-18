@@ -1,9 +1,10 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from '@playwright/test';
 import { chooseSelect } from './navigation-rebuild-select';
 import { contrastRatio } from './color-contrast';
 
 const base = '/#token-first-g3?rebuild=1&course=math&scope=package&view=page&count=200';
-const evidence = 'evidence/runtime/navigation-rebuild-v03';
+const evidence = evidenceOutputPath('evidence/runtime/navigation-rebuild-v03');
 
 test('course preview keeps test tools outside the layout and preserves sidebar controls', async ({ page }) => {
   await page.setViewportSize({ width: 1024, height: 780 });

@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ scripts/asset-catalog.test.ts (15 tests | 1 failed) 45ms
+   × records a proven public alias separately from search aliases and compound members 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/asset-catalog.test.ts > records a proven public alias separately from search aliases and compound members
+AssertionError: expected undefined to deeply equal [ { type: 'runtimeAliasOf', …(2) } ]
+
+- Expected:
+[
+  {
+    "reference": "CommandInput",
+    "target": "Command.Input",
+    "type": "runtimeAliasOf",
+  },
+]
+
++ Received:
+undefined
+
+ ❯ scripts/asset-catalog.test.ts:141:23
+    139|   x.navigation.manifest.discovery.relationships=[];
+    140|   const api=buildAssetCatalog(x.assets,x.options).assets.find((asset:a…
+    141|   expect(api.aliases).toEqual([{type:"runtimeAliasOf",reference:"Comma…
+       |                       ^
+    142| });
+    143|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 passed (15)
+   Start at  13:28:50
+   Duration  485ms (transform 154ms, setup 104ms, import 249ms, tests 45ms, environment 0ms)
+

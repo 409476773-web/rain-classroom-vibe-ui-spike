@@ -1,10 +1,11 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect, type Page, type Locator } from '@playwright/test';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 
 const root = 'evidence/runtime/chart-experience-second-batch-2026-10-11/radial-flow';
 const run = process.env.RAIN_SECOND_BATCH_RADIAL_BROWSER_RUN ?? 'browser-after-01';
-const folder = `${root}/${run}`;
+const folder = evidenceOutputPath(`${root}/${run}`);
 const owned = ['chart-data.ts','chart-examples.tsx','chart-variants/radial.tsx','chart-variants/comparison.tsx'];
 async function hashes(){return Object.fromEntries(await Promise.all(owned.map(async file=>[file,createHash('sha256').update(await readFile(`apps/playground/src/docs/components/${file}`,'utf8')).digest('hex')])));}
 async function exact(host:Locator){const details=host.locator('details.rain-chart-data').first();if(await details.getAttribute('open')===null)await details.locator('summary').click();await expect(details.locator('table')).toBeVisible();await details.locator('summary').focus();await details.locator('summary').press('Tab');await expect(details.getByLabel('精确数据表，可横向滚动')).toBeFocused();}

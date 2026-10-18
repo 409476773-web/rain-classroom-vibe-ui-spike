@@ -1,0 +1,192 @@
+[WebServer] (node:82102) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:82115) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:82121) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:82134) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:82140) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/css-local-consumption.spec.ts:17:1 › [B01-local] spinner and menu labels use the registered semibold role (2.1s)
+  ✓  2 tests/e2e/css-local-consumption.spec.ts:27:1 › [B01-local] slider label and output roles and task pagination width are computed (2.9s)
+  ✘  3 tests/e2e/css-local-consumption.spec.ts:39:1 › [B01-local] exam display-mode width remains local and its selection works (30.1s)
+(node:83920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/e2e/css-local-consumption.spec.ts:46:1 › [B01-local] Bklit real link and both focus surfaces resolve semantic roles (30.1s)
+(node:93892) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 tests/e2e/css-local-consumption.spec.ts:63:4 › [B01-entry] drawer loads its declared Foundation motion dependency (718ms)
+(node:94196) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  6 tests/e2e/css-local-consumption.spec.ts:63:4 › [B01-entry] bklit-validation loads its declared Foundation motion dependency (1.1s)
+(node:94601) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  7 tests/e2e/css-local-consumption.spec.ts:63:4 › [B01-entry] bklit-catalog loads its declared Foundation motion dependency (1.8s)
+
+
+  1) tests/e2e/css-local-consumption.spec.ts:39:1 › [B01-local] exam display-mode width remains local and its selection works 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '移动到', exact: true }).first()
+        - locator resolved to <button type="button" data-size="mini" data-slot="root" data-tone="default" data-focus="control" data-state="default" data-density="default" data-variant="tertiary" data-rain-id="ui-button" data-local-recipe="exam-move-button" class="rain-button box-border relative inline-flex flex-none items-center justify-center py-rain-0 overflow-visible whitespace-nowrap text-center align-middle appearance-none select-none isolate border-solid border-rain-button font-rain-button no-underline transition-rain-button…>…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <header class="em-question-heading">…</header> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <header class="em-question-heading">…</header> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        55 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <header class="em-question-heading">…</header> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+
+
+      38 |   await page.goto(`${playground}/#drawer`); await page.getByRole("button", { name: /^查看任务：/ }).first().click();
+      39 |   const position = page.locator(".g6-task-details-position"); await expect(position).toBeVisible(); await expect(position).toHaveCSS("min-width", "48px");
+    > 40 |   const width = (await position.boundingBox())!.width; expect(width).toBeGreaterThanOrEqual(48);
+         |                                                                                                 ^
+      41 |   await page.locator(".g6-task-details-footer").screenshot({ path: info.outputPath("task-pagination.png") });
+      42 |   await attachJson(info, "computed-local-roles", { label, output, pagination: { minWidth: "48px", width } });
+      43 | });
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017/tests/e2e/css-local-consumption.spec.ts:40:118
+
+    Error Context: evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-0f7bc-cal-and-its-selection-works/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-0f7bc-cal-and-its-selection-works/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-0f7bc-cal-and-its-selection-works/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/css-local-consumption.spec.ts:46:1 › [B01-local] Bklit real link and both focus surfaces resolve semantic roles 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.focus: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('.rain-chart summary').first()
+
+
+      51 |
+      52 | test("[B01-local] Bklit real link and both focus surfaces resolve semantic roles", async ({ page }, info) => {
+    > 53 |   await page.goto(`${prototype}/bklit-validation.html`);
+         |                                                         ^
+      54 |   const link = page.getByRole("link", { name: "查看 G2 实验 ↗" });
+      55 |   const linkColor = await tokenConsumption(link, "color", "--rain-color-text-link");
+      56 |   await page.keyboard.press("Tab"); await link.focus(); await expect(link).toHaveCSS("outline-width", "2px");
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017/tests/e2e/css-local-consumption.spec.ts:53:78
+
+    Error Context: evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-d7b6b-aces-resolve-semantic-roles/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-d7b6b-aces-resolve-semantic-roles/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-d7b6b-aces-resolve-semantic-roles/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/css-local-consumption.spec.ts:63:4 › [B01-entry] drawer loads its declared Foundation motion dependency 
+
+    Error: expect(received).not.toBe(expected) // Object.is equality
+
+    Expected: not ""
+
+      66 |   { name: "drawer", url: `${playground}/drawer-refinement-consumer.html`, selector: "button" },
+      67 |   { name: "bklit-validation", url: `${prototype}/bklit-validation.html`, selector: ".bklit-lab" },
+    > 68 |   { name: "bklit-catalog", url: `${prototype}/bklit-catalog.html`, selector: ".rain-chart-catalog" },
+         |                             ^
+      69 | ]) test(`[B01-entry] ${entry.name} loads its declared Foundation motion dependency`, async ({ page }, info) => {
+      70 |   await page.goto(entry.url); const consumer = page.locator(entry.selector).first(); await expect(consumer).toBeVisible();
+      71 |   const fact = await consumer.evaluate(node => ({ feedback: getComputedStyle(node).getPropertyValue("--rain-motion-feedback-duration").trim(), overlay: getComputedStyle(node).getPropertyValue("--rain-motion-overlay-duration").trim(), region: getComputedStyle(node).getPropertyValue("--rain-motion-region-duration").trim(), ease: getComputedStyle(node).getPropertyValue("--rain-motion-ease-out").trim(), uiButtonCount: document.querySelectorAll(".rain-button").length, inputNumberCount: document.querySelectorAll('[data-rain-id="ui-input-number"]').length }));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017/tests/e2e/css-local-consumption.spec.ts:68:29
+
+    Error Context: evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-76e5b-oundation-motion-dependency/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-76e5b-oundation-motion-dependency/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-76e5b-oundation-motion-dependency/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/css-local-consumption.spec.ts:63:4 › [B01-entry] bklit-validation loads its declared Foundation motion dependency 
+
+    Error: expect(received).not.toBe(expected) // Object.is equality
+
+    Expected: not ""
+
+      66 |   { name: "drawer", url: `${playground}/drawer-refinement-consumer.html`, selector: "button" },
+      67 |   { name: "bklit-validation", url: `${prototype}/bklit-validation.html`, selector: ".bklit-lab" },
+    > 68 |   { name: "bklit-catalog", url: `${prototype}/bklit-catalog.html`, selector: ".rain-chart-catalog" },
+         |                             ^
+      69 | ]) test(`[B01-entry] ${entry.name} loads its declared Foundation motion dependency`, async ({ page }, info) => {
+      70 |   await page.goto(entry.url); const consumer = page.locator(entry.selector).first(); await expect(consumer).toBeVisible();
+      71 |   const fact = await consumer.evaluate(node => ({ feedback: getComputedStyle(node).getPropertyValue("--rain-motion-feedback-duration").trim(), overlay: getComputedStyle(node).getPropertyValue("--rain-motion-overlay-duration").trim(), region: getComputedStyle(node).getPropertyValue("--rain-motion-region-duration").trim(), ease: getComputedStyle(node).getPropertyValue("--rain-motion-ease-out").trim(), uiButtonCount: document.querySelectorAll(".rain-button").length, inputNumberCount: document.querySelectorAll('[data-rain-id="ui-input-number"]').length }));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017/tests/e2e/css-local-consumption.spec.ts:68:29
+
+    Error Context: evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-665c8-oundation-motion-dependency/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-665c8-oundation-motion-dependency/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-665c8-oundation-motion-dependency/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/e2e/css-local-consumption.spec.ts:63:4 › [B01-entry] bklit-catalog loads its declared Foundation motion dependency 
+
+    Error: expect(received).not.toBe(expected) // Object.is equality
+
+    Expected: not ""
+
+      66 |   { name: "drawer", url: `${playground}/drawer-refinement-consumer.html`, selector: "button" },
+      67 |   { name: "bklit-validation", url: `${prototype}/bklit-validation.html`, selector: ".bklit-lab" },
+    > 68 |   { name: "bklit-catalog", url: `${prototype}/bklit-catalog.html`, selector: ".rain-chart-catalog" },
+         |                             ^
+      69 | ]) test(`[B01-entry] ${entry.name} loads its declared Foundation motion dependency`, async ({ page }, info) => {
+      70 |   await page.goto(entry.url); const consumer = page.locator(entry.selector).first(); await expect(consumer).toBeVisible();
+      71 |   const fact = await consumer.evaluate(node => ({ feedback: getComputedStyle(node).getPropertyValue("--rain-motion-feedback-duration").trim(), overlay: getComputedStyle(node).getPropertyValue("--rain-motion-overlay-duration").trim(), region: getComputedStyle(node).getPropertyValue("--rain-motion-region-duration").trim(), ease: getComputedStyle(node).getPropertyValue("--rain-motion-ease-out").trim(), uiButtonCount: document.querySelectorAll(".rain-button").length, inputNumberCount: document.querySelectorAll('[data-rain-id="ui-input-number"]').length }));
+        at /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017/tests/e2e/css-local-consumption.spec.ts:68:29
+
+    Error Context: evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-2fcb4-oundation-motion-dependency/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-2fcb4-oundation-motion-dependency/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace evidence/runtime/component-implementation-2026-10-18/run-01/checks/B01/local-consumer-browser-before-01/legacy/artifacts/css-local-consumption/css-local-consumption--B01-2fcb4-oundation-motion-dependency/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    tests/e2e/css-local-consumption.spec.ts:39:1 › [B01-local] exam display-mode width remains local and its selection works 
+    tests/e2e/css-local-consumption.spec.ts:46:1 › [B01-local] Bklit real link and both focus surfaces resolve semantic roles 
+    tests/e2e/css-local-consumption.spec.ts:63:4 › [B01-entry] drawer loads its declared Foundation motion dependency 
+    tests/e2e/css-local-consumption.spec.ts:63:4 › [B01-entry] bklit-validation loads its declared Foundation motion dependency 
+    tests/e2e/css-local-consumption.spec.ts:63:4 › [B01-entry] bklit-catalog loads its declared Foundation motion dependency 
+  2 passed (1.2m)

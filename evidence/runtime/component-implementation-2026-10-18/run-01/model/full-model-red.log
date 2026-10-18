@@ -1,0 +1,70 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ scripts/asset-catalog.test.ts (17 tests | 2 failed) 54ms
+   × expands same-file object spreads with explicit overrides without equating whole objects 6ms
+   × accepts public symbols in a target's registered implementation file but rejects other colocated symbols 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/asset-catalog.test.ts > expands same-file object spreads with explicit overrides without equating whole objects
+AssertionError: expected [ …(3) ] to deeply equal ArrayContaining{…}
+
+- Expected
++ Received
+
+- ArrayContaining [
+-   ObjectContaining {
+-     "reference": "AlertDialog.Body",
++ [
++   {
++     "kind": "runtime-member",
++     "member": "Root",
++     "owner": "Dialog",
++     "reference": "Dialog.Root",
++     "target": "Root",
++   },
++   {
++     "kind": "runtime-member",
++     "member": "Body",
++     "owner": "Dialog",
++     "reference": "Dialog.Body",
+      "target": "Body",
+    },
+-   ObjectContaining {
++   {
++     "kind": "runtime-member",
++     "member": "Root",
++     "owner": "AlertDialog",
+      "reference": "AlertDialog.Root",
+      "target": "ConfirmRoot",
+    },
+  ]
+
+ ❯ scripts/asset-catalog.test.ts:149:23
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/asset-catalog.test.ts > accepts public symbols in a target's registered implementation file but rejects other colocated symbols
+Error: manifests/ui-navigation-tabs.yaml.discovery (ui-navigation-tabs) -> ui-tabs: no target render/call in NavigationRoot; import or co-location is insufficient
+ ❯ validateRelation scripts/asset-catalog.mjs:130:22
+    128|       if (called && localNames.has(called.split(".")[0])) used=true;
+    129|     });
+    130|     if (!used) throw new Error(`${at}: no target render/call in ${evid…
+       |                      ^
+    131|   }
+    132|   if (relation.requiredExports) {
+ ❯ scripts/asset-catalog.mjs:159:62
+ ❯ scripts/asset-catalog.mjs:159:48
+ ❯ buildAssetCatalog scripts/asset-catalog.mjs:153:27
+ ❯ scripts/asset-catalog.test.ts:158:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 15 passed (17)
+   Start at  13:40:37
+   Duration  507ms (transform 162ms, setup 104ms, import 257ms, tests 54ms, environment 0ms)
+

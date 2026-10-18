@@ -1,0 +1,91 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-badge"
+name: "Badge"
+category: "ui"
+assetIdentity: "local-experiment"
+maturity: "prototype-ready"
+modificationMode: "managed"
+sourcePath: "packages/ui/src/badge/badge.tsx"
+styleSourcePath: "packages/ui/src/styles.css"
+sourceVersion: "current-workspace; RN-13 baseline records source SHA-256"
+publication: "unpublished"
+description: "早期原型中的静态圆点、数量与极短标记；不进入默认候选检索。"
+useWhen:
+  - "维护已有原型的宿主附着标记。"
+doNotUseWhen:
+  - "命名业务状态使用对应 Tag；独立操作使用 Button。"
+anatomy:
+  - "Root / Content / Indicator / IndicatorText"
+parts:
+  - "root"
+  - "content"
+  - "indicator"
+  - "indicator-text"
+props:
+  - "type=dot|count|label，默认dot；tone=neutral|info|success|warning|error|processing。"
+  - "size=small|medium，默认medium；不随父级density改变size。"
+  - "placement=top-end|bottom-end|inline-end|standalone；dot不支持standalone，count/label不支持bottom-end，非法组合回退top-end。"
+  - "count=0、max=99、showZero=false；非负整数count和正整数max，否则隐藏；超过max显示max+。"
+  - "label默认NEW，仅1–4大写字母或1–2汉字；非法内容隐藏。"
+slots:
+  - "children：附着宿主；standalone不渲染。"
+variants:
+  - "dot / count / label"
+states:
+  - "visible / hidden / invalid"
+dependencies:
+  - "React、Foundations useDensity、UI styles.css。"
+tokens:
+  - "既有--rain-color-*、--rain-badge-neutral-fill与半径别名；不是新Token迁移。"
+layoutConstraints:
+  - "根inline-flex与相对定位，附着角标绝对定位；不接管宿主布局。"
+compositionRules:
+  - "只描述附加标记；宿主负责可访问名称、导航与业务含义。"
+allowedModifications:
+  - "使用实际props调整数量、标记与既有外观。"
+restrictedModifications:
+  - "不以补登记扩大旧小字号、700字重或颜色配方的使用范围。"
+accessibility:
+  - "附着indicator为aria-hidden，宿主须表达数量含义；standalone文字不隐藏。"
+  - "原生span及ref透传，不自建交互语义。"
+examples:
+  - "apps/playground/src/docs/components/core-ui-page.tsx"
+recipes: []
+antiPatterns:
+  - "将角标当作按钮，或认为Tag验收覆盖Badge。"
+relatedComponents:
+  - "Tag / Link / Button"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "evidence/rain-classic/reuse-matrix.yaml"
+  externalReferences: []
+  retainedTraits:
+    - "附着角标、数量截断与极短标记。"
+  redesignedTraits:
+    - "既有React原型状态与追踪属性。"
+  intentionallyNotInherited:
+    - "本次不移植Vue实现或重设视觉。"
+figmaMapping:
+  status: "not-mapped"
+migrationNotes:
+  - "仅补既有本地合同，保留早期字号、字重和颜色待复核项。"
+verification:
+  automated: "not-run"
+  humanGate: "not-evaluated"
+  contrastAcceptance: "not-granted"
+  evidence: "docs/audits/2026-09-12-core-ui-contracts.md"
+
+discovery:
+  version: 1
+  familyId: "status"
+  taskIds:
+    - "identify"
+  searchAliases:
+    - "角标"
+    - "数量标记"
+  implementationRole: "helper"
+  controlScope: "数量或附着提示的视觉标记"
+  stateOwner: "宿主拥有计数及语义说明；Badge 只显示，不产生通知或切换状态。"
+  relationships: []

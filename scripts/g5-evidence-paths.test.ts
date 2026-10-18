@@ -30,9 +30,10 @@ it("routes the G5 browser report and result files to the explicit evidence direc
   expect(config.reporter).toContainEqual(["json", { outputFile: "/tmp/rain-g5-route-check/report.json" }]);
 });
 
-it("retains the date browser's original evidence directory when no override is provided", async () => {
+it("routes the date browser's default output away from historical evidence", async () => {
   vi.stubEnv("RAIN_G5_EVIDENCE_DIR", "");
   vi.resetModules();
-  const config = configFor("dates");
-  expect(resolve(config.outputDir)).toBe(resolve("evidence/runtime/g5-components-2026-10-12/browser-dates/results"));
+  vi.stubEnv("RAIN_IMPLEMENTATION_EVIDENCE_DIR", "");
+  const defaultConfig = configFor("dates");
+  expect(resolve(defaultConfig.outputDir)).toBe(resolve("artifacts/e2e/legacy/evidence/runtime/g5-components-2026-10-12/browser-dates/results"));
 });

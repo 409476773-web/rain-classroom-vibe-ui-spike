@@ -29,6 +29,9 @@ declare module "node:crypto" {
 }
 
 declare module "node:child_process" {
+  type ExecFileSyncOptions = { cwd?: string; maxBuffer?: number; stdio?: "pipe" | "ignore" | "inherit"; env?: Record<string, string | undefined> };
+  export function execFileSync(command: string, args: readonly string[], options: ExecFileSyncOptions & { encoding: "utf8" }): string;
+  export function execFileSync(command: string, args: readonly string[], options?: ExecFileSyncOptions): Buffer;
   export type SpawnSyncResult = {
     error?: Error;
     status: number | null;
@@ -70,6 +73,7 @@ declare module "node:fs" {
   export function readFileSync(path: string): Buffer;
   export function readFileSync(path: string, encoding: "utf8"): string;
   export function readdirSync(path: string, options?: { recursive?: boolean }): string[];
+  export function unlinkSync(path: string): void;
   export function renameSync(oldPath: string, newPath: string): void;
   export function rmSync(
     path: string,

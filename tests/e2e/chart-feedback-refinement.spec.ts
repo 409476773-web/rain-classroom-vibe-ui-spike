@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 
-const evidence = process.env.RAIN_CHART_REFINEMENT_EVIDENCE_DIR ?? "evidence/runtime/chart-variants/feedback-2026-10-08-round2/browser";
+const evidence = process.env.RAIN_CHART_REFINEMENT_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/chart-variants/feedback-2026-10-08-round2/browser");
 test.beforeAll(() => mkdir(evidence, { recursive: true }));
 const centerX = async (plot: Locator) => { const box = (await plot.boundingBox())!; return box.x + box.width / 2; };
 async function centeredHeading(card: Locator) {

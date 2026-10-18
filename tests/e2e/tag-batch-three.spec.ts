@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { expect, test, type Page } from "@playwright/test";
 import { contrastRatio } from "./color-contrast";
 
-const evidence = "evidence/runtime/tag-batch-three";
+const evidence = evidenceOutputPath("evidence/runtime/tag-batch-three");
 const record = process.env.RAIN_UPDATE_TAG_THREE_EVIDENCE === "1";
 const popup = (page: Page) => page.locator('[data-rain-id="ui-tag-select"][data-slot="popup"][data-open]');
 const manager = (page: Page) => page.getByRole("dialog");

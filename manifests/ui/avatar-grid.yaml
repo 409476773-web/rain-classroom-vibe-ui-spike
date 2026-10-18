@@ -100,3 +100,29 @@ verification:
   humanGateScope: "avatar-current-runtime-visual-only"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/avatar/refinement-2026-09-16.md"
+
+discovery:
+  version: 1
+  familyId: "avatars"
+  taskIds:
+    - "identify"
+  searchAliases:
+    - "群体头像"
+    - "九宫格头像"
+  implementationRole: "composition"
+  controlScope: "最多九位成员拼合的群体图像"
+  stateOwner: "宿主提供成员及可访问名称；Grid 只拼合图像，不承诺 AvatarGroup 的溢出名单入口。"
+  relationships:
+    - type: "composes"
+      targetId: "ui-avatar"
+      evidence:
+        path: "packages/ui/src/avatar/avatar-grid.tsx"
+        symbol: "AvatarGrid"
+        kind: "render"
+    - type: "alternativeWhen"
+      targetId: "ui-avatar-group"
+      condition: "需逐个识别成员和访问溢出名单时用 AvatarGroup；Grid 是最多九人的拼合图像。"
+      evidence:
+        path: "packages/ui/src/avatar/avatar-grid.tsx"
+        symbol: "AvatarGrid"
+        kind: "contract"

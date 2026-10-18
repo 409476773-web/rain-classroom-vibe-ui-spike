@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const evidence = process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR ? `${process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR}/typography` : "evidence/runtime/chart-mini-typography-feedback-2026-10-09/browser";
+const evidence = process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR ? `${process.env.RAIN_CHART_EXPERIENCE_EVIDENCE_DIR}/typography` : evidenceOutputPath("evidence/runtime/chart-mini-typography-feedback-2026-10-09/browser");
 
 async function openBusiness(page: Page) {
   await page.emulateMedia({ reducedMotion: "reduce" });

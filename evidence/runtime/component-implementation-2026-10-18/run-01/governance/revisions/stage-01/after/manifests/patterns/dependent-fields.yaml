@@ -1,0 +1,122 @@
+id: "pattern-dependent-fields"
+name: "DependentFields"
+schemaVersion: "1.0"
+kind: "RainPatternManifest"
+category: "pattern"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+modificationMode: "forkable"
+sourcePath: "apps/playground/src/patterns/selection-patterns.tsx"
+styleSourcePath: "apps/playground/src/patterns/selection-patterns.css"
+sourceVersion: "local-2026-09-10"
+sourceCommit: null
+publication: "unpublished"
+migrationLabel: "rewrite-from-rain"
+variants:
+  - "No new control variants; use accepted card/native control recipes and inherited Density."
+tokens:
+  - "Existing Rain spacing, Radius/10, Shadow/dialog and Font/UI; no new values."
+  - "Background/Neutral/1, Text/Neutral/1 and 3, Border/Neutral/3; modal backdrop Fill/Neutral/Alpha/1."
+  - "Existing native selection and Input/Button Focus contracts; Dark selected-card Focus remains below 3:1, not waived."
+allowedModifications:
+  - "Replace fictional example data and content."
+  - "Change application-owned page filtering, active-branch fields and explicit payload policy while retaining these invariants."
+restrictedModifications:
+  - "Do not add selection handlers to card shells or nest independent buttons/inputs inside selection labels."
+  - "Do not claim publication, production adoption, assistive-technology testing or a contrast waiver."
+examples:
+  - "apps/playground/src/docs/components/selection-patterns-page.tsx"
+relatedComponents:
+  - "ui-checkbox"
+  - "ui-checkbox-group"
+  - "ui-radio-group"
+  - "ui-checkbox-card"
+  - "ui-radio-card"
+  - "ui-button"
+  - "ui-form-item"
+  - "ui-input"
+relatedBlocks: []
+recipes:
+  - "recipe-radio-card-with-preview"
+  - "recipe-checkbox-object-card"
+visualLineage:
+  rainClassicReferences:
+    - "docs/audits/2026-09-09-selection-sc00-preflight.md"
+  externalReferences:
+    - "docs/adr/0005-headless-base.md"
+  retainedTraits:
+    - "Native selection semantics, V0.3 card structure and established Rain Tokens."
+  redesignedTraits:
+    - "Explicit independent state ownership and active payload example."
+  intentionallyNotInherited:
+    - "Universal card click targets, CSS-only submission filtering and server-wide select-all."
+figmaMapping:
+  fileKey: "olqwu95QD6n4Y3IAwUdgF4"
+  referenceNodeIds:
+    - "2346:1980"
+    - "2346:2071"
+    - "2346:2151"
+  status: "composition-reference-only"
+  codeConnectEstablished: false
+migrationNotes:
+  - "No Rain Classic modification, new package or dependency. Copyable local Pattern source, not a published installer."
+  - "SC-02 visual acceptance remains separate; SC-03 runtime visual and interaction acceptance is recorded on 2026-09-10."
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "accepted"
+  humanGateScope: "selection-patterns-sc03-runtime-visual-interaction-only"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/selection-patterns/verification.md"
+description: "A named active/inactive native fieldset; the form owns its draft, validation and explicit payload."
+useWhen:
+  - "An option reveals a few additional form fields."
+doNotUseWhen:
+  - "A generic conditional form engine or domain API is needed."
+anatomy:
+  - "Non-interactive fieldset root, text legend and fields."
+parts:
+  - "root: pattern-dependent-fields; legend and fields: data-slot markers"
+props:
+  - "active, legend, children"
+slots:
+  - "children: labeled native form controls, outside the selection label."
+states:
+  - "active"
+  - "inactive-hidden-disabled"
+dependencies:
+  - "React"
+  - "Existing Input and FormItem in the host example"
+layoutConstraints:
+  - "Place in Card actions or after a selection group, never in label/description content."
+  - "Legend is static text; inactive fieldsets keep their mounted controls disabled and hidden."
+compositionRules:
+  - "The host retains draft across branch changes, restores its explicit defaults on reset and validates/submits only the active branch."
+  - "Hiding, disabling, clearing and payload exclusion are separate policy decisions; this candidate hides/disables, retains draft and requires explicit host serialization."
+accessibility:
+  - "New fields remain in normal Tab order without autofocus."
+  - "Editable fields keep their own arrow keys."
+  - "Native disabled fieldsets exclude inactive fields from browser validation/FormData; FormItem labels and errors stay associated."
+antiPatterns:
+  - "Hide with CSS and still serialize the whole draft."
+  - "Force focus into a newly visible field on choice change."
+acceptanceCaseIds:
+  - "SEL-014"
+  - "SEL-020"
+  - "SEL-021"
+  - "SEL-022"
+  - "SEL-035"
+
+discovery:
+  version: 1
+  familyId: "selection-patterns"
+  taskIds:
+    - "choose"
+    - "workbench"
+  searchAliases:
+    - "依赖字段"
+    - "条件字段"
+  implementationRole: "pattern"
+  controlScope: "字段之间的依赖与清除规则"
+  stateOwner: "复制本地模式后由宿主统一拥有字段值和依赖规则；改变上游显式处理下游，无第二个隐藏表单 owner。"
+  relationships: []

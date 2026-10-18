@@ -102,3 +102,23 @@ visualRefinement:
   evidence: "evidence/runtime/g2-g3-remaining-families-2026-10-08/verification.md"
   runtimeHumanGate: "awaiting-user-review"
   publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "anchored-overlays"
+  taskIds:
+    - "act-feedback"
+  searchAliases:
+    - "上下文菜单"
+    - "右键菜单"
+  implementationRole: "root"
+  controlScope: "以指针或键盘上下文触发的动作集合"
+  stateOwner: "Root 统一 open；Trigger、Portal、Positioner、Popup 必须显式组合，Item 执行动作由宿主拥有，不能假设有 Content。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-dropdown-menu"
+      condition: "有可见更多操作触发器时比较 DropdownMenu；ContextMenu 面向上下文入口。"
+      evidence:
+        path: "packages/ui/src/context-menu/context-menu.tsx"
+        symbol: "ContextMenu"
+        kind: "contract"

@@ -1,0 +1,137 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ scripts/asset-discovery-pilot.test.ts (6 tests | 6 failed) 4983ms
+   × distinguishes link, panel, scope, object, field and pressed-state owners in the pilot 4ms
+   × proves real Tabs/Radio wrapping while keeping shared presentation and internal behavior distinct 2ms
+   × keeps Label/Field, text button and Input Group as existing usage views with no invented import 2ms
+   × removes A5 card geometry from other assets while retaining ObjectNavigator's real constraint 2409ms
+   × finds current feedback and flat grouped navigation without promoting misleading aliases 0ms
+   × preserves the existing teacher-grading panel contract and keeps layout ownership external 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/asset-discovery-pilot.test.ts > distinguishes link, panel, scope, object, field and pressed-state owners in the pilot
+AssertionError: ui-navigation-bar: expected 'pending-discovery' to be 'registered' // Object.is equality
+
+Expected: "registered"
+Received: "pending-discovery"
+
+ ❯ scripts/asset-discovery-pilot.test.ts:15:40
+     13| it("distinguishes link, panel, scope, object, field and pressed-state …
+     14|   for(const id of ["ui-navigation-bar","ui-tabs","ui-scope-navigation"…
+     15|     expect(get(id).discoveryStatus,id).toBe("registered");
+       |                                        ^
+     16|     expect(get(id).stateOwner,id).toBeTruthy(); expect(get(id).control…
+     17|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  scripts/asset-discovery-pilot.test.ts > proves real Tabs/Radio wrapping while keeping shared presentation and internal behavior distinct
+AssertionError: expected [] to deeply equal ArrayContaining{…}
+
+- Expected
++ Received
+
+- ArrayContaining [
+-   ObjectContaining {
+-     "targetId": "ui-tabs",
+-     "type": "wraps",
+-   },
+- ]
++ []
+
+ ❯ scripts/asset-discovery-pilot.test.ts:22:51
+     20|
+     21| it("proves real Tabs/Radio wrapping while keeping shared presentation …
+     22|   expect(get("ui-navigation-tabs").relationships).toEqual(expect.array…
+       |                                                   ^
+     23|   expect(get("ui-navigation-tabs").api.members).toEqual(expect.arrayCo…
+     24|   expect(get("ui-navigation-bar").relationships.some((edge:any)=>edge.…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  scripts/asset-discovery-pilot.test.ts > keeps Label/Field, text button and Input Group as existing usage views with no invented import
+AssertionError: expected { id: 'recipe-input-group', …(25) } to match object { …(2) }
+(40 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "entry": {
+      "exportNames": [],
+      "kind": "usage-reference",
+    },
+-   "implementationRole": "usage-reference",
++   "implementationRole": null,
+  }
+
+ ❯ scripts/asset-discovery-pilot.test.ts:33:37
+     31|   for(const href of ["#label","#field"]) expect(catalog.routes.find((r…
+     32|   for(const href of ["#text-button","#text-button-help"]) expect(catal…
+     33|   expect(get("recipe-input-group")).toMatchObject({implementationRole:…
+       |                                     ^
+     34|   expect(get("ui-native-select")).toMatchObject({implementationRole:"c…
+     35| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  scripts/asset-discovery-pilot.test.ts > removes A5 card geometry from other assets while retaining ObjectNavigator's real constraint
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ scripts/asset-discovery-pilot.test.ts:39:192
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  scripts/asset-discovery-pilot.test.ts > finds current feedback and flat grouped navigation without promoting misleading aliases
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ scripts/asset-discovery-pilot.test.ts:44:94
+     42|
+     43| it("finds current feedback and flat grouped navigation without promoti…
+     44|   expect(get("ui-alert").doNotUseWhen.some((value:string)=>value.inclu…
+       |                                                                                              ^
+     45|   expect(queryAssetCatalog(catalog,{query:"分组导航"}).map((asset:any)=>as…
+     46|   expect(get("ui-navigation-list").relationships).toEqual(expect.array…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  scripts/asset-discovery-pilot.test.ts > preserves the existing teacher-grading panel contract and keeps layout ownership external
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ scripts/asset-discovery-pilot.test.ts:52:123
+     50| it("preserves the existing teacher-grading panel contract and keeps la…
+     51|   const tabs=get("ui-tabs");
+     52|   expect(tabs.modification.compositionRules.some((rule:string)=>rule.i…
+       |                                                                                                                           ^
+     53|   const source=readFileSync(resolve(root,"apps/prototype/src/scenarios…
+     54|   expect(source).toContain('<Tabs.Root className="tg-order-tabs"'); ex…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed (6)
+   Start at  13:31:50
+   Duration  5.43s (transform 155ms, setup 104ms, import 250ms, tests 4.98s, environment 0ms)
+

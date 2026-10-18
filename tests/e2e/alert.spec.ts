@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { writeFileSync } from "node:fs";
 import { contrastRatio } from "./color-contrast";
@@ -29,7 +30,7 @@ test("Alert themes, density, wrapping and explicit recipe remain distinct", asyn
       expect(item.border).toBe("1px"); expect(item.padding).toBe("4px 16px");
     }
     facts.push({ theme, colors });
-    await page.screenshot({ path: `evidence/runtime/alert/${theme === "浅色" ? "light" : "dark"}.png`, fullPage: true });
+    await page.screenshot({ path: evidenceOutputPath(`evidence/runtime/alert/${theme === "浅色" ? "light" : "dark"}.png`), fullPage: true });
   }
   await expect(page.getByTestId("retry-example").locator('[data-icon-variant="filled"]')).toHaveCount(1);
   await expect(page.getByTestId("banner-example").locator('[data-icon-variant="filled"]')).toHaveCount(1);
@@ -48,7 +49,7 @@ test("Alert themes, density, wrapping and explicit recipe remain distinct", asyn
   await expect(first).not.toHaveAttribute("data-local-recipe");
   await expect(first).toHaveCSS("padding", "4px 12px");
   await expect(page.getByTestId("classic-comparison").locator('[data-local-recipe="alert-classic-short"]')).toHaveCount(4);
-  await page.screenshot({ path: "evidence/runtime/alert/compact.png", fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath("evidence/runtime/alert/compact.png"), fullPage: true });
   await page.getByRole("button", { name: "常规", exact: true }).click();
   await page.getByRole("button", { name: "浅色", exact: true }).click();
   await page.setViewportSize({ width: 390, height: 844 });
@@ -64,14 +65,14 @@ test("Alert themes, density, wrapping and explicit recipe remain distinct", asyn
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   const overflow = await page.locator('[data-rain-id="ui-alert"]').evaluateAll(nodes => nodes.filter(node => node.scrollWidth > node.clientWidth + 1).length);
   expect(overflow).toBe(0);
-  await page.screenshot({ path: "evidence/runtime/alert/narrow.png", fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath("evidence/runtime/alert/narrow.png"), fullPage: true });
   await page.getByRole("button", { name: "查看当前课程的资料访问权限说明与详细处理办法" }).click();
   await expect(page.locator("#alert-usage")).toBeFocused();
   await expect(page).toHaveURL(/#alert$/);
   await page.emulateMedia({ forcedColors: "active" });
-  await page.screenshot({ path: "evidence/runtime/alert/forced-colors.png", fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath("evidence/runtime/alert/forced-colors.png"), fullPage: true });
   expect(errors).toEqual([]);
-  writeFileSync("evidence/runtime/alert/browser-facts.json", `${JSON.stringify({ themes: facts, narrowWidth: 390, overflow, errors }, null, 2)}\n`);
+  writeFileSync(evidenceOutputPath("evidence/runtime/alert/browser-facts.json"), `${JSON.stringify({ themes: facts, narrowWidth: 390, overflow, errors }, null, 2)}\n`);
 });
 
 test("close and async retry preserve host state and keyboard focus", async ({ page }) => {

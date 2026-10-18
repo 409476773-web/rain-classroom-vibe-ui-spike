@@ -257,7 +257,6 @@ tokens:
   - "Existing Foundation spacing/brand/focus are reused; no global reset."
 layoutConstraints:
   - "Native size; host supplies available width; long labels truncate without changing identity."
-  - "A5 cards may shrink to180px only in bounded small samples; default outer width300px."
 compositionRules:
   - "Use stable IDs separate from labels; supplied current IDs are validated against current items."
   - "W1/W2 use conditions; W3 uses existing NavigationTabs plus ConnectedSurface."
@@ -397,3 +396,45 @@ priorG2VisualAcceptance12:
   sourceSha256: "74ea3796b3062d546279dc6912b2e67c0ccb148cfcff042fd6c13721bd94c62d"
   styleSourcePath: "packages/ui/src/navigation/navigation-families.css"
   styleSourceSha256: "16a0f032e48195ff62aab11d127c98de170eb982209d594bb4ac4aeb084ae64e"
+
+discovery:
+  version: 1
+  familyId: "selection-inputs"
+  taskIds:
+    - "choose"
+  searchAliases:
+    - "分段单选"
+    - "下划线筛选"
+    - "模式切换"
+    - "条件选择"
+  implementationRole: "specialization"
+  controlScope: "单一数据集的互斥条件或显示模式"
+  stateOwner: "宿主决定 string/null 选择与筛选生效范围；现有 RadioGroup 管原生分组、键盘、表单与 reset。"
+  relationships:
+    - type: "wraps"
+      targetId: "ui-radio-group"
+      evidence:
+        path: "packages/ui/src/navigation/navigation-families.tsx"
+        kind: "render"
+        symbol: "SegmentedControl"
+    - type: "usesBehavior"
+      targetId: "ui-radio"
+      evidence:
+        path: "packages/ui/src/navigation/navigation-families.tsx"
+        kind: "render"
+        symbol: "SegmentedControl"
+        targetSymbol: "RadioControl"
+    - type: "alternativeWhen"
+      targetId: "ui-tabs"
+      evidence:
+        path: "packages/ui/src/navigation/navigation-families.tsx"
+        kind: "contract"
+        symbol: "SegmentedControl"
+      condition: "切换有真实关联内容面板的同级内容时比较 Tabs；已有获准的面板用法保留局部合同。"
+    - type: "alternativeWhen"
+      targetId: "ui-toggle-group"
+      evidence:
+        path: "packages/ui/src/navigation/navigation-families.tsx"
+        kind: "contract"
+        symbol: "SegmentedControl"
+      condition: "工具按下状态需要数组值、允许零选中或多选时比较 ToggleGroup，不把 Radio 的 string/null 合同替换为数组。"

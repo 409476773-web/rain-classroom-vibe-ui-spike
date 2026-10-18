@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 
 const url = process.env.RAIN_V12_G3_URL ?? "http://127.0.0.1:4174";
-const evidence = "evidence/runtime/token-first-v12-g3/browser";
+const evidence = evidenceOutputPath("evidence/runtime/token-first-v12-g3/browser");
 async function expectInsideViewport(locator: Locator) {
   expect(await locator.evaluate(element => {
     const rect = element.getBoundingClientRect();

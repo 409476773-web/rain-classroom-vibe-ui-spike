@@ -1,8 +1,12 @@
 # Rain 按需使用入口
 
+同排尺寸、状态归属与局部改造先看[三个组合指引](composition-recipes.md)：筛选工具栏、分区大表单和连续批改操作区；附可直接复制的完整 TSX。
+
 导航 v0.4.2 候选：按需读 [UI 选择](navigation-v042-w3.md)、[可恢复工作区](navigation-workspaces-v042.md)、[R4–R6 与独立消费](navigation-v042-w5.md)。仓库内 [实施](skills/rain-navigation-implementation/SKILL.md) / [组合](skills/rain-navigation-composition/SKILL.md) Skill 未全局安装；G2/G3 与发布分别登记。
 
 适用范围：当前本地工作区的原型与候选源码。先遵守根 [AGENTS](../../AGENTS.md)；本页用于减少重复加载，不能替代当前任务的阶段、来源与验证边界。
+
+本批完整发现模型见 [Starter资产指南](starter-assets.generated.md)：先按任务/家族比较能力、状态owner和近邻，再按真实公共入口或本地身份消费。原候选索引继续保留原过滤，不等同于全库目录。教学操作与长文阅读见[教学阅读配方](teaching-reading-recipes.md)。
 
 ## 找到需要的资产
 

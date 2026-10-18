@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
@@ -6,7 +7,7 @@ import { resolve } from "node:path";
 
 const run = "evidence/runtime/chart-behavior-fixes-2026-10-11";
 const phase = process.env.RAIN_RADAR_ORIGIN_PHASE ?? "green";
-const evidence = `${run}/browser/radar-hover-origin/${phase}`;
+const evidence = evidenceOutputPath(`${run}/browser/radar-hover-origin/${phase}`);
 const sourcePath = resolve("packages/ui/src/charts/vendor/charts/radar-area.tsx");
 const before = await readFile(`${run}/before/packages/ui/src/charts/vendor/charts/radar-area.tsx`, "utf8");
 const current = await readFile(sourcePath, "utf8");

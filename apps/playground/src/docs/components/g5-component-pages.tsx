@@ -7,6 +7,8 @@ import { Stack, Grid } from "@rain-next/layouts";
 import { ComponentDoc, DocExample, type DocProp } from "./component-doc";
 import { CrossDayTimeExample, ExamTimeSettingsExample, dateAt, dateTimeText, homeworkDeadlinePresets, localTimeZoneText, useFutureMinute } from "./date-time-examples";
 import { SliderExamples, sliderExampleCode } from "./slider-examples";
+import { SectionedFormExample } from "../examples/sectioned-form";
+import sectionedFormCode from "../examples/sectioned-form.tsx?raw";
 import "./g5-component-pages.css";
 
 export const g5Ids = ["label", "field", "input-group", "combobox", "slider", "calendar", "date-picker"] as const;
@@ -38,7 +40,7 @@ const definitions: Record<G5ComponentId, Definition> = {
     source: "packages/ui/src/input/form-item.tsx", useWhen: ["编辑一个对象，多个字段最终统一保存。", "帮助和错误需要跟随对应字段。"],
     avoidWhen: ["把业务校验或提交状态塞进字段组件。", "为每个字段套一个 Card。"],
     props: [{ name: "label / help / message", type: "ReactNode", description: "标签、帮助和反馈分别与一个逻辑字段关联。" }, { name: "status / disabled / required", type: "FieldStatus / boolean / boolean", description: "传递字段状态；校验和保存由宿主持有。" }],
-    code: `import { FormItem, Input } from "@rain-next/ui";\nimport { Grid } from "@rain-next/layouts";\nexport function Example() {\n  return <Grid columns={2} minColumnWidth={240} gap={16}>\n    <FormItem label="作业名称" required><Input size={36} defaultValue="第五讲案例分析" /></FormItem>\n    <FormItem label="说明" help="学生可见。"><Input size={36} placeholder="补充填写要求" /></FormItem>\n  </Grid>;\n}`,
+    code: sectionedFormCode,
   },
   "input-group": {
     title: "Input Group 输入组合", description: "行内信息继续使用 Input 插槽；多行输入让正文、字数与操作共享同一个外框。复用 Input 与 Textarea，无独立 InputGroup 公共导出。",
@@ -94,18 +96,26 @@ export function AssignmentSettingsExample() {
   const [openingMode, setOpeningMode] = useState("immediate");
   const [opensAt, setOpensAt] = useState<Date | null>(() => dateAt(new Date(), 1, 9));
   const [deadline, setDeadline] = useState<Date | null>(() => dateAt(new Date(), 1, 23, 59));
-  const [error, setError] = useState({ title: "", fields: "", opening: "", deadline: "" }), [saved, setSaved] = useState("");
-  const titleRef = useRef<HTMLInputElement>(null), pointsRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState({ title: "", course: "", points: "", opening: "", deadline: "" }), [saved, setSaved] = useState("");
+  const titleRef = useRef<HTMLInputElement>(null), courseRef = useRef<HTMLInputElement>(null), pointsRef = useRef<HTMLInputElement>(null);
   const openingRef = useRef<HTMLButtonElement>(null), deadlineRef = useRef<HTMLButtonElement>(null);
   const { minimum, refresh } = useFutureMinute();
   const zone = localTimeZoneText();
-  function clearFeedback() { setError({ title: "", fields: "", opening: "", deadline: "" }); setSaved(""); }
+  function clearFeedback(...fields: (keyof typeof error)[]) {
+    if (fields.length) setError(previous => {
+      const next = { ...previous };
+      for (const field of fields) next[field] = "";
+      return next;
+    });
+    setSaved("");
+  }
   function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const now = new Date();
     const nextError = {
       title: title.trim() ? "" : "请输入作业名称。",
-      fields: course !== null && points !== null && points > 0 && pointsRef.current?.validity.valid ? "" : "请补齐课程和有效的满分。",
+      course: course !== null ? "" : "请选择所属课程。",
+      points: points !== null && Number.isInteger(points) && points >= 1 && points <= 200 && pointsRef.current?.validity.valid ? "" : "请输入 1–200 之间的整数满分。",
       opening: openingMode === "scheduled" ? !opensAt ? "请选择定时开放时间。" : opensAt < now ? "开放时间已经过去，请重新选择。" : "" : "",
       deadline: !deadline ? "请选择作业截止时间。" : deadline <= now ? "截止时间必须晚于当前时间，请重新选择。" : openingMode === "scheduled" && opensAt && deadline <= opensAt ? "截止时间必须晚于开放时间。" : "",
     };
@@ -113,6 +123,8 @@ export function AssignmentSettingsExample() {
     if (Object.values(nextError).some(Boolean)) {
       setSaved("");
       if (nextError.title) titleRef.current?.focus();
+      else if (nextError.course) courseRef.current?.focus();
+      else if (nextError.points) pointsRef.current?.focus();
       else if (nextError.opening) openingRef.current?.focus();
       else if (nextError.deadline) deadlineRef.current?.focus();
       return;
@@ -122,21 +134,21 @@ export function AssignmentSettingsExample() {
   return <form className="g5-panel g5-form" aria-label="作业发布设置" onSubmit={save} noValidate>
     <div className="g5-task-heading"><h3>作业发布设置</h3><p>本地样板 · 人工智能导论 · 第五讲</p></div>
     <Grid columns={2} minColumnWidth={240} gap={16}>
-      <FormItem label="作业名称" required status={error.title ? "error" : "default"} message={error.title || undefined}><Input ref={titleRef} size={36} value={title} onValueChange={next => { setTitle(next); clearFeedback(); }} /></FormItem>
+      <FormItem label="作业名称" required status={error.title ? "error" : "default"} message={error.title || undefined}><Input ref={titleRef} size={36} value={title} onValueChange={next => { setTitle(next); clearFeedback("title"); }} /></FormItem>
       <FormItem label="作业类型"><Select size={36} name="kind" clearable={false} value={kind} onValueChange={next => { setKind(next); clearFeedback(); }} options={[{ value: "report", label: "案例报告" }, { value: "practice", label: "课堂练习" }, { value: "discussion", label: "讨论任务" }]} /></FormItem>
-      <FormItem label="所属课程" required><Combobox size={36} options={courses} value={course} onValueChange={next => { setCourse(next); clearFeedback(); }} /></FormItem>
-      <FormItem label="满分" required><InputNumber ref={pointsRef} size={36} fullWidth value={points} onChange={() => setSaved("")} onValueChange={next => { setPoints(next); clearFeedback(); }} min={1} max={200} precision={0} suffixText="分" /></FormItem>
+      <FormItem label="所属课程" required status={error.course ? "error" : "default"} message={error.course || undefined}><Combobox ref={courseRef} size={36} options={courses} value={course} onValueChange={next => { setCourse(next); clearFeedback("course"); }} /></FormItem>
+      <FormItem label="满分" required status={error.points ? "error" : "default"} message={error.points || undefined}><InputNumber ref={pointsRef} size={36} fullWidth value={points} onChange={() => clearFeedback("points")} onValueChange={next => { setPoints(next); clearFeedback("points"); }} min={1} max={200} precision={0} suffixText="分" /></FormItem>
     </Grid>
     <FormItem label="作业说明" help="说明学习目标、提交内容和判断依据。"><Textarea rows={3} value={note} onValueChange={next => { setNote(next); clearFeedback(); }} maxLength={500} blockEnd={<span className="g5-count">{note.length} / 500</span>} /></FormItem>
-    <RadioGroup legend="开放方式" orientation="horizontal" value={openingMode} onValueChange={next => { setOpeningMode(next); clearFeedback(); refresh(); }}
+    <RadioGroup legend="开放方式" orientation="horizontal" value={openingMode} onValueChange={next => { setOpeningMode(next); clearFeedback("opening", "deadline"); refresh(); }}
       options={[{ value: "immediate", label: "立即开放" }, { value: "scheduled", label: "定时开放" }]} />
     <Grid columns={openingMode === "scheduled" ? 2 : 1} minColumnWidth={240} gap={16}>
       {openingMode === "scheduled" && <FormItem label="定时开放时间" required status={error.opening ? "error" : "default"} message={error.opening || undefined}>
-        <DatePicker ref={openingRef} aria-label="定时开放时间" showTime size={36} value={opensAt} minDate={minimum} onOpenChange={open => { if (open) refresh(); }} onValueChange={next => { setOpensAt(next); clearFeedback(); }} />
+        <DatePicker ref={openingRef} aria-label="定时开放时间" showTime size={36} value={opensAt} minDate={minimum} onOpenChange={open => { if (open) refresh(); }} onValueChange={next => { setOpensAt(next); clearFeedback("opening", "deadline"); }} />
       </FormItem>}
       <FormItem label="作业截止时间" required status={error.deadline ? "error" : "default"} message={error.deadline || undefined} help="23:59 是明确时刻；到达该时间后停止提交。">
         <DatePicker ref={deadlineRef} aria-label="作业截止时间" showTime size={36} value={deadline} minDate={minimum} presets={homeworkDeadlinePresets}
-          onOpenChange={open => { if (open) refresh(); }} onValueChange={next => { setDeadline(next); clearFeedback(); }} />
+          onOpenChange={open => { if (open) refresh(); }} onValueChange={next => { setDeadline(next); clearFeedback("deadline"); }} />
       </FormItem>
     </Grid>
     <dl className="g5-date-summary" aria-label="作业设置摘要">
@@ -144,12 +156,13 @@ export function AssignmentSettingsExample() {
       <div><dt>截止时间</dt><dd>{deadline ? dateTimeText(deadline) : "待设置"}</dd></div>
       <div><dt>时间基准</dt><dd>{zone}</dd></div>
     </dl>
-    <div className="g5-form-footer"><p role="status" aria-label="作业保存结果">{saved || error.fields || (error.title || error.opening || error.deadline ? "请修正标出的设置，内容已保留。" : "面板确定后更新草稿，保存后更新本地作业设置。")}</p><Button type="submit" variant="primary">保存设置</Button></div>
+    <div className="g5-form-footer"><p role="status" aria-label="作业保存结果">{saved || (Object.values(error).some(Boolean) ? "请修正标出的设置，内容已保留。" : "面板确定后更新草稿，保存后更新本地作业设置。")}</p><Button type="submit" variant="primary">保存设置</Button></div>
   </form>;
 }
 
 function FieldExamples() {
   return <>
+    <DocExample title="可复制：分区表单与就近校验" description="下方复制代码与此示例使用同一份源码，包含课程与满分校验、首错定位和本地保存。"><div className="g5-panel"><SectionedFormExample /></div></DocExample>
     <DocExample title="按填写任务组织表单" description="短字段并排，长说明独占一行；日期和保存各自有明确的确认范围。"><AssignmentSettingsExample /></DocExample>
     <DocExample title="帮助、警告与错误" description="反馈就近出现；字段组仍用已有 Layout，字段身份各自独立。"><div className="g5-panel"><Grid columns={2} minColumnWidth={220} gap={16}>
       <FormItem label="班级人数" status="warning" message="当前分组建议每组 4–6 人。"><InputNumber size={36} fullWidth defaultValue={5} min={1} max={10} /></FormItem>

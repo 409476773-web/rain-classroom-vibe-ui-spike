@@ -1,10 +1,11 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { colorRegistry } from "../../packages/foundations/src/color-registry";
 import { contrastRatio } from "./color-contrast";
 
-const evidence = process.env.RAIN_TOKEN_EVIDENCE_DIR ?? "evidence/runtime/token-foundations-v1";
-const discoveryEvidence = process.env.RAIN_TOKEN_EVIDENCE_DIR ?? "evidence/runtime/tag-color-discovery/browser";
+const evidence = process.env.RAIN_TOKEN_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/token-foundations-v1");
+const discoveryEvidence = process.env.RAIN_TOKEN_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/tag-color-discovery/browser");
 mkdirSync(evidence, { recursive: true });
 mkdirSync(discoveryEvidence, { recursive: true });
 
@@ -112,7 +113,7 @@ test("color facts display in scope and local Alpha replacement paints 20 percent
   });
   expect(outside.background).toBe("rgba(0, 0, 0, 0)");
   expect(outside.width).not.toBe("160px");
-  const colorEvidence = process.env.RAIN_TOKEN_EVIDENCE_DIR ?? "evidence/runtime/color-family-supplement";
+  const colorEvidence = process.env.RAIN_TOKEN_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/color-family-supplement");
   mkdirSync(colorEvidence, { recursive: true });
   await page.locator('[data-rain-id="token-color-panel"]').screenshot({ path: `${colorEvidence}/colors.png` });
 });
@@ -162,7 +163,7 @@ test("new Fill families preserve exact colors and preview only permitted foregro
   await expect(preview).toContainText("实际父背景：Background/Neutral/3");
   await expect(preview.getByRole("status")).toContainText("不足 4.5 : 1");
   await expect(preview.getByRole("status")).toContainText("仅作展示，不能作为已通过的组件方案");
-  const colorEvidence = process.env.RAIN_TOKEN_EVIDENCE_DIR ?? "evidence/runtime/color-family-supplement";
+  const colorEvidence = process.env.RAIN_TOKEN_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/color-family-supplement");
   mkdirSync(colorEvidence, { recursive: true });
   await preview.screenshot({ path: `${colorEvidence}/preview.png` });
 
@@ -220,7 +221,7 @@ test("Dark colors use confirmed values and theme-aware Alpha pairing while Light
   await expect(preview.getByRole("status")).toContainText("图标 3.66 : 1 · 满足 3 : 1");
   await expect(page.locator('[data-slot="original-fill"]')).toHaveCSS("background-color", "rgba(80, 117, 254, 0.16)");
   await expect(page.getByRole("button", { name: "Text/Neutral/1", exact: true }).locator('[data-slot="category-swatch"]')).toHaveCSS("background-color", "rgb(20, 35, 70)");
-  const darkEvidence = process.env.RAIN_TOKEN_EVIDENCE_DIR ?? "evidence/runtime/color-dark-theme";
+  const darkEvidence = process.env.RAIN_TOKEN_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/color-dark-theme");
   mkdirSync(darkEvidence, { recursive: true });
   await preview.screenshot({ path: `${darkEvidence}/dark-pairing.png` });
   await page.getByRole("table", { name: "Fill/Neutral/Solid", exact: true }).screenshot({ path: `${darkEvidence}/dark-neutral-solid.png` });

@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "rain-evaluation-protocol/1",
+  "protocolId": "rain-component-implementation-A01-v2",
+  "frozenAt": "2026-10-18T05:26:55.890817+00:00",
+  "runId": "component-implementation-2026-10-18/run-01",
+  "baselineCommit": "6a2364c8b0325a243b2de8ebe12361e305aab333",
+  "candidateCommitAtFreeze": "6a2364c8b0325a243b2de8ebe12361e305aab333",
+  "workingDiffHashAtFreeze": "884403ec14a9641996cf17ba604a984315412972af9519ce9760dbfed6cd14fd",
+  "scope": {
+    "calibration": 12,
+    "independentTasks": 3,
+    "structuralEditsPerTask": 2
+  },
+  "evaluationType": "descriptive-case-validation; no A/B efficacy claim",
+  "calibrationGate": {
+    "reasonableMinimum": 10,
+    "denominator": 12,
+    "hardFailureMaximum": 0,
+    "invalidQuestionPolicy": "保留原结果，另发下一版本；不能通过剔除题目把不足 10/12 自动改为通过。"
+  },
+  "sixDimensions": [
+    "intentAndScope",
+    "realEntry",
+    "alternativeConditions",
+    "stateOwner",
+    "modificationSurface",
+    "retainedContracts"
+  ],
+  "dimensionRatings": [
+    "correct",
+    "partial",
+    "incorrect",
+    "not-applicable"
+  ],
+  "reasonableRule": "全部适用维度正确且无硬失败；partial 不计合理分子，需说明原因。",
+  "hardFailures": [
+    "nonexistent-public-api",
+    "missing-required-context",
+    "duplicate-business-or-layout-owner",
+    "wrong-target-object",
+    "lost-draft-or-selection",
+    "unreachable-key-action",
+    "shared-package-or-lock-mutation"
+  ],
+  "evaluationCompletionSeparateFromProductGate": true,
+  "consumerProfile": "M1",
+  "finalConsumerSnapshotId": null,
+  "finalInputManifest": null,
+  "snapshotBindingStage": "After C01-C03 and S01 re-export/check; before any A02 consumer starts",
+  "isolation": {
+    "spawn": "fork_turns none",
+    "inputAllowlist": [
+      "one frozen final M1 Starter",
+      "current task E0 + data.json; E1/E2 only when that stage starts"
+    ],
+    "neverSend": [
+      "work package",
+      "evaluator rubrics",
+      "parent review conversation",
+      "CAL answers",
+      "other task results",
+      "future edit requirements"
+    ],
+    "filesystemIsolation": "allowlist + recorded actual reads; new context alone is not an OS sandbox or statistical blind test",
+    "contaminationAction": "preserve result, mark contaminated and exclude from independent capability claim; do not silently restart",
+    "unknownContext": "Record platform-supplied or hidden settings as unknown; do not assert complete isolation without evidence"
+  },
+  "budgets": {
+    "F0ActiveMinutesMaximum": 90,
+    "F0CompileCorrectionRoundsMaximum": 5,
+    "S1SelfCheckBatchesMaximum": 1,
+    "R1ExternalTechnicalCorrectionBatchesMaximum": 2,
+    "perStructuralEditActiveMinutesMaximum": 45,
+    "perStructuralEditTechnicalCorrectionBatchesMaximum": 2,
+    "clockExcludes": [
+      "dependency-install",
+      "environment-repair",
+      "user-wait"
+    ],
+    "stopRule": "Budget exhaustion preserves last version and failure; continued authorized repair is labeled remediation, not a restarted independent attempt. No hidden retries."
+  },
+  "versionOrder": [
+    "selection-before-code",
+    "T0-before-first-compile",
+    "F0-first-runnable",
+    "S1-self-check",
+    "R1-external-correction",
+    "E1",
+    "E2"
+  ],
+  "humanReview": "awaiting_human until explicit scoped user decision",
+  "publication": "unpublished",
+  "revisionOf": "rain-component-implementation-A01-v1",
+  "revisionReason": "Initial integrity check found EVAL-03 long-answer fixture below its predeclared >160-character boundary; added meaningful synthetic paragraphs before any consumer execution. Thresholds unchanged."
+}

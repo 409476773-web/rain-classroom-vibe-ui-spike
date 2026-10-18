@@ -1,0 +1,115 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-command"
+name: "Command"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/command/command.tsx"
+styleSourcePath: "packages/ui/src/styles.css"
+sourceVersion: "local-2026-09-23"
+description: "本地命令检索与执行表面，支持分组、筛选和空结果。"
+useWhen:
+  - "本地命令检索与执行表面，支持分组、筛选和空结果。"
+doNotUseWhen:
+  - "只有页面私有、不可复用的装饰性内容不进入共享组件。"
+anatomy:
+  - "root"
+  - "input"
+  - "list"
+  - "group"
+  - "group-label"
+  - "collection"
+  - "item"
+  - "empty"
+parts:
+  - "root"
+  - "input"
+  - "list"
+  - "group"
+  - "group-label"
+  - "collection"
+  - "item"
+  - "empty"
+props:
+  - "组件复合 API 与本地 Base UI / React 类型以 sourcePath 为准。"
+slots:
+  - "children: 由宿主提供内容与业务操作。"
+variants:
+  - "Rain 默认视觉；方向、密度与组合由宿主局部 Recipe 控制。"
+states:
+  - "默认、焦点、禁用与交互状态按组件源码处理。"
+dependencies:
+  - "React"
+  - "Base UI 1.8.0"
+tokens:
+  - "优先复用 Rain 现有语义 Token；临时视觉值集中于 G3 局部 CSS，待 Foundation Gate 审计。"
+layoutConstraints:
+  - "命令由宿主注册并执行；共享组件不调用生产接口。"
+compositionRules:
+  - "共享组件只处理通用交互与语义；路径、数据及执行结果由宿主负责。"
+allowedModifications:
+  - "宿主内容、受控状态、局部尺寸与密度 Recipe。"
+restrictedModifications:
+  - "不修改基础 Token，不引入成熟库默认视觉，不直接访问业务接口。"
+accessibility:
+  - "Base UI Autocomplete 处理输入、候选高亮、Enter 和空结果。"
+examples:
+  - "apps/prototype/src/scenarios/token-first-g3/page.tsx"
+recipes:
+  - "G3 层级型工作台与密度型指挥台，视觉待用户确认。"
+antiPatterns:
+  - "用静态视觉假冒可执行操作或真实导航。"
+relatedComponents: []
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences: []
+  externalReferences:
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; MIT"
+    - "Base UI 1.8.0"
+  retainedTraits:
+    - "Rain 语义颜色、Focus 和基础密度。"
+  redesignedTraits:
+    - "G3 两套工作台方向的层级、边界和交互状态。"
+  intentionallyNotInherited:
+    - "外部组件库的默认品牌视觉与全量 API。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/token-first-v12-g3/source-lock.json"
+migrationNotes: "G3 新共享候选；不触及 G1/G2 和 BM-C。"
+humanGate: "pending-visual-review"
+contrastAcceptance: "not-granted"
+verification:
+  automated: "scoped-passed"
+  independentReview: "not-run"
+  evidence: "evidence/runtime/token-first-v12-g3/verification.md"
+  humanGate: "pending-visual-review"
+  contrastAcceptance: "not-granted"
+
+visualRefinement:
+  id: "g23-family-first-samples-2026-10-08"
+  directionApproval: "user-confirmed-image"
+  scope: "current-shared-candidate-and-independent-playground-sample"
+  visualTarget: "evidence/runtime/g2-g3-family-refinement-2026-10-08/approved-visual-target.png"
+  implementation: "completed"
+  evidence: "evidence/runtime/g2-g3-family-refinement-2026-10-08/verification.md"
+  runtimeHumanGate: "awaiting-user-review"
+  publication: "unpublished"
+
+discovery:
+  version: 1
+  familyId: "commands"
+  taskIds:
+    - "act-feedback"
+    - "choose"
+  searchAliases:
+    - "命令面板"
+    - "搜索命令"
+    - "CommandInput"
+  implementationRole: "root"
+  controlScope: "在可搜索命令集合中定位并执行动作"
+  stateOwner: "Command Root 提供 Autocomplete 上下文，Input/List/Item 同根；宿主拥有命令执行、对话框开闭和快捷键。Command.Input 与 CommandInput 等为真实公开别名。"
+  relationships: []

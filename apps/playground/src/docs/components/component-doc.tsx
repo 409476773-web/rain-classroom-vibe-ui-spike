@@ -2,6 +2,7 @@ import { useLayoutEffect, useState, type ReactNode } from "react";
 import { DensityProvider } from "@rain-next/foundations";
 import { Button, Link } from "@rain-next/ui";
 import "./component-doc.css";
+import { CanonicalAssetLinks } from "./asset-discovery";
 
 export type DocProp = { name: string; type: string; default?: string; description: string };
 export type ComponentDocProps = {
@@ -35,6 +36,7 @@ export function ComponentDoc({ id, title, description, category = "UI", status =
         <Link href="#components">返回组件目录</Link>
         <div className="component-doc__title"><h1 id={`${id}-title`} tabIndex={-1}>{title}</h1><span>{category} · {status}</span></div>
         <p>{description}</p>
+        <CanonicalAssetLinks documentId={id} />
         <div className="component-doc__settings" aria-label="预览设置">
           <Button variant="text" size="small" tone={theme === "light" ? "brand" : "default"} aria-pressed={theme === "light"} onClick={() => { setTheme("light"); onThemeChange?.("light"); }}>浅色</Button>
           <Button variant="text" size="small" tone={theme === "dark" ? "brand" : "default"} aria-pressed={theme === "dark"} onClick={() => { setTheme("dark"); onThemeChange?.("dark"); }}>深色</Button>

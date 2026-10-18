@@ -1,0 +1,42 @@
+
+ RUN  v4.1.11 /Users/wenchengkai/CodexFile/雨课堂-shadcn组件库架构/.worktrees/github-review-20261017
+
+ ❯ scripts/rn14-starter.test.ts (9 tests | 1 failed) 146589ms
+   × preserves the existing RN14 authorization and frozen B2 history 131706ms
+ ❯ scripts/tabs-governance.test.ts (12 tests | 1 failed) 173011ms
+   × admits only the exact Tabs stage without changing frozen history or inventing a Gate 161755ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/rn14-starter.test.ts > preserves the existing RN14 authorization and frozen B2 history
+Error: Test timed out in 60000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/rn14-starter.test.ts:203:1
+    201|   } finally { rmSync(temporary, { recursive: true, force: true }); }
+    202| });
+    203| it("preserves the existing RN14 authorization and frozen B2 history", …
+       | ^
+    204|   const phase = parseYamlSubset(readFileSync(join(root, "status/curren…
+    205|   expect(hasRn14Authorization(phase)).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/tabs-governance.test.ts > admits only the exact Tabs stage without changing frozen history or inventing a Gate
+Error: Test timed out in 60000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/tabs-governance.test.ts:24:1
+     22| };
+     23|
+     24| it("admits only the exact Tabs stage without changing frozen history o…
+       | ^
+     25|   expect(helpers.hasTabsRefinementAuthorization).toBeTypeOf("function"…
+     26|   const status = phase();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 2 passed (4)
+      Tests  2 failed | 25 passed (27)
+   Start at  23:17:12
+   Duration  174.42s (transform 616ms, setup 537ms, import 1.11s, tests 325.28s, environment 1.08s)
+

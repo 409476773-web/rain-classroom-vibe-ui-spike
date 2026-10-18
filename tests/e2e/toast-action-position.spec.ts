@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 
-const captures = "evidence/runtime/toast-action-position-2026-10-08/browser";
+const captures = evidenceOutputPath("evidence/runtime/toast-action-position-2026-10-08/browser");
 mkdirSync(captures, { recursive: true });
 
 for (const settings of [

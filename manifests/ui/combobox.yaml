@@ -91,3 +91,24 @@ verification:
   humanGate: "awaiting_human"
   contrastAcceptance: "not-granted"
   evidence: "evidence/runtime/g5-components-2026-10-12/verification.md"
+
+discovery:
+  version: 1
+  familyId: "candidate-selection"
+  taskIds:
+    - "choose"
+    - "fill-validate"
+  searchAliases:
+    - "可编辑选择"
+    - "自由输入候选"
+  implementationRole: "root"
+  controlScope: "可编辑主输入框的单值候选或显式新值提交"
+  stateOwner: "宿主拥有选中值、候选与自由值策略；主框文本、候选高亮和已提交值分离，allowCustomValue 必须显式启用，不以失焦或 IME Enter 随意提交。"
+  relationships:
+    - type: "alternativeWhen"
+      targetId: "ui-select"
+      condition: "需要多选或把搜索放在候选面板内时比较 Select；Combobox 当前为单值主框。"
+      evidence:
+        path: "packages/ui/src/combobox/combobox.tsx"
+        symbol: "Combobox"
+        kind: "contract"

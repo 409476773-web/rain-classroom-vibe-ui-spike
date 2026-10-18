@@ -39,6 +39,8 @@
 
 ## 把组件组织成页面
 
+需要同排控件、分区表单或连续批改时，查看[三个组合指引](composition-recipes.md)，核对尺寸、业务状态归属和允许改造的位置；附完整源码，新的业务组合仍需单独验证。
+
 就近的纯文字说明使用共享候选 `@rain-next/ui` Tooltip，合同见 `packages/ui/src/tooltip/README.md`，继承 Classic 固定深底视觉。Resizable 已在本轮迁为共享候选，从 `@rain-next/ui` 导入，独立 Playground 入口 `#resizable`；此前固定 Starter 快照不自动包含本轮新资产，源码合同见 `manifests/ui/resizable.yaml`。用于阅读与判断区域的空间分配。Tooltip 当前视觉与默认下方交互已确认，Resizable 原样板视觉接受保留为来源，本轮共享候选与文档待审；不以 Tabs 截断提示冒充通用入口，不复制拖动引擎，业务状态留宿主。
 
 | 条件 | 保持的设计关系 | 反例与检查 |

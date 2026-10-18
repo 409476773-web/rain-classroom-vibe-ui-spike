@@ -396,3 +396,33 @@ priorG2VisualAcceptance12:
   sourceSha256: "74ea3796b3062d546279dc6912b2e67c0ccb148cfcff042fd6c13721bd94c62d"
   styleSourcePath: "packages/ui/src/navigation/navigation-families.css"
   styleSourceSha256: "16a0f032e48195ff62aab11d127c98de170eb982209d594bb4ac4aeb084ae64e"
+
+discovery:
+  version: 1
+  familyId: "navigation"
+  taskIds:
+    - "navigate"
+    - "workbench"
+  searchAliases:
+    - "学生队列"
+    - "对象列表"
+    - "对象卡片"
+    - "当前对象"
+  implementationRole: "root"
+  controlScope: "当前学生、题目、活动等业务对象"
+  stateOwner: "宿主拥有稳定对象 value 与草稿/保存；组件发出对象选择意图，独立操作与对象选择分开，不接管路由或复制草稿。"
+  relationships:
+    - type: "sharesPresentation"
+      targetId: "ui-navigation-list"
+      evidence:
+        path: "packages/ui/src/navigation/navigation-families.tsx"
+        kind: "contract"
+        symbol: "ItemContent"
+      condition: "仅共享被动条目内容 helper；NavigationList 使用链接，ObjectNavigator 使用对象选择按钮。"
+    - type: "alternativeWhen"
+      targetId: "ui-navigation-list"
+      evidence:
+        path: "packages/ui/src/navigation/navigation-families.tsx"
+        kind: "contract"
+        symbol: "ObjectNavigator"
+      condition: "选项代表真实页面地址时比较 NavigationList；不要把当前对象状态当成当前页面。"

@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 import { makeMatrixFixtures } from "../../apps/playground/src/docs/components/chart-business/matrix-data";
 
-const evidence = "evidence/runtime/chart-matrix-sticky-layout-2026-10-09/browser";
+const evidence = evidenceOutputPath("evidence/runtime/chart-matrix-sticky-layout-2026-10-09/browser");
 const matrix = (page: Page, fixture: string) => page.locator(`[data-matrix-example="${fixture}"] [data-rain-id="ui-chart-matrix"]`);
 const cell = (chart: Locator, row: string, column: string) => chart.locator(`[data-slot="cell"][data-row-id="${row}"][data-column-id="${column}"]`);
 const quantityValue = (revision: number, row: string, column: string) => {

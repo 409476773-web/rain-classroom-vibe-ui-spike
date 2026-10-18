@@ -1,7 +1,8 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const evidence="evidence/runtime/chart-matrix-sticky-layout-2026-10-09/browser";
+const evidence=evidenceOutputPath("evidence/runtime/chart-matrix-sticky-layout-2026-10-09/browser");
 const matrix=(page:Page,id:string)=>page.locator(`[data-matrix-example="${id}"] [data-rain-id="ui-chart-matrix"]`);
 async function open(page:Page) {
   await page.emulateMedia({reducedMotion:"reduce"});

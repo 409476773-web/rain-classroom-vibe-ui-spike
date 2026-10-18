@@ -1,0 +1,140 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-collapsible"
+name: "Collapsible"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "adapt-shadcn"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/collapsible/collapsible.tsx"
+styleSourcePath: "packages/ui/src/collapsible/collapsible.css"
+sourceVersion: "local-2026-10-07-g1-assetization"
+description: "按需展开单段补充内容，宿主管理内容、保存和业务状态。"
+useWhen:
+  - "主内容旁的更多说明、作答或低频详情。"
+doNotUseWhen:
+  - "互相关联的多段展开规则使用 Accordion；跨区域导航使用 Navigation/Tabs。"
+anatomy:
+  - "Collapsible"
+  - "CollapsibleTrigger"
+  - "CollapsibleContent"
+parts:
+  - "Collapsible"
+  - "CollapsibleTrigger"
+  - "CollapsibleContent"
+props:
+  - "Root: variant=line|contained|tinted|quiet（默认 line）。"
+  - "Root: open / defaultOpen（默认 false）、onOpenChange、disabled；其余 Props 沿 Base UI。"
+  - "Trigger / Content: children、className 及 Base UI 对应 Props。"
+slots:
+  - "children: 由宿主提供标题、正文与业务内容。"
+variants:
+  - "line"
+  - "contained"
+  - "tinted"
+  - "quiet"
+states:
+  - "closed"
+  - "open"
+  - "disabled"
+  - "focus-visible"
+  - "default/compact density"
+dependencies:
+  - "React"
+  - "@rain-next/foundations"
+  - "tailwind-merge@3.6.0"
+  - "@base-ui/react@1.8.0"
+  - "@rain-next/ui/icons/arrow-down"
+tokens:
+  - "--rain-category-background-neutral-1"
+  - "--rain-category-border-neutral-1"
+  - "--rain-category-border-neutral-3"
+  - "--rain-category-fill-neutral-alpha-6"
+  - "--rain-category-icon-neutral-4"
+  - "--rain-category-text-neutral-1"
+  - "--rain-category-text-neutral-3"
+  - "--rain-category-text-neutral-6"
+  - "--rain-font-size-14"
+  - "--rain-line-height-22"
+  - "--rain-line-height-24"
+  - "--rain-line-thickness-1"
+  - "--rain-line-thickness-2"
+  - "--rain-motion-ease-out"
+  - "--rain-motion-feedback-duration"
+  - "--rain-motion-region-duration"
+  - "--rain-radius-8"
+  - "--rain-space-12"
+  - "--rain-space-14"
+  - "--rain-space-16"
+  - "--rain-space-2"
+  - "--rain-space-36"
+  - "--rain-space-4"
+  - "--rain-space-40"
+  - "--rain-space-6"
+  - "--rain-space-8"
+layoutConstraints:
+  - "内容完整参与文档流；不要为收起内容强加固定高度。"
+compositionRules:
+  - "Trigger 保留文字名称；宿主不再加一枚相同展开箭头。"
+  - "业务保存与草稿留宿主；关闭内容只影响展开状态。"
+allowedModifications:
+  - "宿主内容、现有变体、受控状态、className 与实例内局部 Recipe。"
+restrictedModifications:
+  - "不改 Foundation Token、共享视觉值或交互引擎；新能力另行审阅。"
+accessibility:
+  - "原生 Button 触发器、aria-expanded、控制关系与 Enter/Space 由 Base UI 管理。"
+  - "触发器保留文字名称、可见焦点与 disabled 状态；reduced-motion 关闭过渡。"
+examples:
+  - "apps/playground/src/docs/components/collapsible-page.tsx"
+  - "apps/prototype/src/scenarios/token-first-g1/page.tsx"
+recipes:
+  - "原 G1 已接受样板保持原验收范围；本次独立文档页单独待审阅。"
+antiPatterns:
+  - "复制交互引擎；用关闭/拖动隐式清空宿主状态；仅凭历史样板接受推导公共资产已批准。"
+relatedComponents:
+  - "ui-accordion"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences: []
+  externalReferences:
+    - "shadcn-ui/ui@3ba91b1cc83e1bbe4ab35a422ff2a694849c5048; MIT; original author source and Nova styles retained in sourceLock"
+    - "@base-ui/react@1.8.0"
+  retainedTraits:
+    - "已接受 G1 局部样板的 Rain 颜色、边界、字形、密度与状态；按原选择器迁移。"
+  redesignedTraits:
+    - "仅位置与公开候选身份变化；没有新增设计方向、视觉值或交互能力。"
+  intentionallyNotInherited:
+    - "外部默认主题；原样板的局部接受不转为新共享资产的系统审核或发布。"
+figmaMapping: null
+sourceEvidence:
+  - "evidence/runtime/token-first-v12-g1/source-lock.json"
+migrationNotes: "旧 G1 入口 re-export 共享候选；原文与 MIT 保持可追踪。"
+humanGate: "pending-visual-review"
+contrastAcceptance: "not-granted"
+sourceAcceptance:
+  acceptedAt: "2026-09-21"
+  scope: "current-G1-sample-runtime-visual-only"
+  evidence: "evidence/runtime/token-first-v12-g1/verification.md"
+  transfersToCurrentSharedAsset: false
+verification:
+  evidence: "evidence/runtime/g123-playground-2026-10-07/verification.md"
+  automated: "scoped-unit-typecheck-build-and-30-route-browser-passed"
+  independentReview: "passed-scoped-source-contract-review"
+  humanGate: "pending-visual-review"
+  contrastAcceptance: "not-granted"
+
+discovery:
+  version: 1
+  familyId: "arrangement"
+  taskIds:
+    - "organize"
+    - "read-communicate"
+  searchAliases:
+    - "内容展开"
+    - "折叠区"
+  implementationRole: "root"
+  controlScope: "单个内容区的展开与收起"
+  stateOwner: "Collapsible 根统一 open；Trigger 与 Content 共享该根，不代管内容请求或持久化。"
+  relationships: []

@@ -21,10 +21,12 @@
     "generate:tokens": "node scripts/generate-token-foundations.mjs",
     "verify:tokens": "node scripts/verify-token-foundations.mjs",
     "verify:reuse-audit": "node scripts/verify-rain-classic-reuse-audit.mjs",
-    "verify:governance": "pnpm verify:lockfile && pnpm verify:workspace && pnpm verify:evidence && pnpm verify:boundaries && pnpm verify:tailwind-b2 && pnpm verify:tokens",
+    "verify:governance": "pnpm verify:lockfile && pnpm verify:workspace && pnpm verify:evidence && pnpm verify:boundaries && pnpm verify:tailwind-b2 && pnpm verify:tokens && pnpm verify:css-variables && pnpm verify:playground-status",
     "verify": "pnpm verify:governance && pnpm verify:icons && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e",
     "generate:icons": "node scripts/generate-icons.mjs",
-    "verify:icons": "node scripts/verify-icons.mjs"
+    "verify:icons": "node scripts/verify-icons.mjs",
+    "verify:css-variables": "node scripts/verify-css-variables.mjs",
+    "verify:playground-status": "node scripts/playground-status.mjs --check"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",

@@ -1,9 +1,10 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 const run = "evidence/runtime/chart-experience-second-batch-2026-10-11/heatmap-matrix-map";
-const folder = `${run}/heatmap-browser/${process.env.RAIN_HEATMAP_BROWSER_RUN ?? "after-01"}`;
+const folder = evidenceOutputPath(`${run}/heatmap-browser/${process.env.RAIN_HEATMAP_BROWSER_RUN ?? "after-01"}`);
 const nativeFiles = ["heatmap-context.tsx", "heatmap-cells.tsx", "heatmap-chart.tsx", "heatmap-legend.tsx", "heatmap-legend-gradient.tsx", "heatmap-utils.ts"].map(file => `packages/ui/src/charts/vendor/charts/heatmap/${file}`).concat("packages/ui/src/charts/vendor/charts/choropleth/choropleth-chart.tsx", "apps/playground/src/docs/components/chart-variants/structure.tsx", "packages/ui/src/charts/styles.css", "packages/ui/src/charts/utilities.generated.css");
 const variantIds = ["heatmap-contributions", "heatmap-default", "heatmap-pattern-levels", "heatmap-solid-separators", "heatmap-compact-y-quarter", "heatmap-dashed-separators", "heatmap-loading", "heatmap-horizontal-scroll", "heatmap-gradient-legend", "heatmap-monday-start", "heatmap-active-scale-hover"];
 const cells = (host: Locator) => host.locator(".visx-heatmap-rects g > rect:first-child");

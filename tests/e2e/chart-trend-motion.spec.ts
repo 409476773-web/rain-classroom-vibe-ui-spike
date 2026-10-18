@@ -1,8 +1,9 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { test, expect, type Locator, type Page } from "@playwright/test";
 
 test.use({ video: "on" });
 
-const EVIDENCE = process.env.RAIN_CHART_TREND_EVIDENCE_DIR ?? "evidence/runtime/chart-trend-motion";
+const EVIDENCE = process.env.RAIN_CHART_TREND_EVIDENCE_DIR ?? evidenceOutputPath("evidence/runtime/chart-trend-motion");
 
 async function openTrend(page: Page) {
   const errors: string[] = [];

@@ -3,13 +3,14 @@ import { dirname, isAbsolute, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseSync } from "vite";
 import { parseYamlSubset } from "./verification-helpers.mjs";
+import { buildAssetCatalog, queryAssetCatalog, renderCatalogOutputs } from "./asset-catalog.mjs";
 
 const workspace = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 export const indexPath = "docs/ai/asset-index.md";
 const json = (root, path) => JSON.parse(readFileSync(resolve(root, path), "utf8"));
 const names = (item) => item.exportNames ?? [item.exportName];
 
-function requireFile(root, path) {
+export function requireFile(root, path) {
   if (typeof path !== "string") throw new Error("Missing asset reference");
   const local = relative(root, resolve(root, path));
   if (isAbsolute(path) || local === ".." || local.startsWith("../") || !existsSync(resolve(root, path))) {
@@ -18,7 +19,7 @@ function requireFile(root, path) {
   return resolve(root, path);
 }
 
-function packageEntry(root, specifier) {
+export function packageEntry(root, specifier) {
   if (typeof specifier !== "string" || !specifier.startsWith("@rain-next/")) throw new Error(`Unknown package: ${specifier}`);
   const [, name, ...subpath] = specifier.split("/");
   const pkg = json(root, `packages/${name}/package.json`);
@@ -28,7 +29,7 @@ function packageEntry(root, specifier) {
   return relative(root, requireFile(root, `packages/${name}/${entry}`));
 }
 
-function exportsOf(root, path, visited = new Set()) {
+export function exportsOf(root, path, visited = new Set()) {
   if (visited.has(path)) return new Set();
   visited.add(path);
   const source = parseSync(path, readFileSync(requireFile(root, path), "utf8"));
@@ -167,17 +168,50 @@ export function verifyAssetIndex(root = workspace) {
   if (readFileSync(requireFile(root, indexPath), "utf8") !== expected) throw new Error("Asset index is stale; run node scripts/asset-index.mjs --write");
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+export function createAssetCatalog(root = workspace) {
+  return buildAssetCatalog(readAssets(root), { root, apiTools: { exportsOf, packageEntry } });
+}
+
+export function writeAssetCatalog(root = workspace) {
+  const outputs = renderCatalogOutputs(createAssetCatalog(root));
+  for (const [path, content] of Object.entries(outputs)) writeFileSync(resolve(root, path), content);
+  return outputs;
+}
+
+export function verifyAssetCatalog(root = workspace) {
+  const outputs = renderCatalogOutputs(createAssetCatalog(root));
+  for (const [path, content] of Object.entries(outputs)) {
+    if (readFileSync(requireFile(root, path), "utf8") !== content) throw new Error(`Asset catalog is stale: ${path}; run node scripts/asset-index.mjs --write`);
+  }
+}
+
+async function runAssetIndexCli() {
   const [command, query] = process.argv.slice(2);
   if (command === "--write") {
     writeFileSync(resolve(workspace, indexPath), renderAssetIndex(readAssets()));
+    writeAssetCatalog();
+    (await import("./asset-starter-guide.mjs")).writeStarterGuides(workspace);
     console.log(`Generated ${indexPath}`);
   } else if (command === "--check") {
     verifyAssetIndex();
+    verifyAssetCatalog();
+    (await import("./asset-starter-guide.mjs")).verifyStarterGuides(workspace);
     console.log("Asset index references, exports and generated content verified.");
   } else if (command === "--find" && query) {
     console.log(renderAssetIndex(readAssets(), query));
+  } else if (command === "--catalog") {
+    const args = process.argv.slice(3);
+    const flag = name => args.includes(name) ? args[args.indexOf(name) + 1] : undefined;
+    const result = queryAssetCatalog(createAssetCatalog(), {
+      query: args[0] && !args[0].startsWith("--") ? args[0] : "",
+      task: flag("--task"), family: flag("--family"), includeLocal: true,
+    });
+    console.log(JSON.stringify(result, null, 2));
   } else {
-    throw new Error("Usage: node scripts/asset-index.mjs --write | --check | --find <keyword>");
+    throw new Error("Usage: node scripts/asset-index.mjs --write | --check | --find <keyword> | --catalog [keyword] [--task id] [--family id]");
   }
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  runAssetIndexCli().catch(error => { console.error(error); process.exitCode = 1; });
 }

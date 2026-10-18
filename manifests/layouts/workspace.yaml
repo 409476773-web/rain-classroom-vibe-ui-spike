@@ -108,9 +108,10 @@ layoutConstraints:
 compositionRules:
   - "One controller per workspace and stable spec key per user/workspace/subscene/instance."
   - "No style/mode/theme key that remounts business roots."
+  - "Built-in restore controls select only allowedModes; single-mode/no-action controls are disabled."
 accessibility:
   - "Native named recovery button with aria-controls/expanded; hidden body inert."
-  - "Separator has orientation/name/min/max/current and keyboard operation; Enter returns focus to recovery."
+  - "Separator has orientation/name/min/max/current and keyboard operation; Enter chooses hidden, otherwise compact, and returns focus to recovery. Without either mode Enter retains state/focus."
   - "Existing popup handles Escape before a workspace temporary layer; one active workspace reacts."
 examples:
   - "#navigation-v042 (R1/R2/R3/S1-S6)"
@@ -242,3 +243,18 @@ w7BehaviorRepair:
   sourceSha256: "c74c137303b7a283ebfbd3728f60f89ae7d90ea62e3872ce8a64aa5b10bb358c"
   evidence: "evidence/runtime/navigation-v042/w7/n06-behavior-repair.json"
   scope: "Matching-region hover suppression cleanup only; CSS/Tokens unchanged. Historical G2 visual acceptance preserved, G3 pending."
+
+discovery:
+  version: 1
+  familyId: "workspaces"
+  taskIds:
+    - "organize"
+    - "workbench"
+  searchAliases:
+    - "工作区"
+    - "恢复区域"
+    - "临时面板"
+  implementationRole: "layout"
+  controlScope: "可恢复区域、临时层、焦点和尺寸的工作区布局"
+  stateOwner: "每个 WorkspaceLayout 只建立一个控制器及稳定 spec key；RecoverableRegion/RegionRestoreTrigger/PaneSplitter/useWorkspaceLayout 消费同一上下文，布局变化不重挂业务根。"
+  relationships: []

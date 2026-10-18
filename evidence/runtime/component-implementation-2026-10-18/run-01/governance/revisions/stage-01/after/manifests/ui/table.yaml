@@ -1,0 +1,120 @@
+schemaVersion: "1.0"
+kind: "RainUiManifest"
+id: "ui-table"
+name: "Table"
+category: "ui"
+assetIdentity: "registry-candidate"
+maturity: "registry-candidate"
+migrationLabel: "rewrite-from-rain"
+modificationMode: "managed"
+publication: "unpublished"
+sourcePath: "packages/ui/src/table/table.tsx"
+sourceVersion: "local-2026-09-14"
+description: "语义表格部件与具名滚动区。"
+useWhen:
+  - "需要扫描和比较按列组织的数据。"
+doNotUseWhen:
+  - "完整 DataGrid、请求控制器或全集全选。"
+anatomy:
+  - "TableScrollArea"
+  - "Table"
+  - "TableCaption"
+  - "TableHeader"
+  - "TableBody"
+  - "TableFooter"
+  - "TableRow"
+  - "TableHead"
+  - "TableCell"
+parts:
+  - "TableScrollArea"
+  - "Table"
+  - "TableCaption"
+  - "TableHeader"
+  - "TableBody"
+  - "TableFooter"
+  - "TableRow"
+  - "TableHead"
+  - "TableCell"
+props:
+  - "原生元素属性和 ref；TableRow.selected 只表达行视觉，选择语义由 Checkbox 提供。"
+  - "TableScrollArea 必须提供 aria-label，独立于 Table，默认可键盘滚动。"
+slots:
+  - "children"
+variants:
+  - "default"
+states:
+  - "default"
+  - "disabled"
+  - "selected"
+dependencies:
+  - "react"
+  - "@rain-next/foundations"
+  - "tailwind-merge"
+tokens:
+  - "Rain UI 字体、表头13/18/400、正文14/22、Space/4/8/12/16/20/32、既有 Focus。"
+  - "Background/Neutral/1/2；Text/Neutral/2/3/4；Border/Neutral/3；Fill/Neutral/Alpha/5；Fill/Brand/Alpha/4。"
+layoutConstraints:
+  - "常规表头44px/普通正文50px；紧凑表头32px/普通正文44px；多行内容自然增高，不裁切。"
+  - "由宿主提供可用宽度；保留窄屏换行或独立表格滚动。"
+compositionRules:
+  - "数据引擎和业务状态留在调用方；公共 UI 不导入 TanStack。"
+  - "密度消费父 DensityProvider，不新增独立尺寸轴。"
+allowedModifications:
+  - "原生属性、语义内容、公开部件与布局 className。"
+restrictedModifications:
+  - "禁止在 UI 添加业务请求或更改既有品牌、Focus、字体。"
+accessibility:
+  - "表头 scope=col；排序宿主提供真实按钮及 aria-sort；使用 Caption 命名表格。"
+  - "分页在横向滚动区之外，行菜单和选择控件保持原生焦点。"
+examples:
+  - "#table"
+  - "prototype/#materials"
+recipes:
+  - "course-materials-client-data-table"
+antiPatterns:
+  - "用数组行号跨排序保存选择。"
+  - "让同一数据同时在客户端与服务端重复分页。"
+relatedComponents:
+  - "Table"
+  - "Pagination"
+  - "Empty"
+  - "Checkbox"
+  - "DropdownMenu"
+  - "Card"
+relatedBlocks: []
+visualLineage:
+  rainClassicReferences:
+    - "VE-001 / VE-002，已查看存档截图；Classic Table SCSS 与 Pagination 尺寸审计。"
+  externalReferences:
+    - "TanStack Table 8.21.3 官方文档，仅用于本地数据配方。"
+  retainedTraits:
+    - "冷色工作区、白色内容面、紧凑数据行、独立分页和明确选择。"
+  redesignedTraits:
+    - "原生表格语义、Rain Button 分页、开放 Empty 组合。"
+  intentionallyNotInherited:
+    - "Classic Template 外观、shadcn 默认颜色和完整 DataGrid。"
+figmaMapping:
+  status: "reference-only"
+migrationNotes:
+  - "新增候选，不替换 Rain Classic；未发布或迁移。"
+verification:
+  automated: "passed"
+  independentReview: "passed"
+  humanGate: "awaiting_human"
+  contrastAcceptance: "not-granted"
+  evidence: "evidence/runtime/table-visual-refinement/verification.md"
+styleSourcePath: "packages/ui/src/table/table.styles.ts"
+
+discovery:
+  version: 1
+  familyId: "tables"
+  taskIds:
+    - "analyze"
+    - "read-communicate"
+  searchAliases:
+    - "表格"
+    - "语义表格"
+  implementationRole: "root"
+  controlScope: "可访问数据表格及具名结构 Parts"
+  stateOwner: "宿主拥有数据、排序、选择与分页；TableRow selected 只是呈现，不产生选择协议，TableScrollArea 是独立具名滚动入口。"
+  relationships: []

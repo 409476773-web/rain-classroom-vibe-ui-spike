@@ -250,7 +250,10 @@ export function workspaceReducer(spec: WorkspaceSpec, state: WorkspaceState, act
       return { ...next, session: { ...next.session, temporary: state.session.temporary, ribbonTemporary: state.session.ribbonTemporary } };
     }
     case "RESIZE_REGION_KEY": {
-      if (action.key === "Enter") return workspaceReducer(spec, state, { type: "HIDE_REGION", regionId: region.id });
+      if (action.key === "Enter") {
+        const mode = region.allowedModes.includes("hidden") ? "hidden" : region.allowedModes.includes("compact") ? "compact" : undefined;
+        return mode ? setPreference(state, region, { ...previous, mode }) : state;
+      }
       const width = action.key === "Home" ? region.minWidth : action.key === "End" ? availableMaxWidth(spec, state, region, action.viewportWidth) : previous.expandedWidth + (action.key === "ArrowLeft" ? -1 : 1) * (action.shiftKey ? 32 : 10);
       return workspaceReducer(spec, state, { type: "RESIZE_REGION", regionId: region.id, width, viewportWidth: action.viewportWidth });
     }

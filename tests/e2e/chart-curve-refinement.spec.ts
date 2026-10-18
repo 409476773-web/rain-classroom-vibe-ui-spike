@@ -1,9 +1,10 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { observed, settled, hashSources, run, capture } from '../../evidence/runtime/chart-curve-refinement-2026-10-11/browser-observer.mjs';
 
 const runName=process.env.RAIN_CURVE_BROWSER_RUN ?? 'after-tests';
-const folder=`${run}/browser-tests/${runName}`;
+const folder=evidenceOutputPath(`${run}/browser-tests/${runName}`);
 const beforeFolder=`${run}/browser-before`;
 const shapes=['line','area','composed'] as const;
 const official=[

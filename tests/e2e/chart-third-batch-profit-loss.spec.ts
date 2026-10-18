@@ -1,6 +1,7 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
-const folder="evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser";
+const folder=evidenceOutputPath("evidence/runtime/chart-experience-third-batch-2026-10-11/profit-loss-browser");
 for(const width of [1440,390]) for(const motion of ["no-preference","reduce"] as const) {
   test(`[third-profit-loss] exact near-zero signs, zero platforms and same-date update ${width} ${motion}`,async({page})=>{
     await mkdir(folder,{recursive:true});

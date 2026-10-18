@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test, type Locator, type Page } from "@playwright/test";
@@ -29,7 +30,7 @@ test("template composition supports search, native selection, favorite, failure 
   await panel.getByText("函数图像练习", { exact: true }).click();
   await panel.getByRole("button", { name: "收藏 函数单元测验", exact: true }).click();
   await expect(panel.getByRole("radio", { name: "函数图像练习", exact: true })).toBeChecked();
-  if (saveEvidence) await page.screenshot({ path: "evidence/runtime/dropdown/template.png" });
+  if (saveEvidence) await page.screenshot({ path: evidenceOutputPath("evidence/runtime/dropdown/template.png") });
   await panel.getByRole("button", { name: "创建学习单元", exact: true }).click();
   await expect(panel.getByRole("radio", { name: "函数单元测验", exact: true })).toBeDisabled();
   await expect(panel.getByRole("tab", { name: "全部", exact: true })).toBeDisabled();
@@ -127,7 +128,7 @@ for (const theme of ["light", "dark"] as const) test(`${theme} retains selected 
   });
   expect(styles).toMatchObject({ labelWeight: "600", labelSize: "15px", labelLine: "22px", descriptionWeight: "400", descriptionSize: "13px", descriptionLine: "18px", theme, height: "30px" });
   expect(styles.labelColor).toBe(styles.descriptionColor); // Critical reason uses the stronger selected text Token.
-  if (saveEvidence) await page.screenshot({ path: `evidence/runtime/dropdown/menu-${theme}.png` });
+  if (saveEvidence) await page.screenshot({ path: evidenceOutputPath(`evidence/runtime/dropdown/menu-${theme}.png`) });
   await page.keyboard.press("Escape");
   await page.getByRole("button", { name: "紧凑密度" }).click();
   const trigger = page.getByRole("button", { name: "浏览模板", exact: true });
@@ -161,7 +162,7 @@ test("narrow template panel keeps its action visible and supports empty categori
   const bounds = await panel.boundingBox(); expect(bounds!.x).toBeGreaterThanOrEqual(7); expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(313);
   await panel.getByRole("button", { name: "收藏 课堂观点讨论", exact: true }).focus();
   await expect(panel.getByRole("button", { name: "收藏 课堂观点讨论", exact: true })).toBeInViewport();
-  if (saveEvidence) await page.screenshot({ path: "evidence/runtime/dropdown/narrow.png" });
+  if (saveEvidence) await page.screenshot({ path: evidenceOutputPath("evidence/runtime/dropdown/narrow.png") });
   await panel.getByRole("tab", { name: "讨论", exact: true }).click();
   await expect(panel.getByRole("radio")).toHaveCount(1);
   await panel.getByRole("textbox", { name: "搜索模板" }).fill("不存在的模板");
@@ -272,8 +273,8 @@ for (const theme of ["light", "dark"] as const) test(`menu reuses native choice 
     }
     await finish.hover(); await page.mouse.move(0, 0);
     if (process.env.RAIN_UPDATE_DROPDOWN_SELECTION_EVIDENCE === "1") {
-      await page.getByRole("menu").screenshot({ path: `evidence/runtime/dropdown/selection-${theme}.png` });
-      writeFileSync(`evidence/runtime/dropdown/selection-${theme}.json`, JSON.stringify(facts, null, 2) + "\n");
+      await page.getByRole("menu").screenshot({ path: evidenceOutputPath(`evidence/runtime/dropdown/selection-${theme}.png`) });
+      writeFileSync(evidenceOutputPath(`evidence/runtime/dropdown/selection-${theme}.json`), JSON.stringify(facts, null, 2) + "\n");
     }
   } finally { await native.close(); }
 });

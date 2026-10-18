@@ -1,3 +1,4 @@
+import { evidenceOutputPath } from "../../scripts/evidence-output.mjs";
 import { expect, test, type Locator } from "@playwright/test";
 import { contrastRatio } from "./color-contrast";
 
@@ -103,7 +104,7 @@ for (const theme of ["light", "dark"]) {
         await expect(option.locator('[data-slot="content"]')).toHaveCSS("font-weight", "400");
       }
     }
-    await page.screenshot({ path: `evidence/runtime/option-button-content/${theme}.png`, fullPage: true });
+    await page.screenshot({ path: evidenceOutputPath(`evidence/runtime/option-button-content/${theme}.png`), fullPage: true });
   });
 }
 
@@ -164,7 +165,7 @@ test("long rows fit narrow screens and forced colors retain selection and a visi
   await expect(row.locator('[data-slot="control"]')).toHaveCSS("width", "32px");
   const text = row.locator('[data-slot="content"]');
   expect((await text.boundingBox())!.height).toBeGreaterThan(44);
-  await page.screenshot({ path: "evidence/runtime/option-button-content/compact.png", fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath("evidence/runtime/option-button-content/compact.png"), fullPage: true });
   await page.emulateMedia({ forcedColors: "active" });
   await page.keyboard.press("Tab");
   await row.locator("input").focus();
@@ -262,7 +263,7 @@ for (const theme of ["light", "dark"] as const) {
     await expect(judgment.locator("..").locator('[data-slot="label"] [data-icon="icon/close-bold"]')).toHaveCSS("width", "18px");
     await expect(page.getByTestId("option-judgment").locator('[data-icon="icon/check-bold"]')).toHaveCSS("width", "18px");
     await expect(judgment).not.toHaveAttribute("aria-invalid");
-    await page.screenshot({ path: `evidence/runtime/option-button-content/${theme}.png`, fullPage: true });
+    await page.screenshot({ path: evidenceOutputPath(`evidence/runtime/option-button-content/${theme}.png`), fullPage: true });
   });
 }
 
@@ -302,7 +303,7 @@ test("judgment and image cards share native selection, retain full image content
     expect(Math.abs(rect.x - (await card.locator('[data-slot="content"]').boundingBox())!.x)).toBeLessThan(1);
   }
   expect((await cards.first().boundingBox())!.x).toEqual((await cards.nth(1).boundingBox())!.x);
-  await page.screenshot({ path: "evidence/runtime/option-button-content/compact.png", fullPage: true });
+  await page.screenshot({ path: evidenceOutputPath("evidence/runtime/option-button-content/compact.png"), fullPage: true });
   await page.emulateMedia({ forcedColors: "active" });
   await page.keyboard.press("Tab");
   const reviewed = page.getByTestId("option-result-rows").getByRole("radio").first();
