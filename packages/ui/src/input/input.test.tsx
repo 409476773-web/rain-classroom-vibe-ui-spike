@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -91,6 +91,163 @@ describe("Input", () => {
     expect(screen.getByRole("textbox", { name: "受控名称" })).toHaveValue(
       "旧名称一",
     );
+  });
+
+  it.each(["原值", ""])("resets an uncontrolled field to %j with matching count, clear state and FormData", async (defaultValue) => {
+    const user = userEvent.setup(), changed = vi.fn(), cleared = vi.fn();
+    render(<form aria-label="编辑表单">
+      <Input aria-label="重置名称" name="title" defaultValue={defaultValue} showCount onValueChange={changed} onClear={cleared} />
+      <button type="reset">重置</button>
+    </form>);
+    const control = screen.getByRole("textbox", { name: "重置名称" });
+    const form = screen.getByRole("form", { name: "编辑表单" }) as HTMLFormElement;
+    await user.clear(control);
+    await user.type(control, "修改后的名称");
+    changed.mockClear();
+    await user.click(screen.getByRole("button", { name: "重置" }));
+    expect(control).toHaveValue(defaultValue);
+    expect(inputRoot(control).querySelector('[data-slot="count"]')).toHaveTextContent(String(defaultValue.length));
+    expect(inputRoot(control)).toHaveAttribute("data-state", defaultValue ? "filled" : "empty");
+    expect(Boolean(screen.queryByRole("button", { name: "清除重置名称" }))).toBe(Boolean(defaultValue));
+    expect(new FormData(form).get("title")).toBe(defaultValue);
+    expect(changed).not.toHaveBeenCalled();
+    expect(cleared).not.toHaveBeenCalled();
+  });
+
+  it("restores native FormData immediately for a field associated with an external form", async () => {
+    const user = userEvent.setup();
+    render(<><form id="external-form" aria-label="外部表单" /><Input aria-label="外部名称" form="external-form" name="title" defaultValue="原值" /></>);
+    const control = screen.getByRole("textbox", { name: "外部名称" });
+    const form = screen.getByRole("form", { name: "外部表单" }) as HTMLFormElement;
+    await user.clear(control);
+    await user.type(control, "新值");
+    await act(async () => {
+      form.reset();
+      expect(control).toHaveValue("原值");
+      expect(new FormData(form).get("title")).toBe("原值");
+    });
+    expect(control).toHaveValue("原值");
+    await user.type(control, "二");
+    expect(control).toHaveValue("原值二");
+  });
+
+  it("preserves the edited value when the owner cancels reset", async () => {
+    const user = userEvent.setup();
+    render(<form onReset={(event) => event.preventDefault()}><Input aria-label="取消重置" defaultValue="原值" showCount /><button type="reset">取消的重置</button></form>);
+    const control = screen.getByRole("textbox", { name: "取消重置" });
+    await user.type(control, "新");
+    await user.click(screen.getByRole("button", { name: "取消的重置" }));
+    expect(control).toHaveValue("原值新");
+    expect(inputRoot(control).querySelector('[data-slot="count"]')).toHaveTextContent("3");
+  });
+
+  it("leaves controlled values to their owner during native reset", async () => {
+    const user = userEvent.setup(), changed = vi.fn();
+    const view = render(<form aria-label="受控表单"><Input aria-label="受控重置" name="title" value="当前值" onValueChange={changed} /><button type="reset">受控重置</button></form>);
+    await user.click(screen.getByRole("button", { name: "受控重置" }));
+    expect(screen.getByRole("textbox", { name: "受控重置" })).toHaveValue("当前值");
+    expect(new FormData(screen.getByRole("form", { name: "受控表单" }) as HTMLFormElement).get("title")).toBe("当前值");
+    expect(changed).not.toHaveBeenCalled();
+    view.rerender(<form><Input aria-label="受控重置" name="title" value="宿主重置值" onValueChange={changed} /></form>);
+    expect(screen.getByRole("textbox", { name: "受控重置" })).toHaveValue("宿主重置值");
+  });
+
+  it("keeps the documented mounted reset baseline while a native defaultValue follows later props", async () => {
+    const user = userEvent.setup();
+    const fixture = (defaultValue: string) => <form aria-label="默认值对照">
+      <Input aria-label="Rain 默认值" name="rain" defaultValue={defaultValue} showCount />
+      <input aria-label="原生默认值" name="native" defaultValue={defaultValue}/>
+      <button type="reset">对照重置</button>
+    </form>;
+    const view = render(fixture("挂载值"));
+    await user.clear(screen.getByRole("textbox", { name: "Rain 默认值" }));
+    await user.type(screen.getByRole("textbox", { name: "Rain 默认值" }), "用户草稿");
+    await user.clear(screen.getByRole("textbox", { name: "原生默认值" }));
+    await user.type(screen.getByRole("textbox", { name: "原生默认值" }), "用户草稿");
+    view.rerender(fixture("后续默认值"));
+    expect(screen.getByRole("textbox", { name: "Rain 默认值" })).toHaveValue("用户草稿");
+    expect(screen.getByRole("textbox", { name: "原生默认值" })).toHaveValue("用户草稿");
+    const form = screen.getByRole("form", { name: "默认值对照" }) as HTMLFormElement;
+    await act(async () => {
+      form.reset();
+      expect(Object.fromEntries(new FormData(form))).toEqual({ rain: "挂载值", native: "后续默认值" });
+    });
+    await waitFor(() => expect(screen.getByRole("textbox", { name: "Rain 默认值" })).toHaveValue("挂载值"));
+    expect(inputRoot(screen.getByRole("textbox", { name: "Rain 默认值" })).querySelector('[data-slot="count"]')).toHaveTextContent("3");
+  });
+
+  it("isolates owner forms and respects a native reset cancellation", async () => {
+    const user = userEvent.setup();
+    render(<><form id="owner-one" aria-label="表单一"><Input aria-label="字段一" name="one" defaultValue="一"/></form>
+      <form id="owner-two" aria-label="表单二"><Input aria-label="字段二" name="two" defaultValue="二"/></form>
+      <Input aria-label="外置字段一" name="external" form="owner-one" defaultValue="外置一"/>
+    </>);
+    const one = screen.getByRole("form", { name: "表单一" }) as HTMLFormElement, two = screen.getByRole("form", { name: "表单二" }) as HTMLFormElement;
+    for (const label of ["字段一", "字段二", "外置字段一"]) await user.type(screen.getByRole("textbox", { name: label }), "草稿");
+    const cancel = (event: Event) => event.preventDefault(); two.addEventListener("reset", cancel);
+    await act(async () => { one.reset(); two.reset(); });
+    await waitFor(() => expect(screen.getByRole("textbox", { name: "字段一" })).toHaveValue("一"));
+    expect(screen.getByRole("textbox", { name: "外置字段一" })).toHaveValue("外置一");
+    expect(screen.getByRole("textbox", { name: "字段二" })).toHaveValue("二草稿");
+    expect(Object.fromEntries(new FormData(one))).toEqual({ one: "一", external: "外置一" });
+    expect(Object.fromEntries(new FormData(two))).toEqual({ two: "二草稿" });
+    two.removeEventListener("reset", cancel);
+    await act(async () => two.reset());
+    await waitFor(() => expect(screen.getByRole("textbox", { name: "字段二" })).toHaveValue("二"));
+  });
+
+  it("accepts a controlled owner's reset update without emitting text change callbacks", async () => {
+    const changed = vi.fn();
+    function Fixture() {
+      const [value, setValue] = useState("宿主草稿");
+      return <form onReset={() => setValue("宿主决定的初值")}><Input aria-label="宿主重置" value={value} onValueChange={changed}/><button type="reset">宿主复位</button></form>;
+    }
+    render(<Fixture/>);
+    await userEvent.click(screen.getByRole("button", { name: "宿主复位" }));
+    expect(screen.getByRole("textbox", { name: "宿主重置" })).toHaveValue("宿主决定的初值");
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it("clears an interrupted composition baseline on reset and permits subsequent editing and clearing", async () => {
+    const changed = vi.fn(), cleared = vi.fn();
+    render(<form aria-label="组字重置"><Input aria-label="组字字段" defaultValue="AB" maxLength={3} showCount onValueChange={changed} onClear={cleared}/></form>);
+    const field = screen.getByRole("textbox", { name: "组字字段" });
+    fireEvent.compositionStart(field); fireEvent.change(field, { target: { value: "A课程B" } });
+    expect(field).toHaveValue("A课程B"); changed.mockClear();
+    await act(async () => (screen.getByRole("form", { name: "组字重置" }) as HTMLFormElement).reset());
+    await waitFor(() => expect(field).toHaveValue("AB"));
+    await waitFor(() => expect(inputRoot(field).querySelector('[data-slot="count"]')).toHaveTextContent("2/3"));
+    expect(changed).not.toHaveBeenCalled(); expect(cleared).not.toHaveBeenCalled();
+    fireEvent.compositionEnd(field);
+    fireEvent.change(field, { target: { value: "AXB" } });
+    expect(field).toHaveValue("AXB"); expect(changed).toHaveBeenLastCalledWith("AXB");
+    await userEvent.click(screen.getByRole("button", { name: "清除组字字段" }));
+    expect(field).toHaveValue(""); expect(cleared).toHaveBeenCalledTimes(1);
+  });
+
+  it("restores an over-limit mounted value without truncating its count or overflow feedback", async () => {
+    render(<form aria-label="超限复位"><Input aria-label="超限字段" defaultValue="原始长标题" maxLength={3} showCount/><button type="reset">恢复超限初值</button></form>);
+    const field = screen.getByRole("textbox", { name: "超限字段" });
+    fireEvent.change(field, { target: { value: "短" } });
+    await userEvent.click(screen.getByRole("button", { name: "恢复超限初值" }));
+    await waitFor(() => expect(field).toHaveValue("原始长标题"));
+    expect(inputRoot(field).querySelector('[data-slot="count"]')).toHaveTextContent("5/3");
+    expect(field).toHaveAccessibleDescription(/超过/);
+  });
+
+  it("removes owner-reset listeners on unmount and ignores a queued reset completion", async () => {
+    vi.useFakeTimers();
+    const added = vi.spyOn(document, "addEventListener"), removed = vi.spyOn(document, "removeEventListener"), changed = vi.fn();
+    try {
+      const view = render(<form aria-label="待卸载"><Input aria-label="卸载字段" defaultValue="原值" onValueChange={changed}/></form>);
+      fireEvent.change(screen.getByRole("textbox"), { target: { value: "修改值" } }); changed.mockClear();
+      act(() => (screen.getByRole("form", { name: "待卸载" }) as HTMLFormElement).reset());
+      view.unmount(); await act(async () => vi.runAllTimers());
+      const registrations = added.mock.calls.filter(([type]) => type === "reset");
+      expect(registrations.length).toBeGreaterThan(0);
+      for (const [, listener] of registrations) expect(removed).toHaveBeenCalledWith("reset", listener, true);
+      expect(changed).not.toHaveBeenCalled();
+    } finally { added.mockRestore(); removed.mockRestore(); vi.useRealTimers(); }
   });
 
   it("clears an editable default-status value and returns focus", async () => {

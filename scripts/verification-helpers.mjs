@@ -4,6 +4,7 @@ import { join, resolve } from "node:path";
 import { readG6SourceBindings, g6Evidence } from "./g6-governance.mjs";
 import { readG1G6CloseoutBindings, restoreG1G6CloseoutPhase } from "./g1-g6-closeout-governance.mjs";
 import { readGithubReviewBindings } from "./github-review-successor.mjs";
+import { readReviewIntegrationBindings } from "./review-integration.mjs";
 
 // Preserve RN-06/RN-08 historical hashes while accepting only the exact upstream
 // width implementation approved on 2026-09-14. See the table-card-parity plan.
@@ -635,7 +636,13 @@ export function getQuestionnaireCloseoutRoot(root) {
 // Only scalar/source-byte getters may borrow this verified record inside a
 // read-only traversal. Public record readers always return an isolated clone.
 function getG6SourceBindingView(root, status) {
-  return verifySourceBindingTraversal("getG6SourceBindings", root, status, () => readGithubReviewBindings(root, status, parseYamlSubset, (view, previousStatus, parsePhase) => readG1G6CloseoutBindings(view, previousStatus, parsePhase, readG6SourceBindings)) ?? readG1G6CloseoutBindings(root, status, parseYamlSubset, readG6SourceBindings) ?? readG6SourceBindings(root, status, parseYamlSubset), false);
+  const readReview = (view, currentStatus) => readGithubReviewBindings(view, currentStatus, parseYamlSubset,
+    (previousView, previousStatus, parsePhase) => readG1G6CloseoutBindings(previousView, previousStatus, parsePhase, readG6SourceBindings));
+  return verifySourceBindingTraversal("getG6SourceBindings", root, status, () =>
+    readReviewIntegrationBindings(root, status, parseYamlSubset, view => readReview(view))
+    ?? readReview(root, status)
+    ?? readG1G6CloseoutBindings(root, status, parseYamlSubset, readG6SourceBindings)
+    ?? readG6SourceBindings(root, status, parseYamlSubset), false);
 }
 
 export function getG6SourceBindings(root, status) {

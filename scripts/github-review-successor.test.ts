@@ -50,11 +50,12 @@ it("keeps the earlier before-source semantics and returns isolated public record
 it("validates a relocated regular-file snapshot and rejects modified authority, proof, source and symlinks", () => {
   const root = mkdtempSync(join(tmpdir(), "rain-github-review-relocated-"));
   const paths = githubReviewFixtureFiles(process.cwd());
+  const integration = verify()?.reviewIntegration?.sourceFiles ?? {};
   const put = (file: string, bytes: string | Buffer) => { mkdirSync(dirname(join(root, file)), { recursive: true }); writeFileSync(join(root, file), bytes); };
   try {
-    for (const file of paths) { mkdirSync(dirname(join(root, file)), { recursive: true }); copyFileSync(file, join(root, file)); }
+    for (const file of paths) { mkdirSync(dirname(join(root, file)), { recursive: true }); copyFileSync(integration[file]?.beforeSnapshot ?? file, join(root, file)); }
     expect(verify(root).githubReviewSuccessor.kind).toBe("GithubReviewFiniteSuccessor");
-    const phaseFile = "status/current-phase.yaml", phase = readFileSync(phaseFile, "utf8");
+    const phaseFile = "status/current-phase.yaml", phase = readFileSync(integration[phaseFile]?.beforeSnapshot ?? phaseFile, "utf8");
     for (const changed of [phase.replace('humanGate: "awaiting_human"', 'humanGate: "forged"'), phase + '\nunknownFutureAuthority:\n  gitOperations: "authorized"\n', phase.replace('forcePush: false', 'forcePush: true')]) {
       put(phaseFile, changed);
       expect(() => verify(root)).toThrow(/source changed|previous phase|authorization changed/);
@@ -129,9 +130,10 @@ it("records exact imported P5 authored paints without granting runtime contrast 
 it("rechecks a runtime parent directory on every API call after success and after failure", () => {
   const root = mkdtempSync(join(tmpdir(), "rain-github-review-directory-cache-"));
   try {
+    const integration = verify()?.reviewIntegration?.sourceFiles ?? {};
     for (const file of githubReviewFixtureFiles(process.cwd())) {
       mkdirSync(dirname(join(root, file)), { recursive: true });
-      copyFileSync(file, join(root, file));
+      copyFileSync(integration[file]?.beforeSnapshot ?? file, join(root, file));
     }
     expect(verify(root).githubReviewSuccessor.kind).toBe("GithubReviewFiniteSuccessor");
     const parent = join(root, "packages/ui/src/button"), saved = parent + "-saved";

@@ -51,6 +51,42 @@ describe("workspace identity and restoration contract", () => {
     expect(() => validateWorkspaceSpec({ ...spec, regions: [{ ...spec.regions[1]!, allowedModes: ["full"] }] })).toThrow();
   });
 
+  it("retains explicit unsupported-mode errors while Enter resolves a supported collapse", () => {
+    const compact: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, allowedModes: ["expanded", "compact"] }] };
+    const state = createWorkspaceState(compact);
+    expect(() => workspaceReducer(compact, state, { type: "HIDE_REGION", regionId: "global" })).toThrow(/unsupported mode hidden/);
+    expect(() => workspaceReducer(compact, state, { type: "SET_MODE", regionId: "global", mode: "hidden" })).toThrow(/unsupported mode hidden/);
+    expect(workspaceReducer(compact, state, { type: "RESIZE_REGION_KEY", regionId: "global", key: "Enter", viewportWidth: 1200 }).preferences.global).toEqual({ mode: "compact", expandedWidth: 220 });
+    const fixed: WorkspaceSpec = { ...compact, regions: [{ ...compact.regions[0]!, allowedModes: ["expanded"] }] }, fixedState = createWorkspaceState(fixed);
+    expect(workspaceReducer(fixed, fixedState, { type: "RESIZE_REGION_KEY", regionId: "global", key: "Enter", viewportWidth: 1200 })).toBe(fixedState);
+  });
+
+  it.each(["start", "end"] as const)("preserves a %s compact base through show, peek, pin and unpin without hidden capability", side => {
+    const subset: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, side, allowedModes: ["expanded", "compact"], defaultMode: "compact" }] };
+    let state = createWorkspaceState(subset);
+    state = workspaceReducer(subset, state, { type: "SHOW_REGION", regionId: "global", viewportWidth: 1200 });
+    expect(state.preferences.global).toEqual({ mode: "expanded", expandedWidth: 220 });
+    state = workspaceReducer(subset, state, { type: "RESIZE_REGION_KEY", regionId: "global", key: "Enter", viewportWidth: 1200 });
+    state = workspaceReducer(subset, state, { type: "PEEK_REGION", regionId: "global", viewportWidth: 1200 });
+    expect(state.session.temporary).toMatchObject({ regionId: "global", baseMode: "compact" });
+    state = workspaceReducer(subset, state, { type: "PIN_TEMP", regionId: "global", viewportWidth: 1200 });
+    expect(state.preferences.global!.mode).toBe("expanded");
+    state = workspaceReducer(subset, state, { type: "UNPIN", regionId: "global", viewportWidth: 1200 });
+    expect(state.preferences.global).toEqual({ mode: "compact", expandedWidth: 220 });
+    expect(state.session.temporary).toMatchObject({ regionId: "global", baseMode: "compact" });
+    expect(() => workspaceReducer(subset, state, { type: "SET_MODE", regionId: "global", mode: "hidden" })).toThrow(/unsupported mode hidden/);
+  });
+
+  it("restores a full/icons ribbon's recorded icons base after a temporary pin", () => {
+    const subset: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[3]!, allowedModes: ["full", "icons"], defaultMode: "icons" }] };
+    let state = createWorkspaceState(subset);
+    state = workspaceReducer(subset, state, { type: "PIN_TEMP", regionId: "ribbon" });
+    expect(state.preferences.ribbon!.mode).toBe("full");
+    state = workspaceReducer(subset, state, { type: "UNPIN", regionId: "ribbon" });
+    expect(state.preferences.ribbon!.mode).toBe("icons");
+    expect(() => workspaceReducer(subset, state, { type: "SET_RIBBON", regionId: "ribbon", mode: "tabs" })).toThrow(/unsupported mode tabs/);
+  });
+
   it("keeps fractional width limits during initialization, resizing and preference loading", () => {
     for (const bound of [100.4, 100.6]) {
       const fractional = { ...spec, regions: [{ ...spec.regions[1]!, minWidth: bound, defaultWidth: bound, maxWidth: bound }] };

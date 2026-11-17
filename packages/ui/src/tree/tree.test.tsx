@@ -1,8 +1,9 @@
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import { createRef, useState } from "react";
+import { createRef, StrictMode, useState } from "react";
 import { Tree, type TreeHandle } from "./tree";
+import type { TreeNodeRecord } from "./tree.types";
 
 const data = [{ key: "parent", title: "章节", children: [{ key: "leaf", title: "叶子" }] }];
 describe("Tree", () => {
@@ -170,6 +171,119 @@ describe("Tree", () => {
     await user.click(screen.getByRole("button", { name: "收起远程" }));
     await user.click(screen.getByRole("button", { name: "展开远程" }));
     expect(loadChildren).toHaveBeenCalledTimes(1);
+  });
+
+  it.each(["default", "controlled"] as const)("restarts a pending initial %s expansion under root StrictMode", async (mode) => {
+    type Result = { children: TreeNodeRecord[]; complete: true };
+    const pending: { signal: AbortSignal; requestId: number; resolve: (result: Result) => void }[] = [];
+    const loadChildren = vi.fn((_key, { signal, requestId }) => new Promise<Result>((resolve) => pending.push({ signal, requestId, resolve })));
+    const onChildrenLoaded = vi.fn();
+    const expansion = mode === "default" ? { defaultExpandedKeys: ["lazy"] } : { expandedKeys: ["lazy"], onExpandedKeysChange: vi.fn() };
+    render(<StrictMode><Tree data={[{ key: "lazy", title: "远程", canHaveChildren: true, childrenComplete: false }]}
+      {...expansion} loadChildren={loadChildren} onChildrenLoaded={onChildrenLoaded} /></StrictMode>);
+    expect(pending).toHaveLength(2);
+    expect(pending[0]!.signal.aborted).toBe(true);
+    expect(pending[1]!.signal.aborted).toBe(false);
+    expect(pending[1]!.requestId).not.toBe(pending[0]!.requestId);
+    await act(async () => pending[1]!.resolve({ children: [], complete: true }));
+    expect(onChildrenLoaded).toHaveBeenCalledExactlyOnceWith("lazy", { children: [], complete: true }, expect.objectContaining({ requestId: pending[1]!.requestId }));
+    expect(screen.getByText("等待数据更新…")).toBeInTheDocument();
+    await act(async () => pending[0]!.resolve({ children: [{ key: "old", title: "旧结果" }], complete: true }));
+    expect(onChildrenLoaded).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps a replacement request registered when the aborted request settles", async () => {
+    type Result = { children: []; complete: true };
+    const pending: { signal: AbortSignal; resolve: (result: Result) => void }[] = [];
+    const loadChildren = vi.fn((_key, { signal }) => new Promise<Result>((resolve) => pending.push({ signal, resolve })));
+    const onChildrenLoaded = vi.fn(), lazy = [{ key: "lazy", title: "版本目录", canHaveChildren: true, childrenComplete: false }];
+    const view = render(<Tree data={lazy} dataRevision="old" defaultExpandedKeys={["lazy"]} loadChildren={loadChildren} onChildrenLoaded={onChildrenLoaded} />);
+    view.rerender(<Tree data={lazy} dataRevision="new" defaultExpandedKeys={["lazy"]} loadChildren={loadChildren} onChildrenLoaded={onChildrenLoaded} />);
+    expect(pending).toHaveLength(2);
+    expect(pending[0]!.signal.aborted).toBe(true);
+    await act(async () => pending[0]!.resolve({ children: [], complete: true }));
+    fireEvent.click(screen.getByRole("button", { name: "收起版本目录" }));
+    fireEvent.click(screen.getByRole("button", { name: "展开版本目录" }));
+    expect(pending).toHaveLength(2);
+    expect(onChildrenLoaded).not.toHaveBeenCalled();
+    await act(async () => pending[1]!.resolve({ children: [], complete: true }));
+    expect(onChildrenLoaded).toHaveBeenCalledExactlyOnceWith("lazy", { children: [], complete: true }, expect.objectContaining({ dataRevision: "new" }));
+  });
+
+  it("aborts a pending branch on unmount and never delivers its late result", async () => {
+    let signal!: AbortSignal, resolve!: (result: { children: []; complete: true }) => void;
+    const loadChildren = vi.fn((_key, context) => { signal = context.signal; return new Promise<{ children: []; complete: true }>((done) => { resolve = done; }); });
+    const onChildrenLoaded = vi.fn();
+    const view = render(<Tree data={[{ key: "lazy", title: "待卸载", canHaveChildren: true, childrenComplete: false }]} defaultExpandedKeys={["lazy"]} loadChildren={loadChildren} onChildrenLoaded={onChildrenLoaded} />);
+    view.unmount();
+    expect(signal.aborted).toBe(true);
+    await act(async () => resolve({ children: [], complete: true }));
+    expect(onChildrenLoaded).not.toHaveBeenCalled();
+  });
+
+  it.each(["default", "controlled"] as const)("keeps root StrictMode %s rejection explicit and retries without collapsing the branch", async mode => {
+    type Result = { children: TreeNodeRecord[]; complete: true };
+    const pending: { signal: AbortSignal; requestId: number; resolve: (result: Result) => void; reject: (reason: Error) => void }[] = [];
+    const loadChildren = vi.fn((_key, { signal, requestId }) => new Promise<Result>((resolve, reject) => pending.push({ signal, requestId, resolve, reject })));
+    const delivered = vi.fn();
+    function Host() {
+      const [nodes, setNodes] = useState<TreeNodeRecord[]>([{ key: "lazy", title: "重放分支", canHaveChildren: true, childrenComplete: false }]);
+      return <Tree data={nodes} {...(mode === "controlled" ? { expandedKeys: ["lazy"], onExpandedKeysChange: () => {} } : { defaultExpandedKeys: ["lazy"] })}
+        loadChildren={loadChildren} onChildrenLoaded={(key, result, context) => { delivered(key, result, context); setNodes([{ key: "lazy", title: "重放分支", childrenComplete: true, children: result.children }]); }}/>
+    }
+    render(<StrictMode><Host/></StrictMode>);
+    const stale = pending.find(request => request.signal.aborted)!, current = pending.find(request => !request.signal.aborted)!;
+    expect(stale).toBeDefined(); expect(current).toBeDefined();
+    await act(async () => stale.reject(new Error("cancelled old request")));
+    expect(screen.queryByRole("button", { name: /加载失败，重试/ })).toBeNull();
+    expect(screen.getByText("加载中…", { exact: true })).toBeInTheDocument();
+    await act(async () => current.reject(new Error("offline current request")));
+    expect(delivered).not.toHaveBeenCalled();
+    await userEvent.click(screen.getByRole("button", { name: /加载失败，重试/ }));
+    const retry = pending.at(-1)!; expect(retry.requestId).not.toBe(current.requestId);
+    await act(async () => retry.resolve({ children: [{ key: "child", title: "重试后的节点" }], complete: true }));
+    expect(screen.getByRole("treeitem", { name: "重试后的节点" })).toBeVisible();
+    expect(screen.queryByText("加载中…", { exact: true })).toBeNull();
+    expect(screen.queryByText("等待数据更新…")).toBeNull();
+    expect(delivered).toHaveBeenCalledTimes(1);
+  });
+
+  it.each(["resolve", "reject"] as const)("ignores a removed branch's late %s while the remaining branch completes independently", async settlement => {
+    type Result = { children: TreeNodeRecord[]; complete: true };
+    const pending = new Map<string, { signal: AbortSignal; resolve: (result: Result) => void; reject: (reason: Error) => void }>();
+    const loadChildren = vi.fn((key, { signal }) => new Promise<Result>((resolve, reject) => pending.set(String(key), { signal, resolve, reject })));
+    const delivered = vi.fn();
+    const nodes: TreeNodeRecord[] = [{ key: "removed", title: "将删除分支", canHaveChildren: true, childrenComplete: false }, { key: "kept", title: "保留分支", canHaveChildren: true, childrenComplete: false }];
+    const view = render(<Tree data={nodes} defaultExpandedKeys={["removed", "kept"]} loadChildren={loadChildren} onChildrenLoaded={delivered}/>);
+    const removed = pending.get("removed")!, kept = pending.get("kept")!;
+    view.rerender(<Tree data={[nodes[1]!]} defaultExpandedKeys={["removed", "kept"]} loadChildren={loadChildren} onChildrenLoaded={delivered}/>);
+    expect(removed.signal.aborted).toBe(true); expect(kept.signal.aborted).toBe(false);
+    await act(async () => { if (settlement === "resolve") removed.resolve({ children: [{ key: "stale", title: "删除后的旧节点" }], complete: true }); else removed.reject(new Error("removed branch")); });
+    expect(delivered).not.toHaveBeenCalled();
+    expect(screen.getByText("加载中…", { exact: true })).toBeInTheDocument();
+    await act(async () => kept.resolve({ children: [], complete: true }));
+    expect(delivered).toHaveBeenCalledExactlyOnceWith("kept", { children: [], complete: true }, expect.objectContaining({ requestId: expect.any(Number) }));
+    expect(screen.getByText("等待数据更新…")).toBeInTheDocument();
+    expect(screen.queryByRole("treeitem", { name: "删除后的旧节点" })).toBeNull();
+  });
+
+  it("isolates concurrent branch failure from a successful branch awaiting its host update", async () => {
+    type Result = { children: TreeNodeRecord[]; complete: true };
+    const pending = new Map<string, { resolve: (result: Result) => void; reject: (reason: Error) => void }>();
+    const loadChildren = vi.fn((key) => new Promise<Result>((resolve, reject) => pending.set(String(key), { resolve, reject })));
+    const delivered = vi.fn();
+    const nodes: TreeNodeRecord[] = [{ key: "success", title: "成功分支", canHaveChildren: true, childrenComplete: false }, { key: "failure", title: "失败分支", canHaveChildren: true, childrenComplete: false }];
+    render(<Tree data={nodes} defaultExpandedKeys={["success", "failure"]} loadChildren={loadChildren} onChildrenLoaded={delivered}/>);
+    await act(async () => { pending.get("success")!.resolve({ children: [], complete: true }); pending.get("failure")!.reject(new Error("offline")); });
+    expect(screen.getByText("等待数据更新…")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /加载失败，重试/ })).toBeVisible();
+    expect(delivered).toHaveBeenCalledExactlyOnceWith("success", { children: [], complete: true }, expect.anything());
+    fireEvent.click(screen.getByRole("button", { name: "收起成功分支" })); fireEvent.click(screen.getByRole("button", { name: "展开成功分支" }));
+    expect(loadChildren.mock.calls.filter(([key]) => key === "success")).toHaveLength(1);
+    await userEvent.click(screen.getByRole("button", { name: /加载失败，重试/ }));
+    expect(loadChildren.mock.calls.filter(([key]) => key === "failure")).toHaveLength(2);
+    await act(async () => pending.get("failure")!.resolve({ children: [], complete: true }));
+    expect(screen.getAllByText("等待数据更新…")).toHaveLength(2);
   });
   it("cancels keyboard movement when a filter becomes active", async () => {
     const user = userEvent.setup(), onMove = vi.fn();

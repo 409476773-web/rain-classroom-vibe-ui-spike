@@ -149,6 +149,76 @@ it('resizes using physical arrow direction, full separator ARIA and explicit Ent
   fireEvent.keyDown(splitter, { key: 'ArrowLeft', shiftKey: true }); expect(splitter).toHaveAttribute('aria-valuenow', '248'); fireEvent.keyDown(splitter, { key: 'Home' }); expect(splitter).toHaveAttribute('aria-valuenow', '176'); fireEvent.keyDown(splitter, { key: 'End' }); expect(splitter).toHaveAttribute('aria-valuenow', '320');
   act(() => splitter.focus()); fireEvent.keyDown(splitter, { key: 'Enter' }); expect(screen.queryByRole('separator')).toBeNull(); expect(screen.getByRole('button', { name: '显示课程目录' })).toHaveAttribute('aria-expanded', 'false'); expect(screen.getByRole('button', { name: '显示课程目录' })).toHaveFocus();
 });
+it('collapses a splitter to compact when its region does not allow hidden', () => {
+  const compactOnly: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, allowedModes: ['expanded', 'compact'], defaultMode: 'expanded', compactWidth: 64 }] };
+  render(<WorkspaceLayout spec={compactOnly} viewportWidth={1200} toolbar={<RegionRestoreTrigger regionId="directory"/>}><RecoverableRegion regionId="directory">目录</RecoverableRegion><PaneSplitter regionId="directory"/></WorkspaceLayout>);
+  const splitter = screen.getByRole('separator'), restore = screen.getByRole('button', { name: '收起课程目录' });
+  act(() => splitter.focus()); fireEvent.keyDown(splitter, { key: 'Enter' });
+  expect(document.querySelector('[data-region-id="directory"]')).toHaveAttribute('data-mode', 'compact');
+  expect(restore).toHaveFocus(); expect(screen.queryByRole('separator')).toBeNull();
+  fireEvent.click(restore);
+  expect(screen.getByRole('separator')).toHaveAttribute('aria-valuenow', '216'); expect(restore).toHaveFocus();
+});
+it.each(['start', 'end'] as const)('keeps the same %s editor and resized preference through compact collapse and restoration', side => {
+  const subset: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, side, allowedModes: ['expanded', 'compact'], defaultMode: 'expanded', compactWidth: 64 }] };
+  render(<WorkspaceLayout spec={subset} viewportWidth={820} toolbar={<RegionRestoreTrigger regionId="directory"/>}>
+    <RecoverableRegion regionId="directory"><textarea aria-label="原位草稿" defaultValue="未提交"/></RecoverableRegion><PaneSplitter regionId="directory"/><main>正文</main>
+  </WorkspaceLayout>);
+  const editor = screen.getByRole('textbox', { name: '原位草稿' }), splitter = screen.getByRole('separator'), restore = screen.getByRole('button');
+  const controlledId = restore.getAttribute('aria-controls');
+  fireEvent.change(editor, { target: { value: '跨收起仍属于同一对象' } });
+  fireEvent.keyDown(splitter, { key: side === 'start' ? 'ArrowRight' : 'ArrowLeft' });
+  expect(splitter).toHaveAttribute('aria-valuenow', '226');
+  act(() => splitter.focus()); fireEvent.keyDown(splitter, { key: 'Enter' });
+  expect(restore).toHaveFocus(); expect(restore).toHaveAttribute('data-mode', 'compact');
+  fireEvent.click(restore);
+  expect(screen.getByRole('textbox', { name: '原位草稿' })).toBe(editor);
+  expect(editor).toHaveValue('跨收起仍属于同一对象');
+  expect(restore).toHaveAttribute('aria-controls', controlledId!);
+  expect(screen.getByRole('separator')).toHaveAttribute('aria-valuenow', '226');
+});
+it('hides and restores a top ribbon that allows full and hidden without tabs', () => {
+  const ribbon: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, side: 'top', allowedModes: ['full', 'hidden'], defaultMode: 'full' }] };
+  render(<WorkspaceLayout spec={ribbon} viewportWidth={1200} toolbar={<RegionRestoreTrigger regionId="directory"/>}><RecoverableRegion regionId="directory"><button>工具动作</button></RecoverableRegion></WorkspaceLayout>);
+  const restore = screen.getByRole('button', { name: /课程目录/ }), body = document.getElementById(restore.getAttribute('aria-controls')!)!;
+  act(() => screen.getByRole('button', { name: '工具动作' }).focus()); fireEvent.click(restore);
+  expect(body).toHaveAttribute('hidden'); expect(body).toHaveAttribute('data-mode', 'hidden'); expect(restore).toHaveFocus();
+  fireEvent.click(restore);
+  expect(body).not.toHaveAttribute('hidden'); expect(body).toHaveAttribute('data-temporary', 'true'); expect(restore).toHaveFocus();
+  fireEvent.click(restore); expect(body).toHaveAttribute('hidden'); expect(restore).toHaveFocus();
+});
+it('keeps resizing and focus usable when an expanded-only region cannot collapse', () => {
+  const expandedOnly: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, allowedModes: ['expanded'], defaultMode: 'expanded' }] };
+  render(<WorkspaceLayout spec={expandedOnly} viewportWidth={1200} toolbar={<RegionRestoreTrigger regionId="directory"/>}><RecoverableRegion regionId="directory">目录</RecoverableRegion><PaneSplitter regionId="directory"/></WorkspaceLayout>);
+  expect(screen.getByRole('button')).toBeDisabled();
+  const splitter = screen.getByRole('separator'); act(() => splitter.focus()); fireEvent.keyDown(splitter, { key: 'Enter' });
+  expect(splitter).toHaveFocus(); expect(splitter).toHaveAttribute('aria-valuenow', '216');
+  fireEvent.keyDown(splitter, { key: 'ArrowRight' }); expect(splitter).toHaveAttribute('aria-valuenow', '226');
+});
+it.each(['full', 'icons', 'tabs', 'hidden'] as const)('disables the restore control for a single top mode: %s', mode => {
+  const ribbon: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, side: 'top', allowedModes: [mode], defaultMode: mode }] };
+  const onStateChange = vi.fn();
+  render(<WorkspaceLayout spec={ribbon} viewportWidth={1200} onStateChange={onStateChange} toolbar={<RegionRestoreTrigger regionId="directory"/>}><RecoverableRegion regionId="directory">工具</RecoverableRegion></WorkspaceLayout>);
+  expect(screen.getByRole('button')).toBeDisabled(); fireEvent.click(screen.getByRole('button'));
+  expect(onStateChange).toHaveBeenCalledTimes(1);
+});
+it('toggles a full/icons-only ribbon with a matching action label', () => {
+  const ribbon: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, side: 'top', allowedModes: ['full', 'icons'], defaultMode: 'full' }] };
+  render(<WorkspaceLayout spec={ribbon} viewportWidth={1200} toolbar={<RegionRestoreTrigger regionId="directory"/>}><RecoverableRegion regionId="directory">工具</RecoverableRegion></WorkspaceLayout>);
+  fireEvent.click(screen.getByRole('button', { name: '收起课程目录' }));
+  const restore = screen.getByRole('button', { name: '展开课程目录' }); expect(restore).toHaveAttribute('data-mode', 'icons');
+  fireEvent.click(restore); expect(restore).toHaveAttribute('data-mode', 'full');
+});
+it.each([
+  { side: 'start', allowedModes: ['compact', 'hidden'], defaultMode: 'compact' },
+  { side: 'top', allowedModes: ['tabs', 'hidden'], defaultMode: 'tabs' },
+] as const)('toggles supported reduced modes without inventing an expanded mode: $side', ({ side, allowedModes, defaultMode }) => {
+  const reduced: WorkspaceSpec = { ...spec, regions: [{ ...spec.regions[0]!, side, allowedModes, defaultMode, compactWidth: 64 }] };
+  render(<WorkspaceLayout spec={reduced} viewportWidth={1200} toolbar={<RegionRestoreTrigger regionId="directory" intent="peek"/>}><RecoverableRegion regionId="directory">目录</RecoverableRegion></WorkspaceLayout>);
+  const restore = screen.getByRole('button', { name: '隐藏课程目录' }); fireEvent.click(restore);
+  expect(restore).toHaveAttribute('data-mode', 'hidden'); fireEvent.click(restore);
+  expect(restore).toHaveAttribute('data-mode', defaultMode); expect(restore).toHaveAttribute('data-active', 'false');
+});
 it('sends Escape to the last interacted workspace without closing a separate instance', async () => {
   render(<><div data-testid="one"><Fixture/></div><div data-testid="two"><Fixture workspace={{ ...two, workspaceKey: 'mock/course/interaction/two' }}/></div></>);
   const one = within(screen.getByTestId('one')), other = within(screen.getByTestId('two'));

@@ -33,6 +33,7 @@ it("rejects changed old Gates, unknown phase, runtime drift, rewritten proof, fo
   const root = mkdtempSync(join(tmpdir(), "rain-g1-g6-closeout-"));
   const record = JSON.parse(readFileSync(closeoutBindingsPath, "utf8"));
   const verify = () => withSourceBindingTraversal(root, () => getG6SourceBindings(root));
+  const integration = getG6SourceBindings(process.cwd())?.reviewIntegration?.sourceFiles ?? {};
   const paths = new Set<string>([
     closeoutBindingsPath, "scripts/g1-g6-closeout-governance.mjs",
     ...githubReviewFixtureFiles(process.cwd()),
@@ -43,9 +44,9 @@ it("rejects changed old Gates, unknown phase, runtime drift, rewritten proof, fo
   ]);
   const put = (file: string, bytes: string | Buffer) => { mkdirSync(dirname(join(root, file)), { recursive: true }); writeFileSync(join(root, file), bytes); };
   try {
-    for (const file of paths) { mkdirSync(dirname(join(root, file)), { recursive: true }); copyFileSync(file, join(root, file)); }
+    for (const file of paths) { mkdirSync(dirname(join(root, file)), { recursive: true }); copyFileSync(integration[file]?.beforeSnapshot ?? file, join(root, file)); }
     expect(verify()?.closeoutSuccessor.kind).toBe("G1G6FiniteCloseoutSuccessor");
-    const phaseFile = "status/current-phase.yaml", original = readFileSync(phaseFile, "utf8");
+    const phaseFile = "status/current-phase.yaml", original = readFileSync(integration[phaseFile]?.beforeSnapshot ?? phaseFile, "utf8");
     for (const phase of [original.replace('humanGate: "awaiting_human"', 'humanGate: "forged"'), original + '\nunknownFutureBatch:\n  authorization: "authorized"\n']) {
       put(phaseFile, phase);
       expect(verify).toThrow(/source changed|previous phase/);

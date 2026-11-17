@@ -1,0 +1,77 @@
+/* The example owns page layout and business editors; Table parts own reusable cell visuals. */
+.ca-page{--ca-bg:var(--rain-category-background-neutral-1);--ca-text:var(--rain-category-text-neutral-1);--ca-muted:var(--rain-category-text-neutral-3);--ca-line:var(--rain-category-border-neutral-3);--ca-hover:var(--rain-category-fill-neutral-alpha-6);--ca-blue:var(--rain-category-text-brand-1);color:var(--ca-text);font:14px/22px var(--rain-font-ui);max-width:1504px;margin:0 auto;padding:40px 36px 24px;box-sizing:border-box}
+.ca-page *{box-sizing:border-box}
+.ca-page[data-embedded]{max-width:none;margin:0;padding:0}
+.ca-header{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:30px}
+.ca-header h1{font-size:26px;line-height:36px;font-weight:600;margin:8px 0}
+.ca-header p{margin:0;color:var(--ca-muted)}.ca-back{display:none}
+.ca-page a{color:var(--ca-blue);text-decoration:none}.ca-page a:hover{text-decoration:underline}
+.ca-tabs{display:flex;gap:28px;border-bottom:1px solid var(--ca-line);margin-bottom:30px}
+.ca-tabs button{font:inherit;border:0;background:transparent;padding:12px 0;color:var(--ca-muted);cursor:pointer;border-bottom:2px solid transparent}
+.ca-tabs button[aria-current]{color:var(--ca-blue);border-color:var(--ca-blue);font-weight:500}
+.ca-workspace{background:var(--ca-bg);border:1px solid var(--ca-line);border-radius:12px;overflow:hidden}
+.ca-toolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px}
+.ca-page h2{font-size:16px;line-height:24px;margin:0 0 4px;font-weight:500}
+.ca-toolbar p{margin:0;font-size:12px;color:var(--ca-muted)}
+.ca-tools{display:flex;gap:20px;align-items:center}
+.ca-tools label,.ca-guide label{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ca-muted)}
+.ca-page input[type=checkbox]{accent-color:var(--ca-blue)}
+.ca-scroll{overflow:auto;max-width:100%;overscroll-behavior:contain}
+.ca-table{table-layout:fixed;width:1404px;min-width:100%;border-collapse:separate;border-spacing:0}
+.ca-table tbody td{border-bottom:1px solid var(--ca-line)}
+.ca-table tbody tr:last-child td{border-bottom:0}
+.ca-table[data-compact] .ca-name{-webkit-line-clamp:1}
+.ca-table[data-compact] :is(.rain-table-row-actions,.rain-table-cell-actions,.ca-owner-actions){top:1px}
+.ca-name{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:500;overflow-wrap:anywhere;width:100%;min-width:0}
+.ca-text-value{display:block;max-width:100%;width:fit-content;border:0;padding:0;background:transparent;color:inherit;font:inherit;text-align:inherit;cursor:text}
+.ca-name-trigger{font-weight:500;text-align:left}.ca-text-value:focus-visible{outline:0}
+.ca-input{margin:0;width:100%;min-width:0}
+.ca-table td[data-readonly]>.rain-table-cell-actions{right:1px}
+.ca-edit-legend{display:inline-flex;gap:12px;margin-left:16px;vertical-align:middle}
+.ca-edit-legend>span{display:inline-flex;align-items:center;gap:4px}.ca-edit-legend .rain-icon{width:12px;height:12px}
+.ca-owner-trigger{display:flex;align-items:center;width:max-content;max-width:100%;min-width:0;border:0;padding:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.ca-owner-trigger:focus-visible{outline:0}
+.ca-owner-actions{position:absolute;top:5px;right:5px;display:flex;align-items:center;width:18px;height:18px;line-height:0;opacity:0;visibility:hidden;z-index:2}
+.ca-table td:is(:hover,[data-active],:focus-within) .ca-owner-actions,.ca-table[data-reveal] .ca-owner-actions{opacity:1;visibility:visible}
+/* DatePicker is a host binding; its popup and calendar keep their original component appearance. */
+.ca-page .ca-table [data-rain-id=ui-date-picker]{width:max-content;max-width:100%;min-width:0;position:static}
+.ca-page .ca-table [data-rain-id=ui-date-picker]>[data-slot=frame]{border:0;box-shadow:none;outline:none;background:transparent;border-radius:0;padding:0;height:28px;min-height:28px;position:static}
+.ca-page .ca-table [data-rain-id=ui-date-picker] [data-slot=control]{border:0;background:transparent;padding:0;min-height:26px;font:inherit;color:inherit;box-shadow:none;position:static}
+.ca-page .ca-table [data-rain-id=ui-date-picker] [data-slot=control]>span[aria-hidden]{position:absolute;top:5px;right:5px;width:18px;height:18px;padding:3px;border-radius:4px;background:var(--rain-category-background-neutral-3);opacity:0;color:var(--rain-category-icon-neutral-3);z-index:3}
+.ca-page .ca-table td:is(:hover,[data-active],:focus-within) [data-rain-id=ui-date-picker] [data-slot=control]>span[aria-hidden],.ca-page .ca-table[data-reveal] [data-rain-id=ui-date-picker] [data-slot=control]>span[aria-hidden]{opacity:1}
+.ca-page .ca-table [data-rain-id=ui-date-picker] [data-slot=control]>span[aria-hidden]:hover{background:var(--rain-category-background-neutral-4)}
+.ca-page .ca-table [data-slot=value][data-placeholder=true]{visibility:hidden}
+.ca-page .ca-table td[data-field=date] .ca-date-empty{position:absolute;top:5px;right:5px;width:18px;max-width:18px;height:18px;opacity:0;visibility:hidden;z-index:2}
+.ca-page .ca-table td[data-field=date] .ca-date-empty [data-slot=frame],.ca-page .ca-table td[data-field=date] .ca-date-empty [data-slot=control]{width:18px;height:18px;min-height:18px}
+.ca-page .ca-table td[data-field=date] .ca-date-empty [data-slot=value]{display:none}
+.ca-page .ca-table td[data-field=date] .ca-date-empty [data-slot=control]>span[aria-hidden]{position:static}
+.ca-page .ca-table td[data-field=date]:is(:hover,[data-active],:focus-within) .ca-date-empty,.ca-page .ca-table[data-reveal] .ca-date-empty{opacity:1;visibility:visible}
+.ca-save{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 24px;border-top:1px solid var(--ca-line)}
+.ca-save>span{font-size:13px}.ca-save small{display:block;font-size:11px;color:var(--ca-muted);margin-top:2px}
+.ca-save>div{display:flex;gap:12px;flex-shrink:0}.ca-save [role=alert]{color:var(--rain-category-text-red-1)}
+.ca-guide{display:flex;justify-content:space-between;gap:24px;margin-top:20px;font-size:12px;color:var(--ca-muted);flex-wrap:wrap}
+.ca-guide p{margin:0}.ca-guide strong{color:var(--ca-text);font-weight:500;margin-right:10px}
+.ca-footer{font-size:11px;color:var(--ca-muted);padding-top:32px}
+.ca-states{max-width:1024px}.ca-states>p{color:var(--ca-muted);margin:0 0 30px}
+.ca-state-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:0 0 48px}
+.ca-state-grid label{display:block;font-size:12px;color:var(--ca-muted);margin-bottom:12px}
+.ca-specimen{height:50px;border:1px solid var(--ca-line);background:var(--ca-bg);position:relative;display:flex;align-items:center;padding:0 16px 0 94px;font-size:12px;white-space:nowrap}
+.ca-specimen>span:not([class]){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ca-spec-left,.ca-spec-right{position:absolute;top:4px;display:flex;align-items:center;height:18px;gap:4px;line-height:0}
+.ca-spec-left{left:5px}.ca-spec-right{right:5px}
+.ca-specimen[data-force=normal] .ca-spec-left,.ca-specimen[data-force=normal] .ca-spec-right{visibility:hidden}
+.ca-specimen[data-force=hover]{background:var(--ca-hover);padding-right:52px}
+.ca-specimen[data-force=active]{border-color:var(--rain-category-border-brand-1);padding-right:52px}
+.ca-spec-tree{position:absolute;left:72px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:18px;height:18px;color:var(--rain-category-icon-neutral-3)}
+.ca-spec-tree>.rain-icon{width:12px;height:12px}
+.ca-states figure{margin:20px 0 24px;background:var(--ca-bg);padding:20px;border:1px solid var(--ca-line);border-radius:8px}
+.ca-states figure img{width:100%;height:auto;display:block}.ca-states figcaption{color:var(--ca-muted);font-size:12px;margin-top:16px}
+.ca-notes{font-size:13px;color:var(--ca-muted)}
+.ca-mobile>p{color:var(--ca-muted);font-size:13px}.ca-mobile iframe{width:390px;max-width:100%;height:820px;border:1px solid var(--ca-line);border-radius:12px;background:var(--ca-bg)}
+.ca-selection-slot{min-height:60px;display:flex;align-items:center;border-top:1px solid var(--ca-line);border-bottom:1px solid var(--ca-line);background:var(--rain-category-background-neutral-2)}
+.ca-selection-bar{width:100%;padding:12px 24px;gap:12px;font-size:13px;line-height:20px}
+.ca-selection-count{flex:none;color:var(--rain-category-text-neutral-2)}.ca-selection-count strong{font-weight:600}.ca-selection-count>span{color:var(--ca-muted)}
+.ca-selection-guide{margin:0;padding:12px 24px;font-size:12px;line-height:20px;color:var(--ca-muted)}
+.ca-selection-bar>[data-slot=status]{margin-right:auto}
+@media(hover:none){.ca-owner-actions,.ca-page .ca-table [data-rain-id=ui-date-picker] [data-slot=control]>span[aria-hidden]{opacity:1;visibility:visible}.ca-page .ca-table td[data-field=date] .ca-date-empty{opacity:1;visibility:visible}}
+@media(max-width:700px){.ca-page:not([data-embedded]){padding:24px 16px}.ca-header{align-items:flex-start;flex-direction:column;gap:12px}.ca-header h1{font-size:22px;line-height:30px}.ca-toolbar{padding:20px 16px;flex-direction:column;align-items:flex-start}.ca-tools{gap:12px;flex-wrap:wrap}.ca-save{padding:16px;align-items:flex-start;flex-direction:column}.ca-save>div{align-self:flex-end}.ca-state-grid{grid-template-columns:1fr;gap:20px;max-width:300px}.ca-states figure{padding:8px}.ca-tabs{margin-bottom:24px}.ca-guide{gap:12px}.ca-selection-bar{flex-wrap:wrap;padding:12px 16px}.ca-selection-guide{padding:12px 16px}}

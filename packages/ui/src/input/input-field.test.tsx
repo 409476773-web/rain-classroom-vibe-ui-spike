@@ -68,6 +68,24 @@ describe("Input field recipes", () => {
     expect(onSearch).toHaveBeenCalledTimes(1);
   });
 
+  it("resets SearchInput without search/clear callbacks or changing host validation and native submission eligibility", async () => {
+    const user = userEvent.setup(), searched = vi.fn(), cleared = vi.fn(), changed = vi.fn();
+    render(<form aria-label="搜索复位">
+      <FormItem label="课程查询" status="error" message="宿主业务错误仍待处理"><SearchInput name="query" defaultValue="初始查询" onSearch={searched} onClear={cleared} onValueChange={changed}/></FormItem>
+      <Input aria-label="只读查询" name="readonly" defaultValue="只读值" readOnly/>
+      <Input aria-label="禁用查询" name="disabled" defaultValue="禁用值" disabled/>
+      <button type="reset">搜索复位</button>
+    </form>);
+    const field = screen.getByRole("textbox", { name: "课程查询" });
+    await user.clear(field); await user.type(field, "编辑查询"); changed.mockClear();
+    await user.click(screen.getByRole("button", { name: "搜索复位" }));
+    expect(field).toHaveValue("初始查询");
+    expect(field).toHaveAccessibleDescription("宿主业务错误仍待处理"); expect(field).toHaveAttribute("aria-invalid", "true");
+    expect(Object.fromEntries(new FormData(screen.getByRole("form", { name: "搜索复位" }) as HTMLFormElement))).toEqual({ query: "初始查询", readonly: "只读值" });
+    expect(screen.getByRole("textbox", { name: "禁用查询" })).toHaveValue("禁用值");
+    expect(searched).not.toHaveBeenCalled(); expect(cleared).not.toHaveBeenCalled(); expect(changed).not.toHaveBeenCalled();
+  });
+
   it("handles controlled IME in the middle without losing the original tail", () => {
     const changed = vi.fn();
     function Fixture() {

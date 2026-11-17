@@ -245,7 +245,15 @@ const TreeRoot = forwardRef<TreeHandle, TreeProps<unknown>>(function TreeRoot(pr
     if (!moveValidation.ok && moveValidation.reason !== "目标子树尚未完整加载") stopDragEffects();
   }, [moving, moveValidation, index]);
   useEffect(() => () => {
+    const pendingKeys = [...requests.current.keys()];
     requests.current.forEach((request) => request.abort.abort());
+    requests.current.clear();
+    // StrictMode replays setup after cleanup; release both tickets and their loading states.
+    if (pendingKeys.length) setLoadStates((current) => {
+      const next = new Map(current);
+      for (const key of pendingKeys) next.delete(key);
+      return next;
+    });
     if (hoverTimer.current) clearTimeout(hoverTimer.current);
     if (scrollFrame.current !== null) cancelAnimationFrame(scrollFrame.current);
   }, []);

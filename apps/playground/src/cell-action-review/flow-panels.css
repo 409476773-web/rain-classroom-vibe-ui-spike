@@ -1,0 +1,22 @@
+/* Host-owned file management; shared TableCellPopover and TablePreviewDrawer own overlay geometry. */
+.ca-flow-footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;flex:none}
+.ca-flow-footer>span,.ca-flow-hint{font-size:12px;line-height:18px;color:var(--rain-category-text-neutral-3)}
+.ca-flow-footer>div{display:flex;gap:8px;margin-left:auto}
+.ca-flow-files{display:flex;flex-direction:column;gap:8px;min-height:0;max-height:min(280px,40dvh);overflow:auto;overscroll-behavior:contain;padding:2px}
+.ca-flow-attachment{width:100%;flex-wrap:nowrap}
+.ca-flow-attachment [data-slot=attachment-content]{min-width:0}
+.ca-flow-filename{display:flex;min-width:0}
+.ca-flow-filename>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ca-flow-filename>span+span{flex:none}
+.ca-flow-download{display:inline-flex;align-items:center;justify-content:center;flex:none;width:28px;height:28px;border-radius:4px;color:var(--rain-category-icon-neutral-2);text-decoration:none}
+.ca-flow-download[data-large]{width:32px;height:32px}
+.ca-flow-download>.rain-icon{width:16px;height:16px}
+.ca-flow-download:hover{color:var(--rain-category-icon-brand-1);background:var(--rain-category-fill-neutral-alpha-5)}
+.ca-flow-download:focus-visible,.ca-flow-upload:focus-within{outline:2px solid var(--rain-focus-control);outline-offset:2px}
+.ca-flow-upload{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;flex:none;min-height:36px;border:1px dashed var(--rain-category-border-neutral-3);border-radius:6px;background:var(--rain-category-background-neutral-2);color:var(--rain-category-text-brand-1);font-size:13px;cursor:pointer}
+.ca-flow-upload>.rain-icon{width:14px;height:14px}
+.ca-flow-upload input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.ca-flow-empty{margin:0;padding:16px 0;color:var(--rain-category-text-neutral-3);font-size:13px;text-align:center}
+.ca-flow-hint{margin:0}
+.ca-flow-task-body{display:flex;flex-direction:column;gap:16px;min-height:0}
+@media(max-height:480px){.ca-flow-files{max-height:160px}.ca-flow-task-body textarea{min-height:64px}}

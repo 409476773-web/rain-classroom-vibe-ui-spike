@@ -171,11 +171,33 @@ export interface RegionRestoreTriggerProps extends ButtonHTMLAttributes<HTMLButt
 export const RegionRestoreTrigger = forwardRef<HTMLButtonElement, RegionRestoreTriggerProps>(function RegionRestoreTrigger({ regionId, intent = 'toggle', children, className, onClick, onPointerEnter, onPointerLeave, ...props }, ref) {
   const { context, region, effective } = useRegion(regionId), top = region.side === 'top', temporary = context.state.session.temporary?.regionId === regionId || context.state.session.ribbonTemporary === regionId;
   const full = effective.mode === 'expanded' || effective.mode === 'full' || effective.mode === 'icons';
-  const label = temporary ? `关闭临时${region.label}` : effective.mode === 'hidden' ? `显示${region.label}` : effective.mode === 'compact' || effective.mode === 'tabs' ? `展开${region.label}` : top || region.allowedModes.includes('compact') ? `收起${region.label}` : `隐藏${region.label}`;
-  return <button {...props} type={props.type ?? 'button'} ref={element => { context.registerRestore(regionId, element); if (typeof ref === 'function') ref(element); else if (ref) ref.current = element; }}
+  let action: WorkspaceAction | undefined;
+  if (temporary) action = { type: 'DISMISS_TEMP', reason: 'close' };
+  else if (top) {
+    if (!full && region.allowedModes.some(mode => mode === 'full' || mode === 'icons')) action = { type: 'OPEN_RIBBON_TEMP', regionId };
+    else {
+      const modes: RibbonMode[] = full ? ['tabs', 'hidden', effective.mode === 'full' ? 'icons' : 'full'] : ['tabs', 'hidden'];
+      const mode = modes.find(mode => mode !== effective.mode && region.allowedModes.includes(mode));
+      if (mode) action = { type: 'SET_RIBBON', regionId, mode };
+    }
+  } else if (effective.mode === 'expanded') {
+    if (region.allowedModes.includes('compact')) action = { type: 'TOGGLE_GLOBAL', regionId, viewportWidth: context.viewportWidth };
+    else if (region.allowedModes.includes('hidden')) action = { type: 'HIDE_REGION', regionId };
+  } else if (region.allowedModes.includes('expanded')) {
+    action = intent === 'peek' ? { type: 'PEEK_REGION', regionId, viewportWidth: context.viewportWidth }
+      : { type: region.allowedModes.includes('compact') ? 'TOGGLE_GLOBAL' : 'SHOW_REGION', regionId, viewportWidth: context.viewportWidth };
+  } else {
+    const mode = region.allowedModes.find(mode => mode !== effective.mode);
+    if (mode) action = { type: 'SET_MODE', regionId, mode };
+  }
+  const disabled = props.disabled || !action;
+  const hides = action?.type === 'HIDE_REGION' || ((action?.type === 'SET_RIBBON' || action?.type === 'SET_MODE') && action.mode === 'hidden');
+  const expands = action?.type === 'SET_RIBBON' && action.mode === 'full';
+  const label = temporary ? `关闭临时${region.label}` : !action ? region.label : hides ? `隐藏${region.label}` : effective.mode === 'hidden' ? `显示${region.label}` : expands || effective.mode === 'compact' || effective.mode === 'tabs' ? `展开${region.label}` : `收起${region.label}`;
+  return <button {...props} disabled={disabled} type={props.type ?? 'button'} ref={element => { context.registerRestore(regionId, element); if (typeof ref === 'function') ref(element); else if (ref) ref.current = element; }}
     className={`rain-workspace__restore ${className ?? ''}`} data-workspace-action="restore" data-mode={effective.mode} data-active={String(temporary)} aria-label={props['aria-label'] ?? label} title={props.title ?? label} aria-controls={context.regionDomId(regionId)} aria-expanded={full || temporary}
-    onClick={event => { onClick?.(event); if (event.defaultPrevented) return; if (temporary) context.dispatch({ type: 'DISMISS_TEMP', reason: 'close' }); else if (top) context.dispatch(full ? { type: 'SET_RIBBON', regionId, mode: 'tabs' } : { type: 'OPEN_RIBBON_TEMP', regionId }); else if (effective.mode === 'expanded') context.dispatch({ type: region.allowedModes.includes('compact') ? 'TOGGLE_GLOBAL' : 'HIDE_REGION', regionId, viewportWidth: context.viewportWidth }); else if (intent === 'peek') context.dispatch({ type: 'PEEK_REGION', regionId, viewportWidth: context.viewportWidth }); else if (region.allowedModes.includes('compact')) context.dispatch({ type: 'TOGGLE_GLOBAL', regionId, viewportWidth: context.viewportWidth }); else context.dispatch({ type: 'SHOW_REGION', regionId, viewportWidth: context.viewportWidth }); }}
-    onPointerEnter={event => { if (!top && !full) context.hoverEnter(regionId); onPointerEnter?.(event); }} onPointerLeave={event => { if (!top) context.hoverLeave(regionId); onPointerLeave?.(event); }}>{children ?? label}</button>;
+    onClick={event => { onClick?.(event); if (!event.defaultPrevented && !disabled && action) context.dispatch(action); }}
+    onPointerEnter={event => { if (!disabled && !top && !full && region.allowedModes.includes('expanded')) context.hoverEnter(regionId); onPointerEnter?.(event); }} onPointerLeave={event => { if (!top) context.hoverLeave(regionId); onPointerLeave?.(event); }}>{children ?? label}</button>;
 });
 
 export interface PaneSplitterProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> { regionId: string }
@@ -187,7 +209,7 @@ export const PaneSplitter = forwardRef<HTMLDivElement, PaneSplitterProps>(functi
   const hidden = region.side === 'top' || effective.mode !== 'expanded' || context.state.session.temporary?.regionId === regionId;
   return <div {...props} ref={ref} role="separator" aria-orientation="vertical" aria-label={props['aria-label'] ?? `调整${region.label}宽度`} aria-controls={context.regionDomId(regionId)} aria-valuemin={region.minWidth} aria-valuemax={max} aria-valuenow={Math.min(preference.expandedWidth, max)} tabIndex={hidden ? -1 : 0} hidden={hidden}
     className={`rain-workspace__splitter ${className ?? ''}`} style={{ ...style, width: region.boundaryWidth ?? 5, flexBasis: region.boundaryWidth ?? 5 }} data-region-id={regionId}
-    onKeyDown={event => { onKeyDown?.(event); if (event.defaultPrevented || !['ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter'].includes(event.key)) return; event.preventDefault(); const key = region.side === 'end' && event.key.startsWith('Arrow') ? event.key === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft' : event.key; context.dispatch({ type: 'RESIZE_REGION_KEY', regionId, key: key as ResizeKey, shiftKey: event.shiftKey, viewportWidth: context.viewportWidth }); if (key === 'Enter') context.restoreFocus(regionId); }}
+    onKeyDown={event => { onKeyDown?.(event); if (event.defaultPrevented || !['ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter'].includes(event.key)) return; if (event.key === 'Enter' && !region.allowedModes.some(mode => mode === 'hidden' || mode === 'compact')) return; event.preventDefault(); const key = region.side === 'end' && event.key.startsWith('Arrow') ? event.key === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft' : event.key; context.dispatch({ type: 'RESIZE_REGION_KEY', regionId, key: key as ResizeKey, shiftKey: event.shiftKey, viewportWidth: context.viewportWidth }); if (key === 'Enter') context.restoreFocus(regionId); }}
     onPointerDown={event => { onPointerDown?.(event); if (event.defaultPrevented || event.button !== 0) return; drag.current = { pointerId: event.pointerId, x: event.clientX, width: preference.expandedWidth }; event.currentTarget.setPointerCapture?.(event.pointerId); event.preventDefault(); }}
     onPointerMove={event => { onPointerMove?.(event); const active = drag.current; if (!active || active.pointerId !== event.pointerId) return; context.dispatch({ type: 'RESIZE_REGION', regionId, width: active.width + (event.clientX - active.x) * (region.side === 'end' ? -1 : 1), viewportWidth: context.viewportWidth }); }}
     onPointerUp={event => { onPointerUp?.(event); drag.current = null; if (event.currentTarget.hasPointerCapture?.(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId); }}

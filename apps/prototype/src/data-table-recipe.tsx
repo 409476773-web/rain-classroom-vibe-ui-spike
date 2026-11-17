@@ -4,7 +4,7 @@ import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel
 import { tagSystemProfiles, useDensity } from "@rain-next/foundations";
 import { Grid, Inline, Stack } from "@rain-next/layouts";
 import { Button, Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle, Checkbox, DropdownMenu, Empty, EmptyActions, EmptyDescription, EmptyMedia, EmptyTitle, IconButton,
-  FormItem, Pagination, Popover, SearchInput, defineRainLocalRecipe, Select, Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, TableScrollArea, Tag } from "@rain-next/ui";
+  FormItem, Pagination, Popover, SearchInput, defineRainLocalRecipe, Select, Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, TableScrollArea, TableHeaderContent, TableSortButton, Tag } from "@rain-next/ui";
 import { CircleCloseFilledIcon } from "@rain-next/ui/icons/circle-close-filled";
 import { MoreHorizontalIcon } from "@rain-next/ui/icons/more-horizontal";
 import { RefreshIcon } from "@rain-next/ui/icons/refresh";
@@ -30,10 +30,6 @@ function reloadMaterialSnapshot(current: readonly Material[], signal: AbortSigna
 const examples: Material[] = ["设计方法导论", "课堂观察记录", "教学案例研读", "小组讨论任务", "课程阅读清单", "访谈提纲", "学习作品评价", "实践项目说明", "同伴反馈指南", "阶段复习任务", "课堂活动设计", "结课作品要求", "从真实课堂问题出发的观察、记录与教学改进：课程资料使用说明"].map((name, index) => ({
   id: `material-${String(index + 1).padStart(2, "0")}`, name, kind: index % 2 ? "课堂任务" : "阅读材料", status: index % 3 ? "draft" : "ready", updated: `2026-09-${String(13 - index).padStart(2, "0")}`, locked: index === 1,
 }));
-const headerSortRecipe = defineRainLocalRecipe<"root" | "label", "ui-button">({
-  id: "table-header-sort", scope: "feature", origin: "ui-button", classes: { root: "enabled:text-inherit", label: "text-inherit" },
-  modifiedParts: ["root", "label"], candidateTokens: [], promotionStatus: "not-proposed",
-});
 const viewStartRecipe = defineRainLocalRecipe<"root", "ui-button">({
   id: "material-view-start", scope: "feature", origin: "ui-button", classes: { root: "material-view-start" },
   modifiedParts: ["root"], candidateTokens: [], promotionStatus: "not-proposed",
@@ -94,8 +90,9 @@ export function DataTableRecipe({ loadRecords = reloadMaterialSnapshot }: { load
         disabled={loading || !table.getRowModel().rows.some(row => row.getCanSelect())} onCheckedChange={checked => table.toggleAllPageRowsSelected(checked)} />,
       cell: ({ row }) => <Checkbox aria-label={`选择 ${row.original.name}`} aria-describedby={row.original.locked ? `${titleId}-${row.id}-locked` : undefined}
         checked={row.getIsSelected()} disabled={loading || !row.getCanSelect()} onCheckedChange={row.toggleSelected} /> },
-    { accessorKey: "name", header: ({ column }) => <Button variant="text" tone="default" size="compact" localRecipe={headerSortRecipe} aria-label="按资料名称排序" disabled={loading} onClick={column.getToggleSortingHandler()}>
-      资料名称{column.getIsSorted() === "asc" ? " · 升序" : column.getIsSorted() === "desc" ? " · 降序" : ""}</Button>,
+    { accessorKey: "name", header: ({ column }) => <TableHeaderContent><TableSortButton label="资料名称" disabled={loading}
+      direction={column.getIsSorted()==="asc"?"ascending":column.getIsSorted()==="desc"?"descending":"none"}
+      onDirectionChange={direction=>{ if(direction==="none") column.clearSorting(); else column.toggleSorting(direction==="descending"); }}/></TableHeaderContent>,
       sortingFn: (a, b) => a.original.name.localeCompare(b.original.name, "zh-CN"),
       cell: ({ row }) => <Stack gap={4}><strong>{row.original.name}</strong>{row.original.locked && <span id={`${titleId}-${row.id}-locked`} className="data-table-note data-table-metadata">只读资料，不参与批量操作</span>}</Stack> },
     { accessorKey: "kind", enableSorting: false, header: "资料类型", cell: ({ row }) => <MaterialKind kind={row.original.kind} /> },

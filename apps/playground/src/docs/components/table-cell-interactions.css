@@ -1,0 +1,21 @@
+/* Typography and spacing for the interactive Table documentation section. */
+.table-doc-section { display:grid;gap:var(--rain-space-32);min-width:0; }
+.table-doc-section h2 { margin:0 0 var(--rain-space-12);font-size:16px;line-height:24px;font-weight:600; }
+.table-doc-section h3 { margin:0 0 var(--rain-space-8);font-size:14px;font-weight:600; }
+.table-doc-section p { margin:0;line-height:22px; }
+.table-doc-facts { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--rain-space-32);margin:0; }
+.table-doc-facts > div { display:flex;align-items:center;justify-content:space-between;gap:var(--rain-space-16);padding-block:var(--rain-space-12);border-bottom:1px solid var(--rain-category-border-neutral-3);font-size:13px; }
+.table-doc-facts dt { color:var(--rain-category-text-neutral-3); }
+.table-doc-facts dd { display:flex;align-items:center;gap:var(--rain-space-8);margin:0;font-variant-numeric:tabular-nums; }
+.table-cell-interactions{grid-template-columns:minmax(0,1fr)}
+.table-cell-interactions>section{min-width:0}
+.table-cell-interactions [hidden]{display:none}
+.table-cell-interactions .ca-page h2{margin:0 0 4px;font-weight:500}
+.table-cell-interactions>.ca-page{min-width:0}
+.table-cell-interactions>section>.table-doc-note{margin-bottom:var(--rain-space-16)}
+.table-cell-interactions details>summary{cursor:pointer;font-size:13px;color:var(--rain-category-text-neutral-2);margin-top:var(--rain-space-16)}
+.table-cell-interactions details[open]>.table-doc-facts{margin-top:var(--rain-space-12)}
+@media (max-width: 700px) {
+  .table-doc-facts { grid-template-columns: minmax(0, 1fr); }
+  .table-doc-facts > div { flex-wrap: wrap; }
+}
